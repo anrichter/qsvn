@@ -1,0 +1,37 @@
+Todo
+
+open issues
+===========
+- svn commands:
+  + copy
+  + mkdir
+  + move
+
+- WorkingCopy:
+  + save and restore last changed item on quit and start
+  + context menu
+  
+- WorkingCopyItem
+  + stati if the directory can update, commit, etc. pp.
+
+- FileList:
+  + revision number
+  + last editor
+  + timestamp
+  + conext menu
+
+- FileListItem
+  + fullpath 
+  + filename
+
+- settings:
+  + change action on double click in FileList and WorkingCopy
+
+- new dialogs:
+  + repository browser
+  + property editor
+  + log viewer
+    + search in logs
+  
+- eye candy:
+  + include pixmaps for actions

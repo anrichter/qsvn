@@ -1,0 +1,23 @@
+Version 0.1.0 - released 2005-??-??
+
+    New Features
+    ------------
+    * starting qsvn
+    * working copy listview
+    * file list view with Filename, Status, Rivision and Author for every File
+    * status text output
+    * implemented svn commands:
+        - add
+        - checkout (partial)
+        - commit
+        - remove
+        - revert
+        - update
+    * save & restore user changed layout
+    * save & restore working copies
+    * remove working copy
+    * FileSelector for svn add, commit, remove, revert
+        - list relevant files for svn command
+        - switch selection for every listed file
+        - only selected files are relevant for svn command
+        - show diff after double click on one file

@@ -1,0 +1,29 @@
+Some Ruels for Developing qsvn:
+
+1. Naming Conventions:
+
+For Components we use the following prefixes:
+
+action   - QAction
+button   - QPushButton, QToolButton
+combo    - QComboBox
+edit     - QLineEdit, QTextEdit
+listView - QListView
+splitter - QSplitter
+
+examples: buttonOk, editDirectory, labelExecutable
+
+
+
+2. Files
+
+- all Files use the UNIX File Format
+  after edit a .ui under windows, you must change the file format to UNIX with an editor!
+- filenames are always lowercase
+- a filename is equivalent to the class that implements (qsvn.h, qsvn.cpp implements class QSvn
+- one file for one class
+- use whitespaces instead of tabs
+- #include are sorted in QSvn - Qt - Std and under this poinst alphabetical
+
+3. Misc
+- directorie-strings are always without / or \ on the end
