@@ -15,7 +15,7 @@ Version 0.1.0 - released 2005-??-??
     * save & restore user changed layout
     * save & restore working copies
     * remove working copy
-    * FileSelector for svn commit
+    * FileSelector for svn commit, revert
         - list relevant files for svn command
         - switch selection for every listed file
         - only selected files are relevant for svn command

@@ -184,27 +184,28 @@ void QSvn::removeSlot()
 
 void QSvn::revertSlot()
 {
-    WorkingCopyItem *item;
-    
-    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
-    {
-        //revert a directory
-        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        QUrl url( item->fullPath() );
-        QString file = url.fileName();
-        SvnClient::Exemplar()->revert( item->fullPath(), file );
-    } 
-    else if ( FileList::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
-    {
-        //revert a file
-        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        SvnClient::Exemplar()->revert( item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
-    } 
-    else
-    {
+    if ( !WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
         return;
-    }
     
+    WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
+    FileSelector::Exemplar()->initFileSelector( FileSelector::Revert, item->fullPath() );
+    
+    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
+    {
+        QStringList *fileList = new QStringList;
+        SvnClient::Exemplar()->changedFilesToList( fileList, item->fullPath() );
+        FileSelector::Exemplar()->setSelectedFiles( fileList );
+    }
+    else if ( FileList::Exemplar()->getWidget()->hasFocus() )
+    {
+        FileSelector::Exemplar()->setSelectedFiles( FileList::Exemplar()->selectedFileListItems() );
+    }    
+    
+    if ( FileSelector::Exemplar()->exec() )
+    {
+        QStringList* fileList = FileSelector::Exemplar()->selectedFiles();
+        SvnClient::Exemplar()->revert( item->fullPath(), fileList );
+    }
     //Updates
     WorkingCopy::Exemplar()->updateElement( item );
     FileList::Exemplar()->updateListSlot( item->fullPath() );

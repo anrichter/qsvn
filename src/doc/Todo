@@ -6,7 +6,7 @@ open issues for version 0.1.0
   + remove
   
 - questions before make a svn command without FileSelector
-- use FileSelector for remove, revert, add
+- use FileSelector for remove, add
 - recursive remove, revert, add
 
 
