@@ -9,4 +9,5 @@ Version 0.1.0 - released 200?-??-??
     * implemented svn commands:
         - update
     * save & restore user changed layout
-    * remove working copy from working copy listview
+    * save & restore working copies
+    * remove working copy

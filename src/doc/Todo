@@ -2,7 +2,6 @@ Todo
 
 open issues for version 0.1.0
 =============================
-- save & restore working copys
 - svn checkout
 - svn commit
 - svn add
