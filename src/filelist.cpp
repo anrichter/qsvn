@@ -117,14 +117,12 @@ void FileList::updateListSlot( QString currentDirectory )
             QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
             QString _lineString;
             QString _fileName;
-            QDir _checkDir;
             for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
                 _lineString = *it;
                 _fileName = _lineString.right( _lineString.length() - 40 );
-                _checkDir = QDir( currentDirectory + QDir::separator() + _fileName );
-                // add only directories here
-                if ( ! _checkDir.exists() )
+                // add only files here
+                if ( ! QDir( currentDirectory + QDir::separator() + _fileName ).exists() )
                 {
                     //set Filename
                     QListViewItem* _element = new QListViewItem( listViewFiles, _fileName );
