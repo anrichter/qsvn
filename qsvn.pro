@@ -13,9 +13,9 @@ CONFIG += release \
           qt \
           thread 
 TEMPLATE = app 
-FORMS += qsvndlg.ui \
-         addworkingcopydlg.ui \
-         configuredlg.ui
+FORMS += forms/qsvndlg.ui \
+         forms/addworkingcopydlg.ui \
+         forms/configuredlg.ui
 HEADERS += qsvn.h \
            addworkingcopy.h \
            svnclient.h \
