@@ -44,7 +44,7 @@ Checkout::~Checkout()
 QString Checkout::getSelectedURL() const
 {
     QString url = comboProtocol->currentText();
-    if ( url != "file:///" )
+    if ( url != "file://" )
     {
         url += editServer->text() + "/";
     }
