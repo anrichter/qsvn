@@ -28,6 +28,7 @@
 
 //Qt
 #include <qapplication.h>
+#include <qcombobox.h>
 #include <qdialog.h>
 #include <qdir.h>
 #include <qlistview.h>
@@ -60,6 +61,13 @@ FileSelector::FileSelector( QWidget *parent, const char *name )
 {
     QValueList<int> list = splitterVertical->sizes();
     logMessageSize = *list.at( 1 );
+
+	//coonections
+    connect( comboLogMessage, SIGNAL( activated( const QString & ) ), 
+		     this, SLOT( comboLogMessageActivatedSlot( const QString & ) ) );
+
+	comboLogMessage->insertItem( "Eintrag 1" );
+	comboLogMessage->insertItem( "Eintrag 2" );
 }
 
 FileSelector::~FileSelector()
@@ -164,4 +172,18 @@ QString FileSelector::messageString()
 void FileSelector::listViewFilesDoubleClickSlot()
 {
     SvnClient::Exemplar()->diff( startPath + QDir::separator() + listViewFiles->selectedItem()->text( 0 ), FALSE );
+}
+
+void FileSelector::buttonOkClickSlot()
+{
+	if ( _svnCommandType == SvnClient::Commit )
+	{
+		comboLogMessage->insertItem( editLogMessage->text() );
+	}
+	this->accept();
+}
+
+void FileSelector::comboLogMessageActivatedSlot( const QString& selectedString )
+{
+	setMessageString( selectedString );
 }
