@@ -50,7 +50,9 @@ public:
     bool isWorkingCopy( const QString &path );
     QString getMessageString();
     
-    bool getStatus( const QString &path );
+    //svn calls
+    bool info( const QString &path );
+    bool status( const QString &path );
     bool update( const QString &path );
 
 public slots:

@@ -98,51 +98,6 @@ bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
     return processStderrList.count() == 0;
 }
 
-bool SvnClient::isWorkingCopy( const QString &path )
-{
-    if (path)
-	{
-        prepareNewProcess();
-        process->addArgument( "info" );
-        process->addArgument( path );
-        return startAndWaitProcess( "cannot start svn info - is your svn executable installed and configured in settings?" );
-    }
-    else
-    {
-        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::isWorkingCopy" ) );
-    }
-}
-
-bool SvnClient::getStatus( const QString &path )
-{
-    if (path)
-	{
-        prepareNewProcess( path );
-        process->addArgument( "status" );
-        process->addArgument( "-vN" );
-        return startAndWaitProcess( "cannot start svn status -v" );
-    }
-    else
-    {
-        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::getStatus" ) );
-    }
-}
-
-bool SvnClient::update( const QString &path )
-{
-    if (path)
-	{
-        prepareNewProcess();
-        process->addArgument( "update" );
-        process->addArgument( path );
-        return startAndWaitProcess( "cannot start svn update" );
-    }
-    else
-    {
-        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::update" ) );
-    }
-}
-
 void SvnClient::readStdoutSlot()
 {
     while ( process->canReadLineStdout() )
@@ -172,4 +127,58 @@ QStringList SvnClient::getProcessStderrList()
 QString SvnClient::getMessageString()
 {
     return messageString;
+}
+
+bool SvnClient::isWorkingCopy( const QString &path )
+{
+    return info( path );
+}
+
+
+//svn calls
+bool SvnClient::info( const QString &path )
+{
+    if (path)
+	{
+        prepareNewProcess();
+        process->addArgument( "info" );
+        process->addArgument( path );
+        return startAndWaitProcess( "cannot start svn info - is your svn executable installed and configured in settings?" );
+    }
+    else
+    {
+        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::isWorkingCopy" ) );
+        return FALSE;
+    }
+}
+bool SvnClient::status( const QString &path )
+{
+    if (path)
+	{
+        prepareNewProcess( path );
+        process->addArgument( "status" );
+        process->addArgument( "-vN" );
+        return startAndWaitProcess( "cannot start svn status -v" );
+    }
+    else
+    {
+        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::getStatus" ) );
+        return FALSE;
+    }
+}
+
+bool SvnClient::update( const QString &path )
+{
+    if (path)
+	{
+        prepareNewProcess();
+        process->addArgument( "update" );
+        process->addArgument( path );
+        return startAndWaitProcess( "cannot start svn update" );
+    }
+    else
+    {
+        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::update" ) );
+        return FALSE;
+    }
 }
