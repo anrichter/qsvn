@@ -68,6 +68,7 @@ void SvnClient::prepareNewProcess()
 {
     processStdout = "";
     processStderr = "";
+    messageString = "";
     process->clearArguments();
     process->addArgument( svnCommand );
 }
@@ -79,7 +80,8 @@ bool SvnClient::isWorkingCopy( const QString &path )
     process->addArgument( path );
     if ( !process->start() )
     {
-        qDebug( "cannot start svn info" );
+        messageString = "cannot start svn info - is your svn executable installed and configured in settings?";
+        return FALSE;
     }
     while ( process->isRunning() )
     {
@@ -114,4 +116,9 @@ QString SvnClient::getProcessStdout()
 QString SvnClient::getProcessStderr()
 {
     return processStderr;
+}
+
+QString SvnClient::getMessageString()
+{
+    return messageString;
 }

@@ -46,6 +46,7 @@ public:
     QString getProcessStderr();
     
     bool isWorkingCopy( const QString &path );
+    QString getMessageString();
     
 public slots:
     void readStdoutSlot(); //!< read out the Stdout written from running process
@@ -62,6 +63,7 @@ private:
     QString svnCommand; //!< a contains the command line command vor subversion - svn even ;)
     QString processStdout;
     QString processStderr;
+    QString messageString; //!< contains some messages for output
     
     void prepareNewProcess(); //!< initialies all for a new process
 };

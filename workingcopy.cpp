@@ -91,5 +91,6 @@ void WorkingCopy::addWorkingCopySlot()
     else
     {
         statusTextEdit->append( SvnClient::Exemplar()->getProcessStderr() );
+        statusTextEdit->append( SvnClient::Exemplar()->getMessageString() );
     }
 }
