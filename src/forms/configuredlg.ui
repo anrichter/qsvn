@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>289</width>
-            <height>119</height>
+            <height>170</height>
         </rect>
     </property>
     <property name="caption">
@@ -22,9 +22,9 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="3" column="0">
+        <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
-                <cstring>Layout1</cstring>
+                <cstring>layoutButtons</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -100,15 +100,7 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>labelSvnExecutable</cstring>
-            </property>
-            <property name="text">
-                <string>Svn Executable</string>
-            </property>
-        </widget>
-        <spacer row="2" column="0">
+        <spacer row="1" column="0">
             <property name="name">
                 <cstring>spacer2</cstring>
             </property>
@@ -121,24 +113,76 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>16</height>
+                    <height>30</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QLayoutWidget" row="1" column="0">
+        <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout4</cstring>
+                <cstring>layout5</cstring>
             </property>
-            <hbox>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLineEdit">
+                <widget class="QPushButton" row="3" column="1">
+                    <property name="name">
+                        <cstring>buttonSelectDiffViewer</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>0</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>20</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string>...</string>
+                    </property>
+                    <property name="flat">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>labelDiffViewer</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Diff Viewer</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="1" column="0">
                     <property name="name">
                         <cstring>editSvnExecutable</cstring>
                     </property>
                 </widget>
-                <widget class="QPushButton">
+                <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>labelSvnExecutable</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Svn Executable</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit" row="3" column="0">
+                    <property name="name">
+                        <cstring>editDiffViewer</cstring>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="1" column="1">
                     <property name="name">
                         <cstring>buttonSelectSvnExecutable</cstring>
                     </property>
@@ -169,7 +213,7 @@
                         <bool>false</bool>
                     </property>
                 </widget>
-            </hbox>
+            </grid>
         </widget>
     </grid>
 </widget>
@@ -198,10 +242,17 @@
         <receiver>ConfigureDlg</receiver>
         <slot>buttonSelectSvnExecutableClickSlot()</slot>
     </connection>
+    <connection>
+        <sender>buttonSelectDiffViewer</sender>
+        <signal>clicked()</signal>
+        <receiver>ConfigureDlg</receiver>
+        <slot>buttonSelectDiffViewerClickSlot()</slot>
+    </connection>
 </connections>
 <slots>
     <slot>buttonOkClickSlot()</slot>
     <slot>buttonSelectSvnExecutableClickSlot()</slot>
+    <slot>buttonSelectDiffViewerClickSlot()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

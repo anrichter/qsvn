@@ -36,6 +36,7 @@ Configure::Configure( QWidget *parent, const char *name )
         : ConfigureDlg( parent, name )
 {
     editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
+    editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
 }
 
 Configure::~Configure()
@@ -44,6 +45,7 @@ Configure::~Configure()
 void Configure::buttonOkClickSlot()
 {
     Config::Exemplar()->setSvnExecutable( editSvnExecutable->text() );
+    Config::Exemplar()->setDiffViewer( editDiffViewer->text() );
     Config::Exemplar()->saveChanges();
 }
 
@@ -52,4 +54,11 @@ void Configure::buttonSelectSvnExecutableClickSlot()
     QString executable = QFileDialog::getOpenFileName( editSvnExecutable->text(), "", this, "getSvnExecutable", "Select Svn Executable" );
     if ( executable )
         editSvnExecutable->setText( executable );
+}
+
+void Configure::buttonSelectDiffViewerClickSlot()
+{
+    QString diffviewer = QFileDialog::getOpenFileName( editDiffViewer->text(), "", this, "getDiffViewer", "Select a Diff Viewer" );
+    if ( diffviewer )
+        editDiffViewer->setText( diffviewer );
 }

@@ -51,6 +51,9 @@ public:
     void setSvnExecutable( QString aString ); //!< set the complete path to svn execute
     QString getSvnExecutable(); //!< get the complete path to svn execute
 
+    void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
+    QString getDiffViewer(); //!< get the complete path to a diff viewer
+    
     void saveMainWindow( QSvnDlg *aMainWindow );
     void restoreMainWindow( QSvnDlg *aMainWindow );
     
@@ -67,6 +70,7 @@ private:
 
     bool changed; //!< true, if one or more settings have changed. save changed values in dtor
     QString _svnExecutable;
+    QString _diffViewer;
 };
 
 #endif
