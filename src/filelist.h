@@ -28,6 +28,9 @@
 //Qt
 #include <qobject.h>
 
+//QSvn classes
+class FileListItem;
+
 //Qt classes
 class QListView;
 class QListViewItem;
@@ -51,6 +54,7 @@ public:
     static void releaseExemplar();
 
     QWidget *getWidget();
+    FileListItem* selectedFileListItem(); //!< give the selected FileListItem
 
 public slots:
     void updateListSlot( QString currentDirectory );

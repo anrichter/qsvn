@@ -26,6 +26,7 @@
 //QSvn
 #include "config.h"
 #include "filelist.h"
+#include "filelistitem.h"
 #include "statustext.h"
 #include "svnclient.h"
 
@@ -78,6 +79,14 @@ FileList::~FileList()
 QWidget *FileList::getWidget()
 {
     return listViewFiles;
+}
+
+FileListItem* FileList::selectedFileListItem()
+{
+    if ( listViewFiles->selectedItem() )
+        return static_cast< FileListItem* >( listViewFiles->selectedItem() );
+    else
+        return 0;
 }
 
 void FileList::updateListSlot( QString currentDirectory )
