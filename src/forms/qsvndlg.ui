@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>501</width>
-            <height>408</height>
+            <width>485</width>
+            <height>216</height>
         </rect>
     </property>
     <property name="caption">
@@ -263,24 +263,6 @@
 </actions>
 <connections>
     <connection>
-        <sender>actionExit</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>exitSlot()</slot>
-    </connection>
-    <connection>
-        <sender>actionHelpIndex</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>helpIndexSlot()</slot>
-    </connection>
-    <connection>
-        <sender>actionHelpContents</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>helpContentsSlot()</slot>
-    </connection>
-    <connection>
         <sender>actionAboutQSvn</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
@@ -298,14 +280,32 @@
         <receiver>QSvnDlg</receiver>
         <slot>configureQSvnSlot()</slot>
     </connection>
+    <connection>
+        <sender>actionExit</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>exitSlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionHelpContents</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>helpContentsSlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionHelpIndex</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>helpIndexSlot()</slot>
+    </connection>
 </connections>
 <slots>
-    <slot>exitSlot()</slot>
-    <slot>helpIndexSlot()</slot>
-    <slot>helpContentsSlot()</slot>
-    <slot>aboutSlot()</slot>
-    <slot>aboutQtSlot()</slot>
-    <slot>configureQSvnSlot()</slot>
+    <slot access="protected">exitSlot()</slot>
+    <slot access="protected">helpIndexSlot()</slot>
+    <slot access="protected">helpContentsSlot()</slot>
+    <slot access="protected">aboutSlot()</slot>
+    <slot access="protected">aboutQtSlot()</slot>
+    <slot access="protected">configureQSvnSlot()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>

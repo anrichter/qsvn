@@ -39,9 +39,7 @@ public:
 
 public slots:
 
-private:
-
-private slots:
+protected slots:
     void exitSlot();
 
     void configureQSvnSlot();
