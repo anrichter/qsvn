@@ -30,16 +30,20 @@
 //Qt
 #include <qlineedit.h>
 #include <qfiledialog.h>
+#include <qmessagebox.h>
 
 
 Checkout::Checkout( QWidget *parent, const char *name )
         : CheckoutDlg( parent, name )
-{
-    qDebug( "Checkout" );
-}
+{}
 
 Checkout::~Checkout()
 {}
+
+QString Checkout::getSelectedURL() const
+{
+    return editURL->text();
+}
 
 QString Checkout::getSelectedDirectory() const
 {
@@ -56,4 +60,31 @@ void Checkout::selectDirectorySlot()
     QString directory = QFileDialog::getExistingDirectory( editDirectory->text(), this, "get", "Select a Directory for Working Copy" );
     if ( directory )
         editDirectory->setText( QDir::convertSeparators( directory ) );
+}
+
+void Checkout::buttonOkClickedSlot()
+{
+    StatusText::Exemplar()->outputMessage( QString( "button ok clicked" ) );
+    if ( editURL->text().isEmpty() )
+    {
+        QMessageBox::critical( this, "qsvn", "your must specified an URL for checkout" );
+        return;
+    }
+    if ( editDirectory->text().isEmpty() )
+    {
+        QMessageBox::critical( this, "qsvn", "your must specified an Directory for checkout" );
+        return;
+    }
+    QDir dir( editDirectory->text() );
+    if ( !dir.exists() )
+    {
+        if ( QMessageBox::question( this, "qsvn - Question", 
+                                    QString( "Directoy %1 does not exist. Should i create this?").arg( editDirectory->text() ),
+                                    QMessageBox::Yes,
+                                    QMessageBox::No ) == QMessageBox::Yes )
+        {
+            StatusText::Exemplar()->outputMessage( QString( "Create directory" ) );
+        }
+    }
+    this->accept();
 }

@@ -232,7 +232,7 @@
         <sender>buttonOk</sender>
         <signal>clicked()</signal>
         <receiver>CheckoutDlg</receiver>
-        <slot>accept()</slot>
+        <slot>buttonOkClickedSlot()</slot>
     </connection>
     <connection>
         <sender>buttonCancel</sender>
@@ -256,6 +256,7 @@
 <slots>
     <slot>selectDirectorySlot()</slot>
     <slot>selectURLSlot()</slot>
+    <slot>buttonOkClickedSlot()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

@@ -36,11 +36,13 @@ public:
     Checkout( QWidget *parent = 0, const char *name = 0 );
     ~Checkout();
 
+    QString getSelectedURL() const;
     QString getSelectedDirectory() const;
     
 public slots:
     void selectURLSlot();
     void selectDirectorySlot();
+    void buttonOkClickedSlot();
 
 private:
 
