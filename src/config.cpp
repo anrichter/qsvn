@@ -57,7 +57,7 @@ Config::Config(QObject *parent, const char *name)
     //read saved settings
     settings.beginGroup( "configuration" );
     _svnExecutable = settings.readEntry( "svnExecutable", "svn" );
-    _diffViewer = settings.readBoolEntry( "diffViewer", "" );
+    _diffViewer = settings.readEntry( "diffViewer", "" );
     settings.endGroup();
 }
 
