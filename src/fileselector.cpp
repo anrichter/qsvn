@@ -77,11 +77,14 @@ void FileSelector::showLogMessage()
 void FileSelector::hideLogMessage()
 {
     QValueList<int> list = splitterVertical->sizes();
-    logMessageSize = *list.at( 1 );
-    *list.at( 0 ) += *list.at( 1 );
-    *list.at( 1 ) = 0;
-    splitterVertical->setSizes( list );   
-    frameLogMessage->setEnabled( FALSE );
+    if ( *list.at( 1 ) > 0 )
+    {
+        logMessageSize = *list.at( 1 );
+        *list.at( 0 ) += *list.at( 1 );
+        *list.at( 1 ) = 0;
+        splitterVertical->setSizes( list );   
+        frameLogMessage->setEnabled( FALSE );
+    }
 }
 
 void FileSelector::initFileSelector( int svnCommandType, const QString &path )
@@ -107,6 +110,7 @@ void FileSelector::initFileSelector( int svnCommandType, const QString &path )
     }
     setMessageString( tr( "***empty message ***" ) );
     startPath = path;
+    _svnCommandType = svnCommandType;
 }
 
 void FileSelector::setSelectedFiles( QStringList* fileList )
@@ -118,7 +122,14 @@ void FileSelector::setSelectedFiles( QStringList* fileList )
         for ( QStringList::Iterator it = fileList->begin(); it != fileList->end(); ++it )
         {
             QCheckListItem* _item = new QCheckListItem( listViewFiles, *it, QCheckListItem::CheckBox );
-            _item->setOn( TRUE );
+            if ( _svnCommandType == SvnClient::Remove )
+            {
+                _item->setOn( FALSE );
+            }
+            else
+            {
+                _item->setOn( TRUE );
+            }
         }
     }
 }

@@ -55,6 +55,7 @@ private:
    static FileSelector* _exemplar;
    
    QString startPath;
+   int _svnCommandType;
    int logMessageSize;
    void showLogMessage();
    void hideLogMessage();
