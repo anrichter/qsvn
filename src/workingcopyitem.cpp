@@ -22,12 +22,13 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
- 
+
 //QSvn
 #include "svnclient.h"
 #include "workingcopyitem.h"
 
 //Qt
+#include <qdir.h>
 #include <qlistview.h>
 #include <qstring.h>
 #include <qurl.h>
@@ -44,8 +45,8 @@ WorkingCopyItem::WorkingCopyItem( QListView* parent, QString directory )
     : QListViewItem( parent )
 {
     parentItem = 0;
-    stringFullPath = directory;
-    setText( 0, directory );  
+    stringFullPath = QDir::convertSeparators( directory );
+    setText( 0, directory );
     svnDirectory = SvnClient::Exemplar()->isWorkingCopy( directory );
 }
 
@@ -53,7 +54,7 @@ WorkingCopyItem::WorkingCopyItem( WorkingCopyItem* parent, QString directory )
     : QListViewItem( parent )
 {
     parentItem = parent;
-    stringFullPath = directory;
+    stringFullPath = QDir::convertSeparators( directory );
     QUrl url( directory );
     setText( 0, url.fileName() );
     svnDirectory = SvnClient::Exemplar()->isWorkingCopy( directory );

@@ -97,7 +97,7 @@ bool SvnClient::startProcess( const QString &startErrorMessage )
         }
         StatusText::Exemplar()->outputMessage( commandLine );
     }
-    
+
     //start process
     if ( !process->start() )
     {
@@ -116,9 +116,9 @@ bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
 #ifdef Q_WS_X11
             sleep( 1 );
 #endif
-    
+
 #ifdef Q_WS_WIN
-    
+
             Sleep( 1 );
 #endif
             //read out stdout and strerr
@@ -188,7 +188,7 @@ bool SvnClient::add( const QString &path, const QString &filename, bool withOutp
     if ( path && filename )
     {
         immediateOutput = withOutput;
-        
+
         prepareNewProcess( path );
         process->addArgument( "add" );
         process->addArgument( "-N" );
@@ -205,13 +205,13 @@ bool SvnClient::add( const QString &path, const QStringList *filenameList, bool 
     if ( path && filenameList && ( filenameList->count() > 0 ) )
     {
         immediateOutput = withOutput;
-        
+
         prepareNewProcess( path );
         process->addArgument( "add" );
         process->addArgument( "-N" );
-        
+
         QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }
@@ -231,7 +231,7 @@ bool SvnClient::info( const QString &path, bool withOutput )
         prepareNewProcess();
         process->addArgument( "info" );
         process->addArgument( path );
-        
+
         return startAndWaitProcess( "cannot start svn info - is your svn executable installed and configured in settings?" );
     }
     else
@@ -246,11 +246,11 @@ bool SvnClient::status( const QString &path, bool withOutput )
     if ( path )
     {
         immediateOutput = withOutput;
-        
+
         prepareNewProcess( path );
         process->addArgument( "status" );
         process->addArgument( "-vN" );
-        
+
         return startAndWaitProcess( "cannot start svn status -v" );
     }
     else
@@ -266,10 +266,9 @@ bool SvnClient::update( const QString &path, bool withOutput )
     {
         immediateOutput = withOutput;
 
-        prepareNewProcess();
+        prepareNewProcess( path );
         process->addArgument( "update" );
-        process->addArgument( path );
-        
+
         return startAndWaitProcess( "cannot start svn update" );
     }
     else
@@ -284,12 +283,12 @@ bool SvnClient::update( const QString &path, const QStringList *filenameList, bo
     if ( path && filenameList && ( filenameList->count() > 0 ) )
     {
         immediateOutput = withOutput;
-        
+
         prepareNewProcess( path );
         process->addArgument( "update" );
-        
+
         QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }
@@ -305,7 +304,7 @@ bool SvnClient::diff( const QString &path, const QString &filename, bool withOut
     if ( path && filename )
     {
         immediateOutput = withOutput;
-        
+
         prepareNewProcess( path );
         process->clearArguments();
         process->setWorkingDirectory( path );
@@ -325,9 +324,9 @@ bool SvnClient::diff( const QString &path, const QStringList *filenameList, bool
     {
         bool b = TRUE;
         QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
         {
-            b = b and diff( path, *it, withOutput );
+            b = b && diff( path, *it, withOutput );
         }
         return b;
     }
@@ -344,7 +343,7 @@ bool SvnClient::checkout( const QString &path, const QString &url, bool withOutp
         prepareNewProcess( path );
         process->addArgument( "checkout" );
         process->addArgument( url );
-        
+
         return startAndWaitProcess( "cannot start svn checkout" );
     }
     else
@@ -356,7 +355,7 @@ bool SvnClient::revert( const QString &path, const QString &filename, bool withO
     if ( path && filename )
     {
         immediateOutput = withOutput;
-        
+
         prepareNewProcess( path );
         process->addArgument( "revert" );
         process->addArgument( filename );
@@ -372,12 +371,12 @@ bool SvnClient::revert( const QString &path, const QStringList *filenameList, bo
     if ( path && filenameList && ( filenameList->count() > 0 ) )
     {
         immediateOutput = withOutput;
-        
+
         prepareNewProcess( path );
         process->addArgument( "revert" );
 
         QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }

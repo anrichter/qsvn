@@ -53,12 +53,12 @@ void Configure::buttonSelectSvnExecutableClickSlot()
 {
     QString executable = QFileDialog::getOpenFileName( editSvnExecutable->text(), "", this, "getSvnExecutable", "Select Svn Executable" );
     if ( executable )
-        editSvnExecutable->setText( executable );
+        editSvnExecutable->setText( QDir::convertSeparators( executable ) );
 }
 
 void Configure::buttonSelectDiffViewerClickSlot()
 {
     QString diffviewer = QFileDialog::getOpenFileName( editDiffViewer->text(), "", this, "getDiffViewer", "Select a Diff Viewer" );
     if ( diffviewer )
-        editDiffViewer->setText( diffviewer );
+        editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
 }
