@@ -25,6 +25,7 @@
 #include "svnclient.h"
 #include "config.h"
 #include "statustext.h"
+#include "workingcopy.h"
 
 //Qt
 #include <qapplication.h>
@@ -151,8 +152,8 @@ bool SvnClient::isWorkingCopy( const QString &path )
 //svn calls
 bool SvnClient::info( const QString &path )
 {
-    if (path)
-	{
+    if ( path )
+    {
         prepareNewProcess();
         process->addArgument( "info" );
         process->addArgument( path );
@@ -166,8 +167,8 @@ bool SvnClient::info( const QString &path )
 }
 bool SvnClient::status( const QString &path )
 {
-    if (path)
-	{
+    if ( path )
+    {
         prepareNewProcess( path );
         process->addArgument( "status" );
         process->addArgument( "-vN" );
@@ -182,8 +183,8 @@ bool SvnClient::status( const QString &path )
 
 bool SvnClient::update( const QString &path )
 {
-    if (path)
-	{
+    if ( path )
+    {
         prepareNewProcess();
         process->addArgument( "update" );
         process->addArgument( path );
@@ -212,3 +213,25 @@ bool SvnClient::diff( const QString &path, const QString &filename )
         return FALSE;
 }
 
+bool SvnClient::checkout( const QString &path, const QString &url )
+{
+    if ( path && url )
+    {
+        prepareNewProcess( path );
+        process->addArgument( "checkout" );
+        process->addArgument( url );
+        bool ok = startAndWaitProcess( "cannot start svn checkout" );
+        if ( ok )
+        {
+            StatusText::Exemplar()->outputMessage( this->getProcessStdoutList() );
+            //WorkingCopy::Exemplar()->addExistingWorkingCopySlot( path );
+        }
+        else
+        {
+            StatusText::Exemplar()->outputMessage( this->getProcessStderrList() );
+        }
+        return ok;
+    }
+    else
+        return FALSE;
+}

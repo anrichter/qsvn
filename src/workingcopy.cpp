@@ -129,7 +129,7 @@ void WorkingCopy::addExistingWorkingCopySlot()
 
     if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
     {
-        //ad working Copy to workingCopyListView
+        //add working Copy to workingCopyListView
         addExistingWorkingCopySlot( addWorkingCopy->getSelectedDirectory() );
     }
     else
@@ -148,7 +148,7 @@ void WorkingCopy::checkoutSlot()
     
     if ( checkout->exec() )
     {
-        StatusText::Exemplar()->outputMessage( QString( "Checkout" ) );
+        SvnClient::Exemplar()->checkout( checkout->getSelectedDirectory(), checkout->getSelectedURL() );
     }
 }
 

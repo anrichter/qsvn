@@ -64,27 +64,28 @@ void Checkout::selectDirectorySlot()
 
 void Checkout::buttonOkClickedSlot()
 {
-    StatusText::Exemplar()->outputMessage( QString( "button ok clicked" ) );
     if ( editURL->text().isEmpty() )
     {
-        QMessageBox::critical( this, "qsvn", "your must specified an URL for checkout" );
+        QMessageBox::critical( this, "qsvn - Error", "You must specified an URL for checkout!" );
         return;
     }
     if ( editDirectory->text().isEmpty() )
     {
-        QMessageBox::critical( this, "qsvn", "your must specified an Directory for checkout" );
+        QMessageBox::critical( this, "qsvn - Error", "You must specified an Directory for checkout!" );
         return;
     }
     QDir dir( editDirectory->text() );
     if ( !dir.exists() )
     {
         if ( QMessageBox::question( this, "qsvn - Question", 
-                                    QString( "Directoy %1 does not exist. Should i create this?").arg( editDirectory->text() ),
+                                    QString( "<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>").arg( editDirectory->text() ),
                                     QMessageBox::Yes,
                                     QMessageBox::No ) == QMessageBox::Yes )
         {
             StatusText::Exemplar()->outputMessage( QString( "Create directory" ) );
         }
+        else
+            return;
     }
     this->accept();
 }

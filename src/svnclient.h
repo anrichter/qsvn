@@ -55,6 +55,7 @@ public:
     bool status( const QString &path );
     bool update( const QString &path );
     bool diff( const QString &path, const QString &filename );
+    bool checkout( const QString &path, const QString &url );
 
 public slots:
     void readStdoutSlot(); //!< read out the Stdout written from running process
