@@ -21,35 +21,35 @@
  *   As a special exception, permission is given to link this program      *
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
-***************************************************************************/
-
-#ifndef QSVN_H
-#define QSVN_H
+ ***************************************************************************/
 
 //qsvn
-#include "qsvndlg.h"
+#include "configure.h"
+#include "configuredlg.h"
+#include "config.h"
 
-class QSvn : public QSvnDlg
+//Qt
+#include <qlineedit.h>
+#include <qfiledialog.h>
+
+Configure::Configure( QWidget *parent, const char *name )
+        : ConfigureDlg( parent, name )
 {
-    Q_OBJECT
+    editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
+}
 
-public:
-    QSvn( QWidget *parent = 0, const char *name = 0 );
-    ~QSvn();
+Configure::~Configure()
+{}
 
-public slots:
+void Configure::buttonOkClickSlot()
+{
+    Config::Exemplar()->setSvnExecutable( editSvnExecutable->text() );
+    Config::Exemplar()->saveChanges();
+}
 
-private:
-
-private slots:
-    void exitSlot();
-
-    void addWorkingCopySlot();
-    void configureqsvnSlot();
-
-    void aboutSlot();
-    void aboutQtSlot();
-};
-
-#endif
-
+void Configure::buttonSelectSvnExecutableClickSlot()
+{
+    QString executable = QFileDialog::getOpenFileName( editSvnExecutable->text(), "", this, "getSvnExecutable", "Select Svn Executable" );
+    if ( executable )
+        editSvnExecutable->setText( executable );
+}

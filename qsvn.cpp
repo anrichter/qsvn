@@ -29,6 +29,7 @@
 #include "svnclient.h"
 #include "workingcopy.h"
 #include "config.h"
+#include "configure.h"
 
 //Qt
 #include <qmessagebox.h>
@@ -55,6 +56,12 @@ void QSvn::exitSlot()
 void QSvn::addWorkingCopySlot()
 {
     WorkingCopy::Exemplar()->addWorkingCopySlot();
+}
+
+void QSvn::configureqsvnSlot()
+{
+    Configure configure;
+    configure.exec();
 }
 
 void QSvn::aboutSlot()

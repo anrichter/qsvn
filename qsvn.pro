@@ -14,18 +14,21 @@ CONFIG += release \
           thread 
 TEMPLATE = app 
 FORMS += qsvndlg.ui \
-         addworkingcopydlg.ui 
+         addworkingcopydlg.ui \
+         configuredlg.ui
 HEADERS += qsvn.h \
            addworkingcopy.h \
            svnclient.h \
            workingcopy.h \
-           config.h
+           config.h \
+           configure.h
 SOURCES += main.cpp \
            qsvn.cpp \
            addworkingcopy.cpp \
            svnclient.cpp \
            workingcopy.cpp \
-           config.cpp
+           config.cpp \
+           configure.cpp
 win32{
   MOC_DIR = moc
   OBJECTS_DIR = obj

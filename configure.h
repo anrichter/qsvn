@@ -21,34 +21,23 @@
  *   As a special exception, permission is given to link this program      *
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
-***************************************************************************/
+ ***************************************************************************/
+#ifndef CONFIGURE_H
+#define CONFIGURE_H
 
-#ifndef QSVN_H
-#define QSVN_H
+#include "configuredlg.h"
 
-//qsvn
-#include "qsvndlg.h"
-
-class QSvn : public QSvnDlg
+class Configure : public ConfigureDlg
 {
     Q_OBJECT
 
 public:
-    QSvn( QWidget *parent = 0, const char *name = 0 );
-    ~QSvn();
+    Configure( QWidget *parent = 0, const char *name = 0 );
+    ~Configure();
 
 public slots:
-
-private:
-
-private slots:
-    void exitSlot();
-
-    void addWorkingCopySlot();
-    void configureqsvnSlot();
-
-    void aboutSlot();
-    void aboutQtSlot();
+    void buttonOkClickSlot();
+    void buttonSelectSvnExecutableClickSlot();
 };
 
 #endif
