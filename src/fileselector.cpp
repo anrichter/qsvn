@@ -31,6 +31,26 @@
 #include <qstringlist.h>
 #include <qtextedit.h>
 
+
+//make FileSelector a singleton
+FileSelector* FileSelector::_exemplar = 0;
+
+FileSelector* FileSelector::Exemplar()
+{
+    if ( _exemplar == 0 )
+    {
+        _exemplar = new FileSelector;
+    }
+    return _exemplar;
+}
+
+void FileSelector::releaseExemplar()
+{
+    delete _exemplar;
+}
+
+
+//FileSelector implementation
 FileSelector::FileSelector( QWidget *parent, const char *name )
         : FileSelectorDlg( parent, name )
 {}
