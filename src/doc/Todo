@@ -20,3 +20,4 @@ open issues
 - svn 
 - FileList Enhancements: revision number, last editor, timestamp
 - include pixmaps for file status and cvs actions
+- search in log's from a given directory. optionally recursive
