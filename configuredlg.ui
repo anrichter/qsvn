@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>321</width>
-            <height>103</height>
+            <width>289</width>
+            <height>119</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,12 +21,6 @@
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>5</number>
-        </property>
-        <property name="spacing">
-            <number>0</number>
         </property>
         <widget class="QLayoutWidget" row="3" column="0">
             <property name="name">
