@@ -1,6 +1,13 @@
 The Setup for Windows version currently using InnoSetup (http://www.jrsoftware.org/isinfo.php)
 
-To compile the setup script qsvn.iss you must first copy any necessary libraries to this directory.
+To compile the setup script qsvn.iss you must first copy any necessary libraries and binaries:
 
-  * msvcrtd.dll
-  * qt-mtnc321.dll
+  * .\msvcrtd.dll
+  * .\qt-mtnc321.dll
+  * .\svn\libapr.dll
+  * .\svn\libapriconv.dll
+  * .\svn\libaprutil.dll
+  * .\svn\libdb42.dll
+  * .\svn\libeay32.dll
+  * .\svn\ssleay32.dll
+  * .\svn\svn.exe

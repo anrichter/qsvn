@@ -30,6 +30,13 @@ Source: ..\README; DestDir: {app}; Flags: ignoreversion
 Source: ..\ChangeLog; DestDir: {app}; Flags: ignoreversion
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: .\svn\libapr.dll; DestDir: {app}\svn; Flags: ignoreversion
+Source: .\svn\libapriconv.dll; DestDir: {app}\svn; Flags: ignoreversion
+Source: .\svn\libaprutil.dll; DestDir: {app}\svn; Flags: ignoreversion
+Source: .\svn\libdb42.dll; DestDir: {app}\svn; Flags: ignoreversion
+Source: .\svn\libeay32.dll; DestDir: {app}\svn; Flags: ignoreversion
+Source: .\svn\ssleay32.dll; DestDir: {app}\svn; Flags: ignoreversion
+Source: .\svn\svn.exe; DestDir: {app}\svn; Flags: ignoreversion
 
 [INI]
 Filename: {app}\qsvn.url; Section: InternetShortcut; Key: URL; String: http://qsvn.berlios.de
@@ -46,3 +53,5 @@ Filename: {app}\qsvn.exe; Description: {cm:LaunchProgram,QSvn}; Flags: nowait po
 
 [UninstallDelete]
 Type: files; Name: {app}\qsvn.url
+[Registry]
+Root: HKCU; Subkey: Software\qsvn\configuration; ValueType: string; ValueName: svnExecutable; ValueData: {app}\svn\svn.exe; Flags: createvalueifdoesntexist
