@@ -82,7 +82,7 @@ void FileList::updateListSlot( QString currentDirectory )
     if ( listViewFiles && currentDirectory )
     {
         listViewFiles->clear();
-        if ( SvnClient::Exemplar()->status( currentDirectory ) )
+        if ( SvnClient::Exemplar()->status( currentDirectory, false ) )
         {
             QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
             QString _lineString;

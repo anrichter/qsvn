@@ -52,7 +52,7 @@ public:
     
     //svn calls
     bool info( const QString &path );
-    bool status( const QString &path );
+    bool status( const QString &path, bool withOutput = true );
     bool update( const QString &path );
     bool diff( const QString &path, const QString &filename );
     bool checkout( const QString &path, const QString &url );
@@ -74,6 +74,7 @@ private:
     QStringList processStdoutList;
     QStringList processStderrList;
     QString messageString; //!< contains some messages for output
+    bool immediateOutput; //!< if it is true the svn output arw written immediately to StatusText
 
     void prepareNewProcess( const QString &workingDirectory = "" ); //!< initialies all for a new process
     bool startProcess( const QString &startErrorMessage );

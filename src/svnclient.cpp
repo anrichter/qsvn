@@ -59,6 +59,7 @@ SvnClient::SvnClient()
     process = new QProcess();
     connect( process, SIGNAL( readyReadStdout() ), this, SLOT( readStdoutSlot() ) );
     connect( process, SIGNAL( readyReadStderr() ), this, SLOT( readStderrSlot() ) );
+    immediateOutput = true;
 }
 
 SvnClient::~SvnClient()
@@ -120,6 +121,8 @@ void SvnClient::readStdoutSlot()
     while ( string )
     {
         processStdoutList.append( string );
+        if ( immediateOutput )
+            StatusText::Exemplar()->outputMessage( string );
         string = process->readLineStdout();
     }
 }
@@ -130,6 +133,8 @@ void SvnClient::readStderrSlot()
     while ( string )
     {
         processStderrList.append( string );
+        if ( immediateOutput )
+            StatusText::Exemplar()->outputMessage( string );
         string = process->readLineStderr();
     }
 }
@@ -151,7 +156,9 @@ QString SvnClient::getMessageString()
 
 bool SvnClient::isWorkingCopy( const QString &path )
 {
+    immediateOutput = false;
     return info( path );
+    immediateOutput = true;
 }
 
 
@@ -171,14 +178,18 @@ bool SvnClient::info( const QString &path )
         return FALSE;
     }
 }
-bool SvnClient::status( const QString &path )
+
+bool SvnClient::status( const QString &path, bool withOutput )
 {
     if ( path )
     {
+        immediateOutput = withOutput;
         prepareNewProcess( path );
         process->addArgument( "status" );
         process->addArgument( "-vN" );
-        return startAndWaitProcess( "cannot start svn status -v" );
+        bool b = startAndWaitProcess( "cannot start svn status -v" );
+        immediateOutput = true;
+        return b;
     }
     else
     {
@@ -194,16 +205,7 @@ bool SvnClient::update( const QString &path )
         prepareNewProcess();
         process->addArgument( "update" );
         process->addArgument( path );
-        bool ok = startAndWaitProcess( "cannot start svn update" );
-        if ( ok ) 
-        {
-            StatusText::Exemplar()->outputMessage( this->getProcessStdoutList() );
-        }
-        else 
-        {
-            StatusText::Exemplar()->outputMessage( this->getProcessStderrList() );
-        }
-        return ok;
+        return startAndWaitProcess( "cannot start svn update" );
     }
     else
     {
@@ -238,12 +240,7 @@ bool SvnClient::checkout( const QString &path, const QString &url )
         bool ok = startAndWaitProcess( "cannot start svn checkout" );
         if ( ok )
         {
-            StatusText::Exemplar()->outputMessage( this->getProcessStdoutList() );
             //WorkingCopy::Exemplar()->addExistingWorkingCopySlot( path );
-        }
-        else
-        {
-            StatusText::Exemplar()->outputMessage( this->getProcessStderrList() );
         }
         return ok;
     }
