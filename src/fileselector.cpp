@@ -108,6 +108,7 @@ void FileSelector::initFileSelector( int svnCommandType, const QString &path )
             hideLogMessage();
             break;
     }
+    listViewFiles->clear();
     setMessageString( tr( "***empty message ***" ) );
     startPath = path;
     _svnCommandType = svnCommandType;
