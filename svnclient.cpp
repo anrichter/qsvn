@@ -29,7 +29,13 @@
 #include <qprocess.h>
 
 //Std
+#ifdef Q_WS_X11
 #include <unistd.h>
+#endif
+
+#ifdef Q_WS_WIN
+#include <windows.h>
+#endif
 
 //make SvnClient as a singleton
 SvnClient* SvnClient::_exemplar = 0;
@@ -77,7 +83,13 @@ bool SvnClient::isWorkingCopy( const QString &path )
     }
     while ( process->isRunning() )
     {
+        #ifdef Q_WS_X11
         sleep( 1 );
+        #endif
+
+        #ifdef Q_WS_WIN
+        Sleep( 1 );
+        #endif
     }
     return processStderr == "" ;
 }
