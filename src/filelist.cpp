@@ -52,6 +52,7 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->addColumn( tr( "Filename" ) );
     listViewFiles->addColumn( tr( "File Status" ) );
     listViewFiles->setShowSortIndicator( TRUE );
+    listViewFiles->setAllColumnsShowFocus( TRUE );
 }
 
 FileList::~FileList()
@@ -84,7 +85,20 @@ void FileList::updateListSlot( QString stringDirectory )
                     //set Filename
                     QListViewItem* _element = new QListViewItem( listViewFiles, _fileName );
                     //set File Status
-                    _element->setText( 1, _lineString.mid( 0, 1 ) );
+                    switch ( int( _lineString.at( 0 ).latin1() ) ) {
+                        case int( 'M' ):
+                            _element->setText( _COLUMN_STATUS, tr( "Modified File" ) );   
+                            break;
+                        case int( '?' ): 
+                            _element->setText( _COLUMN_STATUS, tr( "Unknown File" ) );
+                            break;
+                        case int( ' ' ): 
+                            _element->setText( _COLUMN_STATUS, tr( "File" ) );
+                            break;
+                        default: 
+                            _element->setText( _COLUMN_STATUS, tr( "Unknown Status" ) );
+                            break;
+                    }
                 }
             }
         }

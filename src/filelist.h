@@ -36,6 +36,8 @@ This class handle the filelist of a directory from any working copy
 class QListView;
 class QString;
 
+const int _COLUMN_STATUS = 1;
+
 class FileList : public QObject
 {
     Q_OBJECT
