@@ -125,5 +125,5 @@ QString FileSelector::messageString()
 
 void FileSelector::listViewFilesDoubleClickSlot()
 {
-    SvnClient::Exemplar()->diff( startPath + listViewFiles->selectedItem()->text( 0 ) );
+    SvnClient::Exemplar()->diff( startPath + listViewFiles->selectedItem()->text( 0 ), FALSE );
 }
