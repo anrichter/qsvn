@@ -55,7 +55,7 @@ public slots:
 private:
     static FileList *_exemplar;
     QListView *listViewFiles;
-    QString _lastDirectory;
+    QString stringFullPath;
 
     FileList(QObject *parent = 0, const char *name = 0);
     ~FileList();

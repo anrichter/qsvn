@@ -64,7 +64,7 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->setAllColumnsShowFocus( TRUE );
     
     Config::Exemplar()->restoreListView( listViewFiles );
-    _lastDirectory = "";
+    stringFullPath = "";
 }
 
 FileList::~FileList()
@@ -124,11 +124,11 @@ void FileList::updateListSlot( QString currentDirectory )
                 }
             }
         }
-        _lastDirectory = currentDirectory;
+        stringFullPath = currentDirectory;
     }
 }
 
 void FileList::diffSelected()
 {
-    SvnClient::Exemplar()->diff( _lastDirectory, listViewFiles->currentItem()->text( _COLUMN_FILE ) );
+    SvnClient::Exemplar()->diff( stringFullPath, listViewFiles->currentItem()->text( _COLUMN_FILE ) );
 }
