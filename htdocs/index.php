@@ -9,19 +9,31 @@
 <!-- content -->
 <p>
 <p>
-<table BORDER=0 CELLSPACING=0 CELLPADDING=0 WIDTH="100%" >
-<tr VALIGN=TOP>
-<td align=center>
-<h2>Welcome to <?php echo "http://".$HTTP_HOST; ?></h2>
-<p>We are sorry but this project has not yet content for the website.
-<br>Please check back soon for updates or visit <a href="https://developer.berlios.de/projects/qsvn/">qsvn Project Homepage</a>.
+<center>
+<h2>Welcome to QSvn</h2>
+<p>
+  QSvn provide a cross plattform GUI for Subversion</a>.
+</p>
+</center>
+
+<p>
+  QSvn is a cross platform GUI for the grandious new Version Control System <a href="http://subversion.tigris.org/">Subversion</a>.
+  We uses the cross-platform C++ application framework <a href="http://www.trolltech.com/products/qt/index.html">Qt</a> from Trolltech.
+  So we can provide QSvn for all Qt supported plattforms such as X11, Windows and Mac OS X.
+</p>
+<p>
+  The project is in an early phase so we don't have any contents for this site and don't have released one version of QSvn.<br />
+  If you want to contribute some work to the QSvn project you can take contact over our <a href="https://developer.berlios.de/mail/?group_id=2312">MailingLists</a>.<br />
+  For more information please visit our <a href="https://developer.berlios.de/projects/qsvn/">QSvn Project Page</a>.
+</p>
+<p>
+</p>
+<center>
 <p>The project is hosted by<br>
 <a href="http://developer.berlios.de">
 <img src="http://developer.berlios.de/bslogo.php?group_id=0&type=1" width="124" height="32" border="0" alt="BerliOS Logo"></A>
-</td>
+</center>
 
-</tr>
-</table>
 <p>&nbsp;
 <!-- end content -->
 
