@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>720</width>
-            <height>460</height>
+            <height>463</height>
         </rect>
     </property>
     <property name="caption">
@@ -91,6 +91,12 @@
             <widget class="QTextEdit">
                 <property name="name">
                     <cstring>statusTextEdit</cstring>
+                </property>
+                <property name="wordWrap">
+                    <enum>WidgetWidth</enum>
+                </property>
+                <property name="readOnly">
+                    <bool>true</bool>
                 </property>
             </widget>
         </widget>
