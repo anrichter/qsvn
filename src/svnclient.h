@@ -55,6 +55,7 @@ public:
     //svn calls
     bool add( const QString &path, const QString &filename, bool withOutput = true );
     bool add( const QString &path, const QStringList *filenameList, bool withOutput = true );
+    bool commmit( const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput = true );
     bool info( const QString &path, bool withOutput = true );
     bool status( const QString &path, bool withOutput = true );
     bool update( const QString &path, bool withOutput = true );

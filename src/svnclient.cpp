@@ -222,6 +222,29 @@ bool SvnClient::add( const QString &path, const QStringList *filenameList, bool 
         return FALSE;
 }
 
+bool SvnClient::commmit( const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput )
+{
+    if ( path && commitMessage && filenameList && ( filenameList->count() > 0 ) )
+    {
+        immediateOutput = withOutput;
+
+        prepareNewProcess( path );
+        process->addArgument( "commit" );
+        process->addArgument( "-m" );
+        process->addArgument( commitMessage );
+
+        QStringList my_list( *filenameList );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        {
+            process->addArgument( *it );
+        }
+
+        return startAndWaitProcess( "cannot start svn commit" );
+    }
+    else
+        return FALSE;
+}
+
 bool SvnClient::info( const QString &path, bool withOutput )
 {
     if ( path )

@@ -36,6 +36,12 @@ class FileSelector : public FileSelectorDlg
 public:
     FileSelector( QWidget *parent = 0, const char *name = 0 );
     ~FileSelector();
+    
+    void setSelectedFiles( QStringList* fileList );
+    void setMessageString( QString message );
+    
+    QStringList* selectedFiles();
+    QString messageString();
 };
 
 #endif

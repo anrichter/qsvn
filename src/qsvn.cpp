@@ -123,12 +123,24 @@ void QSvn::updateSlot()
 
 void QSvn::commitSlot()
 {
-    FileSelector fileselector;
-    if ( fileselector.exec() )
+    FileSelector* fileselector = new FileSelector();
+    QString commitMessage;
+    
+    WorkingCopyItem *item;
+    item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
+    
+    fileselector->setSelectedFiles( FileList::Exemplar()->selectedFileListItems() );
+    fileselector->setMessageString( tr( "*** empty message ***" ) );
+    
+    if ( fileselector->exec() )
     {
-        //todo: implement
-        StatusText::Exemplar()->outputMessage( QString( "svn commit - not implemented yet" ) );
+        QStringList* fileList = fileselector->selectedFiles();
+        QString commitMessage = fileselector->messageString();
+        SvnClient::Exemplar()->commmit( item->fullPath(), fileList, commitMessage );
     }
+    //Updates
+    WorkingCopy::Exemplar()->updateElement( item );
+    FileList::Exemplar()->updateListSlot( item->fullPath() );
 }
 
 void QSvn::addSlot()

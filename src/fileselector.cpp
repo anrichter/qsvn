@@ -24,6 +24,12 @@
 
 //QSvn
 #include "fileselector.h"
+#include "fileselectordlg.h"
+
+//Qt
+#include <qlistview.h>
+#include <qstringlist.h>
+#include <qtextedit.h>
 
 
 FileSelector::FileSelector( QWidget *parent, const char *name )
@@ -32,3 +38,44 @@ FileSelector::FileSelector( QWidget *parent, const char *name )
 
 FileSelector::~FileSelector()
 {}
+
+void FileSelector::setSelectedFiles( QStringList* fileList )
+{
+    listViewFiles->clear();
+    
+    if ( fileList )
+    {
+        for ( QStringList::Iterator it = fileList->begin(); it != fileList->end(); ++it )
+        {
+            QCheckListItem* _item = new QCheckListItem( listViewFiles, *it, QCheckListItem::CheckBox );
+            _item->setOn( TRUE );
+        }
+    }
+}
+
+void FileSelector::setMessageString( QString message )
+{
+    editLogMessage->setText( message );
+}
+
+QStringList* FileSelector::selectedFiles()
+{
+    QStringList *stringList = new QStringList;
+    
+    QListViewItemIterator it( listViewFiles );
+    while ( it.current() ) 
+    {
+        QCheckListItem *item = static_cast< QCheckListItem* >( it.current() );
+        if ( item->isOn() )
+        {
+            stringList->append( item->text( 0 ) );
+        }
+        ++it;
+    }    
+    return stringList;
+}
+
+QString FileSelector::messageString()
+{
+    return editLogMessage->text();
+}
