@@ -201,36 +201,38 @@ void SvnClient::filesToList( int svnCommandType, QStringList *list, const QStrin
                     _fileName = _fileName.section( ' ', 3, 3 ); //get FileName    
                 } 
 
-                i = int( _lineString.at( 0 ).latin1() );
-                if ( ( svnCommandType ==  Commit ) || ( svnCommandType == Revert ) )
+                if ( ( _fileName != "." ) && ( _fileName != ".." ) )
                 {
-                    if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) || ( i == int( 'D' ) ) )
+                    i = int( _lineString.at( 0 ).latin1() );
+                    if ( ( svnCommandType ==  Commit ) || ( svnCommandType == Revert ) )
                     {
-                        list->append( pathPrefix + _fileName );
+                        if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) || ( i == int( 'D' ) ) )
+                        {
+                            list->append( pathPrefix + _fileName );
+                        }
                     }
-                }
-                else 
-                if ( svnCommandType == Remove )
-                {
-                    if ( i == int( ' ' ) )
+                    else 
+                    if ( svnCommandType == Remove )
                     {
-                        list->append( pathPrefix + _fileName );
+                        if ( i == int( ' ' ) )
+                        {
+                            list->append( pathPrefix + _fileName );
+                        }
                     }
-                }
-                else
-                if ( svnCommandType == Add )
-                {
-                    if ( i == int( '?' ) )
+                    else
+                    if ( svnCommandType == Add )
                     {
-                        list->append( pathPrefix + _fileName );
+                        if ( i == int( '?' ) )
+                        {
+                            list->append( pathPrefix + _fileName );
+                        }
                     }
-                }
-                
-                //recursive call for subdirectories
-                if ( ( ( _fileName != "." ) && ( _fileName != ".." ) ) &&    // dont jump into . or .. directory
-                     QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory 
-                {
-                    filesToList( svnCommandType, list, path + QDir::separator() + _fileName, pathPrefix + _fileName + QDir::separator() );
+                    
+                    //recursive call for subdirectories
+                    if ( QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory 
+                    {
+                        filesToList( svnCommandType, list, path + QDir::separator() + _fileName, pathPrefix + _fileName + QDir::separator() );
+                    }
                 }
             }
         }
@@ -285,6 +287,12 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
         _return = startAndWaitProcess( tr( "cannot start svn info - is your svn executable installed and configured in settings?" ) );
         break;
     case Remove:
+        process->addArgument( "remove" );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        {
+            process->addArgument( *it );
+        }
+        _return = startAndWaitProcess( tr( "cannot start svn remove" ) );
         break;
     case Revert:
         process->addArgument( "revert" );

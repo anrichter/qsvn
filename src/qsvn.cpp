@@ -99,7 +99,6 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
         return;
     
     bool runCommand = FALSE;
-    bool withFileList = FALSE;
     
     WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
     QStringList *fileList = new QStringList; // QStringList with filenames for svn command
@@ -164,8 +163,7 @@ void QSvn::addSlot()
 
 void QSvn::removeSlot()
 {
-    //todo: implement
-    StatusText::Exemplar()->outputMessage( QString( "svn remove - not implemented yet" ) );
+    svnCommand( SvnClient::Remove, TRUE );
 }
 
 void QSvn::revertSlot()
