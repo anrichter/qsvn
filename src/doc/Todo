@@ -2,16 +2,13 @@ Todo
 
 open issues for version 0.1.0
 =============================
-- FileSelector dialog
-  + a file selection dialog for svn commit, add, remove, revert, ...
-  + in first step used for svn commit
-  + files are listed in a ListView with checkboxes for every file
-  + some special actions on double click of a filelist entry (svn diff)
-
 - svn commands:
   + remove
   
-- questions before make a svn command
+- questions before make a svn command without FileSelector
+- handle of long usernames in FileList::updateListSlot
+- use FileSelector for remove, revert, add
+- recursive remove, revert, add
 
 
 open issues
