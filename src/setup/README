@@ -1,0 +1,6 @@
+The Setup for Windows version currently using InnoSetup (http://www.jrsoftware.org/isinfo.php)
+
+To compile the setup script qsvn.iss you must first copy any necessary libraries to this directory.
+
+  * msvcrtd.dll
+  * qt-mtnc321.dll
