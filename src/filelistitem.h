@@ -32,7 +32,7 @@
 class FileListItem : public QListViewItem
 {
 
-private:
+public:
     FileListItem( QListView* parent);
     ~FileListItem();
 };
