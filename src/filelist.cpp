@@ -138,6 +138,6 @@ void FileList::diffSelected()
 void FileList::doubleClickedSlot( QListViewItem* item )
 {
     //todo: switch settings and file status ( added, modified, ... )
-    SvnClient::Exemplar()->diff( stringFullPath, item->text( _COLUMN_FILE ) );
+    SvnClient::Exemplar()->diff( stringFullPath, item->text( _COLUMN_FILE ), FALSE );
 }
 
