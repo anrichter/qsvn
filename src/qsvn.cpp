@@ -121,8 +121,8 @@ void QSvn::updateSlot()
 
 void QSvn::commitSlot()
 {
-    FileSelector* fileselector = new FileSelector();
-    fileselector->setMessageString( tr( "*** empty message ***" ) );
+    FileSelector fileselector( this );
+    fileselector.setMessageString( tr( "*** empty message ***" ) );
     
     QString commitMessage;
     WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
@@ -131,17 +131,17 @@ void QSvn::commitSlot()
     {
         QStringList *fileList = new QStringList;
         SvnClient::Exemplar()->changedFilesToList( fileList, item->fullPath(), "." );
-        fileselector->setSelectedFiles( fileList );
+        fileselector.setSelectedFiles( fileList );
     }
     else if ( FileList::Exemplar()->getWidget()->hasFocus() )
     {
-        fileselector->setSelectedFiles( FileList::Exemplar()->selectedFileListItems() );
+        fileselector.setSelectedFiles( FileList::Exemplar()->selectedFileListItems() );
     }    
     
-    if ( fileselector->exec() )
+    if ( fileselector.exec() )
     {
-        QStringList* fileList = fileselector->selectedFiles();
-        QString commitMessage = fileselector->messageString();
+        QStringList* fileList = fileselector.selectedFiles();
+        QString commitMessage = fileselector.messageString();
         SvnClient::Exemplar()->commmit( item->fullPath(), fileList, commitMessage );
     }
     //Updates
@@ -217,7 +217,7 @@ void QSvn::diffSlot()
 
 void QSvn::configureQSvnSlot()
 {
-    Configure configure;
+    Configure configure( this );
     configure.exec();
 }
 
