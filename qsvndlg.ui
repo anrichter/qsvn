@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>QSvnDlg</class>
 <widget class="QMainWindow">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>507</width>
-            <height>370</height>
+            <width>528</width>
+            <height>397</height>
         </rect>
     </property>
     <property name="caption">
@@ -71,7 +71,7 @@
         <widget class="QListView" row="0" column="0">
             <column>
                 <property name="text">
-                    <string>Sandbox</string>
+                    <string>Working Copy</string>
                 </property>
                 <property name="clickable">
                     <bool>true</bool>
@@ -81,7 +81,7 @@
                 </property>
             </column>
             <property name="name">
-                <cstring>sandboxListView</cstring>
+                <cstring>workingCopyListView</cstring>
             </property>
             <property name="maximumSize">
                 <size>
@@ -99,9 +99,9 @@
     <item text="&amp;File" name="fileMenu">
         <action name="fileExitAction"/>
     </item>
-    <item text="&amp;Sandbox" name="sandboxMenu">
-        <action name="sandboxAddAction"/>
-        <action name="sandboxRemoveAction"/>
+    <item text="&amp;Working Copy" name="workingCopyMenu">
+        <action name="workingCopyAddAction"/>
+        <action name="workingCopyRemoveAction"/>
     </item>
     <item text="&amp;Help" name="helpMenu">
         <action name="helpContentsAction"/>
@@ -171,7 +171,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>sandboxAddAction</cstring>
+            <cstring>workingCopyAddAction</cstring>
         </property>
         <property name="text">
             <string>Add</string>
@@ -182,7 +182,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>sandboxRemoveAction</cstring>
+            <cstring>workingCopyRemoveAction</cstring>
         </property>
         <property name="text">
             <string>Remove</string>
@@ -218,16 +218,16 @@
         <slot>helpAbout()</slot>
     </connection>
     <connection>
-        <sender>sandboxAddAction</sender>
+        <sender>workingCopyAddAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>sandboxAdd()</slot>
+        <slot>workingCopyAdd()</slot>
     </connection>
     <connection>
-        <sender>sandboxRemoveAction</sender>
+        <sender>workingCopyRemoveAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>sandboxRemove()</slot>
+        <slot>workingCopyRemove()</slot>
     </connection>
 </connections>
 <slots>
@@ -235,8 +235,8 @@
     <slot>helpIndex()</slot>
     <slot>helpContents()</slot>
     <slot>helpAbout()</slot>
-    <slot>sandboxAdd()</slot>
-    <slot>sandboxRemove()</slot>
+    <slot>workingCopyAdd()</slot>
+    <slot>workingCopyRemove()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>
