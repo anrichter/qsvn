@@ -134,7 +134,7 @@ void FileList::updateListSlot( QString currentDirectory )
 void FileList::diffSelected()
 {
     if ( listViewFiles->currentItem() )
-        SvnClient::Exemplar()->diff( stringFullPath, listViewFiles->currentItem()->text( _COLUMN_FILE ) );
+        SvnClient::Exemplar()->diff( stringFullPath, listViewFiles->currentItem()->text( _COLUMN_FILE ), FALSE );
 }
 
 void FileList::doubleClickedSlot( QListViewItem* item )
