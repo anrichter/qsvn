@@ -53,7 +53,6 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->addColumn( tr( "File Status" ) );
     listViewFiles->setShowSortIndicator( TRUE );
     listViewFiles->setAllColumnsShowFocus( TRUE );
-    listViewFiles->setRootIsDecorated( TRUE );
     
     _lastDirectory = "";
 }
