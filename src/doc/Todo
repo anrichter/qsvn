@@ -17,7 +17,15 @@ open issues
 - Repository Browser
 - svn mkdir
 - svn move
-- svn 
+- svn copy
 - FileList Enhancements: revision number, last editor, timestamp
 - include pixmaps for file status and cvs actions
 - search in log's from a given directory. optionally recursive
+
+ideas
+=====
+- WorkingCopyItem based on QListViewItem with:
+  * full path
+  * stati if the directory can update, commit, etc. pp.
+- FileListItem based on QListViewItem with:
+  * full path
