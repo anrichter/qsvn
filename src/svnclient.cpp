@@ -64,23 +64,22 @@ SvnClient::~SvnClient()
     process = 0;
 }
 
-void SvnClient::prepareNewProcess()
+void SvnClient::prepareNewProcess( const QString &workingDirectory )
 {
-    processStdout = "";
-    processStderr = "";
+    processStdoutList.clear();
+    processStderrList.clear();
     messageString = "";
     process->clearArguments();
     process->addArgument( Config::Exemplar()->getSvnExecutable() );
+    if ( workingDirectory != "" )
+        process->setWorkingDirectory( QDir( workingDirectory ) );
 }
 
-bool SvnClient::isWorkingCopy( const QString &path )
+bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
 {
-    prepareNewProcess();
-    process->addArgument( "info" );
-    process->addArgument( path );
     if ( !process->start() )
     {
-        messageString = "cannot start svn info - is your svn executable installed and configured in settings?";
+        messageString = startErrorMessage;
         return FALSE;
     }
     while ( process->isRunning() )
@@ -95,29 +94,49 @@ bool SvnClient::isWorkingCopy( const QString &path )
 #endif
 
     }
-    return processStderr == "" ;
+    return processStderrList.count() == 0;
+}
+
+bool SvnClient::isWorkingCopy( const QString &path )
+{
+    prepareNewProcess();
+    process->addArgument( "info" );
+    process->addArgument( path );
+    return startAndWaitProcess( "cannot start svn info - is your svn executable installed and configured in settings?" );
+}
+
+bool SvnClient::getStatus( const QString &path )
+{
+    prepareNewProcess( path );
+    process->addArgument( "status" );
+    process->addArgument( "-vN" );
+    return startAndWaitProcess( "cannot start svn status -v" );
 }
 
 void SvnClient::readStdoutSlot()
 {
-    QByteArray data = process->readStdout();
-    processStdout = QString( data );
+    while ( process->canReadLineStdout() )
+    {
+        processStdoutList.append( process->readLineStdout() );
+    }
 }
 
 void SvnClient::readStderrSlot()
 {
-    QByteArray data = process->readStderr();
-    processStderr = QString( data );
+    while ( process->canReadLineStderr() )
+    {
+        processStderrList.append( process->readLineStderr() );
+    }
 }
 
-QString SvnClient::getProcessStdout()
+QStringList SvnClient::getProcessStdoutList()
 {
-    return processStdout;
+    return processStdoutList;
 }
 
-QString SvnClient::getProcessStderr()
+QStringList SvnClient::getProcessStderrList()
 {
-    return processStderr;
+    return processStderrList;
 }
 
 QString SvnClient::getMessageString()

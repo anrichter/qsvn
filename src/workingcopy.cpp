@@ -109,7 +109,7 @@ void WorkingCopy::addExistingWorkingCopySlot()
     }
     else
     {
-        StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getProcessStderr() );
+        StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getProcessStderrList() );
         StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getMessageString() );
     }
 }

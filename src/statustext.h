@@ -34,7 +34,7 @@ This class handle the status text output
 */
 
 class QTextEdit;
-class QString;
+class QStringList;
 
 class StatusText : public QObject
 {
@@ -45,6 +45,7 @@ public:
     QWidget *getWidget();
 
     void outputMessage( const QString messageString );
+    void outputMessage( QStringList messageStringList );
     
 private:
     static StatusText *_exemplar;

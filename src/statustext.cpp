@@ -28,6 +28,7 @@
 
 //Qt
 #include <qtextedit.h>
+#include <qstringlist.h>
 
 //make StatusText a singleton
 StatusText* StatusText::_exemplar = 0;
@@ -66,3 +67,8 @@ void StatusText::outputMessage( const QString messageString )
         qDebug( messageString );
 }
 
+void StatusText::outputMessage( QStringList messageStringList )
+{
+    for ( QStringList::Iterator it = messageStringList.begin(); it != messageStringList.end(); ++it )
+        this->outputMessage( *it );
+}

@@ -25,6 +25,8 @@
 
 //QSvn
 #include "filelist.h"
+#include "svnclient.h"
+#include "statustext.h"
 
 //Qt
 #include <qlistview.h>
@@ -65,11 +67,11 @@ void FileList::updateListSlot( QString stringDirectory )
     if ( listViewFiles )
     {
         listViewFiles->clear();
-        if ( stringDirectory != "" )
+        if ( SvnClient::Exemplar()->getStatus( stringDirectory ) )
         {
-            QDir directory( stringDirectory );
-            QStringList listFiles = directory.entryList( QDir::Files );
-            for ( QStringList::Iterator it = listFiles.begin(); it != listFiles.end(); ++it )
+            qDebug( "read StdOut List" );
+            QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
+            for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
                 // add only directories here
                 if ( ( *it != "." ) && ( *it != ".." ) )

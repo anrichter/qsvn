@@ -28,6 +28,7 @@
 //Qt
 #include <qobject.h>
 #include <qstring.h>
+#include <qstringlist.h>
 
 class QProcess;
 
@@ -43,11 +44,12 @@ class SvnClient : public QObject
 public:
     static SvnClient* Exemplar();
 
-    QString getProcessStdout();
-    QString getProcessStderr();
+    QStringList getProcessStdoutList();
+    QStringList getProcessStderrList();
 
     bool isWorkingCopy( const QString &path );
     QString getMessageString();
+    bool getStatus( const QString &path );
 
 public slots:
     void readStdoutSlot(); //!< read out the Stdout written from running process
@@ -61,11 +63,14 @@ private:
     static SvnClient* _exemplar;
 
     QProcess *process;
-    QString processStdout;
-    QString processStderr;
+    
+    //Process outputs
+    QStringList processStdoutList;
+    QStringList processStderrList;
     QString messageString; //!< contains some messages for output
 
-    void prepareNewProcess(); //!< initialies all for a new process
+    void prepareNewProcess( const QString &workingDirectory = "" ); //!< initialies all for a new process
+    bool startAndWaitProcess( const QString &startErrorMessage );
 };
 
 #endif
