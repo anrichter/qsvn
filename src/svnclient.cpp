@@ -156,9 +156,11 @@ QString SvnClient::getMessageString()
 
 bool SvnClient::isWorkingCopy( const QString &path )
 {
-    immediateOutput = false;
-    return info( path );
-    immediateOutput = true;
+    QDir dir( path + QDir::separator() + ".svn" );
+    if ( dir.exists() )
+        return TRUE;
+    else
+        return FALSE;
 }
 
 

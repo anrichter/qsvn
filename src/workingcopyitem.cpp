@@ -25,6 +25,7 @@
 
 //QSvn
 #include "workingcopyitem.h"
+#include "svnclient.h"
 
 //Qt
 #include <qlistview.h>
@@ -36,6 +37,7 @@ WorkingCopyItem::WorkingCopyItem( QListViewItem* parent )
     : QListViewItem( parent )
 {
     parentItem = 0;
+    svnDirectory = FALSE;
 }
 
 WorkingCopyItem::WorkingCopyItem( QListView* parent, QString directory )
@@ -43,7 +45,8 @@ WorkingCopyItem::WorkingCopyItem( QListView* parent, QString directory )
 {
     parentItem = 0;
     stringFullPath = directory;
-    setText( 0, directory );
+    setText( 0, directory );  
+    svnDirectory = SvnClient::Exemplar()->isWorkingCopy( directory );
 }
 
 WorkingCopyItem::WorkingCopyItem( WorkingCopyItem* parent, QString directory )
@@ -53,6 +56,7 @@ WorkingCopyItem::WorkingCopyItem( WorkingCopyItem* parent, QString directory )
     stringFullPath = directory;
     QUrl url( directory );
     setText( 0, url.fileName() );
+    svnDirectory = SvnClient::Exemplar()->isWorkingCopy( directory );
 }
 
 WorkingCopyItem::~WorkingCopyItem()
@@ -66,4 +70,9 @@ WorkingCopyItem* WorkingCopyItem::parent() const
 QString WorkingCopyItem::fullPath()
 {
     return stringFullPath;
+}
+
+bool WorkingCopyItem::isSvnDirectory()
+{
+    return svnDirectory;
 }

@@ -44,7 +44,8 @@ IMAGES += images/folder.png \
           images/file.png \
           images/modifiedfile.png \
           images/conflictfile.png \
-          images/unknownfile.png
+          images/unknownfile.png \
+          images/unknownfolder.png
 win32{
   MOC_DIR = moc
   OBJECTS_DIR = obj

@@ -44,9 +44,11 @@ public:
     WorkingCopyItem* parent() const;
     
     QString fullPath();
+    bool isSvnDirectory();
 private:    
     QString stringFullPath;
     WorkingCopyItem* parentItem;
+    bool svnDirectory;
 };
 
 #endif
