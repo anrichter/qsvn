@@ -73,7 +73,7 @@ bool SvnClient::isWorkingCopy( const QString &path )
     process->addArgument( path );
     if ( !process->start() )
     {
-        qDebug( "cannot start svn status" );
+        qDebug( "cannot start svn info" );
     }
     while ( process->isRunning() )
     {
