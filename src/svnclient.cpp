@@ -187,8 +187,14 @@ void SvnClient::changedFilesToList( QStringList *list, const QString &path, cons
             for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
                 _lineString = *it;
-                _fileName = _lineString.right( _lineString.length() - 40 );
-                    
+                _fileName = _lineString.right( _lineString.length() - 6 );
+                _fileName = _fileName.simplifyWhiteSpace(); //convert into simple whitespace seaparatet string
+
+                if ( _lineString.at( 0 ).latin1() != '?' )
+                {
+                    _fileName = _fileName.section( ' ', 3, 3 ); //get FileName    
+                } 
+
                 i = int( _lineString.at( 0 ).latin1() );
                 if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) || ( i == int( 'D' ) ) )
                 {
@@ -401,6 +407,7 @@ bool SvnClient::diff( const QString &fullFileName, bool withOutput )
         QString filename = url.fileName();
         
         diff( path, filename, withOutput );
+        return TRUE;
     }
     else
         return FALSE;
