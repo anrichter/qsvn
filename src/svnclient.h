@@ -51,6 +51,7 @@ public:
 
     bool isWorkingCopy( const QString &path );
     QString getMessageString();
+    void changedFilesToList( QStringList *list, const QString &path, const QString pathPrefix = "" ); //!< add changed, added and deleted files to QStringList with pathPrefix
     
     //svn calls
     bool add( const QString &path, const QString &filename, bool withOutput = true );

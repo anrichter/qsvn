@@ -172,6 +172,43 @@ QString SvnClient::getMessageString()
     return messageString;
 }
 
+void SvnClient::changedFilesToList( QStringList *list, const QString &path, const QString pathPrefix )
+{
+    if ( list && path && isWorkingCopy( path ) )
+    {
+        if ( status( path, false ) )
+        {
+            qDebug( "check for changed files in " + path );
+        
+            QStringList statusList( getProcessStdoutList() );
+            QString _lineString;
+            QString _fileName;
+            int i = 0;
+            
+            for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
+            {
+                _lineString = *it;
+                _fileName = _lineString.right( _lineString.length() - 40 );
+                    
+                i = int( _lineString.at( 0 ).latin1() );
+                if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) )
+                {
+                    qDebug( " add file " + pathPrefix + QDir::separator() + _fileName );
+                    list->append( pathPrefix + QDir::separator() + _fileName );
+                }
+               
+                //recursive call for subdirectories
+                if ( pathPrefix &&                                           // pathPrefix == empty -> not recursive
+                     ( ( _fileName != "." ) && ( _fileName != ".." ) ) &&    // dont jump into . or .. directory
+                     QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory 
+                {
+                    changedFilesToList( list, path + QDir::separator() + _fileName, pathPrefix + _fileName );
+                }
+            }
+        }
+    }
+}
+    
 bool SvnClient::isWorkingCopy( const QString &path )
 {
     QDir dir( path + QDir::separator() + ".svn" );
