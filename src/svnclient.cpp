@@ -208,5 +208,7 @@ bool SvnClient::diff( const QString &path, const QString &filename )
         process->addArgument( filename );
         return startProcess( "cannot start DiffViewer" );        
     }
+    else
+        return FALSE;
 }
 
