@@ -64,6 +64,10 @@ void QSvn::addWorkingCopySlot()
     {
         qDebug( "TODO: add workingCopy " + addWorkingCopy->getSelectedDirectory() + " to workingCopyListView" );
     }
+    else
+    {
+        qDebug( SvnClient::Exemplar()->getProcessStderr() );
+    }
 }
 
 void QSvn::aboutSlot()

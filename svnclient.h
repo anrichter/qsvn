@@ -25,13 +25,26 @@
 #ifndef SVNCLIENT_H
 #define SVNCLIENT_H
 
-class QString;
+//Qt
+#include <qobject.h>
+#include <qstring.h>
 
-class SvnClient{
+class QProcess;
+
+class SvnClient : public QObject{
+    Q_OBJECT
 public:
     static SvnClient* Exemplar();
     
+    QString getProcessStdout();
+    QString getProcessStderr();
+    
     bool isWorkingCopy( const QString &path );
+
+    
+public slots:
+    void readStdoutSlot(); //!< read out the Stdout written from running process
+    void readStderrSlot(); //!< read out the Stderr written form running process
     
 protected:    
     SvnClient();
@@ -39,7 +52,13 @@ protected:
 
 private:
     static SvnClient* _exemplar;
-
+    
+    QProcess *process;
+    QString svnCommand; //!< a contains the command line command vor subversion - svn even ;)
+    QString processStdout;
+    QString processStderr;
+    
+    void prepareNewProcess(); //!< initialies all for a new process
 };
 
 #endif

@@ -26,6 +26,10 @@
 
 //Qt
 #include <qapplication.h>
+#include <qprocess.h>
+
+//Std
+#include <unistd.h>
 
 //make SvnClient as a singleton
 SvnClient* SvnClient::_exemplar = 0;
@@ -42,16 +46,60 @@ SvnClient* SvnClient::Exemplar()
 //SvnClient implementation
 SvnClient::SvnClient()
 {
+    svnCommand = "svn"; //todo: make the svn executable configurable over the config-dialog
+    process = new QProcess();
+    connect( process, SIGNAL( readyReadStdout() ), this, SLOT( readStdoutSlot() ) );
+    connect( process, SIGNAL( readyReadStderr() ), this, SLOT( readStderrSlot() ) );
 }
 
 SvnClient::~SvnClient()
 {
+    delete process;
+    process = 0;
+}
+
+void SvnClient::prepareNewProcess()
+{
+    processStdout = "";
+    processStderr = "";
+    process->clearArguments();
+    process->addArgument( svnCommand );
 }
 
 bool SvnClient::isWorkingCopy( const QString &path )
 {
-    qDebug( "TODO: implement the check-routine" );
-    
-    return TRUE;
+    prepareNewProcess();
+    process->addArgument( "info" );
+    process->addArgument( path );
+    if ( !process->start() )
+    {
+        qDebug( "cannot start svn status" );
+    }
+    while ( process->isRunning() )
+    {
+        sleep( 1 );
+    }
+    return processStderr == "" ;
 }
 
+void SvnClient::readStdoutSlot()
+{
+    QByteArray data = process->readStdout();
+    processStdout = QString( data );
+}
+
+void SvnClient::readStderrSlot()
+{
+    QByteArray data = process->readStderr();
+    processStderr = QString( data );
+}
+
+QString SvnClient::getProcessStdout()
+{
+    return processStdout;
+}
+
+QString SvnClient::getProcessStderr()
+{
+    return processStderr;
+}
