@@ -1,30 +1,52 @@
-<?xml version='1.0'?>
-<Wix xmlns='http://schemas.microsoft.com/wix/2003/01/wi'>
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 
-   <Product Id='12345678-1234-1234-1234-123456789012' Name='QSvn' Language='1033' 
-            Version='0.1.0' Manufacturer='Microsoft Corporation'>
-      <Package Id='12345678-1234-1234-1234-123456789012'
-               Description='QSvn a Qt based Subversion Client'
-               Comments='This Package will install QSvn on your Computer'
-               Manufacturer='Andreas Richter' InstallerVersion='200' Compressed='yes' />
+  <Product Name="QSvn" Id="C9A51138-7A96-41DC-9395-C4FD34317836" 
+           Language="1033" 
+           Version="0.1.0" 
+           Manufacturer="Andreas Richter">
 
-      <Media Id='1' Cabinet='qsvn.cab' EmbedCab='yes' />
+    <Package Id="4F784DF6-7D81-4B83-B1DE-A1961A9E0AB1" 
+             Keywords="Installer"
+             Description="QSvn Installer"
+             Comments="This Package will install QSvn on your Computer"
+             Manufacturer="Andreas Richter" 
+             InstallerVersion="200" 
+             Languages="1033"
+             SummaryCodepage="1252"
+             Compressed="yes" />
 
-      <Directory Id='TARGETDIR' Name='SourceDir'>
-         <Directory Id='ProgramFilesFolder' Name='PFiles'>
-            <Directory Id='MyDir' Name='QSVN' LongName='QSvn'>
-               <Component Id='MyComponent' Guid='12345678-1234-1234-1234-123456789012'>
-                  <File Id='qsvn' Name='qsvn.exe' DiskId='1' src='..\bin\qsvn.exe' />
-                  <File Id='readme' Name='README' DiskId='1' src='..\README' />
-               </Component>
-            </Directory>
-         </Directory>
+    <Media Id="1" Cabinet="qsvn.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+       
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="INSTALLDIR" Name="QSVN" LongName="QSvn">
+          <Component Id="QSvnMainfiles" Guid="6B49681F-8A1C-4FEF-9F33-BC849F114277">
+            <File Id="qsvn" Name="QSVN.EXE" LongName="QSvn.exe" DiskId="1" src="..\bin\qsvn.exe" />
+            <File Id="readme" Name="README" LongName="README" DiskId="1" src="..\README" />
+          </Component>
+          <Component Id="QtLib" Guid="8C13219D-0480-408E-BAFB-A97B72667CE7">
+            <File Id="QtLib" Name="QT-MTN~1.DLL" LongName="qt-mtnc321.dll" DiskId="1" src="qt-mtnc321.dll" />
+          </Component>
+          <Component Id="WindowsLibs" Guid="DE06062C-63AB-4BAA-93A9-DA11D9CF2E53">
+            <File Id="msvcrtd" Name="MSVCRTD.DLL" LongName="msvcrtd.dll" DiskId="1" src="MSVCRTD.DLL" />
+          </Component>
+        </Directory>
       </Directory>
+       
+      <Directory Id="ProgramMenuFolder" Name="PMenu" LongName="Programs">
+        <Directory Id="ProgramMenuDir" Name="QSVN" LongName="QSvn" />
+      </Directory>
+       
+    </Directory>
 
-      <Feature Id='MyFeature' Title='My 1st Feature' Level='1'>
-         <ComponentRef Id='MyComponent' />
-      </Feature>
-   </Product>
-
+    <Feature Id="Complete" Level="1">
+      <ComponentRef Id="QSvnMainfiles" />
+      <ComponentRef Id="QtLib" />
+      <ComponentRef Id="WindowsLibs" />
+    </Feature>
+    
+    <Icon Id="QSvn.exe" src="..\bin\qsvn.exe" />
+  </Product>
 </Wix>
-
