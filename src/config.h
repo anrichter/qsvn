@@ -54,11 +54,17 @@ public:
     void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
     QString getDiffViewer(); //!< get the complete path to a diff viewer
     
+    //Main Window
     void saveMainWindow( QSvnDlg *aMainWindow );
     void restoreMainWindow( QSvnDlg *aMainWindow );
     
+    //ListView Settings
     void saveListView( QListView *aListView );
     void restoreListView( QListView *aListView );
+    
+    //Working Copys
+    void saveWorkingCopyEntries( QListView *aListView );
+    void restoreWorkingCopyEntries();
 public slots:
     void saveChanges();
 

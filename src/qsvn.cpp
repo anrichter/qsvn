@@ -53,6 +53,8 @@ QSvn::QSvn( QWidget *parent, const char *name )
     widgetStackStatusText->addWidget( StatusText::Exemplar()->getWidget() );
     widgetStackStatusText->raiseWidget( StatusText::Exemplar()->getWidget() );
     
+    Config::Exemplar()->restoreWorkingCopyEntries();
+    
     //connect
     connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
     connect( actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );

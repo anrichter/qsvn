@@ -57,6 +57,7 @@ signals:
     void directoryChanged( QString );
 
 public slots:
+    void addExistingWorkingCopySlot( QString directoyString );
     void addExistingWorkingCopySlot();
     void removeCurrentWorkingCopySlot();
     void updateCurrentWorkingCopySlot();

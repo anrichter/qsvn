@@ -26,6 +26,7 @@
 //qsvn
 #include "config.h"
 #include "qsvndlg.h"
+#include "workingcopy.h"
 
 //Qt
 #include <qsettings.h>
@@ -213,4 +214,48 @@ void Config::restoreListView( QListView *aListView )
         }
         settings.endGroup();
     }
+}
+
+void Config::saveWorkingCopyEntries( QListView *aListView )
+{
+    if ( aListView )
+    {
+        QSettings settings;
+        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+        
+        int i = 0;
+        QListViewItemIterator it( aListView );
+        while ( it.current() )
+        {
+            if ( ! it.current()->parent() )
+            {
+                settings.beginGroup( "workingCopies/" +  QString( "WorkingCopy%1" ).arg( i ) );
+                settings.writeEntry( "directory", it.current()->text( 0 ) );
+                settings.endGroup();
+                i++;
+            }
+            it++;
+        }
+        
+        settings.beginGroup( "workingCopies/general" );
+        settings.writeEntry( "count", i );
+    }
+}
+
+void Config::restoreWorkingCopyEntries()
+{
+    qDebug( "restoreWorkingCopyEntries" );
+    
+    QSettings settings;
+    settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+    settings.beginGroup( "workingCopies/general" );
+    int count = settings.readNumEntry( "count", 0 );
+    settings.endGroup();
+    
+    for ( int i = 0; i < count; i++ )
+    {
+        settings.beginGroup( "workingCopies/" + QString( "WorkingCopy%1" ).arg( i ) );
+        WorkingCopy::Exemplar()->addExistingWorkingCopySlot( settings.readEntry( "directory", "" ) );
+        settings.endGroup();
+    }    
 }

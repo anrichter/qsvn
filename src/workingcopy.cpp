@@ -34,6 +34,7 @@
 #include <qlistview.h>
 #include <qtextedit.h>
 #include <qdir.h>
+#include <qpixmap.h>
 
 //make WorkingCopy a singleton
 WorkingCopy* WorkingCopy::_exemplar = 0;
@@ -72,6 +73,7 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
 
 WorkingCopy::~WorkingCopy()
 {
+    Config::Exemplar()->saveWorkingCopyEntries( listViewWorkingCopy );
     Config::Exemplar()->saveListView( listViewWorkingCopy );
 }
 
@@ -97,11 +99,22 @@ void WorkingCopy::updateElement( QListViewItem *element, QString directoryString
                 {
                     QListViewItem *_element;
                     _element = new QListViewItem( element, *it );
+                    _element->setPixmap( 0, QPixmap::fromMimeSource( "folder.png" ) );
                     // recursive call for new _element
                     this->updateElement( _element, directoryString + QDir::separator() + *it );
                 }
             }
         }
+    }
+}
+
+void WorkingCopy::addExistingWorkingCopySlot( QString directoyString )
+{
+    if ( directoyString )
+    {
+        QListViewItem *element;
+        element = new QListViewItem( listViewWorkingCopy, directoyString );
+        updateElement( element, directoyString );
     }
 }
 
@@ -115,9 +128,7 @@ void WorkingCopy::addExistingWorkingCopySlot()
     if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
     {
         //ad working Copy to workingCopyListView
-        QListViewItem *element;
-        element = new QListViewItem( listViewWorkingCopy, addWorkingCopy->getSelectedDirectory() );
-        updateElement( element, addWorkingCopy->getSelectedDirectory() );
+        addExistingWorkingCopySlot( addWorkingCopy->getSelectedDirectory() );
     }
     else
     {
