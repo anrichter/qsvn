@@ -193,10 +193,13 @@ QString WorkingCopy::getFullDirectory( QListViewItem *element )
 
 void WorkingCopy::updateCurrentWorkingCopySlot()
 {
-    if ( listViewWorkingCopy->currentItem() )
+    if ( listViewWorkingCopy->selectedItem() )
     {
-        SvnClient::Exemplar()->update( this->getFullDirectory( listViewWorkingCopy->selectedItem() ) );
-        StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getProcessStdoutList() );
+        if ( SvnClient::Exemplar()->update( this->getFullDirectory( listViewWorkingCopy->selectedItem() ) ) )
+        {
+            this->updateElement( listViewWorkingCopy->selectedItem(), 
+                                 this->getFullDirectory( listViewWorkingCopy->selectedItem() ) );
+        }
     }
 }
 

@@ -188,7 +188,16 @@ bool SvnClient::update( const QString &path )
         prepareNewProcess();
         process->addArgument( "update" );
         process->addArgument( path );
-        return startAndWaitProcess( "cannot start svn update" );
+        bool ok = startAndWaitProcess( "cannot start svn update" );
+        if ( ok ) 
+        {
+            StatusText::Exemplar()->outputMessage( this->getProcessStdoutList() );
+        }
+        else 
+        {
+            StatusText::Exemplar()->outputMessage( this->getProcessStderrList() );
+        }
+        return ok;
     }
     else
     {
