@@ -28,6 +28,7 @@
 //Qt
 #include <qobject.h>
 
+class QSettings;
 class QString;
 class QListView;
 
@@ -57,6 +58,7 @@ private:
 
     static Config* _exemplar;
 
+    QSettings *_settings;
     bool changed; //!< true, if one or more settings have changed. save changed values in dtor
     QString _svnExecutable;
 };
