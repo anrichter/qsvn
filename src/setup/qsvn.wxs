@@ -22,16 +22,24 @@
 
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="INSTALLDIR" Name="QSVN" LongName="QSvn">
+
           <Component Id="QSvnMainfiles" Guid="6B49681F-8A1C-4FEF-9F33-BC849F114277">
             <File Id="qsvn" Name="QSVN.EXE" LongName="QSvn.exe" DiskId="1" src="..\bin\qsvn.exe" Vital="yes"/>
             <File Id="readme" Name="README" LongName="README" DiskId="1" src="..\README" />
+
+            <Shortcut Id="startmenuQSvn" Directory="ProgramMenuDir" Name="QSVN"
+                      LongName="QSvn" Target="Complete" WorkingDirectory="INSTALLDIR"
+                      Icon="QSvn.exe" IconIndex="0" />
           </Component>
+
           <Component Id="QtLib" Guid="8C13219D-0480-408E-BAFB-A97B72667CE7">
             <File Id="QtLib" Name="QT-MTN~1.DLL" LongName="qt-mtnc321.dll" DiskId="1" src="qt-mtnc321.dll"  Vital="yes"/>
           </Component>
+
           <Component Id="WindowsLibs" Guid="DE06062C-63AB-4BAA-93A9-DA11D9CF2E53">
             <File Id="msvcrtd" Name="MSVCRTD.DLL" LongName="msvcrtd.dll" DiskId="1" src="MSVCRTD.DLL"  Vital="yes"/>
           </Component>
+
         </Directory>
       </Directory>
 
