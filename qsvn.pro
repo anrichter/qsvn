@@ -21,14 +21,16 @@ HEADERS += qsvn.h \
            svnclient.h \
            workingcopy.h \
            config.h \
-           configure.h
+           configure.h \
+           filelist.h
 SOURCES += main.cpp \
            qsvn.cpp \
            addworkingcopy.cpp \
            svnclient.cpp \
            workingcopy.cpp \
            config.cpp \
-           configure.cpp
+           configure.cpp \
+           filelist.cpp
 win32{
   MOC_DIR = moc
   OBJECTS_DIR = obj

@@ -24,58 +24,57 @@
  ***************************************************************************/
 
 //QSvn
-#include "qsvn.h"
-
-#include "svnclient.h"
-#include "workingcopy.h"
-#include "config.h"
-#include "configure.h"
 #include "filelist.h"
 
 //Qt
-#include <qaction.h>
-#include <qmessagebox.h>
 #include <qlistview.h>
-#include <qtextedit.h>
+#include <qdir.h>
 
+//make FileList a singleton
+FileList* FileList::_exemplar = 0;
 
-QSvn::QSvn( QWidget *parent, const char *name )
-        : QSvnDlg( parent, name )
+FileList* FileList::Exemplar()
 {
-    WorkingCopy::Exemplar()->setListView( listViewWorkingCopy );
-    WorkingCopy::Exemplar()->setStatusEdit( editStatusText );
-    FileList::Exemplar()->setListViewFiles( listViewFiles );
-    
-    //connect 
-    connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
-    connect (actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
-    connect (listViewWorkingCopy , SIGNAL( selectionChanged( QListViewItem * ) ), 
-             FileList::Exemplar(), SLOT( updateListSlot( QListViewItem * ) ) );
+    if ( _exemplar == 0 )
+    {
+        _exemplar = new FileList;
+    }
+    return _exemplar;
 }
 
-QSvn::~QSvn()
+//FileList implementation
+FileList::FileList(QObject *parent, const char *name)
+        : QObject(parent, name)
 {}
 
-void QSvn::exitSlot()
+
+FileList::~FileList()
+{}
+
+void FileList::setListViewFiles( QListView *listView )
 {
-    Config::Exemplar()->saveChanges();
-    this->close();
+    if ( listView )
+    {
+        listViewFiles = listView;
+    }
 }
 
-void QSvn::configureQSvnSlot()
+void FileList::updateListSlot( QListViewItem *element )
 {
-    Configure configure;
-    configure.exec();
-}
-
-void QSvn::aboutSlot()
-{
-    QMessageBox::about( this, tr( "About QSvn" ),
-                        tr( "This Programm is a simple Subversion Client\n"
-                            "Authors: Andreas Richter (ar@oszine.de)" ) );
-}
-
-void QSvn::aboutQtSlot()
-{
-    QMessageBox::aboutQt( this );
+    if ( element && listViewFiles )
+    {
+        listViewFiles->clear();
+        QDir directory( element->text( 1 ) );
+        QStringList listFiles = directory.entryList( QDir::Files );
+        for ( QStringList::Iterator it = listFiles.begin(); it != listFiles.end(); ++it ) 
+        {
+            // add only directories here
+            if ( ( *it != "." ) && ( *it != ".." ) )
+            {
+                QListViewItem* _element = new QListViewItem( listViewFiles, *it );
+                _element->setText( 2, "?" );
+            }
+        }
+        
+    }
 }

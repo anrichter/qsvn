@@ -22,60 +22,38 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
+#ifndef FILELIST_H
+#define FILELIST_H
 
-//QSvn
-#include "qsvn.h"
+#include <qobject.h>
 
-#include "svnclient.h"
-#include "workingcopy.h"
-#include "config.h"
-#include "configure.h"
-#include "filelist.h"
+/**
+This class handle the filelist of a directory from any working copy
+ 
+@author Andreas Richter
+*/
 
-//Qt
-#include <qaction.h>
-#include <qmessagebox.h>
-#include <qlistview.h>
-#include <qtextedit.h>
+class QListView;
+class QListViewItem;
+class QString;
 
-
-QSvn::QSvn( QWidget *parent, const char *name )
-        : QSvnDlg( parent, name )
+class FileList : public QObject
 {
-    WorkingCopy::Exemplar()->setListView( listViewWorkingCopy );
-    WorkingCopy::Exemplar()->setStatusEdit( editStatusText );
-    FileList::Exemplar()->setListViewFiles( listViewFiles );
+    Q_OBJECT
+public:
+    static FileList* Exemplar();
     
-    //connect 
-    connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
-    connect (actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
-    connect (listViewWorkingCopy , SIGNAL( selectionChanged( QListViewItem * ) ), 
-             FileList::Exemplar(), SLOT( updateListSlot( QListViewItem * ) ) );
-}
+    void setListViewFiles( QListView *listView );
 
-QSvn::~QSvn()
-{}
+public slots:    
+    void updateListSlot( QListViewItem *element );
+    
+private:
+    static FileList *_exemplar;
+    QListView *listViewFiles;
+    
+    FileList(QObject *parent = 0, const char *name = 0);
+    ~FileList();
+};
 
-void QSvn::exitSlot()
-{
-    Config::Exemplar()->saveChanges();
-    this->close();
-}
-
-void QSvn::configureQSvnSlot()
-{
-    Configure configure;
-    configure.exec();
-}
-
-void QSvn::aboutSlot()
-{
-    QMessageBox::about( this, tr( "About QSvn" ),
-                        tr( "This Programm is a simple Subversion Client\n"
-                            "Authors: Andreas Richter (ar@oszine.de)" ) );
-}
-
-void QSvn::aboutQtSlot()
-{
-    QMessageBox::aboutQt( this );
-}
+#endif
