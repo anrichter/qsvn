@@ -124,10 +124,10 @@ void QSvn::commitSlot()
     if ( !WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
         return;
     
-    FileSelector::Exemplar()->initFileSelector( FileSelector::Commit );
-    
     QString commitMessage;
     WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
+    
+    FileSelector::Exemplar()->initFileSelector( FileSelector::Commit, item->fullPath() );
     
     if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
     {

@@ -198,9 +198,16 @@
         <receiver>FileSelectorDlg</receiver>
         <slot>buttonOkClickSlot()</slot>
     </connection>
+    <connection>
+        <sender>listViewFiles</sender>
+        <signal>doubleClicked(QListViewItem*)</signal>
+        <receiver>FileSelectorDlg</receiver>
+        <slot>listViewFilesDoubleClickSlot()</slot>
+    </connection>
 </connections>
 <slots>
     <slot access="protected">buttonOkClickSlot()</slot>
+    <slot access="protected">listViewFilesDoubleClickSlot()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

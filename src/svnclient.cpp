@@ -34,6 +34,7 @@
 #include <qprocess.h>
 #include <qstring.h>
 #include <qstringlist.h>
+#include <qurl.h>
 
 //Std
 #ifdef Q_WS_X11
@@ -389,6 +390,22 @@ bool SvnClient::diff( const QString &path, const QStringList *filenameList, bool
     }
     else
         return FALSE;
+}
+
+bool SvnClient::diff( const QString &fullFileName, bool withOutput )
+{
+    if ( fullFileName )
+    {
+        QUrl url( fullFileName );
+        url.dirPath();
+        QString path = url.dirPath();
+        QString filename = url.fileName();
+        
+        diff( path, filename, withOutput );
+    }
+    else
+        return FALSE;
+
 }
 
 bool SvnClient::checkout( const QString &path, const QString &url, bool withOutput )

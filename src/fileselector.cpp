@@ -25,6 +25,7 @@
 //QSvn
 #include "fileselector.h"
 #include "fileselectordlg.h"
+#include "svnclient.h"
 
 //Qt
 #include <qapplication.h>
@@ -60,7 +61,7 @@ FileSelector::FileSelector( QWidget *parent, const char *name )
 FileSelector::~FileSelector()
 {}
 
-void FileSelector::initFileSelector( int svnCommandType )
+void FileSelector::initFileSelector( int svnCommandType, const QString &path )
 {
     switch ( svnCommandType )
     {
@@ -78,6 +79,7 @@ void FileSelector::initFileSelector( int svnCommandType )
             break;
     }
     setMessageString( tr( "***empty message ***" ) );
+    startPath = path;
 }
 
 void FileSelector::setSelectedFiles( QStringList* fileList )
@@ -119,4 +121,9 @@ QStringList* FileSelector::selectedFiles()
 QString FileSelector::messageString()
 {
     return editLogMessage->text();
+}
+
+void FileSelector::listViewFilesDoubleClickSlot()
+{
+    SvnClient::Exemplar()->diff( startPath + listViewFiles->selectedItem()->text( 0 ) );
 }

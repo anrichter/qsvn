@@ -63,6 +63,7 @@ public:
     bool update( const QString &path, const QStringList *filenameList, bool withOutput = true );
     bool diff( const QString &path, const QString &filename, bool withOutput = true );
     bool diff( const QString &path, const QStringList *filenameList, bool withOutput = true );
+    bool diff( const QString &fullFileName, bool withOutput = true );
     bool checkout( const QString &path, const QString &url, bool withOutput = true );
     bool revert( const QString &path, const QString &filename, bool withOutput = true );
     bool revert( const QString &path, const QStringList *filenameList, bool withOutput = true );

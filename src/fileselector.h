@@ -42,7 +42,7 @@ public:
     static FileSelector* Exemplar();
     static void releaseExemplar();
    
-    void initFileSelector( int svnCommandType ); //!< set the parent and commandType
+    void initFileSelector( int svnCommandType, const QString &path ); //!< set the parent and commandType
 
     void setSelectedFiles( QStringList* fileList );
     void setMessageString( QString message );
@@ -50,11 +50,16 @@ public:
     QStringList* selectedFiles();
     QString messageString();
 
+protected slots:
+    void listViewFilesDoubleClickSlot();
+    
 private:
     FileSelector( QWidget *parent = 0, const char *name = 0 );
     ~FileSelector();
 
    static FileSelector* _exemplar;
+   
+   QString startPath;
 };
 
 #endif
