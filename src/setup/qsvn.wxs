@@ -49,10 +49,25 @@
 
     </Directory>
 
-    <Feature Id="Complete" Level="1">
-      <ComponentRef Id="QSvnMainfiles" />
-      <ComponentRef Id="QtLib" />
-      <ComponentRef Id="WindowsLibs" />
+    <Feature Id="f_Complete" Title="QSvn" Description="The complete Installation" 
+             TypicalDefault="install" Display="expand" Level="1"
+             ConfigurableDirectory="INSTALLDIR">
+             
+      <Feature Id="f_MainProgram" Title="Program" Description="The main executable."
+               TypicalDefault="install" Level="1">
+        <ComponentRef Id="QSvnMainfiles" />
+      </Feature>
+      
+      <Feature Id="f_QtLib" Title="QtLibrary" Description="The Qt Library."
+               TypicalDefault="install" Level="1">
+        <ComponentRef Id="QtLib" />
+      </Feature>
+        
+      <Feature Id="f_WinLib" Title="WindowsLibrary" Description="The Windows Runtime Library."
+               TypicalDefault="install" Level="1">
+        <ComponentRef Id="WindowsLibs" />
+      </Feature>
+      
     </Feature>
 
     <Icon Id="QSvn.exe" src="..\bin\qsvn.exe" />
