@@ -59,6 +59,7 @@ signals:
 public slots:
     void addExistingWorkingCopySlot();
     void removeCurrentWorkingCopySlot();
+    void updateCurrentWorkingCopySlot();
 
 private:
     WorkingCopy( QObject *parent = 0, const char *name = 0 );

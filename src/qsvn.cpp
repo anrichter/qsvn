@@ -58,6 +58,7 @@ QSvn::QSvn( QWidget *parent, const char *name )
     connect( actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
     connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ),
              FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
+    connect( actionUpdate, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( updateCurrentWorkingCopySlot() ) );
 }
 
 QSvn::~QSvn()

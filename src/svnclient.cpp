@@ -113,6 +113,14 @@ bool SvnClient::getStatus( const QString &path )
     return startAndWaitProcess( "cannot start svn status -v" );
 }
 
+bool SvnClient::update( const QString &path )
+{
+    prepareNewProcess();
+    process->addArgument( "update" );
+    process->addArgument( path );
+    return startAndWaitProcess( "cannot start svn update" );
+}
+
 void SvnClient::readStdoutSlot()
 {
     while ( process->canReadLineStdout() )
