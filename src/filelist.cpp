@@ -80,7 +80,7 @@ void FileList::updateListSlot( QString currentDirectory )
             {
                 _lineString = *it;
                 _fileName = _lineString.right( _lineString.length() - 40 );
-                _checkDir = QDir( _fileName );
+                _checkDir = QDir( currentDirectory + QDir::separator() + _fileName );
                 // add only directories here
                 if ( ! _checkDir.exists() )
                 {
