@@ -31,6 +31,7 @@
 #include <qlineedit.h>
 #include <qfiledialog.h>
 #include <qmessagebox.h>
+#include <qcombobox.h>
 
 
 Checkout::Checkout( QWidget *parent, const char *name )
@@ -42,7 +43,14 @@ Checkout::~Checkout()
 
 QString Checkout::getSelectedURL() const
 {
-    return editURL->text();
+    QString url = comboProtocol->currentText();
+    if ( url != "file:///" )
+    {
+        url += editServer->text() + "/";
+    }
+    url += editPath->text();
+
+    return url;
 }
 
 QString Checkout::getSelectedDirectory() const
@@ -64,7 +72,7 @@ void Checkout::selectDirectorySlot()
 
 void Checkout::buttonOkClickedSlot()
 {
-    if ( editURL->text().isEmpty() )
+    if ( editPath->text().isEmpty() )
     {
         QMessageBox::critical( this, "qsvn - Error", "You must specified an URL for checkout!" );
         return;
