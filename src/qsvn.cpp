@@ -90,7 +90,11 @@ void QSvn::addWorkingCopySlot()
 
 void QSvn::removeWorkingCopySlot()
 {
-    WorkingCopy::Exemplar()->removeCurrentWorkingCopySlot();
+    if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Would you really remove this Working Copy?" ),
+                                QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+    {
+        WorkingCopy::Exemplar()->removeCurrentWorkingCopySlot();
+    }
 }
 
 void QSvn::checkoutSlot()
