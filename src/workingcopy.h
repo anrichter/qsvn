@@ -54,6 +54,7 @@ public:
     static void releaseExemplar();
     
     QWidget* getWidget();
+    WorkingCopyItem* selectedWorkingCopyItem(); //!< give the selected WorkingCopyItem
 
     void updateElement( WorkingCopyItem *element );
 
@@ -78,7 +79,6 @@ private:
     QListView *listViewWorkingCopy;
 
     void removeWorkingCopy( WorkingCopyItem *element );
-    WorkingCopyItem* selectedWorkingCopyItem(); //!< give the selected WorkingCopyItem
 
 private slots:
     void changeElement();
