@@ -1,7 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Andreas Richter                                 *
- *   ar@oszine.de                                                          *
- *   http://www.oszine.de                                                  *
+ *   This file is part of QSvn Project http://qsvn.berlios.de              *
+ *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,16 +21,19 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
+
 #ifndef CONFIG_H
 #define CONFIG_H
 
 //Qt
 #include <qobject.h>
 
+//Qt classes
+class QListView;
 class QSettings;
 class QString;
 class QSvnDlg;
-class QListView;
+
 
 const QString _SETTINGS_DOMAIN = "qsvn";
 const QString _SETTINGS_PRODUCT = "";

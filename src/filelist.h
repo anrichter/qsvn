@@ -1,7 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Andreas Richter                                 *
- *   ar@oszine.de                                                          *
- *   http://www.oszine.de                                                  *
+ *   This file is part of QSvn Project http://qsvn.berlios.de              *
+ *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,23 +21,27 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
+
 #ifndef FILELIST_H
 #define FILELIST_H
 
+//Qt
 #include <qobject.h>
 
+//Qt classes
+class QListView;
+class QListViewItem;
+class QString;
+
+
+const int _COLUMN_STATUS = 1,
+          _COLUMN_FILE = 0;
+          
 /**
 This class handle the filelist of a directory from any working copy
  
 @author Andreas Richter
 */
-
-class QListView;
-class QListViewItem;
-class QString;
-
-const int _COLUMN_STATUS = 1,
-          _COLUMN_FILE = 0;
 
 class FileList : public QObject
 {

@@ -1,7 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Andreas Richter                                 *
- *   ar@oszine.de                                                          *
- *   http://www.oszine.de                                                  *
+ *   This file is part of QSvn Project http://qsvn.berlios.de              *
+ *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,12 +21,9 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
+
 #ifndef WORKINGCOPY_H
 #define WORKINGCOPY_H
-
-//QSvn
-//#include "addworkingcopy.h"
-//#include "checkout.h"
 
 //Qt
 #include <qobject.h>
@@ -41,6 +37,7 @@ class WorkingCopyItem;
 class QListView;
 class QListViewItem;
 class QString;
+
 
 /**
 This Class handles working copies

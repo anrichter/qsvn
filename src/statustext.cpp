@@ -1,7 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Andreas Richter                                 *
- *   ar@oszine.de                                                          *
- *   http://www.oszine.de                                                  *
+ *   This file is part of QSvn Project http://qsvn.berlios.de              *
+ *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,12 +22,14 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
+ 
 //QSvn
 #include "statustext.h"
 
 //Qt
-#include <qtextedit.h>
 #include <qstringlist.h>
+#include <qtextedit.h>
+
 
 //make StatusText a singleton
 StatusText* StatusText::_exemplar = 0;

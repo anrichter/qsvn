@@ -1,7 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Andreas Richter                                 *
- *   ar@oszine.de                                                          *
- *   http://www.oszine.de                                                  *
+ *   This file is part of QSvn Project http://qsvn.berlios.de              *
+ *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +21,9 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
+
+
+//QSvn
 #include "svnclient.h"
 #include "config.h"
 #include "statustext.h"
@@ -40,6 +42,7 @@
 #ifdef Q_WS_WIN
 #include <windows.h>
 #endif
+
 
 //make SvnClient as a singleton
 SvnClient* SvnClient::_exemplar = 0;

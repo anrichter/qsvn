@@ -1,7 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Andreas Richter                                 *
- *   ar@oszine.de                                                          *
- *   http://www.oszine.de                                                  *
+ *   This file is part of QSvn Project http://qsvn.berlios.de              *
+ *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,20 +22,21 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
-//qsvn
-#include "workingcopy.h"
+ 
+//QSvn
 #include "addworkingcopy.h"
-#include "svnclient.h"
-#include "statustext.h"
-#include "config.h"
 #include "checkout.h"
+#include "config.h"
+#include "statustext.h"
+#include "svnclient.h"
+#include "workingcopy.h"
 #include "workingcopyitem.h"
 
 //Qt
-#include <qlistview.h>
-#include <qtextedit.h>
 #include <qdir.h>
+#include <qlistview.h>
 #include <qpixmap.h>
+#include <qtextedit.h>
 #include <qurl.h>
 
 

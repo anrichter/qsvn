@@ -20,11 +20,9 @@ open issues
 - property editor
 - settings:
   + change action on double click in FileList and WorkingCopy
+- context-menu in WorkingCopyList and ItemList
 
 ideas
 =====
-- WorkingCopyItem based on QListViewItem with:
-  * full path
+- WorkingCopyItem
   * stati if the directory can update, commit, etc. pp.
-- FileListItem based on QListViewItem with:
-  * full path
