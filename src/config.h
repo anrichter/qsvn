@@ -32,6 +32,9 @@ class QSettings;
 class QString;
 class QListView;
 
+const QString _SETTINGS_DOMAIN = "qsvn";
+const QString _SETTINGS_PRODUCT = "";
+
 /**
 this singelton holds the configuration for qsvn
  
@@ -58,7 +61,6 @@ private:
 
     static Config* _exemplar;
 
-    QSettings *_settings;
     bool changed; //!< true, if one or more settings have changed. save changed values in dtor
     QString _svnExecutable;
 };

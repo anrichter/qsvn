@@ -48,13 +48,13 @@ Config::Config(QObject *parent, const char *name)
 {
     changed = FALSE;
 
-    _settings = new QSettings;
-    _settings->setPath( "", "qsvn", QSettings::User );
-
+    QSettings settings;
+    settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+    
     //read saved settings
-    _settings->beginGroup( "configuration" );
-    _svnExecutable = _settings->readEntry( "svnExecutable", "svn" );
-    _settings->endGroup();
+    settings.beginGroup( "qsvn/configuration" );
+    _svnExecutable = settings.readEntry( "svnExecutable", "svn" );
+    settings.endGroup();
 }
 
 Config::~Config()
@@ -65,9 +65,11 @@ void Config::saveChanges()
     if ( changed )
     {
         //write the entire settings in config-file
-        _settings->beginGroup( "configuration" );
-        _settings->writeEntry( "svnExecutable", _svnExecutable );
-        _settings->endGroup();
+        QSettings settings;
+        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+        settings.beginGroup( "qsvn/configuration" );
+        settings.writeEntry( "svnExecutable", _svnExecutable );
+        settings.endGroup();
     }
 }
 
@@ -89,12 +91,14 @@ void Config::saveListView( QListView *aListView )
 {
     if ( aListView )
     {
-        _settings->beginGroup( "listViews/" + QString( aListView->name() ) );
+        QSettings settings;
+        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+        settings.beginGroup( "qsvn/listViews/" + QString( aListView->name() ) );
         for ( int i = 0; i < aListView->columns(); i++ )
         {
-            _settings->writeEntry( QString( "Column%1" ).arg( i ), aListView->columnWidth( i ) );
+            settings.writeEntry( QString( "Column%1" ).arg( i ), aListView->columnWidth( i ) );
         }
-        _settings->endGroup();
+        settings.endGroup();
     }
 }
 
@@ -102,13 +106,15 @@ void Config::restoreListView( QListView *aListView )
 {
     if ( aListView )
     {
-        _settings->beginGroup( "listViews/" + QString( aListView->name() ) );
+        QSettings settings;
+        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+        settings.beginGroup( "qsvn/listViews/" + QString( aListView->name() ) );
         for ( int i = 0; i < aListView->columns(); i++ )
         {
             aListView->setColumnWidth( i, 
-                                       _settings->readNumEntry( QString( "Column%1" ).arg( i ), 
+                                       settings.readNumEntry( QString( "Column%1" ).arg( i ), 
                                        aListView->columnWidth( i ) ) );
         }
-        _settings->endGroup();
+        settings.endGroup();
     }
 }
