@@ -278,12 +278,6 @@
         <slot>aboutSlot()</slot>
     </connection>
     <connection>
-        <sender>actionAboutQSvn</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>aboutSlot()</slot>
-    </connection>
-    <connection>
         <sender>actionAboutQt</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
