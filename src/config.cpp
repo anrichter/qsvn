@@ -25,10 +25,13 @@
 
 //qsvn
 #include "config.h"
+#include "qsvndlg.h"
 
 //Qt
 #include <qsettings.h>
+#include <qsplitter.h>
 #include <qlistview.h>
+
 
 //make Config a singleton
 Config* Config::_exemplar = 0;
@@ -85,6 +88,83 @@ void Config::setSvnExecutable( QString aString )
 QString Config::getSvnExecutable()
 {
     return _svnExecutable;
+}
+
+
+void Config::saveMainWindow( QSvnDlg *aMainWindow )
+{
+    if ( aMainWindow )
+    {
+        QSettings settings;
+        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+        settings.beginGroup( "mainwindow" );
+
+        settings.writeEntry( "width", aMainWindow->width() );
+        settings.writeEntry( "height", aMainWindow->height() );
+
+        //save settings from splitterVertical
+        int i = 0;
+        QValueList<int> list = aMainWindow->splitterVertical->sizes();
+        QValueList<int>::Iterator it = list.begin();
+        while( it != list.end() )
+        {
+            settings.writeEntry( QString( "verticalSize%1" ).arg( i ), *it );
+            ++it;
+            ++i;
+        }
+        
+        //save settings from splitterHorizontal
+        i = 0;
+        list = aMainWindow->splitterHorizontal->sizes();
+        it = list.begin();
+        while( it != list.end() )
+        {
+            settings.writeEntry( QString( "horizontalSize%1" ).arg( i ), *it );
+            ++it;
+            ++i;
+        }
+        
+        settings.endGroup();
+    }
+}
+
+void Config::restoreMainWindow( QSvnDlg *aMainWindow )
+{
+    if ( aMainWindow )
+    {
+        QSettings settings;
+        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
+        settings.beginGroup( "mainwindow" );
+    
+        aMainWindow->resize( settings.readNumEntry( "width", aMainWindow->width() ),
+                            settings.readNumEntry( "height", aMainWindow->height() ) );
+    
+        //restore settings from splitterVertical
+        int i = 0;
+        QValueList<int> list = aMainWindow->splitterVertical->sizes();
+        QValueList<int>::Iterator it = list.begin();
+        while( it != list.end() )
+        {
+            *it = settings.readNumEntry( QString( "verticalSize%1" ).arg( i ), *it );
+            ++it;
+            ++i;
+        }
+        aMainWindow->splitterVertical->setSizes( list );   
+    
+        //restore settings from splitterHorizontal
+        i = 0;
+        list = aMainWindow->splitterHorizontal->sizes();
+        it = list.begin();
+        while( it != list.end() )
+        {
+            *it = settings.readNumEntry( QString( "horizontalSize%1" ).arg( i ), *it );
+            ++it;
+            ++i;
+        }
+        aMainWindow->splitterHorizontal->setSizes( list );   
+        
+        settings.endGroup();
+    }
 }
 
 void Config::saveListView( QListView *aListView )
