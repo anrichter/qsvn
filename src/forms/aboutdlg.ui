@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>358</width>
-            <height>239</height>
+            <height>242</height>
         </rect>
     </property>
     <property name="caption">
@@ -53,7 +53,7 @@ Version 0.1.0
 &lt;/p&gt;
 &lt;p align="center"&gt;
 (c) 2004-2005 The QSvn Team&lt;br&gt;
-&lt;a href="http://qsvn.berlios.de"&gt;http://qsvn.berlios.de&lt;/a&gt;
+http://qsvn.berlios.de
 &lt;/p&gt;</string>
                         </property>
                     </widget>
@@ -76,7 +76,7 @@ Version 0.1.0
                         </property>
                         <property name="text">
                             <string>&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;/head&gt;&lt;body style="font-size:8pt;font-family:Bitstream Vera Sans"&gt;
-&lt;p&gt;Andreas Richter&lt;br /&gt;  &lt;a href="mailto:ar@oszine.de"&gt;ar@oszine.de&lt;/a&gt;&lt;br /&gt;  Developer &lt;/p&gt;
+&lt;p&gt;Andreas Richter&lt;br /&gt;  ar@oszine.de&lt;br /&gt;  Developer &lt;/p&gt;
 &lt;/body&gt;&lt;/html&gt;</string>
                         </property>
                     </widget>
