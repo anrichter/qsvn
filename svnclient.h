@@ -37,33 +37,34 @@ This Class handles interaction with subversion client
 @author Andreas Richter
 */
 
-class SvnClient : public QObject{
+class SvnClient : public QObject
+{
     Q_OBJECT
 public:
     static SvnClient* Exemplar();
-    
+
     QString getProcessStdout();
     QString getProcessStderr();
-    
+
     bool isWorkingCopy( const QString &path );
     QString getMessageString();
-    
+
 public slots:
     void readStdoutSlot(); //!< read out the Stdout written from running process
     void readStderrSlot(); //!< read out the Stderr written form running process
-    
-protected:    
+
+protected:
     SvnClient();
     ~SvnClient();
 
 private:
     static SvnClient* _exemplar;
-    
+
     QProcess *process;
     QString processStdout;
     QString processStderr;
     QString messageString; //!< contains some messages for output
-    
+
     void prepareNewProcess(); //!< initialies all for a new process
 };
 

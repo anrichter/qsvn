@@ -41,16 +41,16 @@ class FileList : public QObject
     Q_OBJECT
 public:
     static FileList* Exemplar();
-    
+
     QWidget *getWidget();
 
-public slots:    
+public slots:
     void updateListSlot( QString stringDirectory );
-    
+
 private:
     static FileList *_exemplar;
     QListView *listViewFiles;
-    
+
     FileList(QObject *parent = 0, const char *name = 0);
     ~FileList();
 };

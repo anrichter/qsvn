@@ -41,19 +41,19 @@ class Config : public QObject
     Q_OBJECT
 public:
     static Config* Exemplar();
-    
+
     void setSvnExecutable( QString aString ); //!< set the complete path to svn execute
     QString getSvnExecutable(); //!< get the complete path to svn execute
-    
+
 public slots:
     void saveChanges();
-    
+
 private:
     Config(QObject *parent = 0, const char *name = 0);
     ~Config();
-    
+
     static Config* _exemplar;
-    
+
     bool changed; //!< true, if one or more settings have changed. save changed values in dtor
     QString _svnExecutable;
 };

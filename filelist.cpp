@@ -67,7 +67,7 @@ void FileList::updateListSlot( QString stringDirectory )
         listViewFiles->clear();
         QDir directory( stringDirectory );
         QStringList listFiles = directory.entryList( QDir::Files );
-        for ( QStringList::Iterator it = listFiles.begin(); it != listFiles.end(); ++it ) 
+        for ( QStringList::Iterator it = listFiles.begin(); it != listFiles.end(); ++it )
         {
             // add only directories here
             if ( ( *it != "." ) && ( *it != ".." ) )

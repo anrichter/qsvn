@@ -85,13 +85,15 @@ bool SvnClient::isWorkingCopy( const QString &path )
     }
     while ( process->isRunning() )
     {
-        #ifdef Q_WS_X11
+#ifdef Q_WS_X11
         sleep( 1 );
-        #endif
+#endif
 
-        #ifdef Q_WS_WIN
+#ifdef Q_WS_WIN
+
         Sleep( 1 );
-        #endif
+#endif
+
     }
     return processStderr == "" ;
 }

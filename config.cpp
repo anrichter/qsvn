@@ -46,7 +46,7 @@ Config::Config(QObject *parent, const char *name)
         : QObject(parent, name)
 {
     changed = FALSE;
-    
+
     //read saved settings
     QSettings mySettings;
     mySettings.beginGroup( "qsvn/configuration" );
@@ -55,8 +55,7 @@ Config::Config(QObject *parent, const char *name)
 }
 
 Config::~Config()
-{
-}
+{}
 
 void Config::saveChanges()
 {

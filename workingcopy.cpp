@@ -56,7 +56,7 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
     listViewWorkingCopy = new QListView( 0, "listViewWorkingCopy" );
     listViewWorkingCopy->addColumn( tr( "Working Copy" ) );
     listViewWorkingCopy->setRootIsDecorated( TRUE );
-    
+
     connect( listViewWorkingCopy, SIGNAL( selectionChanged() ), this, SLOT( changeElement() ) );
 }
 

@@ -48,15 +48,15 @@ class WorkingCopy : public QObject
     Q_OBJECT
 public:
     static WorkingCopy* Exemplar();
-     
+
     QWidget* getWidget();
     void setStatusEdit( QTextEdit *textEdit );
-    
+
     void updateElement( QListViewItem *element, QString directoryString );
-    
+
 signals:
     void directoryChanged( QString );
-    
+
 public slots:
     void addExistingWorkingCopySlot();
     void removeCurrentWorkingCopySlot();
@@ -64,13 +64,13 @@ public slots:
 private:
     WorkingCopy( QObject *parent = 0, const char *name = 0 );
     ~WorkingCopy();
-    
+
     static WorkingCopy* _exemplar;
-    
+
     AddWorkingCopy *addWorkingCopy;
     QListView *listViewWorkingCopy;
     QTextEdit *statusTextEdit;
-    
+
     void outputMessage( const QString messageString );
     void removeWorkingCopy( QListViewItem *element );
     QString getFullDirectory( QListViewItem *element );
