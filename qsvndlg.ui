@@ -8,25 +8,97 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>528</width>
-            <height>397</height>
+            <width>720</width>
+            <height>460</height>
         </rect>
     </property>
     <property name="caption">
         <string>QSvn</string>
     </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QSplitter" row="0" column="0">
+            <property name="name">
+                <cstring>verticalSplitter</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <widget class="QSplitter">
+                <property name="name">
+                    <cstring>horizontalSplitter</cstring>
+                </property>
+                <property name="orientation">
+                    <enum>Horizontal</enum>
+                </property>
+                <widget class="QListView">
+                    <column>
+                        <property name="text">
+                            <string>Working Copy</string>
+                        </property>
+                        <property name="clickable">
+                            <bool>true</bool>
+                        </property>
+                        <property name="resizable">
+                            <bool>true</bool>
+                        </property>
+                    </column>
+                    <property name="name">
+                        <cstring>workingCopyListView</cstring>
+                    </property>
+                </widget>
+                <widget class="QListView">
+                    <column>
+                        <property name="text">
+                            <string>Filename</string>
+                        </property>
+                        <property name="clickable">
+                            <bool>true</bool>
+                        </property>
+                        <property name="resizable">
+                            <bool>true</bool>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Extension</string>
+                        </property>
+                        <property name="clickable">
+                            <bool>true</bool>
+                        </property>
+                        <property name="resizable">
+                            <bool>true</bool>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>State</string>
+                        </property>
+                        <property name="clickable">
+                            <bool>true</bool>
+                        </property>
+                        <property name="resizable">
+                            <bool>true</bool>
+                        </property>
+                    </column>
+                    <property name="name">
+                        <cstring>fileListView</cstring>
+                    </property>
+                </widget>
+            </widget>
+            <widget class="QTextEdit">
+                <property name="name">
+                    <cstring>statusTextEdit</cstring>
+                </property>
+            </widget>
+        </widget>
+    </grid>
 </widget>
 <menubar>
     <property name="name">
         <cstring>MenuBar</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>528</width>
-            <height>25</height>
-        </rect>
     </property>
     <item text="&amp;File" name="fileMenu">
         <action name="fileExitAction"/>

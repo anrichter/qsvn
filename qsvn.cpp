@@ -41,30 +41,6 @@
 QSvn::QSvn( QWidget *parent, const char *name )
         : QSvnDlg( parent, name )
 {
-    //create layout
-    setCentralWidget( new QWidget( this, "qt_central_widget" ) );
-    qsvnDlgLayout = new QGridLayout( centralWidget(), 1, 1, 0, 0, "qsvn_Dlg_Layout" );
-
-    verticalSplitter = new QSplitter( QSplitter::Vertical, centralWidget() );
-    verticalSplitter->setHandleWidth( 2 );
-
-    qsvnDlgLayout->addWidget( verticalSplitter, 0, 0 );
-
-    horizontalSplitter = new QSplitter( QSplitter::Horizontal, verticalSplitter );
-    horizontalSplitter->setHandleWidth( 2 );
-
-    workingCopyListView = new QListView( horizontalSplitter, "workingCopyListView" );
-    workingCopyListView->addColumn( tr( "Working Copy" ) );
-
-    fileListView = new QListView( horizontalSplitter, "fileListView" );
-    fileListView->addColumn( tr( "Filename" ) );
-    fileListView->addColumn( tr( "Extension" ) );
-    fileListView->addColumn( tr( "State" ) );
-
-    statusTextEdit = new QTextEdit( verticalSplitter, "statusTextEdit" );
-
-    verticalSplitter->setOpaqueResize( TRUE );
-
     //set dialogs to nil
     addWorkingCopy = 0;
 }
