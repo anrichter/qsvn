@@ -1,15 +1,15 @@
 <!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>CommitDlg</class>
+<class>FileSelectorDlg</class>
 <widget class="QDialog">
     <property name="name">
-        <cstring>CommitDlg</cstring>
+        <cstring>FileSelectorDlg</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
             <width>287</width>
-            <height>241</height>
+            <height>246</height>
         </rect>
     </property>
     <property name="caption">
@@ -33,20 +33,23 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QPushButton" row="1" column="3">
+        <spacer row="1" column="1">
             <property name="name">
-                <cstring>buttonCancel</cstring>
+                <cstring>spacerHorizontal</cstring>
             </property>
-            <property name="text">
-                <string>&amp;Cancel</string>
+            <property name="orientation">
+                <enum>Horizontal</enum>
             </property>
-            <property name="accel">
-                <string></string>
+            <property name="sizeType">
+                <enum>Expanding</enum>
             </property>
-            <property name="autoDefault">
-                <bool>true</bool>
+            <property name="sizeHint">
+                <size>
+                    <width>222</width>
+                    <height>20</height>
+                </size>
             </property>
-        </widget>
+        </spacer>
         <widget class="QPushButton" row="1" column="2">
             <property name="name">
                 <cstring>buttonOk</cstring>
@@ -64,26 +67,29 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <spacer row="1" column="1">
+        <widget class="QPushButton" row="1" column="3">
             <property name="name">
-                <cstring>Horizontal Spacing2</cstring>
+                <cstring>buttonCancel</cstring>
             </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
+            <property name="text">
+                <string>&amp;Cancel</string>
             </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
+            <property name="accel">
+                <string></string>
             </property>
-            <property name="sizeHint">
-                <size>
-                    <width>235</width>
-                    <height>20</height>
-                </size>
+            <property name="autoDefault">
+                <bool>true</bool>
             </property>
-        </spacer>
+        </widget>
         <widget class="QSplitter" row="0" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>splitterVertical</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
             </property>
             <property name="orientation">
                 <enum>Vertical</enum>
@@ -104,25 +110,31 @@
                             <string>Files</string>
                         </property>
                     </widget>
-                    <widget class="QTable">
+                    <widget class="QListView">
                         <column>
                             <property name="text">
                                 <string>File</string>
+                            </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizable">
+                                <bool>true</bool>
                             </property>
                         </column>
                         <column>
                             <property name="text">
                                 <string>Status</string>
                             </property>
+                            <property name="clickable">
+                                <bool>true</bool>
+                            </property>
+                            <property name="resizable">
+                                <bool>true</bool>
+                            </property>
                         </column>
                         <property name="name">
-                            <cstring>tableFiles</cstring>
-                        </property>
-                        <property name="numRows">
-                            <number>0</number>
-                        </property>
-                        <property name="numCols">
-                            <number>2</number>
+                            <cstring>listViewFiles</cstring>
                         </property>
                     </widget>
                 </vbox>
@@ -141,6 +153,11 @@
                         </property>
                         <property name="text">
                             <string>Log Message</string>
+                        </property>
+                    </widget>
+                    <widget class="QComboBox">
+                        <property name="name">
+                            <cstring>comboLogMessage</cstring>
                         </property>
                     </widget>
                     <widget class="QTextEdit">
