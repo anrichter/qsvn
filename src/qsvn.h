@@ -53,6 +53,7 @@ protected slots:
     void commitSlot();
     void addSlot();
     void removeSlot();
+    void revertSlot();
     
     //Query
     void diffSlot();

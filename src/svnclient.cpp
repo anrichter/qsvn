@@ -197,7 +197,6 @@ bool SvnClient::add( const QString &path, const QString &filename, bool withOutp
     }
     else
         return FALSE;
-
 }
 
 bool SvnClient::info( const QString &path, bool withOutput )
@@ -287,6 +286,22 @@ bool SvnClient::checkout( const QString &path, const QString &url, bool withOutp
         process->addArgument( url );
         
         return startAndWaitProcess( "cannot start svn checkout" );
+    }
+    else
+        return FALSE;
+}
+
+bool SvnClient::revert( const QString &path, const QString &filename, bool withOutput )
+{
+    if ( path && filename )
+    {
+        immediateOutput = withOutput;
+        
+        prepareNewProcess( path );
+        process->addArgument( "revert" );
+        process->addArgument( filename );
+
+        return startAndWaitProcess( "cannot start svn revert" );
     }
     else
         return FALSE;

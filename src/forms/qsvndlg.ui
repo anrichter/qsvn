@@ -94,6 +94,7 @@
         <separator/>
         <action name="actionAdd"/>
         <action name="actionRemove"/>
+        <action name="actionRevert"/>
     </item>
     <item text="Query" name="menuQuery">
         <action name="actionDiff"/>
@@ -260,6 +261,14 @@
             <string>Checkout...</string>
         </property>
     </action>
+    <action>
+        <property name="name">
+            <cstring>actionRevert</cstring>
+        </property>
+        <property name="text">
+            <string>Revert...</string>
+        </property>
+    </action>
 </actions>
 <connections>
     <connection>
@@ -341,6 +350,12 @@
         <slot>removeWorkingCopySlot()</slot>
     </connection>
     <connection>
+        <sender>actionRevert</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>revertSlot()</slot>
+    </connection>
+    <connection>
         <sender>actionUpdate</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
@@ -362,6 +377,7 @@
     <slot access="protected">removeSlot()</slot>
     <slot access="protected">removeWorkingCopySlot()</slot>
     <slot access="protected">updateSlot()</slot>
+    <slot access="protected">revertSlot()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>

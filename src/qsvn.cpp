@@ -142,6 +142,39 @@ void QSvn::removeSlot()
     StatusText::Exemplar()->outputMessage( QString( "svn remove - not implemented yet" ) );
 }
 
+void QSvn::revertSlot()
+{
+    QString path;
+    QString file;
+    WorkingCopyItem *item;
+    
+    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
+    {
+        //revert a directory
+        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem()->parent();
+        path = item->fullPath();
+        QUrl url( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
+        file = url.fileName();
+    } 
+    else if ( FileList::Exemplar()->getWidget()->hasFocus() )
+    {
+        //revert a file
+        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
+        path = item->fullPath();
+        file = FileList::Exemplar()->selectedFileListItem()->text( _COLUMN_FILE );
+    } 
+    else
+    {
+        return;
+    }
+    
+    //Add
+    SvnClient::Exemplar()->revert( path, file );
+    
+    //Updates
+    WorkingCopy::Exemplar()->updateElement( item );
+    FileList::Exemplar()->updateListSlot( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
+}
 
 void QSvn::diffSlot()
 {
