@@ -25,7 +25,6 @@
 
 //QSvn
 #include "qsvn.h"
-#include "qsvndlg.h"
 
 #include "svnclient.h"
 #include "workingcopy.h"
@@ -67,7 +66,7 @@ void QSvn::configureQSvnSlot()
 
 void QSvn::aboutSlot()
 {
-    QMessageBox::about( this, tr( "About qsvn" ),
+    QMessageBox::about( this, tr( "About QSvn" ),
                         tr( "This Programm is a simple Subversion Client\n"
                             "Authors: Andreas Richter (ar@oszine.de)" ) );
 }
