@@ -28,6 +28,7 @@
 
 //Qt
 #include <qapplication.h>
+#include <qdialog.h>
 #include <qlistview.h>
 #include <qstringlist.h>
 #include <qtextedit.h>
@@ -58,6 +59,25 @@ FileSelector::FileSelector( QWidget *parent, const char *name )
 
 FileSelector::~FileSelector()
 {}
+
+void FileSelector::initFileSelector( int svnCommandType )
+{
+    switch ( svnCommandType )
+    {
+        case Add:
+            setCaption( tr( "Add") );
+            break;
+        case Commit:
+            setCaption( tr( "Commit") );
+            break;
+        case Remove:
+            setCaption( tr( "Remove") );
+            break;
+        case Revert:
+            setCaption( tr( "Revert") );
+            break;
+    }
+}
 
 void FileSelector::setSelectedFiles( QStringList* fileList )
 {
