@@ -45,8 +45,8 @@ WorkingCopyItem::WorkingCopyItem( QListView* parent, QString directory )
 {
     parentItem = 0;
     stringFullPath = QDir::convertSeparators( directory );
-    setText( 0, directory );
-    svnDirectory = SvnClient::Exemplar()->isWorkingCopy( directory );
+    setText( 0, stringFullPath );
+    svnDirectory = SvnClient::Exemplar()->isWorkingCopy( stringFullPath );
 }
 
 WorkingCopyItem::WorkingCopyItem( WorkingCopyItem* parent, QString directory )
@@ -54,9 +54,9 @@ WorkingCopyItem::WorkingCopyItem( WorkingCopyItem* parent, QString directory )
 {
     parentItem = parent;
     stringFullPath = QDir::convertSeparators( directory );
-    QUrl url( directory );
+    QUrl url( stringFullPath );
     setText( 0, url.fileName() );
-    svnDirectory = SvnClient::Exemplar()->isWorkingCopy( directory );
+    svnDirectory = SvnClient::Exemplar()->isWorkingCopy( stringFullPath );
 }
 
 WorkingCopyItem::~WorkingCopyItem()
