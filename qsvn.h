@@ -28,7 +28,6 @@
 
 //qsvn
 #include "qsvndlg.h"
-#include "addworkingcopy.h"
 
 class QSvn : public QSvnDlg
 {
@@ -41,8 +40,6 @@ public:
 public slots:
 
 private:
-    //dialogs
-    AddWorkingCopy *addWorkingCopy;
 
 private slots:
     void exitSlot();

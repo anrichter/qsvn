@@ -25,17 +25,21 @@
 
 //QSvn
 #include "qsvn.h"
-#include "addworkingcopy.h"
+#include "qsvndlg.h"
 #include "svnclient.h"
+#include "workingcopy.h"
 
 //Qt
 #include <qmessagebox.h>
+#include <qlistview.h>
+#include <qtextedit.h>
+
 
 QSvn::QSvn( QWidget *parent, const char *name )
         : QSvnDlg( parent, name )
 {
-    //set dialogs to nil
-    addWorkingCopy = 0;
+    WorkingCopy::Exemplar()->setListView( workingCopyListView );
+    WorkingCopy::Exemplar()->setStatusEdit( statusTextEdit );
 }
 
 QSvn::~QSvn()
@@ -48,19 +52,7 @@ void QSvn::exitSlot()
 
 void QSvn::addWorkingCopySlot()
 {
-    if ( !addWorkingCopy )
-    {
-        addWorkingCopy = new AddWorkingCopy( this );
-    }
-
-    if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
-    {
-        qDebug( "TODO: add workingCopy " + addWorkingCopy->getSelectedDirectory() + " to workingCopyListView" );
-    }
-    else
-    {
-        qDebug( SvnClient::Exemplar()->getProcessStderr() );
-    }
+    WorkingCopy::Exemplar()->addWorkingCopySlot();
 }
 
 void QSvn::aboutSlot()

@@ -17,11 +17,13 @@ FORMS += qsvndlg.ui \
          addworkingcopydlg.ui 
 HEADERS += qsvn.h \
            addworkingcopy.h \
-           svnclient.h 
+           svnclient.h \
+           workingcopy.h
 SOURCES += main.cpp \
            qsvn.cpp \
            addworkingcopy.cpp \
-           svnclient.cpp 
+           svnclient.cpp \
+           workingcopy.cpp
 win32{
   MOC_DIR = moc
   OBJECTS_DIR = obj
