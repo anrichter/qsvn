@@ -34,7 +34,7 @@ int main( int argc, char ** argv )
     QApplication a( argc, argv );
 
     QSvn * mw = new QSvn();
-    mw->setCaption( "qsvn" );
+    mw->setCaption( "QSvn" );
     mw->show();
 
     a.setMainWidget( mw );
