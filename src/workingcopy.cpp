@@ -37,6 +37,7 @@
 #include <qtextedit.h>
 #include <qdir.h>
 #include <qpixmap.h>
+#include <qurl.h>
 
 
 //make WorkingCopy a singleton
@@ -163,7 +164,14 @@ void WorkingCopy::checkoutSlot()
     
     if ( checkout->exec() )
     {
-        SvnClient::Exemplar()->checkout( checkout->getSelectedDirectory(), checkout->getSelectedURL() );
+        QString path = checkout->getSelectedDirectory();
+        QString url = checkout->getSelectedURL();
+        
+        if ( SvnClient::Exemplar()->checkout( path, url ) );
+        {
+            QUrl svnurl( url );
+            addExistingWorkingCopySlot( QDir::cleanDirPath( path + QDir::separator() + svnurl.fileName() ) );
+        }
     }
 }
 
