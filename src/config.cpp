@@ -50,9 +50,9 @@ Config::Config(QObject *parent, const char *name)
 
     QSettings settings;
     settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-    
+
     //read saved settings
-    settings.beginGroup( "qsvn/configuration" );
+    settings.beginGroup( "configuration" );
     _svnExecutable = settings.readEntry( "svnExecutable", "svn" );
     settings.endGroup();
 }
@@ -67,7 +67,7 @@ void Config::saveChanges()
         //write the entire settings in config-file
         QSettings settings;
         settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "qsvn/configuration" );
+        settings.beginGroup( "configuration" );
         settings.writeEntry( "svnExecutable", _svnExecutable );
         settings.endGroup();
     }
@@ -93,7 +93,7 @@ void Config::saveListView( QListView *aListView )
     {
         QSettings settings;
         settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "qsvn/listViews/" + QString( aListView->name() ) );
+        settings.beginGroup( "listViews/" + QString( aListView->name() ) );
         for ( int i = 0; i < aListView->columns(); i++ )
         {
             settings.writeEntry( QString( "Column%1" ).arg( i ), aListView->columnWidth( i ) );
@@ -108,11 +108,11 @@ void Config::restoreListView( QListView *aListView )
     {
         QSettings settings;
         settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "qsvn/listViews/" + QString( aListView->name() ) );
+        settings.beginGroup( "listViews/" + QString( aListView->name() ) );
         for ( int i = 0; i < aListView->columns(); i++ )
         {
-            aListView->setColumnWidth( i, 
-                                       settings.readNumEntry( QString( "Column%1" ).arg( i ), 
+            aListView->setColumnWidth( i,
+                                       settings.readNumEntry( QString( "Column%1" ).arg( i ),
                                        aListView->columnWidth( i ) ) );
         }
         settings.endGroup();
