@@ -178,8 +178,6 @@ void SvnClient::changedFilesToList( QStringList *list, const QString &path, cons
     {
         if ( status( path, false ) )
         {
-            qDebug( "check for changed files in " + path );
-        
             QStringList statusList( getProcessStdoutList() );
             QString _lineString;
             QString _fileName;
@@ -193,7 +191,6 @@ void SvnClient::changedFilesToList( QStringList *list, const QString &path, cons
                 i = int( _lineString.at( 0 ).latin1() );
                 if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) )
                 {
-                    qDebug( " add file " + pathPrefix + QDir::separator() + _fileName );
                     list->append( pathPrefix + QDir::separator() + _fileName );
                 }
                
