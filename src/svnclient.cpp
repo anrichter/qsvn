@@ -60,7 +60,7 @@ SvnClient* SvnClient::Exemplar()
 //SvnClient implementation
 SvnClient::SvnClient()
 {
-    process = new QProcess();
+    process = new QProcess( this );
     connect( process, SIGNAL( readyReadStdout() ), this, SLOT( readStdoutSlot() ) );
     connect( process, SIGNAL( readyReadStderr() ), this, SLOT( readStderrSlot() ) );
     immediateOutput = true;
@@ -254,6 +254,7 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
         return FALSE;
 
     QStringList my_list( *filenameList );
+	QStringList::Iterator it;
     bool _return = FALSE;
 
     immediateOutput = withOutput;
@@ -264,7 +265,7 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
     case Add:
         process->addArgument( "add" );
         process->addArgument( "-N" );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }
@@ -274,7 +275,7 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
         process->addArgument( "commit" );
         process->addArgument( "-m" );
         process->addArgument( commitMessage );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }
@@ -287,7 +288,7 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
         break;
     case Remove:
         process->addArgument( "remove" );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }
@@ -295,7 +296,7 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
         break;
     case Revert:
         process->addArgument( "revert" );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }
@@ -308,7 +309,7 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
         break;
     case Update:
         process->addArgument( "update" );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
             process->addArgument( *it );
         }
