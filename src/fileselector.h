@@ -34,14 +34,19 @@ class FileSelector : public FileSelectorDlg
     Q_OBJECT
 
 public:
-    FileSelector( QWidget *parent = 0, const char *name = 0 );
-    ~FileSelector();
+    static FileSelector* Exemplar();
+    static void releaseExemplar();
     
     void setSelectedFiles( QStringList* fileList );
     void setMessageString( QString message );
     
     QStringList* selectedFiles();
     QString messageString();
+private:
+    static FileSelector *_exemplar;
+    
+    FileSelector( QWidget *parent = 0, const char *name = 0 );
+    ~FileSelector();
 };
 
 #endif
