@@ -244,8 +244,6 @@ void Config::saveWorkingCopyEntries( QListView *aListView )
 
 void Config::restoreWorkingCopyEntries()
 {
-    qDebug( "restoreWorkingCopyEntries" );
-    
     QSettings settings;
     settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
     settings.beginGroup( "workingCopies/general" );
