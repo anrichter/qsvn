@@ -20,7 +20,9 @@ TARGET = qsvn
 DESTDIR = bin
 MOC_DIR = .moc
 OBJECTS_DIR = .obj
+UI_DIR = .ui
 win32{
   MOC_DIR = moc
   OBJECTS_DIR = obj
+  UI_DIR = ui
 }
