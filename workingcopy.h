@@ -35,6 +35,7 @@
 class QListView;
 class QListViewItem;
 class QTextEdit;
+class QString;
 
 /**
 This Class handles working copies
@@ -52,7 +53,7 @@ public:
     void setStatusEdit( QTextEdit *textEdit );
 public slots:
     void addWorkingCopySlot();
-    void updateElement( QListViewItem *element );
+    void updateElement( QListViewItem *element, QString directoryString );
 
 private:
     WorkingCopy( QObject *parent = 0, const char *name = 0 );

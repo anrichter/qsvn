@@ -88,7 +88,7 @@ void WorkingCopy::addWorkingCopySlot()
         //ad working Copy to workingCopyListView
         QListViewItem *element;
         element = new QListViewItem( workingCopyListView, addWorkingCopy->getSelectedDirectory() );
-        updateElement( element );
+        updateElement( element, addWorkingCopy->getSelectedDirectory() );
     }
     else
     {
@@ -97,22 +97,26 @@ void WorkingCopy::addWorkingCopySlot()
     }
 }
 
-void WorkingCopy::updateElement( QListViewItem *element )
+void WorkingCopy::updateElement( QListViewItem *element, QString directoryString )
 {
-    if ( &element )
+    if ( &element && directoryString )
     {
         //todo: delete old childs
-        QDir directory( element->text( 0 ) );
+        QDir directory( directoryString );
         if ( directory.exists() )
         {
             directory.setMatchAllDirs( TRUE );
-            QStringList lst = directory.entryList( "*" );
+            QStringList lst = directory.entryList( QDir::Dirs );
             for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) 
             {
-                //todo: check if is dir & call updateElemtent recursively for directories
                 // add only directories here
-                QListViewItem *_element;
-                _element = new QListViewItem( element, *it );
+                if ( ( *it != "." ) && ( *it != ".." ) )
+                {
+                    QListViewItem *_element;
+                    _element = new QListViewItem( element, *it );
+                    // recursive call for new _element
+                    this->updateElement( _element, directoryString + QDir::separator() + *it );
+                }
             }
         }
     }
