@@ -77,6 +77,7 @@ void FileSelector::initFileSelector( int svnCommandType )
             setCaption( tr( "Revert") );
             break;
     }
+    setMessageString( tr( "***empty message ***" ) );
 }
 
 void FileSelector::setSelectedFiles( QStringList* fileList )

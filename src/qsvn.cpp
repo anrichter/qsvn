@@ -122,7 +122,6 @@ void QSvn::updateSlot()
 void QSvn::commitSlot()
 {
     FileSelector::Exemplar()->initFileSelector( FileSelector::Commit );
-    FileSelector::Exemplar()->setMessageString( tr( "***empty message ***" ) );
     
     QString commitMessage;
     WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
