@@ -47,11 +47,12 @@ public:
     QWidget *getWidget();
 
 public slots:
-    void updateListSlot( QString stringDirectory );
+    void updateListSlot( QString currentDirectory );
 
 private:
     static FileList *_exemplar;
     QListView *listViewFiles;
+    QString _lastDirectory;
 
     FileList(QObject *parent = 0, const char *name = 0);
     ~FileList();

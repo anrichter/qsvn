@@ -53,6 +53,9 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->addColumn( tr( "File Status" ) );
     listViewFiles->setShowSortIndicator( TRUE );
     listViewFiles->setAllColumnsShowFocus( TRUE );
+    listViewFiles->setRootIsDecorated( TRUE );
+    
+    _lastDirectory = "";
 }
 
 FileList::~FileList()
@@ -63,12 +66,12 @@ QWidget *FileList::getWidget()
     return listViewFiles;
 }
 
-void FileList::updateListSlot( QString stringDirectory )
+void FileList::updateListSlot( QString currentDirectory )
 {
-    if ( listViewFiles )
+    if ( listViewFiles && currentDirectory && ( _lastDirectory != currentDirectory ) )
     {
         listViewFiles->clear();
-        if ( SvnClient::Exemplar()->getStatus( stringDirectory ) )
+        if ( SvnClient::Exemplar()->getStatus( currentDirectory ) )
         {
             QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
             QString _lineString;
@@ -102,5 +105,6 @@ void FileList::updateListSlot( QString stringDirectory )
                 }
             }
         }
+        _lastDirectory = currentDirectory;
     }
 }
