@@ -36,6 +36,8 @@ public slots:
 
 private:
 
+protected slots:
+    void selectDirectorySlot();
 };
 
 #endif

@@ -21,16 +21,27 @@
 
 //QSvn
 #include "addworkingcopy.h"
+#include "addworkingcopydlg.h"
 
 //Qt
+#include <qfiledialog.h>
+#include <qpushbutton.h>
+#include <qlineedit.h>
 
 
 AddWorkingCopy::AddWorkingCopy( QWidget *parent, const char *name )
 : AddWorkingCopyDlg( parent, name )
 {
+    QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
 }
 
 AddWorkingCopy::~AddWorkingCopy()
 {
 }
 
+void AddWorkingCopy::selectDirectorySlot()
+{
+    QString directory = QFileDialog::getExistingDirectory( editDirectory->text(), this, "get", "Select a working Directory" );
+    if ( directory )
+        editDirectory->setText( directory );
+}
