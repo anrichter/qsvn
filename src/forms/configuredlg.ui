@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>289</width>
-            <height>170</height>
+            <height>167</height>
         </rect>
     </property>
     <property name="caption">
@@ -249,6 +249,15 @@
         <slot>buttonSelectDiffViewerClickSlot()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>editSvnExecutable</tabstop>
+    <tabstop>buttonSelectSvnExecutable</tabstop>
+    <tabstop>editDiffViewer</tabstop>
+    <tabstop>buttonSelectDiffViewer</tabstop>
+    <tabstop>buttonHelp</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+</tabstops>
 <slots>
     <slot>buttonOkClickSlot()</slot>
     <slot>buttonSelectSvnExecutableClickSlot()</slot>

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>289</width>
-            <height>150</height>
+            <height>157</height>
         </rect>
     </property>
     <property name="caption">
@@ -318,6 +318,17 @@
         <slot>selectDirectorySlot()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>comboProtocol</tabstop>
+    <tabstop>editServer</tabstop>
+    <tabstop>editPath</tabstop>
+    <tabstop>buttonURL</tabstop>
+    <tabstop>editDirectory</tabstop>
+    <tabstop>buttonDirectory</tabstop>
+    <tabstop>buttonHelp</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+</tabstops>
 <slots>
     <slot>selectDirectorySlot()</slot>
     <slot>selectURLSlot()</slot>
