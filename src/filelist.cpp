@@ -32,6 +32,7 @@
 //Qt
 #include <qlistview.h>
 #include <qdir.h>
+#include <qpixmap.h>
 
 //make FileList a singleton
 FileList* FileList::_exemplar = 0;
@@ -100,16 +101,20 @@ void FileList::updateListSlot( QString currentDirectory )
                     //set File Status
                     switch ( int( _lineString.at( 0 ).latin1() ) ) {
                         case int( 'M' ):
-                            _element->setText( _COLUMN_STATUS, tr( "Modified File" ) );   
+                            _element->setText( _COLUMN_STATUS, tr( "Modified File" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "modifiedfile.png" ) );
                             break;
                         case int( '?' ): 
                             _element->setText( _COLUMN_STATUS, tr( "Unknown File" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "unknownfile.png" ) );
                             break;
                         case int( ' ' ): 
                             _element->setText( _COLUMN_STATUS, tr( "File" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "file.png" ) );
                             break;
                         default: 
                             _element->setText( _COLUMN_STATUS, tr( "Unknown Status" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "unknownfile.png" ) );
                             break;
                     }
                 }
