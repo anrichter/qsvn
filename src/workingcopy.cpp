@@ -167,7 +167,7 @@ void WorkingCopy::checkoutSlot()
         QString path = checkout->getSelectedDirectory();
         QString url = checkout->getSelectedURL();
         
-        if ( SvnClient::Exemplar()->checkout( path, url ) );
+        if ( SvnClient::Exemplar()->checkout( path, url ) )
         {
             QUrl svnurl( url );
             addExistingWorkingCopySlot( QDir::cleanDirPath( path + QDir::separator() + svnurl.fileName() ) );
