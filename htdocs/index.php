@@ -27,6 +27,10 @@
   For more information please visit our <a href="https://developer.berlios.de/projects/qsvn/">QSvn Project Page</a>.
 </p>
 <p>
+  Take a look at our <a href="http://svn.berlios.de/viewcvs/qsvn/trunk/src/ChangeLog?view=auto">ChangeLog</a> and you see what is done.
+  If you wish to contribute some work you can pick one open issue from <a href="http://svn.berlios.de/viewcvs/qsvn/trunk/src/doc/Todo?view=auto">Todo</a>.
+</p>
+<p>
 </p>
 <center>
 <p>The project is hosted by<br>
