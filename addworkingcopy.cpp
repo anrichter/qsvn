@@ -25,7 +25,6 @@
 //Qt
 
 
-
 AddWorkingCopy::AddWorkingCopy( QWidget *parent, const char *name )
 : AddWorkingCopyDlg( parent, name )
 {

@@ -25,7 +25,7 @@
             <x>0</x>
             <y>0</y>
             <width>528</width>
-            <height>29</height>
+            <height>25</height>
         </rect>
     </property>
     <item text="&amp;File" name="fileMenu">
@@ -107,10 +107,10 @@
             <cstring>workingCopyAddAction</cstring>
         </property>
         <property name="text">
-            <string>Add</string>
+            <string>Add...</string>
         </property>
         <property name="menuText">
-            <string>Add</string>
+            <string>Add...</string>
         </property>
     </action>
     <action>
@@ -118,10 +118,10 @@
             <cstring>workingCopyRemoveAction</cstring>
         </property>
         <property name="text">
-            <string>Remove</string>
+            <string>Remove...</string>
         </property>
         <property name="menuText">
-            <string>Remove</string>
+            <string>Remove...</string>
         </property>
     </action>
     <action>
@@ -129,6 +129,9 @@
             <cstring>helpAbout_QtAction</cstring>
         </property>
         <property name="text">
+            <string>About &amp;Qt</string>
+        </property>
+        <property name="menuText">
             <string>About &amp;Qt</string>
         </property>
     </action>

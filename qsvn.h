@@ -22,7 +22,9 @@
 #ifndef QSVN_H
 #define QSVN_H
 
+//qsvn
 #include "qsvndlg.h"
+#include "addworkingcopy.h"
 
 //Qt-classes
 class QGridLayout;
@@ -49,6 +51,9 @@ private:
     QTextEdit *statusTextEdit;
     QListView *fileListView;
     QListView *workingCopyListView;
+    
+    //dialogs
+    AddWorkingCopy *addWorkingCopy;
 
 private slots:
     void exitSlot();
@@ -57,7 +62,6 @@ private slots:
 
     void aboutSlot();
     void aboutQtSlot();
-
 };
 
 #endif

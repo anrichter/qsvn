@@ -31,7 +31,7 @@
 #include <qlistview.h>
 
 #include <qmessagebox.h>
-
+#include <qapplication.h>
 
 QSvn::QSvn( QWidget *parent, const char *name )
   : QSvnDlg( parent, name )
@@ -59,8 +59,9 @@ QSvn::QSvn( QWidget *parent, const char *name )
     statusTextEdit = new QTextEdit( verticalSplitter, "statusTextEdit" );
 
     verticalSplitter->setOpaqueResize( TRUE );
-
-
+    
+    //set dialogs to nil
+    addWorkingCopy = 0;
 }
 
 QSvn::~QSvn()
@@ -74,8 +75,13 @@ void QSvn::exitSlot()
 
 void QSvn::addWorkingCopySlot()
 {
-    AddWorkingCopy myDlg = AddWorkingCopy();
-    myDlg.exec();
+    if ( !addWorkingCopy ) 
+    {
+        qDebug( "create addWorkingCopy" );
+        addWorkingCopy = new AddWorkingCopy( this );
+    }
+        
+    addWorkingCopy->exec();
 }
 
 void QSvn::aboutSlot()
