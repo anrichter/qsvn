@@ -38,7 +38,7 @@
 #include <qapplication.h>
 
 QSvn::QSvn( QWidget *parent, const char *name )
-  : QSvnDlg( parent, name )
+        : QSvnDlg( parent, name )
 {
     //create layout
     setCentralWidget( new QWidget( this, "qt_central_widget" ) );
@@ -69,8 +69,7 @@ QSvn::QSvn( QWidget *parent, const char *name )
 }
 
 QSvn::~QSvn()
-{
-}
+{}
 
 void QSvn::exitSlot()
 {
@@ -81,7 +80,6 @@ void QSvn::addWorkingCopySlot()
 {
     if ( !addWorkingCopy )
     {
-        qDebug( "create addWorkingCopy" );
         addWorkingCopy = new AddWorkingCopy( this );
     }
 
@@ -91,8 +89,8 @@ void QSvn::addWorkingCopySlot()
 void QSvn::aboutSlot()
 {
     QMessageBox::about( this, tr( "About qsvn" ),
-        tr( "This Programm is a simple Subversion Client\n"
-            "Authors: Andreas Richter (ar@oszine.de)" ) );
+                        tr( "This Programm is a simple Subversion Client\n"
+                            "Authors: Andreas Richter (ar@oszine.de)" ) );
 }
 
 void QSvn::aboutQtSlot()

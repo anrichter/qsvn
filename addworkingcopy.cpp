@@ -34,14 +34,13 @@
 
 
 AddWorkingCopy::AddWorkingCopy( QWidget *parent, const char *name )
-: AddWorkingCopyDlg( parent, name )
+        : AddWorkingCopyDlg( parent, name )
 {
     QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
 }
 
 AddWorkingCopy::~AddWorkingCopy()
-{
-}
+{}
 
 QString AddWorkingCopy::getSelectedDirectory() const
 {
