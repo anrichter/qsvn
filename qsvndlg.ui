@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>720</width>
-            <height>466</height>
+            <height>469</height>
         </rect>
     </property>
     <property name="caption">
@@ -257,18 +257,6 @@
         <slot>aboutSlot()</slot>
     </connection>
     <connection>
-        <sender>workingCopyAddAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>addWorkingCopySlot()</slot>
-    </connection>
-    <connection>
-        <sender>workingCopyRemoveAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>removeWorkingCopySlot()</slot>
-    </connection>
-    <connection>
         <sender>helpAbout_QtAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
@@ -286,8 +274,6 @@
     <slot>helpIndexSlot()</slot>
     <slot>helpContentsSlot()</slot>
     <slot>aboutSlot()</slot>
-    <slot>addWorkingCopySlot()</slot>
-    <slot>removeWorkingCopySlot()</slot>
     <slot>aboutQtSlot()</slot>
     <slot>configureqsvnSlot()</slot>
 </slots>

@@ -32,6 +32,7 @@
 #include "configure.h"
 
 //Qt
+#include <qaction.h>
 #include <qmessagebox.h>
 #include <qlistview.h>
 #include <qtextedit.h>
@@ -42,6 +43,10 @@ QSvn::QSvn( QWidget *parent, const char *name )
 {
     WorkingCopy::Exemplar()->setListView( workingCopyListView );
     WorkingCopy::Exemplar()->setStatusEdit( statusTextEdit );
+    
+    //connect 
+    connect( workingCopyAddAction, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
+    connect (workingCopyRemoveAction, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
 }
 
 QSvn::~QSvn()
@@ -51,11 +56,6 @@ void QSvn::exitSlot()
 {
     Config::Exemplar()->saveChanges();
     this->close();
-}
-
-void QSvn::addWorkingCopySlot()
-{
-    WorkingCopy::Exemplar()->addWorkingCopySlot();
 }
 
 void QSvn::configureqsvnSlot()

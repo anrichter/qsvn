@@ -44,7 +44,6 @@ private:
 private slots:
     void exitSlot();
 
-    void addWorkingCopySlot();
     void configureqsvnSlot();
 
     void aboutSlot();

@@ -76,27 +76,6 @@ void WorkingCopy::setStatusEdit( QTextEdit *textEdit )
     statusTextEdit = textEdit;
 }
 
-void WorkingCopy::addWorkingCopySlot()
-{
-    if ( !addWorkingCopy )
-    {
-        addWorkingCopy = new AddWorkingCopy();
-    }
-
-    if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
-    {
-        //ad working Copy to workingCopyListView
-        QListViewItem *element;
-        element = new QListViewItem( workingCopyListView, addWorkingCopy->getSelectedDirectory() );
-        updateElement( element, addWorkingCopy->getSelectedDirectory() );
-    }
-    else
-    {
-        statusTextEdit->append( SvnClient::Exemplar()->getProcessStderr() );
-        statusTextEdit->append( SvnClient::Exemplar()->getMessageString() );
-    }
-}
-
 void WorkingCopy::updateElement( QListViewItem *element, QString directoryString )
 {
     if ( &element && directoryString )
@@ -121,3 +100,46 @@ void WorkingCopy::updateElement( QListViewItem *element, QString directoryString
         }
     }
 }
+
+void WorkingCopy::addExistingWorkingCopySlot()
+{
+    if ( !addWorkingCopy )
+    {
+        addWorkingCopy = new AddWorkingCopy();
+    }
+
+    if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
+    {
+        //ad working Copy to workingCopyListView
+        QListViewItem *element;
+        element = new QListViewItem( workingCopyListView, addWorkingCopy->getSelectedDirectory() );
+        updateElement( element, addWorkingCopy->getSelectedDirectory() );
+    }
+    else
+    {
+        statusTextEdit->append( SvnClient::Exemplar()->getProcessStderr() );
+        statusTextEdit->append( SvnClient::Exemplar()->getMessageString() );
+    }
+}
+
+void WorkingCopy::removeCurrentWorkingCopySlot()
+{
+    if ( workingCopyListView->currentItem() )
+        removeWorkingCopy( workingCopyListView->currentItem() );
+}
+
+void WorkingCopy::removeWorkingCopy( QListViewItem *element )
+{
+    if ( element )
+    {
+        if ( element->parent() )
+        {
+            this->removeWorkingCopy( element->parent() );
+        }
+        else
+        {
+            workingCopyListView->removeItem( element );
+        }
+    }
+}
+

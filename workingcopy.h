@@ -51,9 +51,12 @@ public:
 
     void setListView( QListView *listView );    
     void setStatusEdit( QTextEdit *textEdit );
-public slots:
-    void addWorkingCopySlot();
+    
     void updateElement( QListViewItem *element, QString directoryString );
+    
+public slots:
+    void addExistingWorkingCopySlot();
+    void removeCurrentWorkingCopySlot();
 
 private:
     WorkingCopy( QObject *parent = 0, const char *name = 0 );
@@ -66,6 +69,7 @@ private:
     QTextEdit *statusTextEdit;
     
     void outputMessage( const QString messageString );
+    void removeWorkingCopy( QListViewItem *element );
 };
 
 #endif
