@@ -26,6 +26,7 @@
 //QSvn
 #include "qsvn.h"
 #include "addworkingcopy.h"
+#include "svnclient.h"
 
 //Qt
 #include <qobject.h>
@@ -83,7 +84,10 @@ void QSvn::addWorkingCopySlot()
         addWorkingCopy = new AddWorkingCopy( this );
     }
 
-    addWorkingCopy->exec();
+    if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
+    {
+        qDebug( "TODO: add workingCopy " + addWorkingCopy->getSelectedDirectory() + " to workingCopyListView" );
+    }
 }
 
 void QSvn::aboutSlot()
