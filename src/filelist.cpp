@@ -50,8 +50,7 @@ FileList* FileList::Exemplar()
 
 void FileList::releaseExemplar()
 {
-    if ( _exemplar )
-        delete _exemplar;
+    delete _exemplar;
 }
 
 

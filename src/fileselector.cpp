@@ -45,8 +45,7 @@ FileSelector* FileSelector::Exemplar()
 
 void FileSelector::releaseExemplar()
 {
-    if ( _exemplar )
-        delete _exemplar;
+    delete _exemplar;
 }
 
 

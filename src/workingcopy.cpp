@@ -54,8 +54,7 @@ WorkingCopy* WorkingCopy::Exemplar()
 
 void WorkingCopy::releaseExemplar()
 {
-    if ( _exemplar )
-        delete _exemplar;
+    delete _exemplar;
 }
 
 
