@@ -275,10 +275,40 @@
         <slot>aboutQtSlot()</slot>
     </connection>
     <connection>
+        <sender>actionAdd</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>addSlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionAddWorkingCopy</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>addWorkingCopySlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionCheckout</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>checkoutSlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionCommit</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>commitSlot()</slot>
+    </connection>
+    <connection>
         <sender>actionConfigureQSvn</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>configureQSvnSlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionDiff</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>diffSlot()</slot>
     </connection>
     <connection>
         <sender>actionExit</sender>
@@ -298,6 +328,24 @@
         <receiver>QSvnDlg</receiver>
         <slot>helpIndexSlot()</slot>
     </connection>
+    <connection>
+        <sender>actionRemove</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>removeSlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionRemoveWorkingCopy</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>removeWorkingCopySlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionUpdate</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>updateSlot()</slot>
+    </connection>
 </connections>
 <slots>
     <slot access="protected">exitSlot()</slot>
@@ -306,6 +354,14 @@
     <slot access="protected">aboutSlot()</slot>
     <slot access="protected">aboutQtSlot()</slot>
     <slot access="protected">configureQSvnSlot()</slot>
+    <slot access="protected">addSlot()</slot>
+    <slot access="protected">addWorkingCopySlot()</slot>
+    <slot access="protected">checkoutSlot()</slot>
+    <slot access="protected">commitSlot()</slot>
+    <slot access="protected">diffSlot()</slot>
+    <slot access="protected">removeSlot()</slot>
+    <slot access="protected">removeWorkingCopySlot()</slot>
+    <slot access="protected">updateSlot()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>

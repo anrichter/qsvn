@@ -55,12 +55,7 @@ QSvn::QSvn( QWidget *parent, const char *name )
     Config::Exemplar()->restoreWorkingCopyEntries();
     
     //connect
-    connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
-    connect( actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
-    connect( actionCheckout, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( checkoutSlot() ) );
     connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ), FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
-    connect( actionUpdate, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( updateCurrentWorkingCopySlot() ) );
-    connect( actionDiff, SIGNAL( activated() ), FileList::Exemplar(), SLOT( diffSelected() ) );
     
     Config::Exemplar()->restoreMainWindow( this );
 }
@@ -68,6 +63,7 @@ QSvn::QSvn( QWidget *parent, const char *name )
 QSvn::~QSvn()
 {}
 
+//protected slots
 void QSvn::exitSlot()
 {
     Config::Exemplar()->saveChanges();
@@ -77,10 +73,66 @@ void QSvn::exitSlot()
     this->close();
 }
 
+void QSvn::addWorkingCopySlot()
+{
+    WorkingCopy::Exemplar()->addExistingWorkingCopySlot();
+}
+
+void QSvn::removeWorkingCopySlot()
+{
+    WorkingCopy::Exemplar()->removeCurrentWorkingCopySlot();
+}
+
+void QSvn::checkoutSlot()
+{
+    WorkingCopy::Exemplar()->checkoutSlot();
+}
+
+void QSvn::updateSlot()
+{
+    WorkingCopy::Exemplar()->updateCurrentWorkingCopySlot();
+}
+
+void QSvn::commitSlot()
+{
+    //todo: implement
+    StatusText::Exemplar()->outputMessage( QString( "svn commit - not implemented yet" ) );
+}
+
+void QSvn::addSlot()
+{
+    //todo: implement
+    StatusText::Exemplar()->outputMessage( QString( "svn add - not implemented yet" ) );
+}
+
+void QSvn::removeSlot()
+{
+    //todo: implement
+    StatusText::Exemplar()->outputMessage( QString( "svn remove - not implemented yet" ) );
+}
+
+
+void QSvn::diffSlot()
+{
+    FileList::Exemplar()->diffSelected();
+}
+
 void QSvn::configureQSvnSlot()
 {
     Configure configure;
     configure.exec();
+}
+
+void QSvn::helpContentsSlot()
+{
+    //todo: implement
+    StatusText::Exemplar()->outputMessage( QString( "Help Content - not implemented yet" ) );
+}
+
+void QSvn::helpIndexSlot()
+{
+    //todo: implement
+    StatusText::Exemplar()->outputMessage( QString( "Help Index - not implemented yet" ) );
 }
 
 void QSvn::aboutSlot()

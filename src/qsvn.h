@@ -40,10 +40,29 @@ public:
 public slots:
 
 protected slots:
+    //File
     void exitSlot();
-
+    
+    //WorkingCopy
+    void addWorkingCopySlot();
+    void removeWorkingCopySlot();
+    void checkoutSlot();
+    
+    //Modify
+    void updateSlot();
+    void commitSlot();
+    void addSlot();
+    void removeSlot();
+    
+    //Query
+    void diffSlot();
+    
+    //Settings
     void configureQSvnSlot();
-
+    
+    //Help
+    void helpContentsSlot();
+    void helpIndexSlot();
     void aboutSlot();
     void aboutQtSlot();
 };
