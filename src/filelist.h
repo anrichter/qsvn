@@ -43,6 +43,7 @@ class FileList : public QObject
     Q_OBJECT
 public:
     static FileList* Exemplar();
+    static void releaseExemplar();
 
     QWidget *getWidget();
 

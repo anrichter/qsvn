@@ -28,6 +28,7 @@
 #include "addworkingcopy.h"
 #include "svnclient.h"
 #include "statustext.h"
+#include "config.h"
 
 //Qt
 #include <qlistview.h>
@@ -46,6 +47,13 @@ WorkingCopy* WorkingCopy::Exemplar()
     return _exemplar;
 }
 
+void WorkingCopy::releaseExemplar()
+{
+    if ( _exemplar )
+        delete _exemplar;
+}
+
+
 //WorkingCopy implementation
 WorkingCopy::WorkingCopy(QObject *parent, const char *name)
         : QObject(parent, name)
@@ -56,12 +64,16 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
     listViewWorkingCopy = new QListView( 0, "listViewWorkingCopy" );
     listViewWorkingCopy->addColumn( tr( "Working Copy" ) );
     listViewWorkingCopy->setRootIsDecorated( TRUE );
+    
+    Config::Exemplar()->restoreListView( listViewWorkingCopy );
 
     connect( listViewWorkingCopy, SIGNAL( selectionChanged() ), this, SLOT( changeElement() ) );
 }
 
 WorkingCopy::~WorkingCopy()
-{}
+{
+    Config::Exemplar()->saveListView( listViewWorkingCopy );
+}
 
 QWidget *WorkingCopy::getWidget()
 {

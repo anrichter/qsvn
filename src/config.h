@@ -29,6 +29,7 @@
 #include <qobject.h>
 
 class QString;
+class QListView;
 
 /**
 this singelton holds the configuration for qsvn
@@ -45,6 +46,8 @@ public:
     void setSvnExecutable( QString aString ); //!< set the complete path to svn execute
     QString getSvnExecutable(); //!< get the complete path to svn execute
 
+    void saveListView( QListView *aListView );
+    void restoreListView( QListView *aListView );
 public slots:
     void saveChanges();
 

@@ -28,6 +28,7 @@
 
 //Qt
 #include <qsettings.h>
+#include <qlistview.h>
 
 //make Config a singleton
 Config* Config::_exemplar = 0;
@@ -83,3 +84,32 @@ QString Config::getSvnExecutable()
     return _svnExecutable;
 }
 
+void Config::saveListView( QListView *aListView )
+{
+    if ( aListView )
+    {
+        QSettings mySettings;
+        mySettings.beginGroup( "qsvn/listViews/" + QString( aListView->name() ) );
+        for ( int i = 0; i < aListView->columns(); i++ )
+        {
+            mySettings.writeEntry( QString( "Column%1" ).arg( i ), aListView->columnWidth( i ) );
+        }
+        mySettings.endGroup();
+    }
+}
+
+void Config::restoreListView( QListView *aListView )
+{
+    if ( aListView )
+    {
+        QSettings mySettings;
+        mySettings.beginGroup( "qsvn/listViews/" + QString( aListView->name() ) );
+        for ( int i = 0; i < aListView->columns(); i++ )
+        {
+            aListView->setColumnWidth( i, 
+                                       mySettings.readNumEntry( QString( "Column%1" ).arg( i ), 
+                                       aListView->columnWidth( i ) ) );
+        }
+        mySettings.endGroup();
+    }
+}

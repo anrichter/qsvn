@@ -47,6 +47,7 @@ class WorkingCopy : public QObject
     Q_OBJECT
 public:
     static WorkingCopy* Exemplar();
+    static void releaseExemplar();
     
     QWidget* getWidget();
 

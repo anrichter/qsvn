@@ -27,6 +27,7 @@
 #include "filelist.h"
 #include "svnclient.h"
 #include "statustext.h"
+#include "config.h"
 
 //Qt
 #include <qlistview.h>
@@ -44,6 +45,13 @@ FileList* FileList::Exemplar()
     return _exemplar;
 }
 
+void FileList::releaseExemplar()
+{
+    if ( _exemplar )
+        delete _exemplar;
+}
+
+
 //FileList implementation
 FileList::FileList(QObject *parent, const char *name)
         : QObject(parent, name)
@@ -54,11 +62,14 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->setShowSortIndicator( TRUE );
     listViewFiles->setAllColumnsShowFocus( TRUE );
     
+    Config::Exemplar()->restoreListView( listViewFiles );
     _lastDirectory = "";
 }
 
 FileList::~FileList()
-{}
+{
+    Config::Exemplar()->saveListView( listViewFiles );
+}
 
 QWidget *FileList::getWidget()
 {

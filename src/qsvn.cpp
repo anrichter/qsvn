@@ -66,6 +66,8 @@ QSvn::~QSvn()
 void QSvn::exitSlot()
 {
     Config::Exemplar()->saveChanges();
+    FileList::releaseExemplar();
+    WorkingCopy::releaseExemplar();
     this->close();
 }
 
