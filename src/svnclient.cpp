@@ -81,6 +81,20 @@ void SvnClient::prepareNewProcess( const QString &workingDirectory )
 
 bool SvnClient::startProcess( const QString &startErrorMessage )
 {
+    if ( immediateOutput )
+    {
+        //output command line
+        QString commandLine = "\n";
+        QStringList list = process->arguments();
+        QStringList::Iterator it = list.begin();
+        while( it != list.end() ) {
+            commandLine += *it + " ";
+            ++it;
+        }
+        StatusText::Exemplar()->outputMessage( commandLine );
+    }
+    
+    //start process
     if ( !process->start() )
     {
         messageString = startErrorMessage;
@@ -165,13 +179,16 @@ bool SvnClient::isWorkingCopy( const QString &path )
 
 
 //svn calls
-bool SvnClient::info( const QString &path )
+bool SvnClient::info( const QString &path, bool withOutput )
 {
     if ( path )
     {
+        immediateOutput = withOutput;
+
         prepareNewProcess();
         process->addArgument( "info" );
         process->addArgument( path );
+        
         return startAndWaitProcess( "cannot start svn info - is your svn executable installed and configured in settings?" );
     }
     else
@@ -186,12 +203,12 @@ bool SvnClient::status( const QString &path, bool withOutput )
     if ( path )
     {
         immediateOutput = withOutput;
+        
         prepareNewProcess( path );
         process->addArgument( "status" );
         process->addArgument( "-vN" );
-        bool b = startAndWaitProcess( "cannot start svn status -v" );
-        immediateOutput = true;
-        return b;
+        
+        return startAndWaitProcess( "cannot start svn status -v" );
     }
     else
     {
@@ -200,13 +217,16 @@ bool SvnClient::status( const QString &path, bool withOutput )
     }
 }
 
-bool SvnClient::update( const QString &path )
+bool SvnClient::update( const QString &path, bool withOutput )
 {
     if ( path )
     {
+        immediateOutput = withOutput;
+
         prepareNewProcess();
         process->addArgument( "update" );
         process->addArgument( path );
+        
         return startAndWaitProcess( "cannot start svn update" );
     }
     else
@@ -216,35 +236,36 @@ bool SvnClient::update( const QString &path )
     }
 }
 
-bool SvnClient::diff( const QString &path, const QString &filename )
+bool SvnClient::diff( const QString &path, const QString &filename, bool withOutput )
 {
     if ( path && filename )
     {
+        immediateOutput = withOutput;
+        
         prepareNewProcess( path );
         process->clearArguments();
         process->setWorkingDirectory( path );
         process->addArgument( Config::Exemplar()->getDiffViewer() );
         process->addArgument( QString( ".svn/text-base/%1.svn-base" ).arg( filename ) );
         process->addArgument( filename );
-        return startProcess( "cannot start DiffViewer" );        
+
+        return startProcess( "cannot start DiffViewer" );
     }
     else
         return FALSE;
 }
 
-bool SvnClient::checkout( const QString &path, const QString &url )
+bool SvnClient::checkout( const QString &path, const QString &url, bool withOutput )
 {
     if ( path && url )
     {
+        immediateOutput = withOutput;
+
         prepareNewProcess( path );
         process->addArgument( "checkout" );
         process->addArgument( url );
-        bool ok = startAndWaitProcess( "cannot start svn checkout" );
-        if ( ok )
-        {
-            //WorkingCopy::Exemplar()->addExistingWorkingCopySlot( path );
-        }
-        return ok;
+        
+        return startAndWaitProcess( "cannot start svn checkout" );
     }
     else
         return FALSE;
