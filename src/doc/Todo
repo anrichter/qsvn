@@ -9,8 +9,10 @@ open issues for version 0.1.0
   + some special actions on double click of a filelist entry (svn diff)
 
 - svn commands:
-  + commit
   + remove
+  
+- questions before make a svn command
+
 
 open issues
 ===========

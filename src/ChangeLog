@@ -9,6 +9,7 @@ Version 0.1.0 - released 200?-??-??
     * implemented svn commands:
         - add
         - checkout (partial)
+        - commit
         - revert
         - update
     * save & restore user changed layout
