@@ -29,6 +29,7 @@
 #include "svnclient.h"
 #include "statustext.h"
 #include "config.h"
+#include "checkout.h"
 
 //Qt
 #include <qlistview.h>
@@ -61,6 +62,7 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
 {
     //initialising
     addWorkingCopy = 0;
+    checkout = 0;
 
     listViewWorkingCopy = new QListView( 0, "listViewWorkingCopy" );
     listViewWorkingCopy->addColumn( tr( "Working Copy" ) );
@@ -134,6 +136,19 @@ void WorkingCopy::addExistingWorkingCopySlot()
     {
         StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getProcessStderrList() );
         StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getMessageString() );
+    }
+}
+
+void WorkingCopy::checkoutSlot()
+{
+    if ( !checkout )
+    {
+        checkout = new Checkout();
+    }
+    
+    if ( checkout->exec() )
+    {
+        StatusText::Exemplar()->outputMessage( QString( "Checkout" ) );
     }
 }
 

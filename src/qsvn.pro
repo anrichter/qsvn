@@ -15,7 +15,8 @@ CONFIG += release \
 TEMPLATE = app
 FORMS += forms/qsvndlg.ui \
          forms/addworkingcopydlg.ui \
-         forms/configuredlg.ui
+         forms/configuredlg.ui \
+         forms/checkoutdlg.ui
 HEADERS += qsvn.h \
            addworkingcopy.h \
            svnclient.h \
@@ -23,7 +24,8 @@ HEADERS += qsvn.h \
            config.h \
            configure.h \
            filelist.h \
-           statustext.h
+           statustext.h \
+           checkout.h
 SOURCES += main.cpp \
            qsvn.cpp \
            addworkingcopy.cpp \
@@ -32,7 +34,8 @@ SOURCES += main.cpp \
            config.cpp \
            configure.cpp \
            filelist.cpp \
-           statustext.cpp
+           statustext.cpp \
+           checkout.cpp
 IMAGES += images/folder.png \
           images/file.png \
           images/modifiedfile.png \

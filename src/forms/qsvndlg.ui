@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>501</width>
-            <height>405</height>
+            <height>408</height>
         </rect>
     </property>
     <property name="caption">
@@ -86,6 +86,7 @@
     <item text="&amp;Working Copy" name="workingCopyMenu">
         <action name="actionAddWorkingCopy"/>
         <action name="actionRemoveWorkingCopy"/>
+        <action name="actionCheckout"/>
     </item>
     <item text="Modify" name="modifyMenu">
         <action name="actionUpdate"/>
@@ -249,6 +250,14 @@
         </property>
         <property name="text">
             <string>Diff</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>actionCheckout</cstring>
+        </property>
+        <property name="text">
+            <string>Checkout...</string>
         </property>
     </action>
 </actions>

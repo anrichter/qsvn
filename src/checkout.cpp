@@ -22,67 +22,38 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
-#ifndef WORKINGCOPY_H
-#define WORKINGCOPY_H
 
-//qsvn
-//#include "addworkingcopy.h"
-//#include "checkout.h"
+//QSvn
+#include "checkout.h"
+#include "statustext.h"
 
 //Qt
-#include <qobject.h>
+#include <qlineedit.h>
+#include <qfiledialog.h>
 
-//qsvn classes
-class AddWorkingCopy;
-class Checkout;
 
-//Qt classes
-class QListView;
-class QListViewItem;
-class QString;
-
-/**
-This Class handles working copies
- 
-@author Andreas Richter
-*/
-
-class WorkingCopy : public QObject
+Checkout::Checkout( QWidget *parent, const char *name )
+        : CheckoutDlg( parent, name )
 {
-    Q_OBJECT
-public:
-    static WorkingCopy* Exemplar();
-    static void releaseExemplar();
-    
-    QWidget* getWidget();
+    qDebug( "Checkout" );
+}
 
-    void updateElement( QListViewItem *element, QString directoryString );
+Checkout::~Checkout()
+{}
 
-signals:
-    void directoryChanged( QString );
+QString Checkout::getSelectedDirectory() const
+{
+    return editDirectory->text();
+}
 
-public slots:
-    void addExistingWorkingCopySlot( QString directoyString );
-    void addExistingWorkingCopySlot();
-    void removeCurrentWorkingCopySlot();
-    void updateCurrentWorkingCopySlot();
-    void checkoutSlot();
+void Checkout::selectURLSlot()
+{
+    StatusText::Exemplar()->outputMessage( QString( "not implemented yet") );
+}
 
-private:
-    WorkingCopy( QObject *parent = 0, const char *name = 0 );
-    ~WorkingCopy();
-
-    static WorkingCopy* _exemplar;
-
-    AddWorkingCopy *addWorkingCopy;
-    Checkout *checkout;
-    QListView *listViewWorkingCopy;
-
-    void removeWorkingCopy( QListViewItem *element );
-    QString getFullDirectory( QListViewItem *element );
-
-private slots:
-    void changeElement();
-};
-
-#endif
+void Checkout::selectDirectorySlot()
+{
+    QString directory = QFileDialog::getExistingDirectory( editDirectory->text(), this, "get", "Select a Directory for Working Copy" );
+    if ( directory )
+        editDirectory->setText( QDir::convertSeparators( directory ) );
+}

@@ -22,67 +22,30 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
-#ifndef WORKINGCOPY_H
-#define WORKINGCOPY_H
 
-//qsvn
-//#include "addworkingcopy.h"
-//#include "checkout.h"
+#ifndef CHECKOUT_H
+#define CHECKOUT_H
 
-//Qt
-#include <qobject.h>
+#include "checkoutdlg.h"
 
-//qsvn classes
-class AddWorkingCopy;
-class Checkout;
-
-//Qt classes
-class QListView;
-class QListViewItem;
-class QString;
-
-/**
-This Class handles working copies
- 
-@author Andreas Richter
-*/
-
-class WorkingCopy : public QObject
+class Checkout : public CheckoutDlg
 {
     Q_OBJECT
+
 public:
-    static WorkingCopy* Exemplar();
-    static void releaseExemplar();
+    Checkout( QWidget *parent = 0, const char *name = 0 );
+    ~Checkout();
+
+    QString getSelectedDirectory() const;
     
-    QWidget* getWidget();
-
-    void updateElement( QListViewItem *element, QString directoryString );
-
-signals:
-    void directoryChanged( QString );
-
 public slots:
-    void addExistingWorkingCopySlot( QString directoyString );
-    void addExistingWorkingCopySlot();
-    void removeCurrentWorkingCopySlot();
-    void updateCurrentWorkingCopySlot();
-    void checkoutSlot();
+    void selectURLSlot();
+    void selectDirectorySlot();
 
 private:
-    WorkingCopy( QObject *parent = 0, const char *name = 0 );
-    ~WorkingCopy();
 
-    static WorkingCopy* _exemplar;
-
-    AddWorkingCopy *addWorkingCopy;
-    Checkout *checkout;
-    QListView *listViewWorkingCopy;
-
-    void removeWorkingCopy( QListViewItem *element );
-    QString getFullDirectory( QListViewItem *element );
-
-private slots:
-    void changeElement();
+protected slots:
 };
 
 #endif
+
