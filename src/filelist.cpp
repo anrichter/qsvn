@@ -34,7 +34,7 @@
 #include <qdir.h>
 #include <qlistview.h>
 #include <qpixmap.h>
-
+#include <qstringlist.h>
 
 //make FileList a singleton
 FileList* FileList::_exemplar = 0;
@@ -64,6 +64,7 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->addColumn( tr( "File Status" ) );
     listViewFiles->setShowSortIndicator( TRUE );
     listViewFiles->setAllColumnsShowFocus( TRUE );
+    listViewFiles->setSelectionMode( QListView::Extended );
     
     connect( listViewFiles, SIGNAL( doubleClicked( QListViewItem* ) ), this, SLOT( doubleClickedSlot( QListViewItem* ) ) );
     
@@ -87,6 +88,23 @@ FileListItem* FileList::selectedFileListItem()
         return static_cast< FileListItem* >( listViewFiles->selectedItem() );
     else
         return 0;
+}
+
+QStringList* FileList::selectedFileListItems()
+{
+    QStringList *stringList = new QStringList;
+    
+    QListViewItemIterator it( listViewFiles );
+    while ( it.current() ) 
+    {
+        FileListItem *item = static_cast< FileListItem* >( it.current() );
+        if ( item->isSelected() )
+        {
+            stringList->append( item->text( _COLUMN_FILE ) );
+        }
+        ++it;
+    }    
+    return stringList;
 }
 
 void FileList::updateListSlot( QString currentDirectory )
@@ -138,12 +156,6 @@ void FileList::updateListSlot( QString currentDirectory )
         }
         stringFullPath = currentDirectory;
     }
-}
-
-void FileList::diffSelected()
-{
-    if ( listViewFiles->currentItem() )
-        SvnClient::Exemplar()->diff( stringFullPath, listViewFiles->currentItem()->text( _COLUMN_FILE ), FALSE );
 }
 
 void FileList::doubleClickedSlot( QListViewItem* item )

@@ -54,12 +54,15 @@ public:
     
     //svn calls
     bool add( const QString &path, const QString &filename, bool withOutput = true );
+    bool add( const QString &path, const QStringList *filenameList, bool withOutput = true );
     bool info( const QString &path, bool withOutput = true );
     bool status( const QString &path, bool withOutput = true );
     bool update( const QString &path, bool withOutput = true );
     bool diff( const QString &path, const QString &filename, bool withOutput = true );
+    bool diff( const QString &path, const QStringList *filenameList, bool withOutput = true );
     bool checkout( const QString &path, const QString &url, bool withOutput = true );
     bool revert( const QString &path, const QString &filename, bool withOutput = true );
+    bool revert( const QString &path, const QStringList *filenameList, bool withOutput = true );
 
 public slots:
     void readStdoutSlot(); //!< read out the Stdout written from running process

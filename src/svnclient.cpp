@@ -33,6 +33,7 @@
 #include <qapplication.h>
 #include <qprocess.h>
 #include <qstring.h>
+#include <qstringlist.h>
 
 //Std
 #ifdef Q_WS_X11
@@ -199,6 +200,28 @@ bool SvnClient::add( const QString &path, const QString &filename, bool withOutp
         return FALSE;
 }
 
+bool SvnClient::add( const QString &path, const QStringList *filenameList, bool withOutput )
+{
+    if ( path && filenameList && ( filenameList->count() > 0 ) )
+    {
+        immediateOutput = withOutput;
+        
+        prepareNewProcess( path );
+        process->addArgument( "add" );
+        process->addArgument( "-N" );
+        
+        QStringList my_list( *filenameList );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        {
+            process->addArgument( *it );
+        }
+
+        return startAndWaitProcess( "cannot start svn add" );
+    }
+    else
+        return FALSE;
+}
+
 bool SvnClient::info( const QString &path, bool withOutput )
 {
     if ( path )
@@ -275,6 +298,22 @@ bool SvnClient::diff( const QString &path, const QString &filename, bool withOut
         return FALSE;
 }
 
+bool SvnClient::diff( const QString &path, const QStringList *filenameList, bool withOutput )
+{
+    if ( path && filenameList && ( filenameList->count() > 0 ) )
+    {
+        bool b = TRUE;
+        QStringList my_list( *filenameList );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        {
+            b = b and diff( path, *it, withOutput );
+        }
+        return b;
+    }
+    else
+        return FALSE;
+}
+
 bool SvnClient::checkout( const QString &path, const QString &url, bool withOutput )
 {
     if ( path && url )
@@ -301,6 +340,26 @@ bool SvnClient::revert( const QString &path, const QString &filename, bool withO
         process->addArgument( "revert" );
         process->addArgument( filename );
 
+        return startAndWaitProcess( "cannot start svn revert" );
+    }
+    else
+        return FALSE;
+}
+
+bool SvnClient::revert( const QString &path, const QStringList *filenameList, bool withOutput )
+{
+    if ( path && filenameList && ( filenameList->count() > 0 ) )
+    {
+        immediateOutput = withOutput;
+        
+        prepareNewProcess( path );
+        process->addArgument( "revert" );
+
+        QStringList my_list( *filenameList );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        {
+            process->addArgument( *it );
+        }
         return startAndWaitProcess( "cannot start svn revert" );
     }
     else

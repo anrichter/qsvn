@@ -55,10 +55,10 @@ public:
 
     QWidget *getWidget();
     FileListItem* selectedFileListItem(); //!< give the selected FileListItem
+    QStringList* selectedFileListItems(); //!< give a QStringList with all selected FileNames
 
 public slots:
     void updateListSlot( QString currentDirectory );
-    void diffSelected();
     void doubleClickedSlot( QListViewItem* item );
 
 private:

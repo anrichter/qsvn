@@ -104,33 +104,26 @@ void QSvn::commitSlot()
 
 void QSvn::addSlot()
 {
-    QString path;
-    QString file;
     WorkingCopyItem *item;
     
     if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
     {
         //add a directory
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem()->parent();
-        path = item->fullPath();
         QUrl url( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
-        file = url.fileName();
+        QString file = url.fileName();
+        SvnClient::Exemplar()->add( item->fullPath(), file );
     } 
     else if ( FileList::Exemplar()->getWidget()->hasFocus() )
     {
-        //add a file
+        //add file(s)
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        path = item->fullPath();
-        file = FileList::Exemplar()->selectedFileListItem()->text( _COLUMN_FILE );
+        SvnClient::Exemplar()->add( item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
     } 
     else
     {
         return;
     }
-    
-    //Add
-    SvnClient::Exemplar()->add( path, file );
-    
     //Updates
     WorkingCopy::Exemplar()->updateElement( item );
     FileList::Exemplar()->updateListSlot( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
@@ -144,32 +137,26 @@ void QSvn::removeSlot()
 
 void QSvn::revertSlot()
 {
-    QString path;
-    QString file;
     WorkingCopyItem *item;
     
     if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
     {
         //revert a directory
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem()->parent();
-        path = item->fullPath();
         QUrl url( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
-        file = url.fileName();
+        QString file = url.fileName();
+        SvnClient::Exemplar()->revert( item->fullPath(), file );
     } 
     else if ( FileList::Exemplar()->getWidget()->hasFocus() )
     {
         //revert a file
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        path = item->fullPath();
-        file = FileList::Exemplar()->selectedFileListItem()->text( _COLUMN_FILE );
+        SvnClient::Exemplar()->revert( item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
     } 
     else
     {
         return;
     }
-    
-    //Add
-    SvnClient::Exemplar()->revert( path, file );
     
     //Updates
     WorkingCopy::Exemplar()->updateElement( item );
@@ -178,7 +165,7 @@ void QSvn::revertSlot()
 
 void QSvn::diffSlot()
 {
-    FileList::Exemplar()->diffSelected();
+    SvnClient::Exemplar()->diff( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath(), FileList::Exemplar()->selectedFileListItems(), FALSE );
 }
 
 void QSvn::configureQSvnSlot()
