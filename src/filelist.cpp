@@ -109,10 +109,11 @@ QStringList* FileList::selectedFileListItems()
 
 void FileList::updateListSlot( QString currentDirectory )
 {
-    if ( listViewFiles && currentDirectory )
+    if ( listViewFiles )
     {
         listViewFiles->clear();
-        if ( SvnClient::Exemplar()->doSvnCommand( SvnClient::Status, currentDirectory, false ) )
+        if ( ( currentDirectory != "" ) && 
+			 SvnClient::Exemplar()->doSvnCommand( SvnClient::Status, currentDirectory, false ) )
         {
             QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
             QString _lineString, _restString, _revision, _author, _fileName;
