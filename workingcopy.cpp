@@ -145,6 +145,7 @@ void WorkingCopy::removeWorkingCopy( QListViewItem *element )
         {
             listViewWorkingCopy->removeItem( element );
         }
+        emit directoryChanged( QString( "" ) );
     }
 }
 

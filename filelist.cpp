@@ -65,15 +65,18 @@ void FileList::updateListSlot( QString stringDirectory )
     if ( listViewFiles )
     {
         listViewFiles->clear();
-        QDir directory( stringDirectory );
-        QStringList listFiles = directory.entryList( QDir::Files );
-        for ( QStringList::Iterator it = listFiles.begin(); it != listFiles.end(); ++it )
+        if ( stringDirectory != "" )
         {
-            // add only directories here
-            if ( ( *it != "." ) && ( *it != ".." ) )
+            QDir directory( stringDirectory );
+            QStringList listFiles = directory.entryList( QDir::Files );
+            for ( QStringList::Iterator it = listFiles.begin(); it != listFiles.end(); ++it )
             {
-                QListViewItem* _element = new QListViewItem( listViewFiles, *it );
-                _element->setText( 2, "?" );
+                // add only directories here
+                if ( ( *it != "." ) && ( *it != ".." ) )
+                {
+                    QListViewItem* _element = new QListViewItem( listViewFiles, *it );
+                    _element->setText( 2, "?" );
+                }
             }
         }
     }
