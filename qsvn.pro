@@ -7,9 +7,12 @@ TARGET       = qsvn
 DESTDIR      = bin
 
 SOURCES     += main.cpp \
-               qsvn.cpp
-HEADERS     += qsvn.h
-FORMS       += qsvndlg.ui
+               qsvn.cpp \
+               addworkingcopy.cpp
+HEADERS     += qsvn.h \
+               addworkingcopy.h
+FORMS       += qsvndlg.ui \
+               addworkingcopydlg.ui
 
 MOC_DIR      = .moc
 OBJECTS_DIR  = .obj

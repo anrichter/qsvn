@@ -162,13 +162,13 @@
         <sender>workingCopyAddAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>workingCopyAddSlot()</slot>
+        <slot>addWorkingCopySlot()</slot>
     </connection>
     <connection>
         <sender>workingCopyRemoveAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>workingCopyRemoveSlot()</slot>
+        <slot>removeWorkingCopySlot()</slot>
     </connection>
     <connection>
         <sender>helpAbout_QtAction</sender>
@@ -182,8 +182,8 @@
     <slot>helpIndexSlot()</slot>
     <slot>helpContentsSlot()</slot>
     <slot>aboutSlot()</slot>
-    <slot>workingCopyAddSlot()</slot>
-    <slot>workingCopyRemoveSlot()</slot>
+    <slot>addWorkingCopySlot()</slot>
+    <slot>removeWorkingCopySlot()</slot>
     <slot>aboutQtSlot()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>

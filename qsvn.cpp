@@ -21,6 +21,7 @@
 
 //QSvn
 #include "qsvn.h"
+#include "addworkingcopy.h"
 
 //Qt
 #include <qobject.h>
@@ -58,6 +59,8 @@ QSvn::QSvn( QWidget *parent, const char *name )
     statusTextEdit = new QTextEdit( verticalSplitter, "statusTextEdit" );
 
     verticalSplitter->setOpaqueResize( TRUE );
+
+
 }
 
 QSvn::~QSvn()
@@ -67,6 +70,12 @@ QSvn::~QSvn()
 void QSvn::exitSlot()
 {
     this->close();
+}
+
+void QSvn::addWorkingCopySlot()
+{
+    AddWorkingCopy myDlg = AddWorkingCopy();
+    myDlg.exec();
 }
 
 void QSvn::aboutSlot()

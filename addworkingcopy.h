@@ -19,44 +19,22 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef QSVN_H
-#define QSVN_H
+#ifndef ADDWORKINGCOPY_H
+#define ADDWORKINGCOPY_H
 
-#include "qsvndlg.h"
+#include "addworkingcopydlg.h"
 
-//Qt-classes
-class QGridLayout;
-class QSplitter;
-class QSplitter;
-class QTextEdit;
-class QListView;
-class QListView;
-
-class QSvn : public QSvnDlg
+class AddWorkingCopy : public AddWorkingCopyDlg
 {
     Q_OBJECT
 
 public:
-    QSvn( QWidget *parent = 0, const char *name = 0 );
-    ~QSvn();
+    AddWorkingCopy( QWidget *parent = 0, const char *name = 0 );
+    ~AddWorkingCopy();
 
 public slots:
 
 private:
-    QGridLayout *qsvnDlgLayout;
-    QSplitter *verticalSplitter;
-    QSplitter *horizontalSplitter;
-    QTextEdit *statusTextEdit;
-    QListView *fileListView;
-    QListView *workingCopyListView;
-
-private slots:
-    void exitSlot();
-
-    void addWorkingCopySlot();
-
-    void aboutSlot();
-    void aboutQtSlot();
 
 };
 
