@@ -100,8 +100,6 @@ void QSvn::updateSlot()
     {
         //update a directory
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        QUrl url( item->fullPath() );
-        QString file = url.fileName();
         SvnClient::Exemplar()->update( item->fullPath() );
     } 
     else if ( FileList::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
