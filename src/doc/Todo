@@ -6,7 +6,7 @@ open issues for version 0.1.0
 - svn commit
 - svn add
 - svn remove
-
+- show added files in listview
 
 open issues
 ===========
@@ -17,6 +17,7 @@ open issues
 - FileList Enhancements: revision number, last editor, timestamp
 - include pixmaps for file status and cvs actions
 - search in log's from a given directory. optionally recursive
+- property editor
 
 ideas
 =====
