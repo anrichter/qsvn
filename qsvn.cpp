@@ -35,29 +35,29 @@
 QSvn::QSvn( QWidget *parent, const char *name )
   : QSvnDlg( parent, name )
 {
-    //create layout 
+    //create layout
     setCentralWidget( new QWidget( this, "qt_central_widget" ) );
-	qsvnDlgLayout = new QGridLayout( centralWidget(), 1, 1, 0, 0, "qsvn_Dlg_Layout" );
-	
-	verticalSplitter = new QSplitter( QSplitter::Vertical, centralWidget() );
-	verticalSplitter->setHandleWidth( 2 );
+    qsvnDlgLayout = new QGridLayout( centralWidget(), 1, 1, 0, 0, "qsvn_Dlg_Layout" );
 
-	qsvnDlgLayout->addWidget( verticalSplitter, 0, 0 );
+    verticalSplitter = new QSplitter( QSplitter::Vertical, centralWidget() );
+    verticalSplitter->setHandleWidth( 2 );
 
-	horizontalSplitter = new QSplitter( QSplitter::Horizontal, verticalSplitter );
-	horizontalSplitter->setHandleWidth( 2 );
+    qsvnDlgLayout->addWidget( verticalSplitter, 0, 0 );
 
-	workingCopyListView = new QListView( horizontalSplitter, "workingCopyListView" );
+    horizontalSplitter = new QSplitter( QSplitter::Horizontal, verticalSplitter );
+    horizontalSplitter->setHandleWidth( 2 );
+
+    workingCopyListView = new QListView( horizontalSplitter, "workingCopyListView" );
     workingCopyListView->addColumn( tr( "Working Copy" ) );
 
-	fileListView = new QListView( horizontalSplitter, "fileListView" );
+    fileListView = new QListView( horizontalSplitter, "fileListView" );
     fileListView->addColumn( tr( "Filename" ) );
     fileListView->addColumn( tr( "Extension" ) );
     fileListView->addColumn( tr( "State" ) );
 
-	statusTextEdit = new QTextEdit( verticalSplitter, "statusTextEdit" );
+    statusTextEdit = new QTextEdit( verticalSplitter, "statusTextEdit" );
 
-	verticalSplitter->setOpaqueResize( TRUE );
+    verticalSplitter->setOpaqueResize( TRUE );
 }
 
 QSvn::~QSvn()
@@ -71,12 +71,12 @@ void QSvn::exitSlot()
 
 void QSvn::aboutSlot()
 {
-	QMessageBox::about( this, tr( "About qsvn" ), 
-		tr( "This Programm is a simple Subversion Client\n" 
-		    "Authors: Andreas Richter (ar@oszine.de)" ) );
+    QMessageBox::about( this, tr( "About qsvn" ),
+        tr( "This Programm is a simple Subversion Client\n"
+            "Authors: Andreas Richter (ar@oszine.de)" ) );
 }
 
 void QSvn::aboutQtSlot()
 {
-	QMessageBox::aboutQt( this );
+    QMessageBox::aboutQt( this );
 }

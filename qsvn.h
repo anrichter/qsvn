@@ -43,14 +43,14 @@ public:
 public slots:
     void exitSlot();
 
-	void aboutSlot();
-	void aboutQtSlot();
+    void aboutSlot();
+    void aboutQtSlot();
 
 private:
-	QGridLayout *qsvnDlgLayout;
-	QSplitter *verticalSplitter;
-	QSplitter *horizontalSplitter;
-	QTextEdit *statusTextEdit;
+    QGridLayout *qsvnDlgLayout;
+    QSplitter *verticalSplitter;
+    QSplitter *horizontalSplitter;
+    QTextEdit *statusTextEdit;
     QListView *fileListView;
     QListView *workingCopyListView;
 };
