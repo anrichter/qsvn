@@ -4,10 +4,11 @@ Some Ruels for Developing qsvn:
 
 For Components we use the following prefixes:
 
+action   - QAction
 button   - QPushButton, QToolButton
+combo    - QComboBox
 edit     - QLineEdit, QTextEdit
 listView - QListView
-action   - QAction
 splitter - QSplitter
 
 examples: buttonOk, editDirectory, labelExecutable
