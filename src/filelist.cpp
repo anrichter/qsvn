@@ -167,6 +167,10 @@ void FileList::updateListSlot( QString currentDirectory )
                             _element->setText( _COLUMN_STATUS, tr( "Deleted File" ) );
                             _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "modifiedfile.png" ) );
                             break;
+                        case int( '!' ):
+                            _element->setText( _COLUMN_STATUS, tr( "Missing" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "missingfile.png" ) );
+                            break;
                         default: 
                             _element->setText( _COLUMN_STATUS, tr( "Unknown Status" ) );
                             _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "unknownfile.png" ) );

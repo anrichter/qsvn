@@ -51,6 +51,7 @@ IMAGES += images/addedfile.png \
           images/conflictfile.png \
           images/file.png \
           images/folder.png \
+          images/missingfile.png \
           images/modifiedfile.png \
           images/unknownfile.png \
           images/unknownfolder.png
