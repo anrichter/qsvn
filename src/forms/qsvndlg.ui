@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>501</width>
-            <height>402</height>
+            <height>405</height>
         </rect>
     </property>
     <property name="caption">
@@ -265,9 +265,6 @@
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>aboutSlot()</slot>
-    </connection>
-    <connection>
-      <slot>helpContentsSlot()</slot>
     </connection>
     <connection>
         <sender>actionAboutQSvn</sender>
