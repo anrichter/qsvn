@@ -122,6 +122,11 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
         if ( withFileSelector )
             FileSelector::Exemplar()->setSelectedFiles( fileList );
     }
+    else
+    {
+        QMessageBox::information( this, "QSvn", tr( "Please select a Working Copy or some Files for SVN Command" ) );
+        return;
+    }
 
     if ( withFileSelector )
     {
