@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -82,7 +81,7 @@ void FileSelector::hideLogMessage()
         logMessageSize = *list.at( 1 );
         *list.at( 0 ) += *list.at( 1 );
         *list.at( 1 ) = 0;
-        splitterVertical->setSizes( list );   
+        splitterVertical->setSizes( list );
         frameLogMessage->setEnabled( FALSE );
     }
 }
@@ -117,7 +116,7 @@ void FileSelector::initFileSelector( int svnCommandType, const QString &path )
 void FileSelector::setSelectedFiles( QStringList* fileList )
 {
     listViewFiles->clear();
-    
+
     if ( fileList )
     {
         for ( QStringList::Iterator it = fileList->begin(); it != fileList->end(); ++it )
@@ -143,9 +142,9 @@ void FileSelector::setMessageString( QString message )
 QStringList* FileSelector::selectedFiles()
 {
     QStringList *stringList = new QStringList;
-    
+
     QListViewItemIterator it( listViewFiles );
-    while ( it.current() ) 
+    while ( it.current() )
     {
         QCheckListItem *item = static_cast< QCheckListItem* >( it.current() );
         if ( item->isOn() )
@@ -153,7 +152,7 @@ QStringList* FileSelector::selectedFiles()
             stringList->append( item->text( 0 ) );
         }
         ++it;
-    }    
+    }
     return stringList;
 }
 

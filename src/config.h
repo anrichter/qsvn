@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -40,7 +39,7 @@ const QString _SETTINGS_PRODUCT = "";
 
 /**
 this singelton holds the configuration for qsvn
- 
+
 @author Andreas Richter
 */
 
@@ -55,15 +54,15 @@ public:
 
     void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
     QString getDiffViewer(); //!< get the complete path to a diff viewer
-    
+
     //Main Window
     void saveMainWindow( QSvnDlg *aMainWindow );
     void restoreMainWindow( QSvnDlg *aMainWindow );
-    
+
     //ListView Settings
     void saveListView( QListView *aListView );
     void restoreListView( QListView *aListView );
-    
+
     //Working Copys
     void saveWorkingCopyEntries( QListView *aListView );
     void restoreWorkingCopyEntries();

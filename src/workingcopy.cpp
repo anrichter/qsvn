@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -22,7 +21,7 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
- 
+
 //QSvn
 #include "addworkingcopy.h"
 #include "checkout.h"
@@ -70,7 +69,7 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
     listViewWorkingCopy = new QListView( 0, "listViewWorkingCopy" );
     listViewWorkingCopy->addColumn( tr( "Working Copy" ) );
     listViewWorkingCopy->setRootIsDecorated( TRUE );
-    
+
     Config::Exemplar()->restoreListView( listViewWorkingCopy );
 
     connect( listViewWorkingCopy, SIGNAL( selectionChanged() ), this, SLOT( changeElement() ) );
@@ -161,12 +160,12 @@ void WorkingCopy::checkoutSlot()
     {
         checkout = new Checkout( qApp->mainWidget() );
     }
-    
+
     if ( checkout->exec() )
     {
         QString path = checkout->getSelectedDirectory();
         QString url = checkout->getSelectedURL();
-        
+
         if ( SvnClient::Exemplar()->checkout( path, url ) )
         {
             QUrl svnurl( url );

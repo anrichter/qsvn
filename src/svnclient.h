@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -36,7 +35,7 @@ class QProcess;
 
 /**
 This Class handles interaction with subversion client
- 
+
 @author Andreas Richter
 */
 
@@ -51,7 +50,7 @@ public:
                           Revert = 0x05,
                           Status = 0x06,
                           Update = 0x07 };
-    
+
     static SvnClient* Exemplar();
 
     QStringList getProcessStdoutList();
@@ -60,11 +59,11 @@ public:
     bool isWorkingCopy( const QString &path );
     QString getMessageString();
     void filesToList( int svnCommandType, QStringList *list, const QString &path, const QString pathPrefix = "" );
-    
+
     bool doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput = true );
     bool doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, bool withOutput = true );
     bool doSvnCommand( int svnCommandType, const QString &path, bool withOutput = true );
-    
+
     //svn calls
     bool add( const QString &path, const QString &filename, bool withOutput = true );
     bool diff( const QString &path, const QString &filename, bool withOutput = true );
@@ -84,7 +83,7 @@ private:
     static SvnClient* _exemplar;
 
     QProcess *process;
-    
+
     //Process outputs
     QStringList processStdoutList;
     QStringList processStderrList;

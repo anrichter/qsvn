@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -42,31 +41,31 @@ public slots:
 protected slots:
     //File
     void exitSlot();
-    
+
     //WorkingCopy
     void addWorkingCopySlot();
     void removeWorkingCopySlot();
     void checkoutSlot();
-    
+
     //Modify
     void updateSlot();
     void commitSlot();
     void addSlot();
     void removeSlot();
     void revertSlot();
-    
+
     //Query
     void diffSlot();
-    
+
     //Settings
     void configureQSvnSlot();
-    
+
     //Help
     void helpContentsSlot();
     void helpIndexSlot();
     void aboutSlot();
     void aboutQtSlot();
-    
+
     // @brief prepare informations for and call a svn command during SvnClient::doSvnCommand
     void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
 };

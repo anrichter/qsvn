@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -55,12 +54,12 @@ QSvn::QSvn( QWidget *parent, const char *name )
     //insert StatusText widget
     widgetStackStatusText->addWidget( StatusText::Exemplar()->getWidget() );
     widgetStackStatusText->raiseWidget( StatusText::Exemplar()->getWidget() );
-    
+
     Config::Exemplar()->restoreWorkingCopyEntries();
-    
+
     //connect
     connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ), FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
-    
+
     Config::Exemplar()->restoreMainWindow( this );
 }
 
@@ -97,13 +96,13 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
     //already implemented: commit, revert
     if ( !WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
         return;
-    
+
     bool runCommand = FALSE;
-    
+
     WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
     QStringList *fileList = new QStringList; // QStringList with filenames for svn command
     QString commitMessage;
-    
+
     if ( withFileSelector )
         FileSelector::Exemplar()->initFileSelector( svnCommandType, item->fullPath() );
 
@@ -121,8 +120,8 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
         fileList = FileList::Exemplar()->selectedFileListItems();
         if ( withFileSelector )
             FileSelector::Exemplar()->setSelectedFiles( fileList );
-    }    
-    
+    }
+
     if ( withFileSelector )
     {
         if ( FileSelector::Exemplar()->exec() )
@@ -134,7 +133,7 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
     }
     else
         runCommand = TRUE;
-            
+
     if ( runCommand )
     {
         //call svnCommand

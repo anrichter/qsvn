@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -22,7 +21,7 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
- 
+
 //QSvn
 #include "config.h"
 #include "filelist.h"
@@ -66,9 +65,9 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->setShowSortIndicator( TRUE );
     listViewFiles->setAllColumnsShowFocus( TRUE );
     listViewFiles->setSelectionMode( QListView::Extended );
-    
+
     connect( listViewFiles, SIGNAL( doubleClicked( QListViewItem* ) ), this, SLOT( doubleClickedSlot( QListViewItem* ) ) );
-    
+
     Config::Exemplar()->restoreListView( listViewFiles );
     stringFullPath = "";
 }
@@ -94,9 +93,9 @@ FileListItem* FileList::selectedFileListItem()
 QStringList* FileList::selectedFileListItems()
 {
     QStringList *stringList = new QStringList;
-    
+
     QListViewItemIterator it( listViewFiles );
-    while ( it.current() ) 
+    while ( it.current() )
     {
         FileListItem *item = static_cast< FileListItem* >( it.current() );
         if ( item->isSelected() )
@@ -104,7 +103,7 @@ QStringList* FileList::selectedFileListItems()
             stringList->append( item->text( _COLUMN_FILE ) );
         }
         ++it;
-    }    
+    }
     return stringList;
 }
 
@@ -127,8 +126,8 @@ void FileList::updateListSlot( QString currentDirectory )
                     _revision = "";
                     _author = "";
                     _fileName = _restString;
-                } 
-                else 
+                }
+                else
                 {
                     _revision = _restString.section( ' ', 1, 1 );
                     _author = _restString.section( ' ', 2, 2 );
@@ -147,11 +146,11 @@ void FileList::updateListSlot( QString currentDirectory )
                             _element->setText( _COLUMN_STATUS, tr( "Modified File" ) );
                             _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "modifiedfile.png" ) );
                             break;
-                        case int( '?' ): 
+                        case int( '?' ):
                             _element->setText( _COLUMN_STATUS, tr( "Unknown File" ) );
                             _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "unknownfile.png" ) );
                             break;
-                        case int( ' ' ): 
+                        case int( ' ' ):
                             _element->setText( _COLUMN_STATUS, tr( "File" ) );
                             _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "file.png" ) );
                             break;
@@ -171,7 +170,7 @@ void FileList::updateListSlot( QString currentDirectory )
                             _element->setText( _COLUMN_STATUS, tr( "Missing" ) );
                             _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "missingfile.png" ) );
                             break;
-                        default: 
+                        default:
                             _element->setText( _COLUMN_STATUS, tr( "Unknown Status" ) );
                             _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "unknownfile.png" ) );
                             break;

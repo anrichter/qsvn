@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -180,16 +179,16 @@ void SvnClient::filesToList( int svnCommandType, QStringList *list, const QStrin
         if ( svnCommandType == Update )
         {
             list->append( "." );
-            return;            
+            return;
         }
-        
+
         if ( doSvnCommand( Status, path, false ) )
         {
             QStringList statusList( getProcessStdoutList() );
             QString _lineString;
             QString _fileName;
             int i = 0;
-            
+
             for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
                 _lineString = *it;
@@ -198,8 +197,8 @@ void SvnClient::filesToList( int svnCommandType, QStringList *list, const QStrin
 
                 if ( _lineString.at( 0 ).latin1() != '?' )
                 {
-                    _fileName = _fileName.section( ' ', 3, 3 ); //get FileName    
-                } 
+                    _fileName = _fileName.section( ' ', 3, 3 ); //get FileName
+                }
 
                 if ( ( _fileName != "." ) && ( _fileName != ".." ) )
                 {
@@ -211,7 +210,7 @@ void SvnClient::filesToList( int svnCommandType, QStringList *list, const QStrin
                             list->append( pathPrefix + _fileName );
                         }
                     }
-                    else 
+                    else
                     if ( svnCommandType == Remove )
                     {
                         if ( i == int( ' ' ) )
@@ -227,9 +226,9 @@ void SvnClient::filesToList( int svnCommandType, QStringList *list, const QStrin
                             list->append( pathPrefix + _fileName );
                         }
                     }
-                    
+
                     //recursive call for subdirectories
-                    if ( QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory 
+                    if ( QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory
                     {
                         filesToList( svnCommandType, list, path + QDir::separator() + _fileName, pathPrefix + _fileName + QDir::separator() );
                     }
@@ -238,7 +237,7 @@ void SvnClient::filesToList( int svnCommandType, QStringList *list, const QStrin
         }
     }
 }
-    
+
 bool SvnClient::isWorkingCopy( const QString &path )
 {
     QDir dir( path + QDir::separator() + ".svn" );
@@ -253,10 +252,10 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
 {
     if ( !path )
         return FALSE;
-        
+
     QStringList my_list( *filenameList );
     bool _return = FALSE;
-    
+
     immediateOutput = withOutput;
 
     prepareNewProcess( path );
@@ -392,7 +391,7 @@ bool SvnClient::diff( const QString &fullFileName, bool withOutput )
         url.dirPath();
         QString path = url.dirPath();
         QString filename = url.fileName();
-        
+
         diff( path, filename, withOutput );
         return TRUE;
     }

@@ -3,9 +3,8 @@
  *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU General Public License Version 2        *
+ *   as published by the Free Software Foundation.                         *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
@@ -22,7 +21,7 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
- 
+
 //QSvn
 #include "config.h"
 #include "qsvndlg.h"
@@ -129,7 +128,7 @@ void Config::saveMainWindow( QSvnDlg *aMainWindow )
             ++it;
             ++i;
         }
-        
+
         //save settings from splitterHorizontal
         i = 0;
         list = aMainWindow->splitterHorizontal->sizes();
@@ -140,7 +139,7 @@ void Config::saveMainWindow( QSvnDlg *aMainWindow )
             ++it;
             ++i;
         }
-        
+
         settings.endGroup();
     }
 }
@@ -152,10 +151,10 @@ void Config::restoreMainWindow( QSvnDlg *aMainWindow )
         QSettings settings;
         settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
         settings.beginGroup( "mainwindow" );
-    
+
         aMainWindow->resize( settings.readNumEntry( "width", aMainWindow->width() ),
                             settings.readNumEntry( "height", aMainWindow->height() ) );
-    
+
         //restore settings from splitterVertical
         int i = 0;
         QValueList<int> list = aMainWindow->splitterVertical->sizes();
@@ -166,8 +165,8 @@ void Config::restoreMainWindow( QSvnDlg *aMainWindow )
             ++it;
             ++i;
         }
-        aMainWindow->splitterVertical->setSizes( list );   
-    
+        aMainWindow->splitterVertical->setSizes( list );
+
         //restore settings from splitterHorizontal
         i = 0;
         list = aMainWindow->splitterHorizontal->sizes();
@@ -178,8 +177,8 @@ void Config::restoreMainWindow( QSvnDlg *aMainWindow )
             ++it;
             ++i;
         }
-        aMainWindow->splitterHorizontal->setSizes( list );   
-        
+        aMainWindow->splitterHorizontal->setSizes( list );
+
         settings.endGroup();
     }
 }
@@ -222,7 +221,7 @@ void Config::saveWorkingCopyEntries( QListView *aListView )
     {
         QSettings settings;
         settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        
+
         int i = 0;
         QListViewItemIterator it( aListView );
         while ( it.current() )
@@ -236,7 +235,7 @@ void Config::saveWorkingCopyEntries( QListView *aListView )
             }
             it++;
         }
-        
+
         settings.beginGroup( "workingCopies/general" );
         settings.writeEntry( "count", i );
     }
@@ -249,11 +248,11 @@ void Config::restoreWorkingCopyEntries()
     settings.beginGroup( "workingCopies/general" );
     int count = settings.readNumEntry( "count", 0 );
     settings.endGroup();
-    
+
     for ( int i = 0; i < count; i++ )
     {
         settings.beginGroup( "workingCopies/" + QString( "WorkingCopy%1" ).arg( i ) );
         WorkingCopy::Exemplar()->addExistingWorkingCopySlot( settings.readEntry( "directory", "" ) );
         settings.endGroup();
-    }    
+    }
 }
