@@ -32,3 +32,8 @@ QSvn::QSvn( QWidget *parent, const char *name )
 QSvn::~QSvn()
 {
 }
+
+void QSvn::fileExit()
+{
+    this->close();
+}

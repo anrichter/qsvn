@@ -32,6 +32,9 @@ public:
     QSvn( QWidget *parent = 0, const char *name = 0 );
     ~QSvn();
 
+public slots:
+    void fileExit();
+
 private:
 
 };

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>QSvnDlg</class>
 <widget class="QMainWindow">
     <property name="name">
@@ -13,17 +13,11 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Form1</string>
+        <string>QSvn</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>0</number>
-        </property>
-        <property name="spacing">
-            <number>0</number>
         </property>
         <widget class="QTextEdit" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
@@ -103,24 +97,11 @@
         <cstring>MenuBar</cstring>
     </property>
     <item text="&amp;File" name="fileMenu">
-        <action name="fileNewAction"/>
-        <action name="fileOpenAction"/>
-        <action name="fileSaveAction"/>
-        <action name="fileSaveAsAction"/>
-        <separator/>
-        <action name="filePrintAction"/>
-        <separator/>
         <action name="fileExitAction"/>
     </item>
-    <item text="&amp;Edit" name="editMenu">
-        <action name="editUndoAction"/>
-        <action name="editRedoAction"/>
-        <separator/>
-        <action name="editCutAction"/>
-        <action name="editCopyAction"/>
-        <action name="editPasteAction"/>
-        <separator/>
-        <action name="editFindAction"/>
+    <item text="&amp;Sandbox" name="sandboxMenu">
+        <action name="sandboxAddAction"/>
+        <action name="sandboxRemoveAction"/>
     </item>
     <item text="&amp;Help" name="helpMenu">
         <action name="helpContentsAction"/>
@@ -134,88 +115,6 @@
 <actions>
     <action>
         <property name="name">
-            <cstring>fileNewAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image0</iconset>
-        </property>
-        <property name="text">
-            <string>New</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;New</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+N</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>fileOpenAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image1</iconset>
-        </property>
-        <property name="text">
-            <string>Open</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Open...</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+O</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>fileSaveAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image2</iconset>
-        </property>
-        <property name="text">
-            <string>Save</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Save</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+S</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>fileSaveAsAction</cstring>
-        </property>
-        <property name="text">
-            <string>Save As</string>
-        </property>
-        <property name="menuText">
-            <string>Save &amp;As...</string>
-        </property>
-        <property name="accel">
-            <string></string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>filePrintAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image3</iconset>
-        </property>
-        <property name="text">
-            <string>Print</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Print...</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+P</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
             <cstring>fileExitAction</cstring>
         </property>
         <property name="text">
@@ -226,108 +125,6 @@
         </property>
         <property name="accel">
             <string></string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>editUndoAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image4</iconset>
-        </property>
-        <property name="text">
-            <string>Undo</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Undo</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+Z</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>editRedoAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image5</iconset>
-        </property>
-        <property name="text">
-            <string>Redo</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Redo</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+Y</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>editCutAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image6</iconset>
-        </property>
-        <property name="text">
-            <string>Cut</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Cut</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+X</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>editCopyAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image7</iconset>
-        </property>
-        <property name="text">
-            <string>Copy</string>
-        </property>
-        <property name="menuText">
-            <string>C&amp;opy</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+C</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>editPasteAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image8</iconset>
-        </property>
-        <property name="text">
-            <string>Paste</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Paste</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+V</string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>editFindAction</cstring>
-        </property>
-        <property name="iconSet">
-            <iconset>image9</iconset>
-        </property>
-        <property name="text">
-            <string>Find</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Find...</string>
-        </property>
-        <property name="accel">
-            <string>Ctrl+F</string>
         </property>
     </action>
     <action>
@@ -372,111 +169,35 @@
             <string></string>
         </property>
     </action>
+    <action>
+        <property name="name">
+            <cstring>sandboxAddAction</cstring>
+        </property>
+        <property name="text">
+            <string>Add</string>
+        </property>
+        <property name="menuText">
+            <string>Add</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>sandboxRemoveAction</cstring>
+        </property>
+        <property name="text">
+            <string>Remove</string>
+        </property>
+        <property name="menuText">
+            <string>Remove</string>
+        </property>
+    </action>
 </actions>
-<images>
-    <image name="image0">
-        <data format="XPM.GZ" length="721">789cedd2b10ac2301485e13d4f7149b620365650417c04c5511087f426a24315b40e22bebb3dd1146bda37f0a4437ebea11d9a69daac97a43371ad6c7564e283bd9076b7b2bc6f778b8790794ef533a5911c083924a6d5f9e47157f55d993064811c8721193909433ae4cce0203d920d0ed222f761e12d9d8ba29a2562df5385ea138e94888b94888f94888d9448f381bff2f1bfb4a5bd2fe9ff0f3ae439172f14cea87e</data>
-    </image>
-    <image name="image1">
-        <data format="XPM.GZ" length="691">789cad914d0ac2301085f739c5d0d905b1b52014c423282e05713189165dd482d685887737ffa63622822f81cccbc79b0924e7b05e2d80e7ecd2517794200f7406bebb36cd6db39ddf595696a0f61426d988656390b06c4f7b5da3aab130d2566a5b1595b3a46dad64adf0b6ae4d9fa4fe4150c99cefc4dea2dee96ef8896020be79042c41122430287a1b0a8a568fc4807eca605faf0ca28ce4480a843903e0e70c81cb24802529e04802f84cacefbffd98b12792e997a2</data>
-    </image>
-    <image name="image2">
-        <data format="XPM.GZ" length="676">789cd3d7528808f055d0d2e72a2e492cc94c5648ce482c52d04a29cdcdad8c8eb5ade6523232520022130543251d2e253d856405bffcbc54105b19c856360003103711c4b530b080729340dc640310046bc40ac032ca5800542631513909090039a4cbe0360dc81f443289c8fe4f4491410344c928a31a874d06b70b68288325baa1e9007b0aa9b5e60200ca65a094</data>
-    </image>
-    <image name="image3">
-        <data format="XPM.GZ" length="962">789cb591c14e83401040ef7cc5a6736b4c8bc53435c64fd07834311e96190668594a293d18e3bfbbb3c3da96e8d1b724eccb6397b02ce7e6f5e5c9cc97c971b0438d062bdb9b399d9cfb787b7ffc4c66ab95912b33b7b39b64b630689ef76d2173e7e7900644aba859267a5065d6da886659acac2a889ea2aed7a29d2ab3d642741d10dda922aaf6aaccaaa5e82695214aa2f701d1ad2aa22a88622a4374502554b54103a2755466d1bd2ab35614a53b4a71237a1495a60fe7aa9c73d8b91d95b52e0200d60301f18b9247705a4056fdbae682ab320dff566c8e2344702e4005a00dc397820b180b507941c15c3185028479ad3bd9ed6e4bdc342e9c1b50de46f6dda1b32557ae09bffd1cdabceffab62e63417fc8b2d5b1c61a076fe45c150a005d53b871cdb494beb850a64839fd592014fd407f3b170a670085ffe66b289e9b6f3ff8974b58ccbe1e926f1d73f582</data>
-    </image>
-    <image name="image4">
-        <data format="XPM.GZ" length="661">789cd3d7528808f055d0d2e72a2e492cc94c5648ce482c52d04a29cdcdad8c8eb5ade6523232520022630543251d2e253d856405bffcbc54105b19c8563600020b03103711c4b530b08072f5b082019251068344848c32b23808206494a1e23015890819653db8b81e44255c0659025d460fa70c6e3d78ec814b21b90d052422fb070540f50ebaf84196a9b5e60200f1cf73be</data>
-    </image>
-    <image name="image5">
-        <data format="XPM.GZ" length="661">789cd3d7528808f055d0d2e72a2e492cc94c5648ce482c52d04a29cdcdad8c8eb5ade6523232520022630543251d2e253d856405bffcbc54103b11c8563600020b03105719c4b530b08072f5b0027acb28278201a64c221c4084136132ca7011885c225c06c91890542256193d98a198327a386570ea49449581bb4d2f114d0624a08c230c50fd4f5cb80da04cad351700d81f8664</data>
-    </image>
-    <image name="image6">
-        <data format="XPM.GZ" length="661">789cadd0bd0ac2301007f03d4f71e4b620a9d645101f417114c4e14f1574a882ad8388ef6e1a4dbcb6411d4c42b8cb2fdf99a1d5724e2653558dfa5050b1c799ccf65296d7f56676533acfc9b5318df440694b052d4ec75d13b38b79e84b9322a4139fda6411c2a2ff937052582e91623f088bcd5ae2c6dff0ab88533a02465a00d79010f86ad1133c2d5214d8202f0a02fb45c47609e99c13e7a27737f192d4efb4e43e550ff74e7cc9</data>
-    </image>
-    <image name="image7">
-        <data format="XPM.GZ" length="706">789c9d92cb0ac2301045f7f98aa1d915b15a4114f113149782b898a4165db482d68588ff6e6692d057ace04da073399c50429218f6bb0dc489b857585d34e833de20ce1e45f13c1cd72f11a529983d87693412d118346cafe58966696639e15055be2eb86aaa33933ca79a515d9ad88a54730e1f1bcc30912e01829c0eb2840c34eb9b832dd474944bdf51f6eb50ed4854d6555a751cf44ec628e420a390637f23e0581c725aa4e9b8f997e3d277fc4df59d9afce13433f40ede2bf101c0cea4f7</data>
-    </image>
-    <image name="image8">
-        <data format="XPM.GZ" length="736">789c7d92410bc2201886effe0a99b7116ded34887e42d131880eeafca84305b50e11fdf7fc3e735373bd6ee0bbc707d95c55f2dd76cdcb8add7bd99f34d74779e365f7389f9ffbc3eac58aa6e1f66af9a298b162ce35df5c2f06e7c2ce454dc16a7c6da96aacad2d8e2a5f1dedb0ea1a075689156cdc62f0158036cd26200293127a28a49462c4440610227a21a1b4b244d04d734fb0743ed43cd14a07045be88c499c78844e3c52c70c491de33e181830a90324588228ef209a702cca3a949c03934e4062e7bb59703ee2d7f1e76ba2fcf943de4bf601b276c152</data>
-    </image>
-    <image name="image9">
-        <data format="XPM.GZ" length="902">789c8592c94ec3301040eff90aabbe55a81b0835427c02882312e2304b9ca58edd403920c4bfe3b16b29292d4c72f0cb9b19253359ced5f3d3839a2f8bf7031c5a52d4c09b9af347df7fbebcde7f15b3cd46857b5daaf5ecaa982d14a947ef2a390fe1acaf630892e06d0c419fb00c21e812122544c1ed4a2e41102ccb9c6c331209ee321a236812e6569c3125f71953729bd09864b520ade412ac123225ec2252ae6d12e6da3a63b27b41bee1156de364cec6bf46031221e85f4623705519447d6234415dd74dd38e55fc36e4a6eeba8e99112706a06e3acdbcb3e15bf4d8605557ccad610b8c30354ddb8656bd75a37647c3517867fc89a9c458e79c39a931ccc65808c64fdf20bcb531ce5a1f0227668128e93edc047badc733400c5b701e09c23c8e0df3dc0811e3338dc3105be62d8461c371d4300c92726e3f5206173627651776aae99259fcf91f7cdf153fef1dd5a1</data>
-    </image>
-</images>
 <connections>
-    <connection>
-        <sender>fileNewAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>fileNew()</slot>
-    </connection>
-    <connection>
-        <sender>fileOpenAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>fileOpen()</slot>
-    </connection>
-    <connection>
-        <sender>fileSaveAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>fileSave()</slot>
-    </connection>
-    <connection>
-        <sender>fileSaveAsAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>fileSaveAs()</slot>
-    </connection>
-    <connection>
-        <sender>filePrintAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>filePrint()</slot>
-    </connection>
     <connection>
         <sender>fileExitAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>fileExit()</slot>
-    </connection>
-    <connection>
-        <sender>editUndoAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>editUndo()</slot>
-    </connection>
-    <connection>
-        <sender>editRedoAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>editRedo()</slot>
-    </connection>
-    <connection>
-        <sender>editCutAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>editCut()</slot>
-    </connection>
-    <connection>
-        <sender>editCopyAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>editCopy()</slot>
-    </connection>
-    <connection>
-        <sender>editPasteAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>editPaste()</slot>
-    </connection>
-    <connection>
-        <sender>editFindAction</sender>
-        <signal>activated()</signal>
-        <receiver>QSvnDlg</receiver>
-        <slot>editFind()</slot>
     </connection>
     <connection>
         <sender>helpIndexAction</sender>
@@ -496,23 +217,26 @@
         <receiver>QSvnDlg</receiver>
         <slot>helpAbout()</slot>
     </connection>
+    <connection>
+        <sender>sandboxAddAction</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>sandboxAdd()</slot>
+    </connection>
+    <connection>
+        <sender>sandboxRemoveAction</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>sandboxRemove()</slot>
+    </connection>
 </connections>
 <slots>
-    <slot>fileNew()</slot>
-    <slot>fileOpen()</slot>
-    <slot>fileSave()</slot>
-    <slot>fileSaveAs()</slot>
-    <slot>filePrint()</slot>
     <slot>fileExit()</slot>
-    <slot>editUndo()</slot>
-    <slot>editRedo()</slot>
-    <slot>editCut()</slot>
-    <slot>editCopy()</slot>
-    <slot>editPaste()</slot>
-    <slot>editFind()</slot>
     <slot>helpIndex()</slot>
     <slot>helpContents()</slot>
     <slot>helpAbout()</slot>
+    <slot>sandboxAdd()</slot>
+    <slot>sandboxRemove()</slot>
 </slots>
-<layoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="0" margin="0"/>
 </UI>
