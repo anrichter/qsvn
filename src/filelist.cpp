@@ -50,8 +50,8 @@ FileList::FileList(QObject *parent, const char *name)
 {
     listViewFiles = new QListView( 0, "listViewFiles" );
     listViewFiles->addColumn( tr( "Filename" ) );
-    listViewFiles->addColumn( tr( "Extension" ) );
-    listViewFiles->addColumn( tr( "State" ) );
+    listViewFiles->addColumn( tr( "File Status" ) );
+    listViewFiles->setShowSortIndicator( TRUE );
 }
 
 FileList::~FileList()
@@ -69,15 +69,22 @@ void FileList::updateListSlot( QString stringDirectory )
         listViewFiles->clear();
         if ( SvnClient::Exemplar()->getStatus( stringDirectory ) )
         {
-            qDebug( "read StdOut List" );
             QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
+            QString _lineString;
+            QString _fileName;
+            QDir _checkDir;
             for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
+                _lineString = *it;
+                _fileName = _lineString.right( _lineString.length() - 40 );
+                _checkDir = QDir( _fileName );
                 // add only directories here
-                if ( ( *it != "." ) && ( *it != ".." ) )
+                if ( ! _checkDir.exists() )
                 {
-                    QListViewItem* _element = new QListViewItem( listViewFiles, *it );
-                    _element->setText( 2, "?" );
+                    //set Filename
+                    QListViewItem* _element = new QListViewItem( listViewFiles, _fileName );
+                    //set File Status
+                    _element->setText( 1, _lineString.mid( 0, 1 ) );
                 }
             }
         }
