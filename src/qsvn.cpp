@@ -128,8 +128,12 @@ void QSvn::addSlot()
         return;
     }
     
+    //Add
     SvnClient::Exemplar()->add( path, file );
+    
+    //Updates
     WorkingCopy::Exemplar()->updateElement( item );
+    FileList::Exemplar()->updateListSlot( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
 }
 
 void QSvn::removeSlot()
