@@ -12,3 +12,4 @@ open issues for version 0.1.0
   These inlcuded QSvn in theri constructor in the prepare QSplitter Layout.
   For containers for the widgets we can use a QFrame
   This are included implemented in constructor from QSvn in the QSplitter layout
+- StatusText provide the output of text in the editStatusText - similar to WorkingCopy and FileList

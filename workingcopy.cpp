@@ -52,7 +52,12 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
     //initialising
     addWorkingCopy = 0;
     statusTextEdit = 0;
-    workingCopyListView = 0;
+
+    listViewWorkingCopy = new QListView( 0, "listViewWorkingCopy" );
+    listViewWorkingCopy->addColumn( tr( "Working Copy" ) );
+    listViewWorkingCopy->setRootIsDecorated( TRUE );
+    
+    connect( listViewWorkingCopy, SIGNAL( selectionChanged() ), this, SLOT( changeElement() ) );
 }
 
 WorkingCopy::~WorkingCopy()
@@ -66,9 +71,9 @@ void WorkingCopy::outputMessage( const QString messageString )
         qDebug( messageString );
 }
 
-void WorkingCopy::setListView( QListView *listView )
+QWidget *WorkingCopy::getWidget()
 {
-    workingCopyListView = listView;
+    return listViewWorkingCopy;
 }
 
 void WorkingCopy::setStatusEdit( QTextEdit *textEdit )
@@ -86,7 +91,7 @@ void WorkingCopy::updateElement( QListViewItem *element, QString directoryString
         {
             directory.setMatchAllDirs( TRUE );
             QStringList lst = directory.entryList( QDir::Dirs );
-            for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) 
+            for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it )
             {
                 // add only directories here
                 if ( ( *it != "." ) && ( *it != ".." ) )
@@ -112,7 +117,7 @@ void WorkingCopy::addExistingWorkingCopySlot()
     {
         //ad working Copy to workingCopyListView
         QListViewItem *element;
-        element = new QListViewItem( workingCopyListView, addWorkingCopy->getSelectedDirectory() );
+        element = new QListViewItem( listViewWorkingCopy, addWorkingCopy->getSelectedDirectory() );
         updateElement( element, addWorkingCopy->getSelectedDirectory() );
     }
     else
@@ -124,8 +129,8 @@ void WorkingCopy::addExistingWorkingCopySlot()
 
 void WorkingCopy::removeCurrentWorkingCopySlot()
 {
-    if ( workingCopyListView->currentItem() )
-        removeWorkingCopy( workingCopyListView->currentItem() );
+    if ( listViewWorkingCopy->currentItem() )
+        removeWorkingCopy( listViewWorkingCopy->currentItem() );
 }
 
 void WorkingCopy::removeWorkingCopy( QListViewItem *element )
@@ -138,8 +143,30 @@ void WorkingCopy::removeWorkingCopy( QListViewItem *element )
         }
         else
         {
-            workingCopyListView->removeItem( element );
+            listViewWorkingCopy->removeItem( element );
         }
     }
 }
 
+QString WorkingCopy::getFullDirectory( QListViewItem *element )
+{
+    QString strDirectory;
+    if ( element )
+    {
+        if ( element->parent() )
+        {
+            strDirectory = this->getFullDirectory( element->parent() ) + element->text( 0 );
+        }
+        else
+        {
+            strDirectory = element->text( 0 );
+        }
+    }
+    return strDirectory;
+}
+
+//private slots
+void WorkingCopy::changeElement()
+{
+    emit directoryChanged( this->getFullDirectory( listViewWorkingCopy->selectedItem() ) );
+}

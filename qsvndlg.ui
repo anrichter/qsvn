@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>720</width>
-            <height>472</height>
+            <width>480</width>
+            <height>369</height>
         </rect>
     </property>
     <property name="caption">
@@ -33,62 +33,31 @@
                 <property name="orientation">
                     <enum>Horizontal</enum>
                 </property>
-                <widget class="QListView">
-                    <column>
-                        <property name="text">
-                            <string>Working Copy</string>
-                        </property>
-                        <property name="clickable">
-                            <bool>true</bool>
-                        </property>
-                        <property name="resizable">
-                            <bool>true</bool>
-                        </property>
-                    </column>
+                <widget class="QWidgetStack">
                     <property name="name">
-                        <cstring>listViewWorkingCopy</cstring>
+                        <cstring>widgetStackWorkingCopy</cstring>
                     </property>
-                    <property name="rootIsDecorated">
-                        <bool>true</bool>
-                    </property>
+                    <widget class="QWidget">
+                        <property name="name">
+                            <cstring>WStackPage</cstring>
+                        </property>
+                        <attribute name="id">
+                            <number>0</number>
+                        </attribute>
+                    </widget>
                 </widget>
-                <widget class="QListView">
-                    <column>
-                        <property name="text">
-                            <string>Filename</string>
-                        </property>
-                        <property name="clickable">
-                            <bool>true</bool>
-                        </property>
-                        <property name="resizable">
-                            <bool>true</bool>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Extension</string>
-                        </property>
-                        <property name="clickable">
-                            <bool>true</bool>
-                        </property>
-                        <property name="resizable">
-                            <bool>true</bool>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>State</string>
-                        </property>
-                        <property name="clickable">
-                            <bool>true</bool>
-                        </property>
-                        <property name="resizable">
-                            <bool>true</bool>
-                        </property>
-                    </column>
+                <widget class="QWidgetStack">
                     <property name="name">
-                        <cstring>listViewFiles</cstring>
+                        <cstring>widgetStackFileList</cstring>
                     </property>
+                    <widget class="QWidget">
+                        <property name="name">
+                            <cstring>WStackPage</cstring>
+                        </property>
+                        <attribute name="id">
+                            <number>0</number>
+                        </attribute>
+                    </widget>
                 </widget>
             </widget>
             <widget class="QTextEdit">

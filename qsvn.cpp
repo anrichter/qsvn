@@ -35,22 +35,27 @@
 //Qt
 #include <qaction.h>
 #include <qmessagebox.h>
-#include <qlistview.h>
 #include <qtextedit.h>
+#include <qwidgetstack.h>
 
 
 QSvn::QSvn( QWidget *parent, const char *name )
         : QSvnDlg( parent, name )
 {
-    WorkingCopy::Exemplar()->setListView( listViewWorkingCopy );
+    //insert WorkingCopy widget
+    widgetStackWorkingCopy->addWidget( WorkingCopy::Exemplar()->getWidget() );
+    widgetStackWorkingCopy->raiseWidget( WorkingCopy::Exemplar()->getWidget() );
+    //insert FileList widget
+    widgetStackFileList->addWidget( FileList::Exemplar()->getWidget() );
+    widgetStackFileList->raiseWidget( FileList::Exemplar()->getWidget() );
+    
     WorkingCopy::Exemplar()->setStatusEdit( editStatusText );
-    FileList::Exemplar()->setListViewFiles( listViewFiles );
     
     //connect 
     connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
-    connect (actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
-    connect (listViewWorkingCopy , SIGNAL( selectionChanged( QListViewItem * ) ), 
-             FileList::Exemplar(), SLOT( updateListSlot( QListViewItem * ) ) );
+    connect( actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
+    connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ), 
+             FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
 }
 
 QSvn::~QSvn()

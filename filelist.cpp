@@ -45,26 +45,27 @@ FileList* FileList::Exemplar()
 //FileList implementation
 FileList::FileList(QObject *parent, const char *name)
         : QObject(parent, name)
-{}
-
+{
+    listViewFiles = new QListView( 0, "listViewFiles" );
+    listViewFiles->addColumn( tr( "Filename" ) );
+    listViewFiles->addColumn( tr( "Extension" ) );
+    listViewFiles->addColumn( tr( "State" ) );
+}
 
 FileList::~FileList()
 {}
 
-void FileList::setListViewFiles( QListView *listView )
+QWidget *FileList::getWidget()
 {
-    if ( listView )
-    {
-        listViewFiles = listView;
-    }
+    return listViewFiles;
 }
 
-void FileList::updateListSlot( QListViewItem *element )
+void FileList::updateListSlot( QString stringDirectory )
 {
-    if ( element && listViewFiles )
+    if ( listViewFiles )
     {
         listViewFiles->clear();
-        QDir directory( element->text( 1 ) );
+        QDir directory( stringDirectory );
         QStringList listFiles = directory.entryList( QDir::Files );
         for ( QStringList::Iterator it = listFiles.begin(); it != listFiles.end(); ++it ) 
         {
@@ -75,6 +76,5 @@ void FileList::updateListSlot( QListViewItem *element )
                 _element->setText( 2, "?" );
             }
         }
-        
     }
 }

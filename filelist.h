@@ -34,7 +34,6 @@ This class handle the filelist of a directory from any working copy
 */
 
 class QListView;
-class QListViewItem;
 class QString;
 
 class FileList : public QObject
@@ -43,10 +42,10 @@ class FileList : public QObject
 public:
     static FileList* Exemplar();
     
-    void setListViewFiles( QListView *listView );
+    QWidget *getWidget();
 
 public slots:    
-    void updateListSlot( QListViewItem *element );
+    void updateListSlot( QString stringDirectory );
     
 private:
     static FileList *_exemplar;
