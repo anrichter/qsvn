@@ -65,7 +65,6 @@ public slots:
     void addExistingWorkingCopySlot( QString directoyString );
     void addExistingWorkingCopySlot();
     void removeCurrentWorkingCopySlot();
-    void updateCurrentWorkingCopySlot();
     void checkoutSlot();
 
 private:

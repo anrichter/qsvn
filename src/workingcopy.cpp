@@ -205,19 +205,6 @@ WorkingCopyItem* WorkingCopy::selectedWorkingCopyItem()
         return 0;
 }
 
-void WorkingCopy::updateCurrentWorkingCopySlot()
-{
-    if ( selectedWorkingCopyItem() )
-    {
-        if ( SvnClient::Exemplar()->update( selectedWorkingCopyItem()->fullPath() ) )
-        {
-            //update this item
-            updateElement( selectedWorkingCopyItem() );
-            emit directoryChanged( selectedWorkingCopyItem()->fullPath() );
-        }
-    }
-}
-
 //private slots
 void WorkingCopy::changeElement()
 {

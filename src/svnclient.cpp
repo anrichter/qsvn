@@ -279,6 +279,27 @@ bool SvnClient::update( const QString &path, bool withOutput )
     }
 }
 
+bool SvnClient::update( const QString &path, const QStringList *filenameList, bool withOutput )
+{
+    if ( path && filenameList && ( filenameList->count() > 0 ) )
+    {
+        immediateOutput = withOutput;
+        
+        prepareNewProcess( path );
+        process->addArgument( "update" );
+        
+        QStringList my_list( *filenameList );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it ) 
+        {
+            process->addArgument( *it );
+        }
+
+        return startAndWaitProcess( "cannot start svn update" );
+    }
+    else
+        return FALSE;
+}
+
 bool SvnClient::diff( const QString &path, const QString &filename, bool withOutput )
 {
     if ( path && filename )
