@@ -30,14 +30,6 @@
 #include "qsvndlg.h"
 #include "addworkingcopy.h"
 
-//Qt-classes
-class QGridLayout;
-class QSplitter;
-class QSplitter;
-class QTextEdit;
-class QListView;
-class QListView;
-
 class QSvn : public QSvnDlg
 {
     Q_OBJECT
@@ -49,13 +41,6 @@ public:
 public slots:
 
 private:
-    QGridLayout *qsvnDlgLayout;
-    QSplitter *verticalSplitter;
-    QSplitter *horizontalSplitter;
-    QTextEdit *statusTextEdit;
-    QListView *fileListView;
-    QListView *workingCopyListView;
-
     //dialogs
     AddWorkingCopy *addWorkingCopy;
 

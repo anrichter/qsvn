@@ -29,14 +29,7 @@
 #include "svnclient.h"
 
 //Qt
-#include <qobject.h>
-#include <qlayout.h>
-#include <qsplitter.h>
-#include <qtextedit.h>
-#include <qlistview.h>
-
 #include <qmessagebox.h>
-#include <qapplication.h>
 
 QSvn::QSvn( QWidget *parent, const char *name )
         : QSvnDlg( parent, name )
