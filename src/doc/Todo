@@ -18,6 +18,8 @@ open issues
 - include pixmaps for file status and cvs actions
 - search in log's from a given directory. optionally recursive
 - property editor
+- settings:
+  + change action on double click in FileList and WorkingCopy
 
 ideas
 =====

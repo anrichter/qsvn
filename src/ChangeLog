@@ -8,6 +8,7 @@ Version 0.1.0 - released 200?-??-??
     * status text output
     * implemented svn commands:
         - update
+        - checkout (partial)
     * save & restore user changed layout
     * save & restore working copies
     * remove working copy
