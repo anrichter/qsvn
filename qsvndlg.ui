@@ -35,6 +35,9 @@
         <action name="workingCopyAddAction"/>
         <action name="workingCopyRemoveAction"/>
     </item>
+    <item text="&amp;Settings" name="settingsMenu">
+        <action name="settingsConfigureqsvnAction"/>
+    </item>
     <item text="&amp;Help" name="helpMenu">
         <action name="helpContentsAction"/>
         <action name="helpIndexAction"/>
@@ -135,6 +138,17 @@
             <string>About &amp;Qt</string>
         </property>
     </action>
+    <action>
+        <property name="name">
+            <cstring>settingsConfigureqsvnAction</cstring>
+        </property>
+        <property name="text">
+            <string>Configure qsvn...</string>
+        </property>
+        <property name="menuText">
+            <string>Configure qsvn...</string>
+        </property>
+    </action>
 </actions>
 <connections>
     <connection>
@@ -179,6 +193,12 @@
         <receiver>QSvnDlg</receiver>
         <slot>aboutQtSlot()</slot>
     </connection>
+    <connection>
+        <sender>settingsConfigureqsvnAction</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>configureqsvnSlot()</slot>
+    </connection>
 </connections>
 <slots>
     <slot>exitSlot()</slot>
@@ -188,6 +208,7 @@
     <slot>addWorkingCopySlot()</slot>
     <slot>removeWorkingCopySlot()</slot>
     <slot>aboutQtSlot()</slot>
+    <slot>configureqsvnSlot()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>
