@@ -23,20 +23,10 @@
 #include "qsvn.h"
 
 //Qt
-#include <qsplitter.h>
-#include <qlistview.h>
 
 QSvn::QSvn( QWidget *parent, const char *name )
   : QSvnDlg( parent, name )
 {
-    //create QSplitter
-    /*
-    QSplitter *verticalSplitter = new QSplitter( this );
-    verticalSplitter->setOrientation( Qt::Vertical );
-    QSplitter *horizontalSplitter = new QSplitter( this );
-    horizontalSplitter->setOrientation( Qt::Horizontal );
-    */
-    //reparent wdigets
 }
 
 QSvn::~QSvn()

@@ -27,9 +27,13 @@
 class QSvn : public QSvnDlg
 {
     Q_OBJECT
+
 public:
     QSvn( QWidget *parent = 0, const char *name = 0 );
     ~QSvn();
+
+private:
+
 };
 
 #endif
