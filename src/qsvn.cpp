@@ -100,13 +100,13 @@ void QSvn::updateSlot()
     {
         //update a directory
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        SvnClient::Exemplar()->update( item->fullPath() );
+        SvnClient::Exemplar()->doSvnCommand( SvnClient::Update, item->fullPath() );
     } 
     else if ( FileList::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
     {
         //update file(s)
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        SvnClient::Exemplar()->update( item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
+        SvnClient::Exemplar()->doSvnCommand( SvnClient::Update, item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
     } 
     else
     {
@@ -142,7 +142,7 @@ void QSvn::commitSlot()
     {
         QStringList* fileList = FileSelector::Exemplar()->selectedFiles();
         QString commitMessage = FileSelector::Exemplar()->messageString();
-        SvnClient::Exemplar()->commmit( item->fullPath(), fileList, commitMessage );
+        SvnClient::Exemplar()->doSvnCommand( SvnClient::Commit, item->fullPath(), fileList, commitMessage );
     }
     //Updates
     WorkingCopy::Exemplar()->updateElement( item );
@@ -165,7 +165,7 @@ void QSvn::addSlot()
     {
         //add file(s)
         item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        SvnClient::Exemplar()->add( item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
+        SvnClient::Exemplar()->doSvnCommand( SvnClient::Add, item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
     } 
     else
     {
@@ -204,7 +204,7 @@ void QSvn::revertSlot()
     if ( FileSelector::Exemplar()->exec() )
     {
         QStringList* fileList = FileSelector::Exemplar()->selectedFiles();
-        SvnClient::Exemplar()->revert( item->fullPath(), fileList );
+        SvnClient::Exemplar()->doSvnCommand( SvnClient::Revert, item->fullPath(), fileList );
     }
     //Updates
     WorkingCopy::Exemplar()->updateElement( item );

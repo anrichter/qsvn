@@ -44,6 +44,14 @@ class SvnClient : public QObject
 {
     Q_OBJECT
 public:
+    enum SvnCommandType { Add    = 0x01,
+                          Commit = 0x02,
+                          Info   = 0x03,
+                          Remove = 0x04,
+                          Revert = 0x05,
+                          Status = 0x06,
+                          Update = 0x07 };
+    
     static SvnClient* Exemplar();
 
     QStringList getProcessStdoutList();
@@ -53,20 +61,16 @@ public:
     QString getMessageString();
     void changedFilesToList( QStringList *list, const QString &path, const QString pathPrefix = "" ); //!< add changed, added and deleted files to QStringList with pathPrefix
     
+    bool doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput = true );
+    bool doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, bool withOutput = true );
+    bool doSvnCommand( int svnCommandType, const QString &path, bool withOutput = true );
+    
     //svn calls
     bool add( const QString &path, const QString &filename, bool withOutput = true );
-    bool add( const QString &path, const QStringList *filenameList, bool withOutput = true );
-    bool commmit( const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput = true );
-    bool info( const QString &path, bool withOutput = true );
-    bool status( const QString &path, bool withOutput = true );
-    bool update( const QString &path, bool withOutput = true );
-    bool update( const QString &path, const QStringList *filenameList, bool withOutput = true );
     bool diff( const QString &path, const QString &filename, bool withOutput = true );
     bool diff( const QString &path, const QStringList *filenameList, bool withOutput = true );
     bool diff( const QString &fullFileName, bool withOutput = true );
     bool checkout( const QString &path, const QString &url, bool withOutput = true );
-    bool revert( const QString &path, const QString &filename, bool withOutput = true );
-    bool revert( const QString &path, const QStringList *filenameList, bool withOutput = true );
 
 public slots:
     void readStdoutSlot(); //!< read out the Stdout written from running process

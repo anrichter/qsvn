@@ -177,7 +177,7 @@ void SvnClient::changedFilesToList( QStringList *list, const QString &path, cons
 {
     if ( list && path && isWorkingCopy( path ) )
     {
-        if ( status( path, false ) )
+        if ( doSvnCommand( Status, path, false ) )
         {
             QStringList statusList( getProcessStdoutList() );
             QString _lineString;
@@ -221,8 +221,84 @@ bool SvnClient::isWorkingCopy( const QString &path )
         return FALSE;
 }
 
-
 //svn calls
+bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput )
+{
+    if ( !path )
+        return FALSE;
+        
+    QStringList my_list( *filenameList );
+    bool _return = FALSE;
+    
+    immediateOutput = withOutput;
+
+    prepareNewProcess( path );
+    switch ( svnCommandType )
+    {
+    case Add:
+        process->addArgument( "add" );
+        process->addArgument( "-N" );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        {
+            process->addArgument( *it );
+        }
+        _return = startAndWaitProcess( tr( "cannot start svn add" ) );
+        break;
+    case Commit:
+        process->addArgument( "commit" );
+        process->addArgument( "-m" );
+        process->addArgument( commitMessage );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        {
+            process->addArgument( *it );
+        }
+        _return = startAndWaitProcess( tr( "cannot start svn commit" ) );
+        break;
+    case Info:
+        process->addArgument( "info" );
+        process->addArgument( path );
+        _return = startAndWaitProcess( tr( "cannot start svn info - is your svn executable installed and configured in settings?" ) );
+        break;
+    case Remove:
+        break;
+    case Revert:
+        process->addArgument( "revert" );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        {
+            process->addArgument( *it );
+        }
+        _return = startAndWaitProcess( tr( "cannot start svn revert" ) );
+        break;
+    case Status:
+        process->addArgument( "status" );
+        process->addArgument( "-vN" );
+        _return = startAndWaitProcess( tr( "cannot start svn status -v" ));
+        break;
+    case Update:
+        process->addArgument( "update" );
+        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
+        {
+            process->addArgument( *it );
+        }
+        _return = startAndWaitProcess( tr( "cannot start svn update" ) );
+        break;
+    }
+    return _return;
+}
+
+bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, bool withOutput )
+{
+    QString _commitMessage = "";
+    return doSvnCommand( svnCommandType, path, filenameList, _commitMessage, withOutput );
+}
+
+bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, bool withOutput )
+{
+    QString _commitMessage = "";
+    QStringList *_filenameList = new QStringList;
+    return doSvnCommand( svnCommandType, path, _filenameList, _commitMessage, withOutput );
+}
+
 bool SvnClient::add( const QString &path, const QString &filename, bool withOutput )
 {
     if ( path && filename )
@@ -235,128 +311,6 @@ bool SvnClient::add( const QString &path, const QString &filename, bool withOutp
         process->addArgument( filename );
 
         return startAndWaitProcess( "cannot start svn add" );
-    }
-    else
-        return FALSE;
-}
-
-bool SvnClient::add( const QString &path, const QStringList *filenameList, bool withOutput )
-{
-    if ( path && filenameList && ( filenameList->count() > 0 ) )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess( path );
-        process->addArgument( "add" );
-        process->addArgument( "-N" );
-
-        QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
-        {
-            process->addArgument( *it );
-        }
-
-        return startAndWaitProcess( "cannot start svn add" );
-    }
-    else
-        return FALSE;
-}
-
-bool SvnClient::commmit( const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput )
-{
-    if ( path && commitMessage && filenameList && ( filenameList->count() > 0 ) )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess( path );
-        process->addArgument( "commit" );
-        process->addArgument( "-m" );
-        process->addArgument( commitMessage );
-
-        QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
-        {
-            process->addArgument( *it );
-        }
-
-        return startAndWaitProcess( "cannot start svn commit" );
-    }
-    else
-        return FALSE;
-}
-
-bool SvnClient::info( const QString &path, bool withOutput )
-{
-    if ( path )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess();
-        process->addArgument( "info" );
-        process->addArgument( path );
-
-        return startAndWaitProcess( "cannot start svn info - is your svn executable installed and configured in settings?" );
-    }
-    else
-    {
-        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::isWorkingCopy" ) );
-        return FALSE;
-    }
-}
-
-bool SvnClient::status( const QString &path, bool withOutput )
-{
-    if ( path )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess( path );
-        process->addArgument( "status" );
-        process->addArgument( "-vN" );
-
-        return startAndWaitProcess( "cannot start svn status -v" );
-    }
-    else
-    {
-        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::getStatus" ) );
-        return FALSE;
-    }
-}
-
-bool SvnClient::update( const QString &path, bool withOutput )
-{
-    if ( path )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess( path );
-        process->addArgument( "update" );
-
-        return startAndWaitProcess( "cannot start svn update" );
-    }
-    else
-    {
-        StatusText::Exemplar()->outputMessage( tr( "no path for SvnClient::update" ) );
-        return FALSE;
-    }
-}
-
-bool SvnClient::update( const QString &path, const QStringList *filenameList, bool withOutput )
-{
-    if ( path && filenameList && ( filenameList->count() > 0 ) )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess( path );
-        process->addArgument( "update" );
-
-        QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
-        {
-            process->addArgument( *it );
-        }
-
-        return startAndWaitProcess( "cannot start svn update" );
     }
     else
         return FALSE;
@@ -425,42 +379,6 @@ bool SvnClient::checkout( const QString &path, const QString &url, bool withOutp
         process->addArgument( url );
 
         return startAndWaitProcess( "cannot start svn checkout" );
-    }
-    else
-        return FALSE;
-}
-
-bool SvnClient::revert( const QString &path, const QString &filename, bool withOutput )
-{
-    if ( path && filename )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess( path );
-        process->addArgument( "revert" );
-        process->addArgument( filename );
-
-        return startAndWaitProcess( "cannot start svn revert" );
-    }
-    else
-        return FALSE;
-}
-
-bool SvnClient::revert( const QString &path, const QStringList *filenameList, bool withOutput )
-{
-    if ( path && filenameList && ( filenameList->count() > 0 ) )
-    {
-        immediateOutput = withOutput;
-
-        prepareNewProcess( path );
-        process->addArgument( "revert" );
-
-        QStringList my_list( *filenameList );
-        for ( QStringList::Iterator it = my_list.begin(); it != my_list.end(); ++it )
-        {
-            process->addArgument( *it );
-        }
-        return startAndWaitProcess( "cannot start svn revert" );
     }
     else
         return FALSE;
