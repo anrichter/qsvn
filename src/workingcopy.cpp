@@ -30,12 +30,14 @@
 #include "statustext.h"
 #include "config.h"
 #include "checkout.h"
+#include "workingcopyitem.h"
 
 //Qt
 #include <qlistview.h>
 #include <qtextedit.h>
 #include <qdir.h>
 #include <qpixmap.h>
+
 
 //make WorkingCopy a singleton
 WorkingCopy* WorkingCopy::_exemplar = 0;
@@ -84,11 +86,11 @@ QWidget *WorkingCopy::getWidget()
     return listViewWorkingCopy;
 }
 
-void WorkingCopy::updateElement( QListViewItem *element, QString directoryString )
+void WorkingCopy::updateElement( WorkingCopyItem *element )
 {
-    if ( &element && directoryString )
+    if ( &element )
     {
-        QDir directory( directoryString );
+        QDir directory( element->fullPath() );
         if ( directory.exists() )
         {
             //delete all client items
@@ -105,11 +107,11 @@ void WorkingCopy::updateElement( QListViewItem *element, QString directoryString
                 // add only directories here
                 if ( ( *it != "." ) && ( *it != ".." ) )
                 {
-                    QListViewItem *_element;
-                    _element = new QListViewItem( element, *it );
-                    _element->setPixmap( 0, QPixmap::fromMimeSource( "folder.png" ) );
+                    WorkingCopyItem *newelement;
+                    newelement = new WorkingCopyItem( element, directory.absPath() + QDir::separator() + *it );
+                    newelement->setPixmap( 0, QPixmap::fromMimeSource( "folder.png" ) );
                     // recursive call for new _element
-                    updateElement( _element, directoryString + QDir::separator() + *it );
+                    updateElement( newelement );
                 }
             }
         }
@@ -120,9 +122,9 @@ void WorkingCopy::addExistingWorkingCopySlot( QString directoyString )
 {
     if ( directoyString )
     {
-        QListViewItem *element;
-        element = new QListViewItem( listViewWorkingCopy, directoyString );
-        updateElement( element, directoyString );
+        WorkingCopyItem *element;
+        element = new WorkingCopyItem( listViewWorkingCopy, directoyString );
+        updateElement( element );
     }
 }
 
@@ -160,11 +162,11 @@ void WorkingCopy::checkoutSlot()
 
 void WorkingCopy::removeCurrentWorkingCopySlot()
 {
-    if ( listViewWorkingCopy->currentItem() )
-        removeWorkingCopy( listViewWorkingCopy->currentItem() );
+    if ( selectedWorkingCopyItem() )
+        removeWorkingCopy( selectedWorkingCopyItem() );
 }
 
-void WorkingCopy::removeWorkingCopy( QListViewItem *element )
+void WorkingCopy::removeWorkingCopy( WorkingCopyItem *element )
 {
     if ( element )
     {
@@ -180,33 +182,23 @@ void WorkingCopy::removeWorkingCopy( QListViewItem *element )
     }
 }
 
-QString WorkingCopy::getFullDirectory( QListViewItem *element )
+WorkingCopyItem* WorkingCopy::selectedWorkingCopyItem()
 {
-    QString strDirectory;
-    if ( element )
-    {
-        if ( element->parent() )
-        {
-            strDirectory = getFullDirectory( element->parent() ) + QDir::separator() + element->text( 0 );
-        }
-        else
-        {
-            strDirectory = element->text( 0 );
-        }
-    }
-    return strDirectory;
+    if ( listViewWorkingCopy->selectedItem() )
+        return static_cast< WorkingCopyItem* >( listViewWorkingCopy->selectedItem() );
+    else
+        return 0;
 }
 
 void WorkingCopy::updateCurrentWorkingCopySlot()
 {
-    if ( listViewWorkingCopy->selectedItem() )
+    if ( selectedWorkingCopyItem() )
     {
-        if ( SvnClient::Exemplar()->update( getFullDirectory( listViewWorkingCopy->selectedItem() ) ) )
+        if ( SvnClient::Exemplar()->update( selectedWorkingCopyItem()->fullPath() ) )
         {
             //update this item
-            updateElement( listViewWorkingCopy->selectedItem(), 
-                           getFullDirectory( listViewWorkingCopy->selectedItem() ) );
-            emit directoryChanged( getFullDirectory( listViewWorkingCopy->selectedItem() ) );
+            updateElement( selectedWorkingCopyItem() );
+            emit directoryChanged( selectedWorkingCopyItem()->fullPath() );
         }
     }
 }
@@ -214,5 +206,6 @@ void WorkingCopy::updateCurrentWorkingCopySlot()
 //private slots
 void WorkingCopy::changeElement()
 {
-    emit directoryChanged( getFullDirectory( listViewWorkingCopy->selectedItem() ) );
+    if ( selectedWorkingCopyItem() )
+        emit directoryChanged( selectedWorkingCopyItem()->fullPath() );
 }

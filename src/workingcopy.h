@@ -25,16 +25,17 @@
 #ifndef WORKINGCOPY_H
 #define WORKINGCOPY_H
 
-//qsvn
+//QSvn
 //#include "addworkingcopy.h"
 //#include "checkout.h"
 
 //Qt
 #include <qobject.h>
 
-//qsvn classes
+//QSvn classes
 class AddWorkingCopy;
 class Checkout;
+class WorkingCopyItem;
 
 //Qt classes
 class QListView;
@@ -47,6 +48,7 @@ This Class handles working copies
 @author Andreas Richter
 */
 
+
 class WorkingCopy : public QObject
 {
     Q_OBJECT
@@ -56,7 +58,7 @@ public:
     
     QWidget* getWidget();
 
-    void updateElement( QListViewItem *element, QString directoryString );
+    void updateElement( WorkingCopyItem *element );
 
 signals:
     void directoryChanged( QString );
@@ -78,8 +80,8 @@ private:
     Checkout *checkout;
     QListView *listViewWorkingCopy;
 
-    void removeWorkingCopy( QListViewItem *element );
-    QString getFullDirectory( QListViewItem *element );
+    void removeWorkingCopy( WorkingCopyItem *element );
+    WorkingCopyItem* selectedWorkingCopyItem(); //!< give the selected WorkingCopyItem
 
 private slots:
     void changeElement();

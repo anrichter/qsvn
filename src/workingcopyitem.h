@@ -29,15 +29,24 @@
 //Qt
 #include <qlistview.h>
 
+//Qt Classes
 class QString;
 
 
 class WorkingCopyItem : public QListViewItem
 {
-private:
+public:
+    WorkingCopyItem( QListViewItem* parent );
     WorkingCopyItem( QListView* parent, QString directory );
     WorkingCopyItem( WorkingCopyItem* parent, QString directory );
     ~WorkingCopyItem();
+    
+    WorkingCopyItem* parent() const;
+    
+    QString fullPath();
+private:    
+    QString stringFullPath;
+    WorkingCopyItem* parentItem;
 };
 
 #endif

@@ -29,14 +29,41 @@
 //Qt
 #include <qlistview.h>
 #include <qstring.h>
+#include <qurl.h>
+
+
+WorkingCopyItem::WorkingCopyItem( QListViewItem* parent )
+    : QListViewItem( parent )
+{
+    parentItem = 0;
+}
 
 WorkingCopyItem::WorkingCopyItem( QListView* parent, QString directory )
     : QListViewItem( parent )
-{}
+{
+    parentItem = 0;
+    stringFullPath = directory;
+    setText( 0, directory );
+}
 
 WorkingCopyItem::WorkingCopyItem( WorkingCopyItem* parent, QString directory )
     : QListViewItem( parent )
-{}
+{
+    parentItem = parent;
+    stringFullPath = directory;
+    QUrl url( directory );
+    setText( 0, url.fileName() );
+}
 
 WorkingCopyItem::~WorkingCopyItem()
 {}
+
+WorkingCopyItem* WorkingCopyItem::parent() const
+{
+    return parentItem;
+}
+
+QString WorkingCopyItem::fullPath()
+{
+    return stringFullPath;
+}
