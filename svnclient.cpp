@@ -23,6 +23,7 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 #include "svnclient.h"
+#include "config.h"
 
 //Qt
 #include <qapplication.h>
@@ -52,7 +53,6 @@ SvnClient* SvnClient::Exemplar()
 //SvnClient implementation
 SvnClient::SvnClient()
 {
-    svnCommand = "svn"; //todo: make the svn executable configurable over the config-dialog
     process = new QProcess();
     connect( process, SIGNAL( readyReadStdout() ), this, SLOT( readStdoutSlot() ) );
     connect( process, SIGNAL( readyReadStderr() ), this, SLOT( readStderrSlot() ) );
@@ -70,7 +70,7 @@ void SvnClient::prepareNewProcess()
     processStderr = "";
     messageString = "";
     process->clearArguments();
-    process->addArgument( svnCommand );
+    process->addArgument( Config::Exemplar()->getSvnExecutable() );
 }
 
 bool SvnClient::isWorkingCopy( const QString &path )

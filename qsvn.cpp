@@ -28,6 +28,7 @@
 #include "qsvndlg.h"
 #include "svnclient.h"
 #include "workingcopy.h"
+#include "config.h"
 
 //Qt
 #include <qmessagebox.h>
@@ -47,6 +48,7 @@ QSvn::~QSvn()
 
 void QSvn::exitSlot()
 {
+    Config::Exemplar()->saveChanges();
     this->close();
 }
 

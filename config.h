@@ -22,49 +22,40 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
-#ifndef SVNCLIENT_H
-#define SVNCLIENT_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
 //Qt
 #include <qobject.h>
-#include <qstring.h>
 
-class QProcess;
+class QString;
 
 /**
-This Class handles interaction with subversion client
+this singelton holds the configuration for qsvn
  
 @author Andreas Richter
 */
 
-class SvnClient : public QObject{
+class Config : public QObject
+{
     Q_OBJECT
 public:
-    static SvnClient* Exemplar();
+    static Config* Exemplar();
     
-    QString getProcessStdout();
-    QString getProcessStderr();
-    
-    bool isWorkingCopy( const QString &path );
-    QString getMessageString();
+    void setSvnExecutable( QString aString ); //!< set the complete path to svn execute
+    QString getSvnExecutable(); //!< get the complete path to svn execute
     
 public slots:
-    void readStdoutSlot(); //!< read out the Stdout written from running process
-    void readStderrSlot(); //!< read out the Stderr written form running process
+    void saveChanges();
     
-protected:    
-    SvnClient();
-    ~SvnClient();
-
 private:
-    static SvnClient* _exemplar;
+    Config(QObject *parent = 0, const char *name = 0);
+    ~Config();
     
-    QProcess *process;
-    QString processStdout;
-    QString processStderr;
-    QString messageString; //!< contains some messages for output
+    static Config* _exemplar;
     
-    void prepareNewProcess(); //!< initialies all for a new process
+    bool changed; //!< true, if one or more settings have changed. save changed values in dtor
+    QString _svnExecutable;
 };
 
 #endif

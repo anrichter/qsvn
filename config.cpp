@@ -22,49 +22,65 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
-#ifndef SVNCLIENT_H
-#define SVNCLIENT_H
+
+//qsvn
+#include "config.h"
 
 //Qt
-#include <qobject.h>
-#include <qstring.h>
+#include <qsettings.h>
 
-class QProcess;
+//make Config a singleton
+Config* Config::_exemplar = 0;
 
-/**
-This Class handles interaction with subversion client
- 
-@author Andreas Richter
-*/
+Config* Config::Exemplar()
+{
+    if ( _exemplar == 0 )
+    {
+        _exemplar = new Config;
+    }
+    return _exemplar;
+}
 
-class SvnClient : public QObject{
-    Q_OBJECT
-public:
-    static SvnClient* Exemplar();
+//Config implementation
+Config::Config(QObject *parent, const char *name)
+        : QObject(parent, name)
+{
+    changed = FALSE;
     
-    QString getProcessStdout();
-    QString getProcessStderr();
-    
-    bool isWorkingCopy( const QString &path );
-    QString getMessageString();
-    
-public slots:
-    void readStdoutSlot(); //!< read out the Stdout written from running process
-    void readStderrSlot(); //!< read out the Stderr written form running process
-    
-protected:    
-    SvnClient();
-    ~SvnClient();
+    //read saved settings
+    QSettings mySettings;
+    mySettings.beginGroup( "qsvn/configuration" );
+    _svnExecutable = mySettings.readEntry( "svnExecutable", "svn" );
+    mySettings.endGroup();
+}
 
-private:
-    static SvnClient* _exemplar;
-    
-    QProcess *process;
-    QString processStdout;
-    QString processStderr;
-    QString messageString; //!< contains some messages for output
-    
-    void prepareNewProcess(); //!< initialies all for a new process
-};
+Config::~Config()
+{
+}
 
-#endif
+void Config::saveChanges()
+{
+    if ( changed )
+    {
+        //write the entire settings in config-file
+        QSettings mySettings;
+        mySettings.beginGroup( "qsvn/configuration" );
+        mySettings.writeEntry( "svnExecutable", _svnExecutable );
+        mySettings.endGroup();
+    }
+}
+
+void Config::setSvnExecutable( QString aString )
+{
+    if ( aString != _svnExecutable )
+    {
+        _svnExecutable = aString;
+        changed = TRUE;
+    }
+}
+
+QString Config::getSvnExecutable()
+{
+    return _svnExecutable;
+}
+
