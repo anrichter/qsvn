@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>501</width>
-            <height>399</height>
+            <height>402</height>
         </rect>
     </property>
     <property name="caption">
@@ -86,6 +86,13 @@
     <item text="&amp;Working Copy" name="workingCopyMenu">
         <action name="actionAddWorkingCopy"/>
         <action name="actionRemoveWorkingCopy"/>
+    </item>
+    <item text="Modify" name="modifyMenu">
+        <action name="actionUpdate"/>
+        <action name="actionCommit"/>
+        <separator/>
+        <action name="actionAdd"/>
+        <action name="actionRemove"/>
     </item>
     <item text="&amp;Settings" name="settingsMenu">
         <action name="actionConfigureQSvn"/>
@@ -201,6 +208,38 @@
             <string>Configure qsvn...</string>
         </property>
     </action>
+    <action>
+        <property name="name">
+            <cstring>actionUpdate</cstring>
+        </property>
+        <property name="text">
+            <string>Update...</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>actionCommit</cstring>
+        </property>
+        <property name="text">
+            <string>Commit...</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>actionAdd</cstring>
+        </property>
+        <property name="text">
+            <string>Add...</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>actionRemove</cstring>
+        </property>
+        <property name="text">
+            <string>Remove...</string>
+        </property>
+    </action>
 </actions>
 <connections>
     <connection>
@@ -220,6 +259,15 @@
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>helpContentsSlot()</slot>
+    </connection>
+    <connection>
+        <sender>actionAboutQSvn</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>aboutSlot()</slot>
+    </connection>
+    <connection>
+      <slot>helpContentsSlot()</slot>
     </connection>
     <connection>
         <sender>actionAboutQSvn</sender>
