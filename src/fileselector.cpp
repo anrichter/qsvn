@@ -175,7 +175,7 @@ void FileSelector::buttonOkClickSlot()
 {
     if ( _svnCommandType == SvnClient::Commit )
     {
-        comboLogMessage->insertItem( editLogMessage->text() );
+        comboLogMessage->insertItem( editLogMessage->text(), 0 );
     }
     this->accept();
 }
