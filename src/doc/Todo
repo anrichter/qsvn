@@ -2,11 +2,9 @@ Todo
 
 open issues for version 0.1.0
 =============================
-- svn checkout
 - svn commit
-- svn add
 - svn remove
-- show added files in listview
+- show added files with own pixmap in listview
 
 open issues
 ===========
@@ -21,8 +19,8 @@ open issues
 - settings:
   + change action on double click in FileList and WorkingCopy
 - context-menu in WorkingCopyList and ItemList
-
-ideas
-=====
+- FileListItem
+  + fullpath 
+  + filename
 - WorkingCopyItem
-  * stati if the directory can update, commit, etc. pp.
+  + stati if the directory can update, commit, etc. pp.

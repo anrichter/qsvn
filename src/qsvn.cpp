@@ -27,15 +27,18 @@
 #include "config.h"
 #include "configure.h"
 #include "filelist.h"
+#include "filelistitem.h"
 #include "qsvn.h"
 #include "statustext.h"
 #include "svnclient.h"
 #include "workingcopy.h"
+#include "workingcopyitem.h"
 
 //Qt
 #include <qaction.h>
 #include <qmessagebox.h>
 #include <qtextedit.h>
+#include <qurl.h>
 #include <qwidgetstack.h>
 
 
@@ -101,8 +104,32 @@ void QSvn::commitSlot()
 
 void QSvn::addSlot()
 {
-    //todo: implement
-    StatusText::Exemplar()->outputMessage( QString( "svn add - not implemented yet" ) );
+    QString path;
+    QString file;
+    WorkingCopyItem *item;
+    
+    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
+    {
+        //add a directory
+        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem()->parent();
+        path = item->fullPath();
+        QUrl url( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
+        file = url.fileName();
+    } 
+    else if ( FileList::Exemplar()->getWidget()->hasFocus() )
+    {
+        //add a file
+        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
+        path = item->fullPath();
+        file = FileList::Exemplar()->selectedFileListItem()->text( _COLUMN_FILE );
+    } 
+    else
+    {
+        return;
+    }
+    
+    SvnClient::Exemplar()->add( path, file );
+    WorkingCopy::Exemplar()->updateElement( item );
 }
 
 void QSvn::removeSlot()

@@ -53,6 +53,7 @@ public:
     QString getMessageString();
     
     //svn calls
+    bool add( const QString &path, const QString &filename, bool withOutput = true );
     bool info( const QString &path, bool withOutput = true );
     bool status( const QString &path, bool withOutput = true );
     bool update( const QString &path, bool withOutput = true );

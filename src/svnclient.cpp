@@ -182,6 +182,24 @@ bool SvnClient::isWorkingCopy( const QString &path )
 
 
 //svn calls
+bool SvnClient::add( const QString &path, const QString &filename, bool withOutput )
+{
+    if ( path && filename )
+    {
+        immediateOutput = withOutput;
+        
+        prepareNewProcess( path );
+        process->addArgument( "add" );
+        process->addArgument( "-N" );
+        process->addArgument( filename );
+
+        return startAndWaitProcess( "cannot start svn add" );
+    }
+    else
+        return FALSE;
+
+}
+
 bool SvnClient::info( const QString &path, bool withOutput )
 {
     if ( path )

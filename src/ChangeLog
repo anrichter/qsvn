@@ -7,6 +7,7 @@ Version 0.1.0 - released 200?-??-??
     * file list view with status for files
     * status text output
     * implemented svn commands:
+        - add
         - update
         - checkout (partial)
     * save & restore user changed layout
