@@ -123,3 +123,8 @@ void FileList::updateListSlot( QString currentDirectory )
         _lastDirectory = currentDirectory;
     }
 }
+
+void FileList::diffSelected()
+{
+    SvnClient::Exemplar()->diff( _lastDirectory, listViewFiles->currentItem()->text( _COLUMN_FILE ) );
+}

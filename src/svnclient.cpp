@@ -29,6 +29,7 @@
 //Qt
 #include <qapplication.h>
 #include <qprocess.h>
+#include <qstring.h>
 
 //Std
 #ifdef Q_WS_X11
@@ -76,26 +77,38 @@ void SvnClient::prepareNewProcess( const QString &workingDirectory )
         process->setWorkingDirectory( QDir( workingDirectory ) );
 }
 
-bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
+bool SvnClient::startProcess( const QString &startErrorMessage )
 {
     if ( !process->start() )
     {
         messageString = startErrorMessage;
         return FALSE;
     }
-    while ( process->isRunning() )
+    return TRUE;
+}
+
+bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
+{
+    if ( startProcess( startErrorMessage ) )
     {
+        while ( process->isRunning() )
+        {
 #ifdef Q_WS_X11
-        sleep( 1 );
+            sleep( 1 );
 #endif
-
+    
 #ifdef Q_WS_WIN
-
-        Sleep( 1 );
+    
+            Sleep( 1 );
 #endif
-
+    
+        }
+        return processStderrList.count() == 0;
     }
-    return processStderrList.count() == 0;
+    else
+    {
+        return FALSE;
+    }
 }
 
 void SvnClient::readStdoutSlot()
@@ -182,3 +195,18 @@ bool SvnClient::update( const QString &path )
         return FALSE;
     }
 }
+
+bool SvnClient::diff( const QString &path, const QString &filename )
+{
+    if ( path && filename )
+    {
+        prepareNewProcess( path );
+        process->clearArguments();
+        process->setWorkingDirectory( path );
+        process->addArgument( Config::Exemplar()->getDiffViewer() );
+        process->addArgument( QString( ".svn/text-base/%1.svn-base" ).arg( filename ) );
+        process->addArgument( filename );
+        return startProcess( "cannot start DiffViewer" );        
+    }
+}
+

@@ -50,6 +50,7 @@ public:
 
 public slots:
     void updateListSlot( QString currentDirectory );
+    void diffSelected();
 
 private:
     static FileList *_exemplar;

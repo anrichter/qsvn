@@ -56,9 +56,9 @@ QSvn::QSvn( QWidget *parent, const char *name )
     //connect
     connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
     connect( actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
-    connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ),
-             FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
+    connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ), FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
     connect( actionUpdate, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( updateCurrentWorkingCopySlot() ) );
+    connect( actionDiff, SIGNAL( activated() ), FileList::Exemplar(), SLOT( diffSelected() ) );
     
     Config::Exemplar()->restoreMainWindow( this );
 }

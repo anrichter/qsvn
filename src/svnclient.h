@@ -54,6 +54,7 @@ public:
     bool info( const QString &path );
     bool status( const QString &path );
     bool update( const QString &path );
+    bool diff( const QString &path, const QString &filename );
 
 public slots:
     void readStdoutSlot(); //!< read out the Stdout written from running process
@@ -74,6 +75,7 @@ private:
     QString messageString; //!< contains some messages for output
 
     void prepareNewProcess( const QString &workingDirectory = "" ); //!< initialies all for a new process
+    bool startProcess( const QString &startErrorMessage );
     bool startAndWaitProcess( const QString &startErrorMessage );
 };
 

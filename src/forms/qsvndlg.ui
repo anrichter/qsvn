@@ -94,6 +94,9 @@
         <action name="actionAdd"/>
         <action name="actionRemove"/>
     </item>
+    <item text="Query" name="menuQuery">
+        <action name="actionDiff"/>
+    </item>
     <item text="&amp;Settings" name="settingsMenu">
         <action name="actionConfigureQSvn"/>
     </item>
@@ -238,6 +241,14 @@
         </property>
         <property name="text">
             <string>Remove...</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>actionDiff</cstring>
+        </property>
+        <property name="text">
+            <string>Diff</string>
         </property>
     </action>
 </actions>
