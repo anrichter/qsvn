@@ -126,7 +126,7 @@ void FileList::updateListSlot( QString currentDirectory )
                             break;
                         case int( 'A' ):
                             _element->setText( _COLUMN_STATUS, tr( "Added File" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "modifiedfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "addedfile.png" ) );
                             break;
                         default: 
                             _element->setText( _COLUMN_STATUS, tr( "Unknown Status" ) );

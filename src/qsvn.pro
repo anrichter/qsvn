@@ -40,7 +40,8 @@ SOURCES += main.cpp \
            checkout.cpp \
            filelistitem.cpp \
            workingcopyitem.cpp 
-IMAGES += images/folder.png \
+IMAGES += images/addedfile.png \
+          images/folder.png \
           images/file.png \
           images/modifiedfile.png \
           images/conflictfile.png \
