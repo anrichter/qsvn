@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>480</width>
-            <height>369</height>
+            <width>501</width>
+            <height>399</height>
         </rect>
     </property>
     <property name="caption">
@@ -60,16 +60,18 @@
                     </widget>
                 </widget>
             </widget>
-            <widget class="QTextEdit">
+            <widget class="QWidgetStack">
                 <property name="name">
-                    <cstring>editStatusText</cstring>
+                    <cstring>widgetStackStatusText</cstring>
                 </property>
-                <property name="wordWrap">
-                    <enum>WidgetWidth</enum>
-                </property>
-                <property name="readOnly">
-                    <bool>true</bool>
-                </property>
+                <widget class="QWidget">
+                    <property name="name">
+                        <cstring>WStackPage</cstring>
+                    </property>
+                    <attribute name="id">
+                        <number>0</number>
+                    </attribute>
+                </widget>
             </widget>
         </widget>
     </grid>

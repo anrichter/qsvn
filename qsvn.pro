@@ -22,7 +22,8 @@ HEADERS += qsvn.h \
            workingcopy.h \
            config.h \
            configure.h \
-           filelist.h
+           filelist.h \
+           statustext.h
 SOURCES += main.cpp \
            qsvn.cpp \
            addworkingcopy.cpp \
@@ -30,7 +31,8 @@ SOURCES += main.cpp \
            workingcopy.cpp \
            config.cpp \
            configure.cpp \
-           filelist.cpp
+           filelist.cpp \
+           statustext.cpp 
 win32{
   MOC_DIR = moc
   OBJECTS_DIR = obj

@@ -31,6 +31,7 @@
 #include "config.h"
 #include "configure.h"
 #include "filelist.h"
+#include "statustext.h"
 
 //Qt
 #include <qaction.h>
@@ -48,9 +49,10 @@ QSvn::QSvn( QWidget *parent, const char *name )
     //insert FileList widget
     widgetStackFileList->addWidget( FileList::Exemplar()->getWidget() );
     widgetStackFileList->raiseWidget( FileList::Exemplar()->getWidget() );
-
-    WorkingCopy::Exemplar()->setStatusEdit( editStatusText );
-
+    //insert StatusText widget
+    widgetStackStatusText->addWidget( StatusText::Exemplar()->getWidget() );
+    widgetStackStatusText->raiseWidget( StatusText::Exemplar()->getWidget() );
+    
     //connect
     connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
     connect( actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );

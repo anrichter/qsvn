@@ -8,4 +8,3 @@ open issues for version 0.1.0
 - Repository Browser
 - svn checkout
 - svn commit
-- StatusText provide the output of text in the editStatusText - similar to WorkingCopy and FileList

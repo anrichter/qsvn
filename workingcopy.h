@@ -34,7 +34,6 @@
 //Qt Classes
 class QListView;
 class QListViewItem;
-class QTextEdit;
 class QString;
 
 /**
@@ -48,9 +47,8 @@ class WorkingCopy : public QObject
     Q_OBJECT
 public:
     static WorkingCopy* Exemplar();
-
+    
     QWidget* getWidget();
-    void setStatusEdit( QTextEdit *textEdit );
 
     void updateElement( QListViewItem *element, QString directoryString );
 
@@ -69,9 +67,7 @@ private:
 
     AddWorkingCopy *addWorkingCopy;
     QListView *listViewWorkingCopy;
-    QTextEdit *statusTextEdit;
 
-    void outputMessage( const QString messageString );
     void removeWorkingCopy( QListViewItem *element );
     QString getFullDirectory( QListViewItem *element );
 

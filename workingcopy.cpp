@@ -27,6 +27,7 @@
 #include "workingcopy.h"
 #include "addworkingcopy.h"
 #include "svnclient.h"
+#include "statustext.h"
 
 //Qt
 #include <qlistview.h>
@@ -51,7 +52,6 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
 {
     //initialising
     addWorkingCopy = 0;
-    statusTextEdit = 0;
 
     listViewWorkingCopy = new QListView( 0, "listViewWorkingCopy" );
     listViewWorkingCopy->addColumn( tr( "Working Copy" ) );
@@ -63,22 +63,9 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
 WorkingCopy::~WorkingCopy()
 {}
 
-void WorkingCopy::outputMessage( const QString messageString )
-{
-    if ( statusTextEdit )
-        statusTextEdit->append( messageString );
-    else
-        qDebug( messageString );
-}
-
 QWidget *WorkingCopy::getWidget()
 {
     return listViewWorkingCopy;
-}
-
-void WorkingCopy::setStatusEdit( QTextEdit *textEdit )
-{
-    statusTextEdit = textEdit;
 }
 
 void WorkingCopy::updateElement( QListViewItem *element, QString directoryString )
@@ -122,8 +109,8 @@ void WorkingCopy::addExistingWorkingCopySlot()
     }
     else
     {
-        statusTextEdit->append( SvnClient::Exemplar()->getProcessStderr() );
-        statusTextEdit->append( SvnClient::Exemplar()->getMessageString() );
+        StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getProcessStderr() );
+        StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getMessageString() );
     }
 }
 
