@@ -13,3 +13,8 @@ FORMS       += qsvndlg.ui
 
 MOC_DIR      = .moc
 OBJECTS_DIR  = .obj
+
+win32 {
+    MOC_DIR      = moc
+    OBJECTS_DIR  = obj
+}
