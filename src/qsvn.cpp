@@ -94,8 +94,6 @@ void QSvn::checkoutSlot()
 
 void QSvn::updateSlot()
 {
-    //WorkingCopy::Exemplar()->updateCurrentWorkingCopySlot();
-    
     WorkingCopyItem *item;
     
     if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )

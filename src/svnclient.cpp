@@ -189,7 +189,7 @@ void SvnClient::changedFilesToList( QStringList *list, const QString &path, cons
                 _fileName = _lineString.right( _lineString.length() - 40 );
                     
                 i = int( _lineString.at( 0 ).latin1() );
-                if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) )
+                if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) || ( i == int( 'D' ) ) )
                 {
                     list->append( pathPrefix + QDir::separator() + _fileName );
                 }
@@ -199,7 +199,7 @@ void SvnClient::changedFilesToList( QStringList *list, const QString &path, cons
                      ( ( _fileName != "." ) && ( _fileName != ".." ) ) &&    // dont jump into . or .. directory
                      QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory 
                 {
-                    changedFilesToList( list, path + QDir::separator() + _fileName, pathPrefix + _fileName );
+                    changedFilesToList( list, path + QDir::separator() + _fileName, pathPrefix + QDir::separator() + _fileName );
                 }
             }
         }
