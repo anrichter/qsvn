@@ -62,12 +62,9 @@ FileSelector::FileSelector( QWidget *parent, const char *name )
     QValueList<int> list = splitterVertical->sizes();
     logMessageSize = *list.at( 1 );
 
-	//coonections
-    connect( comboLogMessage, SIGNAL( activated( const QString & ) ), 
-		     this, SLOT( comboLogMessageActivatedSlot( const QString & ) ) );
-
-	comboLogMessage->insertItem( "Eintrag 1" );
-	comboLogMessage->insertItem( "Eintrag 2" );
+    //coonections
+    connect( comboLogMessage, SIGNAL( activated( const QString & ) ),
+             this, SLOT( comboLogMessageActivatedSlot( const QString & ) ) );
 }
 
 FileSelector::~FileSelector()
@@ -98,22 +95,22 @@ void FileSelector::initFileSelector( int svnCommandType, const QString &path )
 {
     switch ( svnCommandType )
     {
-        case SvnClient::Add:
-            setCaption( tr( "Add") );
-            hideLogMessage();
-            break;
-        case SvnClient::Commit:
-            setCaption( tr( "Commit") );
-            showLogMessage();
-            break;
-        case SvnClient::Remove:
-            setCaption( tr( "Remove") );
-            hideLogMessage();
-            break;
-        case SvnClient::Revert:
-            setCaption( tr( "Revert") );
-            hideLogMessage();
-            break;
+    case SvnClient::Add:
+        setCaption( tr( "Add") );
+        hideLogMessage();
+        break;
+    case SvnClient::Commit:
+        setCaption( tr( "Commit") );
+        showLogMessage();
+        break;
+    case SvnClient::Remove:
+        setCaption( tr( "Remove") );
+        hideLogMessage();
+        break;
+    case SvnClient::Revert:
+        setCaption( tr( "Revert") );
+        hideLogMessage();
+        break;
     }
     listViewFiles->clear();
     setMessageString( tr( "***empty message ***" ) );
@@ -176,14 +173,14 @@ void FileSelector::listViewFilesDoubleClickSlot()
 
 void FileSelector::buttonOkClickSlot()
 {
-	if ( _svnCommandType == SvnClient::Commit )
-	{
-		comboLogMessage->insertItem( editLogMessage->text() );
-	}
-	this->accept();
+    if ( _svnCommandType == SvnClient::Commit )
+    {
+        comboLogMessage->insertItem( editLogMessage->text() );
+    }
+    this->accept();
 }
 
 void FileSelector::comboLogMessageActivatedSlot( const QString& selectedString )
 {
-	setMessageString( selectedString );
+    setMessageString( selectedString );
 }
