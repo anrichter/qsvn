@@ -31,6 +31,7 @@
 //Qt
 #include <qlistview.h>
 #include <qtextedit.h>
+#include <qdir.h>
 
 //make WorkingCopy a singleton
 WorkingCopy* WorkingCopy::_exemplar = 0;
@@ -55,8 +56,7 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
 }
 
 WorkingCopy::~WorkingCopy()
-{
-}
+{}
 
 void WorkingCopy::outputMessage( const QString messageString )
 {
@@ -86,11 +86,34 @@ void WorkingCopy::addWorkingCopySlot()
     if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
     {
         //ad working Copy to workingCopyListView
-        outputMessage( "TODO: add workingCopy " + addWorkingCopy->getSelectedDirectory() + " to workingCopyListView" );
+        QListViewItem *element;
+        element = new QListViewItem( workingCopyListView, addWorkingCopy->getSelectedDirectory() );
+        updateElement( element );
     }
     else
     {
         statusTextEdit->append( SvnClient::Exemplar()->getProcessStderr() );
         statusTextEdit->append( SvnClient::Exemplar()->getMessageString() );
+    }
+}
+
+void WorkingCopy::updateElement( QListViewItem *element )
+{
+    if ( &element )
+    {
+        //todo: delete old childs
+        QDir directory( element->text( 0 ) );
+        if ( directory.exists() )
+        {
+            directory.setMatchAllDirs( TRUE );
+            QStringList lst = directory.entryList( "*" );
+            for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) 
+            {
+                //todo: check if is dir & call updateElemtent recursively for directories
+                // add only directories here
+                QListViewItem *_element;
+                _element = new QListViewItem( element, *it );
+            }
+        }
     }
 }

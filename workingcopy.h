@@ -33,6 +33,7 @@
 
 //Qt Classes
 class QListView;
+class QListViewItem;
 class QTextEdit;
 
 /**
@@ -51,6 +52,7 @@ public:
     void setStatusEdit( QTextEdit *textEdit );
 public slots:
     void addWorkingCopySlot();
+    void updateElement( QListViewItem *element );
 
 private:
     WorkingCopy( QObject *parent = 0, const char *name = 0 );

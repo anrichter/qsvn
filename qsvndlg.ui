@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>720</width>
-            <height>463</height>
+            <height>466</height>
         </rect>
     </property>
     <property name="caption">
@@ -47,6 +47,9 @@
                     </column>
                     <property name="name">
                         <cstring>workingCopyListView</cstring>
+                    </property>
+                    <property name="rootIsDecorated">
+                        <bool>true</bool>
                     </property>
                 </widget>
                 <widget class="QListView">
