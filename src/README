@@ -1,2 +1,12 @@
-qsvn - a subversion frontend developed under Trolltech's Qt
+QSvn is a Qt based Subversion client.
 
+It is developed as a cross platform application that runs on all Qt supported
+operating systems. At the moment these are UNIX/Linux, Mac OS X and Windows.
+QSvn is tested at Linux and at Windows.
+
+Please remember that you need to install the Subversion. You can download it
+for free at http://http://subversion.tigris.org/
+In any later version of QSvn we will use Subversion libraries directly so you
+don't need to install Subversion client separately.
+
+More Information about QSvn you find at our website http://qsvn.berlios.de
