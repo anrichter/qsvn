@@ -25,7 +25,9 @@ HEADERS += qsvn.h \
            configure.h \
            filelist.h \
            statustext.h \
-           checkout.h
+           checkout.h \
+           filelistitem.h \
+           workingcopyitem.h 
 SOURCES += main.cpp \
            qsvn.cpp \
            addworkingcopy.cpp \
@@ -35,7 +37,9 @@ SOURCES += main.cpp \
            configure.cpp \
            filelist.cpp \
            statustext.cpp \
-           checkout.cpp
+           checkout.cpp \
+           filelistitem.cpp \
+           workingcopyitem.cpp 
 IMAGES += images/folder.png \
           images/file.png \
           images/modifiedfile.png \
