@@ -60,7 +60,9 @@ FileList::FileList(QObject *parent, const char *name)
 {
     listViewFiles = new QListView( 0, "listViewFiles" );
     listViewFiles->addColumn( tr( "Filename" ) );
-    listViewFiles->addColumn( tr( "File Status" ) );
+    listViewFiles->addColumn( tr( "Status" ) );
+    listViewFiles->addColumn( tr( "Revision" ) );
+    listViewFiles->addColumn( tr( "Author" ) );
     listViewFiles->setShowSortIndicator( TRUE );
     listViewFiles->setAllColumnsShowFocus( TRUE );
     listViewFiles->setSelectionMode( QListView::Extended );
@@ -114,17 +116,31 @@ void FileList::updateListSlot( QString currentDirectory )
         if ( SvnClient::Exemplar()->status( currentDirectory, false ) )
         {
             QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
-            QString _lineString;
-            QString _fileName;
+            QString _lineString, _restString, _revision, _author, _fileName;
             for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
                 _lineString = *it;
-                _fileName = _lineString.right( _lineString.length() - 40 );
+                _restString = _lineString.right( _lineString.length() - 6 );
+                _restString = _restString.simplifyWhiteSpace(); //convert into simple whitespace seaparatet string
+                if ( _lineString.at( 0 ).latin1() == '?' )
+                {
+                    _revision = "";
+                    _author = "";
+                    _fileName = _restString;
+                } 
+                else 
+                {
+                    _revision = _restString.section( ' ', 1, 1 );
+                    _author = _restString.section( ' ', 2, 2 );
+                    _fileName = _restString.section( ' ', 3, 3 );
+                }
                 // add only files here
                 if ( ! QDir( currentDirectory + QDir::separator() + _fileName ).exists() )
                 {
                     //set Filename
                     QListViewItem* _element = new QListViewItem( listViewFiles, _fileName );
+                    _element->setText( _COLUMN_REVISION, _revision );
+                    _element->setText( _COLUMN_AUTHOR, _author );
                     //set File Status
                     switch ( int( _lineString.at( 0 ).latin1() ) ) {
                         case int( 'M' ):

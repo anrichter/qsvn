@@ -4,7 +4,7 @@ Version 0.1.0 - released 2005-??-??
     ------------
     * starting qsvn
     * working copy listview
-    * file list view with status for files
+    * file list view with Filename, Status, Rivision and Author for every File
     * status text output
     * implemented svn commands:
         - add

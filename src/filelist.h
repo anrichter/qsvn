@@ -37,8 +37,10 @@ class QListViewItem;
 class QString;
 
 
-const int _COLUMN_STATUS = 1,
-          _COLUMN_FILE = 0;
+const int _COLUMN_FILE = 0,
+          _COLUMN_STATUS = 1,
+          _COLUMN_REVISION = 2,
+          _COLUMN_AUTHOR = 3;
           
 /**
 This class handle the filelist of a directory from any working copy
