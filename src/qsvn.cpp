@@ -23,6 +23,7 @@
 
 
 //QSvn
+#include "aboutdlg.h"
 #include "config.h"
 #include "configure.h"
 #include "filelist.h"
@@ -195,9 +196,8 @@ void QSvn::helpIndexSlot()
 
 void QSvn::aboutSlot()
 {
-    QMessageBox::about( this, tr( "About QSvn" ),
-                        tr( "This Programm is a simple Subversion Client\n"
-                            "Authors: Andreas Richter (ar@oszine.de)" ) );
+    AboutDlg about( this );
+    about.exec();
 }
 
 void QSvn::aboutQtSlot()

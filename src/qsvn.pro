@@ -14,7 +14,8 @@ CONFIG += release \
           thread
 TEMPLATE = app
 
-FORMS = forms/addworkingcopydlg.ui \
+FORMS = forms/aboutdlg.ui \
+        forms/addworkingcopydlg.ui \
         forms/checkoutdlg.ui \
         forms/configuredlg.ui \
         forms/fileselectordlg.ui \
