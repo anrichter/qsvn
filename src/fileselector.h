@@ -60,6 +60,9 @@ private:
    static FileSelector* _exemplar;
    
    QString startPath;
+   int logMessageSize;
+   void showLogMessage();
+   void hideLogMessage();
 };
 
 #endif

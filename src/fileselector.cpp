@@ -32,6 +32,7 @@
 #include <qdialog.h>
 #include <qdir.h>
 #include <qlistview.h>
+#include <qsplitter.h>
 #include <qstringlist.h>
 #include <qtextedit.h>
 
@@ -57,10 +58,31 @@ void FileSelector::releaseExemplar()
 //FileSelector implementation
 FileSelector::FileSelector( QWidget *parent, const char *name )
         : FileSelectorDlg( parent, name )
-{}
+{
+    QValueList<int> list = splitterVertical->sizes();
+    logMessageSize = *list.at( 1 );
+}
 
 FileSelector::~FileSelector()
 {}
+
+void FileSelector::showLogMessage()
+{
+    frameLogMessage->setEnabled( TRUE );
+    QValueList<int> list = splitterVertical->sizes();
+    *list.at( 1 ) = logMessageSize;
+    splitterVertical->setSizes( list );
+}
+
+void FileSelector::hideLogMessage()
+{
+    QValueList<int> list = splitterVertical->sizes();
+    logMessageSize = *list.at( 1 );
+    *list.at( 0 ) += *list.at( 1 );
+    *list.at( 1 ) = 0;
+    splitterVertical->setSizes( list );   
+    frameLogMessage->setEnabled( FALSE );
+}
 
 void FileSelector::initFileSelector( int svnCommandType, const QString &path )
 {
@@ -68,15 +90,19 @@ void FileSelector::initFileSelector( int svnCommandType, const QString &path )
     {
         case Add:
             setCaption( tr( "Add") );
+            hideLogMessage();
             break;
         case Commit:
             setCaption( tr( "Commit") );
+            showLogMessage();
             break;
         case Remove:
             setCaption( tr( "Remove") );
+            hideLogMessage();
             break;
         case Revert:
             setCaption( tr( "Revert") );
+            hideLogMessage();
             break;
     }
     setMessageString( tr( "***empty message ***" ) );
