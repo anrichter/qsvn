@@ -102,9 +102,11 @@ bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
     
             Sleep( 1 );
 #endif
-    
+            //read out stdout and strerr
+            readStdoutSlot();
+            readStderrSlot();
         }
-        return processStderrList.count() == 0;
+        return process->normalExit();
     }
     else
     {
@@ -114,17 +116,21 @@ bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
 
 void SvnClient::readStdoutSlot()
 {
-    while ( process->canReadLineStdout() )
+    QString string = process->readLineStdout();
+    while ( string )
     {
-        processStdoutList.append( process->readLineStdout() );
+        processStdoutList.append( string );
+        string = process->readLineStdout();
     }
 }
 
 void SvnClient::readStderrSlot()
 {
-    while ( process->canReadLineStderr() )
+    QString string = process->readLineStderr();
+    while ( string )
     {
-        processStderrList.append( process->readLineStderr() );
+        processStderrList.append( string );
+        string = process->readLineStderr();
     }
 }
 
