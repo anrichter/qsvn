@@ -34,6 +34,7 @@ This class handle the filelist of a directory from any working copy
 */
 
 class QListView;
+class QListViewItem;
 class QString;
 
 const int _COLUMN_STATUS = 1,
@@ -51,6 +52,7 @@ public:
 public slots:
     void updateListSlot( QString currentDirectory );
     void diffSelected();
+    void doubleClickedSlot( QListViewItem* item );
 
 private:
     static FileList *_exemplar;

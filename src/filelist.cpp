@@ -63,6 +63,8 @@ FileList::FileList(QObject *parent, const char *name)
     listViewFiles->setShowSortIndicator( TRUE );
     listViewFiles->setAllColumnsShowFocus( TRUE );
     
+    connect( listViewFiles, SIGNAL( doubleClicked( QListViewItem* ) ), this, SLOT( doubleClickedSlot( QListViewItem* ) ) );
+    
     Config::Exemplar()->restoreListView( listViewFiles );
     stringFullPath = "";
 }
@@ -132,3 +134,10 @@ void FileList::diffSelected()
 {
     SvnClient::Exemplar()->diff( stringFullPath, listViewFiles->currentItem()->text( _COLUMN_FILE ) );
 }
+
+void FileList::doubleClickedSlot( QListViewItem* item )
+{
+    //todo: switch settings and file status ( added, modified, ... )
+    SvnClient::Exemplar()->diff( stringFullPath, item->text( _COLUMN_FILE ) );
+}
+
