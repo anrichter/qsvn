@@ -31,6 +31,7 @@
 #include <qfiledialog.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
+#include <qdir.h>
 
 
 AddWorkingCopy::AddWorkingCopy( QWidget *parent, const char *name )
@@ -51,5 +52,5 @@ void AddWorkingCopy::selectDirectorySlot()
 {
     QString directory = QFileDialog::getExistingDirectory( editDirectory->text(), this, "get", "Select a working Directory" );
     if ( directory )
-        editDirectory->setText( directory );
+        editDirectory->setText( QDir::convertSeparators( directory ) );
 }

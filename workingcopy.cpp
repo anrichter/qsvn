@@ -156,7 +156,7 @@ QString WorkingCopy::getFullDirectory( QListViewItem *element )
     {
         if ( element->parent() )
         {
-            strDirectory = this->getFullDirectory( element->parent() ) + element->text( 0 );
+            strDirectory = this->getFullDirectory( element->parent() ) + QDir::separator() + element->text( 0 );
         }
         else
         {
