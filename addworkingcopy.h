@@ -31,7 +31,8 @@ class AddWorkingCopy : public AddWorkingCopyDlg
 public:
     AddWorkingCopy( QWidget *parent = 0, const char *name = 0 );
     ~AddWorkingCopy();
-
+    
+    QString getSelectedDirectory() const;
 public slots:
 
 private:

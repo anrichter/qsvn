@@ -39,6 +39,11 @@ AddWorkingCopy::~AddWorkingCopy()
 {
 }
 
+QString AddWorkingCopy::getSelectedDirectory() const
+{
+    return editDirectory->text();
+}
+
 void AddWorkingCopy::selectDirectorySlot()
 {
     QString directory = QFileDialog::getExistingDirectory( editDirectory->text(), this, "get", "Select a working Directory" );
