@@ -59,7 +59,7 @@ public:
 
     bool isWorkingCopy( const QString &path );
     QString getMessageString();
-    void changedFilesToList( QStringList *list, const QString &path, const QString pathPrefix = "" ); //!< add changed, added and deleted files to QStringList with pathPrefix
+    void filesToList( int svnCommandType, QStringList *list, const QString &path, const QString pathPrefix = "" );
     
     bool doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput = true );
     bool doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, bool withOutput = true );

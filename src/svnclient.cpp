@@ -173,10 +173,16 @@ QString SvnClient::getMessageString()
     return messageString;
 }
 
-void SvnClient::changedFilesToList( QStringList *list, const QString &path, const QString pathPrefix )
+void SvnClient::filesToList( int svnCommandType, QStringList *list, const QString &path, const QString pathPrefix )
 {
     if ( list && path && isWorkingCopy( path ) )
     {
+        if ( svnCommandType == Update )
+        {
+            list->append( "." );
+            return;            
+        }
+        
         if ( doSvnCommand( Status, path, false ) )
         {
             QStringList statusList( getProcessStdoutList() );
@@ -196,16 +202,35 @@ void SvnClient::changedFilesToList( QStringList *list, const QString &path, cons
                 } 
 
                 i = int( _lineString.at( 0 ).latin1() );
-                if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) || ( i == int( 'D' ) ) )
+                if ( ( svnCommandType ==  Commit ) || ( svnCommandType == Revert ) )
                 {
-                    list->append( pathPrefix + _fileName );
+                    if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) || ( i == int( 'D' ) ) )
+                    {
+                        list->append( pathPrefix + _fileName );
+                    }
                 }
-               
+                else 
+                if ( svnCommandType == Remove )
+                {
+                    if ( i == int( ' ' ) )
+                    {
+                        list->append( pathPrefix + _fileName );
+                    }
+                }
+                else
+                if ( svnCommandType == Add )
+                {
+                    if ( i == int( '?' ) )
+                    {
+                        list->append( pathPrefix + _fileName );
+                    }
+                }
+                
                 //recursive call for subdirectories
                 if ( ( ( _fileName != "." ) && ( _fileName != ".." ) ) &&    // dont jump into . or .. directory
                      QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory 
                 {
-                    changedFilesToList( list, path + QDir::separator() + _fileName, pathPrefix + _fileName + QDir::separator() );
+                    filesToList( svnCommandType, list, path + QDir::separator() + _fileName, pathPrefix + _fileName + QDir::separator() );
                 }
             }
         }

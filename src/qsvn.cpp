@@ -92,88 +92,74 @@ void QSvn::checkoutSlot()
     WorkingCopy::Exemplar()->checkoutSlot();
 }
 
+void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
+{
+    //already implemented: commit, revert
+    if ( !WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
+        return;
+    
+    bool runCommand = FALSE;
+    bool withFileList = FALSE;
+    
+    WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
+    QStringList *fileList = new QStringList; // QStringList with filenames for svn command
+    QString commitMessage;
+    
+    if ( withFileSelector )
+        FileSelector::Exemplar()->initFileSelector( svnCommandType, item->fullPath() );
+
+    //get the fileList depend on what widget has the focus
+    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
+    {
+        //WorkingCopy has focus
+        SvnClient::Exemplar()->filesToList( svnCommandType, fileList, item->fullPath() );
+        if ( withFileSelector )
+            FileSelector::Exemplar()->setSelectedFiles( fileList );
+    }
+    else if ( FileList::Exemplar()->getWidget()->hasFocus() )
+    {
+        //FileList has focus
+        fileList = FileList::Exemplar()->selectedFileListItems();
+        if ( withFileSelector )
+            FileSelector::Exemplar()->setSelectedFiles( fileList );
+    }    
+    
+    if ( withFileSelector )
+    {
+        if ( FileSelector::Exemplar()->exec() )
+        {
+            fileList = FileSelector::Exemplar()->selectedFiles();
+            commitMessage = FileSelector::Exemplar()->messageString();
+            runCommand = TRUE;
+        }
+    }
+    else
+        runCommand = TRUE;
+            
+    if ( runCommand )
+    {
+        //call svnCommand
+        SvnClient::Exemplar()->doSvnCommand( svnCommandType, item->fullPath(), fileList, commitMessage );
+        //Updates
+        WorkingCopy::Exemplar()->updateElement( item );
+        FileList::Exemplar()->updateListSlot( item->fullPath() );
+    }
+}
+
+
 void QSvn::updateSlot()
 {
-    WorkingCopyItem *item;
-    
-    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem())
-    {
-        //update a directory
-        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        SvnClient::Exemplar()->doSvnCommand( SvnClient::Update, item->fullPath() );
-    } 
-    else if ( FileList::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
-    {
-        //update file(s)
-        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        SvnClient::Exemplar()->doSvnCommand( SvnClient::Update, item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
-    } 
-    else
-    {
-        return;
-    }
-    //Updates
-    WorkingCopy::Exemplar()->updateElement( item );
-    FileList::Exemplar()->updateListSlot( item->fullPath() );
+    svnCommand( SvnClient::Update );
 }
 
 void QSvn::commitSlot()
 {
-    if ( !WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
-        return;
-    
-    QString commitMessage;
-    WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-    
-    FileSelector::Exemplar()->initFileSelector( FileSelector::Commit, item->fullPath() );
-    
-    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
-    {
-        QStringList *fileList = new QStringList;
-        SvnClient::Exemplar()->changedFilesToList( fileList, item->fullPath() );
-        FileSelector::Exemplar()->setSelectedFiles( fileList );
-    }
-    else if ( FileList::Exemplar()->getWidget()->hasFocus() )
-    {
-        FileSelector::Exemplar()->setSelectedFiles( FileList::Exemplar()->selectedFileListItems() );
-    }    
-    
-    if ( FileSelector::Exemplar()->exec() )
-    {
-        QStringList* fileList = FileSelector::Exemplar()->selectedFiles();
-        QString commitMessage = FileSelector::Exemplar()->messageString();
-        SvnClient::Exemplar()->doSvnCommand( SvnClient::Commit, item->fullPath(), fileList, commitMessage );
-    }
-    //Updates
-    WorkingCopy::Exemplar()->updateElement( item );
-    FileList::Exemplar()->updateListSlot( item->fullPath() );
+    svnCommand( SvnClient::Commit, TRUE );
 }
 
 void QSvn::addSlot()
 {
-    WorkingCopyItem *item;
-    
-    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
-    {
-        //add a directory
-        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem()->parent();
-        QUrl url( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath() );
-        QString file = url.fileName();
-        SvnClient::Exemplar()->add( item->fullPath(), file );
-    } 
-    else if ( FileList::Exemplar()->getWidget()->hasFocus() && WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
-    {
-        //add file(s)
-        item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-        SvnClient::Exemplar()->doSvnCommand( SvnClient::Add, item->fullPath(), FileList::Exemplar()->selectedFileListItems() );
-    } 
-    else
-    {
-        return;
-    }
-    //Updates
-    WorkingCopy::Exemplar()->updateElement( item );
-    FileList::Exemplar()->updateListSlot( item->fullPath() );
+    svnCommand( SvnClient::Add, TRUE );
 }
 
 void QSvn::removeSlot()
@@ -184,31 +170,7 @@ void QSvn::removeSlot()
 
 void QSvn::revertSlot()
 {
-    if ( !WorkingCopy::Exemplar()->selectedWorkingCopyItem() )
-        return;
-    
-    WorkingCopyItem *item = WorkingCopy::Exemplar()->selectedWorkingCopyItem();
-    FileSelector::Exemplar()->initFileSelector( FileSelector::Revert, item->fullPath() );
-    
-    if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
-    {
-        QStringList *fileList = new QStringList;
-        SvnClient::Exemplar()->changedFilesToList( fileList, item->fullPath() );
-        FileSelector::Exemplar()->setSelectedFiles( fileList );
-    }
-    else if ( FileList::Exemplar()->getWidget()->hasFocus() )
-    {
-        FileSelector::Exemplar()->setSelectedFiles( FileList::Exemplar()->selectedFileListItems() );
-    }    
-    
-    if ( FileSelector::Exemplar()->exec() )
-    {
-        QStringList* fileList = FileSelector::Exemplar()->selectedFiles();
-        SvnClient::Exemplar()->doSvnCommand( SvnClient::Revert, item->fullPath(), fileList );
-    }
-    //Updates
-    WorkingCopy::Exemplar()->updateElement( item );
-    FileList::Exemplar()->updateListSlot( item->fullPath() );
+    svnCommand( SvnClient::Revert, TRUE );
 }
 
 void QSvn::diffSlot()

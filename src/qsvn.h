@@ -66,6 +66,9 @@ protected slots:
     void helpIndexSlot();
     void aboutSlot();
     void aboutQtSlot();
+    
+    // @brief prepare informations for and call a svn command during SvnClient::doSvnCommand
+    void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
 };
 
 #endif
