@@ -30,6 +30,7 @@
 //Qt
 #include <qapplication.h>
 #include <qdialog.h>
+#include <qdir.h>
 #include <qlistview.h>
 #include <qstringlist.h>
 #include <qtextedit.h>
@@ -125,5 +126,5 @@ QString FileSelector::messageString()
 
 void FileSelector::listViewFilesDoubleClickSlot()
 {
-    SvnClient::Exemplar()->diff( startPath + listViewFiles->selectedItem()->text( 0 ), FALSE );
+    SvnClient::Exemplar()->diff( startPath + QDir::separator() + listViewFiles->selectedItem()->text( 0 ), FALSE );
 }

@@ -132,7 +132,7 @@ void QSvn::commitSlot()
     if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
     {
         QStringList *fileList = new QStringList;
-        SvnClient::Exemplar()->changedFilesToList( fileList, item->fullPath(), "." );
+        SvnClient::Exemplar()->changedFilesToList( fileList, item->fullPath() );
         FileSelector::Exemplar()->setSelectedFiles( fileList );
     }
     else if ( FileList::Exemplar()->getWidget()->hasFocus() )
