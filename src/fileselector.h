@@ -34,11 +34,6 @@ class FileSelector : public FileSelectorDlg
     Q_OBJECT
 
 public:
-    enum SvnCommandType { Add    = 0x01,
-                          Commit = 0x02,
-                          Remove = 0x03,
-                          Revert = 0x04 };
-
     static FileSelector* Exemplar();
     static void releaseExemplar();
    

@@ -88,19 +88,19 @@ void FileSelector::initFileSelector( int svnCommandType, const QString &path )
 {
     switch ( svnCommandType )
     {
-        case Add:
+        case SvnClient::Add:
             setCaption( tr( "Add") );
             hideLogMessage();
             break;
-        case Commit:
+        case SvnClient::Commit:
             setCaption( tr( "Commit") );
             showLogMessage();
             break;
-        case Remove:
+        case SvnClient::Remove:
             setCaption( tr( "Remove") );
             hideLogMessage();
             break;
-        case Revert:
+        case SvnClient::Revert:
             setCaption( tr( "Revert") );
             hideLogMessage();
             break;
