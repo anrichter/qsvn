@@ -108,6 +108,7 @@
         <action name="helpIndexAction"/>
         <separator/>
         <action name="helpAboutAction"/>
+        <action name="helpAbout_QtAction"/>
     </item>
 </menubar>
 <toolbars>
@@ -191,52 +192,67 @@
             <string>Remove</string>
         </property>
     </action>
+    <action>
+        <property name="name">
+            <cstring>helpAbout_QtAction</cstring>
+        </property>
+        <property name="text">
+            <string>About &amp;Qt</string>
+        </property>
+    </action>
 </actions>
 <connections>
     <connection>
         <sender>fileExitAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>fileExit()</slot>
+        <slot>exitSlot()</slot>
     </connection>
     <connection>
         <sender>helpIndexAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>helpIndex()</slot>
+        <slot>helpIndexSlot()</slot>
     </connection>
     <connection>
         <sender>helpContentsAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>helpContents()</slot>
+        <slot>helpContentsSlot()</slot>
     </connection>
     <connection>
         <sender>helpAboutAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>helpAbout()</slot>
+        <slot>aboutSlot()</slot>
     </connection>
     <connection>
         <sender>workingCopyAddAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>workingCopyAdd()</slot>
+        <slot>workingCopyAddSlot()</slot>
     </connection>
     <connection>
         <sender>workingCopyRemoveAction</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>workingCopyRemove()</slot>
+        <slot>workingCopyRemoveSlot()</slot>
+    </connection>
+    <connection>
+        <sender>helpAbout_QtAction</sender>
+        <signal>activated()</signal>
+        <receiver>QSvnDlg</receiver>
+        <slot>aboutQtSlot()</slot>
     </connection>
 </connections>
 <slots>
-    <slot>fileExit()</slot>
-    <slot>helpIndex()</slot>
-    <slot>helpContents()</slot>
-    <slot>helpAbout()</slot>
-    <slot>workingCopyAdd()</slot>
-    <slot>workingCopyRemove()</slot>
+    <slot>exitSlot()</slot>
+    <slot>helpIndexSlot()</slot>
+    <slot>helpContentsSlot()</slot>
+    <slot>aboutSlot()</slot>
+    <slot>workingCopyAddSlot()</slot>
+    <slot>workingCopyRemoveSlot()</slot>
+    <slot>aboutQtSlot()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>

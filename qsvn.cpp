@@ -23,6 +23,9 @@
 #include "qsvn.h"
 
 //Qt
+#include <qobject.h>
+#include <qmessagebox.h>
+
 
 QSvn::QSvn( QWidget *parent, const char *name )
   : QSvnDlg( parent, name )
@@ -33,7 +36,19 @@ QSvn::~QSvn()
 {
 }
 
-void QSvn::fileExit()
+void QSvn::exitSlot()
 {
     this->close();
+}
+
+void QSvn::aboutSlot()
+{
+	QMessageBox::about( this, tr( "About qsvn" ), 
+		tr( "This Programm is a simple Subversion Client\n" 
+		    "Authors: Andreas Richter (ar@oszine.de)" ) );
+}
+
+void QSvn::aboutQtSlot()
+{
+	QMessageBox::aboutQt( this );
 }

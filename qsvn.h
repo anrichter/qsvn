@@ -33,7 +33,10 @@ public:
     ~QSvn();
 
 public slots:
-    void fileExit();
+    void exitSlot();
+
+	void aboutSlot();
+	void aboutQtSlot();
 
 private:
 
