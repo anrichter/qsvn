@@ -10,6 +10,7 @@ TARGET = qsvn
 DESTDIR = bin 
 CONFIG += release \
           warn_on \
+          qt \
           thread 
 TEMPLATE = app 
 FORMS += qsvndlg.ui \
