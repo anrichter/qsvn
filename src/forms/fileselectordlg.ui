@@ -9,11 +9,14 @@
             <x>0</x>
             <y>0</y>
             <width>287</width>
-            <height>246</height>
+            <height>269</height>
         </rect>
     </property>
     <property name="caption">
         <string>Commit</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
     </property>
     <grid>
         <property name="name">
@@ -102,6 +105,9 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
                     <widget class="QLabel">
                         <property name="name">
                             <cstring>labelFiles</cstring>
@@ -147,6 +153,9 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
                     <widget class="QLabel">
                         <property name="name">
                             <cstring>labelLogMessage</cstring>
@@ -170,5 +179,28 @@
         </widget>
     </grid>
 </widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>FileSelectorDlg</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>FileSelectorDlg</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>FileSelectorDlg</receiver>
+        <slot>buttonOkClickSlot()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot access="protected">buttonOkClickSlot()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

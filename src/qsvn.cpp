@@ -28,6 +28,7 @@
 #include "configure.h"
 #include "filelist.h"
 #include "filelistitem.h"
+#include "fileselector.h"
 #include "qsvn.h"
 #include "statustext.h"
 #include "svnclient.h"
@@ -122,8 +123,12 @@ void QSvn::updateSlot()
 
 void QSvn::commitSlot()
 {
-    //todo: implement
-    StatusText::Exemplar()->outputMessage( QString( "svn commit - not implemented yet" ) );
+    FileSelector fileselector;
+    if ( fileselector.exec() )
+    {
+        //todo: implement
+        StatusText::Exemplar()->outputMessage( QString( "svn commit - not implemented yet" ) );
+    }
 }
 
 void QSvn::addSlot()

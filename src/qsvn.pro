@@ -13,40 +13,48 @@ CONFIG += release \
           qt \
           thread
 TEMPLATE = app
-FORMS += forms/qsvndlg.ui \
-         forms/addworkingcopydlg.ui \
-         forms/configuredlg.ui \
-         forms/checkoutdlg.ui
-HEADERS += qsvn.h \
-           addworkingcopy.h \
-           svnclient.h \
-           workingcopy.h \
-           config.h \
-           configure.h \
-           filelist.h \
-           statustext.h \
-           checkout.h \
-           filelistitem.h \
-           workingcopyitem.h 
-SOURCES += main.cpp \
-           qsvn.cpp \
-           addworkingcopy.cpp \
-           svnclient.cpp \
-           workingcopy.cpp \
-           config.cpp \
-           configure.cpp \
-           filelist.cpp \
-           statustext.cpp \
-           checkout.cpp \
-           filelistitem.cpp \
-           workingcopyitem.cpp 
+
+FORMS = forms/addworkingcopydlg.ui \
+        forms/checkoutdlg.ui \
+        forms/configuredlg.ui \
+        forms/fileselectordlg.ui \
+        forms/qsvndlg.ui
+
+HEADERS = addworkingcopy.h \
+          checkout.h \
+          config.h \
+          configure.h \
+          filelist.h \
+          filelistitem.h \
+          fileselector.h \
+          qsvn.h \
+          statustext.h \
+          svnclient.h \
+          workingcopy.h \
+          workingcopyitem.h
+
+SOURCES = addworkingcopy.cpp \
+          checkout.cpp \
+          config.cpp \
+          configure.cpp \
+          filelist.cpp \
+          filelistitem.cpp \
+          fileselector.cpp \
+          main.cpp \
+          qsvn.cpp \
+          statustext.cpp \
+          svnclient.cpp \
+          workingcopy.cpp \
+          workingcopyitem.cpp
+
 IMAGES += images/addedfile.png \
-          images/folder.png \
-          images/file.png \
-          images/modifiedfile.png \
           images/conflictfile.png \
+          images/file.png \
+          images/folder.png \
+          images/modifiedfile.png \
           images/unknownfile.png \
           images/unknownfolder.png
+
 win32{
   MOC_DIR = moc
   OBJECTS_DIR = obj
