@@ -38,6 +38,9 @@ public:
 
 public slots:
 
+protected:
+    virtual void closeEvent( QCloseEvent * );
+
 protected slots:
     //File
     void exitSlot();

@@ -36,10 +36,11 @@
 #include "workingcopyitem.h"
 
 //Qt
-#include <qaction.h>
+//#include <qaction.h>
+#include <qapplication.h>
 #include <qmessagebox.h>
-#include <qtextedit.h>
-#include <qurl.h>
+//#include <qtextedit.h>
+//#include <qurl.h>
 #include <qwidgetstack.h>
 
 
@@ -67,6 +68,11 @@ QSvn::QSvn( QWidget *parent, const char *name )
 QSvn::~QSvn()
 {}
 
+void QSvn::closeEvent( QCloseEvent * )
+{
+    exitSlot();
+}
+
 //protected slots
 void QSvn::exitSlot()
 {
@@ -74,7 +80,7 @@ void QSvn::exitSlot()
     Config::Exemplar()->saveMainWindow( this );
     FileList::releaseExemplar();
     WorkingCopy::releaseExemplar();
-    this->close();
+    qApp->exit( 0 );
 }
 
 void QSvn::addWorkingCopySlot()
