@@ -26,6 +26,7 @@
 //QSvn
 #include "qsvn.h"
 #include "qsvndlg.h"
+
 #include "svnclient.h"
 #include "workingcopy.h"
 #include "config.h"
@@ -41,12 +42,12 @@
 QSvn::QSvn( QWidget *parent, const char *name )
         : QSvnDlg( parent, name )
 {
-    WorkingCopy::Exemplar()->setListView( workingCopyListView );
-    WorkingCopy::Exemplar()->setStatusEdit( statusTextEdit );
+    WorkingCopy::Exemplar()->setListView( listViewWorkingCopy );
+    WorkingCopy::Exemplar()->setStatusEdit( editStatusText );
     
     //connect 
-    connect( workingCopyAddAction, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
-    connect (workingCopyRemoveAction, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
+    connect( actionAddWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( addExistingWorkingCopySlot() ) );
+    connect (actionRemoveWorkingCopy, SIGNAL( activated() ), WorkingCopy::Exemplar(), SLOT( removeCurrentWorkingCopySlot() ) );
 }
 
 QSvn::~QSvn()
@@ -58,7 +59,7 @@ void QSvn::exitSlot()
     this->close();
 }
 
-void QSvn::configureqsvnSlot()
+void QSvn::configureQSvnSlot()
 {
     Configure configure;
     configure.exec();

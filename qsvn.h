@@ -44,7 +44,7 @@ private:
 private slots:
     void exitSlot();
 
-    void configureqsvnSlot();
+    void configureQSvnSlot();
 
     void aboutSlot();
     void aboutQtSlot();

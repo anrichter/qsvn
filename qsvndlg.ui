@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>720</width>
-            <height>469</height>
+            <height>472</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,14 +21,14 @@
         </property>
         <widget class="QSplitter" row="0" column="0">
             <property name="name">
-                <cstring>verticalSplitter</cstring>
+                <cstring>splitterVertical</cstring>
             </property>
             <property name="orientation">
                 <enum>Vertical</enum>
             </property>
             <widget class="QSplitter">
                 <property name="name">
-                    <cstring>horizontalSplitter</cstring>
+                    <cstring>splitterHorizontal</cstring>
                 </property>
                 <property name="orientation">
                     <enum>Horizontal</enum>
@@ -46,7 +46,7 @@
                         </property>
                     </column>
                     <property name="name">
-                        <cstring>workingCopyListView</cstring>
+                        <cstring>listViewWorkingCopy</cstring>
                     </property>
                     <property name="rootIsDecorated">
                         <bool>true</bool>
@@ -87,13 +87,13 @@
                         </property>
                     </column>
                     <property name="name">
-                        <cstring>fileListView</cstring>
+                        <cstring>listViewFiles</cstring>
                     </property>
                 </widget>
             </widget>
             <widget class="QTextEdit">
                 <property name="name">
-                    <cstring>statusTextEdit</cstring>
+                    <cstring>editStatusText</cstring>
                 </property>
                 <property name="wordWrap">
                     <enum>WidgetWidth</enum>
@@ -110,21 +110,21 @@
         <cstring>MenuBar</cstring>
     </property>
     <item text="&amp;File" name="fileMenu">
-        <action name="fileExitAction"/>
+        <action name="actionExit"/>
     </item>
     <item text="&amp;Working Copy" name="workingCopyMenu">
-        <action name="workingCopyAddAction"/>
-        <action name="workingCopyRemoveAction"/>
+        <action name="actionAddWorkingCopy"/>
+        <action name="actionRemoveWorkingCopy"/>
     </item>
     <item text="&amp;Settings" name="settingsMenu">
-        <action name="settingsConfigureqsvnAction"/>
+        <action name="actionConfigureQSvn"/>
     </item>
     <item text="&amp;Help" name="helpMenu">
-        <action name="helpContentsAction"/>
-        <action name="helpIndexAction"/>
+        <action name="actionHelpContents"/>
+        <action name="actionHelpIndex"/>
         <separator/>
-        <action name="helpAboutAction"/>
-        <action name="helpAbout_QtAction"/>
+        <action name="actionAboutQSvn"/>
+        <action name="actionAboutQt"/>
     </item>
 </menubar>
 <toolbars>
@@ -132,7 +132,7 @@
 <actions>
     <action>
         <property name="name">
-            <cstring>fileExitAction</cstring>
+            <cstring>actionExit</cstring>
         </property>
         <property name="text">
             <string>Exit</string>
@@ -146,7 +146,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>helpContentsAction</cstring>
+            <cstring>actionHelpContents</cstring>
         </property>
         <property name="text">
             <string>Contents</string>
@@ -160,7 +160,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>helpIndexAction</cstring>
+            <cstring>actionHelpIndex</cstring>
         </property>
         <property name="text">
             <string>Index</string>
@@ -174,7 +174,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>helpAboutAction</cstring>
+            <cstring>actionAboutQSvn</cstring>
         </property>
         <property name="text">
             <string>About</string>
@@ -188,7 +188,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>workingCopyAddAction</cstring>
+            <cstring>actionAddWorkingCopy</cstring>
         </property>
         <property name="text">
             <string>Add...</string>
@@ -199,7 +199,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>workingCopyRemoveAction</cstring>
+            <cstring>actionRemoveWorkingCopy</cstring>
         </property>
         <property name="text">
             <string>Remove...</string>
@@ -210,7 +210,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>helpAbout_QtAction</cstring>
+            <cstring>actionAboutQt</cstring>
         </property>
         <property name="text">
             <string>About &amp;Qt</string>
@@ -221,7 +221,7 @@
     </action>
     <action>
         <property name="name">
-            <cstring>settingsConfigureqsvnAction</cstring>
+            <cstring>actionConfigureQSvn</cstring>
         </property>
         <property name="text">
             <string>Configure qsvn...</string>
@@ -233,40 +233,40 @@
 </actions>
 <connections>
     <connection>
-        <sender>fileExitAction</sender>
+        <sender>actionExit</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>exitSlot()</slot>
     </connection>
     <connection>
-        <sender>helpIndexAction</sender>
+        <sender>actionHelpIndex</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>helpIndexSlot()</slot>
     </connection>
     <connection>
-        <sender>helpContentsAction</sender>
+        <sender>actionHelpContents</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>helpContentsSlot()</slot>
     </connection>
     <connection>
-        <sender>helpAboutAction</sender>
+        <sender>actionAboutQSvn</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>aboutSlot()</slot>
     </connection>
     <connection>
-        <sender>helpAbout_QtAction</sender>
+        <sender>actionAboutQt</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
         <slot>aboutQtSlot()</slot>
     </connection>
     <connection>
-        <sender>settingsConfigureqsvnAction</sender>
+        <sender>actionConfigureQSvn</sender>
         <signal>activated()</signal>
         <receiver>QSvnDlg</receiver>
-        <slot>configureqsvnSlot()</slot>
+        <slot>configureQSvnSlot()</slot>
     </connection>
 </connections>
 <slots>
@@ -275,7 +275,7 @@
     <slot>helpContentsSlot()</slot>
     <slot>aboutSlot()</slot>
     <slot>aboutQtSlot()</slot>
-    <slot>configureqsvnSlot()</slot>
+    <slot>configureQSvnSlot()</slot>
 </slots>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>
