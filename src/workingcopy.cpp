@@ -88,10 +88,16 @@ void WorkingCopy::updateElement( QListViewItem *element, QString directoryString
 {
     if ( &element && directoryString )
     {
-        //todo: delete old childs
         QDir directory( directoryString );
         if ( directory.exists() )
         {
+            //delete all client items
+            while ( element->childCount() > 0 )
+            {
+                delete element->firstChild();
+            }
+
+            //add new child items
             directory.setMatchAllDirs( TRUE );
             QStringList lst = directory.entryList( QDir::Dirs );
             for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it )
@@ -103,7 +109,7 @@ void WorkingCopy::updateElement( QListViewItem *element, QString directoryString
                     _element = new QListViewItem( element, *it );
                     _element->setPixmap( 0, QPixmap::fromMimeSource( "folder.png" ) );
                     // recursive call for new _element
-                    this->updateElement( _element, directoryString + QDir::separator() + *it );
+                    updateElement( _element, directoryString + QDir::separator() + *it );
                 }
             }
         }
@@ -164,7 +170,7 @@ void WorkingCopy::removeWorkingCopy( QListViewItem *element )
     {
         if ( element->parent() )
         {
-            this->removeWorkingCopy( element->parent() );
+            removeWorkingCopy( element->parent() );
         }
         else
         {
@@ -181,7 +187,7 @@ QString WorkingCopy::getFullDirectory( QListViewItem *element )
     {
         if ( element->parent() )
         {
-            strDirectory = this->getFullDirectory( element->parent() ) + QDir::separator() + element->text( 0 );
+            strDirectory = getFullDirectory( element->parent() ) + QDir::separator() + element->text( 0 );
         }
         else
         {
@@ -195,10 +201,12 @@ void WorkingCopy::updateCurrentWorkingCopySlot()
 {
     if ( listViewWorkingCopy->selectedItem() )
     {
-        if ( SvnClient::Exemplar()->update( this->getFullDirectory( listViewWorkingCopy->selectedItem() ) ) )
+        if ( SvnClient::Exemplar()->update( getFullDirectory( listViewWorkingCopy->selectedItem() ) ) )
         {
-            this->updateElement( listViewWorkingCopy->selectedItem(), 
-                                 this->getFullDirectory( listViewWorkingCopy->selectedItem() ) );
+            //update this item
+            updateElement( listViewWorkingCopy->selectedItem(), 
+                           getFullDirectory( listViewWorkingCopy->selectedItem() ) );
+            emit directoryChanged( getFullDirectory( listViewWorkingCopy->selectedItem() ) );
         }
     }
 }
@@ -206,5 +214,5 @@ void WorkingCopy::updateCurrentWorkingCopySlot()
 //private slots
 void WorkingCopy::changeElement()
 {
-    emit directoryChanged( this->getFullDirectory( listViewWorkingCopy->selectedItem() ) );
+    emit directoryChanged( getFullDirectory( listViewWorkingCopy->selectedItem() ) );
 }

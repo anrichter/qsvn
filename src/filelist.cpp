@@ -79,7 +79,7 @@ QWidget *FileList::getWidget()
 
 void FileList::updateListSlot( QString currentDirectory )
 {
-    if ( listViewFiles && currentDirectory && ( _lastDirectory != currentDirectory ) )
+    if ( listViewFiles && currentDirectory )
     {
         listViewFiles->clear();
         if ( SvnClient::Exemplar()->status( currentDirectory ) )
