@@ -33,6 +33,7 @@
 #include "workingcopyitem.h"
 
 //Qt
+#include <qapplication.h>
 #include <qdir.h>
 #include <qlistview.h>
 #include <qpixmap.h>
@@ -158,7 +159,7 @@ void WorkingCopy::checkoutSlot()
 {
     if ( !checkout )
     {
-        checkout = new Checkout();
+        checkout = new Checkout( qApp->mainWidget() );
     }
     
     if ( checkout->exec() )

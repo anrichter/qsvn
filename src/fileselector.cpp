@@ -27,6 +27,7 @@
 #include "fileselectordlg.h"
 
 //Qt
+#include <qapplication.h>
 #include <qlistview.h>
 #include <qstringlist.h>
 #include <qtextedit.h>
@@ -39,7 +40,7 @@ FileSelector* FileSelector::Exemplar()
 {
     if ( _exemplar == 0 )
     {
-        _exemplar = new FileSelector;
+        _exemplar = new FileSelector( qApp->mainWidget() );
     }
     return _exemplar;
 }
