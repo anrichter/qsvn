@@ -6,22 +6,9 @@
 /***************************************************************************/
 
 
-require_once("mainfile.php");
-require_once("content/menu.php");
+  echo"
+  <h1>Start</h1>
 
-htmlhead();
-pagehead();
-
-$action = $_GET['action'];
-
-$contentfile = "content/".$action.".php";
-
-if (file_exists($contentfile))
-  include($contentfile);
-else
-  include("content/start.php");
-
-pagefoot();
-printmenu($action);
-htmlfoot();
+  Das ist der Inhalt der Startseite.
+  ";
 ?>

@@ -1,0 +1,38 @@
+/***************************************************************************
+ *   This file is part of QSvn Project http://qsvn.berlios.de              *
+ *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
+/***************************************************************************/
+
+/* Navigation */
+.navigation a, .navigation a:link, .navigation a:visited, .navigation a:active {
+
+}
+
+.navigation a:hover {
+
+}
+
+.navigation ul {
+  list-style-type:none
+}
+
+/* MainMenu */
+#mainmenu {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+
+}
+
+#mainmenu ul {
+}
+
+#mainmenu li {
+  list-style-type:none;
+  text-align: right;
+}
+
+#mainmenu li.main {
+  list-style-type:circle;
+  text-align: left;
+}
