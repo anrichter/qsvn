@@ -4,10 +4,4 @@ To compile the setup script qsvn.iss you must first copy any necessary libraries
 
   * .\msvcrtd.dll
   * .\qt-mtnc321.dll
-  * .\svn\libapr.dll
-  * .\svn\libapriconv.dll
-  * .\svn\libaprutil.dll
-  * .\svn\libdb42.dll
-  * .\svn\libeay32.dll
-  * .\svn\ssleay32.dll
-  * .\svn\svn.exe
+  * .\svn\svn-1.1.3-setup.exe

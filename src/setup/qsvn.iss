@@ -30,13 +30,7 @@ Source: ..\README; DestDir: {app}; Flags: ignoreversion
 Source: ..\ChangeLog; DestDir: {app}; Flags: ignoreversion
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: .\svn\libapr.dll; DestDir: {app}\svn; Flags: ignoreversion
-Source: .\svn\libapriconv.dll; DestDir: {app}\svn; Flags: ignoreversion
-Source: .\svn\libaprutil.dll; DestDir: {app}\svn; Flags: ignoreversion
-Source: .\svn\libdb42.dll; DestDir: {app}\svn; Flags: ignoreversion
-Source: .\svn\libeay32.dll; DestDir: {app}\svn; Flags: ignoreversion
-Source: .\svn\ssleay32.dll; DestDir: {app}\svn; Flags: ignoreversion
-Source: .\svn\svn.exe; DestDir: {app}\svn; Flags: ignoreversion
+Source: .\svn\svn-1.1.3-setup.exe; Flags: external skipifsourcedoesntexist ignoreversion dontcopy; DestDir: {app}\svn
 
 [INI]
 Filename: {app}\qsvn.url; Section: InternetShortcut; Key: URL; String: http://qsvn.berlios.de
@@ -49,6 +43,7 @@ Name: {userdesktop}\QSvn; Filename: {app}\qsvn.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\QSvn; Filename: {app}\qsvn.exe; Tasks: quicklaunchicon
 
 [Run]
+Filename: {src}\svn-1.1.3-setup.exe; Description: Install Subversion 1.1.3 (needed by QSvn); Flags: nowait skipifdoesntexist postinstall skipifsilent
 Filename: {app}\qsvn.exe; Description: {cm:LaunchProgram,QSvn}; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
