@@ -67,12 +67,12 @@ WorkingCopyItem* WorkingCopyItem::parent() const
     return parentItem;
 }
 
-QString WorkingCopyItem::fullPath()
+QString WorkingCopyItem::fullPath() const
 {
     return stringFullPath;
 }
 
-bool WorkingCopyItem::isSvnDirectory()
+bool WorkingCopyItem::isSvnDirectory() const
 {
     return svnDirectory;
 }
