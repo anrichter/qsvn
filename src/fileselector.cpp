@@ -175,6 +175,15 @@ void FileSelector::buttonOkClickSlot()
 {
     if ( _svnCommandType == SvnClient::Commit )
     {
+        //check if the logMessage already in comboLogMessage
+        for ( int i = 0; i != comboLogMessage->count(); i++ )
+        {
+            if ( comboLogMessage->text( i ) == editLogMessage->text() )
+            {
+                this->accept();
+                return;
+            }
+        }
         comboLogMessage->insertItem( editLogMessage->text(), 0 );
     }
     this->accept();

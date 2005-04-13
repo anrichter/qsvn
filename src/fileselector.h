@@ -46,10 +46,10 @@ public:
 
 protected slots:
     void listViewFilesDoubleClickSlot();
-	void buttonOkClickSlot();
+    void buttonOkClickSlot();
 
 private slots:
-	void comboLogMessageActivatedSlot( const QString& selectedString );
+    void comboLogMessageActivatedSlot( const QString& selectedString );
 
 private:
     FileSelector( QWidget *parent = 0, const char *name = 0 );
