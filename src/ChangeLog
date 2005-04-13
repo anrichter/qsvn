@@ -1,3 +1,9 @@
+Version 0.2.0 - released 2005-**-**
+
+    Bugfixes
+    --------
+    * don't add the same text twice into logmessage box in fileselector
+    
 Version 0.1.0 - released 2005-04-09
 
     New Features
