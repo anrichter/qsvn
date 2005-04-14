@@ -4,6 +4,11 @@ Version 0.2.0 - released 2005-**-**
     --------
     * don't add the same text twice into logmessage box in fileselector
     
+    Eyecandy
+    --------
+    * save and restore position of QSvn mainwindow
+    
+    
 Version 0.1.0 - released 2005-04-09
 
     New Features

@@ -117,6 +117,8 @@ void Config::saveMainWindow( QSvnDlg *aMainWindow )
 
         settings.writeEntry( "width", aMainWindow->width() );
         settings.writeEntry( "height", aMainWindow->height() );
+        settings.writeEntry( "x", aMainWindow->x() );
+        settings.writeEntry( "y", aMainWindow->y() );
 
         //save settings from splitterVertical
         int i = 0;
@@ -154,6 +156,10 @@ void Config::restoreMainWindow( QSvnDlg *aMainWindow )
 
         aMainWindow->resize( settings.readNumEntry( "width", aMainWindow->width() ),
                             settings.readNumEntry( "height", aMainWindow->height() ) );
+        
+        aMainWindow->move( QPoint( settings.readNumEntry( "x", aMainWindow->x() ),
+                                   settings.readNumEntry( "y", aMainWindow->y() ) ) );
+
 
         //restore settings from splitterVertical
         int i = 0;
