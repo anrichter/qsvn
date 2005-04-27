@@ -23,7 +23,7 @@
 
 
 //QSvn
-#include "svnclient.h"
+#include "svnwrapper.h"
 #include "config.h"
 #include "statustext.h"
 #include "workingcopy.h"
@@ -45,20 +45,20 @@
 #endif
 
 
-//make SvnClient as a singleton
-SvnClient* SvnClient::_exemplar = 0;
+//make SvnWrapper as a singleton
+SvnWrapper* SvnWrapper::_exemplar = 0;
 
-SvnClient* SvnClient::Exemplar()
+SvnWrapper* SvnWrapper::Exemplar()
 {
     if ( _exemplar == 0 )
     {
-        _exemplar = new SvnClient;
+        _exemplar = new SvnWrapper;
     }
     return _exemplar;
 }
 
-//SvnClient implementation
-SvnClient::SvnClient()
+//SvnWrapper implementation
+SvnWrapper::SvnWrapper()
 {
     process = new QProcess( this );
     connect( process, SIGNAL( readyReadStdout() ), this, SLOT( readStdoutSlot() ) );
@@ -66,13 +66,13 @@ SvnClient::SvnClient()
     immediateOutput = true;
 }
 
-SvnClient::~SvnClient()
+SvnWrapper::~SvnWrapper()
 {
     delete process;
     process = 0;
 }
 
-void SvnClient::prepareNewProcess( const QString &workingDirectory )
+void SvnWrapper::prepareNewProcess( const QString &workingDirectory )
 {
     processStdoutList.clear();
     processStderrList.clear();
@@ -83,7 +83,7 @@ void SvnClient::prepareNewProcess( const QString &workingDirectory )
         process->setWorkingDirectory( QDir( workingDirectory ) );
 }
 
-bool SvnClient::startProcess( const QString &startErrorMessage )
+bool SvnWrapper::startProcess( const QString &startErrorMessage )
 {
     if ( immediateOutput )
     {
@@ -107,7 +107,7 @@ bool SvnClient::startProcess( const QString &startErrorMessage )
     return TRUE;
 }
 
-bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
+bool SvnWrapper::startAndWaitProcess( const QString &startErrorMessage )
 {
     if ( startProcess( startErrorMessage ) )
     {
@@ -133,7 +133,7 @@ bool SvnClient::startAndWaitProcess( const QString &startErrorMessage )
     }
 }
 
-void SvnClient::readStdoutSlot()
+void SvnWrapper::readStdoutSlot()
 {
     QString string = process->readLineStdout();
     while ( string )
@@ -145,7 +145,7 @@ void SvnClient::readStdoutSlot()
     }
 }
 
-void SvnClient::readStderrSlot()
+void SvnWrapper::readStderrSlot()
 {
     QString string = process->readLineStderr();
     while ( string )
@@ -157,22 +157,22 @@ void SvnClient::readStderrSlot()
     }
 }
 
-QStringList SvnClient::getProcessStdoutList()
+QStringList SvnWrapper::getProcessStdoutList()
 {
     return processStdoutList;
 }
 
-QStringList SvnClient::getProcessStderrList()
+QStringList SvnWrapper::getProcessStderrList()
 {
     return processStderrList;
 }
 
-QString SvnClient::getMessageString()
+QString SvnWrapper::getMessageString()
 {
     return messageString;
 }
 
-void SvnClient::filesToList( int svnCommandType, QStringList *list, const QString &path, const QString pathPrefix )
+void SvnWrapper::filesToList( int svnCommandType, QStringList *list, const QString &path, const QString pathPrefix )
 {
     if ( list && path && isWorkingCopy( path ) )
     {
@@ -238,7 +238,7 @@ void SvnClient::filesToList( int svnCommandType, QStringList *list, const QStrin
     }
 }
 
-bool SvnClient::isWorkingCopy( const QString &path )
+bool SvnWrapper::isWorkingCopy( const QString &path )
 {
     QDir dir( path + QDir::separator() + ".svn" );
     if ( dir.exists() )
@@ -248,7 +248,7 @@ bool SvnClient::isWorkingCopy( const QString &path )
 }
 
 //svn calls
-bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput )
+bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput )
 {
     if ( !path )
         return FALSE;
@@ -319,20 +319,20 @@ bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QSt
     return _return;
 }
 
-bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, bool withOutput )
+bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, bool withOutput )
 {
     QString _commitMessage = "";
     return doSvnCommand( svnCommandType, path, filenameList, _commitMessage, withOutput );
 }
 
-bool SvnClient::doSvnCommand( int svnCommandType, const QString &path, bool withOutput )
+bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, bool withOutput )
 {
     QString _commitMessage = "";
     QStringList *_filenameList = new QStringList;
     return doSvnCommand( svnCommandType, path, _filenameList, _commitMessage, withOutput );
 }
 
-bool SvnClient::add( const QString &path, const QString &filename, bool withOutput )
+bool SvnWrapper::add( const QString &path, const QString &filename, bool withOutput )
 {
     if ( path && filename )
     {
@@ -349,7 +349,7 @@ bool SvnClient::add( const QString &path, const QString &filename, bool withOutp
         return FALSE;
 }
 
-bool SvnClient::diff( const QString &path, const QString &filename, bool withOutput )
+bool SvnWrapper::diff( const QString &path, const QString &filename, bool withOutput )
 {
     if ( path && filename )
     {
@@ -368,7 +368,7 @@ bool SvnClient::diff( const QString &path, const QString &filename, bool withOut
         return FALSE;
 }
 
-bool SvnClient::diff( const QString &path, const QStringList *filenameList, bool withOutput )
+bool SvnWrapper::diff( const QString &path, const QStringList *filenameList, bool withOutput )
 {
     if ( path && filenameList && ( filenameList->count() > 0 ) )
     {
@@ -384,7 +384,7 @@ bool SvnClient::diff( const QString &path, const QStringList *filenameList, bool
         return FALSE;
 }
 
-bool SvnClient::diff( const QString &fullFileName, bool withOutput )
+bool SvnWrapper::diff( const QString &fullFileName, bool withOutput )
 {
     if ( fullFileName )
     {
@@ -401,7 +401,7 @@ bool SvnClient::diff( const QString &fullFileName, bool withOutput )
 
 }
 
-bool SvnClient::checkout( const QString &path, const QString &url, bool withOutput )
+bool SvnWrapper::checkout( const QString &path, const QString &url, bool withOutput )
 {
     if ( path && url )
     {

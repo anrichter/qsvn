@@ -27,7 +27,7 @@
 #include "checkout.h"
 #include "config.h"
 #include "statustext.h"
-#include "svnclient.h"
+#include "svnwrapper.h"
 #include "workingcopy.h"
 #include "workingcopyitem.h"
 
@@ -142,15 +142,15 @@ void WorkingCopy::addExistingWorkingCopySlot()
         addWorkingCopy = new AddWorkingCopy();
     }
 
-    if ( addWorkingCopy->exec() && SvnClient::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
+    if ( addWorkingCopy->exec() && SvnWrapper::Exemplar()->isWorkingCopy( addWorkingCopy->getSelectedDirectory() ) )
     {
         //add working Copy to workingCopyListView
         addExistingWorkingCopySlot( addWorkingCopy->getSelectedDirectory() );
     }
     else
     {
-        StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getProcessStderrList() );
-        StatusText::Exemplar()->outputMessage( SvnClient::Exemplar()->getMessageString() );
+        StatusText::Exemplar()->outputMessage( SvnWrapper::Exemplar()->getProcessStderrList() );
+        StatusText::Exemplar()->outputMessage( SvnWrapper::Exemplar()->getMessageString() );
     }
 }
 
@@ -166,7 +166,7 @@ void WorkingCopy::checkoutSlot()
         QString path = checkout->getSelectedDirectory();
         QString url = checkout->getSelectedURL();
 
-        if ( SvnClient::Exemplar()->checkout( path, url ) )
+        if ( SvnWrapper::Exemplar()->checkout( path, url ) )
         {
             QUrl svnurl( url );
             addExistingWorkingCopySlot( QDir::cleanDirPath( path + QDir::separator() + svnurl.fileName() ) );

@@ -27,7 +27,7 @@
 #include "filelist.h"
 #include "filelistitem.h"
 #include "statustext.h"
-#include "svnclient.h"
+#include "svnwrapper.h"
 
 //Qt
 #include <qdir.h>
@@ -113,9 +113,9 @@ void FileList::updateListSlot( QString currentDirectory )
     {
         listViewFiles->clear();
         if ( ( currentDirectory != "" ) && 
-			 SvnClient::Exemplar()->doSvnCommand( SvnClient::Status, currentDirectory, false ) )
+			 SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, currentDirectory, false ) )
         {
-            QStringList statusList( SvnClient::Exemplar()->getProcessStdoutList() );
+            QStringList statusList( SvnWrapper::Exemplar()->getProcessStdoutList() );
             QString _lineString, _restString, _revision, _author, _fileName;
             for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
@@ -186,6 +186,6 @@ void FileList::updateListSlot( QString currentDirectory )
 void FileList::doubleClickedSlot( QListViewItem* item )
 {
     //todo: switch settings and file status ( added, modified, ... )
-    SvnClient::Exemplar()->diff( stringFullPath, item->text( _COLUMN_FILE ), FALSE );
+    SvnWrapper::Exemplar()->diff( stringFullPath, item->text( _COLUMN_FILE ), FALSE );
 }
 

@@ -69,7 +69,7 @@ protected slots:
     void aboutSlot();
     void aboutQtSlot();
 
-    // @brief prepare informations for and call a svn command during SvnClient::doSvnCommand
+    // @brief prepare informations for and call a svn command during SvnWrapper::doSvnCommand
     void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
 };
 

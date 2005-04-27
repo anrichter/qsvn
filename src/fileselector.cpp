@@ -24,7 +24,7 @@
 //QSvn
 #include "fileselector.h"
 #include "fileselectordlg.h"
-#include "svnclient.h"
+#include "svnwrapper.h"
 
 //Qt
 #include <qapplication.h>
@@ -95,19 +95,19 @@ void FileSelector::initFileSelector( int svnCommandType, const QString &path )
 {
     switch ( svnCommandType )
     {
-    case SvnClient::Add:
+    case SvnWrapper::Add:
         setCaption( tr( "Add") );
         hideLogMessage();
         break;
-    case SvnClient::Commit:
+    case SvnWrapper::Commit:
         setCaption( tr( "Commit") );
         showLogMessage();
         break;
-    case SvnClient::Remove:
+    case SvnWrapper::Remove:
         setCaption( tr( "Remove") );
         hideLogMessage();
         break;
-    case SvnClient::Revert:
+    case SvnWrapper::Revert:
         setCaption( tr( "Revert") );
         hideLogMessage();
         break;
@@ -127,7 +127,7 @@ void FileSelector::setSelectedFiles( QStringList* fileList )
         for ( QStringList::Iterator it = fileList->begin(); it != fileList->end(); ++it )
         {
             QCheckListItem* _item = new QCheckListItem( listViewFiles, *it, QCheckListItem::CheckBox );
-            if ( _svnCommandType == SvnClient::Remove )
+            if ( _svnCommandType == SvnWrapper::Remove )
             {
                 _item->setOn( FALSE );
             }
@@ -168,12 +168,12 @@ QString FileSelector::messageString()
 
 void FileSelector::listViewFilesDoubleClickSlot()
 {
-    SvnClient::Exemplar()->diff( startPath + QDir::separator() + listViewFiles->selectedItem()->text( 0 ), FALSE );
+    SvnWrapper::Exemplar()->diff( startPath + QDir::separator() + listViewFiles->selectedItem()->text( 0 ), FALSE );
 }
 
 void FileSelector::buttonOkClickSlot()
 {
-    if ( _svnCommandType == SvnClient::Commit )
+    if ( _svnCommandType == SvnWrapper::Commit )
     {
         //check if the logMessage already in comboLogMessage
         for ( int i = 0; i != comboLogMessage->count(); i++ )

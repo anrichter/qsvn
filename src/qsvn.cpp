@@ -31,7 +31,7 @@
 #include "fileselector.h"
 #include "qsvn.h"
 #include "statustext.h"
-#include "svnclient.h"
+#include "svnwrapper.h"
 #include "workingcopy.h"
 #include "workingcopyitem.h"
 
@@ -121,7 +121,7 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
     if ( WorkingCopy::Exemplar()->getWidget()->hasFocus() )
     {
         //WorkingCopy has focus
-        SvnClient::Exemplar()->filesToList( svnCommandType, fileList, item->fullPath() );
+        SvnWrapper::Exemplar()->filesToList( svnCommandType, fileList, item->fullPath() );
         if ( withFileSelector )
             FileSelector::Exemplar()->setSelectedFiles( fileList );
     }
@@ -153,7 +153,7 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
     if ( runCommand )
     {
         //call svnCommand
-        SvnClient::Exemplar()->doSvnCommand( svnCommandType, item->fullPath(), fileList, commitMessage );
+        SvnWrapper::Exemplar()->doSvnCommand( svnCommandType, item->fullPath(), fileList, commitMessage );
         //Updates
         WorkingCopy::Exemplar()->updateElement( item );
         FileList::Exemplar()->updateListSlot( item->fullPath() );
@@ -163,32 +163,32 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
 
 void QSvn::updateSlot()
 {
-    svnCommand( SvnClient::Update );
+    svnCommand( SvnWrapper::Update );
 }
 
 void QSvn::commitSlot()
 {
-    svnCommand( SvnClient::Commit, TRUE );
+    svnCommand( SvnWrapper::Commit, TRUE );
 }
 
 void QSvn::addSlot()
 {
-    svnCommand( SvnClient::Add, TRUE );
+    svnCommand( SvnWrapper::Add, TRUE );
 }
 
 void QSvn::removeSlot()
 {
-    svnCommand( SvnClient::Remove, TRUE );
+    svnCommand( SvnWrapper::Remove, TRUE );
 }
 
 void QSvn::revertSlot()
 {
-    svnCommand( SvnClient::Revert, TRUE );
+    svnCommand( SvnWrapper::Revert, TRUE );
 }
 
 void QSvn::diffSlot()
 {
-    SvnClient::Exemplar()->diff( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath(), FileList::Exemplar()->selectedFileListItems(), FALSE );
+    SvnWrapper::Exemplar()->diff( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath(), FileList::Exemplar()->selectedFileListItems(), FALSE );
 }
 
 void QSvn::configureQSvnSlot()

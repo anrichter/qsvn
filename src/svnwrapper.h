@@ -21,8 +21,8 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
-#ifndef SVNCLIENT_H
-#define SVNCLIENT_H
+#ifndef SVNWRAPPER_H
+#define SVNWRAPPER_H
 
 //Qt
 #include <qobject.h>
@@ -39,7 +39,7 @@ This Class handles interaction with subversion client
 @author Andreas Richter
 */
 
-class SvnClient : public QObject
+class SvnWrapper : public QObject
 {
     Q_OBJECT
 public:
@@ -51,7 +51,7 @@ public:
                           Status = 0x06,
                           Update = 0x07 };
 
-    static SvnClient* Exemplar();
+    static SvnWrapper* Exemplar();
 
     QStringList getProcessStdoutList();
     QStringList getProcessStderrList();
@@ -76,11 +76,11 @@ public slots:
     void readStderrSlot(); //!< read out the Stderr written form running process
 
 protected:
-    SvnClient();
-    ~SvnClient();
+    SvnWrapper();
+    ~SvnWrapper();
 
 private:
-    static SvnClient* _exemplar;
+    static SvnWrapper* _exemplar;
 
     QProcess *process;
 

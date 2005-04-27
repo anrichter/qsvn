@@ -30,7 +30,7 @@ HEADERS = addworkingcopy.h \
           fileselector.h \
           qsvn.h \
           statustext.h \
-          svnclient.h \
+          svnwrapper.h \
           workingcopy.h \
           workingcopyitem.h
 
@@ -44,7 +44,7 @@ SOURCES = addworkingcopy.cpp \
           main.cpp \
           qsvn.cpp \
           statustext.cpp \
-          svnclient.cpp \
+          svnwrapper.cpp \
           workingcopy.cpp \
           workingcopyitem.cpp
 
