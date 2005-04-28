@@ -23,6 +23,7 @@
 
 
 //CppUnit
+#include "cppunit/Test.h"
 #include "cppunit/TestFixture.h"
 #include "cppunit/extensions/HelperMacros.h"
 
@@ -33,8 +34,13 @@ class SvnClientTests : public CppUnit::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    void setUp ();
-    void tearDown ();
+    static CppUnit::Test *testSuite();
+    
+    void setUp();
+    void tearDown();
+    
+    //Tests
+    void testCheckout();
 
 protected:
 };

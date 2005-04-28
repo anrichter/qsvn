@@ -22,12 +22,28 @@
  ***************************************************************************/
 
 
+//QSvnTest
 #include "svnclienttests.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( SvnClientTests );
+//QSvn
+#include "../svnclient.h"
 
 void SvnClientTests::setUp()
 {}
 
 void SvnClientTests::tearDown()
 {}
+
+void SvnClientTests::testCheckout()
+{
+    CPPUNIT_ASSERT( FALSE );
+}
+
+CppUnit::Test *SvnClientTests::testSuite()
+{
+    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientTests" );
+    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientTests>( 
+                                   "testCheckout", 
+                                   &SvnClientTests::testCheckout ) );
+    return suiteOfTests;
+}

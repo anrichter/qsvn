@@ -21,29 +21,33 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
-
-//QSvnTester
-#include "svnclienttests.h"
-
-//CppUnit
-#include "cppunit/TestCase.h"
-#include "cppunit/ui/qt/TestRunner.h"
-#include "cppunit/extensions/HelperMacros.h"
+#ifndef SVNCLIENT_H
+#define SVNCLIENT_H
 
 //Qt
-#include "qapplication.h"
+#include <qobject.h>
 
 
-int main( int argc, char **argv)
+/**
+This Class handles call subversion commands directly
+
+@author Andreas Richter
+*/
+
+class SvnClient : public QObject
 {
-    QApplication a( argc, argv );
-
-    CppUnit::QtTestRunner runner;
-    runner.addTest( SvnClientTests::testSuite() );
+    Q_OBJECT
+public:
+    static SvnClient* Exemplar();
     
-    runner.run( true );
+    bool checkout( const QString &url, const QString &path );
 
-    return 0;
+protected:
+    SvnClient();
+    ~SvnClient();
 
-}
+private:
+    static SvnClient* _exemplar;
+};
 
+#endif

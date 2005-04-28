@@ -22,28 +22,31 @@
  ***************************************************************************/
 
 
-//QSvnTester
-#include "svnclienttests.h"
+//QSvn
+#include "svnclient.h"
 
-//CppUnit
-#include "cppunit/TestCase.h"
-#include "cppunit/ui/qt/TestRunner.h"
-#include "cppunit/extensions/HelperMacros.h"
+//make SvnClient a singleton
+SvnClient* SvnClient::_exemplar = 0;
 
-//Qt
-#include "qapplication.h"
-
-
-int main( int argc, char **argv)
+SvnClient* SvnClient::Exemplar()
 {
-    QApplication a( argc, argv );
-
-    CppUnit::QtTestRunner runner;
-    runner.addTest( SvnClientTests::testSuite() );
-    
-    runner.run( true );
-
-    return 0;
-
+    if ( _exemplar == 0 )
+    {
+        _exemplar = new SvnClient;
+    }
+    return _exemplar;
 }
 
+//SvnClient implementation
+SvnClient::SvnClient()
+{
+}
+
+SvnClient::~SvnClient()
+{
+}
+
+bool SvnClient::checkout( const QString &url, const QString &path )
+{
+    return FALSE;
+}
