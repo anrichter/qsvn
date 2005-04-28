@@ -7,9 +7,9 @@ CONFIG += release \
           warn_on \
           thread
 TEMPLATE = app
-HEADERS += svnclient.h
+HEADERS += svnclienttests.h
 SOURCES += main.cpp \
-           svnclient.cpp
+           svnclienttests.cpp
 win32{
   OBJECTS_DIR = obj
 }

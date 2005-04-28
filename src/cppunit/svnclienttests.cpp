@@ -22,7 +22,7 @@
  ***************************************************************************/
 
 
-#include "svnclient.h"
+#include "svnclienttests.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( SvnClientTests );
 
