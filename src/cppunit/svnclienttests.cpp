@@ -28,6 +28,15 @@
 //QSvn
 #include "../svnclient.h"
 
+CppUnit::Test *SvnClientTests::testSuite()
+{
+    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientTests" );
+    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientTests>( 
+                                   "testCheckout", 
+                                   &SvnClientTests::testCheckout ) );
+    return suiteOfTests;
+}
+
 void SvnClientTests::setUp()
 {}
 
@@ -37,13 +46,4 @@ void SvnClientTests::tearDown()
 void SvnClientTests::testCheckout()
 {
     CPPUNIT_ASSERT( FALSE );
-}
-
-CppUnit::Test *SvnClientTests::testSuite()
-{
-    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientTests" );
-    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientTests>( 
-                                   "testCheckout", 
-                                   &SvnClientTests::testCheckout ) );
-    return suiteOfTests;
 }

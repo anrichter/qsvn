@@ -23,9 +23,9 @@
 
 
 //CppUnit
-#include "cppunit/Test.h"
-#include "cppunit/TestFixture.h"
-#include "cppunit/extensions/HelperMacros.h"
+#include <cppunit/Test.h>
+#include <cppunit/TestFixture.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 
 class SvnClientTests : public CppUnit::TestFixture

@@ -26,12 +26,12 @@
 #include "svnclienttests.h"
 
 //CppUnit
-#include "cppunit/TestCase.h"
-#include "cppunit/ui/qt/TestRunner.h"
-#include "cppunit/extensions/HelperMacros.h"
+#include <cppunit/TestCase.h>
+#include <cppunit/ui/qt/TestRunner.h>
+#include <cppunit/extensions/HelperMacros.h>
 
 //Qt
-#include "qapplication.h"
+#include <qapplication.h>
 
 
 int main( int argc, char **argv)
@@ -46,4 +46,3 @@ int main( int argc, char **argv)
     return 0;
 
 }
-
