@@ -24,7 +24,10 @@
 
 #include "svnclient.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( SvnClientTestCase );
+CPPUNIT_TEST_SUITE_REGISTRATION( SvnClientTests );
 
-void SvnClientTestCase::setUp()
+void SvnClientTests::setUp()
+{}
+
+void SvnClientTests::tearDown()
 {}

@@ -23,17 +23,18 @@
 
 
 //CppUnit
-#include "cppunit/TestCase.h"
+#include "cppunit/TestFixture.h"
 #include "cppunit/extensions/HelperMacros.h"
 
 
-class SvnClientTestCase : public CppUnit::TestCase
+class SvnClientTests : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE( SvnClientTestCase );
+    CPPUNIT_TEST_SUITE( SvnClientTests );
     CPPUNIT_TEST_SUITE_END();
 
 public:
     void setUp ();
+    void tearDown ();
 
 protected:
 };
