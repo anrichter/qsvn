@@ -41,7 +41,7 @@ int main( int argc, char **argv)
     CppUnit::QtTestRunner runner;
     runner.addTest( SvnClientTests::testSuite() );
     
-    runner.run( true );
+    runner.run( false );
 
     return 0;
 
