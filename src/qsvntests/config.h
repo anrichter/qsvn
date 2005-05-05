@@ -23,11 +23,14 @@
 
 #include <qstring.h>
 
+// Before you can compile qsvntests you must configure some settings here, dedicated to your system.
+// Uncomment every #define and set it to the correct values
+
 //Name of svn repository for tests
-#define TEST_REPO "qsvn-tests"
+// #define TEST_REPO "qsvn-tests"
 
 //Workingcopy directory for checkout the test repository
-#define TEST_WC_DIR "/path/to/tmp/dir"
+// #define TEST_WC_DIR "/path/to/tmp/dir"
 
 //URL for access the test repository through file: protocol. Not containing the repository itself.
-#define TEST_REPO_FILE_URL "file:///path/to/svn-repositories"
+// #define TEST_REPO_FILE_URL "file:///path/to/svn-repositories"
