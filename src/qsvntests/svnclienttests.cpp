@@ -56,7 +56,12 @@ void SvnClientTests::tearDown()
 
 void SvnClientTests::testCheckout()
 {
-    CPPUNIT_ASSERT( FALSE );
+    SvnClient::Exemplar()->checkout( QString( TEST_REPO_FILE_URL ) + "/" + QString( TEST_REPO ), 
+                                     QString( TEST_WC_DIR ) );
+    QString svndir = QString( TEST_WC_DIR ) + QDir::separator() + ".svn" + QDir::separator();
+    CPPUNIT_ASSERT( QFile::exists( svndir + "entries" ) && 
+                    QFile::exists( svndir + "format" ) && 
+                    QFile::exists( svndir + "README" ) );
 }
 
 void SvnClientTests::rm_rf( const QString &directory )

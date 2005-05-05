@@ -19,7 +19,13 @@ HEADERS += config.h \
 SOURCES += main.cpp \
            svnclienttests.cpp
 
+
+# QSvn files
+HEADERS += ../svnclient.h
+
+SOURCES += ../svnclient.cpp
+
+
 win32{
   OBJECTS_DIR = obj
 }
-
