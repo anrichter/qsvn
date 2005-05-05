@@ -2,6 +2,9 @@ LIBS += -lqttestrunner \
         -lcppunit
 
 OBJECTS_DIR = .obj
+win32{
+  OBJECTS_DIR = obj
+}
 
 TARGET = qsvnests
 
@@ -25,7 +28,7 @@ HEADERS += ../svnclient.h
 
 SOURCES += ../svnclient.cpp
 
-
-win32{
-  OBJECTS_DIR = obj
-}
+#Subversion
+LIBS += -lsvn_client-1
+INCLUDEPATH += /usr/include/subversion-1
+INCLUDEPATH += /usr/include/apr-0

@@ -25,6 +25,16 @@
 //QSvn
 #include "svnclient.h"
 
+//Qt
+#include <qstring.h>
+
+//Subversion
+#include <svn_client.h>
+#include <svn_opt.h>
+#include <svn_pools.h>
+#include <svn_types.h>
+
+
 //make SvnClient a singleton
 SvnClient* SvnClient::_exemplar = 0;
 
@@ -48,5 +58,15 @@ SvnClient::~SvnClient()
 
 bool SvnClient::checkout( const QString &url, const QString &path )
 {
-    return FALSE;
+    svn_revnum_t revnum = -1;
+    svn_opt_revision_t revision;
+    svn_client_ctx_t *ctx;
+    apr_pool_t *pool = svn_pool_create( NULL );
+    
+    revision.kind = svn_opt_revision_head;
+    
+    svn_client_create_context( &ctx, pool );
+    svn_client_checkout( &revnum, url.latin1(), path.latin1(), &revision, true, ctx, pool );
+    
+    return TRUE;
 }
