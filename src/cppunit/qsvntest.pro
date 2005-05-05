@@ -7,7 +7,8 @@ CONFIG += release \
           warn_on \
           thread
 TEMPLATE = app
-HEADERS += svnclienttests.h
+HEADERS += config.h \
+           svnclienttests.h
 SOURCES += main.cpp \
            svnclienttests.cpp
 win32{

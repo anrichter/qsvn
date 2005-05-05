@@ -22,6 +22,9 @@
  ***************************************************************************/
 
 
+//QSvnTests
+#include "config.h"
+
 //CppUnit
 #include <cppunit/Test.h>
 #include <cppunit/TestFixture.h>
@@ -43,4 +46,7 @@ public:
     void testCheckout();
 
 protected:
+
+private:
+    void rm_rf( const QString &directory ); //a equivalent for rm -rf in linux
 };

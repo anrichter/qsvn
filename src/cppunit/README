@@ -1,0 +1,3 @@
+This directory contain testcases for direct svn access in QSvn.
+
+If you would run tests you must first edit config.h 

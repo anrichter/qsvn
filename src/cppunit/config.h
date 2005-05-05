@@ -21,69 +21,13 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
-
-//QSvnTest
-#include "svnclienttests.h"
-
-//QSvn
-#include "../svnclient.h"
-
-//Qt
-#include <qdir.h>
 #include <qstring.h>
-#include <qstringlist.h>
 
-CppUnit::Test *SvnClientTests::testSuite()
-{
-    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientTests" );
-    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientTests>( 
-                                   "testCheckout", 
-                                   &SvnClientTests::testCheckout ) );
-    return suiteOfTests;
-}
+//Name of svn repository for tests
+#define TEST_REPO "qsvn-tests"
 
-void SvnClientTests::setUp()
-{
-    //remove old temporary working copy
-    rm_rf( QString( TEST_WC_DIR ) + QDir::separator() + QString( TEST_REPO ) );
-}
+//Workingcopy directory for checkout the test repository
+#define TEST_WC_DIR "/path/to/tmp/dir"
 
-void SvnClientTests::tearDown()
-{
-    //remove temporary working copy
-    rm_rf( QString( TEST_WC_DIR ) + QDir::separator() + QString( TEST_REPO ) );
-}
-
-void SvnClientTests::testCheckout()
-{
-    CPPUNIT_ASSERT( FALSE );
-}
-
-void SvnClientTests::rm_rf( const QString &directory )
-{
-    QDir dir( directory );
-    if ( !dir.exists() ) 
-    {
-        return;
-    }
-    
-    //search all directories and call rm_rf recursively
-    QStringList entries = dir.entryList( QDir::Dirs, QDir::Name );
-    for ( QStringList::Iterator it = entries.begin(); it != entries.end(); ++it )
-    {
-        if ( ( *it != "." ) && ( *it != ".." ) )
-        {
-            rm_rf( directory + QDir::separator() + *it );
-        }
-    }
-    
-    //delete all files in current directory
-    QStringList files = dir.entryList( QDir::Files, QDir::Name );
-    for (QStringList::Iterator it = files.begin(); it != files.end(); ++it )
-    {
-        dir.remove( directory + QDir::separator() + *it );
-    }
-    
-    //delete current directory itself
-    dir.rmdir( directory );
-}
+//URL for access the test repository through file: protocol. Not containing the repository itself.
+#define TEST_REPO_FILE_URL "file:///path/to/svn-repositories"
