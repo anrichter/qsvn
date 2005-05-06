@@ -26,7 +26,9 @@
 #include "svnclient.h"
 
 //Qt
+#include <qdir.h>
 #include <qstring.h>
+#include <qurl.h>
 
 //Subversion
 #include <svn_client.h>
@@ -58,15 +60,26 @@ SvnClient::~SvnClient()
 
 bool SvnClient::checkout( const QString &url, const QString &path )
 {
-    svn_revnum_t revnum = -1;
+    //check path
+    QUrl __url( url );
+    QDir __dir( path + QDir::separator() + __url.fileName() );
+    if ( !__dir.exists() ) 
+    {
+        __dir.mkdir( __dir.absPath() );
+    }
+    
+    //svn_revnum_t revnum = -1;
     svn_opt_revision_t revision;
     svn_client_ctx_t *ctx;
+    
+    apr_pool_initialize ();
     apr_pool_t *pool = svn_pool_create( NULL );
     
     revision.kind = svn_opt_revision_head;
     
     svn_client_create_context( &ctx, pool );
-    svn_client_checkout( &revnum, url.latin1(), path.latin1(), &revision, true, ctx, pool );
+    
+    svn_client_checkout( NULL, url.latin1(), __dir.absPath().latin1(), &revision, true, ctx, pool );
     
     return TRUE;
 }
