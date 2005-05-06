@@ -1,34 +1,29 @@
-LIBS += -lqttestrunner \
-        -lcppunit
-
-OBJECTS_DIR = .obj
-win32{
-  OBJECTS_DIR = obj
-}
-
 TARGET = qsvnests
-
 DESTDIR = bin
-
+TEMPLATE = app
 CONFIG += release \
           warn_on \
           thread
 
-TEMPLATE = app
+LIBS += -lcppunit \
+        -lsvn_client-1
 
 HEADERS += config.h \
-           svnclienttests.h
+           svnclienttests.h \
+           ../svnclient.h
 
 SOURCES += main.cpp \
-           svnclienttests.cpp
+           svnclienttests.cpp \
+           ../svnclient.cpp
 
+OBJECTS_DIR = .obj
 
-# QSvn files
-HEADERS += ../svnclient.h
+unix{
+  LIBS += -lqttestrunner
+  INCLUDEPATH += /usr/include/subversion-1 \
+                 /usr/include/apr-0
+}
 
-SOURCES += ../svnclient.cpp
-
-#Subversion
-LIBS += -lsvn_client-1
-INCLUDEPATH += /usr/include/subversion-1
-INCLUDEPATH += /usr/include/apr-0
+win32{
+  OBJECTS_DIR = obj
+}
