@@ -1,4 +1,4 @@
-TARGET = qsvnests
+TARGET = qsvntests
 DESTDIR = bin
 TEMPLATE = app
 CONFIG += release \
