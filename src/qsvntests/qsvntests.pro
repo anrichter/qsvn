@@ -13,12 +13,13 @@ SOURCES += main.cpp \
            svnclienttests.cpp \
            ../svnclient.cpp
 
+LIBS += -lcppunit \
+        -lqttestrunner
+
 unix{
   OBJECTS_DIR = .obj
   MOC_DIR = .moc
   LIBS += -lsvn_client-1 \
-          -lcppunit \
-          -lqttestrunner
   INCLUDEPATH += /usr/include/subversion-1 \
                  /usr/include/apr-0
 }
@@ -26,8 +27,7 @@ unix{
 win32{
   OBJECTS_DIR = obj
   MOC_DIR = moc
-  LIBS += -lcppunit \
-          -lintl3_svn \
+  LIBS += -lintl3_svn \
           -llibapr \
           -llibapriconv \
           -llibaprutil \
@@ -46,8 +46,6 @@ win32{
           -llibsvn_repos-1 \
           -llibsvn_subr-1 \
           -llibsvn_wc-1 \
-          -lTestRunner \
-          -lqttestrunner \
           -lxml \
           -lzlibstat
 }
