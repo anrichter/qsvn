@@ -45,23 +45,25 @@ CppUnit::Test *SvnClientTests::testSuite()
 void SvnClientTests::setUp()
 {
     //remove old temporary working copy
-    rm_rf( QString( TEST_WC_DIR ) + QDir::separator() + QString( TEST_REPO ) );
+    rm_rf( TEST_WC_DIR + QDir::separator() + TEST_REPO );
 }
 
 void SvnClientTests::tearDown()
 {
     //remove temporary working copy
-    rm_rf( QString( TEST_WC_DIR ) + QDir::separator() + QString( TEST_REPO ) );
+    rm_rf( TEST_WC_DIR + QDir::separator() + TEST_REPO );
 }
 
 void SvnClientTests::testCheckout()
 {
-    SvnClient::Exemplar()->checkout( QString( TEST_REPO_FILE_URL ) + "/" + QString( TEST_REPO ), 
-                                     QString( TEST_WC_DIR ) );
-    QString svndir = QString( TEST_WC_DIR ) + QDir::separator() + 
-                     QString( TEST_REPO ) + QDir::separator() + 
+    SvnClient::Exemplar()->checkout( TEST_REPO_FILE_URL + "/" + TEST_REPO, 
+                                     TEST_WC_DIR );
+
+    QString svndir = TEST_WC_DIR + QDir::separator() + 
+                     TEST_REPO + QDir::separator() + 
                      ".svn" + QDir::separator();
-    CPPUNIT_ASSERT( QFile::exists( svndir + "entries" ) && 
+    
+	CPPUNIT_ASSERT( QFile::exists( svndir + "entries" ) && 
                     QFile::exists( svndir + "format" ) && 
                     QFile::exists( svndir + "README.txt" ) );
 }

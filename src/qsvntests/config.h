@@ -27,10 +27,10 @@
 // Uncomment every #define and set it to the correct values
 
 //Name of svn repository for tests
-// #define TEST_REPO "qsvn-tests"
+// const QString TEST_REPO "qsvn-tests"
 
 //Workingcopy directory for checkout the test repository
-// #define TEST_WC_DIR "/path/to/tmp/dir"
+// const QString TEST_WC_DIR "/path/to/tmp/dir"
 
 //URL for access the test repository through file: protocol. Not containing the repository itself.
-// #define TEST_REPO_FILE_URL "file:///path/to/svn-repositories"
+// const QString TEST_REPO_FILE_URL "file:///path/to/svn-repositories"
