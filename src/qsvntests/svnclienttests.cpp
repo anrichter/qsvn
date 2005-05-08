@@ -76,19 +76,19 @@ void SvnClientTests::rm_rf( const QString &directory )
     
     //search all directories and call rm_rf recursively
     QStringList entries = dir.entryList( QDir::Dirs + QDir::Hidden, QDir::Name );
-    for ( QStringList::Iterator it = entries.begin(); it != entries.end(); ++it )
+    for ( QStringList::Iterator dir_it = entries.begin(); dir_it != entries.end(); ++dir_it )
     {
-        if ( ( *it != "." ) && ( *it != ".." ) )
+        if ( ( *dir_it != "." ) && ( *dir_it != ".." ) )
         {
-            rm_rf( directory + QDir::separator() + *it );
+            rm_rf( directory + QDir::separator() + *dir_it );
         }
     }
     
     //delete all files in current directory
     QStringList files = dir.entryList( QDir::Files + QDir::Hidden, QDir::Name );
-    for (QStringList::Iterator it = files.begin(); it != files.end(); ++it )
+    for (QStringList::Iterator file_it = files.begin(); file_it != files.end(); ++file_it )
     {
-        dir.remove( directory + QDir::separator() + *it );
+        dir.remove( directory + QDir::separator() + *file_it );
     }
     
     //delete current directory itself
