@@ -19,7 +19,7 @@ LIBS += -lcppunit \
 unix{
   OBJECTS_DIR = .obj
   MOC_DIR = .moc
-  LIBS += -lsvn_client-1 \
+  LIBS += -lsvn_client-1
   INCLUDEPATH += /usr/include/subversion-1 \
                  /usr/include/apr-0
 }
