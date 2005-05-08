@@ -47,6 +47,7 @@ win32{
           -llibsvn_subr-1 \
           -llibsvn_wc-1 \
           -lTestRunner \
+          -lqttestrunner \
           -lxml \
           -lzlibstat
 }
