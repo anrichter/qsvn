@@ -23,7 +23,7 @@
 
 
 //QSvnTester
-#include "svnclienttests.h"
+#include "svnclientfiletests.h"
 
 //CppUnit
 #include <cppunit/TestCase.h>
@@ -39,7 +39,7 @@ int main( int argc, char **argv)
     QApplication a( argc, argv );
 
     CppUnit::QtTestRunner runner;
-    runner.addTest( SvnClientTests::testSuite() );
+    runner.addTest( SvnClientFileTests::testSuite() );
     
     runner.run( false );
 

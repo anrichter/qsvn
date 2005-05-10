@@ -23,7 +23,7 @@
 
 
 //QSvnTest
-#include "svnclienttests.h"
+#include "svnclientfiletests.h"
 
 //QSvn
 #include "../svnclient.h"
@@ -33,28 +33,28 @@
 #include <qstring.h>
 #include <qstringlist.h>
 
-CppUnit::Test *SvnClientTests::testSuite()
+CppUnit::Test *SvnClientFileTests::testSuite()
 {
-    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientTests" );
-    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientTests>( 
+    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientFileTests" );
+    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientFileTests>( 
                                    "testCheckout", 
-                                   &SvnClientTests::testCheckout ) );
+                                   &SvnClientFileTests::testCheckout ) );
     return suiteOfTests;
 }
 
-void SvnClientTests::setUp()
+void SvnClientFileTests::setUp()
 {
     //remove old temporary working copy
     rm_rf( TEST_WC_DIR + QDir::separator() + TEST_REPO );
 }
 
-void SvnClientTests::tearDown()
+void SvnClientFileTests::tearDown()
 {
     //remove temporary working copy
     rm_rf( TEST_WC_DIR + QDir::separator() + TEST_REPO );
 }
 
-void SvnClientTests::testCheckout()
+void SvnClientFileTests::testCheckout()
 {
     SvnClient::Exemplar()->checkout( TEST_REPO_FILE_URL + "/" + TEST_REPO, 
                                      TEST_WC_DIR );
@@ -68,7 +68,7 @@ void SvnClientTests::testCheckout()
                     QFile::exists( svndir + "README.txt" ) );
 }
 
-void SvnClientTests::rm_rf( const QString &directory )
+void SvnClientFileTests::rm_rf( const QString &directory )
 {
     QDir dir( directory );
     if ( !dir.exists() ) 

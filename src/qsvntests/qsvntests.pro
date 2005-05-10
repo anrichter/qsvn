@@ -6,11 +6,11 @@ CONFIG += release \
           thread
 
 HEADERS += config.h \
-           svnclienttests.h \
+           svnclientfiletests.h \
            ../svnclient.h
 
 SOURCES += main.cpp \
-           svnclienttests.cpp \
+           svnclientfiletests.cpp \
            ../svnclient.cpp
 
 LIBS += -lcppunit \
