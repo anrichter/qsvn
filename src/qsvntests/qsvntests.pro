@@ -7,10 +7,12 @@ CONFIG += release \
 
 HEADERS += config.h \
            svnclientfiletests.h \
+           svnclientsvntests.h \
            ../svnclient.h
 
 SOURCES += main.cpp \
            svnclientfiletests.cpp \
+           svnclientsvntests.cpp \
            ../svnclient.cpp
 
 LIBS += -lcppunit \
