@@ -30,8 +30,21 @@
 
 //Qt
 #include <qdir.h>
+#include <qfile.h>
+#include <qfileinfo.h>
+#include <qprocess.h>
 #include <qstring.h>
 #include <qstringlist.h>
+
+//Std
+#ifdef Q_WS_X11
+#include <unistd.h>
+#endif
+
+#ifdef Q_WS_WIN
+#include <windows.h>
+#endif
+
 
 CppUnit::Test *SvnClientFileTests::testSuite()
 {
@@ -70,29 +83,35 @@ void SvnClientFileTests::testCheckout()
 
 void SvnClientFileTests::rm_rf( const QString &directory )
 {
-    QDir dir( directory );
-    if ( !dir.exists() ) 
+    QFileInfo fileInfo( directory );
+    if ( fileInfo.isDir() )
     {
-        return;
-    }
+        QProcess *proc = new QProcess();
     
-    //search all directories and call rm_rf recursively
-    QStringList entries = dir.entryList( QDir::Dirs + QDir::Hidden, QDir::Name );
-    for ( QStringList::Iterator dir_it = entries.begin(); dir_it != entries.end(); ++dir_it )
-    {
-        if ( ( *dir_it != "." ) && ( *dir_it != ".." ) )
+#ifdef Q_WS_X11
+        proc->addArgument( "rm" );
+        proc->addArgument( "-rf" );
+        proc->addArgument( directory );
+#endif
+#ifdef Q_WS_WIN
+        proc->addArgument( "cmd" );
+        proc->addArgument( "/C" );
+        proc->addArgument( "rmdir" );
+        proc->addArgument( "/Q" );
+        proc->addArgument( "/S" );
+        proc->addArgument( directory );
+#endif
+
+        proc->start();
+        while ( proc->isRunning() )
         {
-            rm_rf( directory + QDir::separator() + *dir_it );
+#ifdef Q_WS_X11
+            sleep( 1 );
+#endif
+
+#ifdef Q_WS_WIN
+            Sleep( 1 );
+#endif
         }
     }
-    
-    //delete all files in current directory
-    QStringList files = dir.entryList( QDir::Files + QDir::Hidden, QDir::Name );
-    for (QStringList::Iterator file_it = files.begin(); file_it != files.end(); ++file_it )
-    {
-        dir.remove( directory + QDir::separator() + *file_it );
-    }
-    
-    //delete current directory itself
-    dir.rmdir( directory );
 }
