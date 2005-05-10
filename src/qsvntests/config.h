@@ -21,6 +21,9 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
+#ifndef CONFIG_H
+#define CONFIG_H
+
 #include <qstring.h>
 
 // Before you can compile qsvntests you must configure some settings here, dedicated to your system.
@@ -34,3 +37,5 @@
 
 //URL for access the test repository through file: protocol. Not containing the repository itself.
 // const QString TEST_REPO_FILE_URL ( "file:///path/to/svn-repositories" );
+
+#endif
