@@ -81,5 +81,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     
     svn_client_checkout( NULL, url.latin1(), __dir.absPath().latin1(), &revision, true, ctx, pool );
     
+    svn_pool_destroy( pool );
+    
     return TRUE;
 }
