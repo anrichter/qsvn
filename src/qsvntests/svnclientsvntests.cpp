@@ -26,7 +26,7 @@
 #include "svnclientsvntests.h"
 
 //QSvn
-#include "../svnclient.h"
+#include "../SvnClient.h"
 
 //Qt
 #include <qdir.h>

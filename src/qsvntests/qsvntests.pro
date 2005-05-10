@@ -8,12 +8,12 @@ CONFIG += release \
 HEADERS += config.h \
            svnclientfiletests.h \
            svnclientsvntests.h \
-           ../svnclient.h
+           ../SvnClient.h
 
 SOURCES += main.cpp \
            svnclientfiletests.cpp \
            svnclientsvntests.cpp \
-           ../svnclient.cpp
+           ../SvnClient.cpp
 
 LIBS += -lcppunit \
         -lqttestrunner
