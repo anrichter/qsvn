@@ -27,7 +27,7 @@
 #include <qstring.h>
 
 // Before you can compile qsvntests you must configure some settings here, dedicated to your system.
-// Uncomment every #define and set it to the correct values
+// Uncomment every const QString and set it to the correct values
 
 //Name of svn repository for tests
 // const QString TEST_REPO ( "qsvn-tests" );
@@ -37,5 +37,8 @@
 
 //URL for access the test repository through file: protocol. Not containing the repository itself.
 // const QString TEST_REPO_FILE_URL ( "file:///path/to/svn-repositories" );
+
+//URL for access the test repository through svn: protocol. Not containing the repository itself.
+// const QString TEST_REPO_SVN_URL ( "svn://host/path/to/svn-repositories" );
 
 #endif
