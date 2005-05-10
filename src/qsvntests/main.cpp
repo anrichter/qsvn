@@ -27,9 +27,7 @@
 #include "svnclientsvntests.h"
 
 //CppUnit
-#include <cppunit/TestCase.h>
 #include <cppunit/ui/qt/TestRunner.h>
-#include <cppunit/extensions/HelperMacros.h>
 
 //Qt
 #include <qapplication.h>
@@ -46,5 +44,4 @@ int main( int argc, char **argv)
     runner.run( false );
 
     return 0;
-
 }
