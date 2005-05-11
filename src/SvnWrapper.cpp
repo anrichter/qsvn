@@ -23,10 +23,10 @@
 
 
 //QSvn
-#include "svnwrapper.h"
-#include "config.h"
-#include "statustext.h"
-#include "workingcopy.h"
+#include "SvnWrapper.h"
+#include "Config.h"
+#include "StatusText.h"
+#include "WorkingCopy.h"
 
 //Qt
 #include <qapplication.h>

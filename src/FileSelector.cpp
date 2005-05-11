@@ -22,9 +22,9 @@
  ***************************************************************************/
 
 //QSvn
-#include "fileselector.h"
+#include "FileSelector.h"
 #include "fileselectordlg.h"
-#include "svnwrapper.h"
+#include "SvnWrapper.h"
 
 //Qt
 #include <qapplication.h>

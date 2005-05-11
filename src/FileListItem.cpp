@@ -23,7 +23,7 @@
 
 
 //QSvn
-#include "filelistitem.h"
+#include "FileListItem.h"
 
 //Qt
 #include <qlistview.h>

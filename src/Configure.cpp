@@ -21,54 +21,43 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
-
 //QSvn
-#include "statustext.h"
+#include "Config.h"
+#include "Configure.h"
+#include "configuredlg.h"
 
 //Qt
-#include <qstringlist.h>
-#include <qtextedit.h>
+#include <qfiledialog.h>
+#include <qlineedit.h>
 
 
-//make StatusText a singleton
-StatusText* StatusText::_exemplar = 0;
-
-StatusText* StatusText::Exemplar()
+Configure::Configure( QWidget *parent, const char *name )
+        : ConfigureDlg( parent, name )
 {
-    if ( _exemplar == 0 )
-    {
-        _exemplar = new StatusText;
-    }
-    return _exemplar;
+    editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
+    editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
 }
 
-//FileList implementation
-StatusText::StatusText(QObject *parent, const char *name)
-        : QObject(parent, name)
-{
-    editStatusText = new QTextEdit( 0, "editStatusText" );
-    editStatusText->setWordWrap( QTextEdit::WidgetWidth );
-    editStatusText->setReadOnly( TRUE );
-}
-
-StatusText::~StatusText()
+Configure::~Configure()
 {}
 
-QWidget *StatusText::getWidget()
+void Configure::buttonOkClickSlot()
 {
-    return editStatusText;
+    Config::Exemplar()->setSvnExecutable( editSvnExecutable->text() );
+    Config::Exemplar()->setDiffViewer( editDiffViewer->text() );
+    Config::Exemplar()->saveChanges();
 }
 
-void StatusText::outputMessage( const QString messageString )
+void Configure::buttonSelectSvnExecutableClickSlot()
 {
-    if ( editStatusText )
-        editStatusText->append( messageString );
-    else
-        qDebug( messageString );
+    QString executable = QFileDialog::getOpenFileName( editSvnExecutable->text(), "", this, "getSvnExecutable", "Select Svn Executable" );
+    if ( executable )
+        editSvnExecutable->setText( QDir::convertSeparators( executable ) );
 }
 
-void StatusText::outputMessage( QStringList messageStringList )
+void Configure::buttonSelectDiffViewerClickSlot()
 {
-    for ( QStringList::Iterator it = messageStringList.begin(); it != messageStringList.end(); ++it )
-        this->outputMessage( *it );
+    QString diffviewer = QFileDialog::getOpenFileName( editDiffViewer->text(), "", this, "getDiffViewer", "Select a Diff Viewer" );
+    if ( diffviewer )
+        editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
 }

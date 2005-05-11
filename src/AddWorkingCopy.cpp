@@ -23,7 +23,7 @@
 
 
 //QSvn
-#include "addworkingcopy.h"
+#include "AddWorkingCopy.h"
 #include "addworkingcopydlg.h"
 
 //Qt

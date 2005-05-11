@@ -23,8 +23,8 @@
 
 
 //QSvn
-#include "checkout.h"
-#include "statustext.h"
+#include "Checkout.h"
+#include "StatusText.h"
 
 //Qt
 #include <qcombobox.h>

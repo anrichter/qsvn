@@ -23,7 +23,7 @@
 
 
 //QSvn
-#include "qsvn.h"
+#include "QSvn.h"
 
 //Qt
 #include <qapplication.h>

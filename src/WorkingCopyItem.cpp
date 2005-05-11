@@ -23,8 +23,8 @@
 
 
 //QSvn
-#include "svnwrapper.h"
-#include "workingcopyitem.h"
+#include "SvnWrapper.h"
+#include "WorkingCopyItem.h"
 
 //Qt
 #include <qdir.h>

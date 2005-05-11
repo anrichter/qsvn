@@ -23,11 +23,11 @@
 
 
 //QSvn
-#include "config.h"
-#include "filelist.h"
-#include "filelistitem.h"
-#include "statustext.h"
-#include "svnwrapper.h"
+#include "Config.h"
+#include "FileList.h"
+#include "FileListItem.h"
+#include "StatusText.h"
+#include "SvnWrapper.h"
 
 //Qt
 #include <qdir.h>

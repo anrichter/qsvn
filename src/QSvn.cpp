@@ -24,16 +24,16 @@
 
 //QSvn
 #include "aboutdlg.h"
-#include "config.h"
-#include "configure.h"
-#include "filelist.h"
-#include "filelistitem.h"
-#include "fileselector.h"
-#include "qsvn.h"
-#include "statustext.h"
-#include "svnwrapper.h"
-#include "workingcopy.h"
-#include "workingcopyitem.h"
+#include "Config.h"
+#include "Configure.h"
+#include "FileList.h"
+#include "FileListItem.h"
+#include "FileSelector.h"
+#include "QSvn.h"
+#include "StatusText.h"
+#include "SvnWrapper.h"
+#include "WorkingCopy.h"
+#include "WorkingCopyItem.h"
 
 //Qt
 //#include <qaction.h>

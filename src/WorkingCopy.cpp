@@ -23,13 +23,13 @@
 
 
 //QSvn
-#include "addworkingcopy.h"
-#include "checkout.h"
-#include "config.h"
-#include "statustext.h"
-#include "svnwrapper.h"
-#include "workingcopy.h"
-#include "workingcopyitem.h"
+#include "AddWorkingCopy.h"
+#include "Checkout.h"
+#include "Config.h"
+#include "StatusText.h"
+#include "SvnWrapper.h"
+#include "WorkingCopy.h"
+#include "WorkingCopyItem.h"
 
 //Qt
 #include <qapplication.h>
