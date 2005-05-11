@@ -25,7 +25,7 @@
 #define CONFIGURE_H
 
 //QSvn
-#include "configuredlg.h"
+#include "ConfigureDlg.h"
 
 
 class Configure : public ConfigureDlg

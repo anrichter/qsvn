@@ -24,7 +24,7 @@
 
 //QSvn
 #include "AddWorkingCopy.h"
-#include "addworkingcopydlg.h"
+#include "AddWorkingCopyDlg.h"
 
 //Qt
 #include <qdir.h>

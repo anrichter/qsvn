@@ -25,7 +25,7 @@
 #define QSVN_H
 
 //QSvn
-#include "qsvndlg.h"
+#include "QSvnDlg.h"
 
 
 class QSvn : public QSvnDlg

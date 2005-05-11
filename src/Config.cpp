@@ -24,7 +24,7 @@
 
 //QSvn
 #include "Config.h"
-#include "qsvndlg.h"
+#include "QSvnDlg.h"
 #include "WorkingCopy.h"
 
 //Qt

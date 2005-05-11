@@ -23,7 +23,7 @@
 
 
 //QSvn
-#include "aboutdlg.h"
+#include "AboutDlg.h"
 #include "Config.h"
 #include "Configure.h"
 #include "FileList.h"

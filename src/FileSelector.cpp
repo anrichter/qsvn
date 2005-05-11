@@ -23,7 +23,7 @@
 
 //QSvn
 #include "FileSelector.h"
-#include "fileselectordlg.h"
+#include "FileSelectorDlg.h"
 #include "SvnWrapper.h"
 
 //Qt

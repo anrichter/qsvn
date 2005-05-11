@@ -25,7 +25,7 @@
 #define CHECKOUT_H
 
 //QSvn
-#include "checkoutdlg.h"
+#include "CheckoutDlg.h"
 
 
 class Checkout : public CheckoutDlg

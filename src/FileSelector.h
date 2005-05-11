@@ -25,7 +25,7 @@
 #define FILESELECTOR_H
 
 //QSvn
-#include "fileselectordlg.h"
+#include "FileSelectorDlg.h"
 
 
 class FileSelector : public FileSelectorDlg

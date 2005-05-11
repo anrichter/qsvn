@@ -24,7 +24,7 @@
 //QSvn
 #include "Config.h"
 #include "Configure.h"
-#include "configuredlg.h"
+#include "ConfigureDlg.h"
 
 //Qt
 #include <qfiledialog.h>

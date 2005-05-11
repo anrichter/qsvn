@@ -25,7 +25,7 @@
 #define ADDWORKINGCOPY_H
 
 //QSvn
-#include "addworkingcopydlg.h"
+#include "AddWorkingCopyDlg.h"
 
 
 class AddWorkingCopy : public AddWorkingCopyDlg

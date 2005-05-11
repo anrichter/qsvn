@@ -9,12 +9,12 @@ CONFIG += release \
           thread
 TEMPLATE = app
 
-FORMS = Forms/aboutdlg.ui \
-        Forms/addworkingcopydlg.ui \
-        Forms/checkoutdlg.ui \
-        Forms/configuredlg.ui \
-        Forms/fileselectordlg.ui \
-        Forms/qsvndlg.ui
+FORMS = Forms/AboutDlg.ui \
+        Forms/AddWorkingCopyDlg.ui \
+        Forms/CheckoutDlg.ui \
+        Forms/ConfigureDlg.ui \
+        Forms/FileSelectorDlg.ui \
+        Forms/QSvnDlg.ui
 
 HEADERS = AddWorkingCopy.h \
           Checkout.h \
@@ -43,14 +43,14 @@ SOURCES = AddWorkingCopy.cpp \
           WorkingCopy.cpp \
           WorkingCopyItem.cpp
 
-IMAGES += Images/addedfile.png \
-          Images/conflictfile.png \
-          Images/file.png \
-          Images/folder.png \
-          Images/missingfile.png \
-          Images/modifiedfile.png \
-          Images/unknownfile.png \
-          Images/unknownfolder.png
+IMAGES += Images/AddedFile.png \
+          Images/ConflictFile.png \
+          Images/File.png \
+          Images/Folder.png \
+          Images/MissingFile.png \
+          Images/ModifiedFile.png \
+          Images/UnknownFile.png \
+          Images/UnknownFolder.png
 
 win32{
   MOC_DIR = moc
