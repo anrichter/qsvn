@@ -50,7 +50,7 @@ CppUnit::Test *SvnClientFileTests::testSuite()
 {
     CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientFileTests" );
     suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientFileTests>( 
-                                   "testCheckout", 
+                                   "Checkout (File)", 
                                    &SvnClientFileTests::testCheckout ) );
     return suiteOfTests;
 }
