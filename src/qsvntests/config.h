@@ -30,15 +30,15 @@
 // Uncomment every const QString and set it to the correct values
 
 //Name of svn repository for tests
-const QString TEST_REPO ( "qsvn-tests" );
+// const QString TEST_REPO ( "qsvn-tests" );
 
 //Workingcopy directory for checkout the test repository
-const QString TEST_WC_DIR ( "/home/ar/tmp" );
+// const QString TEST_WC_DIR ( "/path/to/tmp/dir" );
 
 //URL for access the test repository through file: protocol. Not containing the repository itself.
-const QString TEST_REPO_FILE_URL ( "file:///mnt/src/svn" );
+// const QString TEST_REPO_FILE_URL ( "file:///path/to/svn-repositories" );
 
 //URL for access the test repository through svn: protocol. Not containing the repository itself.
-const QString TEST_REPO_SVN_URL ( "svn://localhost" );
+// const QString TEST_REPO_SVN_URL ( "svn://host/path/to/svn-repositories" );
 
 #endif
