@@ -23,7 +23,7 @@
 
 
 //QSvnTest
-#include "svnclientfiletests.h"
+#include "SvnClientSvnTests.h"
 
 //QSvn
 #include "../SvnClient.h"
@@ -46,48 +46,48 @@
 #endif
 
 
-CppUnit::Test *SvnClientFileTests::testSuite()
+CppUnit::Test *SvnClientSvnTests::testSuite()
 {
-    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientFileTests" );
-    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientFileTests>( 
-                                   "Checkout (File)", 
-                                   &SvnClientFileTests::testCheckout ) );
+    CppUnit::TestSuite *suiteOfTests = new CppUnit::TestSuite( "SvnClientSvnTests" );
+    suiteOfTests->addTest( new CppUnit::TestCaller<SvnClientSvnTests>(
+                                   "Checkout (svn)",
+                                   &SvnClientSvnTests::testCheckout ) );
     return suiteOfTests;
 }
 
-void SvnClientFileTests::setUp()
+void SvnClientSvnTests::setUp()
 {
     //remove old temporary working copy
     rm_rf( TEST_WC_DIR + QDir::separator() + TEST_REPO );
 }
 
-void SvnClientFileTests::tearDown()
+void SvnClientSvnTests::tearDown()
 {
     //remove temporary working copy
     rm_rf( TEST_WC_DIR + QDir::separator() + TEST_REPO );
 }
 
-void SvnClientFileTests::testCheckout()
+void SvnClientSvnTests::testCheckout()
 {
-    SvnClient::Exemplar()->checkout( TEST_REPO_FILE_URL + "/" + TEST_REPO, 
+    SvnClient::Exemplar()->checkout( TEST_REPO_SVN_URL + "/" + TEST_REPO,
                                      TEST_WC_DIR );
 
-    QString svndir = TEST_WC_DIR + QDir::separator() + 
-                     TEST_REPO + QDir::separator() + 
+    QString svndir = TEST_WC_DIR + QDir::separator() +
+                     TEST_REPO + QDir::separator() +
                      ".svn" + QDir::separator();
-    
-	CPPUNIT_ASSERT( QFile::exists( svndir + "entries" ) && 
-                    QFile::exists( svndir + "format" ) && 
+
+	CPPUNIT_ASSERT( QFile::exists( svndir + "entries" ) &&
+                    QFile::exists( svndir + "format" ) &&
                     QFile::exists( svndir + "README.txt" ) );
 }
 
-void SvnClientFileTests::rm_rf( const QString &directory )
+void SvnClientSvnTests::rm_rf( const QString &directory )
 {
     QFileInfo fileInfo( directory );
     if ( fileInfo.isDir() )
     {
         QProcess *proc = new QProcess();
-    
+
 #ifdef Q_WS_X11
         proc->addArgument( "rm" );
         proc->addArgument( "-rf" );

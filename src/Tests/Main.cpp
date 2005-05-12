@@ -22,31 +22,27 @@
  ***************************************************************************/
 
 
-//QSvnTests
-#include "config.h"
+//QSvnTester
+#include "SvnClientFileTests.h"
+#include "SvnClientSvnTests.h"
 
 //CppUnit
-#include <cppunit/Test.h>
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
+#include <cppunit/ui/qt/TestRunner.h>
+
+//Qt
+#include <qapplication.h>
 
 
-class SvnClientFileTests : public CppUnit::TestFixture
+int main( int argc, char **argv)
 {
-    CPPUNIT_TEST_SUITE( SvnClientFileTests );
-    CPPUNIT_TEST_SUITE_END();
+    QApplication a( argc, argv );
 
-public:
-    static CppUnit::Test *testSuite();
+    CppUnit::QtTestRunner runner;
+    runner.addTest( SvnClientFileTests::testSuite() );
+    runner.addTest( SvnClientSvnTests::testSuite() );
     
-    void setUp();
-    void tearDown();
-    
-    //Tests
-    void testCheckout();
+    runner.run( false );
 
-protected:
+    return 0;
+}
 
-private:
-    void rm_rf( const QString &directory ); //a equivalent for rm -rf in linux
-};

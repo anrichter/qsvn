@@ -23,7 +23,7 @@
 
 
 //QSvnTests
-#include "config.h"
+#include "Config.h"
 
 //CppUnit
 #include <cppunit/Test.h>
@@ -38,10 +38,10 @@ class SvnClientSvnTests : public CppUnit::TestFixture
 
 public:
     static CppUnit::Test *testSuite();
-    
+
     void setUp();
     void tearDown();
-    
+
     //Tests
     void testCheckout();
 

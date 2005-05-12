@@ -1,18 +1,18 @@
-TARGET = qsvntests
+TARGET = QSvnTests
 DESTDIR = bin
 TEMPLATE = app
 CONFIG += release \
           warn_on \
           thread
 
-HEADERS += config.h \
-           svnclientfiletests.h \
-           svnclientsvntests.h \
+HEADERS += Config.h \
+           SvnClientFileTests.h \
+           SvnClientSvnTests.h \
            ../SvnClient.h
 
-SOURCES += main.cpp \
-           svnclientfiletests.cpp \
-           svnclientsvntests.cpp \
+SOURCES += Main.cpp \
+           SvnClientFileTests.cpp \
+           SvnClientSvnTests.cpp \
            ../SvnClient.cpp
 
 LIBS += -lcppunit \
@@ -51,3 +51,4 @@ win32{
           -lxml \
           -lzlibstat
 }
+
