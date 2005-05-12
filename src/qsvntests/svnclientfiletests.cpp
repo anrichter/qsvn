@@ -29,15 +29,12 @@
 #include "../SvnClient.h"
 
 //Qt
-#include <qapplication.h>
 #include <qdir.h>
 #include <qfile.h>
 #include <qfileinfo.h>
 #include <qprocess.h>
 #include <qstring.h>
 #include <qstringlist.h>
-
-#include <qmessagebox.h>
 
 //Std
 #ifdef Q_WS_X11
@@ -86,7 +83,6 @@ void SvnClientFileTests::testCheckout()
 
 void SvnClientFileTests::rm_rf( const QString &directory )
 {
-    QMessageBox::information( 0, "Bla", "Blub" );
     QFileInfo fileInfo( directory );
     if ( fileInfo.isDir() )
     {

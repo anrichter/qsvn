@@ -31,17 +31,12 @@
 
 //Qt
 #include <qapplication.h>
-#include <qwidget.h>
 
 
 int main( int argc, char **argv)
 {
     QApplication a( argc, argv );
 
-    QWidget *mw = new QWidget();
-    mw->show();
-    a.setMainWidget( mw );
-        
     CppUnit::QtTestRunner runner;
     runner.addTest( SvnClientFileTests::testSuite() );
     runner.addTest( SvnClientSvnTests::testSuite() );
