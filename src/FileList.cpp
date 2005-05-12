@@ -145,35 +145,35 @@ void FileList::updateListSlot( QString currentDirectory )
                     switch ( int( _lineString.at( 0 ).latin1() ) ) {
                         case int( 'M' ):
                             _element->setText( _COLUMN_STATUS, tr( "Modified File" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "modifiedfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "ModifiedFile.png" ) );
                             break;
                         case int( '?' ):
                             _element->setText( _COLUMN_STATUS, tr( "Unknown File" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "unknownfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "UnknownFile.png" ) );
                             break;
                         case int( ' ' ):
                             _element->setText( _COLUMN_STATUS, tr( "File" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "file.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "File.png" ) );
                             break;
                         case int( 'A' ):
                             _element->setText( _COLUMN_STATUS, tr( "Added File" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "addedfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "AddedFile.png" ) );
                             break;
                         case int( 'C' ):
                             _element->setText( _COLUMN_STATUS, tr( "Conflict File" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "conflictfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "ConflictFile.png" ) );
                             break;
                         case int( 'D' ):
                             _element->setText( _COLUMN_STATUS, tr( "Deleted File" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "modifiedfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "ModifiedFile.png" ) );
                             break;
                         case int( '!' ):
                             _element->setText( _COLUMN_STATUS, tr( "Missing" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "missingfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "MissingFile.png" ) );
                             break;
                         default:
                             _element->setText( _COLUMN_STATUS, tr( "Unknown Status" ) );
-                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "unknownfile.png" ) );
+                            _element->setPixmap( _COLUMN_FILE, QPixmap::fromMimeSource( "UnknownFile.png" ) );
                             break;
                     }
                 }

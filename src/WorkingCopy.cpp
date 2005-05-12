@@ -110,9 +110,9 @@ void WorkingCopy::updateElement( WorkingCopyItem *element )
                     WorkingCopyItem *newelement;
                     newelement = new WorkingCopyItem( element, directory.absPath() + QDir::separator() + *it );
                     if ( newelement->isSvnDirectory() )
-                        newelement->setPixmap( 0, QPixmap::fromMimeSource( "folder.png" ) );
+                        newelement->setPixmap( 0, QPixmap::fromMimeSource( "Folder.png" ) );
                     else
-                        newelement->setPixmap( 0, QPixmap::fromMimeSource( "unknownfolder.png" ) );
+                        newelement->setPixmap( 0, QPixmap::fromMimeSource( "UnknownFolder.png" ) );
                     // recursive call for new _element
                     updateElement( newelement );
                 }
@@ -128,9 +128,9 @@ void WorkingCopy::addExistingWorkingCopySlot( QString directoyString )
         WorkingCopyItem *element;
         element = new WorkingCopyItem( listViewWorkingCopy, directoyString );
         if ( element->isSvnDirectory() )
-            element->setPixmap( 0, QPixmap::fromMimeSource( "folder.png" ) );
+            element->setPixmap( 0, QPixmap::fromMimeSource( "Folder.png" ) );
         else
-            element->setPixmap( 0, QPixmap::fromMimeSource( "unknownfolder.png" ) );
+            element->setPixmap( 0, QPixmap::fromMimeSource( "UnknownFolder.png" ) );
         updateElement( element );
     }
 }
