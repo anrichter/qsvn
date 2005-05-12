@@ -61,6 +61,7 @@ signals:
     void directoryChanged( QString );
 
 public slots:
+    void updateElement( QListViewItem *item );
     void addExistingWorkingCopySlot( QString directoyString );
     void addExistingWorkingCopySlot();
     void removeCurrentWorkingCopySlot();

@@ -73,6 +73,7 @@ WorkingCopy::WorkingCopy(QObject *parent, const char *name)
     Config::Exemplar()->restoreListView( listViewWorkingCopy );
 
     connect( listViewWorkingCopy, SIGNAL( selectionChanged() ), this, SLOT( changeElement() ) );
+    connect( listViewWorkingCopy, SIGNAL( expanded( QListViewItem* ) ), this, SLOT( updateElement( QListViewItem* ) ) );
 }
 
 WorkingCopy::~WorkingCopy()
@@ -84,6 +85,11 @@ WorkingCopy::~WorkingCopy()
 QWidget *WorkingCopy::getWidget()
 {
     return listViewWorkingCopy;
+}
+
+void WorkingCopy::updateElement( QListViewItem *item )
+{
+    updateElement( static_cast< WorkingCopyItem* >( item ) );
 }
 
 void WorkingCopy::updateElement( WorkingCopyItem *element )
@@ -114,7 +120,10 @@ void WorkingCopy::updateElement( WorkingCopyItem *element )
                     else
                         newelement->setPixmap( 0, QPixmap::fromMimeSource( "UnknownFolder.png" ) );
                     // recursive call for new _element
-                    updateElement( newelement );
+                    if ( element->isOpen() )
+                    {
+                        updateElement( newelement );
+                    }
                 }
             }
         }

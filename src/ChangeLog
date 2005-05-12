@@ -8,6 +8,10 @@ Version 0.2.0 - released 2005-**-**
     --------
     * save and restore position of QSvn mainwindow
     
+    Improvements
+    ------------
+    * increase startup on many working copies with many subfolders in WorkingCopyList
+    
     
 Version 0.1.0 - released 2005-04-09
 
