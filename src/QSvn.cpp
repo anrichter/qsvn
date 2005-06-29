@@ -23,30 +23,31 @@
 
 
 //QSvn
+#include "QSvn.h"
+
+/*todo:
 #include "AboutDlg.h"
 #include "Config.h"
 #include "Configure.h"
 #include "FileList.h"
 #include "FileListItem.h"
 #include "FileSelector.h"
-#include "QSvn.h"
 #include "StatusText.h"
 #include "SvnWrapper.h"
 #include "WorkingCopy.h"
 #include "WorkingCopyItem.h"
+*/
 
 //Qt
-//#include <qaction.h>
-#include <qapplication.h>
-#include <qmessagebox.h>
-//#include <qtextedit.h>
-//#include <qurl.h>
-#include <qwidgetstack.h>
+#include <QtGui>
 
-
-QSvn::QSvn( QWidget *parent, const char *name )
-        : QSvnDlg( parent, name )
+QSvn::QSvn( QWidget *parent, Qt::WFlags flags );
+        : QMainWindow( parent, flags )
 {
+
+    setupUi( this );
+
+    /*todo:
     //insert WorkingCopy widget
     widgetStackWorkingCopy->addWidget( WorkingCopy::Exemplar()->getWidget() );
     widgetStackWorkingCopy->raiseWidget( WorkingCopy::Exemplar()->getWidget() );
@@ -63,10 +64,10 @@ QSvn::QSvn( QWidget *parent, const char *name )
     connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ), FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
 
     Config::Exemplar()->restoreMainWindow( this );
+    */
 }
 
-QSvn::~QSvn()
-{}
+/*todo:
 
 void QSvn::closeEvent( QCloseEvent * )
 {
@@ -219,3 +220,4 @@ void QSvn::aboutQtSlot()
 {
     QMessageBox::aboutQt( this );
 }
+*/

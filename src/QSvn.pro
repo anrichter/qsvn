@@ -1,59 +1,19 @@
-MOC_DIR = .moc
-UI_DIR = .ui
-OBJECTS_DIR = .obj
+TEMPLATE = app
 TARGET = QSvn
 DESTDIR = bin
-CONFIG += release \
-          warn_on \
-          qt \
-          thread
-TEMPLATE = app
 
-FORMS = Forms/AboutDlg.ui \
-        Forms/AddWorkingCopyDlg.ui \
-        Forms/CheckoutDlg.ui \
-        Forms/ConfigureDlg.ui \
-        Forms/FileSelectorDlg.ui \
-        Forms/QSvnDlg.ui
+unix:MOC_DIR = .moc
+win32:MOC_DIR = moc
+unix:UI_DIR = .ui
+win32:UI_DIR = ui
+unix:OBJECTS_DIR = .obj
+win32:OBJECTS_DIR = obj
 
-HEADERS = AddWorkingCopy.h \
-          Checkout.h \
-          Config.h \
-          Configure.h \
-          FileList.h \
-          FileListItem.h \
-          FileSelector.h \
-          QSvn.h \
-          StatusText.h \
-          SvnWrapper.h \
-          WorkingCopy.h \
-          WorkingCopyItem.h
+CONFIG += qt
 
-SOURCES = AddWorkingCopy.cpp \
-          Checkout.cpp \
-          Config.cpp \
-          Configure.cpp \
-          FileList.cpp \
-          FileListItem.cpp \
-          FileSelector.cpp \
-          Main.cpp \
-          QSvn.cpp \
-          StatusText.cpp \
-          SvnWrapper.cpp \
-          WorkingCopy.cpp \
-          WorkingCopyItem.cpp
+FORMS = Forms\QSvn.ui
 
-IMAGES += Images/AddedFile.png \
-          Images/ConflictFile.png \
-          Images/File.png \
-          Images/Folder.png \
-          Images/MissingFile.png \
-          Images/ModifiedFile.png \
-          Images/UnknownFile.png \
-          Images/UnknownFolder.png
+HEADERS = QSvn.h
 
-win32{
-  MOC_DIR = moc
-  OBJECTS_DIR = obj
-  UI_DIR = ui
-}
+SOURCES = Main.cpp \
+          QSvn.h

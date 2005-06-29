@@ -26,18 +26,15 @@
 #include "QSvn.h"
 
 //Qt
-#include <qapplication.h>
-
+#include <QApplication>
 
 int main( int argc, char ** argv )
 {
-    QApplication a( argc, argv );
+    //Q_INIT_RESOURCE( application );
 
-    QSvn * mw = new QSvn();
-    mw->setCaption( "QSvn" );
-    mw->show();
+    QApplication app(argc, argv);
+    QMainWindow qsvn;
+    qsvn.show();
 
-    a.setMainWidget( mw );
-
-    return a.exec();
+    return app.exec();
 }

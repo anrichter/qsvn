@@ -25,16 +25,19 @@
 #define QSVN_H
 
 //QSvn
-#include "QSvnDlg.h"
+#include "ui_QSvn.h"
 
+//QT
 
-class QSvn : public QSvnDlg
+class QSvn : public QMainWindow, private Ui::QSvn
 {
     Q_OBJECT
 
 public:
-    QSvn( QWidget *parent = 0, const char *name = 0 );
-    ~QSvn();
+    QSvn( QWidget *parent = 0, Qt::WFlags flags = 0 );
+
+
+/* todo:
 
 public slots:
 
@@ -71,6 +74,8 @@ protected slots:
 
     // @brief prepare informations for and call a svn command during SvnWrapper::doSvnCommand
     void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
+todo */
+
 };
 
 #endif
