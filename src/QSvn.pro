@@ -16,4 +16,4 @@ FORMS = Forms\QSvn.ui
 HEADERS = QSvn.h
 
 SOURCES = Main.cpp \
-          QSvn.h
+          QSvn.cpp

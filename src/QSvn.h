@@ -28,6 +28,9 @@
 #include "ui_QSvn.h"
 
 //QT
+class QAction;
+class QMenu;
+
 
 class QSvn : public QMainWindow, private Ui::QSvn
 {
@@ -36,14 +39,38 @@ class QSvn : public QMainWindow, private Ui::QSvn
 public:
     QSvn( QWidget *parent = 0, Qt::WFlags flags = 0 );
 
+private:
+    void createActions();
+    void createMenus();
+    void createToolBar();
+
+    //Actions
+    QAction* actionExit;
+    QAction* actionHelpContents;
+    QAction* actionHelpIndex;
+    QAction* actionAboutQSvn;
+    QAction* actionAddWorkingCopy;
+    QAction* actionRemoveWorkingCopy;
+    QAction* actionAboutQt;
+    QAction* actionConfigureQSvn;
+    QAction* actionUpdate;
+    QAction* actionCommit;
+    QAction* actionAdd;
+    QAction* actionRemove;
+    QAction* actionDiff;
+    QAction* actionCheckout;
+    QAction* actionRevert;
+
+    //Menus
+    QMenu *fileMenu;
+    QMenu *workingCopyMenu;
+    QMenu *modifyMenu;
+    QMenu *queryMenu;
+    QMenu *settingsMenu;
+    QMenu *helpMenu;
+
 
 /* todo:
-
-public slots:
-
-protected:
-    virtual void closeEvent( QCloseEvent * );
-
 protected slots:
     //File
     void exitSlot();

@@ -41,11 +41,15 @@
 //Qt
 #include <QtGui>
 
-QSvn::QSvn( QWidget *parent, Qt::WFlags flags );
+QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
         : QMainWindow( parent, flags )
 {
 
     setupUi( this );
+
+    createActions();
+    createMenus();
+    createToolBar();
 
     /*todo:
     //insert WorkingCopy widget
@@ -67,12 +71,52 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags );
     */
 }
 
-/*todo:
-
-void QSvn::closeEvent( QCloseEvent * )
+void QSvn::createActions()
 {
-    exitSlot();
+    qDebug() << "Create Actions...";
+    actionExit = new QAction( "actionExit", this );
+
+    actionAddWorkingCopy = new QAction( "actionAddWorkingCopy", this );
+    actionRemoveWorkingCopy = new QAction( "actionRemoveWorkingCopy", this );
+    actionCheckout = new QAction( "actionCheckout", this );
+
+    actionHelpContents = new QAction( "actionHelpContents", this );
+    actionHelpIndex = new QAction( "actionHelpIndex", this );
+    actionAboutQSvn = new QAction( "actionAboutQSvn", this );
+
+    actionUpdate = new QAction( "actionUpdate", this );
+    actionCommit = new QAction( "actionCommit", this );
+    actionAdd = new QAction( "actionAdd", this );
+    actionRemove = new QAction( "actionRemove", this );
+    actionRevert = new QAction( "actionRevert", this );
+
+    actionConfigureQSvn = new QAction( "actionConfigureQSvn", this );
+
+    actionAboutQt = new QAction( "actionAboutQt", this );
+    actionDiff = new QAction( "actionDiff", this );
 }
+
+void QSvn::createMenus()
+{
+    qDebug() << "create Menus";
+    
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(actionExit);
+
+    workingCopyMenu = menuBar()->addMenu(tr("&Working Copy"));
+    modifyMenu = menuBar()->addMenu(tr("&Modify"));
+    queryMenu = menuBar()->addMenu(tr("&Query"));
+    settingsMenu = menuBar()->addMenu(tr("&Settings"));
+    helpMenu = menuBar()->addMenu(tr("&Help"));
+
+}
+
+void QSvn::createToolBar()
+{
+}
+
+
+/*todo:
 
 //protected slots
 void QSvn::exitSlot()
