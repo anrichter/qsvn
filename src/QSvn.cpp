@@ -75,6 +75,7 @@ void QSvn::createActions()
 {
     qDebug() << "Create Actions...";
     actionExit = new QAction( "actionExit", this );
+    connect( actionExit, SIGNAL( triggered() ), this, SLOT( exitSlot() ) );
 
     actionAddWorkingCopy = new QAction( "actionAddWorkingCopy", this );
     actionRemoveWorkingCopy = new QAction( "actionRemoveWorkingCopy", this );
@@ -93,13 +94,15 @@ void QSvn::createActions()
     actionConfigureQSvn = new QAction( "actionConfigureQSvn", this );
 
     actionAboutQt = new QAction( "actionAboutQt", this );
+    connect(actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
+
     actionDiff = new QAction( "actionDiff", this );
 }
 
 void QSvn::createMenus()
 {
     qDebug() << "create Menus";
-    
+
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(actionExit);
 
@@ -116,17 +119,20 @@ void QSvn::createToolBar()
 }
 
 
-/*todo:
-
 //protected slots
 void QSvn::exitSlot()
 {
+/*todo:
+
     Config::Exemplar()->saveChanges();
     Config::Exemplar()->saveMainWindow( this );
     FileList::releaseExemplar();
     WorkingCopy::releaseExemplar();
+*/
     qApp->exit( 0 );
 }
+
+/*todo:
 
 void QSvn::addWorkingCopySlot()
 {

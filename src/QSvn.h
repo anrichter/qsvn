@@ -70,11 +70,11 @@ private:
     QMenu *helpMenu;
 
 
-/* todo:
 protected slots:
     //File
     void exitSlot();
 
+/* todo:
     //WorkingCopy
     void addWorkingCopySlot();
     void removeWorkingCopySlot();
