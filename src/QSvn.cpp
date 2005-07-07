@@ -44,7 +44,6 @@
 QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
         : QMainWindow( parent, flags )
 {
-
     setupUi( this );
 
     createActions();
@@ -73,51 +72,65 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
 void QSvn::createActions()
 {
-    qDebug() << "Create Actions...";
-    actionExit = new QAction( "actionExit", this );
+    actionExit = new QAction( "E&xit", this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( exitSlot() ) );
 
-    actionAddWorkingCopy = new QAction( "actionAddWorkingCopy", this );
-    actionRemoveWorkingCopy = new QAction( "actionRemoveWorkingCopy", this );
-    actionCheckout = new QAction( "actionCheckout", this );
+    actionAddWorkingCopy = new QAction( "&Add...", this );
+    actionRemoveWorkingCopy = new QAction( "&Remove...", this );
+    actionCheckout = new QAction( "&Checkout...", this );
 
-    actionHelpContents = new QAction( "actionHelpContents", this );
-    actionHelpIndex = new QAction( "actionHelpIndex", this );
-    actionAboutQSvn = new QAction( "actionAboutQSvn", this );
+    actionUpdate = new QAction( "&Update", this );
+    actionCommit = new QAction( "&Commit...", this );
+    actionAdd = new QAction( "&Add...", this );
+    actionRemove = new QAction( "&Remove...", this );
+    actionRevert = new QAction( "Re&vert...", this );
 
-    actionUpdate = new QAction( "actionUpdate", this );
-    actionCommit = new QAction( "actionCommit", this );
-    actionAdd = new QAction( "actionAdd", this );
-    actionRemove = new QAction( "actionRemove", this );
-    actionRevert = new QAction( "actionRevert", this );
+    actionDiff = new QAction( "&Diff...", this );
 
-    actionConfigureQSvn = new QAction( "actionConfigureQSvn", this );
+    actionConfigureQSvn = new QAction( "&Configure QSvn...", this );
 
-    actionAboutQt = new QAction( "actionAboutQt", this );
+    actionHelpContents = new QAction( "&Contents...", this );
+    actionHelpIndex = new QAction( "&Index...", this );
+    actionAboutQSvn = new QAction( "&About QSvn...", this );
+    actionAboutQt = new QAction( "About &Qt...", this );
     connect(actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
-
-    actionDiff = new QAction( "actionDiff", this );
 }
 
 void QSvn::createMenus()
 {
-    qDebug() << "create Menus";
+    fileMenu = menuBar()->addMenu( tr( "&File" ) );
+    fileMenu->addAction( actionExit );
 
-    fileMenu = menuBar()->addMenu(tr("&File"));
-    fileMenu->addAction(actionExit);
+    workingCopyMenu = menuBar()->addMenu( tr( "&Working Copy" ) );
+    workingCopyMenu->addAction( actionAddWorkingCopy );
+    workingCopyMenu->addAction( actionRemoveWorkingCopy );
+    workingCopyMenu->addAction( actionCheckout );
 
-    workingCopyMenu = menuBar()->addMenu(tr("&Working Copy"));
-    modifyMenu = menuBar()->addMenu(tr("&Modify"));
-    queryMenu = menuBar()->addMenu(tr("&Query"));
-    settingsMenu = menuBar()->addMenu(tr("&Settings"));
-    helpMenu = menuBar()->addMenu(tr("&Help"));
+    modifyMenu = menuBar()->addMenu( tr( "&Modify" ) );
+    modifyMenu->addAction( actionUpdate );
+    modifyMenu->addAction( actionCommit );
+    modifyMenu->addSeparator();
+    modifyMenu->addAction( actionAdd );
+    modifyMenu->addAction( actionRemove );
+    modifyMenu->addAction( actionRevert );
 
+    queryMenu = menuBar()->addMenu( tr( "&Query" ) );
+    queryMenu->addAction( actionDiff );
+
+    settingsMenu = menuBar()->addMenu( tr( "&Settings" ) );
+    settingsMenu->addAction( actionConfigureQSvn );
+
+    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
+    helpMenu->addAction( actionHelpContents );
+    helpMenu->addAction( actionHelpIndex );
+    helpMenu->addSeparator();
+    helpMenu->addAction( actionAboutQSvn );
+    helpMenu->addAction( actionAboutQt );
 }
 
 void QSvn::createToolBar()
 {
 }
-
 
 //protected slots
 void QSvn::exitSlot()

@@ -33,7 +33,7 @@ int main( int argc, char ** argv )
     //Q_INIT_RESOURCE( application );
 
     QApplication app(argc, argv);
-    QMainWindow qsvn;
+    QSvn qsvn;
     qsvn.show();
 
     return app.exec();
