@@ -23,56 +23,58 @@
 
 
 //QSvn
-#include "SvnWrapper.h"
 #include "WorkingCopyItem.h"
 
 //Qt
-#include <qdir.h>
-#include <qlistview.h>
-#include <qstring.h>
-#include <qurl.h>
+#include <QList>
+#include <QVariant>
 
 
-WorkingCopyItem::WorkingCopyItem( QListViewItem* parent )
-    : QListViewItem( parent )
-{
-    parentItem = 0;
-    svnDirectory = FALSE;
-}
-
-WorkingCopyItem::WorkingCopyItem( QListView* parent, QString directory )
-    : QListViewItem( parent )
-{
-    parentItem = 0;
-    stringFullPath = QDir::convertSeparators( directory );
-    setText( 0, stringFullPath );
-    svnDirectory = SvnWrapper::Exemplar()->isWorkingCopy( stringFullPath );
-}
-
-WorkingCopyItem::WorkingCopyItem( WorkingCopyItem* parent, QString directory )
-    : QListViewItem( parent )
+WorkingCopyItem::WorkingCopyItem( const QList< QVariant > &data, WorkingCopyItem *parent )
 {
     parentItem = parent;
-    stringFullPath = QDir::convertSeparators( directory );
-    QUrl url( stringFullPath );
-    setText( 0, url.fileName() );
-    svnDirectory = SvnWrapper::Exemplar()->isWorkingCopy( stringFullPath );
+    itemData = data;
 }
 
 WorkingCopyItem::~WorkingCopyItem()
-{}
+{
+    qDeleteAll( childItems );
+}
 
-WorkingCopyItem* WorkingCopyItem::parent() const
+void WorkingCopyItem::appendChild( WorkingCopyItem *child )
+{
+    childItems.append( child );
+}
+
+WorkingCopyItem * WorkingCopyItem::child( int row )
+{
+    return childItems.value( row );
+}
+
+int WorkingCopyItem::childCount( ) const
+{
+    return childItems.count();
+}
+
+int WorkingCopyItem::columnCount( ) const
+{
+    return itemData.count();
+}
+
+QVariant WorkingCopyItem::data( int column ) const
+{
+    return itemData.value( column );
+}
+
+int WorkingCopyItem::row( ) const
+{
+    if ( parentItem )
+        return parentItem->childItems.indexOf( const_cast<WorkingCopyItem*>( this ) );
+
+    return 0;
+}
+
+WorkingCopyItem * WorkingCopyItem::parent( )
 {
     return parentItem;
-}
-
-QString WorkingCopyItem::fullPath() const
-{
-    return stringFullPath;
-}
-
-bool WorkingCopyItem::isSvnDirectory() const
-{
-    return svnDirectory;
 }

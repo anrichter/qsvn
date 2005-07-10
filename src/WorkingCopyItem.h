@@ -21,32 +21,43 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
+
 #ifndef WORKINGCOPYITEM_H
 #define WORKINGCOPYITEM_H
 
 //Qt
-#include <qlistview.h>
-
-//Qt Classes
-class QString;
+#include <QStringList>
 
 
-class WorkingCopyItem : public QListViewItem
+class WorkingCopyItem
 {
 public:
-    WorkingCopyItem( QListViewItem* parent );
-    WorkingCopyItem( QListView* parent, QString directory );
-    WorkingCopyItem( WorkingCopyItem* parent, QString directory );
+    WorkingCopyItem( const QList<QVariant> &data, WorkingCopyItem *parent = 0 );
     ~WorkingCopyItem();
 
-    WorkingCopyItem* parent() const;
+    void appendChild( WorkingCopyItem *child );
 
+    WorkingCopyItem *child( int row );
+    int childCount() const;
+    int columnCount() const;
+    QVariant data( int column ) const;
+    int row() const;
+    WorkingCopyItem *parent();
+
+    /*todo:
     QString fullPath() const;
     bool isSvnDirectory() const;
+    */
 private:
+    QList<WorkingCopyItem*> childItems;
+    QList<QVariant> itemData;
+    WorkingCopyItem *parentItem;
+
+/*todo:
     QString stringFullPath;
     WorkingCopyItem* parentItem;
     bool svnDirectory;
+    */
 };
 
 #endif

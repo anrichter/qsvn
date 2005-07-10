@@ -13,7 +13,9 @@ CONFIG += qt
 
 FORMS = Forms\QSvn.ui
 
-HEADERS = QSvn.h
+HEADERS = QSvn.h \
+          WorkingCopyItem.h
 
 SOURCES = Main.cpp \
-          QSvn.cpp
+          QSvn.cpp \
+          WorkingCopyItem.cpp
