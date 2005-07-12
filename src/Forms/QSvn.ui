@@ -8,14 +8,40 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>200</height>
+    <width>518</width>
+    <height>274</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget" />
+  <widget class="QWidget" name="centralWidget" >
+   <layout class="QGridLayout" >
+    <property name="margin" >
+     <number>8</number>
+    </property>
+    <property name="spacing" >
+     <number>6</number>
+    </property>
+    <item row="0" column="0" >
+     <widget class="QSplitter" name="splitter" >
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <layout class="QHBoxLayout" >
+       <property name="margin" >
+        <number>8</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+      </layout>
+      <widget class="QTreeView" name="treeViewWorkingCopy" />
+      <widget class="QListView" name="listViewFileList" />
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <pixmapfunction></pixmapfunction>
  <resources/>
