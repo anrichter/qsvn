@@ -24,6 +24,7 @@
 
 //QSvn
 #include "QSvn.h"
+#include "WorkingCopyModel.h"
 
 /*todo:
 #include "AboutDlg.h"
@@ -49,6 +50,9 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     createActions();
     createMenus();
     createToolBar();
+    
+    workingCopyModel = new WorkingCopyModel();
+    treeViewWorkingCopy->setModel( workingCopyModel );
 
     /*todo:
     //insert WorkingCopy widget
