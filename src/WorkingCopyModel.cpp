@@ -94,6 +94,14 @@ int WorkingCopyModel::columnCount( const QModelIndex &parent ) const
 
 }
 
+QVariant WorkingCopyModel::headerData( int section, Qt::Orientation orientation, int role ) const
+{
+    if ( orientation == Qt::Horizontal && role == Qt::DisplayRole )
+        return rootItem->data( section );
+
+    return QVariant();
+}
+
 QVariant WorkingCopyModel::data( const QModelIndex &index, int role ) const
 {
     if ( !index.isValid() )
@@ -106,3 +114,4 @@ QVariant WorkingCopyModel::data( const QModelIndex &index, int role ) const
 
     return item->data( index.column() );
 }
+
