@@ -48,7 +48,7 @@ Config::Config( QObject *parent )
 {
     QCoreApplication::setOrganizationName( "QSvn" );
     QCoreApplication::setOrganizationDomain( "" );
-    QCoreApplication::setApplicationName( "QSVN" );
+    QCoreApplication::setApplicationName( "QSvn" );
 
     QSettings settings;
 
