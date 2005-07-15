@@ -21,19 +21,33 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
+
 #ifndef FILELISTITEM_H
 #define FILELISTITEM_H
 
 //Qt
-#include <qlistview.h>
+#include <QStringList>
 
 
-class FileListItem : public QListViewItem
+class FileListItem
 {
-
 public:
-    FileListItem( QListView* parent);
+    FileListItem( const QList<QVariant> &data, FileListItem *parent = 0 );
     ~FileListItem();
+
+    void appendChild( FileListItem *child );
+
+    FileListItem *child( int row );
+    int childCount() const;
+    int columnCount() const;
+    QVariant data( int column ) const;
+    int row() const;
+    FileListItem *parent();
+
+private:
+    QList<FileListItem*> childItems;
+    QList<QVariant> itemData;
+    FileListItem *parentItem;
 };
 
 #endif

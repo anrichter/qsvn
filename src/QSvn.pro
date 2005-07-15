@@ -13,11 +13,15 @@ CONFIG += qt
 
 FORMS = Forms\QSvn.ui
 
-HEADERS = QSvn.h \
+HEADERS = FileListItem.h \
+          FileListModel.h \
+          QSvn.h \
           WorkingCopyItem.h \
           WorkingCopyModel.h
 
-SOURCES = Main.cpp \
+SOURCES = FileListItem.cpp \
+          FileListModel.cpp \
+          Main.cpp \
           QSvn.cpp \
           WorkingCopyItem.cpp \
           WorkingCopyModel.cpp

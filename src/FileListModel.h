@@ -22,59 +22,35 @@
  ***************************************************************************/
 
 
+#ifndef FILELISTMODEL_H
+#define FILELISTMODEL_H
+
 //QSvn
-#include "FileListItem.h"
+class FileListItem;
 
 //Qt
-#include <QList>
+#include <QAbstractItemModel>
+#include <QModelIndex>
 #include <QVariant>
 
 
-FileListItem::FileListItem( const QList< QVariant > &data, FileListItem *parent )
+class FileListModel : public QAbstractItemModel
 {
-    parentItem = parent;
-    itemData = data;
-}
+    Q_OBJECT
 
-FileListItem::~FileListItem()
-{
-    qDeleteAll( childItems );
-}
+public:
+    FileListModel( QObject *parent = 0 );
+    ~FileListModel();
 
-void FileListItem::appendChild( FileListItem *child )
-{
-    childItems.append( child );
-}
+    QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex( ) ) const;
+    QModelIndex parent( const QModelIndex &index ) const;
+    int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
+    int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
+    QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+    QVariant data( const QModelIndex &index, int role ) const;
 
-FileListItem * FileListItem::child( int row )
-{
-    return childItems.value( row );
-}
+private:
+    FileListItem *rootItem;
+};
 
-int FileListItem::childCount( ) const
-{
-    return childItems.count();
-}
-
-int FileListItem::columnCount( ) const
-{
-    return itemData.count();
-}
-
-QVariant FileListItem::data( int column ) const
-{
-    return itemData.value( column );
-}
-
-int FileListItem::row( ) const
-{
-    if ( parentItem )
-        return parentItem->childItems.indexOf( const_cast<FileListItem*>( this ) );
-
-    return 0;
-}
-
-FileListItem * FileListItem::parent( )
-{
-    return parentItem;
-}
+#endif

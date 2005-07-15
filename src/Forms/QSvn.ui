@@ -37,7 +37,7 @@
        </property>
       </layout>
       <widget class="QTreeView" name="treeViewWorkingCopy" />
-      <widget class="QListView" name="listViewFileList" />
+      <widget class="QTreeView" name="treeViewFileList" />
      </widget>
     </item>
    </layout>

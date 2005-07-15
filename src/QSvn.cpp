@@ -23,6 +23,7 @@
 
 
 //QSvn
+#include "FileListModel.h"
 #include "QSvn.h"
 #include "WorkingCopyModel.h"
 
@@ -50,9 +51,12 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     createActions();
     createMenus();
     createToolBar();
-    
+
     workingCopyModel = new WorkingCopyModel();
     treeViewWorkingCopy->setModel( workingCopyModel );
+
+    fileListModel = new FileListModel();
+    treeViewFileList->setModel( fileListModel );
 
     /*todo:
     //insert WorkingCopy widget

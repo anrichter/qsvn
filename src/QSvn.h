@@ -26,7 +26,9 @@
 
 //QSvn
 #include "ui_QSvn.h"
+class FileListModel;
 class WorkingCopyModel;
+
 
 //QT
 class QAction;
@@ -71,6 +73,7 @@ private:
     QMenu *helpMenu;
 
     WorkingCopyModel *workingCopyModel;
+    FileListModel *fileListModel;
 protected slots:
     //File
     void exitSlot();
