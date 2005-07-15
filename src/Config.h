@@ -25,17 +25,8 @@
 #define CONFIG_H
 
 //Qt
-#include <qobject.h>
+#include <QObject>
 
-//Qt classes
-class QListView;
-class QSettings;
-class QString;
-class QSvnDlg;
-
-
-const QString _SETTINGS_DOMAIN = "qsvn";
-const QString _SETTINGS_PRODUCT = "";
 
 /**
 this singelton holds the configuration for qsvn
@@ -55,6 +46,7 @@ public:
     void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
     QString getDiffViewer(); //!< get the complete path to a diff viewer
 
+    /*todo:
     //Main Window
     void saveMainWindow( QSvnDlg *aMainWindow );
     void restoreMainWindow( QSvnDlg *aMainWindow );
@@ -66,18 +58,18 @@ public:
     //Working Copys
     void saveWorkingCopyEntries( QListView *aListView );
     void restoreWorkingCopyEntries();
+    */
 public slots:
-    void saveChanges();
 
 private:
-    Config(QObject *parent = 0, const char *name = 0);
-    ~Config();
+    Config( QObject *parent = 0 );
 
     static Config* _exemplar;
 
-    bool changed; //!< true, if one or more settings have changed. save changed values in dtor
     QString _svnExecutable;
     QString _diffViewer;
+
+    void saveChanges();
 };
 
 #endif

@@ -24,13 +24,10 @@
 
 //QSvn
 #include "Config.h"
-#include "QSvnDlg.h"
-#include "WorkingCopy.h"
 
 //Qt
-#include <qlistview.h>
-#include <qsettings.h>
-#include <qsplitter.h>
+#include <QCoreApplication>
+#include <QSettings>
 
 
 //make Config a singleton
@@ -46,36 +43,26 @@ Config* Config::Exemplar()
 }
 
 //Config implementation
-Config::Config(QObject *parent, const char *name)
-        : QObject(parent, name)
+Config::Config( QObject *parent )
+        : QObject( parent )
 {
-    changed = FALSE;
+    QCoreApplication::setOrganizationName( "QSvn" );
+    QCoreApplication::setOrganizationDomain( "" );
+    QCoreApplication::setApplicationName( "QSVN" );
 
     QSettings settings;
-    settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
 
     //read saved settings
-    settings.beginGroup( "configuration" );
-    _svnExecutable = settings.readEntry( "svnExecutable", "svn" );
-    _diffViewer = settings.readEntry( "diffViewer", "" );
-    settings.endGroup();
+    _svnExecutable = settings.value( "configuration/svnExecutable", "svn" ).toString();
+    _diffViewer = settings.value( "configuration/diffViewer", "" ).toString();
 }
-
-Config::~Config()
-{}
 
 void Config::saveChanges()
 {
-    if ( changed )
-    {
-        //write the entire settings in config-file
-        QSettings settings;
-        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "configuration" );
-        settings.writeEntry( "svnExecutable", _svnExecutable );
-        settings.writeEntry( "diffViewer", _diffViewer );
-        settings.endGroup();
-    }
+    //write the entire settings in config-file
+    QSettings settings;
+    settings.setValue( "configuration/svnExecutable", _svnExecutable );
+    settings.setValue( "configuration/diffViewer", _diffViewer );
 }
 
 void Config::setSvnExecutable( QString aString )
@@ -83,7 +70,7 @@ void Config::setSvnExecutable( QString aString )
     if ( aString != _svnExecutable )
     {
         _svnExecutable = aString;
-        changed = TRUE;
+        saveChanges();
     }
 }
 
@@ -97,7 +84,7 @@ void Config::setDiffViewer( QString aString )
     if ( aString != _diffViewer )
     {
         _diffViewer = aString;
-        changed = TRUE;
+        saveChanges();
     }
 }
 
@@ -106,7 +93,7 @@ QString Config::getDiffViewer()
     return _diffViewer;
 }
 
-
+/*todo:
 void Config::saveMainWindow( QSvnDlg *aMainWindow )
 {
     if ( aMainWindow )
@@ -262,3 +249,4 @@ void Config::restoreWorkingCopyEntries()
         settings.endGroup();
     }
 }
+*/

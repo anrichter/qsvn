@@ -23,6 +23,7 @@
 
 
 //QSvn
+#include "Config.h"
 #include "FileListModel.h"
 #include "QSvn.h"
 #include "WorkingCopyModel.h"
@@ -59,12 +60,6 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     treeViewFileList->setModel( fileListModel );
 
     /*todo:
-    //insert WorkingCopy widget
-    widgetStackWorkingCopy->addWidget( WorkingCopy::Exemplar()->getWidget() );
-    widgetStackWorkingCopy->raiseWidget( WorkingCopy::Exemplar()->getWidget() );
-    //insert FileList widget
-    widgetStackFileList->addWidget( FileList::Exemplar()->getWidget() );
-    widgetStackFileList->raiseWidget( FileList::Exemplar()->getWidget() );
     //insert StatusText widget
     widgetStackStatusText->addWidget( StatusText::Exemplar()->getWidget() );
     widgetStackStatusText->raiseWidget( StatusText::Exemplar()->getWidget() );
@@ -145,7 +140,6 @@ void QSvn::exitSlot()
 {
 /*todo:
 
-    Config::Exemplar()->saveChanges();
     Config::Exemplar()->saveMainWindow( this );
     FileList::releaseExemplar();
     WorkingCopy::releaseExemplar();
