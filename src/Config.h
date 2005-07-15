@@ -24,6 +24,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+//QSvn
+class QSvn;
+
 //Qt
 #include <QObject>
 
@@ -46,11 +49,11 @@ public:
     void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
     QString getDiffViewer(); //!< get the complete path to a diff viewer
 
-    /*todo:
     //Main Window
-    void saveMainWindow( QSvnDlg *aMainWindow );
-    void restoreMainWindow( QSvnDlg *aMainWindow );
+    void saveMainWindow( QSvn *aQSvn );
+    void restoreMainWindow( QSvn *aQSvn );
 
+    /*todo:
     //ListView Settings
     void saveListView( QListView *aListView );
     void restoreListView( QListView *aListView );

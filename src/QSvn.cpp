@@ -69,8 +69,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     //connect
     connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ), FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
 
-    Config::Exemplar()->restoreMainWindow( this );
     */
+    Config::Exemplar()->restoreMainWindow( this );
 }
 
 void QSvn::createActions()
@@ -140,10 +140,10 @@ void QSvn::exitSlot()
 {
 /*todo:
 
-    Config::Exemplar()->saveMainWindow( this );
     FileList::releaseExemplar();
     WorkingCopy::releaseExemplar();
 */
+    Config::Exemplar()->saveMainWindow( this );
     qApp->exit( 0 );
 }
 

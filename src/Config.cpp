@@ -24,9 +24,11 @@
 
 //QSvn
 #include "Config.h"
+#include "QSvn.h"
 
 //Qt
 #include <QCoreApplication>
+#include <QPoint>
 #include <QSettings>
 
 
@@ -93,89 +95,61 @@ QString Config::getDiffViewer()
     return _diffViewer;
 }
 
-/*todo:
-void Config::saveMainWindow( QSvnDlg *aMainWindow )
+void Config::saveMainWindow( QSvn *aQSvn )
 {
-    if ( aMainWindow )
+    if ( aQSvn )
     {
         QSettings settings;
-        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "mainwindow" );
 
-        settings.writeEntry( "width", aMainWindow->width() );
-        settings.writeEntry( "height", aMainWindow->height() );
-        settings.writeEntry( "x", aMainWindow->x() );
-        settings.writeEntry( "y", aMainWindow->y() );
+        settings.setValue( "mainwindow/width", aQSvn->width() );
+        settings.setValue( "mainwindow/height", aQSvn->height() );
+        settings.setValue( "mainwindow/x", aQSvn->x() );
+        settings.setValue( "mainwindow/y", aQSvn->y() );
 
         //save settings from splitterVertical
         int i = 0;
-        QValueList<int> list = aMainWindow->splitterVertical->sizes();
-        QValueList<int>::Iterator it = list.begin();
-        while( it != list.end() )
+        QListIterator< int > it( aQSvn->splitterVertical->sizes() );
+        while ( it.hasNext() )
         {
-            settings.writeEntry( QString( "verticalSize%1" ).arg( i ), *it );
-            ++it;
-            ++i;
+            settings.setValue( QString( "verticalSize%1" ).arg( i ), it.next() );
+            i++;
         }
 
         //save settings from splitterHorizontal
-        i = 0;
-        list = aMainWindow->splitterHorizontal->sizes();
-        it = list.begin();
-        while( it != list.end() )
-        {
-            settings.writeEntry( QString( "horizontalSize%1" ).arg( i ), *it );
-            ++it;
-            ++i;
-        }
-
-        settings.endGroup();
+        //todo
     }
 }
 
-void Config::restoreMainWindow( QSvnDlg *aMainWindow )
+void Config::restoreMainWindow( QSvn *aQSvn )
 {
-    if ( aMainWindow )
+    if ( aQSvn )
     {
         QSettings settings;
-        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "mainwindow" );
 
-        aMainWindow->resize( settings.readNumEntry( "width", aMainWindow->width() ),
-                            settings.readNumEntry( "height", aMainWindow->height() ) );
-        
-        aMainWindow->move( QPoint( settings.readNumEntry( "x", aMainWindow->x() ),
-                                   settings.readNumEntry( "y", aMainWindow->y() ) ) );
+        aQSvn->resize( settings.value( "mainwindow/width", aQSvn->width() ).toInt(),
+                       settings.value( "mainwindow/height", aQSvn->height() ).toInt() );
 
+        aQSvn->move( QPoint( settings.value( "mainwindow/x", aQSvn->x() ).toInt(),
+                     settings.value( "mainwindow/y", aQSvn->y() ).toInt() ) );
 
         //restore settings from splitterVertical
         int i = 0;
-        QValueList<int> list = aMainWindow->splitterVertical->sizes();
-        QValueList<int>::Iterator it = list.begin();
+        QList< int > list = aQSvn->splitterVertical->sizes();
+        QList<int>::Iterator it = list.begin();
         while( it != list.end() )
         {
-            *it = settings.readNumEntry( QString( "verticalSize%1" ).arg( i ), *it );
+            *it = settings.value( QString( "verticalSize%1" ).arg( i ), *it ).toInt();
             ++it;
             ++i;
         }
-        aMainWindow->splitterVertical->setSizes( list );
+        aQSvn->splitterVertical->setSizes( list );
 
         //restore settings from splitterHorizontal
-        i = 0;
-        list = aMainWindow->splitterHorizontal->sizes();
-        it = list.begin();
-        while( it != list.end() )
-        {
-            *it = settings.readNumEntry( QString( "horizontalSize%1" ).arg( i ), *it );
-            ++it;
-            ++i;
-        }
-        aMainWindow->splitterHorizontal->setSizes( list );
-
-        settings.endGroup();
+        //todo
     }
 }
 
+/*todo:
 void Config::saveListView( QListView *aListView )
 {
     if ( aListView )

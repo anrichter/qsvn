@@ -35,7 +35,7 @@ class QAction;
 class QMenu;
 
 
-class QSvn : public QMainWindow, private Ui::QSvn
+class QSvn : public QMainWindow, public Ui::QSvn
 {
     Q_OBJECT
 
