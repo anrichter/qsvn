@@ -24,21 +24,16 @@
 
 //QSvn
 #include "Config.h"
+#include "Configure.h"
 #include "FileListModel.h"
 #include "QSvn.h"
 #include "WorkingCopyModel.h"
 
 /*todo:
 #include "AboutDlg.h"
-#include "Config.h"
-#include "Configure.h"
-#include "FileList.h"
-#include "FileListItem.h"
 #include "FileSelector.h"
 #include "StatusText.h"
 #include "SvnWrapper.h"
-#include "WorkingCopy.h"
-#include "WorkingCopyItem.h"
 */
 
 //Qt
@@ -91,12 +86,13 @@ void QSvn::createActions()
     actionDiff = new QAction( "&Diff...", this );
 
     actionConfigureQSvn = new QAction( "&Configure QSvn...", this );
+    connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvnSlot() ) );
 
     actionHelpContents = new QAction( "&Contents...", this );
     actionHelpIndex = new QAction( "&Index...", this );
     actionAboutQSvn = new QAction( "&About QSvn...", this );
     actionAboutQt = new QAction( "About &Qt...", this );
-    connect(actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
+    connect( actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
 }
 
 void QSvn::createMenus()
@@ -257,12 +253,15 @@ void QSvn::diffSlot()
     SvnWrapper::Exemplar()->diff( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath(), FileList::Exemplar()->selectedFileListItems(), FALSE );
 }
 
+*/
+
 void QSvn::configureQSvnSlot()
 {
     Configure configure( this );
     configure.exec();
 }
 
+/* todo:
 void QSvn::helpContentsSlot()
 {
     //todo: implement

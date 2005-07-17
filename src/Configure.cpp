@@ -24,16 +24,21 @@
 //QSvn
 #include "Config.h"
 #include "Configure.h"
-#include "ConfigureDlg.h"
+#include "ui_Configure.h"
 
 //Qt
-#include <qfiledialog.h>
-#include <qlineedit.h>
+#include <QtGui>
 
 
-Configure::Configure( QWidget *parent, const char *name )
-        : ConfigureDlg( parent, name )
+Configure::Configure( QWidget *parent, Qt::WFlags flags )
+        : QDialog( parent, flags )
 {
+    setupUi( this );
+
+    connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickSlot() ) );
+    connect( buttonSelectSvnExecutable, SIGNAL( clicked() ), this, SLOT( buttonSelectSvnExecutableClickSlot() ) );
+    connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
+
     editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
     editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
 }
@@ -45,19 +50,18 @@ void Configure::buttonOkClickSlot()
 {
     Config::Exemplar()->setSvnExecutable( editSvnExecutable->text() );
     Config::Exemplar()->setDiffViewer( editDiffViewer->text() );
-    Config::Exemplar()->saveChanges();
 }
 
 void Configure::buttonSelectSvnExecutableClickSlot()
 {
-    QString executable = QFileDialog::getOpenFileName( editSvnExecutable->text(), "", this, "getSvnExecutable", "Select Svn Executable" );
-    if ( executable )
+    QString executable = QFileDialog::getOpenFileName( this, "Select Svn Executable", editSvnExecutable->text(), "" );
+    if ( !executable.isNull() )
         editSvnExecutable->setText( QDir::convertSeparators( executable ) );
 }
 
 void Configure::buttonSelectDiffViewerClickSlot()
 {
-    QString diffviewer = QFileDialog::getOpenFileName( editDiffViewer->text(), "", this, "getDiffViewer", "Select a Diff Viewer" );
-    if ( diffviewer )
+    QString diffviewer = QFileDialog::getOpenFileName( this, "Select a Diff Viewer", editDiffViewer->text(), "" );
+    if ( !diffviewer.isNull() )
         editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
 }

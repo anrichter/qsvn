@@ -25,15 +25,17 @@
 #define CONFIGURE_H
 
 //QSvn
-#include "ConfigureDlg.h"
+#include "ui_Configure.h"
 
+//Qt
+#include <QDialog>
 
-class Configure : public ConfigureDlg
+class Configure : public QDialog, private Ui::Configure
 {
     Q_OBJECT
 
 public:
-    Configure( QWidget *parent = 0, const char *name = 0 );
+    Configure( QWidget *parent = 0, Qt::WFlags flags = 0 );
     ~Configure();
 
 public slots:
@@ -43,4 +45,3 @@ public slots:
 };
 
 #endif
-

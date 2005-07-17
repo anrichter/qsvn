@@ -93,10 +93,10 @@ protected slots:
 
     //Query
     void diffSlot();
-
+*/
     //Settings
     void configureQSvnSlot();
-
+/*todo:
     //Help
     void helpContentsSlot();
     void helpIndexSlot();

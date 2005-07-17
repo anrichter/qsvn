@@ -11,9 +11,11 @@ win32:OBJECTS_DIR = obj
 
 CONFIG += qt
 
-FORMS = Forms\QSvn.ui
+FORMS = Forms\Configure.ui \
+        Forms\QSvn.ui
 
 HEADERS = Config.h \
+          Configure.h \
           FileListItem.h \
           FileListModel.h \
           QSvn.h \
@@ -21,6 +23,7 @@ HEADERS = Config.h \
           WorkingCopyModel.h
 
 SOURCES = Config.cpp \
+          Configure.cpp \
           FileListItem.cpp \
           FileListModel.cpp \
           Main.cpp \
