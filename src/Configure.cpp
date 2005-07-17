@@ -21,6 +21,7 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
+
 //QSvn
 #include "Config.h"
 #include "Configure.h"
@@ -42,9 +43,6 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
     editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
     editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
 }
-
-Configure::~Configure()
-{}
 
 void Configure::buttonOkClickSlot()
 {

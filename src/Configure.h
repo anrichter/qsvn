@@ -36,9 +36,8 @@ class Configure : public QDialog, private Ui::Configure
 
 public:
     Configure( QWidget *parent = 0, Qt::WFlags flags = 0 );
-    ~Configure();
 
-public slots:
+protected slots:
     void buttonOkClickSlot();
     void buttonSelectSvnExecutableClickSlot();
     void buttonSelectDiffViewerClickSlot();
