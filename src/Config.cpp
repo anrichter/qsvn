@@ -116,7 +116,13 @@ void Config::saveMainWindow( QSvn *aQSvn )
         }
 
         //save settings from splitterHorizontal
-        //todo
+        i = 0;
+        it = ( aQSvn->splitterHorizontal->sizes() );
+        while ( it.hasNext() )
+        {
+            settings.setValue( QString( "horizontalSize%1" ).arg( i ), it.next() );
+            i++;
+        }
     }
 }
 
@@ -145,7 +151,16 @@ void Config::restoreMainWindow( QSvn *aQSvn )
         aQSvn->splitterVertical->setSizes( list );
 
         //restore settings from splitterHorizontal
-        //todo
+        i = 0;
+        list = aQSvn->splitterVertical->sizes();
+        it = list.begin();
+        while( it != list.end() )
+        {
+            *it = settings.value( QString( "horizontalSize%1" ).arg( i ), *it ).toInt();
+            ++it;
+            ++i;
+        }
+        aQSvn->splitterHorizontal->setSizes( list );
     }
 }
 
