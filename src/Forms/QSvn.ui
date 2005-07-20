@@ -24,11 +24,11 @@
      <number>6</number>
     </property>
     <item row="0" column="0" >
-     <widget class="QSplitter" name="splitterVertical" >
+     <widget class="QSplitter" name="splitterHorizontal" >
       <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
       </property>
-      <layout class="QHBoxLayout" >
+      <layout class="QVBoxLayout" >
        <property name="margin" >
         <number>8</number>
        </property>
@@ -36,8 +36,22 @@
         <number>6</number>
        </property>
       </layout>
-      <widget class="QTreeView" name="treeViewWorkingCopy" />
-      <widget class="QTreeView" name="treeViewFileList" />
+      <widget class="QSplitter" name="splitterVertical" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
+         <number>8</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+       </layout>
+       <widget class="QTreeView" name="treeViewWorkingCopy" />
+       <widget class="QTreeView" name="treeViewFileList" />
+      </widget>
+      <widget class="QTextEdit" name="editStatusText" />
      </widget>
     </item>
    </layout>

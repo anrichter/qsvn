@@ -27,12 +27,12 @@
 #include "Configure.h"
 #include "FileListModel.h"
 #include "QSvn.h"
+#include "StatusText.h"
 #include "WorkingCopyModel.h"
 
 /*todo:
 #include "AboutDlg.h"
 #include "FileSelector.h"
-#include "StatusText.h"
 #include "SvnWrapper.h"
 */
 
@@ -54,11 +54,9 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     fileListModel = new FileListModel();
     treeViewFileList->setModel( fileListModel );
 
-    /*todo:
-    //insert StatusText widget
-    widgetStackStatusText->addWidget( StatusText::Exemplar()->getWidget() );
-    widgetStackStatusText->raiseWidget( StatusText::Exemplar()->getWidget() );
+    StatusText::Exemplar()->setOutPutWidget( editStatusText );
 
+    /*todo:
     Config::Exemplar()->restoreWorkingCopyEntries();
 
     //connect
@@ -89,7 +87,9 @@ void QSvn::createActions()
     connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvnSlot() ) );
 
     actionHelpContents = new QAction( "&Contents...", this );
+    connect( actionHelpContents, SIGNAL( triggered() ), this, SLOT( helpContentsSlot() ) );
     actionHelpIndex = new QAction( "&Index...", this );
+    connect( actionHelpIndex, SIGNAL( triggered() ), this, SLOT( helpIndexSlot() ) );
     actionAboutQSvn = new QAction( "&About QSvn...", this );
     actionAboutQt = new QAction( "About &Qt...", this );
     connect( actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
@@ -261,7 +261,6 @@ void QSvn::configureQSvnSlot()
     configure.exec();
 }
 
-/* todo:
 void QSvn::helpContentsSlot()
 {
     //todo: implement
@@ -274,14 +273,10 @@ void QSvn::helpIndexSlot()
     StatusText::Exemplar()->outputMessage( QString( "Help Index - not implemented yet" ) );
 }
 
+/* todo:
 void QSvn::aboutSlot()
 {
     AboutDlg about( this );
     about.exec();
-}
-
-void QSvn::aboutQtSlot()
-{
-    QMessageBox::aboutQt( this );
 }
 */

@@ -44,7 +44,7 @@ class StatusText : public QObject
 public:
     static StatusText* Exemplar();
 
-    QWidget *getWidget();
+    void setOutPutWidget( QTextEdit *textEdit );
 
     void outputMessage( const QString messageString );
     void outputMessage( QStringList messageStringList );
@@ -53,8 +53,7 @@ private:
     static StatusText *_exemplar;
     QTextEdit *editStatusText;
 
-    StatusText(QObject *parent = 0, const char *name = 0);
-    ~StatusText();
+    StatusText( QObject *parent = 0 );
 };
 
 #endif

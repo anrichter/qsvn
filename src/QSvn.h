@@ -96,12 +96,11 @@ protected slots:
 */
     //Settings
     void configureQSvnSlot();
-/*todo:
     //Help
     void helpContentsSlot();
     void helpIndexSlot();
+/*todo:
     void aboutSlot();
-    void aboutQtSlot();
 
     // @brief prepare informations for and call a svn command during SvnWrapper::doSvnCommand
     void svnCommand( int svnCommandType, bool withFileSelector = FALSE );

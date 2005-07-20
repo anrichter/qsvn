@@ -26,8 +26,9 @@
 #include "StatusText.h"
 
 //Qt
-#include <qstringlist.h>
-#include <qtextedit.h>
+#include <QtGlobal>
+#include <QObject>
+#include <QTextEdit>
 
 
 //make StatusText a singleton
@@ -43,20 +44,16 @@ StatusText* StatusText::Exemplar()
 }
 
 //FileList implementation
-StatusText::StatusText(QObject *parent, const char *name)
-        : QObject(parent, name)
+StatusText::StatusText( QObject *parent )
+        : QObject( parent )
 {
-    editStatusText = new QTextEdit( 0, "editStatusText" );
-    editStatusText->setWordWrap( QTextEdit::WidgetWidth );
-    editStatusText->setReadOnly( TRUE );
+    editStatusText = 0;
 }
 
-StatusText::~StatusText()
-{}
-
-QWidget *StatusText::getWidget()
+void StatusText::setOutPutWidget( QTextEdit *textEdit )
 {
-    return editStatusText;
+    if ( textEdit )
+        editStatusText = textEdit;
 }
 
 void StatusText::outputMessage( const QString messageString )
@@ -64,11 +61,12 @@ void StatusText::outputMessage( const QString messageString )
     if ( editStatusText )
         editStatusText->append( messageString );
     else
-        qDebug( messageString );
+        qDebug( messageString.toAscii() );
 }
 
 void StatusText::outputMessage( QStringList messageStringList )
 {
-    for ( QStringList::Iterator it = messageStringList.begin(); it != messageStringList.end(); ++it )
+    QStringList::const_iterator it;
+    for ( it = messageStringList.constBegin(); it != messageStringList.constEnd(); ++it )
         this->outputMessage( *it );
 }
