@@ -20,6 +20,7 @@ HEADERS = Config.h \
           FileListModel.h \
           QSvn.h \
           StatusText.h \
+          SvnWrapper.h \
           WorkingCopyItem.h \
           WorkingCopyModel.h
 
@@ -30,5 +31,6 @@ SOURCES = Config.cpp \
           Main.cpp \
           QSvn.cpp \
           StatusText.cpp \
+          SvnWrapper.cpp \
           WorkingCopyItem.cpp \
           WorkingCopyModel.cpp

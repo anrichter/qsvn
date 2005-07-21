@@ -26,14 +26,13 @@
 #include "SvnWrapper.h"
 #include "Config.h"
 #include "StatusText.h"
-#include "WorkingCopy.h"
 
 //Qt
-#include <qapplication.h>
-#include <qprocess.h>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qurl.h>
+#include <QDir>
+#include <QList>
+#include <QProcess>
+#include <QStringList>
+#include <QUrl>
 
 //Std
 #ifdef Q_WS_X11
@@ -76,11 +75,10 @@ void SvnWrapper::prepareNewProcess( const QString &workingDirectory )
 {
     processStdoutList.clear();
     processStderrList.clear();
+    svnArgumentList.clear();
     messageString = "";
-    process->clearArguments();
-    process->addArgument( Config::Exemplar()->getSvnExecutable() );
-    if ( workingDirectory != "" )
-        process->setWorkingDirectory( QDir( workingDirectory ) );
+    if ( !workingDirectory.isEmpty() )
+        process->setWorkingDirectory( workingDirectory );
 }
 
 bool SvnWrapper::startProcess( const QString &startErrorMessage )
@@ -88,10 +86,9 @@ bool SvnWrapper::startProcess( const QString &startErrorMessage )
     if ( immediateOutput )
     {
         //output command line
-        QString commandLine = "\n";
-        QStringList list = process->arguments();
-        QStringList::Iterator it = list.begin();
-        while( it != list.end() ) {
+        QString commandLine = "\n" + Config::Exemplar()->getSvnExecutable() + " ";
+        QStringList::Iterator it = svnArgumentList.begin();
+        while( it != svnArgumentList.end() ) {
             commandLine += *it + " ";
             ++it;
         }
@@ -99,7 +96,9 @@ bool SvnWrapper::startProcess( const QString &startErrorMessage )
     }
 
     //start process
-    if ( !process->start() )
+    QString svnExecute = Config::Exemplar()->getSvnExecutable();
+    process->start( svnExecute, svnArgumentList );
+    if ( !process->waitForStarted() )
     {
         messageString = startErrorMessage;
         return FALSE;
@@ -111,7 +110,7 @@ bool SvnWrapper::startAndWaitProcess( const QString &startErrorMessage )
 {
     if ( startProcess( startErrorMessage ) )
     {
-        while ( process->isRunning() )
+        while ( process->state() == QProcess::Running )
         {
 #ifdef Q_WS_X11
             sleep( 1 );
@@ -122,10 +121,10 @@ bool SvnWrapper::startAndWaitProcess( const QString &startErrorMessage )
             Sleep( 1 );
 #endif
             //read out stdout and strerr
-            readStdoutSlot();
-            readStderrSlot();
+            //readStdoutSlot();
+            //readStderrSlot();
         }
-        return process->normalExit();
+        return ( process->exitCode() == 0 );
     }
     else
     {
@@ -135,25 +134,23 @@ bool SvnWrapper::startAndWaitProcess( const QString &startErrorMessage )
 
 void SvnWrapper::readStdoutSlot()
 {
-    QString string = process->readLineStdout();
-    while ( string )
+    QString string = process->readAllStandardOutput();
+    if ( !string.isEmpty() )
     {
         processStdoutList.append( string );
         if ( immediateOutput )
             StatusText::Exemplar()->outputMessage( string );
-        string = process->readLineStdout();
     }
 }
 
 void SvnWrapper::readStderrSlot()
 {
-    QString string = process->readLineStderr();
-    while ( string )
+    QString string = process->readAllStandardError();
+    if ( !string.isEmpty() )
     {
         processStderrList.append( string );
         if ( immediateOutput )
             StatusText::Exemplar()->outputMessage( string );
-        string = process->readLineStderr();
     }
 }
 
@@ -174,7 +171,7 @@ QString SvnWrapper::getMessageString()
 
 void SvnWrapper::filesToList( int svnCommandType, QStringList *list, const QString &path, const QString pathPrefix )
 {
-    if ( list && path && isWorkingCopy( path ) )
+    if ( !list->isEmpty() && !path.isNull() && isWorkingCopy( path ) )
     {
         if ( svnCommandType == Update )
         {
@@ -187,25 +184,25 @@ void SvnWrapper::filesToList( int svnCommandType, QStringList *list, const QStri
             QStringList statusList( getProcessStdoutList() );
             QString _lineString;
             QString _fileName;
-            int i = 0;
 
             for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
             {
                 _lineString = *it;
                 _fileName = _lineString.right( _lineString.length() - 6 );
-                _fileName = _fileName.simplifyWhiteSpace(); //convert into simple whitespace seaparatet string
+                _fileName = _fileName.simplified(); //convert into simple whitespace seaparatet string
 
-                if ( _lineString.at( 0 ).latin1() != '?' )
+                if ( _lineString.at( 0 ) != '?' )
                 {
                     _fileName = _fileName.section( ' ', 3, 3 ); //get FileName
                 }
 
                 if ( ( _fileName != "." ) && ( _fileName != ".." ) )
                 {
-                    i = int( _lineString.at( 0 ).latin1() );
                     if ( ( svnCommandType ==  Commit ) || ( svnCommandType == Revert ) )
                     {
-                        if ( ( i == int( 'M' ) ) || ( i == int( 'A' ) ) || ( i == int( 'D' ) ) )
+                        if ( ( _lineString.at( 0 ) == 'M' ) ||
+                             ( _lineString.at( 0 ) == 'A' ) ||
+                             ( _lineString.at( 0 ) == 'D' ) )
                         {
                             list->append( pathPrefix + _fileName );
                         }
@@ -213,7 +210,7 @@ void SvnWrapper::filesToList( int svnCommandType, QStringList *list, const QStri
                     else
                     if ( svnCommandType == Remove )
                     {
-                        if ( i == int( ' ' ) )
+                        if ( _lineString.at( 0 ) == ' ' )
                         {
                             list->append( pathPrefix + _fileName );
                         }
@@ -221,7 +218,7 @@ void SvnWrapper::filesToList( int svnCommandType, QStringList *list, const QStri
                     else
                     if ( svnCommandType == Add )
                     {
-                        if ( i == int( '?' ) )
+                        if ( _lineString.at( 0 ) == '?' )
                         {
                             list->append( pathPrefix + _fileName );
                         }
@@ -250,7 +247,7 @@ bool SvnWrapper::isWorkingCopy( const QString &path )
 //svn calls
 bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QStringList *filenameList, QString &commitMessage, bool withOutput )
 {
-    if ( !path )
+    if ( path.isNull() )
         return FALSE;
 
     QStringList my_list( *filenameList );
@@ -263,55 +260,55 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
     switch ( svnCommandType )
     {
     case Add:
-        process->addArgument( "add" );
-        process->addArgument( "-N" );
+        svnArgumentList << "add";
+        svnArgumentList << "-N";
         for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
-            process->addArgument( *it );
+            svnArgumentList << *it;
         }
         _return = startAndWaitProcess( tr( "cannot start svn add" ) );
         break;
     case Commit:
-        process->addArgument( "commit" );
-        process->addArgument( "-m" );
-        process->addArgument( commitMessage );
+        svnArgumentList << "commit";
+        svnArgumentList << "-m";
+        svnArgumentList << commitMessage;
         for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
-            process->addArgument( *it );
+            svnArgumentList << *it;
         }
         _return = startAndWaitProcess( tr( "cannot start svn commit" ) );
         break;
     case Info:
-        process->addArgument( "info" );
-        process->addArgument( path );
+        svnArgumentList << "info";
+        svnArgumentList << path;
         _return = startAndWaitProcess( tr( "cannot start svn info - is your svn executable installed and configured in settings?" ) );
         break;
     case Remove:
-        process->addArgument( "remove" );
+        svnArgumentList << "remove";
         for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
-            process->addArgument( *it );
+            svnArgumentList << *it;
         }
         _return = startAndWaitProcess( tr( "cannot start svn remove" ) );
         break;
     case Revert:
-        process->addArgument( "revert" );
+        svnArgumentList << "revert";
         for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
-            process->addArgument( *it );
+            svnArgumentList << *it;
         }
         _return = startAndWaitProcess( tr( "cannot start svn revert" ) );
         break;
     case Status:
-        process->addArgument( "status" );
-        process->addArgument( "-vN" );
+        svnArgumentList << "status";
+        svnArgumentList << "-vN";
         _return = startAndWaitProcess( tr( "cannot start svn status -v" ));
         break;
     case Update:
-        process->addArgument( "update" );
+        svnArgumentList << "update";
         for ( it = my_list.begin(); it != my_list.end(); ++it )
         {
-            process->addArgument( *it );
+            svnArgumentList << *it;
         }
         _return = startAndWaitProcess( tr( "cannot start svn update" ) );
         break;
@@ -334,14 +331,14 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, bool wit
 
 bool SvnWrapper::add( const QString &path, const QString &filename, bool withOutput )
 {
-    if ( path && filename )
+    if ( !path.isNull() && !filename.isNull() )
     {
         immediateOutput = withOutput;
 
         prepareNewProcess( path );
-        process->addArgument( "add" );
-        process->addArgument( "-N" );
-        process->addArgument( filename );
+        svnArgumentList << "add";
+        svnArgumentList << "-N";
+        svnArgumentList << filename;
 
         return startAndWaitProcess( "cannot start svn add" );
     }
@@ -351,18 +348,20 @@ bool SvnWrapper::add( const QString &path, const QString &filename, bool withOut
 
 bool SvnWrapper::diff( const QString &path, const QString &filename, bool withOutput )
 {
-    if ( path && filename )
+    if ( !path.isNull() && !filename.isNull() )
     {
         immediateOutput = withOutput;
 
         prepareNewProcess( path );
-        process->clearArguments();
-        process->setWorkingDirectory( path );
-        process->addArgument( Config::Exemplar()->getDiffViewer() );
-        process->addArgument( QString( ".svn/text-base/%1.svn-base" ).arg( filename ) );
-        process->addArgument( filename );
+        svnArgumentList << QString( ".svn/text-base/%1.svn-base" ).arg( filename );
+        svnArgumentList << filename;
 
-        return startProcess( "cannot start DiffViewer" );
+        process->start( Config::Exemplar()->getDiffViewer(), svnArgumentList );
+        if ( !process->waitForStarted() )
+        {
+            return FALSE;
+        }
+        return TRUE;
     }
     else
         return FALSE;
@@ -370,7 +369,7 @@ bool SvnWrapper::diff( const QString &path, const QString &filename, bool withOu
 
 bool SvnWrapper::diff( const QString &path, const QStringList *filenameList, bool withOutput )
 {
-    if ( path && filenameList && ( filenameList->count() > 0 ) )
+    if ( !path.isNull() && !filenameList->isEmpty() && ( filenameList->count() > 0 ) )
     {
         bool b = TRUE;
         QStringList my_list( *filenameList );
@@ -386,14 +385,10 @@ bool SvnWrapper::diff( const QString &path, const QStringList *filenameList, boo
 
 bool SvnWrapper::diff( const QString &fullFileName, bool withOutput )
 {
-    if ( fullFileName )
+    if ( !fullFileName.isNull() )
     {
-        QUrl url( fullFileName );
-        url.dirPath();
-        QString path = url.dirPath();
-        QString filename = url.fileName();
-
-        diff( path, filename, withOutput );
+        QFileInfo fileInfo = QFileInfo( fullFileName );
+        diff( fileInfo.absolutePath(), fileInfo.fileName(), withOutput );
         return TRUE;
     }
     else
@@ -403,13 +398,13 @@ bool SvnWrapper::diff( const QString &fullFileName, bool withOutput )
 
 bool SvnWrapper::checkout( const QString &path, const QString &url, bool withOutput )
 {
-    if ( path && url )
+    if ( !path.isNull() && !url.isNull() )
     {
         immediateOutput = withOutput;
 
         prepareNewProcess( path );
-        process->addArgument( "checkout" );
-        process->addArgument( url );
+        svnArgumentList << "checkout";
+        svnArgumentList << url;
 
         return startAndWaitProcess( "cannot start svn checkout" );
     }

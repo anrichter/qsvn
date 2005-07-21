@@ -25,9 +25,8 @@
 #define SVNWRAPPER_H
 
 //Qt
-#include <qobject.h>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QObject>
+#include <QStringList>
 
 //Qt classes
 class QProcess;
@@ -87,6 +86,7 @@ private:
     //Process outputs
     QStringList processStdoutList;
     QStringList processStderrList;
+    QStringList svnArgumentList;
     QString messageString; //!< contains some messages for output
     bool immediateOutput; //!< if it is true the svn output arw written immediately to StatusText
 
