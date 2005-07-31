@@ -27,6 +27,8 @@
 #include "WorkingCopyModel.h"
 
 //Qt
+#include <QDir>
+#include <QString>
 #include <QtGui>
 
 
@@ -41,6 +43,49 @@ WorkingCopyModel::WorkingCopyModel( QObject *parent )
 WorkingCopyModel::~WorkingCopyModel()
 {
     delete rootItem;
+}
+
+void WorkingCopyModel::addWorkingCopy( QString directory )
+{
+    if ( directory.isNull() )
+        return;
+
+    QList<QVariant> columnData;
+
+    columnData << directory << directory;
+    WorkingCopyItem *item = new WorkingCopyItem( columnData, rootItem );
+    rootItem->appendChild( item );
+    updateWorkingCopy( item );
+}
+
+void WorkingCopyModel::updateWorkingCopy( WorkingCopyItem *item )
+{
+    if ( !item )
+        return;
+
+    qDebug() << "updateWorkingCopy " << item->data( 1 ).toString();
+    item->deleteAllChilds();
+
+    QDir directory( item->data( 1 ).toString() );
+    if ( directory.exists() )
+    {
+        //add new child items
+        QStringList lst = directory.entryList( QDir::AllDirs );
+        for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it )
+        {
+            // add only directories here
+            if ( ( *it != "." ) && ( *it != ".." ) )
+            {
+                QList< QVariant > columnData;
+                columnData << *it << item->data( 1 ).toString() + QDir::separator() +  *it;
+                WorkingCopyItem *newItem = new WorkingCopyItem( columnData, item );
+                item->appendChild( newItem );
+
+                updateWorkingCopy( newItem );
+            }
+        }
+
+    }
 }
 
 QModelIndex WorkingCopyModel::index( int row, int column, const QModelIndex &parent ) const
@@ -114,4 +159,3 @@ QVariant WorkingCopyModel::data( const QModelIndex &index, int role ) const
 
     return item->data( index.column() );
 }
-

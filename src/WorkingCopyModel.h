@@ -51,6 +51,9 @@ public:
 
 private:
     WorkingCopyItem *rootItem;
+
+    void addWorkingCopy( QString directory );
+    void updateWorkingCopy( WorkingCopyItem *item );
 };
 
 #endif
