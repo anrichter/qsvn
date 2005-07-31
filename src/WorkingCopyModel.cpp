@@ -63,7 +63,6 @@ void WorkingCopyModel::updateWorkingCopy( WorkingCopyItem *item )
     if ( !item )
         return;
 
-    qDebug() << "updateWorkingCopy " << item->data( 1 ).toString();
     item->deleteAllChilds();
 
     QDir directory( item->data( 1 ).toString() );
