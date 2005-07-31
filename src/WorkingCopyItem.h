@@ -36,6 +36,7 @@ public:
     ~WorkingCopyItem();
 
     void appendChild( WorkingCopyItem *child );
+    void deleteAllChilds();
 
     WorkingCopyItem *child( int row );
     int childCount() const;

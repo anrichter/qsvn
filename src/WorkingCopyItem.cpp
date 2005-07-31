@@ -38,12 +38,17 @@ WorkingCopyItem::WorkingCopyItem( const QList< QVariant > &data, WorkingCopyItem
 
 WorkingCopyItem::~WorkingCopyItem()
 {
-    qDeleteAll( childItems );
+    deleteAllChilds();
 }
 
 void WorkingCopyItem::appendChild( WorkingCopyItem *child )
 {
     childItems.append( child );
+}
+
+void WorkingCopyItem::deleteAllChilds()
+{
+    qDeleteAll( childItems );
 }
 
 WorkingCopyItem * WorkingCopyItem::child( int row )
