@@ -50,12 +50,13 @@ void WorkingCopyModel::addWorkingCopy( QString directory )
     if ( directory.isNull() )
         return;
 
-    QList<QVariant> columnData;
+    QList< QVariant > columnData;
 
     columnData << directory << directory;
     WorkingCopyItem *item = new WorkingCopyItem( columnData, rootItem );
     rootItem->appendChild( item );
     updateWorkingCopy( item );
+    emit layoutChanged();
 }
 
 void WorkingCopyModel::updateWorkingCopy( WorkingCopyItem *item )
