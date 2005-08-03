@@ -25,16 +25,15 @@
 #define ADDWORKINGCOPY_H
 
 //QSvn
-#include "AddWorkingCopyDlg.h"
+#include "ui_AddWorkingCopy.h"
 
 
-class AddWorkingCopy : public AddWorkingCopyDlg
+class AddWorkingCopy : public QDialog, public Ui::AddWorkingCopy
 {
     Q_OBJECT
 
 public:
-    AddWorkingCopy( QWidget *parent = 0, const char *name = 0 );
-    ~AddWorkingCopy();
+    AddWorkingCopy( QWidget *parent = 0 );
 
     QString getSelectedDirectory() const;
 public slots:

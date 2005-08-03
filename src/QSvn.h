@@ -78,9 +78,9 @@ protected slots:
     //File
     void exitSlot();
 
-/* todo:
     //WorkingCopy
     void addWorkingCopySlot();
+/* todo:
     void removeWorkingCopySlot();
     void checkoutSlot();
 

@@ -49,10 +49,10 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
 
+    void addWorkingCopy( QString directory );
 private:
     WorkingCopyItem *rootItem;
 
-    void addWorkingCopy( QString directory );
     void updateWorkingCopy( WorkingCopyItem *item );
 };
 

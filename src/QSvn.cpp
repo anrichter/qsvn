@@ -23,17 +23,18 @@
 
 
 //QSvn
+#include "AddWorkingCopy.h"
 #include "Config.h"
 #include "Configure.h"
 #include "FileListModel.h"
 #include "QSvn.h"
 #include "StatusText.h"
+#include "SvnWrapper.h"
 #include "WorkingCopyModel.h"
 
 /*todo:
 #include "AboutDlg.h"
 #include "FileSelector.h"
-#include "SvnWrapper.h"
 */
 
 //Qt
@@ -72,6 +73,7 @@ void QSvn::createActions()
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( exitSlot() ) );
 
     actionAddWorkingCopy = new QAction( "&Add...", this );
+    connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( addWorkingCopySlot() ) );
     actionRemoveWorkingCopy = new QAction( "&Remove...", this );
     actionCheckout = new QAction( "&Checkout...", this );
 
@@ -143,12 +145,16 @@ void QSvn::exitSlot()
     qApp->exit( 0 );
 }
 
-/*todo:
-
 void QSvn::addWorkingCopySlot()
 {
-    WorkingCopy::Exemplar()->addExistingWorkingCopySlot();
+    AddWorkingCopy addWorkingCopy( this );
+    if ( addWorkingCopy.exec() && SvnWrapper::Exemplar()->isWorkingCopy( addWorkingCopy.getSelectedDirectory() ) )
+    {
+        workingCopyModel->addWorkingCopy( addWorkingCopy.getSelectedDirectory() );
+    }
 }
+
+/*todo:
 
 void QSvn::removeWorkingCopySlot()
 {

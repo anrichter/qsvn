@@ -24,23 +24,18 @@
 
 //QSvn
 #include "AddWorkingCopy.h"
-#include "AddWorkingCopyDlg.h"
 
 //Qt
-#include <qdir.h>
-#include <qfiledialog.h>
-#include <qlineedit.h>
-#include <qpushbutton.h>
+#include <QFileDialog>
 
 
-AddWorkingCopy::AddWorkingCopy( QWidget *parent, const char *name )
-        : AddWorkingCopyDlg( parent, name )
+AddWorkingCopy::AddWorkingCopy( QWidget *parent )
+        : QDialog( parent )
 {
+    setupUi( this );
+
     QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
 }
-
-AddWorkingCopy::~AddWorkingCopy()
-{}
 
 QString AddWorkingCopy::getSelectedDirectory() const
 {
@@ -49,7 +44,7 @@ QString AddWorkingCopy::getSelectedDirectory() const
 
 void AddWorkingCopy::selectDirectorySlot()
 {
-    QString directory = QFileDialog::getExistingDirectory( editDirectory->text(), this, "get", "Select a working Directory" );
-    if ( directory )
+    QString directory = QFileDialog::getExistingDirectory( this, "Select a working Directory", editDirectory->text(), QFileDialog::ShowDirsOnly );
+    if ( !directory.isEmpty() )
         editDirectory->setText( QDir::convertSeparators( directory ) );
 }
