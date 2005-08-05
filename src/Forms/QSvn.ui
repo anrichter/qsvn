@@ -13,7 +13,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>MainWindow</string>
+   <string>QSvn</string>
   </property>
   <widget class="QWidget" name="centralWidget" >
    <layout class="QGridLayout" >
