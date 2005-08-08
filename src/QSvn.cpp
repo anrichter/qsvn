@@ -49,13 +49,14 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     createMenus();
     createToolBar();
 
+    StatusText::Exemplar()->setOutPutWidget( editStatusText );
+
     workingCopyModel = new WorkingCopyModel();
     treeViewWorkingCopy->setModel( workingCopyModel );
 
     fileListModel = new FileListModel();
     treeViewFileList->setModel( fileListModel );
 
-    StatusText::Exemplar()->setOutPutWidget( editStatusText );
 
     /*todo:
     Config::Exemplar()->restoreWorkingCopyEntries();
@@ -65,6 +66,11 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
     */
     Config::Exemplar()->restoreMainWindow( this );
+}
+
+QSvn::~QSvn()
+{
+	delete( workingCopyModel );
 }
 
 void QSvn::createActions()

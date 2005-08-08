@@ -23,6 +23,7 @@
 
 
 //QSvn
+#include "Config.h"
 #include "WorkingCopyItem.h"
 #include "WorkingCopyModel.h"
 
@@ -38,10 +39,13 @@ WorkingCopyModel::WorkingCopyModel( QObject *parent )
     QList< QVariant > rootData;
     rootData << "Working Copy";
     rootItem = new WorkingCopyItem( rootData );
+    
+    loadWorkingCopies();
 }
 
 WorkingCopyModel::~WorkingCopyModel()
 {
+    saveWorkingCopies();
     delete rootItem;
 }
 
@@ -158,4 +162,25 @@ QVariant WorkingCopyModel::data( const QModelIndex &index, int role ) const
     WorkingCopyItem *item = static_cast< WorkingCopyItem* >( index.internalPointer() );
 
     return item->data( index.column() );
+}
+
+void WorkingCopyModel::saveWorkingCopies()
+{
+	QStringList wcList;
+	
+	for ( int i = 0; i < rootItem->childCount(); ++i )
+	{
+		wcList << rootItem->child( i )->data( 1 ).toString();
+	}
+	Config::Exemplar()->setWorkingCopies( &wcList );
+}
+
+void WorkingCopyModel::loadWorkingCopies()
+{
+    QStringList wcList = Config::Exemplar()->getWorkingCopies();
+
+	for ( int i = 0; i < wcList.size(); i++ )
+	{
+		addWorkingCopy( wcList.at( i ) );
+	}
 }

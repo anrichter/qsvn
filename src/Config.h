@@ -53,14 +53,13 @@ public:
     void saveMainWindow( QSvn *aQSvn );
     void restoreMainWindow( QSvn *aQSvn );
 
+    void setWorkingCopies( QStringList *wcList );
+    QStringList getWorkingCopies();
+    
     /*todo:
     //ListView Settings
     void saveListView( QListView *aListView );
     void restoreListView( QListView *aListView );
-
-    //Working Copys
-    void saveWorkingCopyEntries( QListView *aListView );
-    void restoreWorkingCopyEntries();
     */
 public slots:
 

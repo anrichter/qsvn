@@ -54,6 +54,9 @@ private:
     WorkingCopyItem *rootItem;
 
     void updateWorkingCopy( WorkingCopyItem *item );
+
+    void saveWorkingCopies();
+    void loadWorkingCopies();
 };
 
 #endif

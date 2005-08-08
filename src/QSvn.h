@@ -41,6 +41,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
 
 public:
     QSvn( QWidget *parent = 0, Qt::WFlags flags = 0 );
+    ~QSvn();
 
 private:
     void createActions();

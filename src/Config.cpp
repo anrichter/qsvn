@@ -30,6 +30,7 @@
 #include <QCoreApplication>
 #include <QPoint>
 #include <QSettings>
+#include <QStringList>
 
 
 //make Config a singleton
@@ -164,6 +165,42 @@ void Config::restoreMainWindow( QSvn *aQSvn )
     }
 }
 
+void Config::setWorkingCopies( QStringList *wcList )
+{
+	if ( !wcList )
+        return;
+    
+    QSettings settings;
+    
+    //delete old entries
+    settings.remove( "workingCopies" );
+    
+    settings.beginWriteArray( "workingCopies", wcList->count() );
+    for ( int i = 0; i < wcList->count(); ++i )
+    {
+    	settings.setArrayIndex( i );
+    	settings.setValue( "directory", wcList->at( i ) );
+    }
+    settings.endArray();
+}
+
+QStringList Config::Config::getWorkingCopies()
+{
+	QStringList wcList;
+	QSettings settings;
+	
+	int size = settings.beginReadArray( "workingCopies" );
+	
+	for ( int i = 0; i < size;  ++i )
+	{
+		settings.setArrayIndex( i );
+        wcList.append( settings.value( "directory" ).toString() );
+	}
+	settings.endArray();
+	
+	return wcList;
+}
+
 /*todo:
 void Config::saveListView( QListView *aListView )
 {
@@ -193,48 +230,6 @@ void Config::restoreListView( QListView *aListView )
                                        settings.readNumEntry( QString( "Column%1" ).arg( i ),
                                        aListView->columnWidth( i ) ) );
         }
-        settings.endGroup();
-    }
-}
-
-void Config::saveWorkingCopyEntries( QListView *aListView )
-{
-    if ( aListView )
-    {
-        QSettings settings;
-        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-
-        int i = 0;
-        QListViewItemIterator it( aListView );
-        while ( it.current() )
-        {
-            if ( ! it.current()->parent() )
-            {
-                settings.beginGroup( "workingCopies/" +  QString( "WorkingCopy%1" ).arg( i ) );
-                settings.writeEntry( "directory", it.current()->text( 0 ) );
-                settings.endGroup();
-                i++;
-            }
-            it++;
-        }
-
-        settings.beginGroup( "workingCopies/general" );
-        settings.writeEntry( "count", i );
-    }
-}
-
-void Config::restoreWorkingCopyEntries()
-{
-    QSettings settings;
-    settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-    settings.beginGroup( "workingCopies/general" );
-    int count = settings.readNumEntry( "count", 0 );
-    settings.endGroup();
-
-    for ( int i = 0; i < count; i++ )
-    {
-        settings.beginGroup( "workingCopies/" + QString( "WorkingCopy%1" ).arg( i ) );
-        WorkingCopy::Exemplar()->addExistingWorkingCopySlot( settings.readEntry( "directory", "" ) );
         settings.endGroup();
     }
 }
