@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file alias="Folder.png">Images/Folder.png</file>
+    <file alias="UnknownFolder.png">Images/UnknownFolder.png</file>
+</qresource>
+</RCC>

@@ -27,6 +27,7 @@
 
 //Qt
 #include <QStringList>
+class QPixmap;
 
 
 class WorkingCopyItem
@@ -45,6 +46,7 @@ public:
     int row() const;
     WorkingCopyItem *parent();
 
+    QPixmap getPixmap();
     /*todo:
     QString fullPath() const;
     bool isSvnDirectory() const;
@@ -54,10 +56,10 @@ private:
     QList<QVariant> itemData;
     WorkingCopyItem *parentItem;
 
+    bool svnDirectory;
 /*todo:
     QString stringFullPath;
     WorkingCopyItem* parentItem;
-    bool svnDirectory;
     */
 };
 

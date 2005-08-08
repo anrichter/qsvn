@@ -11,6 +11,8 @@ win32:OBJECTS_DIR = obj
 
 CONFIG += qt
 
+RESOURCES = QSvn.qrc
+
 FORMS = Forms\AddWorkingCopy.ui \
         Forms\Configure.ui \
         Forms\QSvn.ui

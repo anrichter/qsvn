@@ -30,7 +30,7 @@
 
 int main( int argc, char ** argv )
 {
-    //Q_INIT_RESOURCE( application );
+    Q_INIT_RESOURCE( QSvn );
 
     QApplication app(argc, argv);
     QSvn qsvn;

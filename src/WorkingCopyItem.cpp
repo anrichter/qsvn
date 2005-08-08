@@ -24,9 +24,11 @@
 
 //QSvn
 #include "WorkingCopyItem.h"
+#include "SvnWrapper.h"
 
 //Qt
 #include <QList>
+#include <QPixmap>
 #include <QVariant>
 
 
@@ -34,6 +36,8 @@ WorkingCopyItem::WorkingCopyItem( const QList< QVariant > &data, WorkingCopyItem
 {
     parentItem = parent;
     itemData = data;
+    
+    svnDirectory = SvnWrapper::Exemplar()->isWorkingCopy( itemData.value( 1 ).toString() );
 }
 
 WorkingCopyItem::~WorkingCopyItem()
@@ -82,4 +86,12 @@ int WorkingCopyItem::row( ) const
 WorkingCopyItem * WorkingCopyItem::parent( )
 {
     return parentItem;
+}
+
+QPixmap WorkingCopyItem::getPixmap()
+{
+    if ( svnDirectory )
+    	return QPixmap( ":Folder.png" );
+    else
+        return QPixmap( ":UnknownFolder.png" );
 }

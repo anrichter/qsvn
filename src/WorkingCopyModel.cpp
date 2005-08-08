@@ -156,12 +156,16 @@ QVariant WorkingCopyModel::data( const QModelIndex &index, int role ) const
     if ( !index.isValid() )
         return QVariant();
 
-    if ( role != Qt::DisplayRole )
-        return QVariant();
-
     WorkingCopyItem *item = static_cast< WorkingCopyItem* >( index.internalPointer() );
 
-    return item->data( index.column() );
+    if ( role == Qt::DisplayRole )
+        return item->data( index.column() );
+    else if ( role == Qt::DecorationRole && index.column() == 0 )
+        return item->getPixmap();
+    else
+        return QVariant();
+        
+    
 }
 
 void WorkingCopyModel::saveWorkingCopies()
