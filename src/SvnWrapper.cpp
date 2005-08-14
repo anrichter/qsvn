@@ -60,8 +60,8 @@ SvnWrapper* SvnWrapper::Exemplar()
 SvnWrapper::SvnWrapper()
 {
     process = new QProcess( this );
-    connect( process, SIGNAL( readyReadStdout() ), this, SLOT( readStdoutSlot() ) );
-    connect( process, SIGNAL( readyReadStderr() ), this, SLOT( readStderrSlot() ) );
+    connect( process, SIGNAL( readyReadStandardOutput() ), this, SLOT( readStdoutSlot() ) );
+    connect( process, SIGNAL( readyReadStandardError() ), this, SLOT( readStderrSlot() ) );
     immediateOutput = true;
 }
 
