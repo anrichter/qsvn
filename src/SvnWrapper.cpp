@@ -34,15 +34,6 @@
 #include <QStringList>
 #include <QUrl>
 
-//Std
-#ifdef Q_WS_X11
-#include <unistd.h>
-#endif
-
-#ifdef Q_WS_WIN
-#include <windows.h>
-#endif
-
 
 //make SvnWrapper as a singleton
 SvnWrapper* SvnWrapper::_exemplar = 0;
@@ -94,7 +85,6 @@ bool SvnWrapper::startProcess( const QString &startErrorMessage )
         }
         StatusText::Exemplar()->outputMessage( commandLine );
     }
-
     //start process
     QString svnExecute = Config::Exemplar()->getSvnExecutable();
     process->start( svnExecute, svnArgumentList );
@@ -110,20 +100,8 @@ bool SvnWrapper::startAndWaitProcess( const QString &startErrorMessage )
 {
     if ( startProcess( startErrorMessage ) )
     {
-        while ( process->state() == QProcess::Running )
-        {
-#ifdef Q_WS_X11
-            sleep( 1 );
-#endif
-
-#ifdef Q_WS_WIN
-
-            Sleep( 1 );
-#endif
-            //read out stdout and strerr
-            //readStdoutSlot();
-            //readStderrSlot();
-        }
+        if ( !process->waitForFinished() )
+            return FALSE;
         return ( process->exitCode() == 0 );
     }
     else
@@ -302,6 +280,7 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
     case Status:
         svnArgumentList << "status";
         svnArgumentList << "-vN";
+        svnArgumentList << path;
         _return = startAndWaitProcess( tr( "cannot start svn status -v" ));
         break;
     case Update:
