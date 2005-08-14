@@ -38,6 +38,11 @@ FileListItem::FileListItem( const QList< QVariant > &data, FileListItem *parent 
 
 FileListItem::~FileListItem()
 {
+    deleteAllChilds();
+}
+
+void FileListItem::deleteAllChilds()
+{
     qDeleteAll( childItems );
 }
 

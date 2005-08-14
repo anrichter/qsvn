@@ -25,6 +25,7 @@
 //QSvn
 #include "FileListItem.h"
 #include "FileListModel.h"
+#include "SvnWrapper.h"
 
 //Qt
 #include <QtGui>
@@ -41,6 +42,47 @@ FileListModel::FileListModel( QObject *parent )
 FileListModel::~FileListModel()
 {
     delete rootItem;
+}
+
+void FileListModel::setActiveDirectory( QString directory )
+{
+    rootItem->deleteAllChilds();
+
+    if ( directory.isEmpty()   || !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )
+        return;
+
+    QStringList statusList( SvnWrapper::Exemplar()->getProcessStdoutList() );
+    QString _lineString, _restString, _status, _revision, _author, _fileName;
+    for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
+    {
+        _lineString = *it;
+        _restString = _lineString.right( _lineString.length() - 6 );
+        _restString = _restString.simplified(); //convert into simple whitespace seaparatet string
+        if ( _lineString.at( 0 ) == '?' )
+        {
+            _status = "";
+            _revision = "";
+            _author = "";
+            _fileName = _restString;
+        }
+        else
+        {
+            _status = _restString.section( ' ', 0, 0 );
+            _revision = _restString.section( ' ', 1, 1 );
+            _author = _restString.section( ' ', 2, 2 );
+            _fileName = _restString.section( ' ', 3, 3 );
+        }
+                // add only files here
+        if ( ! QDir( directory + QDir::separator() + _fileName ).exists() )
+        {
+            //set Filename
+            QList< QVariant > columnData;
+            columnData << _fileName << _status << _revision << _author;
+            FileListItem *item = new FileListItem( columnData, rootItem );
+            rootItem->appendChild( item );
+            emit layoutChanged();
+        }
+    }
 }
 
 QModelIndex FileListModel::index( int row, int column, const QModelIndex &parent ) const

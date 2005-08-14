@@ -75,7 +75,8 @@ private:
 
     WorkingCopyModel *workingCopyModel;
     FileListModel *fileListModel;
-protected slots:
+
+private slots:
     //File
     void exitSlot();
 
@@ -107,6 +108,7 @@ protected slots:
     void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
 todo */
 
+    void activateWorkingCopy( const QModelIndex &index );
 };
 
 #endif

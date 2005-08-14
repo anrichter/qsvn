@@ -49,6 +49,9 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
 
+public slots:
+    void setActiveDirectory( QString directory );
+
 private:
     FileListItem *rootItem;
 };

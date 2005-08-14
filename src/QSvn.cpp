@@ -39,6 +39,8 @@
 
 //Qt
 #include <QtGui>
+#include <QModelIndex>
+
 
 QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
         : QMainWindow( parent, flags )
@@ -57,15 +59,14 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     fileListModel = new FileListModel();
     treeViewFileList->setModel( fileListModel );
 
+    connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
 
-    /*todo:
-    Config::Exemplar()->restoreWorkingCopyEntries();
-
-    //connect
-    connect( WorkingCopy::Exemplar(), SIGNAL( directoryChanged( QString ) ), FileList::Exemplar(), SLOT( updateListSlot( QString ) ) );
-
-    */
     Config::Exemplar()->restoreMainWindow( this );
+}
+
+void QSvn::activateWorkingCopy( const QModelIndex &index )
+{
+    fileListModel->setActiveDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
 }
 
 QSvn::~QSvn()
@@ -142,11 +143,6 @@ void QSvn::createToolBar()
 //protected slots
 void QSvn::exitSlot()
 {
-/*todo:
-
-    FileList::releaseExemplar();
-    WorkingCopy::releaseExemplar();
-*/
     Config::Exemplar()->saveMainWindow( this );
     qApp->exit( 0 );
 }

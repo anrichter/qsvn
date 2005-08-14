@@ -44,6 +44,8 @@ public:
     int row() const;
     FileListItem *parent();
 
+    void deleteAllChilds();
+
 private:
     QList<FileListItem*> childItems;
     QList<QVariant> itemData;
