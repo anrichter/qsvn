@@ -39,7 +39,7 @@ WorkingCopyModel::WorkingCopyModel( QObject *parent )
     QList< QVariant > rootData;
     rootData << "Working Copy";
     rootItem = new WorkingCopyItem( rootData );
-    
+
     loadWorkingCopies();
 }
 
@@ -162,10 +162,10 @@ QVariant WorkingCopyModel::data( const QModelIndex &index, int role ) const
         return item->data( index.column() );
     else if ( role == Qt::DecorationRole && index.column() == 0 )
         return item->getPixmap();
+    else if ( role == WorkingCopyModel::FullDirectory )
+        return item->data( 1 );
     else
         return QVariant();
-        
-    
 }
 
 void WorkingCopyModel::saveWorkingCopies()

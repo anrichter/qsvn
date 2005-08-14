@@ -39,6 +39,8 @@ class WorkingCopyModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
+    enum Roles { FullDirectory = 32 };
+
     WorkingCopyModel( QObject *parent = 0 );
     ~WorkingCopyModel();
 
