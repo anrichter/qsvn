@@ -34,7 +34,7 @@
 
 
 WorkingCopyModel::WorkingCopyModel( QObject *parent )
-    : QAbstractItemModel( parent )
+        : QAbstractItemModel( parent )
 {
     QList< QVariant > rootData;
     rootData << "Working Copy";
@@ -170,21 +170,21 @@ QVariant WorkingCopyModel::data( const QModelIndex &index, int role ) const
 
 void WorkingCopyModel::saveWorkingCopies()
 {
-	QStringList wcList;
-	
-	for ( int i = 0; i < rootItem->childCount(); ++i )
-	{
-		wcList << rootItem->child( i )->data( 1 ).toString();
-	}
-	Config::Exemplar()->setWorkingCopies( &wcList );
+    QStringList wcList;
+
+    for ( int i = 0; i < rootItem->childCount(); ++i )
+    {
+        wcList << rootItem->child( i )->data( 1 ).toString();
+    }
+    Config::Exemplar()->setWorkingCopies( &wcList );
 }
 
 void WorkingCopyModel::loadWorkingCopies()
 {
     QStringList wcList = Config::Exemplar()->getWorkingCopies();
 
-	for ( int i = 0; i < wcList.size(); i++ )
-	{
-		addWorkingCopy( wcList.at( i ) );
-	}
+    for ( int i = 0; i < wcList.size(); i++ )
+    {
+        addWorkingCopy( wcList.at( i ) );
+    }
 }

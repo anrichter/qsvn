@@ -36,7 +36,7 @@ WorkingCopyItem::WorkingCopyItem( const QList< QVariant > &data, WorkingCopyItem
 {
     parentItem = parent;
     itemData = data;
-    
+
     svnDirectory = SvnWrapper::Exemplar()->isWorkingCopy( itemData.value( 1 ).toString() );
 }
 
@@ -91,7 +91,7 @@ WorkingCopyItem * WorkingCopyItem::parent( )
 QPixmap WorkingCopyItem::getPixmap()
 {
     if ( svnDirectory )
-    	return QPixmap( ":Folder.png" );
+        return QPixmap( ":Folder.png" );
     else
         return QPixmap( ":UnknownFolder.png" );
 }

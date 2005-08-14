@@ -72,7 +72,7 @@ void FileListModel::setActiveDirectory( QString directory )
             _author = _restString.section( ' ', 2, 2 );
             _fileName = _restString.section( ' ', 3, 3 );
         }
-                // add only files here
+        // add only files here
         if ( ! QDir( directory + QDir::separator() + _fileName ).exists() )
         {
             //set Filename

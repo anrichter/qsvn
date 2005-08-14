@@ -137,7 +137,7 @@ void Config::restoreMainWindow( QSvn *aQSvn )
                        settings.value( "mainwindow/height", aQSvn->height() ).toInt() );
 
         aQSvn->move( QPoint( settings.value( "mainwindow/x", aQSvn->x() ).toInt(),
-                     settings.value( "mainwindow/y", aQSvn->y() ).toInt() ) );
+                             settings.value( "mainwindow/y", aQSvn->y() ).toInt() ) );
 
         //restore settings from splitterVertical
         int i = 0;
@@ -167,38 +167,38 @@ void Config::restoreMainWindow( QSvn *aQSvn )
 
 void Config::setWorkingCopies( QStringList *wcList )
 {
-	if ( !wcList )
+    if ( !wcList )
         return;
-    
+
     QSettings settings;
-    
+
     //delete old entries
     settings.remove( "workingCopies" );
-    
+
     settings.beginWriteArray( "workingCopies", wcList->count() );
     for ( int i = 0; i < wcList->count(); ++i )
     {
-    	settings.setArrayIndex( i );
-    	settings.setValue( "directory", wcList->at( i ) );
+        settings.setArrayIndex( i );
+        settings.setValue( "directory", wcList->at( i ) );
     }
     settings.endArray();
 }
 
 QStringList Config::Config::getWorkingCopies()
 {
-	QStringList wcList;
-	QSettings settings;
-	
-	int size = settings.beginReadArray( "workingCopies" );
-	
-	for ( int i = 0; i < size;  ++i )
-	{
-		settings.setArrayIndex( i );
+    QStringList wcList;
+    QSettings settings;
+
+    int size = settings.beginReadArray( "workingCopies" );
+
+    for ( int i = 0; i < size;  ++i )
+    {
+        settings.setArrayIndex( i );
         wcList.append( settings.value( "directory" ).toString() );
-	}
-	settings.endArray();
-	
-	return wcList;
+    }
+    settings.endArray();
+
+    return wcList;
 }
 
 /*todo:
@@ -216,7 +216,7 @@ void Config::saveListView( QListView *aListView )
         settings.endGroup();
     }
 }
-
+ 
 void Config::restoreListView( QListView *aListView )
 {
     if ( aListView )

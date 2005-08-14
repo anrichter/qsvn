@@ -34,7 +34,7 @@ class QProcess;
 
 /**
 This Class handles interaction with subversion client
-
+ 
 @author Andreas Richter
 */
 
@@ -64,7 +64,8 @@ public:
     bool doSvnCommand( int svnCommandType, const QString &path, bool withOutput = true );
 
     //svn calls
-    bool add( const QString &path, const QString &filename, bool withOutput = true );
+    bool add
+        ( const QString &path, const QString &filename, bool withOutput = true );
     bool diff( const QString &path, const QString &filename, bool withOutput = true );
     bool diff( const QString &path, const QStringList *filenameList, bool withOutput = true );
     bool diff( const QString &fullFileName, bool withOutput = true );

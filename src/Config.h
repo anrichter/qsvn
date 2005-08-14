@@ -33,7 +33,7 @@ class QSvn;
 
 /**
 this singelton holds the configuration for qsvn
-
+ 
 @author Andreas Richter
 */
 
@@ -55,7 +55,7 @@ public:
 
     void setWorkingCopies( QStringList *wcList );
     QStringList getWorkingCopies();
-    
+
     /*todo:
     //ListView Settings
     void saveListView( QListView *aListView );

@@ -82,31 +82,31 @@ private slots:
 
     //WorkingCopy
     void addWorkingCopySlot();
-/* todo:
-    void removeWorkingCopySlot();
-    void checkoutSlot();
-
-    //Modify
-    void updateSlot();
-    void commitSlot();
-    void addSlot();
-    void removeSlot();
-    void revertSlot();
-
-    //Query
-    void diffSlot();
-*/
+    /* todo:
+        void removeWorkingCopySlot();
+        void checkoutSlot();
+     
+        //Modify
+        void updateSlot();
+        void commitSlot();
+        void addSlot();
+        void removeSlot();
+        void revertSlot();
+     
+        //Query
+        void diffSlot();
+    */
     //Settings
     void configureQSvnSlot();
     //Help
     void helpContentsSlot();
     void helpIndexSlot();
-/*todo:
-    void aboutSlot();
-
-    // @brief prepare informations for and call a svn command during SvnWrapper::doSvnCommand
-    void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
-todo */
+    /*todo:
+        void aboutSlot();
+     
+        // @brief prepare informations for and call a svn command during SvnWrapper::doSvnCommand
+        void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
+    todo */
 
     void activateWorkingCopy( const QModelIndex &index );
 };

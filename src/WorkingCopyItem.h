@@ -57,10 +57,10 @@ private:
     WorkingCopyItem *parentItem;
 
     bool svnDirectory;
-/*todo:
-    QString stringFullPath;
-    WorkingCopyItem* parentItem;
-    */
+    /*todo:
+        QString stringFullPath;
+        WorkingCopyItem* parentItem;
+        */
 };
 
 #endif

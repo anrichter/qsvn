@@ -79,7 +79,8 @@ bool SvnWrapper::startProcess( const QString &startErrorMessage )
         //output command line
         QString commandLine = "\n" + Config::Exemplar()->getSvnExecutable() + " ";
         QStringList::Iterator it = svnArgumentList.begin();
-        while( it != svnArgumentList.end() ) {
+        while( it != svnArgumentList.end() )
+        {
             commandLine += *it + " ";
             ++it;
         }
@@ -179,28 +180,28 @@ void SvnWrapper::filesToList( int svnCommandType, QStringList *list, const QStri
                     if ( ( svnCommandType ==  Commit ) || ( svnCommandType == Revert ) )
                     {
                         if ( ( _lineString.at( 0 ) == 'M' ) ||
-                             ( _lineString.at( 0 ) == 'A' ) ||
-                             ( _lineString.at( 0 ) == 'D' ) )
+                                ( _lineString.at( 0 ) == 'A' ) ||
+                                ( _lineString.at( 0 ) == 'D' ) )
                         {
                             list->append( pathPrefix + _fileName );
                         }
                     }
                     else
-                    if ( svnCommandType == Remove )
-                    {
-                        if ( _lineString.at( 0 ) == ' ' )
+                        if ( svnCommandType == Remove )
                         {
-                            list->append( pathPrefix + _fileName );
+                            if ( _lineString.at( 0 ) == ' ' )
+                            {
+                                list->append( pathPrefix + _fileName );
+                            }
                         }
-                    }
-                    else
-                    if ( svnCommandType == Add )
-                    {
-                        if ( _lineString.at( 0 ) == '?' )
-                        {
-                            list->append( pathPrefix + _fileName );
-                        }
-                    }
+                        else
+                            if ( svnCommandType == Add )
+                            {
+                                if ( _lineString.at( 0 ) == '?' )
+                                {
+                                    list->append( pathPrefix + _fileName );
+                                }
+                            }
 
                     //recursive call for subdirectories
                     if ( QDir( path + QDir::separator() + _fileName ).exists() ) // only call when _fileName is a directory
@@ -229,7 +230,7 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
         return FALSE;
 
     QStringList my_list( *filenameList );
-	QStringList::Iterator it;
+    QStringList::Iterator it;
     bool _return = FALSE;
 
     immediateOutput = withOutput;
@@ -308,7 +309,8 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, bool wit
     return doSvnCommand( svnCommandType, path, _filenameList, _commitMessage, withOutput );
 }
 
-bool SvnWrapper::add( const QString &path, const QString &filename, bool withOutput )
+bool SvnWrapper::add
+    ( const QString &path, const QString &filename, bool withOutput )
 {
     if ( !path.isNull() && !filename.isNull() )
     {

@@ -34,7 +34,7 @@ class QStringList;
 
 /**
 This class handle the status text output
-
+ 
 @author Andreas Richter
 */
 
