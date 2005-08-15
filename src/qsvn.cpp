@@ -23,14 +23,14 @@
 
 
 //QSvn
-#include "AddWorkingCopy.h"
-#include "Config.h"
-#include "Configure.h"
-#include "FileListModel.h"
-#include "QSvn.h"
-#include "StatusText.h"
-#include "SvnWrapper.h"
-#include "WorkingCopyModel.h"
+#include "addworkingcopy.h"
+#include "config.h"
+#include "configure.h"
+#include "filelistmodel.h"
+#include "qsvn.h"
+#include "statustext.h"
+#include "svnwrapper.h"
+#include "workingcopymodel.h"
 
 /*todo:
 #include "AboutDlg.h"

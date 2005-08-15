@@ -23,9 +23,9 @@
 
 
 //QSvn
-#include "SvnWrapper.h"
-#include "Config.h"
-#include "StatusText.h"
+#include "svnwrapper.h"
+#include "config.h"
+#include "statustext.h"
 
 //Qt
 #include <QDir>

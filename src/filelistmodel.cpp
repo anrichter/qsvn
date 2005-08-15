@@ -23,9 +23,9 @@
 
 
 //QSvn
-#include "FileListItem.h"
-#include "FileListModel.h"
-#include "SvnWrapper.h"
+#include "filelistitem.h"
+#include "filelistmodel.h"
+#include "svnwrapper.h"
 
 //Qt
 #include <QtGui>

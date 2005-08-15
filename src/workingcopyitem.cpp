@@ -23,43 +23,75 @@
 
 
 //QSvn
-#include "Config.h"
-#include "Configure.h"
-#include "ui_Configure.h"
+#include "workingcopyitem.h"
+#include "svnwrapper.h"
 
 //Qt
-#include <QtGui>
+#include <QList>
+#include <QPixmap>
+#include <QVariant>
 
 
-Configure::Configure( QWidget *parent, Qt::WFlags flags )
-        : QDialog( parent, flags )
+WorkingCopyItem::WorkingCopyItem( const QList< QVariant > &data, WorkingCopyItem *parent )
 {
-    setupUi( this );
+    parentItem = parent;
+    itemData = data;
 
-    connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickSlot() ) );
-    connect( buttonSelectSvnExecutable, SIGNAL( clicked() ), this, SLOT( buttonSelectSvnExecutableClickSlot() ) );
-    connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
-
-    editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
-    editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
+    svnDirectory = SvnWrapper::Exemplar()->isWorkingCopy( itemData.value( 1 ).toString() );
 }
 
-void Configure::buttonOkClickSlot()
+WorkingCopyItem::~WorkingCopyItem()
 {
-    Config::Exemplar()->setSvnExecutable( editSvnExecutable->text() );
-    Config::Exemplar()->setDiffViewer( editDiffViewer->text() );
+    deleteAllChilds();
 }
 
-void Configure::buttonSelectSvnExecutableClickSlot()
+void WorkingCopyItem::appendChild( WorkingCopyItem *child )
 {
-    QString executable = QFileDialog::getOpenFileName( this, "Select Svn Executable", editSvnExecutable->text(), "" );
-    if ( !executable.isNull() )
-        editSvnExecutable->setText( QDir::convertSeparators( executable ) );
+    childItems.append( child );
 }
 
-void Configure::buttonSelectDiffViewerClickSlot()
+void WorkingCopyItem::deleteAllChilds()
 {
-    QString diffviewer = QFileDialog::getOpenFileName( this, "Select a Diff Viewer", editDiffViewer->text(), "" );
-    if ( !diffviewer.isNull() )
-        editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
+    qDeleteAll( childItems );
+}
+
+WorkingCopyItem * WorkingCopyItem::child( int row )
+{
+    return childItems.value( row );
+}
+
+int WorkingCopyItem::childCount( ) const
+{
+    return childItems.count();
+}
+
+int WorkingCopyItem::columnCount( ) const
+{
+    return itemData.count();
+}
+
+QVariant WorkingCopyItem::data( int column ) const
+{
+    return itemData.value( column );
+}
+
+int WorkingCopyItem::row( ) const
+{
+    if ( parentItem )
+        return parentItem->childItems.indexOf( const_cast<WorkingCopyItem*>( this ) );
+
+    return 0;
+}
+
+WorkingCopyItem * WorkingCopyItem::parent( )
+{
+    return parentItem;
+}
+
+QPixmap WorkingCopyItem::getPixmap()
+{
+    if ( svnDirectory )
+        return QPixmap( ":folder.png" );
+    else
+        return QPixmap( ":unknownfolder.png" );
 }

@@ -23,8 +23,8 @@
 
 
 //QSvn
-#include "Config.h"
-#include "QSvn.h"
+#include "config.h"
+#include "qsvn.h"
 
 //Qt
 #include <QCoreApplication>

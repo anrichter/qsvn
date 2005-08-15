@@ -23,9 +23,9 @@
 
 
 //QSvn
-#include "Config.h"
-#include "WorkingCopyItem.h"
-#include "WorkingCopyModel.h"
+#include "config.h"
+#include "workingcopyitem.h"
+#include "workingcopymodel.h"
 
 //Qt
 #include <QDir>

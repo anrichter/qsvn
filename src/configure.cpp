@@ -23,28 +23,43 @@
 
 
 //QSvn
-#include "AddWorkingCopy.h"
+#include "config.h"
+#include "configure.h"
+#include "ui_Configure.h"
 
 //Qt
-#include <QFileDialog>
+#include <QtGui>
 
 
-AddWorkingCopy::AddWorkingCopy( QWidget *parent )
-        : QDialog( parent )
+Configure::Configure( QWidget *parent, Qt::WFlags flags )
+        : QDialog( parent, flags )
 {
     setupUi( this );
 
-    QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
+    connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickSlot() ) );
+    connect( buttonSelectSvnExecutable, SIGNAL( clicked() ), this, SLOT( buttonSelectSvnExecutableClickSlot() ) );
+    connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
+
+    editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
+    editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
 }
 
-QString AddWorkingCopy::getSelectedDirectory() const
+void Configure::buttonOkClickSlot()
 {
-    return editDirectory->text();
+    Config::Exemplar()->setSvnExecutable( editSvnExecutable->text() );
+    Config::Exemplar()->setDiffViewer( editDiffViewer->text() );
 }
 
-void AddWorkingCopy::selectDirectorySlot()
+void Configure::buttonSelectSvnExecutableClickSlot()
 {
-    QString directory = QFileDialog::getExistingDirectory( this, "Select a working Directory", editDirectory->text(), QFileDialog::ShowDirsOnly );
-    if ( !directory.isEmpty() )
-        editDirectory->setText( QDir::convertSeparators( directory ) );
+    QString executable = QFileDialog::getOpenFileName( this, "Select Svn Executable", editSvnExecutable->text(), "" );
+    if ( !executable.isNull() )
+        editSvnExecutable->setText( QDir::convertSeparators( executable ) );
+}
+
+void Configure::buttonSelectDiffViewerClickSlot()
+{
+    QString diffviewer = QFileDialog::getOpenFileName( this, "Select a Diff Viewer", editDiffViewer->text(), "" );
+    if ( !diffviewer.isNull() )
+        editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
 }

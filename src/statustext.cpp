@@ -23,7 +23,7 @@
 
 
 //QSvn
-#include "StatusText.h"
+#include "statustext.h"
 
 //Qt
 #include <QtGlobal>

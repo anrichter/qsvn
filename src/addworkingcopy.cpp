@@ -23,18 +23,28 @@
 
 
 //QSvn
-#include "QSvn.h"
+#include "addworkingcopy.h"
 
 //Qt
-#include <QApplication>
+#include <QFileDialog>
 
-int main( int argc, char ** argv )
+
+AddWorkingCopy::AddWorkingCopy( QWidget *parent )
+        : QDialog( parent )
 {
-    Q_INIT_RESOURCE( QSvn );
+    setupUi( this );
 
-    QApplication app(argc, argv);
-    QSvn qsvn;
-    qsvn.show();
+    QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
+}
 
-    return app.exec();
+QString AddWorkingCopy::getSelectedDirectory() const
+{
+    return editDirectory->text();
+}
+
+void AddWorkingCopy::selectDirectorySlot()
+{
+    QString directory = QFileDialog::getExistingDirectory( this, "Select a working Directory", editDirectory->text(), QFileDialog::ShowDirsOnly );
+    if ( !directory.isEmpty() )
+        editDirectory->setText( QDir::convertSeparators( directory ) );
 }
