@@ -24,8 +24,12 @@
 
 //QSvn
 #include "config.h"
+#include "statustext.h"
 #include "workingcopyitem.h"
 #include "workingcopymodel.h"
+
+//SvnCpp
+#include "svncpp/wc.hpp"
 
 //Qt
 #include <QDir>
@@ -53,6 +57,12 @@ void WorkingCopyModel::addWorkingCopy( QString directory )
 {
     if ( directory.isNull() )
         return;
+
+    if ( !svn::Wc::checkWc( directory.toLocal8Bit() ) )
+    {
+        StatusText::Exemplar()->outputMessage( directory + " is not a Working Copy" );
+        return;
+    }
 
     QList< QVariant > columnData;
 

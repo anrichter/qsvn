@@ -25,7 +25,6 @@
 //QSvn
 #include "filelistitem.h"
 #include "filelistmodel.h"
-#include "svnwrapper.h"
 
 //Qt
 #include <QtGui>
@@ -48,6 +47,7 @@ void FileListModel::setActiveDirectory( QString directory )
 {
     rootItem->deleteAllChilds();
 
+    /*todo: switch to SvnCpp
     if ( directory.isEmpty()   || !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )
         return;
 
@@ -83,6 +83,7 @@ void FileListModel::setActiveDirectory( QString directory )
             emit layoutChanged();
         }
     }
+    */
 }
 
 QModelIndex FileListModel::index( int row, int column, const QModelIndex &parent ) const

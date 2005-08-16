@@ -29,7 +29,6 @@
 #include "filelistmodel.h"
 #include "qsvn.h"
 #include "statustext.h"
-#include "svnwrapper.h"
 #include "workingcopymodel.h"
 
 /*todo:
@@ -149,7 +148,7 @@ void QSvn::exitSlot()
 void QSvn::addWorkingCopySlot()
 {
     AddWorkingCopy addWorkingCopy( this );
-    if ( addWorkingCopy.exec() && SvnWrapper::Exemplar()->isWorkingCopy( addWorkingCopy.getSelectedDirectory() ) )
+    if ( addWorkingCopy.exec() )
     {
         workingCopyModel->addWorkingCopy( addWorkingCopy.getSelectedDirectory() );
     }
