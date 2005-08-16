@@ -26,6 +26,10 @@
 #include "filelistitem.h"
 #include "filelistmodel.h"
 
+//SvnCpp
+#include "svncpp/client.hpp"
+#include "svncpp/status.hpp"
+
 //Qt
 #include <QtGui>
 
@@ -36,16 +40,50 @@ FileListModel::FileListModel( QObject *parent )
     QList< QVariant > rootData;
     rootData << "Filename" << "Status" << "Revision" << "Author";
     rootItem = new FileListItem( rootData );
+
+    svnContext = 0;
 }
 
 FileListModel::~FileListModel()
 {
     delete rootItem;
+    if ( svnContext )
+    {
+        delete svnContext;
+        svnContext = 0;
+    }
 }
 
 void FileListModel::setActiveDirectory( QString directory )
 {
     rootItem->deleteAllChilds();
+
+    if ( oldDirectory != directory )
+    {
+        //create a new svn::Context
+        if ( svnContext )
+        {
+            delete svnContext;
+            svnContext = 0;
+        }
+
+        svnContext = new svn::Context();
+        oldDirectory = directory;
+    }
+
+    svn::Client svnClient( svnContext );
+
+    svn::StatusEntries statusList = svnClient.status( directory.toLocal8Bit(), false, true, false, false);
+    svn::StatusEntries::iterator it;
+    for ( it = statusList.begin(); it != statusList.end(); ++it )
+    {
+        QList< QVariant > columnData;
+        //todo: add it->textStatus() to columnData
+        columnData << QString( it->entry().name() ) << QString( " " ) << QString( "%1" ).arg( it->entry().revision() ) << QString( it->entry().cmtAuthor() );
+        FileListItem *item = new FileListItem( columnData, rootItem );
+        rootItem->appendChild( item );
+    }
+    emit layoutChanged();
 
     /*todo: switch to SvnCpp
     if ( directory.isEmpty()   || !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )

@@ -28,6 +28,10 @@
 //QSvn
 class FileListItem;
 
+//SvnCpp
+#include "svncpp/client.hpp"
+#include "svncpp/context.hpp"
+
 //Qt
 #include <QAbstractItemModel>
 #include <QModelIndex>
@@ -54,6 +58,10 @@ public slots:
 
 private:
     FileListItem *rootItem;
+
+    QString oldDirectory;
+    svn::Context *svnContext;
+    svn::Client svnClient;
 };
 
 #endif
