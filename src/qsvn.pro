@@ -2,24 +2,29 @@ TEMPLATE = app
 TARGET = qsvn
 DESTDIR = bin
 
-unix:MOC_DIR = .moc
-win32:MOC_DIR = moc
-unix:UI_DIR = .ui
-win32:UI_DIR = ui
-unix:OBJECTS_DIR = .obj
-win32:OBJECTS_DIR = obj
+unix {
+  MOC_DIR = .moc
+  UI_DIR = .ui
+  OBJECTS_DIR = .obj
 
-unix:INCLUDEPATH += /usr/include/subversion-1 \
-                    /usr/include/apr-0
+  INCLUDEPATH += /usr/include/subversion-1 \
+                 /usr/include/apr-0
 
-unix:LIBS += -lsvn_client-1 \
-             -lsvn_delta-1 \
-             -lsvn_diff-1 \
-             -lsvn_fs-1 \
-             -lsvn_ra-1 \
-             -lsvn_repos-1 \
-             -lsvn_subr-1 \
-             -lsvn_wc-1
+  LIBS += -lsvn_client-1 \
+          -lsvn_delta-1 \
+          -lsvn_diff-1 \
+          -lsvn_fs-1 \
+          -lsvn_ra-1 \
+          -lsvn_repos-1 \
+          -lsvn_subr-1 \
+          -lsvn_wc-1
+}
+
+win32 {
+  MOC_DIR = moc
+  UI_DIR = ui
+  OBJECTS_DIR = obj
+}
 
 CONFIG += qt
 
