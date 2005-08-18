@@ -28,9 +28,11 @@
 //QSvn
 class FileListItem;
 
+#ifdef Q_WS_X11
 //SvnCpp
 #include "svncpp/client.hpp"
 #include "svncpp/context.hpp"
+#endif
 
 //Qt
 #include <QAbstractItemModel>
@@ -60,8 +62,10 @@ private:
     FileListItem *rootItem;
 
     QString oldDirectory;
+#ifdef Q_WS_X11    
     svn::Context *svnContext;
     svn::Client svnClient;
+#endif
 };
 
 #endif

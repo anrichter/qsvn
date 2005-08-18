@@ -26,9 +26,15 @@
 #include "filelistitem.h"
 #include "filelistmodel.h"
 
+#ifdef Q_WS_WIN
+#include "svnwrapper.h"
+#endif
+
+#ifdef Q_WS_X11
 //SvnCpp
 #include "svncpp/client.hpp"
 #include "svncpp/status.hpp"
+#endif
 
 //Qt
 #include <QtGui>
@@ -41,23 +47,28 @@ FileListModel::FileListModel( QObject *parent )
     rootData << "Filename" << "Status" << "Revision" << "Author";
     rootItem = new FileListItem( rootData );
 
+#ifdef Q_WS_X11
     svnContext = 0;
+#endif
 }
 
 FileListModel::~FileListModel()
 {
     delete rootItem;
+#ifdef Q_WS_X11
     if ( svnContext )
     {
         delete svnContext;
         svnContext = 0;
     }
+#endif
 }
 
 void FileListModel::setActiveDirectory( QString directory )
 {
     rootItem->deleteAllChilds();
 
+#ifdef Q_WS_X11
     if ( oldDirectory != directory )
     {
         //create a new svn::Context
@@ -84,8 +95,8 @@ void FileListModel::setActiveDirectory( QString directory )
         rootItem->appendChild( item );
     }
     emit layoutChanged();
-
-    /*todo: switch to SvnCpp
+#endif
+#ifdef Q_WS_WIN
     if ( directory.isEmpty()   || !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )
         return;
 
@@ -121,7 +132,7 @@ void FileListModel::setActiveDirectory( QString directory )
             emit layoutChanged();
         }
     }
-    */
+#endif
 }
 
 QModelIndex FileListModel::index( int row, int column, const QModelIndex &parent ) const

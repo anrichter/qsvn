@@ -24,9 +24,12 @@
 
 //QSvn
 #include "workingcopyitem.h"
+#include "svnwrapper.h"
 
+#ifdef Q_WS_X11
 //SvnCpp
 #include "svncpp/wc.hpp"
+#endif
 
 //Qt
 #include <QList>
@@ -39,7 +42,12 @@ WorkingCopyItem::WorkingCopyItem( const QList< QVariant > &data, WorkingCopyItem
     parentItem = parent;
     itemData = data;
 
+#ifdef Q_WS_WIN    
+    svnDirectory = SvnWrapper::Exemplar()->isWorkingCopy( itemData.value( 1 ).toString() );
+#endif
+#ifdef Q_WS_X11
     svnDirectory = svn::Wc::checkWc( itemData.value( 1 ).toString().toLocal8Bit() );
+#endif
 }
 
 WorkingCopyItem::~WorkingCopyItem()

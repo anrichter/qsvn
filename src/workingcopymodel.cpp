@@ -28,8 +28,14 @@
 #include "workingcopyitem.h"
 #include "workingcopymodel.h"
 
+#ifdef Q_WS_WIN
+#include "svnwrapper.h"
+#endif
+
+#ifdef Q_WS_X11
 //SvnCpp
 #include "svncpp/wc.hpp"
+#endif
 
 //Qt
 #include <QDir>
@@ -58,7 +64,12 @@ void WorkingCopyModel::addWorkingCopy( QString directory )
     if ( directory.isNull() )
         return;
 
+#ifdef Q_WS_X11
     if ( !svn::Wc::checkWc( directory.toLocal8Bit() ) )
+#endif
+#ifdef Q_WS_WIN
+    if ( !SvnWrapper::Exemplar()->isWorkingCopy( directory ) )
+#endif
     {
         StatusText::Exemplar()->outputMessage( directory + " is not a Working Copy" );
         return;
