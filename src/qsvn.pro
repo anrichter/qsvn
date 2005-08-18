@@ -45,7 +45,7 @@ HEADERS = addworkingcopy.h \
           workingcopymodel.h
 
 win32:HEADERS += svnwrapper.h
-          
+
 unix:HEADERS += svncpp/annotate_line.hpp \
                 svncpp/apr.hpp \
                 svncpp/check.hpp \
@@ -79,7 +79,7 @@ SOURCES = addworkingcopy.cpp \
           statustext.cpp \
           workingcopyitem.cpp \
           workingcopymodel.cpp
-          
+
 win32:SOURCES += svnwrapper.cpp
 
 unix:SOURCES += svncpp/apr.cpp \
