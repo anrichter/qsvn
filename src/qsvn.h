@@ -25,7 +25,7 @@
 #define QSVN_H
 
 //QSvn
-#include "ui_QSvn.h"
+#include "ui_qsvn.h"
 class FileListModel;
 class WorkingCopyModel;
 

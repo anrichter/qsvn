@@ -25,7 +25,7 @@
 #define CONFIGURE_H
 
 //QSvn
-#include "ui_Configure.h"
+#include "ui_configure.h"
 
 //Qt
 #include <QDialog>

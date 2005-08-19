@@ -30,9 +30,9 @@ CONFIG += qt
 
 RESOURCES = qsvn.qrc
 
-FORMS = forms\AddWorkingCopy.ui \
-        forms\Configure.ui \
-        forms\QSvn.ui
+FORMS = forms\addworkingcopy.ui \
+        forms\configure.ui \
+        forms\qsvn.ui
 
 HEADERS = addworkingcopy.h \
           config.h \

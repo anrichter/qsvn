@@ -25,7 +25,7 @@
 #define ADDWORKINGCOPY_H
 
 //QSvn
-#include "ui_AddWorkingCopy.h"
+#include "ui_addworkingcopy.h"
 
 
 class AddWorkingCopy : public QDialog, public Ui::AddWorkingCopy
