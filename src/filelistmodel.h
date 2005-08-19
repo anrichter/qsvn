@@ -47,12 +47,17 @@ public:
     FileListModel( QObject *parent = 0 );
     ~FileListModel();
 
+    //basic model functions
     QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex( ) ) const;
     QModelIndex parent( const QModelIndex &index ) const;
     int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
     int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
+    
+    //make model editable
+    bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+    bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 
 public slots:
     void setActiveDirectory( QString directory );

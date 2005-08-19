@@ -46,7 +46,7 @@ FileListModel::FileListModel( QObject *parent )
     QList< QVariant > rootData;
     rootData << "Filename" << "Status" << "Revision" << "Author";
     rootItem = new FileListItem( rootData );
-
+    
 #ifdef Q_WS_X11
     svnContext = 0;
 #endif
@@ -66,7 +66,7 @@ FileListModel::~FileListModel()
 
 void FileListModel::setActiveDirectory( QString directory )
 {
-    rootItem->deleteAllChilds();
+  	removeRows( 0, rootItem->childCount() );
 
 #ifdef Q_WS_X11
     if ( oldDirectory != directory )
@@ -91,8 +91,7 @@ void FileListModel::setActiveDirectory( QString directory )
         QList< QVariant > columnData;
         //todo: add it->textStatus() to columnData
         columnData << QString( it->entry().name() ) << QString( " " ) << QString( "%1" ).arg( it->entry().revision() ) << QString( it->entry().cmtAuthor() );
-        FileListItem *item = new FileListItem( columnData, rootItem );
-        rootItem->appendChild( item );
+        rootItem->appendChild( new FileListItem( columnData, rootItem ) );
     }
     emit layoutChanged();
 #endif
@@ -102,6 +101,9 @@ void FileListModel::setActiveDirectory( QString directory )
 
     QStringList statusList( SvnWrapper::Exemplar()->getProcessStdoutList() );
     QString _lineString, _restString, _status, _revision, _author, _fileName;
+    
+    beginInsertRows( QModelIndex(), 0, statusList.count() );
+    
     for ( QStringList::Iterator it = statusList.begin(); it != statusList.end(); ++it )
     {
         _lineString = *it;
@@ -127,11 +129,10 @@ void FileListModel::setActiveDirectory( QString directory )
             //set Filename
             QList< QVariant > columnData;
             columnData << _fileName << _status << _revision << _author;
-            FileListItem *item = new FileListItem( columnData, rootItem );
-            rootItem->appendChild( item );
-            emit layoutChanged();
+            rootItem->appendChild( new FileListItem( columnData, rootItem ) );
         }
     }
+    endInsertRows();
 #endif
 }
 
@@ -207,3 +208,19 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
     return item->data( index.column() );
 }
 
+bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )
+{
+    beginRemoveRows( QModelIndex(), row, row + count - 1 );
+	for ( int i = row; i < ( row + count ); ++i )
+	{
+		rootItem->removeChild( row );
+	}
+	endRemoveRows();
+	return true;
+}
+
+bool FileListModel::insertRows( int row, int count, const QModelIndex &parent )
+{
+	//todo:
+    return false;
+}
