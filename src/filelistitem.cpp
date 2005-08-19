@@ -38,17 +38,17 @@ FileListItem::FileListItem( const QList< QVariant > &data, FileListItem *parent 
 
 FileListItem::~FileListItem()
 {
-    deleteAllChilds();
-}
-
-void FileListItem::deleteAllChilds()
-{
     qDeleteAll( childItems );
 }
 
 void FileListItem::appendChild( FileListItem *child )
 {
     childItems.append( child );
+}
+
+void FileListItem::removeChild( int row )
+{
+	childItems.removeAt( row );
 }
 
 FileListItem * FileListItem::child( int row )

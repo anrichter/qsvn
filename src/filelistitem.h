@@ -36,6 +36,7 @@ public:
     ~FileListItem();
 
     void appendChild( FileListItem *child );
+    void removeChild( int row );
 
     FileListItem *child( int row );
     int childCount() const;
@@ -43,8 +44,6 @@ public:
     QVariant data( int column ) const;
     int row() const;
     FileListItem *parent();
-
-    void deleteAllChilds();
 
 private:
     QList<FileListItem*> childItems;
