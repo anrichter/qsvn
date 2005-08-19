@@ -116,7 +116,7 @@ void SvnWrapper::readStdoutSlot()
     QString string = process->readAllStandardOutput();
     if ( !string.isEmpty() )
     {
-        processStdoutList.append( string );
+        processStdoutList = string.split( "\n" );
         if ( immediateOutput )
             StatusText::Exemplar()->outputMessage( string );
     }
@@ -127,7 +127,7 @@ void SvnWrapper::readStderrSlot()
     QString string = process->readAllStandardError();
     if ( !string.isEmpty() )
     {
-        processStderrList.append( string );
+        processStderrList = string.split( "\n" );
         if ( immediateOutput )
             StatusText::Exemplar()->outputMessage( string );
     }
@@ -281,7 +281,6 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
     case Status:
         svnArgumentList << "status";
         svnArgumentList << "-vN";
-        svnArgumentList << path;
         _return = startAndWaitProcess( tr( "cannot start svn status -v" ));
         break;
     case Update:
