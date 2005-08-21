@@ -49,7 +49,11 @@
         </property>
        </layout>
        <widget class="QTreeView" name="treeViewWorkingCopy" />
-       <widget class="QTreeView" name="treeViewFileList" />
+       <widget class="QTreeView" name="treeViewFileList" >
+        <property name="rootIsDecorated" >
+         <bool>false</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QTextEdit" name="editStatusText" />
      </widget>
