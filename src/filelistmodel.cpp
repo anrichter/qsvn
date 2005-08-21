@@ -231,3 +231,42 @@ bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )
     endRemoveRows();
     return true;
 }
+
+void FileListModel::sort ( int column, Qt::SortOrder order )
+{
+    if ( rootItem->childCount() <= 2 || ( column != 0 ) )
+        return;
+
+    int i = 0;
+    //add childs to a temporary sortList with its actual row
+    QVector < QPair< FileListItem*, int > > sortLst( rootItem->childCount() );
+    for ( i = 0; i < rootItem->childCount(); ++i )
+    {
+        sortLst[ i ].first = rootItem->child( i );
+        sortLst[ i ].second = i;
+    }
+
+    //sort the temporary list
+    if ( order == Qt::AscendingOrder )
+        qSort( sortLst.begin(), sortLst.end(), &itemLessThan );
+    else
+        qSort( sortLst.begin(), sortLst.end(), &itemGreaterThan );
+
+    removeRows( 0, rootItem->childCount() );
+    //fill sorted list into rootItem.
+    for ( i = 0; i < sortLst.count(); ++i )
+    {
+        rootItem->appendChild( sortLst.at( i ).first );
+    }
+    emit layoutChanged();
+}
+
+bool FileListModel::itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right )
+{
+    return ( left.first->data( 0 ).toString() ) < ( right.first->data( 0 ).toString() );
+}
+
+bool FileListModel::itemGreaterThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right )
+{
+    return ( left.first->data( 0 ).toString() ) > ( right.first->data( 0 ).toString() );
+}

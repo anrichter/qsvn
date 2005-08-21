@@ -31,6 +31,7 @@ class FileListItem;
 //Qt
 #include <QAbstractItemModel>
 #include <QModelIndex>
+#include <QPair>
 #include <QVariant>
 
 //SvnCpp
@@ -54,6 +55,7 @@ public:
     int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
+    void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
 
     //make model editable
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
@@ -69,6 +71,10 @@ private:
     svn::Context *svnContext;
     svn::Client svnClient;
 #endif
+
+    //sorting algorithms
+    static bool itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right );
+    static bool itemGreaterThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right );
 };
 
 #endif

@@ -48,7 +48,7 @@ void FileListItem::appendChild( FileListItem *child )
 
 void FileListItem::removeChild( int row )
 {
-	childItems.removeAt( row );
+    childItems.removeAt( row );
 }
 
 FileListItem * FileListItem::child( int row )
