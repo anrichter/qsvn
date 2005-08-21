@@ -48,7 +48,7 @@ FileListModel::FileListModel( QObject *parent )
     QList< QVariant > rootData;
     rootData << "Filename" << "Status" << "Revision" << "Author";
     rootItem = new FileListItem( rootData );
-    
+
 #ifdef Q_WS_X11
     svnContext = 0;
 #endif
@@ -68,12 +68,15 @@ FileListModel::~FileListModel()
 
 void FileListModel::setActiveDirectory( QString directory )
 {
-  	removeRows( 0, rootItem->childCount() );
+    removeRows( 0, rootItem->childCount() );
+
+    if ( directory.isEmpty() )
+        return;
 
     QList< QVariant > columnData;
-    
+
 #ifdef Q_WS_X11
-    if ( oldDirectory != directory )
+   if ( oldDirectory != directory )
     {
         //create a new svn::Context
         if ( svnContext )
@@ -89,29 +92,33 @@ void FileListModel::setActiveDirectory( QString directory )
     svn::Client svnClient( svnContext );
 
     svn::StatusEntries statusList = svnClient.status( directory.toLocal8Bit(), false, true, false, false);
+    beginInsertRows( QModelIndex(), 0, statusList.size() );
     svn::StatusEntries::iterator it;
     for ( it = statusList.begin(); it != statusList.end(); ++it )
     {
-        columnData.clear();
-        //todo: add it->textStatus() to columnData
-        columnData << QString( it->entry().name() ) << QString( " " ) << QString( "%1" ).arg( it->entry().revision() ) << QString( it->entry().cmtAuthor() );
-        rootItem->appendChild( new FileListItem( columnData, rootItem ) );
+        if ( ! QDir( directory + QDir::separator() + QString( it->entry().name() ) ).exists() )
+        {
+            columnData.clear();
+            //todo: add it->textStatus() to columnData
+            columnData << QString( it->entry().name() ) << QString( " " ) << QString( "%1" ).arg( it->entry().revision() ) << QString( it->entry().cmtAuthor() );
+            rootItem->appendChild( new FileListItem( columnData, rootItem ) );
+        }
     }
-    emit layoutChanged();
+    endInsertRows();
 #endif
 #ifdef Q_WS_WIN
-    if ( directory.isEmpty()   || !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )
+    if (  !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )
         return;
 
     QStringList statusList( SvnWrapper::Exemplar()->getProcessStdoutList() );
     QString _lineString, _restString, _status, _revision, _author, _fileName;
-    
+
     beginInsertRows( QModelIndex(), 0, statusList.count() );
     for ( QStringList::const_iterator it = statusList.constBegin(); it != statusList.constEnd(); ++it )
     {
         _lineString = *it;
-        
-        if ( !_lineString.isEmpty() ) 
+
+        if ( !_lineString.isEmpty() )
         {
             _restString = _lineString.right( _lineString.length() - 6 );
             _restString = _restString.simplified(); //convert into simple whitespace seaparatet string
@@ -140,7 +147,6 @@ void FileListModel::setActiveDirectory( QString directory )
     }
     endInsertRows();
 #endif
-    //emit dataChanged( index( 0, 0 ), index( rootItem->columnCount(), rootItem->childCount() ) );
 }
 
 QModelIndex FileListModel::index( int row, int column, const QModelIndex &parent ) const
@@ -218,16 +224,10 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
 bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )
 {
     beginRemoveRows( QModelIndex(), row, row + count - 1 );
-	for ( int i = row; i < ( row + count ); ++i )
-	{
-		rootItem->removeChild( row );
-	}
-	endRemoveRows();
-	return true;
-}
-
-bool FileListModel::insertRows( int row, int count, const QModelIndex &parent )
-{
-	//todo:
-    return false;
+    for ( int i = row; i < ( row + count ); ++i )
+    {
+        rootItem->removeChild( row );
+    }
+    endRemoveRows();
+    return true;
 }

@@ -54,10 +54,9 @@ public:
     int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
-    
+
     //make model editable
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
-    bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 
 public slots:
     void setActiveDirectory( QString directory );
