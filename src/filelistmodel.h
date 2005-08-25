@@ -67,6 +67,7 @@ private:
     FileListItem *rootItem;
 
     QString oldDirectory;
+    Qt::SortOrder sortOrder;
 #ifdef Q_WS_X11
     svn::Context *svnContext;
     svn::Client svnClient;

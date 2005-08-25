@@ -59,7 +59,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     //setup fileListModel
     fileListModel = new FileListModel();
     treeViewFileList->setModel( fileListModel );
-
+    treeViewFileList->header()->setSortIndicatorShown( true );
+    treeViewFileList->header()->setClickable( true );
 
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
 

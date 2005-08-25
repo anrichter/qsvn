@@ -48,6 +48,7 @@ FileListModel::FileListModel( QObject *parent )
     QList< QVariant > rootData;
     rootData << "Filename" << "Status" << "Revision" << "Author";
     rootItem = new FileListItem( rootData );
+    sortOrder = Qt::AscendingOrder;
 
 #ifdef Q_WS_X11
     svnContext = 0;
@@ -147,6 +148,7 @@ void FileListModel::setActiveDirectory( QString directory )
     }
     endInsertRows();
 #endif
+    sort ( 0, sortOrder );
 }
 
 QModelIndex FileListModel::index( int row, int column, const QModelIndex &parent ) const
@@ -237,6 +239,7 @@ void FileListModel::sort ( int column, Qt::SortOrder order )
     if ( rootItem->childCount() <= 2 || ( column != 0 ) )
         return;
 
+    sortOrder = order;
     int i = 0;
     //add childs to a temporary sortList with its actual row
     QVector < QPair< FileListItem*, int > > sortLst( rootItem->childCount() );
