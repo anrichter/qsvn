@@ -93,7 +93,6 @@ void FileListModel::setActiveDirectory( QString directory )
     svn::Client svnClient( svnContext );
 
     svn::StatusEntries statusList = svnClient.status( directory.toLocal8Bit(), false, true, false, false);
-    beginInsertRows( QModelIndex(), 0, statusList.size() );
     svn::StatusEntries::iterator it;
     for ( it = statusList.begin(); it != statusList.end(); ++it )
     {
@@ -105,7 +104,6 @@ void FileListModel::setActiveDirectory( QString directory )
             rootItem->appendChild( new FileListItem( columnData, rootItem ) );
         }
     }
-    endInsertRows();
 #endif
 #ifdef Q_WS_WIN
     if (  !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )
@@ -114,7 +112,6 @@ void FileListModel::setActiveDirectory( QString directory )
     QStringList statusList( SvnWrapper::Exemplar()->getProcessStdoutList() );
     QString _lineString, _restString, _status, _revision, _author, _fileName;
 
-    beginInsertRows( QModelIndex(), 0, statusList.count() );
     for ( QStringList::const_iterator it = statusList.constBegin(); it != statusList.constEnd(); ++it )
     {
         _lineString = *it;
@@ -146,9 +143,9 @@ void FileListModel::setActiveDirectory( QString directory )
             }
         }
     }
-    endInsertRows();
 #endif
     sort ( 0, sortOrder );
+    reset();
 }
 
 QModelIndex FileListModel::index( int row, int column, const QModelIndex &parent ) const
@@ -225,12 +222,10 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
 
 bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )
 {
-    beginRemoveRows( QModelIndex(), row, row + count - 1 );
     for ( int i = row; i < ( row + count ); ++i )
     {
         rootItem->removeChild( row );
     }
-    endRemoveRows();
     return true;
 }
 
