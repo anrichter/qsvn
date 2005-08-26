@@ -231,7 +231,7 @@ bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )
 
 void FileListModel::sort ( int column, Qt::SortOrder order )
 {
-    if ( rootItem->childCount() <= 2 || ( column != 0 ) )
+    if ( column < 0 || column > rootItem->childCount() )
         return;
 
     sortOrder = order;
@@ -242,6 +242,7 @@ void FileListModel::sort ( int column, Qt::SortOrder order )
     {
         sortLst[ i ].first = rootItem->child( i );
         sortLst[ i ].second = i;
+        sortLst[ i ].first->setSortColumn( column );
     }
 
     //sort the temporary list
@@ -261,10 +262,10 @@ void FileListModel::sort ( int column, Qt::SortOrder order )
 
 bool FileListModel::itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right )
 {
-    return ( left.first->data( 0 ).toString() ) < ( right.first->data( 0 ).toString() );
+    return ( left.first->data( left.first->getSortColumn() ).toString() ) < ( right.first->data( right.first->getSortColumn() ).toString() );
 }
 
 bool FileListModel::itemGreaterThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right )
 {
-    return ( left.first->data( 0 ).toString() ) > ( right.first->data( 0 ).toString() );
+    return ( left.first->data( left.first->getSortColumn() ).toString() ) > ( right.first->data( right.first->getSortColumn() ).toString() );
 }

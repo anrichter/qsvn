@@ -34,6 +34,7 @@ FileListItem::FileListItem( const QList< QVariant > &data, FileListItem *parent 
 {
     parentItem = parent;
     itemData = data;
+    sortColumn = 0;
 }
 
 FileListItem::~FileListItem()
@@ -82,4 +83,14 @@ int FileListItem::row( ) const
 FileListItem * FileListItem::parent( )
 {
     return parentItem;
+}
+
+int FileListItem::getSortColumn()
+{  
+	return sortColumn;
+}
+
+void FileListItem::setSortColumn( int column )
+{
+	sortColumn = column;
 }

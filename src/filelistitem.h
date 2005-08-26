@@ -45,10 +45,13 @@ public:
     int row() const;
     FileListItem *parent();
 
+    int getSortColumn();
+    void setSortColumn( int column );
 private:
     QList<FileListItem*> childItems;
     QList<QVariant> itemData;
     FileListItem *parentItem;
+    int sortColumn;
 };
 
 #endif
