@@ -100,7 +100,7 @@ void FileListModel::setActiveDirectory( QString directory )
         {
             columnData.clear();
             //todo: add it->textStatus() to columnData
-            columnData << QString( it->entry().name() ) << QString( " " ) << QString( "%1" ).arg( it->entry().revision() ) << QString( it->entry().cmtAuthor() );
+            columnData << QString( it->entry().name() ) << QString( " " ) << QString( "%1" ).arg( it->entry().cmtRev() ) << QString( it->entry().cmtAuthor() );
             rootItem->appendChild( new FileListItem( columnData, rootItem ) );
         }
     }
