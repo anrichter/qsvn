@@ -142,10 +142,10 @@ void Config::restoreMainWindow( QSvn *aQSvn )
         //restore settings from splitterVertical
         int i = 0;
         QList< int > list = aQSvn->splitterVertical->sizes();
-        QList<int>::Iterator it = list.begin();
+        QList< int >::Iterator it = list.begin();
         while( it != list.end() )
         {
-            *it = settings.value( QString( "verticalSize%1" ).arg( i ), *it ).toInt();
+            *it = settings.value( QString( "verticalSize%1" ).arg( i ), &it ).toInt();
             ++it;
             ++i;
         }
@@ -157,7 +157,7 @@ void Config::restoreMainWindow( QSvn *aQSvn )
         it = list.begin();
         while( it != list.end() )
         {
-            *it = settings.value( QString( "horizontalSize%1" ).arg( i ), *it ).toInt();
+            *it = settings.value( QString( "horizontalSize%1" ).arg( i ), &it ).toInt();
             ++it;
             ++i;
         }
