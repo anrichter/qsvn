@@ -262,10 +262,10 @@ void FileListModel::sort ( int column, Qt::SortOrder order )
 
 bool FileListModel::itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right )
 {
-    return ( left.first->data( left.first->getSortColumn() ).toString() ) < ( right.first->data( right.first->getSortColumn() ).toString() );
+    return ( *left.first ) < ( *right.first );
 }
 
 bool FileListModel::itemGreaterThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right )
 {
-    return ( left.first->data( left.first->getSortColumn() ).toString() ) > ( right.first->data( right.first->getSortColumn() ).toString() );
+    return !( ( *left.first ) < ( *right.first ) );
 }

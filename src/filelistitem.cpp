@@ -86,11 +86,20 @@ FileListItem * FileListItem::parent( )
 }
 
 int FileListItem::getSortColumn()
-{  
-	return sortColumn;
+{
+    return sortColumn;
 }
 
 void FileListItem::setSortColumn( int column )
 {
-	sortColumn = column;
+    sortColumn = column;
+}
+
+bool FileListItem::operator < (const FileListItem &other) const
+{
+    if ( sortColumn == 2 ) //revision
+        return data( 2 ).toInt() < other.data( 2 ).toInt();
+    else
+        return data( sortColumn ).toString() < other.data( sortColumn ).toString();
+    return true;
 }

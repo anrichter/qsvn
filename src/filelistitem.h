@@ -47,6 +47,7 @@ public:
 
     int getSortColumn();
     void setSortColumn( int column );
+    bool operator < (const FileListItem &other) const;
 private:
     QList<FileListItem*> childItems;
     QList<QVariant> itemData;
