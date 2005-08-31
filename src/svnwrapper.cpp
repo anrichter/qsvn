@@ -245,7 +245,7 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
         {
             svnArgumentList << *it;
         }
-        _return = startAndWaitProcess( tr( "cannot start svn add" ) );
+        _return = startAndWaitProcess( tr( "Cannot start svn add." ) + " " + tr( "Please check your Subversion installation and QSvn Configuration." ) );
         break;
     case Commit:
         svnArgumentList << "commit";
@@ -255,12 +255,12 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
         {
             svnArgumentList << *it;
         }
-        _return = startAndWaitProcess( tr( "cannot start svn commit" ) );
+        _return = startAndWaitProcess( tr( "Cannot start svn commit." ) + " " + tr( "Please check your Subversion installation and QSvn Configuration." ) );
         break;
     case Info:
         svnArgumentList << "info";
         svnArgumentList << path;
-        _return = startAndWaitProcess( tr( "cannot start svn info - is your svn executable installed and configured in settings?" ) );
+        _return = startAndWaitProcess( tr( "Cannot start svn info." ) + " " + tr( "Please check your Subversion installation and QSvn Configuration." ) );
         break;
     case Remove:
         svnArgumentList << "remove";
@@ -268,7 +268,7 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
         {
             svnArgumentList << *it;
         }
-        _return = startAndWaitProcess( tr( "cannot start svn remove" ) );
+        _return = startAndWaitProcess( tr( "Cannot start svn remove." ) + " " + tr( "Please check your Subversion installation and QSvn Configuration." ) );
         break;
     case Revert:
         svnArgumentList << "revert";
@@ -276,12 +276,12 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
         {
             svnArgumentList << *it;
         }
-        _return = startAndWaitProcess( tr( "cannot start svn revert" ) );
+        _return = startAndWaitProcess( tr( "Cannot start svn revert." ) + " " + tr( "Please check your Subversion installation and QSvn Configuration." ) );
         break;
     case Status:
         svnArgumentList << "status";
         svnArgumentList << "-vN";
-        _return = startAndWaitProcess( tr( "cannot start svn status -v" ));
+        _return = startAndWaitProcess( tr( "Cannot start svn status -v." ) + " " + tr( "Please check your Subversion installation and QSvn Configuration." ));
         break;
     case Update:
         svnArgumentList << "update";
@@ -289,9 +289,12 @@ bool SvnWrapper::doSvnCommand( int svnCommandType, const QString &path, const QS
         {
             svnArgumentList << *it;
         }
-        _return = startAndWaitProcess( tr( "cannot start svn update" ) );
+        _return = startAndWaitProcess( tr( "Cannot start svn update." ) + " " + tr( "Please check your Subversion installation and QSvn Configuration." ) );
         break;
     }
+    if ( !_return )
+        StatusText::Exemplar()->outputMessage( messageString );
+
     return _return;
 }
 
