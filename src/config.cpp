@@ -184,7 +184,7 @@ void Config::setWorkingCopies( QStringList *wcList )
     settings.endArray();
 }
 
-QStringList Config::Config::getWorkingCopies()
+QStringList Config::getWorkingCopies()
 {
     QStringList wcList;
     QSettings settings;
