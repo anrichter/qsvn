@@ -28,7 +28,7 @@
 #include <sstream>
 
 // svncpp
-#include "svncpp/exception.hpp"
+#include "exception.hpp"
 
 
 namespace svn

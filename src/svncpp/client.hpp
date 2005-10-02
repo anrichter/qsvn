@@ -43,14 +43,14 @@
 #include <map>
 
 // svncpp
-#include "svncpp/context.hpp"
-#include "svncpp/exception.hpp"
-#include "svncpp/path.hpp"
-#include "svncpp/entry.hpp"
-#include "svncpp/revision.hpp"
-#include "svncpp/log_entry.hpp"
-#include "svncpp/info_entry.hpp"
-#include "svncpp/annotate_line.hpp"
+#include "context.hpp"
+#include "exception.hpp"
+#include "path.hpp"
+#include "entry.hpp"
+#include "revision.hpp"
+#include "log_entry.hpp"
+#include "info_entry.hpp"
+#include "annotate_line.hpp"
 
 
 namespace svn

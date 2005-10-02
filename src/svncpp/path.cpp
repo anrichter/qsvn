@@ -30,9 +30,9 @@
 #include "apr_file_io.h"
 
 // svncpp 
-#include "svncpp/path.hpp"
-#include "svncpp/pool.hpp"
-#include "svncpp/url.hpp"
+#include "path.hpp"
+#include "pool.hpp"
+#include "url.hpp"
 
 
 namespace svn

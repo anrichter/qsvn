@@ -27,7 +27,7 @@
 #include <string>
 
 // svncpp
-#include "svncpp/dirent.hpp"
+#include "dirent.hpp"
 
 
 namespace svn

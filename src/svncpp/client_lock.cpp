@@ -24,10 +24,10 @@
 #include "svn_client.h"
 
 // svncpp
-#include "svncpp/client.hpp"
-#include "svncpp/exception.hpp"
-#include "svncpp/pool.hpp"
-#include "svncpp/targets.hpp"
+#include "client.hpp"
+#include "exception.hpp"
+#include "pool.hpp"
+#include "targets.hpp"
 
 namespace svn
 {

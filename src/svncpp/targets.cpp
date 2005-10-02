@@ -34,9 +34,9 @@
 #include "apr_strings.h"
 
 // svncpp
-#include "svncpp/targets.hpp"
-#include "svncpp/path.hpp"
-#include "svncpp/pool.hpp"
+#include "targets.hpp"
+#include "path.hpp"
+#include "pool.hpp"
 
 
 namespace svn

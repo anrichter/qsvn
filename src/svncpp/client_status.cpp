@@ -32,14 +32,14 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "svncpp/client.hpp"
-#include "svncpp/dirent.hpp"
-#include "svncpp/exception.hpp"
-#include "svncpp/pool.hpp"
-#include "svncpp/status.hpp"
-#include "svncpp/targets.hpp"
-#include "svncpp/info_entry.hpp"
-#include "svncpp/url.hpp"
+#include "client.hpp"
+#include "dirent.hpp"
+#include "exception.hpp"
+#include "pool.hpp"
+#include "status.hpp"
+#include "targets.hpp"
+#include "info_entry.hpp"
+#include "url.hpp"
 
 namespace svn
 {
