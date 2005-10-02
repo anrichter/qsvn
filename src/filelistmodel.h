@@ -35,10 +35,8 @@ class FileListItem;
 #include <QVariant>
 
 //SvnCpp
-#ifdef Q_WS_X11
 #include "svncpp/client.hpp"
 #include "svncpp/context.hpp"
-#endif
 
 class FileListModel : public QAbstractItemModel
 {
@@ -68,10 +66,8 @@ private:
 
     QString oldDirectory;
     Qt::SortOrder sortOrder;
-#ifdef Q_WS_X11
     svn::Context *svnContext;
     svn::Client svnClient;
-#endif
 
     //sorting algorithms
     static bool itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right );

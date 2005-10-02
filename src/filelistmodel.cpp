@@ -28,15 +28,9 @@
 
 #include "statustext.h"
 
-#ifdef Q_WS_WIN
-#include "svnwrapper.h"
-#endif
-
-#ifdef Q_WS_X11
 //SvnCpp
 #include "svncpp/client.hpp"
 #include "svncpp/status.hpp"
-#endif
 
 //Qt
 #include <QtGui>
@@ -50,21 +44,17 @@ FileListModel::FileListModel( QObject *parent )
     rootItem = new FileListItem( rootData );
     sortOrder = Qt::AscendingOrder;
 
-#ifdef Q_WS_X11
     svnContext = 0;
-#endif
 }
 
 FileListModel::~FileListModel()
 {
     delete rootItem;
-#ifdef Q_WS_X11
     if ( svnContext )
     {
         delete svnContext;
         svnContext = 0;
     }
-#endif
 }
 
 void FileListModel::setActiveDirectory( QString directory )
@@ -76,7 +66,6 @@ void FileListModel::setActiveDirectory( QString directory )
         removeRows( 0, rootItem->childCount() );
         QList< QVariant > columnData;
 
-        #ifdef Q_WS_X11
         //create a new svn::Context
         if ( svnContext )
         {
@@ -101,46 +90,6 @@ void FileListModel::setActiveDirectory( QString directory )
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
             }
         }
-        #endif
-        #ifdef Q_WS_WIN
-        if (  !( SvnWrapper::Exemplar()->doSvnCommand( SvnWrapper::Status, directory, false ) ) )
-            return;
-
-        QStringList statusList( SvnWrapper::Exemplar()->getProcessStdoutList() );
-        QString _lineString, _restString, _status, _revision, _author, _fileName;
-
-        for ( QStringList::const_iterator it = statusList.constBegin(); it != statusList.constEnd(); ++it )
-        {
-            _lineString = *it;
-
-            if ( !_lineString.isEmpty() )
-            {
-                _restString = _lineString.right( _lineString.length() - 6 );
-                _restString = _restString.simplified(); //convert into simple whitespace seaparatet string
-                if ( _lineString.at( 0 ) == '?' )
-                {
-                    _status = "";
-                    _revision = "";
-                    _author = "";
-                    _fileName = _restString;
-                }
-                else
-                {
-                    _status = _lineString.at( 0 );
-                    _revision = _restString.section( ' ', 1, 1 );
-                    _author = _restString.section( ' ', 2, 2 );
-                    _fileName = _restString.section( ' ', 3, 3 );
-                }
-                // add only files here
-                if ( ! QDir( directory + QDir::separator() + _fileName ).exists() )
-                {
-                    columnData.clear();
-                    columnData << _fileName << _status << _revision << _author;
-                    rootItem->appendChild( new FileListItem( columnData, rootItem ) );
-                }
-            }
-        }
-        #endif
         sort ( 0, sortOrder );
         reset();
     }
