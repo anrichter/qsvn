@@ -29,6 +29,9 @@
 #include <QList>
 #include <QVariant>
 
+//Svn
+#include <svn_wc.h>
+
 
 FileListItem::FileListItem( const QList< QVariant > &data, FileListItem *parent )
 {
@@ -69,7 +72,47 @@ int FileListItem::columnCount( ) const
 
 QVariant FileListItem::data( int column ) const
 {
-    return itemData.value( column );
+    if ( column == 1 )
+    {
+        int statusKind = itemData.value( 1 ).toInt();
+        switch ( statusKind )
+        {
+        case svn_wc_status_none:
+            return QString( "none" );
+        case svn_wc_status_unversioned:
+            return QString( "unversioned" );
+        case svn_wc_status_normal:
+            return QString( "normal" );
+        case svn_wc_status_added:
+            return QString( "added" );
+        case svn_wc_status_missing:
+            return QString( "missing" );
+        case svn_wc_status_deleted:
+            return QString( "deleted" );
+        case svn_wc_status_replaced:
+            return QString( "replaced" );
+        case svn_wc_status_modified:
+            return QString( "modified" );
+        case svn_wc_status_merged:
+            return QString( "merged" );
+        case svn_wc_status_conflicted:
+            return QString( "conflicted" );
+        case svn_wc_status_ignored:
+            return QString( "ignored" );
+        case svn_wc_status_obstructed:
+            return QString( "obstructed" );
+        case svn_wc_status_external:
+            return QString( "external" );
+        case svn_wc_status_incomplete:
+            return QString( "incomplete" );
+        default:
+            return itemData.value( 1 ).toString();
+        }
+    }
+    else
+    {
+        return itemData.value( column );
+    }
 }
 
 int FileListItem::row( ) const

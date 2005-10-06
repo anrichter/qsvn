@@ -85,8 +85,7 @@ void FileListModel::setActiveDirectory( QString directory )
             if ( ! QDir( directory + QDir::separator() + QString( it->entry().name() ) ).exists() )
             {
                 columnData.clear();
-                //todo: add it->textStatus() to columnData
-                columnData << QString( it->entry().name() ) << QString( " " ) << QString( "%1" ).arg( it->entry().cmtRev() ) << QString( it->entry().cmtAuthor() );
+                columnData << QString( it->entry().name() ) << it->textStatus() << QString( "%1" ).arg( it->entry().cmtRev() ) << QString( it->entry().cmtAuthor() );
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
             }
         }
