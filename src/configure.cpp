@@ -37,24 +37,14 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
     setupUi( this );
 
     connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickSlot() ) );
-    connect( buttonSelectSvnExecutable, SIGNAL( clicked() ), this, SLOT( buttonSelectSvnExecutableClickSlot() ) );
     connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
 
-    editSvnExecutable->setText( Config::Exemplar()->getSvnExecutable() );
     editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
 }
 
 void Configure::buttonOkClickSlot()
 {
-    Config::Exemplar()->setSvnExecutable( editSvnExecutable->text() );
     Config::Exemplar()->setDiffViewer( editDiffViewer->text() );
-}
-
-void Configure::buttonSelectSvnExecutableClickSlot()
-{
-    QString executable = QFileDialog::getOpenFileName( this, "Select Svn Executable", editSvnExecutable->text(), "" );
-    if ( !executable.isNull() )
-        editSvnExecutable->setText( QDir::convertSeparators( executable ) );
 }
 
 void Configure::buttonSelectDiffViewerClickSlot()

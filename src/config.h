@@ -33,7 +33,7 @@ class QSvn;
 
 /**
 this singelton holds the configuration for qsvn
- 
+
 @author Andreas Richter
 */
 
@@ -42,9 +42,6 @@ class Config : public QObject
     Q_OBJECT
 public:
     static Config* Exemplar();
-
-    void setSvnExecutable( QString aString ); //!< set the complete path to svn execute
-    QString getSvnExecutable(); //!< get the complete path to svn execute
 
     void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
     QString getDiffViewer(); //!< get the complete path to a diff viewer
@@ -68,7 +65,6 @@ private:
 
     static Config* _exemplar;
 
-    QString _svnExecutable;
     QString _diffViewer;
 
     void saveChanges();

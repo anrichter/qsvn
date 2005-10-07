@@ -56,7 +56,6 @@ Config::Config( QObject *parent )
     QSettings settings;
 
     //read saved settings
-    _svnExecutable = settings.value( "configuration/svnExecutable", "svn" ).toString();
     _diffViewer = settings.value( "configuration/diffViewer", "" ).toString();
 }
 
@@ -64,22 +63,7 @@ void Config::saveChanges()
 {
     //write the entire settings in config-file
     QSettings settings;
-    settings.setValue( "configuration/svnExecutable", _svnExecutable );
     settings.setValue( "configuration/diffViewer", _diffViewer );
-}
-
-void Config::setSvnExecutable( QString aString )
-{
-    if ( aString != _svnExecutable )
-    {
-        _svnExecutable = aString;
-        saveChanges();
-    }
-}
-
-QString Config::getSvnExecutable()
-{
-    return _svnExecutable;
 }
 
 void Config::setDiffViewer( QString aString )
@@ -216,7 +200,7 @@ void Config::saveListView( QListView *aListView )
         settings.endGroup();
     }
 }
- 
+
 void Config::restoreListView( QListView *aListView )
 {
     if ( aListView )

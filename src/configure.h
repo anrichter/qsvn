@@ -39,7 +39,6 @@ public:
 
 private slots:
     void buttonOkClickSlot();
-    void buttonSelectSvnExecutableClickSlot();
     void buttonSelectDiffViewerClickSlot();
 };
 
