@@ -2,5 +2,12 @@
 <qresource>
     <file alias="folder.png">images/folder.png</file>
     <file alias="unknownfolder.png">images/unknownfolder.png</file>
+
+    <file alias="file.png">images/file.png</file>
+    <file alias="addedfile.png">images/addedfile.png</file>
+    <file alias="conflictedfile.png">images/conflictedfile.png</file>
+    <file alias="missingfile.png">images/missingfile.png</file>
+    <file alias="modifiedfile.png">images/modifiedfile.png</file>
+    <file alias="uknownfile.png">images/unknownfile.png</file>
 </qresource>
 </RCC>

@@ -158,12 +158,14 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
     if ( !index.isValid() )
         return QVariant();
 
-    if ( role != Qt::DisplayRole )
-        return QVariant();
-
     FileListItem *item = static_cast< FileListItem* >( index.internalPointer() );
 
-    return item->data( index.column() );
+    if ( role == Qt::DisplayRole )
+        return item->data( index.column() );
+    else if ( ( role == Qt::DecorationRole ) && ( index.column() == 0 ))
+        return item->getPixmap();
+    else
+        return QVariant();
 }
 
 bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )

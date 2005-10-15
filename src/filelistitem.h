@@ -27,6 +27,7 @@
 
 //Qt
 #include <QStringList>
+class QPixmap;
 
 
 class FileListItem
@@ -48,6 +49,9 @@ public:
     int getSortColumn();
     void setSortColumn( int column );
     bool operator < (const FileListItem &other) const;
+
+    QPixmap getPixmap();
+
 private:
     QList<FileListItem*> childItems;
     QList<QVariant> itemData;
