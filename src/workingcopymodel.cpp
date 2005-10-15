@@ -146,7 +146,10 @@ int WorkingCopyModel::rowCount( const QModelIndex &parent ) const
 
 int WorkingCopyModel::columnCount( const QModelIndex &parent ) const
 {
-    return rootItem->columnCount();
+    if ( parent.isValid() )
+        return static_cast<WorkingCopyItem*>( parent.internalPointer() )->columnCount();
+    else
+        return rootItem->columnCount();
 }
 
 QVariant WorkingCopyModel::headerData( int section, Qt::Orientation orientation, int role ) const
