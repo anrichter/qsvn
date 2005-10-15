@@ -51,7 +51,10 @@ public:
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
 
+    bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+
     void addWorkingCopy( QString directory );
+
 private:
     WorkingCopyItem *rootItem;
 

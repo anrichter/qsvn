@@ -38,7 +38,6 @@
 
 //Qt
 #include <QtGui>
-#include <QModelIndex>
 
 
 QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
@@ -85,6 +84,7 @@ void QSvn::createActions()
     actionAddWorkingCopy = new QAction( "&Add...", this );
     connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( addWorkingCopySlot() ) );
     actionRemoveWorkingCopy = new QAction( "&Remove...", this );
+    connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( removeWorkingCopySlot() ) );
     actionCheckout = new QAction( "&Checkout...", this );
 
     actionUpdate = new QAction( "&Update", this );
@@ -158,16 +158,23 @@ void QSvn::addWorkingCopySlot()
     }
 }
 
-/*todo:
-
 void QSvn::removeWorkingCopySlot()
 {
     if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Would you really remove this Working Copy?" ),
                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
     {
-        WorkingCopy::Exemplar()->removeCurrentWorkingCopySlot();
+
+        QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+
+        for ( int i = 0; i < indexes.count(); i++ )
+        {
+            workingCopyModel->removeRow( indexes.at( i ).row() );
+        }
     }
 }
+
+/*todo:
 
 void QSvn::checkoutSlot()
 {

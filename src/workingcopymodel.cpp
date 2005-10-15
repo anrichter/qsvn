@@ -194,3 +194,18 @@ void WorkingCopyModel::loadWorkingCopies()
         addWorkingCopy( wcList.at( i ) );
     }
 }
+
+bool WorkingCopyModel::removeRows( int row, int count, const QModelIndex & parent )
+{
+    for ( int i = row; i < ( row + count ); ++i )
+    {
+        if ( parent.isValid() )
+        {
+            static_cast< WorkingCopyItem* >( parent.internalPointer() )->removeChild( row );
+        } else {
+            rootItem->removeChild( row );
+        }
+        return true;
+    }
+    return false;
+}

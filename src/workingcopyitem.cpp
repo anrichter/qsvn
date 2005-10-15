@@ -52,6 +52,11 @@ void WorkingCopyItem::appendChild( WorkingCopyItem *child )
     childItems.append( child );
 }
 
+void WorkingCopyItem::removeChild( int row )
+{
+    childItems.removeAt( row );
+}
+
 void WorkingCopyItem::deleteAllChilds()
 {
     qDeleteAll( childItems );

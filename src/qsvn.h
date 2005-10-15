@@ -82,17 +82,17 @@ private slots:
 
     //WorkingCopy
     void addWorkingCopySlot();
+    void removeWorkingCopySlot();
     /* todo:
-        void removeWorkingCopySlot();
         void checkoutSlot();
-     
+
         //Modify
         void updateSlot();
         void commitSlot();
         void addSlot();
         void removeSlot();
         void revertSlot();
-     
+
         //Query
         void diffSlot();
     */
@@ -103,7 +103,7 @@ private slots:
     void helpIndexSlot();
     /*todo:
         void aboutSlot();
-     
+
         // @brief prepare informations for and call a svn command during SvnWrapper::doSvnCommand
         void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
     todo */
