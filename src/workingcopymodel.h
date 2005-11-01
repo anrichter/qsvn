@@ -54,7 +54,6 @@ public:
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 
     void addWorkingCopy( QString directory );
-
 private:
     WorkingCopyItem *rootItem;
 

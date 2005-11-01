@@ -24,6 +24,7 @@
 
 //QSvn
 #include "workingcopyitem.h"
+#include "statustext.h"
 
 //SvnCpp
 #include "svncpp/wc.hpp"
@@ -101,4 +102,16 @@ QPixmap WorkingCopyItem::getPixmap()
         return QPixmap( ":folder.png" );
     else
         return QPixmap( ":unknownfolder.png" );
+}
+
+bool WorkingCopyItem::svnUpdate()
+{
+	if ( svnDirectory )
+	{
+		StatusText::Exemplar()->outputMessage( "Update Working Copy " + itemData.value( 1 ).toString() );
+		return TRUE;
+	} else {
+		StatusText::Exemplar()->outputMessage( itemData.value( 1 ).toString() + " is not a Working Copy" );
+		return FALSE;
+	}
 }

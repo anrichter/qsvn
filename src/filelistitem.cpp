@@ -24,6 +24,7 @@
 
 //QSvn
 #include "filelistitem.h"
+#include "statustext.h"
 
 //Qt
 #include <QList>
@@ -184,4 +185,10 @@ QPixmap FileListItem::getPixmap( )
         default:
             return QPixmap( ":file.png" );
     }
+}
+
+bool FileListItem::svnUpdate()
+{
+    StatusText::Exemplar()->outputMessage( "Update Item " + itemData.value( 0 ).toString() );
+    return TRUE;
 }

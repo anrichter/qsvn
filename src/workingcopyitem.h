@@ -52,6 +52,9 @@ public:
     QString fullPath() const;
     bool isSvnDirectory() const;
     */
+
+    //subversion commands
+	bool svnUpdate();
 private:
     QList<WorkingCopyItem*> childItems;
     QList<QVariant> itemData;

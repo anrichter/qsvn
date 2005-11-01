@@ -52,6 +52,8 @@ public:
 
     QPixmap getPixmap();
 
+    //subversion commands
+	bool svnUpdate();
 private:
     QList<FileListItem*> childItems;
     QList<QVariant> itemData;

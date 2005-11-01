@@ -27,9 +27,11 @@
 #include "config.h"
 #include "configure.h"
 #include "filelistmodel.h"
+#include "filelistitem.h"
 #include "qsvn.h"
 #include "statustext.h"
 #include "workingcopymodel.h"
+#include "workingcopyitem.h"
 
 /*todo:
 #include "AboutDlg.h"
@@ -88,6 +90,7 @@ void QSvn::createActions()
     actionCheckout = new QAction( "&Checkout...", this );
 
     actionUpdate = new QAction( "&Update", this );
+    connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( updateSlot() ) );
     actionCommit = new QAction( "&Commit...", this );
     actionAdd = new QAction( "&Add...", this );
     actionRemove = new QAction( "&Remove...", this );
@@ -239,12 +242,46 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
     }
 }
 
+*/
 
 void QSvn::updateSlot()
 {
-    svnCommand( SvnWrapper::Update );
+    if ( treeViewWorkingCopy->hasFocus() )
+    {
+        QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+
+        if ( indexes.count() == 0 ) 
+        {
+            QMessageBox::information( this, "QSvn", "You must select a Working Copy", QMessageBox::Ok );
+            return;
+        }
+
+        for ( int i = 0; i < indexes.count(); i++ )
+        {
+            static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->svnUpdate();
+        }
+    } else if ( treeViewFileList->hasFocus() ) 
+    {
+        QItemSelectionModel *selectionModel = treeViewFileList->selectionModel();
+        QModelIndexList indexes = selectionModel->selectedIndexes();
+
+        if ( indexes.count() == 0 ) 
+        {
+            QMessageBox::information( this, "QSvn", "You must select a File", QMessageBox::Ok );
+            return;
+        }
+
+        for ( int i = 0; i < indexes.count(); i++ )
+        {
+            static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->svnUpdate();
+        }
+    } else {
+        QMessageBox::information( this, "QSvn", "You must select a Working Copy", QMessageBox::Ok );
+    }
 }
 
+/*
 void QSvn::commitSlot()
 {
     svnCommand( SvnWrapper::Commit, TRUE );
