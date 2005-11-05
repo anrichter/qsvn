@@ -27,6 +27,9 @@
 #include "statustext.h"
 
 //SvnCpp
+#include "svncpp/client.hpp"
+#include "svncpp/path.hpp"
+#include "svncpp/revision.hpp"
 #include "svncpp/wc.hpp"
 
 //Qt
@@ -106,12 +109,16 @@ QPixmap WorkingCopyItem::getPixmap()
 
 bool WorkingCopyItem::svnUpdate()
 {
-	if ( svnDirectory )
-	{
-		StatusText::Exemplar()->outputMessage( "Update Working Copy " + itemData.value( 1 ).toString() );
-		return TRUE;
-	} else {
-		StatusText::Exemplar()->outputMessage( itemData.value( 1 ).toString() + " is not a Working Copy" );
-		return FALSE;
-	}
+    if ( svnDirectory )
+    {
+        StatusText::Exemplar()->outputMessage( "Update Working Copy " + itemData.value( 1 ).toString() );
+        svn::Context svnContext;
+        svn::Client svnClient( &svnContext );
+        svn::Path svnPath( itemData.value( 1 ).toString().toLocal8Bit() );
+        svnClient.update( svnPath, svn::Revision::HEAD, false );
+        return TRUE;
+    } else {
+        StatusText::Exemplar()->outputMessage( itemData.value( 1 ).toString() + " is not a Working Copy" );
+        return FALSE;
+    }
 }
