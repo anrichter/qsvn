@@ -78,7 +78,8 @@ void FileListModel::setActiveDirectory( QString directory )
 
         svn::Client svnClient( svnContext );
 
-        svn::StatusEntries statusList = svnClient.status( directory.toLocal8Bit(), false, true, false, false);
+        QDir dir( directory );
+        svn::StatusEntries statusList = svnClient.status( dir.canonicalPath().toLocal8Bit(), false, true, false, false);
         svn::StatusEntries::iterator it;
         for ( it = statusList.begin(); it != statusList.end(); ++it )
         {
