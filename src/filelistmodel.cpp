@@ -25,12 +25,8 @@
 //QSvn
 #include "filelistitem.h"
 #include "filelistmodel.h"
-
 #include "statustext.h"
-
-//SvnCpp
-#include "svncpp/client.hpp"
-#include "svncpp/status.hpp"
+#include "svnclient.h"
 
 //Qt
 #include <QtGui>
@@ -66,20 +62,9 @@ void FileListModel::setActiveDirectory( QString directory )
         removeRows( 0, rootItem->childCount() );
         QList< QVariant > columnData;
 
-        //create a new svn::Context
-        if ( svnContext )
-        {
-            delete svnContext;
-            svnContext = 0;
-        }
-
-        svnContext = new svn::Context();
         oldDirectory = directory;
 
-        svn::Client svnClient( svnContext );
-
-        QDir dir( directory );
-        svn::StatusEntries statusList = svnClient.status( dir.canonicalPath().toLocal8Bit(), false, true, false, false);
+        svn::StatusEntries statusList = SvnClient::Exemplar()->status( directory );
         svn::StatusEntries::iterator it;
         for ( it = statusList.begin(); it != statusList.end(); ++it )
         {

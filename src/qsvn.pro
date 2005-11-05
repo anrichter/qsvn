@@ -74,6 +74,7 @@ HEADERS = addworkingcopy.h \
           filelistmodel.h \
           qsvn.h \
           statustext.h \
+          svnclient.h \
           workingcopyitem.h \
           workingcopymodel.h \
           svncpp/annotate_line.hpp \
@@ -107,6 +108,7 @@ SOURCES = addworkingcopy.cpp \
           main.cpp \
           qsvn.cpp \
           statustext.cpp \
+          svnclient.cpp \
           workingcopyitem.cpp \
           workingcopymodel.cpp \
           svncpp/apr.cpp \
