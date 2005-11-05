@@ -32,6 +32,10 @@
 #include <QVariant>
 
 //Svn
+#include "svncpp/client.hpp"
+#include "svncpp/path.hpp"
+#include "svncpp/revision.hpp"
+#include "svncpp/wc.hpp"
 #include <svn_wc.h>
 
 
@@ -189,6 +193,11 @@ QPixmap FileListItem::getPixmap( )
 
 bool FileListItem::svnUpdate()
 {
+    svn::Context svnContext;
+    svn::Client svnClient( &svnContext );
+    svn::Path svnPath( itemData.value( 4 ).toString().toLocal8Bit() );
+    svnClient.update( svnPath, svn::Revision::HEAD, false );
+
     StatusText::Exemplar()->outputMessage( "Update Item " + itemData.value( 0 ).toString() );
     return TRUE;
 }
