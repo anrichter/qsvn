@@ -27,9 +27,7 @@
 #include "statustext.h"
 
 //Qt
-#include <QList>
-#include <QPixmap>
-#include <QVariant>
+#include <QtGui>
 
 //Svn
 #include "svncpp/client.hpp"
@@ -191,13 +189,7 @@ QPixmap FileListItem::getPixmap( )
     }
 }
 
-bool FileListItem::svnUpdate()
+QString FileListItem::fullFileName( )
 {
-    svn::Context svnContext;
-    svn::Client svnClient( &svnContext );
-    svn::Path svnPath( itemData.value( 4 ).toString().toLocal8Bit() );
-    svnClient.update( svnPath, svn::Revision::HEAD, false );
-
-    StatusText::Exemplar()->outputMessage( "Update Item " + itemData.value( 0 ).toString() );
-    return TRUE;
+    return itemData.value( 4 ).toString();
 }

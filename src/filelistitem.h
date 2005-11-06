@@ -26,8 +26,7 @@
 #define FILELISTITEM_H
 
 //Qt
-#include <QStringList>
-class QPixmap;
+#include <QtGui>
 
 
 class FileListItem
@@ -52,8 +51,7 @@ public:
 
     QPixmap getPixmap();
 
-    //subversion commands
-	bool svnUpdate();
+    QString fullFileName();
 private:
     QList<FileListItem*> childItems;
     QList<QVariant> itemData;

@@ -26,8 +26,7 @@
 #define WORKINGCOPYITEM_H
 
 //Qt
-#include <QStringList>
-class QPixmap;
+#include <QtCore>
 
 
 class WorkingCopyItem
@@ -48,23 +47,14 @@ public:
     WorkingCopyItem *parent();
 
     QPixmap getPixmap();
-    /*todo:
     QString fullPath() const;
-    bool isSvnDirectory() const;
-    */
 
-    //subversion commands
-	bool svnUpdate();
 private:
     QList<WorkingCopyItem*> childItems;
     QList<QVariant> itemData;
     WorkingCopyItem *parentItem;
 
     bool svnDirectory;
-    /*todo:
-        QString stringFullPath;
-        WorkingCopyItem* parentItem;
-        */
 };
 
 #endif

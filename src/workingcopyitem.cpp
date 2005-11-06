@@ -33,9 +33,7 @@
 #include "svncpp/wc.hpp"
 
 //Qt
-#include <QList>
-#include <QPixmap>
-#include <QVariant>
+#include <QtGui>
 
 
 WorkingCopyItem::WorkingCopyItem( const QList< QVariant > &data, WorkingCopyItem *parent )
@@ -107,18 +105,7 @@ QPixmap WorkingCopyItem::getPixmap()
         return QPixmap( ":unknownfolder.png" );
 }
 
-bool WorkingCopyItem::svnUpdate()
+QString WorkingCopyItem::fullPath() const
 {
-    if ( svnDirectory )
-    {
-        StatusText::Exemplar()->outputMessage( "Update Working Copy " + itemData.value( 1 ).toString() );
-        svn::Context svnContext;
-        svn::Client svnClient( &svnContext );
-        svn::Path svnPath( itemData.value( 1 ).toString().toLocal8Bit() );
-        svnClient.update( svnPath, svn::Revision::HEAD, false );
-        return TRUE;
-    } else {
-        StatusText::Exemplar()->outputMessage( itemData.value( 1 ).toString() + " is not a Working Copy" );
-        return FALSE;
-    }
+    return itemData.value( 1 ).toString();
 }

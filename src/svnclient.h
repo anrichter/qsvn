@@ -30,7 +30,7 @@
 #include "svncpp/status.hpp"
 
 //Qt
-#include <QObject>
+#include <QtCore>
 
 /**
 This Class handles subversion client calls
@@ -45,6 +45,7 @@ public:
     static SvnClient* Exemplar();
 
     svn::StatusEntries status( QString &directory );
+    bool update( QStringList updateList );
 
 protected:
     SvnClient();

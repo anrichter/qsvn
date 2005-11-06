@@ -25,12 +25,14 @@
 //QSvn
 #include "svnclient.h"
 
+#include "statustext.h"
+
 //SvnCpp
 #include "svncpp/client.hpp"
 #include "svncpp/status.hpp"
 
 //Qt
-#include <QDir>
+#include <QtCore>
 
 
 //make SvnClient a singleton
@@ -62,4 +64,14 @@ svn::StatusEntries SvnClient::status( QString & directory )
 {
     QDir dir( directory );
     return svnClient->status( dir.canonicalPath().toLocal8Bit(), false, true, false, false);
+}
+
+bool SvnClient::update( QStringList updateList )
+{
+    for ( int i = 0; i < updateList.count(); i++ )
+    {
+        svn::Path svnPath( updateList.at( i ).toLocal8Bit() );
+        svnClient->update( svnPath, svn::Revision::HEAD, false );
+        StatusText::Exemplar()->outputMessage( "update " + updateList.at( i ) );
+    }
 }

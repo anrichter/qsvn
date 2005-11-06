@@ -30,6 +30,7 @@
 #include "filelistitem.h"
 #include "qsvn.h"
 #include "statustext.h"
+#include "svnclient.h"
 #include "workingcopymodel.h"
 #include "workingcopyitem.h"
 
@@ -246,12 +247,14 @@ void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
 
 void QSvn::updateSlot()
 {
+    QStringList updateList;
+
     if ( treeViewWorkingCopy->hasFocus() )
     {
         QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
         QModelIndexList indexes = selectionModel->selectedIndexes();
 
-        if ( indexes.count() == 0 ) 
+        if ( indexes.count() == 0 )
         {
             QMessageBox::information( this, "QSvn", "You must select a Working Copy", QMessageBox::Ok );
             return;
@@ -259,14 +262,14 @@ void QSvn::updateSlot()
 
         for ( int i = 0; i < indexes.count(); i++ )
         {
-            static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->svnUpdate();
+            updateList << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
         }
-    } else if ( treeViewFileList->hasFocus() ) 
+    } else if ( treeViewFileList->hasFocus() )
     {
         QItemSelectionModel *selectionModel = treeViewFileList->selectionModel();
         QModelIndexList indexes = selectionModel->selectedIndexes();
 
-        if ( indexes.count() == 0 ) 
+        if ( indexes.count() == 0 )
         {
             QMessageBox::information( this, "QSvn", "You must select a File", QMessageBox::Ok );
             return;
@@ -274,11 +277,14 @@ void QSvn::updateSlot()
 
         for ( int i = 0; i < indexes.count(); i++ )
         {
-            static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->svnUpdate();
+            updateList << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
         }
     } else {
         QMessageBox::information( this, "QSvn", "You must select a Working Copy", QMessageBox::Ok );
     }
+
+    if ( updateList.count() > 0 )
+        SvnClient::Exemplar()->update( updateList );
 }
 
 /*

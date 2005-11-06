@@ -31,8 +31,7 @@ class WorkingCopyModel;
 
 
 //QT
-class QAction;
-class QMenu;
+#include <QtCore>
 
 
 class QSvn : public QMainWindow, public Ui::QSvn
@@ -85,11 +84,11 @@ private slots:
     void removeWorkingCopySlot();
     /* todo:
         void checkoutSlot();
-	*/
+    */
 
     //Modify
     void updateSlot();
-	/*
+    /*
         void commitSlot();
         void addSlot();
         void removeSlot();
