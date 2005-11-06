@@ -39,18 +39,11 @@ FileListModel::FileListModel( QObject *parent )
     rootData << "Filename" << "Status" << "Revision" << "Author";
     rootItem = new FileListItem( rootData );
     sortOrder = Qt::AscendingOrder;
-
-    svnContext = 0;
 }
 
 FileListModel::~FileListModel()
 {
     delete rootItem;
-    if ( svnContext )
-    {
-        delete svnContext;
-        svnContext = 0;
-    }
 }
 
 void FileListModel::setActiveDirectory( QString directory )
