@@ -23,24 +23,24 @@
 
 
 //QSvn
-#include "Checkout.h"
-#include "StatusText.h"
+#include "checkout.h"
+#include "statustext.h"
 
 //Qt
-#include <qcombobox.h>
-#include <qfiledialog.h>
-#include <qlineedit.h>
-#include <qmessagebox.h>
+#include <QtGui>
 
 
-Checkout::Checkout( QWidget *parent, const char *name )
-        : CheckoutDlg( parent, name )
-{}
+Checkout::Checkout( QWidget *parent )
+        : QDialog( parent )
+{
+    setupUi( this );
 
-Checkout::~Checkout()
-{}
+    QObject::connect( buttonURL, SIGNAL( clicked() ), this, SLOT( selectURLSlot() ) );
+    QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
+    QObject::connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
+}
 
-QString Checkout::getSelectedURL() const
+QString Checkout::selectedURL() const
 {
     QString url = comboProtocol->currentText();
     if ( url != "file://" )
@@ -52,7 +52,7 @@ QString Checkout::getSelectedURL() const
     return url;
 }
 
-QString Checkout::getSelectedDirectory() const
+QString Checkout::selectedDirectory() const
 {
     return editDirectory->text();
 }
@@ -64,8 +64,8 @@ void Checkout::selectURLSlot()
 
 void Checkout::selectDirectorySlot()
 {
-    QString directory = QFileDialog::getExistingDirectory( editDirectory->text(), this, "get", "Select a Directory for Working Copy" );
-    if ( directory )
+    QString directory = QFileDialog::getExistingDirectory( this, "Select a directory for working copy", editDirectory->text() );
+    if ( !directory.isEmpty() )
         editDirectory->setText( QDir::convertSeparators( directory ) );
 }
 
@@ -73,12 +73,12 @@ void Checkout::buttonOkClickedSlot()
 {
     if ( editPath->text().isEmpty() )
     {
-        QMessageBox::critical( this, "qsvn - Error", "You must specified an URL for checkout!" );
+        QMessageBox::critical( this, "qsvn - Error", "You must specify an URL for checkout!" );
         return;
     }
     if ( editDirectory->text().isEmpty() )
     {
-        QMessageBox::critical( this, "qsvn - Error", "You must specified an Directory for checkout!" );
+        QMessageBox::critical( this, "qsvn - Error", "You must specify a directory for checkout!" );
         return;
     }
     QDir dir( editDirectory->text() );

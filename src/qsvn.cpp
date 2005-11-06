@@ -24,6 +24,7 @@
 
 //QSvn
 #include "addworkingcopy.h"
+#include "checkout.h"
 #include "config.h"
 #include "configure.h"
 #include "filelistmodel.h"
@@ -89,6 +90,7 @@ void QSvn::createActions()
     actionRemoveWorkingCopy = new QAction( "&Remove...", this );
     connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( removeWorkingCopySlot() ) );
     actionCheckout = new QAction( "&Checkout...", this );
+    connect( actionCheckout, SIGNAL( triggered() ), this, SLOT( checkoutSlot() ) );
 
     actionUpdate = new QAction( "&Update", this );
     connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( updateSlot() ) );
@@ -178,13 +180,15 @@ void QSvn::removeWorkingCopySlot()
     }
 }
 
-/*todo:
-
 void QSvn::checkoutSlot()
 {
-    WorkingCopy::Exemplar()->checkoutSlot();
+    Checkout checkout( this );
+    if ( checkout.exec() )
+    {
+    }
 }
 
+/*todo:
 void QSvn::svnCommand( int svnCommandType, bool withFileSelector )
 {
     //already implemented: commit, revert

@@ -82,9 +82,7 @@ private slots:
     //WorkingCopy
     void addWorkingCopySlot();
     void removeWorkingCopySlot();
-    /* todo:
-        void checkoutSlot();
-    */
+    void checkoutSlot();
 
     //Modify
     void updateSlot();

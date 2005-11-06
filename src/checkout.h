@@ -25,28 +25,26 @@
 #define CHECKOUT_H
 
 //QSvn
-#include "CheckoutDlg.h"
+#include "ui_checkout.h"
+
+//Qt
+#include <QtGui>
 
 
-class Checkout : public CheckoutDlg
+class Checkout : public QDialog, public Ui::Checkout
 {
     Q_OBJECT
 
 public:
-    Checkout( QWidget *parent = 0, const char *name = 0 );
-    ~Checkout();
+    Checkout( QWidget *parent = 0 );
 
-    QString getSelectedURL() const;
-    QString getSelectedDirectory() const;
+    QString selectedURL() const;
+    QString selectedDirectory() const;
 
 public slots:
     void selectURLSlot();
     void selectDirectorySlot();
     void buttonOkClickedSlot();
-
-private:
-
-protected slots:
 };
 
 #endif

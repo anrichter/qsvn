@@ -64,10 +64,12 @@ CONFIG += qt
 RESOURCES = qsvn.qrc
 
 FORMS = forms\addworkingcopy.ui \
+        forms\checkout.ui \
         forms\configure.ui \
         forms\qsvn.ui
 
 HEADERS = addworkingcopy.h \
+          checkout.h \
           config.h \
           configure.h \
           filelistitem.h \
@@ -101,6 +103,7 @@ HEADERS = addworkingcopy.h \
           svncpp/wc.hpp
 
 SOURCES = addworkingcopy.cpp \
+          checkout.cpp \
           config.cpp \
           configure.cpp \
           filelistitem.cpp \
