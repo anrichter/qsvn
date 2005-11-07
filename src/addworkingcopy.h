@@ -28,6 +28,12 @@
 #include "ui_addworkingcopy.h"
 
 
+/**
+This dialog let the user choice an existing working copy for add to the working copy list.
+
+@author Andreas Richter
+ */
+
 class AddWorkingCopy : public QDialog, public Ui::AddWorkingCopy
 {
     Q_OBJECT
@@ -35,6 +41,10 @@ class AddWorkingCopy : public QDialog, public Ui::AddWorkingCopy
 public:
     AddWorkingCopy( QWidget *parent = 0 );
 
+    /**
+     * Get the selected directory.
+     * @return selected directory.
+     */
     QString getSelectedDirectory() const;
 public slots:
 

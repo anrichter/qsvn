@@ -44,7 +44,18 @@ class SvnClient : public QObject
 public:
     static SvnClient* Exemplar();
 
+    /**
+     * Return StatusEntries for a directory
+     * @param directory
+     * @return
+     */
     svn::StatusEntries status( QString &directory );
+
+    /**
+     * Update entries from the updateList.
+     * @param updateList
+     * @return
+     */
     bool update( QStringList updateList );
 
 protected:
