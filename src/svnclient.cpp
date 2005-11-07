@@ -74,4 +74,5 @@ bool SvnClient::update( QStringList updateList )
         svnClient->update( svnPath, svn::Revision::HEAD, false );
         StatusText::Exemplar()->outputMessage( "update " + updateList.at( i ) );
     }
+    return true;
 }
