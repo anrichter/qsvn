@@ -71,7 +71,16 @@ bool SvnClient::update( QStringList updateList )
     for ( int i = 0; i < updateList.count(); i++ )
     {
         svn::Path svnPath( updateList.at( i ).toLocal8Bit() );
-        svnClient->update( svnPath, svn::Revision::HEAD, false );
+        try
+        {
+            svnClient->update( svnPath, svn::Revision::HEAD, false );
+        } 
+        catch ( svn::ClientException e ) 
+        {
+            QString eStr = QString::fromLocal8Bit( e.message() );
+            StatusText::Exemplar()->outputMessage( eStr );
+            return false;
+        }
         StatusText::Exemplar()->outputMessage( "update " + updateList.at( i ) );
     }
     return true;
