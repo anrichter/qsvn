@@ -77,8 +77,7 @@ bool SvnClient::update( QStringList &updateList )
         }
         catch ( svn::ClientException e )
         {
-            QString eStr = QString::fromLocal8Bit( e.message() );
-            StatusText::Exemplar()->outputMessage( eStr );
+            StatusText::Exemplar()->outputMessage( QString::fromLocal8Bit( e.message() ) );
             return false;
         }
         StatusText::Exemplar()->outputMessage( "update " + updateList.at( i ) );
@@ -98,8 +97,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     }
     catch ( svn::ClientException e )
     {
-        QString eStr = QString::fromLocal8Bit( e.message() );
-        StatusText::Exemplar()->outputMessage( eStr );
+        StatusText::Exemplar()->outputMessage( QString::fromLocal8Bit( e.message() ) );
         return false;
     }
 }
