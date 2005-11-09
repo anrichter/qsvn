@@ -60,13 +60,13 @@ SvnClient::~SvnClient()
     delete svnContext;
 }
 
-svn::StatusEntries SvnClient::status( QString & directory )
+svn::StatusEntries SvnClient::status( QString &directory )
 {
     QDir dir( directory );
     return svnClient->status( dir.canonicalPath().toLocal8Bit(), false, true, false, false);
 }
 
-bool SvnClient::update( QStringList updateList )
+bool SvnClient::update( QStringList &updateList )
 {
     for ( int i = 0; i < updateList.count(); i++ )
     {
@@ -86,7 +86,7 @@ bool SvnClient::update( QStringList updateList )
     return true;
 }
 
-bool SvnClient::checkout( const QString & url, const QString & path )
+bool SvnClient::checkout( const QString &url, const QString &path )
 {
     if ( url.isEmpty() || path.isEmpty() )
         return FALSE;

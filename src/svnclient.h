@@ -56,7 +56,7 @@ public:
      * @param updateList
      * @return
      */
-    bool update( QStringList updateList );
+    bool update( QStringList &updateList );
 
     /**
      * Checkout a working copy
