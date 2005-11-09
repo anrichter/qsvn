@@ -185,6 +185,7 @@ void QSvn::checkoutSlot()
     Checkout checkout( this );
     if ( checkout.exec() )
     {
+        SvnClient::Exemplar()->checkout( checkout.selectedURL(), checkout.selectedDirectory() );
     }
 }
 

@@ -58,6 +58,13 @@ public:
      */
     bool update( QStringList updateList );
 
+    /**
+     * Checkout a working copy
+     * @param url The complete URL from subversion repository
+     * @param path The where the working copy will be checked out.
+     * @return True if checkout properly otherwise False
+     */
+    bool checkout( const QString &url, const QString &path );
 protected:
     SvnClient();
     ~SvnClient();
