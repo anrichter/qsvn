@@ -20,65 +20,41 @@
  *   with any edition of Qt, and distribute the resulting executable,      *
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
+#ifndef LISTENER_H
+#define LISTENER_H
 
-#ifndef SVNCLIENT_H
-#define SVNCLIENT_H
-
-//QSvn
-#include "listener.h"
-
-//SvnCpp
-#include "svncpp/client.hpp"
-#include "svncpp/context.hpp"
-#include "svncpp/status.hpp"
-
-//Qt
-#include <QtCore>
+//svncpp
+#include "svncpp/context_listener.hpp"
 
 
-/**
-This Class handles subversion client calls
-
-@author Andreas Richter
-*/
-
-class SvnClient : public QObject
+class Listener : public svn::ContextListener
 {
-    Q_OBJECT
 public:
-    static SvnClient* Exemplar();
+    Listener();
+    virtual ~Listener();
 
-    /**
-     * Return StatusEntries for a directory
-     * @param directory
-     * @return
-     */
-    svn::StatusEntries status( QString &directory );
-
-    /**
-     * Update entries from the updateList.
-     * @param updateList
-     * @return
-     */
-    bool update( QStringList &updateList );
-
-    /**
-     * Checkout a working copy
-     * @param url The complete URL from subversion repository
-     * @param path The where the working copy will be checked out.
-     * @return True if checkout properly otherwise False
-     */
-    bool checkout( const QString &url, const QString &path );
-protected:
-    SvnClient();
-    ~SvnClient();
-
-private:
-    static SvnClient* _exemplar;
-
-    svn::Context *svnContext;
-    svn::Client *svnClient;
-    Listener *listener;
+    virtual bool contextGetLogin( const std::string & realm,
+                                        std::string & username,
+                                        std::string & password,
+                                        bool &maySave );
+    virtual void contextNotify( const char *path,
+                                svn_wc_notify_action_t action,
+                                svn_node_kind_t kind,
+                                const char *mime_type,
+                                svn_wc_notify_state_t content_state,
+                                svn_wc_notify_state_t prop_state,
+                                svn_revnum_t revision);
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
+    virtual void contextNotify( const svn_wc_notify_t *action );
+#endif
+    virtual bool contextCancel();
+    virtual bool contextGetLogMessage( std::string &msg );
+    virtual SslServerTrustAnswer contextSslServerTrustPrompt( const SslServerTrustData & data,
+                                                              apr_uint32_t &acceptedFailures );
+    virtual bool contextSslClientCertPrompt( std::string &certFile );
+    virtual bool contextSslClientCertPwPrompt( std::string &password,
+                                               const std::string &realm,
+                                               bool &maySave);
 };
 
 #endif

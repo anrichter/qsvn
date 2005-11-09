@@ -74,6 +74,7 @@ HEADERS = addworkingcopy.h \
           configure.h \
           filelistitem.h \
           filelistmodel.h \
+          listener.h \
           qsvn.h \
           statustext.h \
           svnclient.h \
@@ -108,6 +109,7 @@ SOURCES = addworkingcopy.cpp \
           configure.cpp \
           filelistitem.cpp \
           filelistmodel.cpp \
+          listener.cpp \
           main.cpp \
           qsvn.cpp \
           statustext.cpp \

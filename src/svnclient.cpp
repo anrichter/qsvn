@@ -23,9 +23,9 @@
 
 
 //QSvn
-#include "svnclient.h"
-
+#include "listener.h"
 #include "statustext.h"
+#include "svnclient.h"
 
 //SvnCpp
 #include "svncpp/client.hpp"
@@ -52,10 +52,14 @@ SvnClient::SvnClient()
 {
     svnContext = new svn::Context();
     svnClient = new svn::Client( svnContext );
+    listener = new Listener();
+
+    //todo: svnContext->setListener( listener );
 }
 
 SvnClient::~SvnClient()
 {
+    delete listener;
     delete svnClient;
     delete svnContext;
 }

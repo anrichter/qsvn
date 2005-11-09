@@ -21,64 +21,51 @@
  *   without including the source code for Qt in the source distribution.  *
  ***************************************************************************/
 
-#ifndef SVNCLIENT_H
-#define SVNCLIENT_H
-
 //QSvn
 #include "listener.h"
 
 //SvnCpp
-#include "svncpp/client.hpp"
-#include "svncpp/context.hpp"
-#include "svncpp/status.hpp"
-
-//Qt
-#include <QtCore>
+#include "svncpp/context_listener.hpp"
 
 
-/**
-This Class handles subversion client calls
-
-@author Andreas Richter
-*/
-
-class SvnClient : public QObject
+Listener::Listener( )
 {
-    Q_OBJECT
-public:
-    static SvnClient* Exemplar();
+}
 
-    /**
-     * Return StatusEntries for a directory
-     * @param directory
-     * @return
-     */
-    svn::StatusEntries status( QString &directory );
+Listener::~ Listener( )
+{
+}
 
-    /**
-     * Update entries from the updateList.
-     * @param updateList
-     * @return
-     */
-    bool update( QStringList &updateList );
+bool Listener::contextGetLogin( const std::string & realm, std::string & username, std::string & password, bool & maySave )
+{
+}
 
-    /**
-     * Checkout a working copy
-     * @param url The complete URL from subversion repository
-     * @param path The where the working copy will be checked out.
-     * @return True if checkout properly otherwise False
-     */
-    bool checkout( const QString &url, const QString &path );
-protected:
-    SvnClient();
-    ~SvnClient();
+void Listener::contextNotify( const char * path, svn_wc_notify_action_t action, svn_node_kind_t kind, const char * mime_type, svn_wc_notify_state_t content_state, svn_wc_notify_state_t prop_state, svn_revnum_t revision )
+{
+}
 
-private:
-    static SvnClient* _exemplar;
-
-    svn::Context *svnContext;
-    svn::Client *svnClient;
-    Listener *listener;
-};
-
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
+void Listener::contextNotify( const svn_wc_notify_t *action )
+{
+}
 #endif
+
+bool Listener::contextCancel( )
+{
+}
+
+bool Listener::contextGetLogMessage( std::string & msg )
+{
+}
+
+svn::ContextListener::SslServerTrustAnswer Listener::contextSslServerTrustPrompt( const SslServerTrustData & data, apr_uint32_t & acceptedFailures )
+{
+}
+
+bool Listener::contextSslClientCertPrompt( std::string & certFile )
+{
+}
+
+bool Listener::contextSslClientCertPwPrompt( std::string & password, const std::string & realm, bool & maySave )
+{
+}
