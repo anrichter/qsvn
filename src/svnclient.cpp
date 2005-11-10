@@ -54,7 +54,7 @@ SvnClient::SvnClient()
     svnClient = new svn::Client( svnContext );
     listener = new Listener();
 
-    //todo: svnContext->setListener( listener );
+    svnContext->setListener( listener );
 }
 
 SvnClient::~SvnClient()
@@ -77,6 +77,7 @@ bool SvnClient::update( QStringList &updateList )
         svn::Path svnPath( updateList.at( i ).toLocal8Bit() );
         try
         {
+            StatusText::Exemplar()->outputMessage( "" );
             svnClient->update( svnPath, svn::Revision::HEAD, false );
         }
         catch ( svn::ClientException e )
@@ -84,7 +85,6 @@ bool SvnClient::update( QStringList &updateList )
             StatusText::Exemplar()->outputMessage( QString::fromLocal8Bit( e.message() ) );
             return false;
         }
-        StatusText::Exemplar()->outputMessage( "update " + updateList.at( i ) );
     }
     return true;
 }

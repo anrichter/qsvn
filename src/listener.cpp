@@ -23,6 +23,7 @@
 
 //QSvn
 #include "listener.h"
+#include "statustext.h"
 
 //SvnCpp
 #include "svncpp/context_listener.hpp"
@@ -48,6 +49,44 @@ void Listener::contextNotify( const char * path, svn_wc_notify_action_t action, 
 #if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
 void Listener::contextNotify( const svn_wc_notify_t *action )
 {
+    if ( !action )
+        return;
+
+    //action to string
+    QString notifyString;
+    switch ( action->action )
+    {
+        case svn_wc_notify_add: notifyString = QString( "add" ); break;
+        case svn_wc_notify_copy: notifyString = QString( "copy" ); break;
+        case svn_wc_notify_delete: notifyString = QString( "delete" ); break;
+        case svn_wc_notify_restore: notifyString = QString( "restore" ); break;
+        case svn_wc_notify_revert: notifyString = QString( "revert" ); break;
+        case svn_wc_notify_failed_revert: notifyString = QString( "failed revert" ); break;
+        case svn_wc_notify_resolved: notifyString = QString( "resolved" ); break;
+        case svn_wc_notify_skip: notifyString = QString( "skip" ); break;
+        case svn_wc_notify_update_delete: notifyString = QString( "update delete" ); break;
+        case svn_wc_notify_update_add: notifyString = QString( "update add" ); break;
+        case svn_wc_notify_update_update: notifyString = QString( "update" ); break;
+        case svn_wc_notify_update_completed: notifyString = QString( "update completed" ); break;
+        case svn_wc_notify_update_external: notifyString = QString( "update external" ); break;
+        case svn_wc_notify_status_completed: notifyString = QString( "status completed" ); break;
+        case svn_wc_notify_status_external: notifyString = QString( "status external" ); break;
+        case svn_wc_notify_commit_modified: notifyString = QString( "commit modified" ); break;
+        case svn_wc_notify_commit_added: notifyString = QString( "commit added" ); break;
+        case svn_wc_notify_commit_deleted: notifyString = QString( "commit deleted" ); break;
+        case svn_wc_notify_commit_replaced: notifyString = QString( "commit related" ); break;
+        case svn_wc_notify_commit_postfix_txdelta: notifyString = QString( "postfix txdelta" ); break;
+        case svn_wc_notify_blame_revision: notifyString = QString( "blame revision" ); break;
+        case svn_wc_notify_locked: notifyString = QString( "locked" ); break;
+        case svn_wc_notify_unlocked: notifyString = QString( "unlocked" ); break;
+        case svn_wc_notify_failed_lock: notifyString = QString( "failed lock" ); break;
+        case svn_wc_notify_failed_unlock: notifyString = QString( "failed unlock" ); break;
+    }
+
+    notifyString = notifyString + " " + action->path;
+    if ( action->revision > -1 )
+        notifyString = QString( "%1 Revision %2" ).arg( notifyString ).arg ( action->revision );
+    StatusText::Exemplar()->outputMessage( notifyString );
 }
 #endif
 
