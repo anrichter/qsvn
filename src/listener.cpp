@@ -38,6 +38,7 @@ Listener::~ Listener( )
 
 bool Listener::contextGetLogin( const std::string & realm, std::string & username, std::string & password, bool & maySave )
 {
+    return false;
 }
 
 void Listener::contextNotify( const char * path, svn_wc_notify_action_t action, svn_node_kind_t kind, const char * mime_type, svn_wc_notify_state_t content_state, svn_wc_notify_state_t prop_state, svn_revnum_t revision )
@@ -52,20 +53,25 @@ void Listener::contextNotify( const svn_wc_notify_t *action )
 
 bool Listener::contextCancel( )
 {
+    return false;
 }
 
 bool Listener::contextGetLogMessage( std::string & msg )
 {
+    return false;
 }
 
 svn::ContextListener::SslServerTrustAnswer Listener::contextSslServerTrustPrompt( const SslServerTrustData & data, apr_uint32_t & acceptedFailures )
 {
+    return DONT_ACCEPT;
 }
 
 bool Listener::contextSslClientCertPrompt( std::string & certFile )
 {
+    return false;
 }
 
 bool Listener::contextSslClientCertPwPrompt( std::string & password, const std::string & realm, bool & maySave )
 {
+    return false;
 }
