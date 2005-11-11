@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -28,12 +28,13 @@
 
 // Subversion api
 #include "svn_client.h"
+#include "svn_path.h"
 
 // svncpp
-#include "client.hpp"
-#include "exception.hpp"
-#include "pool.hpp"
-#include "status.hpp"
+#include "svncpp/client.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/status.hpp"
 
 
 namespace svn
@@ -77,28 +78,60 @@ namespace svn
       svn_error_clear (svn_io_remove_file (errfileName, pool));
   }
 
-  std::string
+  QString
   Client::diff (const Path & tmpPath, const Path & path,
                 const Revision & revision1, const Revision & revision2,
                 const bool recurse, const bool ignoreAncestry,
                 const bool noDiffDeleted) throw (ClientException)
   {
+    return diff(tmpPath,path,path,revision1,revision2,recurse,ignoreAncestry,noDiffDeleted);
+  }
+
+  QString
+  Client::diff (const Path & tmpPath, const Path & path1,const Path&path2,
+                const Revision & revision1, const Revision & revision2,
+                const bool recurse, const bool ignoreAncestry,
+                const bool noDiffDeleted) throw (ClientException)
+  {
+
     Pool pool;
     svn_error_t * error;
     apr_status_t status;
-    apr_file_t * outfile = NULL;
-    const char * outfileName = NULL;
-    apr_file_t * errfile = NULL;
-    const char * errfileName = NULL;
+    apr_file_t * outfile = 0L;
+    const char * outfileName = 0L;
+    apr_file_t * errfile = 0L;
+    const char * errfileName = 0L;
     apr_array_header_t * options;
     svn_stringbuf_t * stringbuf;
+    bool working_copy_present = false;
+    bool url_is_present = false;
+    Revision r1,r2;
+    r1 = revision1;
+    r2 = revision2;
 
+    if (svn_path_is_url(path1.cstr())) {
+        url_is_present = true;
+    } else {
+        working_copy_present = true;
+    }
+    if (svn_path_is_url(path2.cstr())) {
+        url_is_present = true;
+    } else {
+        working_copy_present = true;
+    }
+
+    if (revision1.revision()->kind==svn_opt_revision_unspecified && working_copy_present) {
+        r1 = svn_opt_revision_base;
+    }
+    if (revision2.revision()->kind==svn_opt_revision_unspecified) {
+        r2 = working_copy_present?svn_opt_revision_working : svn_opt_revision_head;
+    }
     // svn_client_diff needs an options array, even if it is empty
     options = apr_array_make (pool, 0, 0);
 
     // svn_client_diff needs a temporary file to write diff output to
     error = svn_io_open_unique_file (&outfile, &outfileName,
-                                     tmpPath.c_str(), ".tmp",
+                                     tmpPath.path().toUtf8(), ".tmp",
                                      FALSE, pool);
 
     if (error != NULL)
@@ -109,7 +142,7 @@ namespace svn
 
     // and another one to write errors to
     error = svn_io_open_unique_file (&errfile, &errfileName,
-                                     tmpPath.c_str(), ".tmp",
+                                     tmpPath.cstr(), ".tmp",
                                      FALSE, pool);
 
     if (error != NULL)
@@ -120,8 +153,8 @@ namespace svn
 
     // run diff
     error = svn_client_diff (options,
-                             path.c_str (), revision1.revision (),
-                             path.c_str (), revision2.revision (),
+                             path1.cstr (), r1.revision (),
+                             path2.cstr (), r2.revision (),
                              recurse, ignoreAncestry, noDiffDeleted,
                              outfile, errfile,
                              *m_context,
@@ -158,7 +191,10 @@ namespace svn
     }
 
     diffCleanup (outfile, outfileName, errfile, errfileName, pool);
-    return stringbuf->data;
+    QByteArray res( stringbuf->data, stringbuf->len );
+    res.resize(stringbuf->len+1);
+    QString nstring = QString::fromUtf8(res);
+    return nstring;
   }
 
 }

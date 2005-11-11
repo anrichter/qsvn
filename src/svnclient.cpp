@@ -30,6 +30,7 @@
 //SvnCpp
 #include "svncpp/client.hpp"
 #include "svncpp/status.hpp"
+#include "svncpp/targets.hpp"
 
 //Qt
 #include <QtCore>
@@ -72,19 +73,16 @@ svn::StatusEntries SvnClient::status( QString &directory )
 
 bool SvnClient::update( QStringList &updateList )
 {
-    for ( int i = 0; i < updateList.count(); i++ )
+    try
     {
-        svn::Path svnPath( updateList.at( i ).toLocal8Bit() );
-        try
-        {
-            StatusText::instance()->outputMessage( "" );
-            svnClient->update( svnPath, svn::Revision::HEAD, false );
-        }
-        catch ( svn::ClientException e )
-        {
-            StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
-            return false;
-        }
+        StatusText::instance()->outputMessage( "" );
+        svn::Targets targets( updateList);
+        svnClient->update( targets, svn::Revision::HEAD, true, false );
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        return false;
     }
     return true;
 }
@@ -96,8 +94,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
 
     try
     {
-        svn::Path _path( path.toLocal8Bit() );
-        svnClient->checkout( url.toLocal8Bit(), _path, svn::Revision::HEAD, true );
+        svnClient->checkout( url, path, svn::Revision::HEAD, true );
     }
     catch ( svn::ClientException e )
     {

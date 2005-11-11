@@ -24,7 +24,7 @@
  */
 
 // svncpp
-#include "pool.hpp"
+#include "svncpp/pool.hpp"
 
 
 /**

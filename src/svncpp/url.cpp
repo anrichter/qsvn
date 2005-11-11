@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -26,58 +26,84 @@
 #pragma warning( disable: 4786 )// debug symbol truncated
 #endif
 
-// stl
-#include <string>
-#include <vector>
+//Qt
+#include <QtCore>
+
 
 // subversion api
 #include "svn_ra.h"
 
 // svncpp
-#include "pool.hpp"
-#include "url.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/url.hpp"
 
 
 namespace svn
 {
-  static const int SCHEMA_COUNT=5;
-  static const char * 
-  VALID_SCHEMAS [SCHEMA_COUNT] =
+  static const char *
+  VALID_SCHEMAS [] =
   {
-    "http:", "https:", "svn:", "svn+ssh:", "file:"
+    "http","https","file",
+    "svn","svn+ssh","svn+http","svn+https","svn+file",
+    "ksvn","ksvn+ssh","ksvn+http","ksvn+https","ksvn+file","ksvn",
+    0
   };
 
   static bool mSchemasInitialized = false;
-  std::vector<std::string> mSchemas;
+  QList<QString> mSchemas;
 
   Url::Url () {}
 
   Url::~Url () {}
 
   bool
-  Url::isValid (const char * url)
+  Url::isValid (const QString& url)
   {
-    std::string urlTest (url);
-    for (int index=0; index < SCHEMA_COUNT; index++)
+    QString urlTest(url);
+    unsigned int index = 0;
+    while (VALID_SCHEMAS[index]!=0)
     {
-      std::string schema = VALID_SCHEMAS[index];
-      std::string urlComp = urlTest.substr (0, schema.length ());
+      QString schema = VALID_SCHEMAS[index];
+      QString urlComp = urlTest.mid(0, schema.length());
 
       if (schema == urlComp)
       {
         return true;
       }
+      ++index;
     }
 
     return false;
   }
+
+  QString
+  Url::transformProtokoll(const QString&prot)
+  {
+    QString _prot = prot.toLower();
+    if (QString::compare(_prot,"svn+http")==0||
+        QString::compare(_prot,"ksvn+http")==0) {
+        return QString("http");
+    } else if (QString::compare(_prot,"svn+https")==0||
+               QString::compare(_prot,"ksvn+https")==0) {
+        return QString("https");
+    }else if (QString::compare(_prot,"svn+file")==0||
+              QString::compare(_prot,"ksvn+file")==0) {
+        return QString("file");
+    } else if (QString::compare(_prot,"ksvn+ssh")==0) {
+        return QString("svn+ssh");
+    } else if (QString::compare(_prot,"ksvn")==0) {
+        return QString("svn");
+    }
+    return _prot;
+  }
+
 
   /**
    * the implementation of the function that pull the supported
    * url schemas out of the ra layer it rather dirty now since
    * we are lacking a higher level of abstraction
    */
-  std::vector<std::string>
+  QList<QString>
   Url::supportedSchemas ()
   {
     if (mSchemasInitialized)
@@ -87,39 +113,39 @@ namespace svn
     Pool pool;
     void * ra_baton;
 
-    svn_error_t * error = 
+    svn_error_t * error =
       svn_ra_init_ra_libs (&ra_baton, pool);
     if (error)
       return mSchemas;
 
     svn_stringbuf_t *descr;
-    error = 
+    error =
       svn_ra_print_ra_libraries (&descr, ra_baton, pool);
     if (error)
       return mSchemas;
 
     // schemas are in the following form:
     // <schema>:<whitespace><description>\n...
-    // find the fírst :
-    std::string descriptions (descr->data);
-    size_t pos=0;
-    const size_t not_found = std::string::npos;
+    // find the fï¿½st :
+    QString descriptions (descr->data);
+    int pos=0;
+    const int not_found = -1;
     do
     {
-      const std::string tokenStart ("handles '");
-      const std::string tokenEnd ("' schem");
-      pos = descriptions.find (tokenStart, pos);
+      const QString tokenStart ("handles '");
+      const QString tokenEnd ("' schem");
+      pos = descriptions.indexOf(tokenStart, pos);
       if (pos == not_found)
         break;
 
       pos += tokenStart.length ();
 
-      size_t posEnd = descriptions.find (tokenEnd, pos);
+      int posEnd = descriptions.indexOf( tokenEnd, pos );
       if (posEnd == not_found)
         break;
 
       // found
-      std::string schema (descriptions.substr (pos, posEnd-pos) + ":");
+      QString schema (descriptions.mid(pos, posEnd-pos) + ":");
       mSchemas.push_back (schema);
 
       // forward to the next newline

@@ -24,32 +24,45 @@
  */
 
 // svncpp
-#include "status.hpp"
+#include "svncpp/status.hpp"
 
 //#include <assert.h>
 
 namespace svn
 {
   Status::Status (const Status & src)
-    : m_status (0), m_path (0)
+    : m_status (0), m_Path("")
   {
     if( &src != this )
     {
-      init (src.m_path->data, src.m_status);
+      init (src.m_Path, src.m_status);
     }
   }
 
 #if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
-  Status::Status (const char *path, svn_wc_status2_t * status)
-    : m_status (0), m_path (0)
+  Status::Status (const QString&path, svn_wc_status2_t * status)
+    : m_status (0), m_Path("")
   {
     init (path, status);
   }
+
+  Status::Status (const char*path, svn_wc_status2_t * status)
+    : m_status (0), m_Path("")
+  {
+    init(QString::fromUtf8(path),status);
+  }
+
 #else
-  Status::Status (const char *path, svn_wc_status_t * status)
-    : m_status (0), m_path (0)
+  Status::Status (const QString&path, svn_wc_status_t * status)
+    : m_status (0), m_Path ("")
   {
     init (path, status);
+  }
+
+  Status::Status (const char*path, svn_wc_status_t * status)
+    : m_status (0), m_Path("")
+  {
+    init(QString::fromUtf8(path),status);
   }
 #endif
 
@@ -58,16 +71,9 @@ namespace svn
   }
 
 #if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
-  void Status::init (const char *path, const svn_wc_status2_t * status)
+  void Status::init (const QString&path, const svn_wc_status2_t * status)
   {
-    if (path)
-    {
-      m_path = svn_string_create (path, m_pool);
-    }
-    else
-    {
-      m_path = svn_string_create ("", m_pool);
-    }
+    m_Path = path;
     m_status = (svn_wc_status2_t *)
       apr_pcalloc (m_pool, sizeof (svn_wc_status2_t));
 
@@ -104,16 +110,9 @@ namespace svn
   }
 #endif
 
-  void Status::init (const char *path, const svn_wc_status_t * status)
+  void Status::init (const QString&path, const svn_wc_status_t * status)
   {
-    if (path)
-    {
-      m_path = svn_string_create (path, m_pool);
-    }
-    else
-    {
-      m_path = svn_string_create ("", m_pool);
-    }
+    m_Path = path;
 #if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
     m_status = (svn_wc_status2_t *)
       apr_pcalloc (m_pool, sizeof (svn_wc_status2_t));
@@ -154,12 +153,7 @@ namespace svn
     if (this == &status)
       return *this;
 
-    init (status.m_path->data, status.m_status);
+    init (status.m_Path, status.m_status);
     return *this;
   }
 }
-/* -----------------------------------------------------------------
- * local variables:
- * eval: (load-file "../../rapidsvn-dev.el")
- * end:
- */

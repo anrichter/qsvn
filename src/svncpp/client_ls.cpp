@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -33,9 +33,9 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "client.hpp"
-#include "dirent.hpp"
-#include "exception.hpp"
+#include "svncpp/client.hpp"
+#include "svncpp/dirent.hpp"
+#include "svncpp/exception.hpp"
 
 
 static int
@@ -46,81 +46,27 @@ compare_items_as_paths (const svn_sort__item_t *a, const svn_sort__item_t *b)
 
 namespace svn
 {
-  DirEntries
-  Client::ls (const char * pathOrUrl,
-              svn_opt_revision_t * revision,
-              bool recurse) throw (ClientException)
-  {
-    Pool pool;
-
-    apr_hash_t * hash;
-    svn_error_t * error = 
-      svn_client_ls (&hash, 
-                     pathOrUrl, 
-                     revision, 
-                     recurse, 
-                     *m_context, 
-                     pool);
-
-    if (error != 0)
-      throw ClientException (error);
-
-    apr_array_header_t * 
-      array = svn_sort__hash (
-        hash, compare_items_as_paths, pool);
-
-    DirEntries entries;
-
-    std::string basePath;
-    if (pathOrUrl != 0 && *pathOrUrl != '\0')
-    {
-      basePath = pathOrUrl;
-      basePath += '/';
-    }
-
-    for (int i = 0; i < array->nelts; ++i)
-    {
-      const char *entryname;
-      svn_dirent_t *dirent;
-      svn_sort__item_t *item;
-     
-      item = &APR_ARRAY_IDX (array, i, svn_sort__item_t);
-
-      entryname = static_cast<const char *>(item->key);
-
-      dirent = static_cast<svn_dirent_t *> 
-        (apr_hash_get (hash, entryname, item->klen));
-
-      std::string fullname (basePath);
-      fullname += entryname;
-
-      entries.push_back (DirEntry (fullname.c_str (), dirent));
-    }
-
-    return entries;
-  }
-
 
   DirEntries
-  Client::list (const char * pathOrUrl,
-                svn_opt_revision_t * revision,
+  Client::list (const QString& pathOrUrl,
+                Revision& revision,
                 bool recurse) throw (ClientException)
   {
     Pool pool;
 
     apr_hash_t * hash;
-    svn_error_t * error = 
-      svn_client_ls (&hash, 
-                     pathOrUrl, 
-                     revision, 
-                     recurse, 
-                     *m_context, 
+    svn_error_t * error =
+      svn_client_ls (&hash,
+                     pathOrUrl.toUtf8(),
+                     revision,
+                     recurse,
+                     *m_context,
                      pool);
 
     if (error != 0)
       throw ClientException (error);
 
-    apr_array_header_t * 
+    apr_array_header_t *
       array = svn_sort__hash (
         hash, compare_items_as_paths, pool);
 
@@ -131,15 +77,15 @@ namespace svn
       const char *entryname;
       svn_dirent_t *dirent;
       svn_sort__item_t *item;
-     
+
       item = &APR_ARRAY_IDX (array, i, svn_sort__item_t);
 
       entryname = static_cast<const char *>(item->key);
 
-      dirent = static_cast<svn_dirent_t *> 
+      dirent = static_cast<svn_dirent_t *>
         (apr_hash_get (hash, entryname, item->klen));
 
-      entries.push_back (DirEntry (entryname, dirent));
+      entries.push_back (DirEntry(QString::fromUtf8(entryname), dirent));
     }
 
     return entries;

@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -27,8 +27,8 @@
 #include <string>
 
 // svncpp
-#include "log_entry.hpp"
-#include "pool.hpp"
+#include "svncpp/log_entry.hpp"
+#include "svncpp/pool.hpp"
 
 // subversion api
 #include "svn_time.h"
@@ -41,12 +41,25 @@ namespace svn
     char action_,
     const char *copyFromPath_,
     const svn_revnum_t copyFromRevision_)
-   : path (path_), action(action_), 
-     copyFromPath (copyFromPath_ != NULL ? copyFromPath_ : ""),
+   : path(QString::fromUtf8(path_)), action(action_),
+     copyFromPath (QString::fromUtf8(copyFromPath_)),
      copyFromRevision (copyFromRevision_)
   {
   }
 
+  LogChangePathEntry::LogChangePathEntry (const QString &path_,
+                      char action_,
+                      const QString &copyFromPath_,
+                      const svn_revnum_t copyFromRevision_)
+    : path(path_),action(action_),copyFromPath(copyFromPath_),
+        copyFromRevision(copyFromRevision_)
+  {
+  }
+
+  LogChangePathEntry::LogChangePathEntry()
+    : path(QString::null),action(0),copyFromPath(QString::null),copyFromRevision(-1)
+  {
+  }
 
   LogEntry::LogEntry ()
   {
@@ -70,8 +83,8 @@ namespace svn
     }
 
     revision = revision_;
-    author = author_ == 0 ? "" : author_;
-    message = message_ == 0 ? "" : message_;
+    author = author_ == 0 ? "" : QString::fromUtf8(author_);
+    message = message_ == 0 ? "" : QString::fromUtf8(message_);
   }
 }
 

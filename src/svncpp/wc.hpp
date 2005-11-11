@@ -27,7 +27,7 @@
 #define _SVNCPP_WC_HPP_ 
 
 // svncpp
-#include "revision.hpp"
+#include "svncpp/revision.hpp"
 
 
 namespace svn

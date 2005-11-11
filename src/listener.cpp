@@ -37,7 +37,7 @@ Listener::~ Listener( )
 {
 }
 
-bool Listener::contextGetLogin( const std::string & realm, std::string & username, std::string & password, bool & maySave )
+bool Listener::contextGetLogin( const QString &realm, QString &username, QString &password, bool &maySave)
 {
     return false;
 }
@@ -95,7 +95,7 @@ bool Listener::contextCancel( )
     return false;
 }
 
-bool Listener::contextGetLogMessage( std::string & msg )
+bool Listener::contextGetLogMessage( QString &msg )
 {
     return false;
 }
@@ -105,12 +105,12 @@ svn::ContextListener::SslServerTrustAnswer Listener::contextSslServerTrustPrompt
     return DONT_ACCEPT;
 }
 
-bool Listener::contextSslClientCertPrompt( std::string & certFile )
+bool Listener::contextSslClientCertPrompt( QString & certFile )
 {
     return false;
 }
 
-bool Listener::contextSslClientCertPwPrompt( std::string & password, const std::string & realm, bool & maySave )
+bool Listener::contextSslClientCertPwPrompt( QString &password, const QString &realm, bool &maySave  )
 {
     return false;
 }

@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -28,17 +28,23 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "exception.hpp"
-#include "path.hpp"
-#include "pool.hpp"
-#include "property.hpp"
-#include "revision.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/path.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/property.hpp"
+#include "svncpp/revision.hpp"
 
 
 namespace svn
 {
 
   PropertyEntry::PropertyEntry (const char * name, const char * value)
+  {
+    this->name = QString::fromUtf8(name);
+    this->value = QString::fromUtf8(value);
+  }
+
+  PropertyEntry::PropertyEntry (const QString& name, const QString& value)
   {
     this->name = name;
     this->value = value;
@@ -64,7 +70,7 @@ namespace svn
     apr_array_header_t * props;
     svn_error_t * error =
       svn_client_proplist (&props,
-                           m_path.c_str (), 
+                           m_path.cstr (),
                            revision,
                            false, /* recurse */
                            *m_context,
@@ -76,41 +82,34 @@ namespace svn
 
     for (int j = 0; j < props->nelts; ++j)
     {
-      svn_client_proplist_item_t *item = 
+      svn_client_proplist_item_t *item =
         ((svn_client_proplist_item_t **)props->elts)[j];
-
-/*      const char *node_name_native;
-      svn_utf_cstring_from_utf8_stringbuf (&node_name_native,
-                                           item->node_name,
-                                           pool );*/
 
       apr_hash_index_t *hi;
 
-      for (hi = apr_hash_first (pool, item->prop_hash); hi; 
+      for (hi = apr_hash_first (pool, item->prop_hash); hi;
            hi = apr_hash_next (hi))
       {
         const void *key;
-//        const char *key_native;
         void *val;
 
         apr_hash_this (hi, &key, NULL, &val);
-//        svn_utf_cstring_from_utf8 (&key_native, (char *)key, pool);
-
-        m_entries.push_back (PropertyEntry ((const char *)key, getValue ((const char *)key).c_str ()));
-      } 
+        QString key_ = QString::fromUtf8((const char *)key);
+        m_entries.push_back(PropertyEntry(key_, getValue(key_)));
+      }
     }
   }
 
-  std::string 
-  Property::getValue (const char * name)
+  QString
+  Property::getValue (const QString& name)
   {
     Pool pool;
     Revision revision;
 
     apr_hash_t *props;
-    svn_client_propget (&props, 
-                        name, 
-                        m_path.c_str (),
+    svn_client_propget (&props,
+                        name.toUtf8(),
+                        m_path.cstr(),
                         revision,
                         false, // recurse
                         *m_context,
@@ -119,7 +118,7 @@ namespace svn
     //svn_boolean_t is_svn_prop = svn_prop_is_svn_prop (name);
 
     apr_hash_index_t *hi;
-    hi = apr_hash_first (pool, props); 
+    hi = apr_hash_first (pool, props);
     if( !hi )
     {
       return "";
@@ -130,46 +129,36 @@ namespace svn
     const svn_string_t *propval;
     apr_hash_this (hi, &key, NULL, &val);
     propval = (const svn_string_t *)val;
-
-    /* If this is a special Subversion property, it is stored as
-       UTF8, so convert to the native format. */
-    //TODO we are doing this now all the time
-    //if (is_svn_prop)
-//    svn_utf_string_from_utf8 (&propval, propval, pool);
-
-    return propval->data;
+    return QString::fromUtf8(propval->data);
   }
 
   void
-  Property::set (const char * name, const char * value)
+  Property::set (const QString& name, const QString& value)
   {
     Pool pool;
 
-    const svn_string_t * propval 
-      = svn_string_create ((const char *) value, pool);
+    const svn_string_t * propval
+      = svn_string_create (value.toUtf8(), pool);
 
-//    const char *pname_utf8;
-  //  svn_utf_cstring_to_utf8 (&pname_utf8, name, pool);
-
-    svn_error_t * error = 
-      svn_client_propset (name, propval, m_path.c_str (),
+    svn_error_t * error =
+      svn_client_propset (name.toUtf8(), propval, m_path.cstr (),
                           false, pool);
     if(error != NULL)
       throw ClientException (error);
   }
 
-  void 
-  Property::remove (const char * name)
+  void
+  Property::remove (const QString& name)
   {
     Pool pool;
 
 //    const char *pname_utf8;
   //  svn_utf_cstring_to_utf8 (&pname_utf8, name, pool);
 
-    svn_error_t * error = 
-      error = svn_client_propset (name, 
-                                  NULL, // value = NULL
-                                  m_path.c_str (),
+    svn_error_t * error;
+    error = svn_client_propset (name.toUtf8(),
+                                  0, // value = NULL
+                                  m_path.cstr (),
                                   false, //dont recurse
                                   pool);
     if(error != NULL)

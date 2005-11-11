@@ -28,10 +28,8 @@
  *
  *  SVN_CLIENT_COMMIT_ITEM_LOCK_TOKEN
  *  svn_client_checkout2
- *  svn_client_update2
  *  snv_client_commit2
  *  svn_client_status2
- *  svn_client_log2
  *  svn_client_blame2
  *  svn_client_diff2
  *  svn_client_diff_peg2
@@ -41,10 +39,6 @@
  *  svn_client_proplist2
  *  svn_client_export3
  *  svn_client_ls2
- *  svn_client_cat2
- *  svn_client_lock
- *  svn_client_unlock
- *  svn_client_info
  */
 
 
@@ -58,9 +52,9 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "apr.hpp"
-#include "context.hpp"
-#include "context_listener.hpp"
+#include "svncpp/apr.hpp"
+#include "svncpp/context.hpp"
+#include "svncpp/context_listener.hpp"
 
 
 namespace svn
@@ -78,10 +72,10 @@ namespace svn
     int promptCounter;
     Pool pool;
     svn_client_ctx_t ctx;
-    std::string username;
-    std::string password;
-    std::string logMessage;
-    std::string configDir;
+    QString username;
+    QString password;
+    QString logMessage;
+    QString configDir;
 
     /**
      * translate native c-string to utf8
@@ -137,13 +131,13 @@ namespace svn
       return SVN_NO_ERROR;
     }
 
-    Data (const std::string & configDir_)
+    Data (const QString & configDir_)
       : listener (0), logIsSet (false),
         promptCounter (0), configDir (configDir_)
     {
       const char * c_configDir = 0;
       if( configDir.length () > 0 )
-        c_configDir = configDir.c_str ();
+        c_configDir = configDir.toUtf8();
 
       // make sure the configuration directory exists
       svn_config_ensure (c_configDir, pool);
@@ -223,8 +217,10 @@ namespace svn
       svn_config_get_config (&ctx.config, c_configDir, pool);
 
       // tell the auth functions where the config is
-      svn_auth_set_parameter(ab, SVN_AUTH_PARAM_CONFIG_DIR,
-                             c_configDir);
+      if (c_configDir) {
+        svn_auth_set_parameter(ab, SVN_AUTH_PARAM_CONFIG_DIR,
+            c_configDir);
+      }
 
       ctx.auth_baton = ab;
       ctx.log_msg_func = onLogMsg;
@@ -253,21 +249,21 @@ namespace svn
     }
 
     /** @see Context::setLogin */
-    void setLogin (const char * usr, const char * pwd)
+    void setLogin (const QString& usr, const QString& pwd)
     {
       username = usr;
       password = pwd;
 
       svn_auth_baton_t * ab = ctx.auth_baton;
       svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME,
-                              username.c_str ());
+                              username.toAscii());
       svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD,
-                              password.c_str ());
+                              password.toAscii());
 
     }
 
     /** @see Context::setLogMessage */
-    void setLogMessage (const char * msg)
+    void setLogMessage (const QString& msg)
     {
       logMessage = msg;
       logIsSet = true;
@@ -288,7 +284,7 @@ namespace svn
       Data * data;
       SVN_ERR (getData (baton, &data));
 
-      std::string msg;
+      QString msg;
       if (data->logIsSet)
         msg = data->getLogMessage ();
       else
@@ -297,7 +293,7 @@ namespace svn
           return svn_error_create (SVN_ERR_CANCELLED, NULL, "");
       }
 
-      *log_msg = apr_pstrdup (pool, msg.c_str ());
+      *log_msg = apr_pstrdup (pool, msg.toUtf8());
 
       *tmp_file = NULL;
 
@@ -393,8 +389,8 @@ namespace svn
       SVN_ERR (svn_utf_cstring_to_utf8 (
                  &lcred->username,
                  data->getUsername (), pool)); */
-      lcred->password = data->getPassword ();
-      lcred->username = data->getUsername ();
+      lcred->password = data->getPassword().toAscii();
+      lcred->username = data->getUsername().toAscii();
 
       // tell svn if the credentials need to be saved
       lcred->may_save = may_save;
@@ -428,23 +424,25 @@ namespace svn
       trustData.issuerDName = info->issuer_dname;
       trustData.maySave = may_save != 0;
 
-      apr_uint32_t acceptedFailures;
+      apr_uint32_t acceptedFailures = failures;
       ContextListener::SslServerTrustAnswer answer =
         data->listener->contextSslServerTrustPrompt (
           trustData, acceptedFailures );
 
-      if(answer == ContextListener::DONT_ACCEPT)
-        *cred = NULL;
-      else
+      if(answer == ContextListener::DONT_ACCEPT) {
+        *cred = 0L;
+      } else
       {
         svn_auth_cred_ssl_server_trust_t *cred_ =
           (svn_auth_cred_ssl_server_trust_t*)
           apr_palloc (pool, sizeof (svn_auth_cred_ssl_server_trust_t));
 
+        cred_->accepted_failures = failures;
         if (answer == ContextListener::ACCEPT_PERMANENTLY)
         {
-          cred_->may_save = 1;
-          cred_->accepted_failures = acceptedFailures;
+          cred_->may_save = true;
+        } else {
+            cred_->may_save = false;
         }
         *cred = cred_;
       }
@@ -463,7 +461,7 @@ namespace svn
       Data * data;
       SVN_ERR (getData (baton, &data));
 
-      std::string certFile;
+      QString certFile;
       if (!data->listener->contextSslClientCertPrompt (certFile))
         return svn_error_create (SVN_ERR_CANCELLED, NULL, "");
 
@@ -475,7 +473,7 @@ namespace svn
                  &cred_->cert_file,
                  certFile.c_str (),
                  pool)); */
-      cred_->cert_file = certFile.c_str ();
+      cred_->cert_file = certFile.toUtf8();
 
       *cred = cred_;
 
@@ -496,7 +494,7 @@ namespace svn
       Data * data;
       SVN_ERR (getData (baton, &data));
 
-      std::string password;
+      QString password;
       bool may_save = maySave != 0;
       if (!data->listener->contextSslClientCertPwPrompt (password, realm, may_save))
         return svn_error_create (SVN_ERR_CANCELLED, NULL, "");
@@ -509,7 +507,7 @@ namespace svn
                  &cred_->password,
                  password.c_str (),
                  pool)); */
-      cred_->password = password.c_str ();
+      cred_->password = password.toUtf8();
 
       cred_->may_save = may_save;
       *cred = cred_;
@@ -517,22 +515,22 @@ namespace svn
       return SVN_NO_ERROR;
     }
 
-    const char *
+    const QString&
     getUsername () const
     {
-      return username.c_str ();
+      return username;
     }
 
-    const char *
+    const QString&
     getPassword () const
     {
-      return password.c_str ();
+      return password;
     }
 
-    const char *
+    const QString&
     getLogMessage () const
     {
-      return logMessage.c_str ();
+      return logMessage;
     }
 
     /**
@@ -548,7 +546,7 @@ namespace svn
      * @retval false cancel
      */
     bool
-    retrieveLogMessage (std::string & msg)
+    retrieveLogMessage (QString & msg)
     {
       bool ok;
 
@@ -645,7 +643,7 @@ namespace svn
     }
   };
 
-  Context::Context (const std::string &configDir)
+  Context::Context (const QString &configDir)
   {
     m = new Data (configDir);
   }
@@ -668,7 +666,7 @@ namespace svn
   }
 
   void
-  Context::setLogin (const char * username, const char * password)
+  Context::setLogin (const QString& username, const QString& password)
   {
     m->setLogin (username, password);
   }
@@ -685,24 +683,24 @@ namespace svn
   }
 
   void
-  Context::setLogMessage (const char * msg)
+  Context::setLogMessage (const QString& msg)
   {
     m->setLogMessage (msg);
   }
 
-  const char *
+  const QString&
   Context::getUsername () const
   {
     return m->getUsername ();
   }
 
-  const char *
+  const QString&
   Context::getPassword () const
   {
     return m->getPassword ();
   }
 
-  const char *
+  const QString&
   Context::getLogMessage () const
   {
     return m->getLogMessage ();

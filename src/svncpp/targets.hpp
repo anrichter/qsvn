@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -26,12 +26,12 @@
 #ifndef _SVNCPP_TARGETS_HPP_
 #define _SVNCPP_TARGETS_HPP_
 
-// stl
-#include <vector>
+#include <QtCore>
 
 // apr api
 #include "apr_tables.h"
 
+class QStringList;
 
 namespace svn
 {
@@ -45,13 +45,13 @@ namespace svn
   class Targets
   {
   public:
-    /** 
+    /**
      * Constructor
      *
      * @param targets vector of paths
      */
-    Targets (const std::vector<Path> & targets);
-    
+    Targets (const QList<Path> & targets);
+
     /**
      * Constructor from an APR array containing
      * char *.
@@ -66,7 +66,19 @@ namespace svn
      *
      * @param target
      */
-    Targets (const char * target = 0);
+    Targets (const QString& target = QString::null);
+    /**
+     * Constructor. Initializes list with just
+     * one entry
+     *
+     * @param target
+     */
+    Targets (const char * target);
+    /**
+     * Constructor. Convert stringlist into target list.
+     * @param targets
+     */
+    Targets::Targets(const QStringList&targets);
 
     /**
      * Copy Constructor
@@ -94,7 +106,7 @@ namespace svn
      *
      * @return vector of paths
      */
-    const std::vector<Path> &
+    const QList<Path> &
     targets() const;
 
     /**
@@ -107,25 +119,25 @@ namespace svn
      *
      * @return vector with targets
      */
-    operator const std::vector<Path> & () const
+    operator const QList<Path> & () const
     {
       return m_targets;
     }
 
     /**
-     * returns one single target. in fact,
-     * the first in the vector, it there are more
-     * than one. if there is no target returns
+     * returns one single target.
+     * the first in the vector, if no parameter given if there are more
+     * than one. if there is no target or parameter > then stored pathes returns
      * an empty path
-     *
+     * \param which which item we want
      * @return single path
      */
     const Path
-    target () const;
-    
+    target(unsigned int which = 0) const;
+
 
   private:
-    std::vector<Path> m_targets;
+    QList<Path> m_targets;
   };
 }
 

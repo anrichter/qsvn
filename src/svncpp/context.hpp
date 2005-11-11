@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -24,16 +24,16 @@
  */
 
 #ifndef _SVNCPP_CONTEXT_HPP_
-#define _SVNCPP_CONTEXT_HPP_ 
+#define _SVNCPP_CONTEXT_HPP_
 
-// stl
-#include <string>
+// qt
+#include <qstring.h>
 
 // Subversion api
 #include "svn_client.h"
 
 // svncpp
-#include "pool.hpp"
+#include "svncpp/pool.hpp"
 
 
 namespace svn
@@ -50,18 +50,18 @@ namespace svn
   {
   public:
     /**
-     * default constructor 
+     * default constructor
      *
      * @param configDir location where the
      *                  subversion api stores its
      *                  configuration
      */
-    Context (const std::string & configDir="");
+    Context (const QString & configDir="");
 
     /**
      * copy constructor
      *
-     * @param src 
+     * @param src
      */
     Context (const Context &src);
 
@@ -72,7 +72,7 @@ namespace svn
 
     /**
      * enable/disable authentication caching
-     * 
+     *
      * @param value true=enable/false=disable
      */
     void setAuthCache (bool value);
@@ -80,7 +80,7 @@ namespace svn
     /**
      * set username/password for authentication
      */
-    void setLogin (const char * username, const char * password);
+    void setLogin (const QString& username, const QString& password);
 
     /**
      * operator to get svn_client_ctx object
@@ -103,22 +103,22 @@ namespace svn
      *
      * @param msg
      */
-    void setLogMessage (const char * msg);
+    void setLogMessage (const QString& msg);
 
     /**
      * get log message
      *
      * @return log message
      */
-    const char * 
+    const QString&
     getLogMessage () const;
-    
+
     /**
      * get username
      *
      * @return username
      */
-    const char * 
+    const QString&
     getUsername () const;
 
     /**
@@ -126,7 +126,7 @@ namespace svn
      *
      * @return password
      */
-    const char *
+    const QString&
     getPassword () const;
 
     /**
@@ -136,7 +136,7 @@ namespace svn
      *
      * @param listener
      */
-    void 
+    void
     setListener (ContextListener * listener);
 
     /**
@@ -144,7 +144,7 @@ namespace svn
      *
      * @return the listener
      */
-    ContextListener * 
+    ContextListener *
     getListener () const;
 
   private:

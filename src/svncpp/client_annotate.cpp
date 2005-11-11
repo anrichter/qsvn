@@ -30,7 +30,7 @@
 #include "svn_client.h"
 
 // svncpp
-#include "client.hpp"
+#include "svncpp/client.hpp"
 
 
 namespace svn
@@ -63,7 +63,7 @@ namespace svn
     AnnotatedFile * entries = new AnnotatedFile;
     svn_error_t *error;
     error = svn_client_blame (
-      path.c_str (),
+      path.path().toUtf8(),
       revisionStart.revision (),
       revisionEnd.revision (),
       annotateReceiver,

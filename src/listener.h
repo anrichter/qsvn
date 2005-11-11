@@ -33,10 +33,10 @@ public:
     Listener();
     virtual ~Listener();
 
-    virtual bool contextGetLogin( const std::string & realm,
-                                        std::string & username,
-                                        std::string & password,
-                                        bool &maySave );
+    virtual bool contextGetLogin (const QString & realm,
+                                  QString & username,
+                                  QString & password,
+                                  bool & maySave);
     virtual void contextNotify( const char *path,
                                 svn_wc_notify_action_t action,
                                 svn_node_kind_t kind,
@@ -48,13 +48,13 @@ public:
     virtual void contextNotify( const svn_wc_notify_t *action );
 #endif
     virtual bool contextCancel();
-    virtual bool contextGetLogMessage( std::string &msg );
-    virtual SslServerTrustAnswer contextSslServerTrustPrompt( const SslServerTrustData & data,
+    virtual bool contextGetLogMessage( QString &msg );
+    virtual SslServerTrustAnswer contextSslServerTrustPrompt( const SslServerTrustData &data,
                                                               apr_uint32_t &acceptedFailures );
-    virtual bool contextSslClientCertPrompt( std::string &certFile );
-    virtual bool contextSslClientCertPwPrompt( std::string &password,
-                                               const std::string &realm,
-                                               bool &maySave);
+    virtual bool contextSslClientCertPrompt( QString &certFile );
+    virtual bool contextSslClientCertPwPrompt( QString &password,
+                                               const QString &realm,
+                                               bool &maySave );
 };
 
 #endif

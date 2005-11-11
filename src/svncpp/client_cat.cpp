@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -26,43 +26,68 @@
 #pragma warning( disable: 4786 )// debug symbol truncated
 #endif
 
-// stl
-#include <cstdio>
-
 // Subversion api
 #include "svn_client.h"
 //#include "svn_io.h"
 
 // svncpp
-#include "client.hpp"
-#include "exception.hpp"
-#include "pool.hpp"
-#include "status.hpp"
+#include "svncpp/client.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/status.hpp"
 
 
 namespace svn
 {
-  std::string
-  Client::cat (const Path & path, 
+  QByteArray
+  Client::cat (const Path & path,
                const Revision & revision) throw (ClientException)
   {
     Pool pool;
-    
+
     svn_stringbuf_t * stringbuf = svn_stringbuf_create ("", pool);
     svn_stream_t * stream = svn_stream_from_stringbuf (stringbuf, pool);
 
     svn_error_t * error;
-    error = svn_client_cat (stream, path.c_str (),
-                            revision.revision (), 
-                            *m_context, 
+    error = svn_client_cat (stream, path.path().toUtf8(),
+                            revision.revision (),
+                            *m_context,
                             pool);
 
     if (error != 0)
       throw ClientException (error);
-
-    return std::string( stringbuf->data, stringbuf->len );
+    /// @todo check if realy dup or just assign!
+    QByteArray res( stringbuf->data,stringbuf->len );
+    return res;
   }
 
+  QByteArray
+  Client::cat2 (const Path & path,
+                const Revision & revision,
+                const Revision & peg_revision) throw (ClientException)
+  {
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
+    Pool pool;
+
+    svn_stringbuf_t * stringbuf = svn_stringbuf_create ("", pool);
+    svn_stream_t * stream = svn_stream_from_stringbuf (stringbuf, pool);
+
+    svn_error_t * error;
+    error = svn_client_cat2 (stream, path.path().toUtf8(),
+                             peg_revision.revision (),
+                             revision.revision (),
+                             *m_context,
+                             pool);
+
+    if (error != 0)
+      throw ClientException (error);
+    /// @todo check if realy dup or just assign!
+    QByteArray res( stringbuf->data, stringbuf->len );
+    return res;
+#else
+    return cat(path, revision);
+#endif
+  }
 
   /**
    * Create a new temporary file in @a dstPath. If @a dstPath
@@ -80,7 +105,7 @@ namespace svn
    * @return open file
    */
   static apr_file_t *
-  openTempFile (Path & dstPath, const Path & path, 
+  openTempFile (Path & dstPath, const Path & path,
                 const Revision & revision, Pool & pool)
     throw (ClientException)
   {
@@ -89,8 +114,8 @@ namespace svn
     if (dstPath.length () > 0)
     {
       apr_status_t status =
-        apr_file_open (&file, dstPath.c_str (), 
-                       APR_WRITE | APR_CREATE | 
+        apr_file_open (&file, dstPath.path().toUtf8(),
+                       APR_WRITE | APR_CREATE |
                        APR_TRUNCATE | APR_BINARY,
                        APR_OS_DEFAULT,
                        pool);
@@ -100,7 +125,7 @@ namespace svn
     else
     {
       // split the path into its components
-      std::string dir, filename, ext;
+      QString dir, filename, ext;
       path.split (dir, filename, ext);
 
       // add the revision number to the filename
@@ -119,9 +144,9 @@ namespace svn
       const char * unique_name;
       svn_error_t * error =
         svn_io_open_unique_file (
-          &file, &unique_name, 
-          tempPath.c_str (), // path
-          ext.c_str (), // suffix
+          &file, &unique_name,
+          tempPath.path().toUtf8(), // path
+          ext.toUtf8(), // suffix
           0, // dont delete on close
           pool);
 
@@ -147,13 +172,13 @@ namespace svn
 
     apr_file_t * file = openTempFile (dstPath, path, revision, pool);
 
-    // now create a stream and let svn_client_cat write to the 
+    // now create a stream and let svn_client_cat write to the
     // stream
     svn_stream_t * stream = svn_stream_from_aprfile (file, pool);
     if (stream != 0)
     {
       svn_error_t * error = svn_client_cat (
-        stream, path.c_str (), revision.revision (), 
+        stream, path.path().toUtf8(), revision.revision (),
         *m_context, pool);
       if (error != 0)
         throw ClientException (error);

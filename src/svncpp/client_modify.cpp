@@ -6,15 +6,15 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library (in the file LGPL.txt); if not, 
- * write to the Free Software Foundation, Inc., 51 Franklin St, 
+ * License along with this library (in the file LGPL.txt); if not,
+ * write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA  02110-1301  USA
  *
  * This software consists of voluntary contributions made by many
@@ -26,25 +26,21 @@
 #pragma warning( disable: 4786 )// debug symbol truncated
 #endif
 
-// stl
-#include <string>
-
 // subversion api
 #include "svn_client.h"
 
 // svncpp
-#include "client.hpp"
-#include "exception.hpp"
-#include "pool.hpp"
-#include "targets.hpp"
-
+#include "svncpp/client.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/targets.hpp"
 
 namespace svn
 {
   svn_revnum_t
-  Client::checkout (const char * url, 
-                    const Path & destPath, 
-                    const Revision & revision, 
+  Client::checkout (const QString& url,
+                    const Path & destPath,
+                    const Revision & revision,
                     bool recurse) throw (ClientException)
   {
     Pool subPool;
@@ -53,7 +49,7 @@ namespace svn
     svn_revnum_t revnum = 0;
     svn_error_t * error =
       svn_client_checkout (&revnum,
-                           url, destPath.c_str (),
+                           url.toUtf8(), destPath.cstr(),
                            revision.revision (),
                            recurse,
                            *m_context,
@@ -65,16 +61,16 @@ namespace svn
   }
 
   void
-  Client::remove (const Path & path, 
+  Client::remove (const Path & path,
                   bool force) throw (ClientException)
   {
     Pool pool;
-    Targets targets (path.c_str ());
+    Targets targets (path.path());
     svn_client_commit_info_t *commit_info = NULL;
 
     svn_error_t * error =
-      svn_client_delete (&commit_info, 
-                         const_cast<apr_array_header_t*> (targets.array (pool)), 
+      svn_client_delete (&commit_info,
+                         const_cast<apr_array_header_t*> (targets.array (pool)),
                          force,
                          *m_context,
                          pool);
@@ -83,15 +79,15 @@ namespace svn
   }
 
   void
-  Client::remove (const Targets & targets, 
+  Client::remove (const Targets & targets,
                   bool force) throw (ClientException)
   {
     Pool pool;
     svn_client_commit_info_t *commit_info = NULL;
 
     svn_error_t * error =
-      svn_client_delete (&commit_info, 
-                         const_cast<apr_array_header_t*> (targets.array (pool)), 
+      svn_client_delete (&commit_info,
+                         const_cast<apr_array_header_t*> (targets.array (pool)),
                          force,
                          *m_context,
                          pool);
@@ -106,8 +102,8 @@ namespace svn
     Pool pool;
 
     svn_error_t * error =
-      svn_client_revert ((targets.array (pool)), 
-                         recurse, 
+      svn_client_revert ((targets.array (pool)),
+                         recurse,
                          *m_context,
                          pool);
 
@@ -116,14 +112,14 @@ namespace svn
   }
 
   void
-  Client::add (const Path & path, 
+  Client::add (const Path & path,
                bool recurse) throw (ClientException)
   {
     Pool pool;
 
     svn_error_t * error =
-      svn_client_add (path.c_str (), 
-                      recurse, 
+      svn_client_add (path.cstr (),
+                      recurse,
                       *m_context,
                       pool);
 
@@ -131,16 +127,51 @@ namespace svn
       throw ClientException (error);
   }
 
-  svn_revnum_t
-  Client::update (const Path & path, 
-                  const Revision & revision, 
-                  bool recurse) throw (ClientException)
+  Revisions
+  Client::update (const Targets & path,
+                  const Revision & revision,
+                  bool recurse,
+                  bool ignore_externals) throw (ClientException)
+  {
+    Pool pool;
+    Revisions resulting;
+    svn_error_t * error;
+
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
+    apr_pool_t *apr_pool = pool.pool();
+    apr_array_header_t *apr_revisions = apr_array_make (apr_pool,
+                      path.size(),
+                      sizeof (svn_revnum_t));
+    error = svn_client_update2(&apr_revisions,path.array(pool),revision.revision(),recurse,ignore_externals,*m_context,pool);
+    if (error!=NULL) {
+        throw ClientException(error);
+    }
+    for (int i = 0; i < apr_revisions->nelts; ++i)
+    {
+      svn_revnum_t * _rev =
+        &APR_ARRAY_IDX (apr_revisions, i, svn_revnum_t);
+
+      resulting.push_back((*_rev));
+    }
+#else
+    svn_revnum_t revnum;
+    for (unsigned int i=0; i < path.size();++i) {
+        error = 0L;
+        revnum = 0;
+        revnum = update_old(path.target(i),revision,recurse);
+        resulting.push_back(revnum);
+    }
+#endif
+    return resulting;
+  }
+
+  svn_revnum_t Client::update_old(const Path&path,const Revision&revision,bool recurse)throw (ClientException)
   {
     Pool pool;
     svn_revnum_t revnum = 0;
     svn_error_t * error =
       svn_client_update (&revnum,
-                         path.c_str (),
+                         path.cstr (),
                          revision.revision (),
                          recurse,
                          *m_context,
@@ -151,7 +182,7 @@ namespace svn
   }
 
   svn_revnum_t
-  Client::commit (const Targets & targets, const char * message, 
+  Client::commit (const Targets & targets, const QString& message,
                   bool recurse) throw (ClientException)
   {
     Pool pool;
@@ -160,9 +191,9 @@ namespace svn
 
     svn_client_commit_info_t *commit_info = NULL;
     svn_error_t * error =
-      svn_client_commit (&commit_info, 
-                         targets.array (pool), 
-                         !recurse, 
+      svn_client_commit (&commit_info,
+                         targets.array (pool),
+                         !recurse,
                          *m_context,
                          pool);
     if (error != NULL)
@@ -175,37 +206,37 @@ namespace svn
   }
 
   void
-  Client::copy (const Path & srcPath, 
-                const Revision & srcRevision, 
+  Client::copy (const Path & srcPath,
+                const Revision & srcRevision,
                 const Path & destPath) throw (ClientException)
   {
     Pool pool;
     svn_client_commit_info_t *commit_info = NULL;
-    svn_error_t * error = 
+    svn_error_t * error =
       svn_client_copy (&commit_info,
-                       srcPath.c_str (),
+                       srcPath.cstr (),
                        srcRevision.revision (),
-                       destPath.c_str (),
+                       destPath.cstr (),
                        *m_context,
                        pool);
-  
+
     if(error != NULL)
       throw ClientException (error);
   }
 
   void
-  Client::move (const Path & srcPath, 
-                const Revision & srcRevision, 
-                const Path & destPath, 
+  Client::move (const Path & srcPath,
+                const Revision & srcRevision,
+                const Path & destPath,
                 bool force) throw (ClientException)
   {
     Pool pool;
     svn_client_commit_info_t *commit_info = NULL;
-    svn_error_t * error =  
+    svn_error_t * error =
       svn_client_move (&commit_info,
-                       srcPath.c_str (),
+                       srcPath.cstr (),
                        srcRevision.revision (),
-                       destPath.c_str (),
+                       destPath.cstr (),
                        force,
                        *m_context,
                        pool);
@@ -215,18 +246,18 @@ namespace svn
   }
 
   void
-  Client::mkdir (const Path & path, 
-                 const char * message) throw (ClientException)
+  Client::mkdir (const Path & path,
+                 const QString& message) throw (ClientException)
   {
     Pool pool;
     m_context->setLogMessage (message);
 
-    Targets targets (path.c_str ());
+    Targets targets(path.path());
 
     svn_client_commit_info_t *commit_info = NULL;
-    svn_error_t * error =  
-      svn_client_mkdir (&commit_info, 
-                        const_cast<apr_array_header_t*> 
+    svn_error_t * error =
+      svn_client_mkdir (&commit_info,
+                        const_cast<apr_array_header_t*>
                         (targets.array (pool)),
                         *m_context, pool);
 
@@ -235,16 +266,16 @@ namespace svn
   }
 
   void
-  Client::mkdir (const Targets & targets, 
-                 const char * message) throw (ClientException)
+  Client::mkdir (const Targets & targets,
+                 const QString& message) throw (ClientException)
   {
     Pool pool;
     m_context->setLogMessage (message);
 
     svn_client_commit_info_t *commit_info = NULL;
-    svn_error_t * error =  
-      svn_client_mkdir (&commit_info, 
-                        const_cast<apr_array_header_t*> 
+    svn_error_t * error =
+      svn_client_mkdir (&commit_info,
+                        const_cast<apr_array_header_t*>
                         (targets.array (pool)),
                         *m_context, pool);
 
@@ -258,20 +289,20 @@ namespace svn
     Pool subPool;
     apr_pool_t * apr_pool = subPool.pool ();
 
-    svn_error_t * error =  
-      svn_client_cleanup (path.c_str (), *m_context, apr_pool);
+    svn_error_t * error =
+      svn_client_cleanup (path.cstr (), *m_context, apr_pool);
 
     if(error != NULL)
       throw ClientException (error);
   }
 
   void
-  Client::resolved (const Path & path, 
+  Client::resolved (const Path & path,
                     bool recurse) throw (ClientException)
   {
     Pool pool;
-    svn_error_t * error =  
-      svn_client_resolved (path.c_str (),
+    svn_error_t * error =
+      svn_client_resolved (path.cstr (),
                            recurse,
                            *m_context,
                            pool);
@@ -281,17 +312,17 @@ namespace svn
   }
 
   svn_revnum_t
-  Client::doExport (const Path & srcPath, 
-                    const Path & destPath, 
-                    const Revision & revision, 
+  Client::doExport (const Path & srcPath,
+                    const Path & destPath,
+                    const Revision & revision,
                     bool force) throw (ClientException)
   {
     Pool pool;
     svn_revnum_t revnum = 0;
-    svn_error_t * error =  
-      svn_client_export (&revnum,
-                         srcPath.c_str (),
-                         destPath.c_str (),
+    svn_error_t * error =
+      svn_client_export(&revnum,
+                        srcPath.cstr(),
+                        destPath.cstr(),
                          const_cast<svn_opt_revision_t*>
                          (revision.revision ()),
                          force,
@@ -304,31 +335,31 @@ namespace svn
   }
 
   svn_revnum_t
-  Client::doSwitch (const Path & path, 
-                    const char * url, 
-                    const Revision & revision, 
+  Client::doSwitch (const Path & path,
+                    const QString& url,
+                    const Revision & revision,
                     bool recurse) throw (ClientException)
   {
     Pool pool;
     svn_revnum_t revnum = 0;
-    svn_error_t * error =  
+    svn_error_t * error =
       svn_client_switch (&revnum,
-                         path.c_str (),
-                         url,
+                         path.cstr(),
+                         url.toUtf8(),
                          revision.revision (),
                          recurse,
                          *m_context,
                          pool);
-    
+
     if(error != NULL)
       throw ClientException (error);
     return revnum;
   }
 
   void
-  Client::import (const Path & path, 
-                  const char * url, 
-                  const char * message, 
+  Client::import (const Path & path,
+                  const QString& url,
+                  const QString& message,
                   bool recurse) throw (ClientException)
   {
     Pool pool;
@@ -336,10 +367,10 @@ namespace svn
 
     m_context->setLogMessage (message);
 
-    svn_error_t * error =  
+    svn_error_t * error =
       svn_client_import (&commit_info,
-                         path.c_str (),
-                         url,
+                         path.cstr (),
+                         url.toUtf8(),
                          !recurse,
                          *m_context,
                          pool);
@@ -349,20 +380,20 @@ namespace svn
   }
 
   void
-  Client::merge (const Path & path1, const Revision & revision1, 
+  Client::merge (const Path & path1, const Revision & revision1,
                  const Path & path2, const Revision & revision2,
-                 const Path & localPath, bool force, 
+                 const Path & localPath, bool force,
                  bool recurse,
                  bool notice_ancestry,
                  bool dry_run) throw (ClientException)
   {
     Pool pool;
-    svn_error_t * error =  
-      svn_client_merge (path1.c_str (),
+    svn_error_t * error =
+      svn_client_merge (path1.cstr (),
                         revision1.revision (),
-                        path2.c_str (),
+                        path2.cstr (),
                         revision2.revision (),
-                        localPath.c_str (),
+                        localPath.cstr (),
                         recurse,
                         !notice_ancestry,
                         force,
@@ -376,19 +407,19 @@ namespace svn
 
   void
   Client::relocate (const Path & path,
-                    const char * from_url, 
-                    const char * to_url, 
+                    const QString& from_url,
+                    const QString& to_url,
                     bool recurse) throw (ClientException)
   {
     Pool pool;
-    svn_error_t * error =  
-      svn_client_relocate (path.c_str (),
-                         from_url,
-                         to_url,
+    svn_error_t * error =
+      svn_client_relocate (path.cstr (),
+                         from_url.toUtf8(),
+                         to_url.toUtf8(),
                          recurse,
                          *m_context,
                          pool);
-    
+
     if(error != NULL)
       throw ClientException (error);
   }

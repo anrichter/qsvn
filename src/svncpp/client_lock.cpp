@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2005 by Rajko Albrecht   *
- *   ral@alwins-world.de   *
+ *   Copyright (C) 2005 by Rajko Albrecht                                  *
+ *   ral@alwins-world.de                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
  ***************************************************************************/
 // stl
 #include <string>
@@ -24,24 +24,24 @@
 #include "svn_client.h"
 
 // svncpp
-#include "client.hpp"
-#include "exception.hpp"
-#include "pool.hpp"
-#include "targets.hpp"
+#include "svncpp/client.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/targets.hpp"
 
 namespace svn
 {
 
   void
   Client::lock (const Targets & targets,
-    const char *message,
+    const QString& message,
     bool steal_lock)  throw (ClientException)
   {
 #if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
     Pool pool;
     svn_error_t * error =
       svn_client_lock(const_cast<apr_array_header_t*> (targets.array (pool)),
-                      message,
+                      message.toUtf8(),
                       steal_lock,
                       *m_context,
                       pool);
