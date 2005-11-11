@@ -92,7 +92,7 @@ bool SvnClient::update( QStringList &updateList )
 bool SvnClient::checkout( const QString &url, const QString &path )
 {
     if ( url.isEmpty() || path.isEmpty() )
-        return FALSE;
+        return false;
 
     try
     {
@@ -104,4 +104,5 @@ bool SvnClient::checkout( const QString &url, const QString &path )
         StatusText::Exemplar()->outputMessage( QString::fromLocal8Bit( e.message() ) );
         return false;
     }
+    return true;
 }
