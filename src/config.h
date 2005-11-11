@@ -50,8 +50,8 @@ public:
     void saveMainWindow( QSvn *aQSvn );
     void restoreMainWindow( QSvn *aQSvn );
 
-    void setWorkingCopies( QStringList *wcList );
-    QStringList getWorkingCopies();
+    void saveStringList( const QString &prefix, const QStringList &stringList );
+    QStringList getStringList( const QString &prefix );
 
     /*todo:
     //ListView Settings

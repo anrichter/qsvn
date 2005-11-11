@@ -27,10 +27,7 @@
 #include "qsvn.h"
 
 //Qt
-#include <QCoreApplication>
-#include <QPoint>
-#include <QSettings>
-#include <QStringList>
+#include <QtCore>
 
 
 //make Config a singleton
@@ -149,41 +146,40 @@ void Config::restoreMainWindow( QSvn *aQSvn )
     }
 }
 
-void Config::setWorkingCopies( QStringList *wcList )
+void Config::saveStringList( const QString &prefix, const QStringList &stringList )
 {
-    if ( !wcList )
+    if ( prefix.isEmpty() || stringList.isEmpty() )
         return;
 
     QSettings settings;
 
-    //delete old entries
-    settings.remove( "workingCopies" );
-
-    settings.beginWriteArray( "workingCopies", wcList->count() );
-    for ( int i = 0; i < wcList->count(); ++i )
+    settings.remove( prefix );
+    settings.beginWriteArray( prefix, stringList.count() );
+    for ( int i = 0; i < stringList.count(); ++i )
     {
         settings.setArrayIndex( i );
-        settings.setValue( "directory", wcList->at( i ) );
+        settings.setValue( "entry" , stringList.at( i ) );
     }
     settings.endArray();
 }
 
-QStringList Config::getWorkingCopies()
+QStringList Config::getStringList( const QString &prefix )
 {
-    QStringList wcList;
+    QStringList stringList;
     QSettings settings;
 
-    int size = settings.beginReadArray( "workingCopies" );
+    int size = settings.beginReadArray( prefix );
 
-    for ( int i = 0; i < size;  ++i )
+    for ( int i = 0; i < size; ++i )
     {
         settings.setArrayIndex( i );
-        wcList.append( settings.value( "directory" ).toString() );
+        stringList.append( settings.value( "entry" ).toString() );
     }
     settings.endArray();
 
-    return wcList;
+    return stringList;
 }
+
 
 /*todo:
 void Config::saveListView( QListView *aListView )

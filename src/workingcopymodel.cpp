@@ -185,12 +185,12 @@ void WorkingCopyModel::saveWorkingCopies()
     {
         wcList << rootItem->child( i )->data( 1 ).toString();
     }
-    Config::instance()->setWorkingCopies( &wcList );
+    Config::instance()->saveStringList( "workingCopies", wcList );
 }
 
 void WorkingCopyModel::loadWorkingCopies()
 {
-    QStringList wcList = Config::instance()->getWorkingCopies();
+    QStringList wcList = Config::instance()->getStringList( "workingCopies" );
 
     for ( int i = 0; i < wcList.size(); i++ )
     {
