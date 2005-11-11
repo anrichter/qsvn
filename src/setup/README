@@ -5,3 +5,15 @@ To compile the setup script qsvn.iss you must first copy any necessary libraries
   * .\msvcp60.dll
   * .\qt-mtnc321.dll
   * .\svn\svn-1.1.3-setup.exe
+
+
+intl3_svn.dll
+libapr.dll
+libapriconv.dll
+libaprutil.dll
+libdb43.dll
+libeay32.dll
+ssleay.dll
+
+QtCore4.dll
+QtGui4.dll
