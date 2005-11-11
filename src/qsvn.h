@@ -102,9 +102,6 @@ private slots:
     void helpIndexSlot();
     /*todo:
         void aboutSlot();
-
-        // @brief prepare informations for and call a svn command during SvnWrapper::doSvnCommand
-        void svnCommand( int svnCommandType, bool withFileSelector = FALSE );
     todo */
 
     void activateWorkingCopy( const QModelIndex &index );
