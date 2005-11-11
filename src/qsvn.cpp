@@ -185,7 +185,10 @@ void QSvn::checkoutSlot()
     Checkout checkout( this );
     if ( checkout.exec() )
     {
-        SvnClient::instance()->checkout( checkout.url(), checkout.path() );
+        if ( SvnClient::instance()->checkout( checkout.url(), checkout.path() ) )
+        {
+            workingCopyModel->addWorkingCopy( checkout.path() );
+        }
     }
 }
 

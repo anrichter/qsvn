@@ -46,12 +46,18 @@ Checkout::Checkout( QWidget *parent )
 
 QString Checkout::url() const
 {
-    return editURL->currentText();
+    QString url = editURL->currentText();
+    while ( url.endsWith( QDir::separator() ) )
+        url.chop( 1 );
+    return url;
 }
 
 QString Checkout::path() const
 {
-    return editPath->text();
+    QString path = editPath->text();
+    while ( path.endsWith( QDir::separator() ) )
+        path.chop( 1 );
+    return path;
 }
 
 void Checkout::selectURLSlot()
