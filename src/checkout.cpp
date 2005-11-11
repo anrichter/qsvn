@@ -24,6 +24,7 @@
 
 //QSvn
 #include "checkout.h"
+#include "config.h"
 #include "statustext.h"
 
 //Qt
@@ -38,11 +39,14 @@ Checkout::Checkout( QWidget *parent )
     QObject::connect( buttonURL, SIGNAL( clicked() ), this, SLOT( selectURLSlot() ) );
     QObject::connect( buttonPath, SIGNAL( clicked() ), this, SLOT( selectPathSlot() ) );
     QObject::connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
+
+    editURL->addItems( Config::instance()->getStringList( "checkoutURL" ) );
+    editURL->clearEditText();
 }
 
 QString Checkout::url() const
 {
-    return editURL->text();
+    return editURL->currentText();
 }
 
 QString Checkout::path() const
@@ -64,7 +68,7 @@ void Checkout::selectPathSlot()
 
 void Checkout::buttonOkClickedSlot()
 {
-    if ( editURL->text().isEmpty() )
+    if ( editURL->currentText().isEmpty() )
     {
         QMessageBox::critical( this, "qsvn - Error", "You must specify an URL for checkout!" );
         return;
@@ -87,5 +91,11 @@ void Checkout::buttonOkClickedSlot()
         else
             return;
     }
+
+    editURL->insertItem( 0, editURL->currentText() );
+    QStringList list;
+    for ( int i = 0; i < editURL->count(); ++i )
+        list << editURL->itemText( i );
+    Config::instance()->saveStringList( "checkoutURL", list );
     this->accept();
 }
