@@ -27,10 +27,10 @@
 #include "svn_wc.h"
 
 // svncpp
-#include "svncpp/exception.hpp"
-#include "svncpp/path.hpp"
-#include "svncpp/pool.hpp"
-#include "svncpp/wc.hpp"
+#include "exception.hpp"
+#include "path.hpp"
+#include "pool.hpp"
+#include "wc.hpp"
 
 
 namespace svn

@@ -30,7 +30,7 @@
 #include "svn_client.h"
 
 // svncpp
-#include "svncpp/client.hpp"
+#include "client.hpp"
 
 
 namespace svn

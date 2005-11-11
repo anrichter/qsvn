@@ -31,10 +31,10 @@
 #include "svn_path.h"
 
 // svncpp
-#include "svncpp/client.hpp"
-#include "svncpp/exception.hpp"
-#include "svncpp/pool.hpp"
-#include "svncpp/status.hpp"
+#include "client.hpp"
+#include "exception.hpp"
+#include "pool.hpp"
+#include "status.hpp"
 
 
 namespace svn

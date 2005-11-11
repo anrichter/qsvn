@@ -24,7 +24,7 @@
  */
 
 // svncpp
-#include "svncpp/revision.hpp"
+#include "revision.hpp"
 
 
 namespace svn

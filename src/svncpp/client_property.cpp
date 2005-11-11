@@ -31,11 +31,11 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "svncpp/client.hpp"
-#include "svncpp/path.hpp"
-#include "svncpp/exception.hpp"
-#include "svncpp/pool.hpp"
-#include "svncpp/revision.hpp"
+#include "client.hpp"
+#include "path.hpp"
+#include "exception.hpp"
+#include "pool.hpp"
+#include "revision.hpp"
 
 
 namespace svn

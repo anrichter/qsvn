@@ -26,7 +26,7 @@
 #include <qstring.h>
 
 // svncpp
-#include "svncpp/exception.hpp"
+#include "exception.hpp"
 
 
 namespace svn
