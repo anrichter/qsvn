@@ -46,7 +46,7 @@ class SvnClient : public QObject
 {
     Q_OBJECT
 public:
-    static SvnClient* Exemplar();
+    static SvnClient* instance();
 
     /**
      * Return StatusEntries for a directory
@@ -74,7 +74,7 @@ protected:
     ~SvnClient();
 
 private:
-    static SvnClient* _exemplar;
+    static SvnClient* m_instance;
 
     svn::Context *svnContext;
     svn::Client *svnClient;

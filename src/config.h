@@ -41,7 +41,7 @@ class Config : public QObject
 {
     Q_OBJECT
 public:
-    static Config* Exemplar();
+    static Config* instance();
 
     void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
     QString getDiffViewer(); //!< get the complete path to a diff viewer
@@ -63,7 +63,7 @@ public slots:
 private:
     Config( QObject *parent = 0 );
 
-    static Config* _exemplar;
+    static Config* m_instance;
 
     QString _diffViewer;
 

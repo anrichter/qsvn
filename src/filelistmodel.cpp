@@ -57,7 +57,7 @@ void FileListModel::setActiveDirectory( QString directory )
 
         oldDirectory = directory;
 
-        svn::StatusEntries statusList = SvnClient::Exemplar()->status( directory );
+        svn::StatusEntries statusList = SvnClient::instance()->status( directory );
         svn::StatusEntries::iterator it;
         for ( it = statusList.begin(); it != statusList.end(); ++it )
         {

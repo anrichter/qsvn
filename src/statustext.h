@@ -42,7 +42,7 @@ class StatusText : public QObject
 {
     Q_OBJECT
 public:
-    static StatusText* Exemplar();
+    static StatusText* instance();
 
     void setOutPutWidget( QTextEdit *textEdit );
 
@@ -50,7 +50,7 @@ public:
     void outputMessage( QStringList messageStringList );
 
 private:
-    static StatusText *_exemplar;
+    static StatusText *m_instance;
     QTextEdit *editStatusText;
 
     StatusText( QObject *parent = 0 );

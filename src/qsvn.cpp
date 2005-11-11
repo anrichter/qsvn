@@ -53,7 +53,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     createMenus();
     createToolBar();
 
-    StatusText::Exemplar()->setOutPutWidget( editStatusText );
+    StatusText::instance()->setOutPutWidget( editStatusText );
 
     //setup workingCopyModel
     workingCopyModel = new WorkingCopyModel();
@@ -67,7 +67,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
 
-    Config::Exemplar()->restoreMainWindow( this );
+    Config::instance()->restoreMainWindow( this );
 }
 
 void QSvn::activateWorkingCopy( const QModelIndex &index )
@@ -151,7 +151,7 @@ void QSvn::createToolBar()
 //protected slots
 void QSvn::exitSlot()
 {
-    Config::Exemplar()->saveMainWindow( this );
+    Config::instance()->saveMainWindow( this );
     qApp->exit( 0 );
 }
 
@@ -185,7 +185,7 @@ void QSvn::checkoutSlot()
     Checkout checkout( this );
     if ( checkout.exec() )
     {
-        SvnClient::Exemplar()->checkout( checkout.selectedURL(), checkout.selectedDirectory() );
+        SvnClient::instance()->checkout( checkout.selectedURL(), checkout.selectedDirectory() );
     }
 }
 
@@ -289,7 +289,7 @@ void QSvn::updateSlot()
     }
 
     if ( updateList.count() > 0 )
-        SvnClient::Exemplar()->update( updateList );
+        SvnClient::instance()->update( updateList );
 }
 
 /*
@@ -329,13 +329,13 @@ void QSvn::configureQSvnSlot()
 void QSvn::helpContentsSlot()
 {
     //todo: implement
-    StatusText::Exemplar()->outputMessage( QString( "Help Content - not implemented yet" ) );
+    StatusText::instance()->outputMessage( QString( "Help Content - not implemented yet" ) );
 }
 
 void QSvn::helpIndexSlot()
 {
     //todo: implement
-    StatusText::Exemplar()->outputMessage( QString( "Help Index - not implemented yet" ) );
+    StatusText::instance()->outputMessage( QString( "Help Index - not implemented yet" ) );
 }
 
 /* todo:

@@ -34,15 +34,15 @@
 
 
 //make Config a singleton
-Config* Config::_exemplar = 0;
+Config* Config::m_instance = 0;
 
-Config* Config::Exemplar()
+Config* Config::instance()
 {
-    if ( _exemplar == 0 )
+    if ( m_instance == 0 )
     {
-        _exemplar = new Config;
+        m_instance = new Config;
     }
-    return _exemplar;
+    return m_instance;
 }
 
 //Config implementation

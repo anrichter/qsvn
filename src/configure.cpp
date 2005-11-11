@@ -39,12 +39,12 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
     connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickSlot() ) );
     connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
 
-    editDiffViewer->setText( Config::Exemplar()->getDiffViewer() );
+    editDiffViewer->setText( Config::instance()->getDiffViewer() );
 }
 
 void Configure::buttonOkClickSlot()
 {
-    Config::Exemplar()->setDiffViewer( editDiffViewer->text() );
+    Config::instance()->setDiffViewer( editDiffViewer->text() );
 }
 
 void Configure::buttonSelectDiffViewerClickSlot()

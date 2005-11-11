@@ -32,15 +32,15 @@
 
 
 //make StatusText a singleton
-StatusText* StatusText::_exemplar = 0;
+StatusText* StatusText::m_instance = 0;
 
-StatusText* StatusText::Exemplar()
+StatusText* StatusText::instance()
 {
-    if ( _exemplar == 0 )
+    if ( m_instance == 0 )
     {
-        _exemplar = new StatusText;
+        m_instance = new StatusText;
     }
-    return _exemplar;
+    return m_instance;
 }
 
 //FileList implementation

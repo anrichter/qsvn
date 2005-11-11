@@ -59,7 +59,7 @@ QString Checkout::selectedDirectory() const
 
 void Checkout::selectURLSlot()
 {
-    StatusText::Exemplar()->outputMessage( QString( "not implemented yet") );
+    StatusText::instance()->outputMessage( QString( "not implemented yet") );
 }
 
 void Checkout::selectDirectorySlot()
@@ -89,7 +89,7 @@ void Checkout::buttonOkClickedSlot()
                                     QMessageBox::Yes,
                                     QMessageBox::No ) == QMessageBox::Yes )
         {
-            StatusText::Exemplar()->outputMessage( QString( "Create directory" ) );
+            StatusText::instance()->outputMessage( QString( "Create directory" ) );
         }
         else
             return;

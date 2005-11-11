@@ -60,7 +60,7 @@ void WorkingCopyModel::addWorkingCopy( QString directory )
 
     if ( !svn::Wc::checkWc( directory.toLocal8Bit() ) )
     {
-        StatusText::Exemplar()->outputMessage( directory + " is not a Working Copy" );
+        StatusText::instance()->outputMessage( directory + " is not a Working Copy" );
         return;
     }
 
@@ -185,12 +185,12 @@ void WorkingCopyModel::saveWorkingCopies()
     {
         wcList << rootItem->child( i )->data( 1 ).toString();
     }
-    Config::Exemplar()->setWorkingCopies( &wcList );
+    Config::instance()->setWorkingCopies( &wcList );
 }
 
 void WorkingCopyModel::loadWorkingCopies()
 {
-    QStringList wcList = Config::Exemplar()->getWorkingCopies();
+    QStringList wcList = Config::instance()->getWorkingCopies();
 
     for ( int i = 0; i < wcList.size(); i++ )
     {

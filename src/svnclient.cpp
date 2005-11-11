@@ -36,15 +36,15 @@
 
 
 //make SvnClient a singleton
-SvnClient* SvnClient::_exemplar = 0;
+SvnClient* SvnClient::m_instance = 0;
 
-SvnClient* SvnClient::Exemplar()
+SvnClient* SvnClient::instance()
 {
-    if ( _exemplar == 0 )
+    if ( m_instance == 0 )
     {
-        _exemplar = new SvnClient;
+        m_instance = new SvnClient;
     }
-    return _exemplar;
+    return m_instance;
 }
 
 //SvnClient implementation
@@ -77,12 +77,12 @@ bool SvnClient::update( QStringList &updateList )
         svn::Path svnPath( updateList.at( i ).toLocal8Bit() );
         try
         {
-            StatusText::Exemplar()->outputMessage( "" );
+            StatusText::instance()->outputMessage( "" );
             svnClient->update( svnPath, svn::Revision::HEAD, false );
         }
         catch ( svn::ClientException e )
         {
-            StatusText::Exemplar()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+            StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
             return false;
         }
     }
@@ -101,7 +101,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::Exemplar()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
         return false;
     }
     return true;
