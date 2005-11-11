@@ -38,12 +38,12 @@ class Checkout : public QDialog, public Ui::Checkout
 public:
     Checkout( QWidget *parent = 0 );
 
-    QString selectedURL() const;
-    QString selectedDirectory() const;
+    QString url() const;
+    QString path() const;
 
 public slots:
     void selectURLSlot();
-    void selectDirectorySlot();
+    void selectPathSlot();
     void buttonOkClickedSlot();
 };
 

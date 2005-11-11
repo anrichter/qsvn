@@ -36,25 +36,18 @@ Checkout::Checkout( QWidget *parent )
     setupUi( this );
 
     QObject::connect( buttonURL, SIGNAL( clicked() ), this, SLOT( selectURLSlot() ) );
-    QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
+    QObject::connect( buttonPath, SIGNAL( clicked() ), this, SLOT( selectPathSlot() ) );
     QObject::connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
 }
 
-QString Checkout::selectedURL() const
+QString Checkout::url() const
 {
-    QString url = comboProtocol->currentText();
-    if ( url != "file://" )
-    {
-        url += editServer->text() + "/";
-    }
-    url += editPath->text();
-
-    return url;
+    return editURL->text();
 }
 
-QString Checkout::selectedDirectory() const
+QString Checkout::path() const
 {
-    return editDirectory->text();
+    return editPath->text();
 }
 
 void Checkout::selectURLSlot()
@@ -62,34 +55,34 @@ void Checkout::selectURLSlot()
     StatusText::instance()->outputMessage( QString( "not implemented yet") );
 }
 
-void Checkout::selectDirectorySlot()
+void Checkout::selectPathSlot()
 {
-    QString directory = QFileDialog::getExistingDirectory( this, "Select a directory for working copy", editDirectory->text() );
+    QString directory = QFileDialog::getExistingDirectory( this, "Select a directory for working copy", editPath->text() );
     if ( !directory.isEmpty() )
-        editDirectory->setText( QDir::convertSeparators( directory ) );
+        editPath->setText( QDir::convertSeparators( directory ) );
 }
 
 void Checkout::buttonOkClickedSlot()
 {
-    if ( editPath->text().isEmpty() )
+    if ( editURL->text().isEmpty() )
     {
         QMessageBox::critical( this, "qsvn - Error", "You must specify an URL for checkout!" );
         return;
     }
-    if ( editDirectory->text().isEmpty() )
+    if ( editPath->text().isEmpty() )
     {
         QMessageBox::critical( this, "qsvn - Error", "You must specify a directory for checkout!" );
         return;
     }
-    QDir dir( editDirectory->text() );
+    QDir dir( editPath->text() );
     if ( !dir.exists() )
     {
         if ( QMessageBox::question( this, "qsvn - Question",
-                                    QString( "<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>").arg( editDirectory->text() ),
+                                    QString( "<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>").arg( editPath->text() ),
                                     QMessageBox::Yes,
                                     QMessageBox::No ) == QMessageBox::Yes )
         {
-            StatusText::instance()->outputMessage( QString( "Create directory" ) );
+            dir.mkdir( editPath->text() );
         }
         else
             return;
