@@ -69,7 +69,10 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
 void QSvn::activateWorkingCopy( const QModelIndex &index )
 {
-    fileListModel->setActiveDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
+    if ( index.isValid() )
+        fileListModel->setActiveDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
+    else
+        fileListModel->setActiveDirectory( "" );
 }
 
 QSvn::~QSvn()
@@ -174,6 +177,7 @@ void QSvn::removeWorkingCopySlot()
         {
             workingCopyModel->removeRow( indexes.at( i ).row() );
         }
+        activateWorkingCopy( QModelIndex() );
     }
 }
 

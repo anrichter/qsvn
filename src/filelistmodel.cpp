@@ -45,11 +45,10 @@ FileListModel::~FileListModel()
 
 void FileListModel::setActiveDirectory( QString directory )
 {
-    if ( directory.isEmpty() )
-        return;
-    if ( oldDirectory != directory )
+    removeRows( 0, rootItem->childCount() );
+
+    if ( !directory.isEmpty() && oldDirectory != directory )
     {
-        removeRows( 0, rootItem->childCount() );
         QList< QVariant > columnData;
 
         oldDirectory = directory;
@@ -66,8 +65,8 @@ void FileListModel::setActiveDirectory( QString directory )
             }
         }
         sort ( 0, sortOrder );
-        reset();
     }
+    reset();
 }
 
 QModelIndex FileListModel::index( int row, int column, const QModelIndex &parent ) const
