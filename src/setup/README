@@ -15,5 +15,8 @@ libdb43.dll
 libeay32.dll
 ssleay.dll
 
+msvcp80.dll
+msvcr80.dll
+
 QtCore4.dll
 QtGui4.dll
