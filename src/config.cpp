@@ -145,7 +145,7 @@ void Config::restoreMainWindow( QSvn *aQSvn )
 
 void Config::saveStringList( const QString &prefix, const QStringList &stringList )
 {
-    if ( prefix.isEmpty() || stringList.isEmpty() )
+    if ( prefix.isEmpty() )
         return;
 
     QSettings settings;
