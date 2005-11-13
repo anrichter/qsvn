@@ -23,7 +23,8 @@
 
 //QSvn
 #include "ui_qsvn.h"
-class FileListModel;
+#include "filelistmodel.h"
+#include "fileselector.h"
 class WorkingCopyModel;
 
 
@@ -40,10 +41,6 @@ public:
     ~QSvn();
 
 private:
-    void createActions();
-    void createMenus();
-    void createToolBar();
-
     //Actions
     QAction* actionExit;
     QAction* actionHelpContents;
@@ -72,6 +69,12 @@ private:
     WorkingCopyModel *workingCopyModel;
     FileListModel *fileListModel;
 
+    void createActions();
+    void createMenus();
+    void createToolBar();
+
+    QItemSelectionModel *focusSelectionModel();
+    FileListModel::FromSelectionType focusFromSelectionType();
 private slots:
     //File
     void exit();

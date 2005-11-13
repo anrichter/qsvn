@@ -26,16 +26,12 @@
 #include "configure.h"
 #include "filelistmodel.h"
 #include "filelistitem.h"
+#include "fileselector.h"
 #include "qsvn.h"
 #include "statustext.h"
 #include "svnclient.h"
 #include "workingcopymodel.h"
 #include "workingcopyitem.h"
-
-/*todo:
-#include "AboutDlg.h"
-#include "FileSelector.h"
-*/
 
 //Qt
 #include <QtGui>
@@ -154,6 +150,23 @@ void QSvn::createMenus()
 void QSvn::createToolBar()
 {}
 
+QItemSelectionModel *QSvn::focusSelectionModel()
+{
+    if ( treeViewFileList->hasFocus() )
+        return treeViewFileList->selectionModel();
+    else
+        return treeViewWorkingCopy->selectionModel();
+}
+
+FileListModel::FromSelectionType QSvn::focusFromSelectionType()
+{
+    if ( treeViewFileList->hasFocus() )
+        return FileListModel::FromFile;
+    else
+        return FileListModel::FromWorkingCopy;
+}
+
+
 //protected slots
 void QSvn::exit()
 {
@@ -203,7 +216,6 @@ void QSvn::update()
 {
     QSet<QString> updateSet;
 
-
     if ( treeViewWorkingCopy->hasFocus() )
     {
         QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
@@ -247,26 +259,30 @@ void QSvn::update()
 
 void QSvn::commit()
 {
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+    FileSelector fileselector( this, FileSelector::Commit, focusSelectionModel(), focusFromSelectionType() );
+    if ( fileselector.exec() )
+        StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::add()
 {
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+    FileSelector fileselector( this, FileSelector::Add, focusSelectionModel(), focusFromSelectionType() );
+    if ( fileselector.exec() )
+        StatusText::instance()->outputMessage( QString( "file selector..." ) );
 }
 
 void QSvn::remove()
 {
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+    FileSelector fileselector( this, FileSelector::Remove, focusSelectionModel(), focusFromSelectionType() );
+    if ( fileselector.exec() )
+        StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::revert()
 {
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+    FileSelector fileselector( this, FileSelector::Revert, focusSelectionModel(), focusFromSelectionType() );
+    if ( fileselector.exec() )
+        StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::diff()

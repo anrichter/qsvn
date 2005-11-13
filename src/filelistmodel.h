@@ -26,17 +26,25 @@
 class FileListItem;
 
 //Qt
-#include <QAbstractItemModel>
-#include <QModelIndex>
-#include <QPair>
-#include <QVariant>
+#include <QtGui>
+
 
 class FileListModel : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
+    enum FromSelectionType { FromWorkingCopy = 0x01,
+        FromFile = 0x02 };
+
     FileListModel( QObject *parent = 0 );
+    /**
+     * Create a FileListeModel with entries from a FileListModelSelection
+     * @param parent
+     * @param itemSelection The QItemSelectionModel from an already exitsing FileListModel
+     * @return
+     */
+    FileListModel( QObject *parent, QItemSelectionModel *itemSelection, FromSelectionType &selectionType );
     ~FileListModel();
 
     //basic model functions
@@ -59,6 +67,10 @@ private:
 
     QString oldDirectory;
     Qt::SortOrder sortOrder;
+
+    void initModel();
+    void loadFromWorkingCopy( QItemSelectionModel *itemSelection );
+    void loadFromFile( QItemSelectionModel *itemSelection );
 
     //sorting algorithms
     static bool itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right );

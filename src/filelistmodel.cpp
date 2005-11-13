@@ -32,15 +32,43 @@
 FileListModel::FileListModel( QObject *parent )
         : QAbstractItemModel( parent )
 {
+    initModel();
+}
+
+FileListModel::FileListModel( QObject *parent, QItemSelectionModel *itemSelection, FromSelectionType &selectionType )
+    : QAbstractItemModel( parent )
+{
+    initModel();
+    switch ( selectionType )
+    {
+        case FileListModel::FromWorkingCopy:
+            loadFromWorkingCopy( itemSelection );
+            break;
+        case FileListModel::FromFile:
+            loadFromFile( itemSelection );
+            break;
+    }
+}
+
+FileListModel::~FileListModel()
+{
+    delete rootItem;
+}
+
+void FileListModel::initModel( )
+{
     QList< QVariant > rootData;
     rootData << "Filename" << "Status" << "Revision" << "Author";
     rootItem = new FileListItem( rootData );
     sortOrder = Qt::AscendingOrder;
 }
 
-FileListModel::~FileListModel()
+void FileListModel::loadFromWorkingCopy( QItemSelectionModel *itemSelection )
 {
-    delete rootItem;
+}
+
+void FileListModel::loadFromFile( QItemSelectionModel *itemSelection )
+{
 }
 
 void FileListModel::setActiveDirectory( QString directory )
@@ -192,3 +220,4 @@ bool FileListModel::itemGreaterThan( const QPair< FileListItem*, int > &left, co
 {
     return !( ( *left.first ) < ( *right.first ) );
 }
+
