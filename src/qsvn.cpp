@@ -195,7 +195,8 @@ void QSvn::checkoutSlot()
 
 void QSvn::updateSlot()
 {
-    QStringList updateList;
+    QSet<QString> updateSet;
+
 
     if ( treeViewWorkingCopy->hasFocus() )
     {
@@ -210,7 +211,7 @@ void QSvn::updateSlot()
 
         for ( int i = 0; i < indexes.count(); i++ )
         {
-            updateList << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
+            updateSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
         }
     } else if ( treeViewFileList->hasFocus() )
     {
@@ -225,14 +226,18 @@ void QSvn::updateSlot()
 
         for ( int i = 0; i < indexes.count(); i++ )
         {
-            updateList << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
+            updateSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
         }
     } else {
         QMessageBox::information( this, "QSvn", "You must select a Working Copy", QMessageBox::Ok );
     }
 
-    if ( updateList.count() > 0 )
+    if ( updateSet.count() > 0 )
+    {
+        QStringList updateList = updateSet.toList();
         SvnClient::instance()->update( updateList );
+        qDebug() << updateList;
+    }
 }
 
 /*
