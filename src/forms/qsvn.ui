@@ -48,8 +48,15 @@
          <number>6</number>
         </property>
        </layout>
-       <widget class="QTreeView" name="treeViewWorkingCopy" />
+       <widget class="QTreeView" name="treeViewWorkingCopy" >
+        <property name="selectionMode" >
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+       </widget>
        <widget class="QTreeView" name="treeViewFileList" >
+        <property name="selectionMode" >
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
         <property name="rootIsDecorated" >
          <bool>false</bool>
         </property>
