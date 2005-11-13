@@ -9,11 +9,14 @@
     <x>0</x>
     <y>0</y>
     <width>395</width>
-    <height>171</height>
+    <height>203</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Login</string>
+  </property>
+  <property name="sizeGripEnabled" >
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
