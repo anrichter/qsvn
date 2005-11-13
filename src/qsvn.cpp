@@ -83,32 +83,38 @@ QSvn::~QSvn()
 void QSvn::createActions()
 {
     actionExit = new QAction( "E&xit", this );
-    connect( actionExit, SIGNAL( triggered() ), this, SLOT( exitSlot() ) );
+    connect( actionExit, SIGNAL( triggered() ), this, SLOT( exit() ) );
 
     actionAddWorkingCopy = new QAction( "&Add...", this );
-    connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( addWorkingCopySlot() ) );
+    connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( addWorkingCopy() ) );
     actionRemoveWorkingCopy = new QAction( "&Remove...", this );
-    connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( removeWorkingCopySlot() ) );
+    connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( removeWorkingCopy() ) );
     actionCheckout = new QAction( "&Checkout...", this );
-    connect( actionCheckout, SIGNAL( triggered() ), this, SLOT( checkoutSlot() ) );
+    connect( actionCheckout, SIGNAL( triggered() ), this, SLOT( checkout() ) );
 
     actionUpdate = new QAction( "&Update", this );
-    connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( updateSlot() ) );
+    connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( update() ) );
     actionCommit = new QAction( "&Commit...", this );
+    connect( actionCommit, SIGNAL( triggered() ), this, SLOT( commit() ) );
     actionAdd = new QAction( "&Add...", this );
+    connect( actionAdd, SIGNAL( triggered() ), this, SLOT( add() ) );
     actionRemove = new QAction( "&Remove...", this );
+    connect( actionRemove, SIGNAL( triggered() ), this, SLOT( remove() ) );
     actionRevert = new QAction( "Re&vert...", this );
+    connect( actionRevert, SIGNAL( triggered() ), this, SLOT( revert() ) );
 
     actionDiff = new QAction( "&Diff...", this );
+    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( diff() ) );
 
     actionConfigureQSvn = new QAction( "&Configure QSvn...", this );
-    connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvnSlot() ) );
+    connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvn() ) );
 
     actionHelpContents = new QAction( "&Contents...", this );
-    connect( actionHelpContents, SIGNAL( triggered() ), this, SLOT( helpContentsSlot() ) );
+    connect( actionHelpContents, SIGNAL( triggered() ), this, SLOT( helpContents() ) );
     actionHelpIndex = new QAction( "&Index...", this );
-    connect( actionHelpIndex, SIGNAL( triggered() ), this, SLOT( helpIndexSlot() ) );
+    connect( actionHelpIndex, SIGNAL( triggered() ), this, SLOT( helpIndex() ) );
     actionAboutQSvn = new QAction( "&About QSvn...", this );
+    connect( actionAboutQSvn, SIGNAL( triggered() ), this, SLOT( aboutQSvn() ) );
     actionAboutQt = new QAction( "About &Qt...", this );
     connect( actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
 }
@@ -149,13 +155,13 @@ void QSvn::createToolBar()
 {}
 
 //protected slots
-void QSvn::exitSlot()
+void QSvn::exit()
 {
     Config::instance()->saveMainWindow( this );
     qApp->exit( 0 );
 }
 
-void QSvn::addWorkingCopySlot()
+void QSvn::addWorkingCopy()
 {
     AddWorkingCopy addWorkingCopy( this );
     if ( addWorkingCopy.exec() )
@@ -164,7 +170,7 @@ void QSvn::addWorkingCopySlot()
     }
 }
 
-void QSvn::removeWorkingCopySlot()
+void QSvn::removeWorkingCopy()
 {
     if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Would you really remove this Working Copy?" ),
                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
@@ -181,7 +187,7 @@ void QSvn::removeWorkingCopySlot()
     }
 }
 
-void QSvn::checkoutSlot()
+void QSvn::checkout()
 {
     Checkout checkout( this );
     if ( checkout.exec() )
@@ -193,7 +199,7 @@ void QSvn::checkoutSlot()
     }
 }
 
-void QSvn::updateSlot()
+void QSvn::update()
 {
     QSet<QString> updateSet;
 
@@ -236,60 +242,59 @@ void QSvn::updateSlot()
     {
         QStringList updateList = updateSet.toList();
         SvnClient::instance()->update( updateList );
-        qDebug() << updateList;
     }
 }
 
-/*
-void QSvn::commitSlot()
+void QSvn::commit()
 {
-    svnCommand( SvnWrapper::Commit, TRUE );
+    //todo: implement
+    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
-void QSvn::addSlot()
+void QSvn::add()
 {
-    svnCommand( SvnWrapper::Add, TRUE );
+    //todo: implement
+    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
-void QSvn::removeSlot()
+void QSvn::remove()
 {
-    svnCommand( SvnWrapper::Remove, TRUE );
+    //todo: implement
+    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
-void QSvn::revertSlot()
+void QSvn::revert()
 {
-    svnCommand( SvnWrapper::Revert, TRUE );
+    //todo: implement
+    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
-void QSvn::diffSlot()
+void QSvn::diff()
 {
-    SvnWrapper::Exemplar()->diff( WorkingCopy::Exemplar()->selectedWorkingCopyItem()->fullPath(), FileList::Exemplar()->selectedFileListItems(), FALSE );
+    //todo: implement
+    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
-*/
-
-void QSvn::configureQSvnSlot()
+void QSvn::configureQSvn()
 {
     Configure configure( this );
     configure.exec();
 }
 
-void QSvn::helpContentsSlot()
+void QSvn::helpContents()
 {
     //todo: implement
-    StatusText::instance()->outputMessage( QString( "Help Content - not implemented yet" ) );
+    StatusText::instance()->outputMessage( QString( "not implemented yet..." ) );
 }
 
-void QSvn::helpIndexSlot()
+void QSvn::helpIndex()
 {
     //todo: implement
-    StatusText::instance()->outputMessage( QString( "Help Index - not implemented yet" ) );
+    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
-/* todo:
-void QSvn::aboutSlot()
+void QSvn::aboutQSvn()
 {
-    AboutDlg about( this );
-    about.exec();
+    //todo: implement
+    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
-*/

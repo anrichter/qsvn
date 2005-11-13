@@ -74,32 +74,29 @@ private:
 
 private slots:
     //File
-    void exitSlot();
+    void exit();
 
     //WorkingCopy
-    void addWorkingCopySlot();
-    void removeWorkingCopySlot();
-    void checkoutSlot();
+    void addWorkingCopy();
+    void removeWorkingCopy();
+    void checkout();
 
     //Modify
-    void updateSlot();
-    /*
-        void commitSlot();
-        void addSlot();
-        void removeSlot();
-        void revertSlot();
+    void update();
+    void commit();
+    void add();
+    void remove();
+    void revert();
 
-        //Query
-        void diffSlot();
-    */
+    //Query
+    void diff();
+
     //Settings
-    void configureQSvnSlot();
+    void configureQSvn();
     //Help
-    void helpContentsSlot();
-    void helpIndexSlot();
-    /*todo:
-        void aboutSlot();
-    todo */
+    void helpContents();
+    void helpIndex();
+    void aboutQSvn();
 
     void activateWorkingCopy( const QModelIndex &index );
 };
