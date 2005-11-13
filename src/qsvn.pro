@@ -66,6 +66,7 @@ RESOURCES = qsvn.qrc
 FORMS = forms\addworkingcopy.ui \
         forms\checkout.ui \
         forms\configure.ui \
+        forms\login.ui \
         forms\qsvn.ui
 
 HEADERS = addworkingcopy.h \
@@ -75,6 +76,7 @@ HEADERS = addworkingcopy.h \
           filelistitem.h \
           filelistmodel.h \
           listener.h \
+          login.h \
           qsvn.h \
           statustext.h \
           svnclient.h \
@@ -110,6 +112,7 @@ SOURCES = addworkingcopy.cpp \
           filelistitem.cpp \
           filelistmodel.cpp \
           listener.cpp \
+          login.cpp \
           main.cpp \
           qsvn.cpp \
           statustext.cpp \
