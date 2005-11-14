@@ -56,7 +56,6 @@
 #include "context.hpp"
 #include "context_listener.hpp"
 
-
 namespace svn
 {
   struct Context::Data
@@ -256,9 +255,9 @@ namespace svn
 
       svn_auth_baton_t * ab = ctx.auth_baton;
       svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME,
-                              username.toAscii());
+                              username.toUtf8());
       svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD,
-                              password.toAscii());
+                              password.toUtf8());
 
     }
 
@@ -334,7 +333,7 @@ namespace svn
      * @since subversion 1.2
      */
     static void
-    onNotify2(void*baton,const svn_wc_notify_t *action,apr_pool_t */*tpool*/)
+    onNotify2(void*baton,const svn_wc_notify_t *action,apr_pool_t * /*tpool*/)
     {
       if (!baton)
         return;
@@ -389,8 +388,8 @@ namespace svn
       SVN_ERR (svn_utf_cstring_to_utf8 (
                  &lcred->username,
                  data->getUsername (), pool)); */
-      lcred->password = data->getPassword().toAscii();
-      lcred->username = data->getUsername().toAscii();
+      lcred->password = data->getPassword().toUtf8();
+      lcred->username = data->getUsername().toUtf8();
 
       // tell svn if the credentials need to be saved
       lcred->may_save = may_save;
