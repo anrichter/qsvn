@@ -23,12 +23,15 @@
 #include "filelistmodel.h"
 #include "fileselector.h"
 
+#include <QtGui>
+
 
 FileSelector::FileSelector( QWidget *parent, SelectorType selectorTyp, QItemSelectionModel *itemSelection, FileListModel::FromSelectionType selectionType )
     : QDialog( parent )
 {
     setupUi( this );
     m_fileListModel = new FileListModel( this, itemSelection, selectionType );
+    treeViewFiles->setModel( m_fileListModel );
 
     switch ( selectorTyp )
     {

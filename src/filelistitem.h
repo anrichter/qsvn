@@ -30,6 +30,7 @@ class FileListItem
 {
 public:
     FileListItem( const QList<QVariant> &data, FileListItem *parent = 0 );
+    FileListItem( const FileListItem *fileListItem, FileListItem *parent = 0 );
     ~FileListItem();
 
     void appendChild( FileListItem *child );

@@ -69,6 +69,27 @@ void FileListModel::loadFromWorkingCopy( QItemSelectionModel *itemSelection )
 
 void FileListModel::loadFromFile( QItemSelectionModel *itemSelection )
 {
+    QModelIndexList indexes = itemSelection->selectedIndexes();
+    int row = -1;
+    FileListItem *item;
+
+    for ( int i = 0; i < indexes.count(); i++ )
+    {
+        if ( row != indexes.at( i ).row() ) //new row - load new item
+        {
+            if ( row != -1 ) // add already loaded item to rootItem
+            {
+                rootItem->appendChild( new FileListItem( item, rootItem ) );
+            }
+
+            row = indexes.at( i ).row();
+            item = static_cast< FileListItem* >( indexes.at( i ).internalPointer() );
+        }
+    }
+    if ( row != -1 )
+    {
+        rootItem->appendChild( new FileListItem( item, rootItem ) );
+    }
 }
 
 void FileListModel::setActiveDirectory( QString directory )
@@ -164,7 +185,49 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
     FileListItem *item = static_cast< FileListItem* >( index.internalPointer() );
 
     if ( role == Qt::DisplayRole )
-        return item->data( index.column() );
+    {
+        if ( index.column() == 1 )
+        {
+            int statusKind = item->data( 1 ).toInt();
+            switch ( statusKind )
+            {
+                case svn_wc_status_none:
+                    return QString( "none" );
+                case svn_wc_status_unversioned:
+                    return QString( "unversioned" );
+                case svn_wc_status_normal:
+                    return QString( "normal" );
+                case svn_wc_status_added:
+                    return QString( "added" );
+                case svn_wc_status_missing:
+                    return QString( "missing" );
+                case svn_wc_status_deleted:
+                    return QString( "deleted" );
+                case svn_wc_status_replaced:
+                    return QString( "replaced" );
+                case svn_wc_status_modified:
+                    return QString( "modified" );
+                case svn_wc_status_merged:
+                    return QString( "merged" );
+                case svn_wc_status_conflicted:
+                    return QString( "conflicted" );
+                case svn_wc_status_ignored:
+                    return QString( "ignored" );
+                case svn_wc_status_obstructed:
+                    return QString( "obstructed" );
+                case svn_wc_status_external:
+                    return QString( "external" );
+                case svn_wc_status_incomplete:
+                    return QString( "incomplete" );
+                default:
+                    return item->data( 1 ).toString();
+            }
+        }
+        else
+        {
+            return item->data( index.column() );
+        }
+    }
     else if ( ( role == Qt::DecorationRole ) && ( index.column() == 0 ))
         return item->getPixmap();
     else

@@ -26,7 +26,7 @@
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QSplitter" name="" >
+    <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
@@ -38,7 +38,7 @@
        <number>6</number>
       </property>
      </layout>
-     <widget class="QWidget" name="" >
+     <widget class="QWidget" name="layoutWidget_2" >
       <layout class="QVBoxLayout" >
        <property name="margin" >
         <number>0</number>
@@ -54,11 +54,15 @@
         </widget>
        </item>
        <item>
-        <widget class="QListView" name="listViewFiles" />
+        <widget class="QTreeView" name="treeViewFiles" >
+         <property name="selectionBehavior" >
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="" >
+     <widget class="QWidget" name="layoutWidget_3" >
       <layout class="QVBoxLayout" >
        <property name="margin" >
         <number>0</number>
@@ -141,7 +145,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="" >
+  <widget class="QWidget" name="widget" >
    <property name="geometry" >
     <rect>
      <x>10</x>
