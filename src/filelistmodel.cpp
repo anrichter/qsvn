@@ -69,24 +69,26 @@ void FileListModel::loadFromWorkingCopy( QItemSelectionModel *itemSelection )
 
 void FileListModel::loadFromFile( QItemSelectionModel *itemSelection )
 {
+    QSet< FileListItem* > fileListItemSet;
     QModelIndexList indexes = itemSelection->selectedIndexes();
     int row = -1;
-    FileListItem *item;
+    FileListItem *item = 0;
 
     for ( int i = 0; i < indexes.count(); i++ )
     {
         if ( row != indexes.at( i ).row() ) //new row - load new item
         {
-            if ( row != -1 ) // add already loaded item to rootItem
+            if ( item && !fileListItemSet.contains( item ) )  // add already loaded item to rootItem
             {
                 rootItem->appendChild( new FileListItem( item, rootItem ) );
+                fileListItemSet << item;
             }
 
             row = indexes.at( i ).row();
             item = static_cast< FileListItem* >( indexes.at( i ).internalPointer() );
         }
     }
-    if ( row != -1 )
+    if ( item && !fileListItemSet.contains( item ) )
     {
         rootItem->appendChild( new FileListItem( item, rootItem ) );
     }
