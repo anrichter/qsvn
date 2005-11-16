@@ -74,7 +74,7 @@ private:
     void createToolBar();
 
     QItemSelectionModel *focusSelectionModel();
-    FileListModel::FromSelectionType focusFromSelectionType();
+    FileListModel::SelectionFrom focusSelectionFrom();
 private slots:
     //File
     void exit();

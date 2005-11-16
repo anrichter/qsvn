@@ -34,8 +34,13 @@ class FileListModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    enum FromSelectionType { FromWorkingCopy = 0x01,
-        FromFile = 0x02 };
+    enum SelectionFrom { WorkingCopy = 0x01,
+                         File = 0x02 };
+    enum ModelFor { None   = 0x00,
+                    Add    = 0x01,
+                    Commit = 0x02,
+                    Remove = 0x04,
+                    Revert = 0x05 };
 
     FileListModel( QObject *parent = 0 );
     /**
@@ -44,7 +49,7 @@ public:
      * @param itemSelection The QItemSelectionModel from an already exitsing FileListModel
      * @return
      */
-    FileListModel( QObject *parent, QItemSelectionModel *itemSelection, FromSelectionType &selectionType );
+    FileListModel( QObject *parent, ModelFor modelFor, QItemSelectionModel *itemSelection, SelectionFrom selectionFrom );
     ~FileListModel();
 
     //basic model functions
@@ -65,6 +70,7 @@ public slots:
 private:
     FileListItem *rootItem;
 
+    ModelFor m_modelFor;
     QString oldDirectory;
     Qt::SortOrder sortOrder;
 

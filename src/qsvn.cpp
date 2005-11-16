@@ -158,12 +158,12 @@ QItemSelectionModel *QSvn::focusSelectionModel()
         return treeViewWorkingCopy->selectionModel();
 }
 
-FileListModel::FromSelectionType QSvn::focusFromSelectionType()
+FileListModel::SelectionFrom QSvn::focusSelectionFrom()
 {
     if ( treeViewFileList->hasFocus() )
-        return FileListModel::FromFile;
+        return FileListModel::File;
     else
-        return FileListModel::FromWorkingCopy;
+        return FileListModel::WorkingCopy;
 }
 
 
@@ -259,28 +259,28 @@ void QSvn::update()
 
 void QSvn::commit()
 {
-    FileSelector fileselector( this, FileSelector::Commit, focusSelectionModel(), focusFromSelectionType() );
+    FileSelector fileselector( this, FileListModel::Commit, focusSelectionModel(), focusSelectionFrom() );
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::add()
 {
-    FileSelector fileselector( this, FileSelector::Add, focusSelectionModel(), focusFromSelectionType() );
+    FileSelector fileselector( this, FileListModel::Add, focusSelectionModel(), focusSelectionFrom() );
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "file selector..." ) );
 }
 
 void QSvn::remove()
 {
-    FileSelector fileselector( this, FileSelector::Remove, focusSelectionModel(), focusFromSelectionType() );
+    FileSelector fileselector( this, FileListModel::Remove, focusSelectionModel(), focusSelectionFrom() );
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::revert()
 {
-    FileSelector fileselector( this, FileSelector::Revert, focusSelectionModel(), focusFromSelectionType() );
+    FileSelector fileselector( this, FileListModel::Revert, focusSelectionModel(), focusSelectionFrom() );
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }

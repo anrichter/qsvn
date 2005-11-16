@@ -26,25 +26,25 @@
 #include <QtGui>
 
 
-FileSelector::FileSelector( QWidget *parent, SelectorType selectorType, QItemSelectionModel *itemSelection, FileListModel::FromSelectionType selectionType )
+FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, QItemSelectionModel *itemSelection, FileListModel::SelectionFrom selectionFrom )
     : QDialog( parent )
 {
     setupUi( this );
-    m_fileListModel = new FileListModel( this, itemSelection, selectionType );
+    m_fileListModel = new FileListModel( this, modelFor, itemSelection, selectionFrom );
     treeViewFiles->setModel( m_fileListModel );
 
-    switch ( selectorType )
+    switch ( modelFor )
     {
-        case FileSelector::Add:
+        case FileListModel::Add:
             setWindowTitle( tr( "Add") );
             break;
-        case FileSelector::Commit:
+        case FileListModel::Commit:
             setWindowTitle( tr( "Commit") );
             break;
-        case FileSelector::Remove:
+        case FileListModel::Remove:
             setWindowTitle( tr( "Remove") );
             break;
-        case FileSelector::Revert:
+        case FileListModel::Revert:
             setWindowTitle( tr( "Revert") );
             break;
     }
