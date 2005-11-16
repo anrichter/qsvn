@@ -79,7 +79,7 @@ void FileListModel::loadFromFile( QItemSelectionModel *itemSelection )
     {
         if ( row != indexes.at( i ).row() ) //new row - load new item
         {
-            if ( item && !fileListItemSet.contains( item ) )  // add already loaded item to rootItem
+            if ( item && !fileListItemSet.contains( item ) && isItemForModel( item ) )  // add already loaded item to rootItem
             {
                 rootItem->appendChild( new FileListItem( item, rootItem ) );
                 fileListItemSet << item;
@@ -89,11 +89,46 @@ void FileListModel::loadFromFile( QItemSelectionModel *itemSelection )
             item = static_cast< FileListItem* >( indexes.at( i ).internalPointer() );
         }
     }
-    if ( item && !fileListItemSet.contains( item ) )
+    if ( item && !fileListItemSet.contains( item ) && isItemForModel( item ) )
     {
         rootItem->appendChild( new FileListItem( item, rootItem ) );
     }
 }
+
+bool FileListModel::isItemForModel( FileListItem * fileListItem )
+{
+    switch ( m_modelFor )
+    {
+        case None:
+            return false;
+            break;
+        case Add:
+            if ( fileListItem->data( 1 ).toInt() == svn_wc_status_unversioned )
+                return true;
+            break;
+        case Commit:
+            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_modified ) ||
+                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_added ) ||
+                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_deleted ) ||
+                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_replaced ) )
+                return true;
+            break;
+        case Remove:
+            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_normal ) ||
+                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_merged ) )
+                return true;
+            break;
+        case Revert:
+            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_modified ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_added ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_deleted ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_replaced ) )
+                return true;
+            break;
+    }
+    return false;
+}
+
 
 void FileListModel::setActiveDirectory( QString directory )
 {
@@ -286,4 +321,3 @@ bool FileListModel::itemGreaterThan( const QPair< FileListItem*, int > &left, co
 {
     return !( ( *left.first ) < ( *right.first ) );
 }
-

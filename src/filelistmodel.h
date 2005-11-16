@@ -77,6 +77,7 @@ private:
     void initModel();
     void loadFromWorkingCopy( QItemSelectionModel *itemSelection );
     void loadFromFile( QItemSelectionModel *itemSelection );
+    bool isItemForModel( FileListItem *fileListItem );
 
     //sorting algorithms
     static bool itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right );
