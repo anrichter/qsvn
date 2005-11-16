@@ -26,14 +26,14 @@
 #include <QtGui>
 
 
-FileSelector::FileSelector( QWidget *parent, SelectorType selectorTyp, QItemSelectionModel *itemSelection, FileListModel::FromSelectionType selectionType )
+FileSelector::FileSelector( QWidget *parent, SelectorType selectorType, QItemSelectionModel *itemSelection, FileListModel::FromSelectionType selectionType )
     : QDialog( parent )
 {
     setupUi( this );
     m_fileListModel = new FileListModel( this, itemSelection, selectionType );
     treeViewFiles->setModel( m_fileListModel );
 
-    switch ( selectorTyp )
+    switch ( selectorType )
     {
         case FileSelector::Add:
             setWindowTitle( tr( "Add") );

@@ -38,7 +38,7 @@ public:
                         Remove = 0x04,
                         Revert = 0x05 };
 
-    FileSelector( QWidget *parent, SelectorType selectorTyp, QItemSelectionModel *itemSelection, FileListModel::FromSelectionType selectionType );
+    FileSelector( QWidget *parent, SelectorType selectorType, QItemSelectionModel *itemSelection, FileListModel::FromSelectionType selectionType );
 
 private:
     FileListModel *m_fileListModel;
