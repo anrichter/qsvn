@@ -152,7 +152,7 @@ void QSvn::createToolBar()
 
 QItemSelectionModel *QSvn::focusSelectionModel()
 {
-    if ( treeViewFileList->hasFocus() )
+    if ( treeViewFileList->hasFocus() && ( treeViewFileList->selectionModel()->selection().count() > 0 ) )
         return treeViewFileList->selectionModel();
     else
         return treeViewWorkingCopy->selectionModel();
@@ -160,7 +160,7 @@ QItemSelectionModel *QSvn::focusSelectionModel()
 
 FileListModel::SelectionFrom QSvn::focusSelectionFrom()
 {
-    if ( treeViewFileList->hasFocus() )
+    if ( treeViewFileList->hasFocus() && ( treeViewFileList->selectionModel()->selection().count() > 0 ) )
         return FileListModel::File;
     else
         return FileListModel::WorkingCopy;
