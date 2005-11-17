@@ -24,6 +24,7 @@
 #include "filelistmodel.h"
 #include "statustext.h"
 #include "svnclient.h"
+#include "workingcopyitem.h"
 
 //Qt
 #include <QtGui>
@@ -92,6 +93,12 @@ bool FileListModel::isStatusForModel( svn_wc_status_kind status )
 
 void FileListModel::loadFromWorkingCopySelection( QItemSelectionModel *itemSelection )
 {
+    QModelIndexList indexes = itemSelection->selectedIndexes();
+    if ( indexes.count() > 0 )
+    {
+        WorkingCopyItem *item = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() );
+        loadFromDirectory( item->fullPath() );
+    }
 }
 
 void FileListModel::loadFromFileListSelection( QItemSelectionModel *itemSelection )
