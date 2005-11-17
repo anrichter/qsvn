@@ -28,6 +28,9 @@ class FileListItem;
 //Qt
 #include <QtGui>
 
+//SvnCpp
+#include "svncpp/status.hpp"
+
 
 class FileListModel : public QAbstractItemModel
 {
@@ -76,7 +79,7 @@ private:
     void initModel();
     void loadFromWorkingCopySelection( QItemSelectionModel *itemSelection );
     void loadFromFileListSelection( QItemSelectionModel *itemSelection );
-    bool isItemForModel( FileListItem *fileListItem );
+    bool isStatusForModel( svn_wc_status_kind status );
 
     //sorting algorithms
     static bool itemLessThan( const QPair< FileListItem*, int > &left, const QPair< FileListItem*, int > &right );
