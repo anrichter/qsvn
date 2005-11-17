@@ -50,7 +50,7 @@
        </layout>
        <widget class="QTreeView" name="treeViewWorkingCopy" >
         <property name="selectionMode" >
-         <enum>QAbstractItemView::ExtendedSelection</enum>
+         <enum>QAbstractItemView::SingleSelection</enum>
         </property>
        </widget>
        <widget class="QTreeView" name="treeViewFileList" >
