@@ -269,7 +269,9 @@ void QSvn::add()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
-        StatusText::instance()->outputMessage( QString( "file selector..." ) );
+    {
+        SvnClient::instance()->add( fileselector.selectedFileList() );
+    }
 }
 
 void QSvn::remove()

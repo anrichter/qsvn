@@ -100,3 +100,21 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     }
     return true;
 }
+
+bool SvnClient::add( const QStringList &filesAdd )
+{
+    QString file;
+    foreach( file, filesAdd )
+    {
+        try
+        {
+            svnClient->add( file, false );
+        }
+        catch ( svn::ClientException e )
+        {
+            StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+            return false;
+        }
+    }
+    return true;
+}

@@ -66,6 +66,9 @@ public:
      * @return True if checkout properly otherwise False
      */
     bool checkout( const QString &url, const QString &path );
+
+    bool add( const QStringList &filesAdd );
+
 protected:
     SvnClient();
     ~SvnClient();
