@@ -71,7 +71,6 @@ private:
     FileListItem *rootItem;
 
     ModelFor m_modelFor;
-    QString oldDirectory;
     Qt::SortOrder sortOrder;
 
     void initModel();

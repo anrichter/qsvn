@@ -134,20 +134,28 @@ void FileListModel::loadFromDirectory( QString directory )
 {
     removeRows( 0, rootItem->childCount() );
 
-    if ( !directory.isEmpty() && oldDirectory != directory )
+    if ( !directory.isEmpty() )
     {
         QList< QVariant > columnData;
-
-        oldDirectory = directory;
+        QFileInfo fileInfo;
 
         svn::StatusEntries statusList = SvnClient::instance()->status( directory );
         svn::StatusEntries::iterator it;
-        for ( it = statusList.begin(); it != statusList.end(); ++it )
+        
+        for ( it = statusList.begin(); it != statusList.end(); it++ )
         {
-            if ( ! QDir( directory + QDir::separator() + QString( it->entry().name() ) ).exists() )
+            fileInfo = QFileInfo( it->path() );
+            if ( fileInfo.isFile() )
             {
                 columnData.clear();
-                columnData << QString( it->entry().name() ) << it->textStatus() << QString( "%1" ).arg( it->entry().cmtRev() ) << QString( it->entry().cmtAuthor() ) << directory + QDir::separator() + QString( it->entry().name() );
+                if ( it->isVersioned() )
+                    columnData << it->entry().name();
+                else
+                {
+                    QFileInfo fileInfo( it->path() );
+                    columnData << fileInfo.fileName();
+                }
+                columnData << it->textStatus() << it->entry().cmtRev() << it->entry().cmtAuthor() << it->path();
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
             }
         }

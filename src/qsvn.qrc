@@ -8,6 +8,6 @@
     <file alias="conflictedfile.png">images/conflictedfile.png</file>
     <file alias="missingfile.png">images/missingfile.png</file>
     <file alias="modifiedfile.png">images/modifiedfile.png</file>
-    <file alias="uknownfile.png">images/unknownfile.png</file>
+    <file alias="unknownfile.png">images/unknownfile.png</file>
 </qresource>
 </RCC>
