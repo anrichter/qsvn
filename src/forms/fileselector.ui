@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>402</width>
-    <height>362</height>
+    <width>462</width>
+    <height>409</height>
    </rect>
   </property>
   <property name="sizeGripEnabled" >
@@ -26,7 +26,7 @@
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QSplitter" name="splitter" >
+    <widget class="QSplitter" name="" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
@@ -38,22 +38,18 @@
        <number>6</number>
       </property>
      </layout>
-     <widget class="QWidget" name="layoutWidget_2" >
-      <layout class="QVBoxLayout" >
+     <widget class="QGroupBox" name="groupBoxFiles" >
+      <property name="title" >
+       <string>Files</string>
+      </property>
+      <layout class="QGridLayout" >
        <property name="margin" >
-        <number>0</number>
+        <number>8</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item>
-        <widget class="QLabel" name="labelFiles" >
-         <property name="text" >
-          <string>Files</string>
-         </property>
-        </widget>
-       </item>
-       <item>
+       <item row="0" column="0" >
         <widget class="QTreeView" name="treeViewFiles" >
          <property name="selectionMode" >
           <enum>QAbstractItemView::ExtendedSelection</enum>
@@ -71,96 +67,131 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget_3" >
-      <layout class="QVBoxLayout" >
+     <widget class="QGroupBox" name="groupBoxLogMessage" >
+      <property name="title" >
+       <string>Log Message</string>
+      </property>
+      <layout class="QGridLayout" >
        <property name="margin" >
-        <number>0</number>
+        <number>8</number>
        </property>
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item>
-        <widget class="QLabel" name="labelLogMessage" >
-         <property name="text" >
-          <string>Log Message</string>
-         </property>
-        </widget>
-       </item>
-       <item>
+       <item row="1" column="0" >
         <widget class="QTextEdit" name="editLogMessage" />
        </item>
-       <item>
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="buttonHelp" >
-           <property name="text" >
-            <string>&amp;Help</string>
-           </property>
-           <property name="shortcut" >
-            <string>F1</string>
-           </property>
-           <property name="autoDefault" >
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" >
-            <size>
-             <width>41</width>
-             <height>31</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="okButton" >
-           <property name="text" >
-            <string>OK</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="cancelButton" >
-           <property name="text" >
-            <string>Cancel</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+       <item row="0" column="0" >
+        <widget class="QComboBox" name="comboLogHistory" />
        </item>
       </layout>
      </widget>
     </widget>
    </item>
+   <item row="1" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="buttonHelp" >
+       <property name="text" >
+        <string>&amp;Help</string>
+       </property>
+       <property name="shortcut" >
+        <string>F1</string>
+       </property>
+       <property name="autoDefault" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>41</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okButton" >
+       <property name="text" >
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton" >
+       <property name="text" >
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
-  <widget class="QWidget" name="layoutWidget" >
+  <widget class="QSplitter" name="splitter" >
    <property name="geometry" >
     <rect>
-     <x>20</x>
-     <y>250</y>
-     <width>351</width>
-     <height>33</height>
+     <x>9</x>
+     <y>9</y>
+     <width>384</width>
+     <height>344</height>
+    </rect>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_3" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>170</y>
+     <width>384</width>
+     <height>183</height>
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" >
+  <widget class="QSplitter" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>381</width>
+     <height>621</height>
+    </rect>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>431</width>
+     <height>412</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2" >
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>150</y>
-     <width>371</width>
-     <height>121</height>
+     <y>10</y>
+     <width>429</width>
+     <height>185</height>
     </rect>
    </property>
   </widget>

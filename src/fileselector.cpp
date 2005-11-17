@@ -37,15 +37,18 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     {
         case FileListModel::Add:
             setWindowTitle( tr( "Add") );
+            hideGroupBoxLogMessage();
             break;
         case FileListModel::Commit:
             setWindowTitle( tr( "Commit") );
             break;
         case FileListModel::Remove:
             setWindowTitle( tr( "Remove") );
+            hideGroupBoxLogMessage();
             break;
         case FileListModel::Revert:
             setWindowTitle( tr( "Revert") );
+            hideGroupBoxLogMessage();
             break;
     }
 }
@@ -53,4 +56,9 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
 FileListModel * FileSelector::model( )
 {
     return m_fileListModel;
+}
+
+void FileSelector::hideGroupBoxLogMessage( )
+{
+    groupBoxLogMessage->setVisible( false );
 }

@@ -39,7 +39,8 @@ public:
 
 private:
     FileListModel *m_fileListModel;
-};
 
+    void hideGroupBoxLogMessage();
+};
 
 #endif
