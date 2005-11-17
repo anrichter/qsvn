@@ -130,7 +130,7 @@ bool FileListModel::isItemForModel( FileListItem * fileListItem )
 }
 
 
-void FileListModel::setActiveDirectory( QString directory )
+void FileListModel::loadFromDirectory( QString directory )
 {
     removeRows( 0, rootItem->childCount() );
 

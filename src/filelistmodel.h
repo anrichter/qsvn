@@ -65,7 +65,7 @@ public:
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 
 public slots:
-    void setActiveDirectory( QString directory );
+    void loadFromDirectory( QString directory );
 
 private:
     FileListItem *rootItem;

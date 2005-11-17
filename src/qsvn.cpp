@@ -66,9 +66,9 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 void QSvn::activateWorkingCopy( const QModelIndex &index )
 {
     if ( index.isValid() )
-        fileListModel->setActiveDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
+        fileListModel->loadFromDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
     else
-        fileListModel->setActiveDirectory( "" );
+        fileListModel->loadFromDirectory( "" );
 }
 
 QSvn::~QSvn()
