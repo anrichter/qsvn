@@ -69,6 +69,7 @@ public:
 
     bool add( const QStringList &addList );
     bool revert( const QStringList &revertList );
+    bool commit( const QStringList &commitList, const QString &logMessage );
 
 protected:
     SvnClient();

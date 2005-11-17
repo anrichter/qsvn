@@ -119,12 +119,28 @@ bool SvnClient::add( const QStringList &addList )
     return true;
 }
 
-bool SvnClient::revert( const QStringList & revertList )
+bool SvnClient::revert( const QStringList &revertList )
 {
     try
     {
         svn::Targets targets( revertList );
         svnClient->revert( targets, false );
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        return false;
+    }
+    return true;
+}
+
+bool SvnClient::commit( const QStringList &commitList, const QString &logMessage )
+{
+    try
+    {
+        qDebug() << commitList;
+        svn::Targets targets( commitList );
+        svnClient->commit( targets, logMessage, false );
     }
     catch ( svn::ClientException e )
     {

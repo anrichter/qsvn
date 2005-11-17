@@ -76,3 +76,8 @@ QStringList FileSelector::selectedFileList( )
     }
     return fileList;
 }
+
+QString FileSelector::logMessage( )
+{
+    return editLogMessage->toPlainText();
+}

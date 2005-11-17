@@ -257,7 +257,7 @@ void QSvn::commit()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
-        StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+        SvnClient::instance()->commit( fileselector.selectedFileList(), fileselector.logMessage() );
 }
 
 void QSvn::add()

@@ -37,6 +37,7 @@ public:
 
     FileListModel *model();
     QStringList selectedFileList();
+    QString logMessage();
 private:
     FileListModel *m_fileListModel;
 
