@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=QSvn
-AppVerName=QSvn 0.1.0
+AppVerName=QSvn 0.2.0
 AppPublisher=QSvn Team
 AppPublisherURL=http://qsvn.berlios.de
 AppSupportURL=http://qsvn.berlios.de
@@ -14,7 +14,7 @@ AllowNoIcons=yes
 LicenseFile=..\COPYING
 InfoBeforeFile=..\README
 InfoAfterFile=..\ChangeLog
-OutputBaseFilename=qsvn-0.1.0
+OutputBaseFilename=qsvn-0.2.0
 Compression=lzma
 SolidCompression=yes
 
@@ -24,13 +24,21 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 
 [Files]
 Source: ..\bin\qsvn.exe; DestDir: {app}; Flags: ignoreversion
-Source: msvcrtd.dll; DestDir: {app}; Flags: ignoreversion
-Source: qt-mtnc321.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\README; DestDir: {app}; Flags: ignoreversion
 Source: ..\ChangeLog; DestDir: {app}; Flags: ignoreversion
 Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: .\svn\svn-1.1.3-setup.exe; Flags: ignoreversion skipifsourcedoesntexist; DestDir: {app}\svn
+Source: intl3_svn.dll; DestDir: {app}; Flags: ignoreversion
+Source: libapr.dll; DestDir: {app}; Flags: ignoreversion
+Source: libapriconv.dll; DestDir: {app}; Flags: ignoreversion
+Source: libaprutil.dll; DestDir: {app}; Flags: ignoreversion
+Source: libdb43.dll; DestDir: {app}; Flags: ignoreversion
+Source: libeay32.dll; DestDir: {app}; Flags: ignoreversion
+Source: ssleay32.dll; DestDir: {app}; Flags: ignoreversion
+Source: msvcp80.dll; DestDir: {app}; Flags: ignoreversion
+Source: msvcr80.dll; DestDir: {app}; Flags: ignoreversion
+Source: QtCore4.dll; DestDir: {app}; Flags: ignoreversion
+Source: QtGui4.dll; DestDir: {app}; Flags: ignoreversion
 
 [INI]
 Filename: {app}\qsvn.url; Section: InternetShortcut; Key: URL; String: http://qsvn.berlios.de
@@ -43,7 +51,6 @@ Name: {userdesktop}\QSvn; Filename: {app}\qsvn.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\QSvn; Filename: {app}\qsvn.exe; Tasks: quicklaunchicon
 
 [Run]
-Filename: {app}\svn\svn-1.1.3-setup.exe; Description: Install Subversion 1.1.3 (needed by QSvn); Flags: skipifdoesntexist postinstall skipifsilent; StatusMsg: Installing Subversion...
 Filename: {app}\qsvn.exe; Description: {cm:LaunchProgram,QSvn}; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]

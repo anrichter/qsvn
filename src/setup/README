@@ -13,7 +13,7 @@ libapriconv.dll
 libaprutil.dll
 libdb43.dll
 libeay32.dll
-ssleay.dll
+ssleay32.dll
 
 msvcp80.dll
 msvcr80.dll
