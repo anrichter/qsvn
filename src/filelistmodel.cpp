@@ -141,7 +141,7 @@ void FileListModel::loadFromDirectory( QString directory )
 
         svn::StatusEntries statusList = SvnClient::instance()->status( directory );
         svn::StatusEntries::iterator it;
-        
+
         for ( it = statusList.begin(); it != statusList.end(); it++ )
         {
             fileInfo = QFileInfo( it->path() );
@@ -155,7 +155,7 @@ void FileListModel::loadFromDirectory( QString directory )
                     QFileInfo fileInfo( it->path() );
                     columnData << fileInfo.fileName();
                 }
-                columnData << it->textStatus() << it->entry().cmtRev() << it->entry().cmtAuthor() << it->path();
+                columnData << it->textStatus() << int ( it->entry().cmtRev() ) << it->entry().cmtAuthor() << it->path();
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
             }
         }
