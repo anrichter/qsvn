@@ -74,8 +74,8 @@ private:
     Qt::SortOrder sortOrder;
 
     void initModel();
-    void loadFromWorkingCopy( QItemSelectionModel *itemSelection );
-    void loadFromFile( QItemSelectionModel *itemSelection );
+    void loadFromWorkingCopySelection( QItemSelectionModel *itemSelection );
+    void loadFromFileListSelection( QItemSelectionModel *itemSelection );
     bool isItemForModel( FileListItem *fileListItem );
 
     //sorting algorithms

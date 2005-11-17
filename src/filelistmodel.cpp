@@ -43,10 +43,10 @@ FileListModel::FileListModel( QObject *parent, ModelFor modelFor, QItemSelection
     switch ( selectionFrom )
     {
         case WorkingCopy:
-            loadFromWorkingCopy( itemSelection );
+            loadFromWorkingCopySelection( itemSelection );
             break;
         case File:
-            loadFromFile( itemSelection );
+            loadFromFileListSelection( itemSelection );
             break;
     }
 }
@@ -64,11 +64,45 @@ void FileListModel::initModel( )
     sortOrder = Qt::AscendingOrder;
 }
 
-void FileListModel::loadFromWorkingCopy( QItemSelectionModel *itemSelection )
+bool FileListModel::isItemForModel( FileListItem * fileListItem )
+{
+    switch ( m_modelFor )
+    {
+        case None:
+            return true;
+            break;
+        case Add:
+            if ( fileListItem->data( 1 ).toInt() == svn_wc_status_unversioned )
+                return true;
+            break;
+        case Commit:
+            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_modified ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_added ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_deleted ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_replaced ) )
+                return true;
+            break;
+        case Remove:
+            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_normal ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_merged ) )
+                return true;
+            break;
+        case Revert:
+            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_modified ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_added ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_deleted ) ||
+                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_replaced ) )
+                return true;
+            break;
+    }
+    return false;
+}
+
+void FileListModel::loadFromWorkingCopySelection( QItemSelectionModel *itemSelection )
 {
 }
 
-void FileListModel::loadFromFile( QItemSelectionModel *itemSelection )
+void FileListModel::loadFromFileListSelection( QItemSelectionModel *itemSelection )
 {
     QSet< FileListItem* > fileListItemSet;
     QModelIndexList indexes = itemSelection->selectedIndexes();
@@ -94,41 +128,6 @@ void FileListModel::loadFromFile( QItemSelectionModel *itemSelection )
         rootItem->appendChild( new FileListItem( item, rootItem ) );
     }
 }
-
-bool FileListModel::isItemForModel( FileListItem * fileListItem )
-{
-    switch ( m_modelFor )
-    {
-        case None:
-            return false;
-            break;
-        case Add:
-            if ( fileListItem->data( 1 ).toInt() == svn_wc_status_unversioned )
-                return true;
-            break;
-        case Commit:
-            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_modified ) ||
-                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_added ) ||
-                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_deleted ) ||
-                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_replaced ) )
-                return true;
-            break;
-        case Remove:
-            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_normal ) ||
-                 ( fileListItem->data( 1 ).toInt() == svn_wc_status_merged ) )
-                return true;
-            break;
-        case Revert:
-            if ( ( fileListItem->data( 1 ).toInt() == svn_wc_status_modified ) ||
-                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_added ) ||
-                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_deleted ) ||
-                   ( fileListItem->data( 1 ).toInt() == svn_wc_status_replaced ) )
-                return true;
-            break;
-    }
-    return false;
-}
-
 
 void FileListModel::loadFromDirectory( QString directory )
 {
