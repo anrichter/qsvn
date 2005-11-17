@@ -281,7 +281,7 @@ void QSvn::remove()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
-        StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+        SvnClient::instance()->remove( fileselector.selectedFileList() );
 }
 
 void QSvn::revert()
