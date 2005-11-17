@@ -20,6 +20,7 @@
 
 
 //QSvn
+#include "filelistitem.h"
 #include "filelistmodel.h"
 #include "fileselector.h"
 
@@ -53,7 +54,7 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     }
 }
 
-FileListModel * FileSelector::model( )
+FileListModel *FileSelector::model( )
 {
     return m_fileListModel;
 }
@@ -61,4 +62,17 @@ FileListModel * FileSelector::model( )
 void FileSelector::hideGroupBoxLogMessage( )
 {
     groupBoxLogMessage->setVisible( false );
+}
+
+QStringList FileSelector::selectedFileList( )
+{
+    QStringList fileList;
+    FileListItem *item;
+    QModelIndexList indexes = treeViewFiles->selectionModel()->selectedIndexes();
+    for ( int i = 0; i < indexes.count(); i++ )
+    {
+        item = static_cast< FileListItem* >( indexes.at( i ).internalPointer() );
+        fileList << item->fullFileName();
+    }
+    return fileList;
 }

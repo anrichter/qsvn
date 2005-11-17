@@ -36,7 +36,7 @@ public:
     FileSelector( QWidget *parent, FileListModel::ModelFor modelFor );
 
     FileListModel *model();
-
+    QStringList selectedFileList();
 private:
     FileListModel *m_fileListModel;
 
