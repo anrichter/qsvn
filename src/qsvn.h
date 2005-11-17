@@ -73,8 +73,7 @@ private:
     void createMenus();
     void createToolBar();
 
-    QItemSelectionModel *focusSelectionModel();
-    FileListModel::SelectionFrom focusSelectionFrom();
+    bool isFileListSelected();
 private slots:
     //File
     void exit();

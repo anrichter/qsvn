@@ -26,11 +26,11 @@
 #include <QtGui>
 
 
-FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, QItemSelectionModel *itemSelection, FileListModel::SelectionFrom selectionFrom )
+FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     : QDialog( parent )
 {
     setupUi( this );
-    m_fileListModel = new FileListModel( this, modelFor, itemSelection, selectionFrom );
+    m_fileListModel = new FileListModel( this, modelFor );
     treeViewFiles->setModel( m_fileListModel );
 
     switch ( modelFor )
@@ -48,4 +48,9 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, Q
             setWindowTitle( tr( "Revert") );
             break;
     }
+}
+
+FileListModel * FileSelector::model( )
+{
+    return m_fileListModel;
 }

@@ -52,7 +52,7 @@ public:
      * @param itemSelection The QItemSelectionModel from an already exitsing FileListModel
      * @return
      */
-    FileListModel( QObject *parent, ModelFor modelFor, QItemSelectionModel *itemSelection, SelectionFrom selectionFrom );
+    FileListModel( QObject *parent, ModelFor modelFor );
     ~FileListModel();
 
     //basic model functions
@@ -67,6 +67,9 @@ public:
     //make model editable
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 
+    void loadFromWorkingCopySelection( QItemSelectionModel *itemSelection );
+    void loadFromFileListSelection( QItemSelectionModel *itemSelection );
+
 public slots:
     void loadFromDirectory( QString directory );
 
@@ -77,8 +80,6 @@ private:
     Qt::SortOrder sortOrder;
 
     void initModel();
-    void loadFromWorkingCopySelection( QItemSelectionModel *itemSelection );
-    void loadFromFileListSelection( QItemSelectionModel *itemSelection );
     bool isStatusForModel( svn_wc_status_kind status );
 
     //sorting algorithms

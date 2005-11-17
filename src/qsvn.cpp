@@ -150,22 +150,13 @@ void QSvn::createMenus()
 void QSvn::createToolBar()
 {}
 
-QItemSelectionModel *QSvn::focusSelectionModel()
+bool QSvn::isFileListSelected()
 {
     if ( treeViewFileList->hasFocus() && ( treeViewFileList->selectionModel()->selection().count() > 0 ) )
-        return treeViewFileList->selectionModel();
+        return true;
     else
-        return treeViewWorkingCopy->selectionModel();
+        return false;
 }
-
-FileListModel::SelectionFrom QSvn::focusSelectionFrom()
-{
-    if ( treeViewFileList->hasFocus() && ( treeViewFileList->selectionModel()->selection().count() > 0 ) )
-        return FileListModel::File;
-    else
-        return FileListModel::WorkingCopy;
-}
-
 
 //protected slots
 void QSvn::exit()
@@ -259,28 +250,48 @@ void QSvn::update()
 
 void QSvn::commit()
 {
-    FileSelector fileselector( this, FileListModel::Commit, focusSelectionModel(), focusSelectionFrom() );
+    FileSelector fileselector( this, FileListModel::Commit );
+    if ( isFileListSelected() )
+        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
+    else
+        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
+
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::add()
 {
-    FileSelector fileselector( this, FileListModel::Add, focusSelectionModel(), focusSelectionFrom() );
+    FileSelector fileselector( this, FileListModel::Add );
+    if ( isFileListSelected() )
+        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
+    else
+        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
+
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "file selector..." ) );
 }
 
 void QSvn::remove()
 {
-    FileSelector fileselector( this, FileListModel::Remove, focusSelectionModel(), focusSelectionFrom() );
+    FileSelector fileselector( this, FileListModel::Remove );
+    if ( isFileListSelected() )
+        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
+    else
+        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
+
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::revert()
 {
-    FileSelector fileselector( this, FileListModel::Revert, focusSelectionModel(), focusSelectionFrom() );
+    FileSelector fileselector( this, FileListModel::Revert );
+    if ( isFileListSelected() )
+        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
+    else
+        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
+
     if ( fileselector.exec() )
         StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }

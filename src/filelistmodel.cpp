@@ -36,20 +36,11 @@ FileListModel::FileListModel( QObject *parent )
     initModel();
 }
 
-FileListModel::FileListModel( QObject *parent, ModelFor modelFor, QItemSelectionModel *itemSelection, SelectionFrom selectionFrom )
+FileListModel::FileListModel( QObject *parent, ModelFor modelFor )
     : QAbstractItemModel( parent )
 {
     m_modelFor = modelFor;
     initModel();
-    switch ( selectionFrom )
-    {
-        case WorkingCopy:
-            loadFromWorkingCopySelection( itemSelection );
-            break;
-        case File:
-            loadFromFileListSelection( itemSelection );
-            break;
-    }
 }
 
 FileListModel::~FileListModel()
