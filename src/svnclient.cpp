@@ -73,7 +73,7 @@ bool SvnClient::update( QStringList &updateList )
     try
     {
         StatusText::instance()->outputMessage( "" );
-        svn::Targets targets( updateList);
+        svn::Targets targets( updateList );
         svnClient->update( targets, svn::Revision::HEAD, true, false );
     }
     catch ( svn::ClientException e )
@@ -101,10 +101,10 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     return true;
 }
 
-bool SvnClient::add( const QStringList &filesAdd )
+bool SvnClient::add( const QStringList &addList )
 {
     QString file;
-    foreach( file, filesAdd )
+    foreach( file, addList )
     {
         try
         {
@@ -115,6 +115,21 @@ bool SvnClient::add( const QStringList &filesAdd )
             StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
             return false;
         }
+    }
+    return true;
+}
+
+bool SvnClient::revert( const QStringList & revertList )
+{
+    try
+    {
+        svn::Targets targets( revertList );
+        svnClient->revert( targets, false );
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        return false;
     }
     return true;
 }

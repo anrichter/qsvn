@@ -67,7 +67,8 @@ public:
      */
     bool checkout( const QString &url, const QString &path );
 
-    bool add( const QStringList &filesAdd );
+    bool add( const QStringList &addList );
+    bool revert( const QStringList &revertList );
 
 protected:
     SvnClient();
