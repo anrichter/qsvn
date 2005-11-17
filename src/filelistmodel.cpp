@@ -143,7 +143,7 @@ void FileListModel::loadFromDirectory( QString directory )
         for ( it = statusList.begin(); it != statusList.end(); it++ )
         {
             fileInfo = QFileInfo( it->path() );
-            if ( fileInfo.isFile() && isStatusForModel( it->textStatus() ) )
+            if ( !fileInfo.isDir() && isStatusForModel( it->textStatus() ) )
             {
                 columnData.clear();
                 if ( it->isVersioned() )
