@@ -1,16 +1,3 @@
-QSvn is a Qt based Subversion client.
-
-It is developed as a cross platform application that runs on all Qt supported
-operating systems. At the moment these are UNIX/Linux, Mac OS X and Windows.
-QSvn is tested at the moment for Linux and Windows.
-
-Please remember that you need to install the Subversion client. You can download 
-it for free at http://subversion.tigris.org/
-In any later version of QSvn we will use Subversion libraries directly so you
-don't need to install Subversion client separately.
-
-The Windows version install a small Subversion client under the programmdirectory 
-in the subfolder svn. This can use for QSvn at the moment. So it ist not necessary
-to install Subversion separately on your system.
+QSvn is a graphical Subversion client for Linux, Windows and Mac OS X. 
 
 More Information about QSvn you will find at http://qsvn.berlios.de

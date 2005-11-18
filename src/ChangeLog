@@ -1,17 +1,8 @@
 Version 0.2.0 - released 2005-**-**
 
-    Bugfixes
-    --------
-    * don't add the same text twice into logmessage box in fileselector
-    
-    Eyecandy
-    --------
-    * save and restore position of QSvn mainwindow
-    
-    Improvements
-    ------------
-    * increase startup on many working copies with many subfolders in WorkingCopyList
-    
+    * Make QSvn a Subversion client. No more need for Subversion binary.
+    * Rewrite from scratch for Qt4. 
+    * Use new Programming Features like Model View Architecture.
     
 Version 0.1.0 - released 2005-04-09
 
