@@ -65,7 +65,16 @@ SvnClient::~SvnClient()
 svn::StatusEntries SvnClient::status( QString &directory )
 {
     QDir dir( directory );
-    return svnClient->status( dir.canonicalPath().toLocal8Bit(), false, true, false, false);
+    try
+    {
+        return svnClient->status( dir.canonicalPath(), false, true, false, false);
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        return svn::StatusEntries();
+    }
+    return svn::StatusEntries();
 }
 
 bool SvnClient::update( QStringList &updateList )
