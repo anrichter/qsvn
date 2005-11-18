@@ -70,7 +70,7 @@ public:
 
     void loadFromWorkingCopySelection( QItemSelectionModel *itemSelection );
     void loadFromFileListSelection( QItemSelectionModel *itemSelection );
-    void loadFromDirectory( QString directory );
+    void loadFromDirectory( QString directory, QString fileNamePrefix = "" );
 
 private:
     FileListItem *rootItem;

@@ -97,7 +97,19 @@ void FileListModel::loadFromWorkingCopySelection( QItemSelectionModel *itemSelec
     if ( indexes.count() > 0 )
     {
         WorkingCopyItem *item = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() );
-        loadFromDirectory( item->fullPath() );
+        QStringList fullPathList = item->fullPathListRecursive();
+        QString fullPath;
+        QString fileNamePrefix;
+
+        foreach( fullPath, fullPathList )
+        {
+            fileNamePrefix = fullPath;
+            fileNamePrefix.remove( 0, item->fullPath().length() + 1 );
+            if ( ( fileNamePrefix.count() > 0 ) && !fileNamePrefix.endsWith( QDir::separator(), Qt::CaseInsensitive ) )
+                fileNamePrefix.append( QDir::separator() );
+
+            loadFromDirectory( fullPath, fileNamePrefix );
+        }
     }
     sort ( 0, sortOrder );
     reset();
@@ -132,7 +144,7 @@ void FileListModel::loadFromFileListSelection( QItemSelectionModel *itemSelectio
     reset();
 }
 
-void FileListModel::loadFromDirectory( QString directory )
+void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix )
 {
     if ( !directory.isEmpty() )
     {
@@ -149,11 +161,11 @@ void FileListModel::loadFromDirectory( QString directory )
             {
                 columnData.clear();
                 if ( it->isVersioned() )
-                    columnData << it->entry().name();
+                    columnData << fileNamePrefix + it->entry().name();
                 else
                 {
                     QFileInfo fileInfo( it->path() );
-                    columnData << fileInfo.fileName();
+                    columnData << fileNamePrefix + fileInfo.fileName();
                 }
                 columnData << it->textStatus() << int ( it->entry().cmtRev() ) << it->entry().cmtAuthor() << it->path();
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );

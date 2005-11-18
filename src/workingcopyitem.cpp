@@ -106,3 +106,15 @@ QString WorkingCopyItem::fullPath() const
 {
     return itemData.value( 1 ).toString();
 }
+
+QStringList WorkingCopyItem::fullPathListRecursive( QStringList fullPathList )
+{
+    fullPathList << fullPath();
+
+    for ( int i = 0; i < childCount(); i++ )
+    {
+        fullPathList = child( i )->fullPathListRecursive( fullPathList );
+    }
+    return fullPathList;
+}
+

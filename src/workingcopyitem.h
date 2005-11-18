@@ -45,6 +45,7 @@ public:
 
     QPixmap getPixmap();
     QString fullPath() const;
+    QStringList fullPathListRecursive( QStringList fullPathList = QStringList() );
 
 private:
     QList<WorkingCopyItem*> childItems;
