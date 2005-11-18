@@ -26,7 +26,7 @@
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QSplitter" name="" >
+    <widget class="QSplitter" name="splitter_3" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
@@ -125,14 +125,14 @@
      <item>
       <widget class="QPushButton" name="okButton" >
        <property name="text" >
-        <string>OK</string>
+        <string>&amp;OK</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="cancelButton" >
        <property name="text" >
-        <string>Cancel</string>
+        <string>&amp;Cancel</string>
        </property>
       </widget>
      </item>
@@ -162,7 +162,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QSplitter" name="" >
+  <widget class="QSplitter" name="splitter_2" >
    <property name="geometry" >
     <rect>
      <x>9</x>
@@ -175,7 +175,7 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
-  <widget class="QWidget" name="" >
+  <widget class="QWidget" name="widget" >
    <property name="geometry" >
     <rect>
      <x>9</x>
