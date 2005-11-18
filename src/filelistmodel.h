@@ -66,11 +66,10 @@ public:
 
     //make model editable
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+    void removeAllRows();
 
     void loadFromWorkingCopySelection( QItemSelectionModel *itemSelection );
     void loadFromFileListSelection( QItemSelectionModel *itemSelection );
-
-public slots:
     void loadFromDirectory( QString directory );
 
 private:

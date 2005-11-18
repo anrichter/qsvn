@@ -99,6 +99,8 @@ void FileListModel::loadFromWorkingCopySelection( QItemSelectionModel *itemSelec
         WorkingCopyItem *item = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() );
         loadFromDirectory( item->fullPath() );
     }
+    sort ( 0, sortOrder );
+    reset();
 }
 
 void FileListModel::loadFromFileListSelection( QItemSelectionModel *itemSelection )
@@ -126,12 +128,12 @@ void FileListModel::loadFromFileListSelection( QItemSelectionModel *itemSelectio
     {
         rootItem->appendChild( new FileListItem( item, rootItem ) );
     }
+    sort ( 0, sortOrder );
+    reset();
 }
 
 void FileListModel::loadFromDirectory( QString directory )
 {
-    removeRows( 0, rootItem->childCount() );
-
     if ( !directory.isEmpty() )
     {
         QList< QVariant > columnData;
@@ -285,6 +287,12 @@ bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )
         rootItem->removeChild( row );
     }
     return true;
+}
+
+void FileListModel::removeAllRows()
+{
+    removeRows( 0, rootItem->childCount() );
+    reset();
 }
 
 void FileListModel::sort ( int column, Qt::SortOrder order )

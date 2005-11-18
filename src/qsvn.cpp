@@ -66,9 +66,14 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 void QSvn::activateWorkingCopy( const QModelIndex &index )
 {
     if ( index.isValid() )
+    {
+        fileListModel->removeAllRows();
         fileListModel->loadFromDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
+    }
     else
-        fileListModel->loadFromDirectory( "" );
+    {
+        fileListModel->removeAllRows();
+    }
 }
 
 QSvn::~QSvn()
