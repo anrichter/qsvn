@@ -71,6 +71,8 @@ public:
     bool revert( const QStringList &revertList );
     bool commit( const QStringList &commitList, const QString &logMessage );
     bool remove( const QStringList &removeList );
+    bool diff( const QString &file );
+    bool diff( const QStringList &fileList );
 
 protected:
     SvnClient();

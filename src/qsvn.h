@@ -74,6 +74,7 @@ private:
     void createToolBar();
 
     bool isFileListSelected();
+    QStringList selectedFiles();
 private slots:
     //File
     void exit();

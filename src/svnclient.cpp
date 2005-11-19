@@ -172,3 +172,25 @@ bool SvnClient::remove( const QStringList &removeList )
     }
     return true;
 }
+
+bool SvnClient::diff( const QString &file )
+{
+    try
+    {
+        QString delta = svnClient->diff( svn::Path( QDir::tempPath() + QDir::separator() + "qsvn" ), svn::Path( file ), svn::Revision::BASE, svn::Revision::WORKING, true, false, false );
+        StatusText::instance()->outputMessage( delta );
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        return false;
+    }
+    return true;
+}
+
+bool SvnClient::diff( const QStringList &fileList )
+{
+    QString file;
+    foreach( file, fileList )
+        diff( file );
+}

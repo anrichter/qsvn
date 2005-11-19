@@ -59,6 +59,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     treeViewFileList->header()->setClickable( true );
 
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
+    connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff() ) );
 
     Config::instance()->restoreMainWindow( this );
 }
@@ -161,6 +162,19 @@ bool QSvn::isFileListSelected()
         return true;
     else
         return false;
+}
+
+QStringList QSvn::selectedFiles()
+{
+    QSet<QString> fileSet;
+    QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
+
+    for ( int i = 0; i < indexes.count(); ++i )
+    {
+        fileSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
+    }
+
+    return fileSet.toList();
 }
 
 //protected slots
@@ -303,8 +317,7 @@ void QSvn::revert()
 
 void QSvn::diff()
 {
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+    SvnClient::instance()->diff( selectedFiles() );
 }
 
 void QSvn::configureQSvn()
