@@ -190,7 +190,10 @@ bool SvnClient::diff( const QString &file )
 
 bool SvnClient::diff( const QStringList &fileList )
 {
+    bool result = true;
     QString file;
     foreach( file, fileList )
-        diff( file );
+        result = result && diff( file );
+
+    return result;
 }
