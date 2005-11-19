@@ -23,9 +23,7 @@
 #include "statustext.h"
 
 //Qt
-#include <QtGlobal>
-#include <QObject>
-#include <QTextEdit>
+#include <QtGui>
 
 
 //make StatusText a singleton

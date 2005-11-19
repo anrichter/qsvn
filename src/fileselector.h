@@ -42,6 +42,9 @@ private:
     FileListModel *m_fileListModel;
 
     void hideGroupBoxLogMessage();
+
+private slots:
+    void diff();
 };
 
 #endif

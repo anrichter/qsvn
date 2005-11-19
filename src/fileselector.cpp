@@ -23,6 +23,7 @@
 #include "filelistitem.h"
 #include "filelistmodel.h"
 #include "fileselector.h"
+#include "svnclient.h"
 
 #include <QtGui>
 
@@ -52,6 +53,8 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
             hideGroupBoxLogMessage();
             break;
     }
+
+    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff() ) );
 }
 
 FileListModel *FileSelector::model( )
@@ -80,4 +83,9 @@ QStringList FileSelector::selectedFileList( )
 QString FileSelector::logMessage( )
 {
     return editLogMessage->toPlainText();
+}
+
+void FileSelector::diff( )
+{
+    SvnClient::instance()->diff( selectedFileList() );
 }
