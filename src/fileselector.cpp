@@ -69,15 +69,15 @@ void FileSelector::hideGroupBoxLogMessage( )
 
 QStringList FileSelector::selectedFileList( )
 {
-    QStringList fileList;
+    QSet< QString > fileSet;
     FileListItem *item;
     QModelIndexList indexes = treeViewFiles->selectionModel()->selectedIndexes();
     for ( int i = 0; i < indexes.count(); i++ )
     {
         item = static_cast< FileListItem* >( indexes.at( i ).internalPointer() );
-        fileList << item->fullFileName();
+        fileSet << item->fullFileName();
     }
-    return fileList;
+    return fileSet.toList();
 }
 
 QString FileSelector::logMessage( )
