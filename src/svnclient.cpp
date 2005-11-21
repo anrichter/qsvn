@@ -20,6 +20,7 @@
 
 
 //QSvn
+#include "config.h"
 #include "listener.h"
 #include "statustext.h"
 #include "svnclient.h"
@@ -175,15 +176,31 @@ bool SvnClient::remove( const QStringList &removeList )
 
 bool SvnClient::diff( const QString &file )
 {
-    try
+    if ( Config::instance()->getDiffViewer().isEmpty() )
     {
-        QString delta = svnClient->diff( svn::Path( QDir::tempPath() + QDir::separator() + "qsvn" ), svn::Path( file ), svn::Revision::BASE, svn::Revision::WORKING, true, false, false );
-        StatusText::instance()->outputMessage( delta );
+        //diff output to StatusText
+        try
+        {
+            QString delta = svnClient->diff( svn::Path( QDir::tempPath() + QDir::separator() + "qsvn" ), svn::Path( file ), svn::Revision::BASE, svn::Revision::WORKING, true, false, false );
+            StatusText::instance()->outputMessage( delta );
+        }
+        catch ( svn::ClientException e )
+        {
+            StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+            return false;
+        }
     }
-    catch ( svn::ClientException e )
+    else
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
-        return false;
+        QFileInfo fileInfo;
+        QString baseFile, workFile;
+        
+        fileInfo = QFileInfo( file );
+        baseFile = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
+        baseFile = baseFile + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
+        workFile = QDir::convertSeparators( fileInfo.absoluteFilePath() );
+
+        QProcess::startDetached( Config::instance()->getDiffViewer(), QStringList() << baseFile << workFile );
     }
     return true;
 }
