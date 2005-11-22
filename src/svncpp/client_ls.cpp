@@ -33,9 +33,9 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "client.hpp"
-#include "dirent.hpp"
-#include "exception.hpp"
+#include "svncpp/client.hpp"
+#include "svncpp/dirent.hpp"
+#include "svncpp/exception.hpp"
 
 
 static int
@@ -57,7 +57,11 @@ namespace svn
     apr_hash_t * hash;
     svn_error_t * error =
       svn_client_ls (&hash,
+#if QT_VERSION < 0x040000
+                     pathOrUrl.utf8(),
+#else
                      pathOrUrl.toUtf8(),
+#endif
                      revision,
                      recurse,
                      *m_context,

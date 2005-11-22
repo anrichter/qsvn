@@ -31,49 +31,31 @@
 //#include "svn_io.h"
 
 // svncpp
-#include "client.hpp"
-#include "exception.hpp"
-#include "pool.hpp"
-#include "status.hpp"
+#include "svncpp/client.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/status.hpp"
 
 
 namespace svn
 {
   QByteArray
-  Client::cat (const Path & path,
-               const Revision & revision) throw (ClientException)
-  {
-    Pool pool;
-
-    svn_stringbuf_t * stringbuf = svn_stringbuf_create ("", pool);
-    svn_stream_t * stream = svn_stream_from_stringbuf (stringbuf, pool);
-
-    svn_error_t * error;
-    error = svn_client_cat (stream, path.path().toUtf8(),
-                            revision.revision (),
-                            *m_context,
-                            pool);
-
-    if (error != 0)
-      throw ClientException (error);
-    /// @todo check if realy dup or just assign!
-    QByteArray res( stringbuf->data,stringbuf->len );
-    return res;
-  }
-
-  QByteArray
-  Client::cat2 (const Path & path,
+  Client::cat(const Path & path,
                 const Revision & revision,
                 const Revision & peg_revision) throw (ClientException)
   {
-#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
     Pool pool;
 
     svn_stringbuf_t * stringbuf = svn_stringbuf_create ("", pool);
     svn_stream_t * stream = svn_stream_from_stringbuf (stringbuf, pool);
 
     svn_error_t * error;
-    error = svn_client_cat2 (stream, path.path().toUtf8(),
+    error = svn_client_cat2 (stream,
+#if QT_VERSION < 0x040000
+                             path.path().utf8(),
+#else
+                             path.path().toUtf8(),
+#endif
                              peg_revision.revision (),
                              revision.revision (),
                              *m_context,
@@ -81,12 +63,14 @@ namespace svn
 
     if (error != 0)
       throw ClientException (error);
+#if QT_VERSION < 0x040000
+    QByteArray res;
     /// @todo check if realy dup or just assign!
-    QByteArray res( stringbuf->data, stringbuf->len );
-    return res;
+    res.duplicate(stringbuf->data,stringbuf->len);
 #else
-    return cat(path, revision);
+    QByteArray res( stringbuf->data, stringbuf->len );
 #endif
+    return res;
   }
 
   /**
@@ -114,7 +98,12 @@ namespace svn
     if (dstPath.length () > 0)
     {
       apr_status_t status =
-        apr_file_open (&file, dstPath.path().toUtf8(),
+        apr_file_open (&file,
+#if QT_VERSION < 0x040000
+                       dstPath.path().utf8(),
+#else
+                       dstPath.path().toUtf8(),
+#endif
                        APR_WRITE | APR_CREATE |
                        APR_TRUNCATE | APR_BINARY,
                        APR_OS_DEFAULT,
@@ -145,8 +134,13 @@ namespace svn
       svn_error_t * error =
         svn_io_open_unique_file (
           &file, &unique_name,
-          tempPath.path().toUtf8(), // path
-          ext.toUtf8(), // suffix
+#if QT_VERSION < 0x040000
+          tempPath.path().utf8(), // path
+          ext.utf8 (), // suffix
+#else
+          tempPath.path().toUtf8(),
+          ext.toUtf8(),
+#endif
           0, // dont delete on close
           pool);
 
@@ -178,7 +172,13 @@ namespace svn
     if (stream != 0)
     {
       svn_error_t * error = svn_client_cat (
-        stream, path.path().toUtf8(), revision.revision (),
+        stream,
+#if QT_VERSION < 0x040000
+        path.path().utf8(),
+#else
+        path.path().toUtf8(),
+#endif
+        revision.revision (),
         *m_context, pool);
       if (error != 0)
         throw ClientException (error);

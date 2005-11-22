@@ -31,11 +31,11 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "client.hpp"
-#include "path.hpp"
-#include "exception.hpp"
-#include "pool.hpp"
-#include "revision.hpp"
+#include "svncpp/client.hpp"
+#include "svncpp/path.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/revision.hpp"
 
 
 namespace svn
@@ -118,7 +118,11 @@ namespace svn
     apr_hash_t *props;
     svn_error_t * error =
       svn_client_propget (&props,
+#if QT_VERSION < 0x040000
+                           propName.utf8(),
+#else
                            propName.toUtf8(),
+#endif
                            path.cstr (),
                            revision.revision (),
                            recurse,
@@ -142,8 +146,7 @@ namespace svn
       void *val;
 
       apr_hash_this (hi, &key, NULL, &val);
-      prop_map[ propName ] = QString::fromUtf8( ((const svn_string_t *)val)->data );
-
+      prop_map[propName] = QString::fromUtf8( ((const svn_string_t *)val)->data );
       path_prop_map_list.push_back( PathPropertiesMapEntry(QString::fromUtf8((const char *)key), prop_map ) );
     }
 
@@ -170,10 +173,22 @@ namespace svn
     {
       Pool pool;
       const svn_string_t * propval
-        = svn_string_create (propValue.toUtf8(), pool);
+        = svn_string_create (
+#if QT_VERSION < 0x040000
+                             propValue.utf8(),
+#else
+                             propValue.toUtf8(),
+#endif
+                             pool);
 
       svn_error_t * error =
-        svn_client_propset (propName.toUtf8(), propval, path.cstr (),
+        svn_client_propset (
+#if QT_VERSION < 0x040000
+                            propName.utf8(),
+#else
+                            propName.toUtf8(),
+#endif
+                            propval, path.cstr (),
                             recurse, pool);
       if(error != NULL)
         throw ClientException (error);
@@ -198,7 +213,12 @@ namespace svn
   {
     Pool pool;
     svn_error_t * error =
-              svn_client_propset (propName.toUtf8(),
+              svn_client_propset (
+#if QT_VERSION < 0x040000
+                                  propName.utf8(),
+#else
+                                  propName.toUtf8(),
+#endif
                                   0, // value = NULL
                                   path.cstr (),
                                   recurse,
@@ -277,7 +297,12 @@ namespace svn
     svn_string_t *propval;
     svn_revnum_t revnum;
     svn_error_t * error =
-            svn_client_revprop_get (propName.toUtf8(),
+      svn_client_revprop_get (
+#if QT_VERSION < 0x040000
+                              propName.utf8(),
+#else
+                              propName.toUtf8(),
+#endif
                               &propval,
                               path.cstr (),
                               revision.revision (),
@@ -321,11 +346,22 @@ namespace svn
     Pool pool;
 
     const svn_string_t * propval
-      = svn_string_create (propValue.toUtf8(), pool);
+      = svn_string_create (
+#if QT_VERSION < 0x040000
+                            propValue.utf8(),
+#else
+                            propValue.toUtf8(),
+#endif
+                            pool);
 
     svn_revnum_t revnum;
     svn_error_t * error =
-      svn_client_revprop_set (propName.toUtf8(),
+      svn_client_revprop_set (
+#if QT_VERSION < 0x040000
+                              propName.utf8(),
+#else
+                              propName.toUtf8(),
+#endif
                               propval,
                               path.cstr (),
                               revision.revision (),
@@ -361,7 +397,12 @@ namespace svn
 
     svn_revnum_t revnum;
     svn_error_t * error =
-              svn_client_revprop_set (propName.toUtf8(),
+              svn_client_revprop_set (
+#if QT_VERSION < 0x040000
+                                      propName.utf8(),
+#else
+                                      propName.toUtf8(),
+#endif
                                       0, // value = NULL
                                       path.cstr (),
                                       revision.revision (),

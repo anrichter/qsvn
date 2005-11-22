@@ -25,9 +25,7 @@
 #ifndef _SVNCPP_ANNOTATE_LINE_HPP_
 #define _SVNCPP_ANNOTATE_LINE_HPP_
 
-//svn
-#include <svn_client.h>
-
+#include <qstring.h>
 
 namespace svn
 {

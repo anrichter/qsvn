@@ -27,8 +27,8 @@
 #include <string>
 
 // svncpp
-#include "log_entry.hpp"
-#include "pool.hpp"
+#include "svncpp/log_entry.hpp"
+#include "svncpp/pool.hpp"
 
 // subversion api
 #include "svn_time.h"

@@ -31,15 +31,19 @@
 #include "apr_strings.h"
 
 // svncpp
-#include "targets.hpp"
-#include "path.hpp"
-#include "pool.hpp"
+#include "svncpp/targets.hpp"
+#include "svncpp/path.hpp"
+#include "svncpp/pool.hpp"
 
 #include <qstringlist.h>
 
 namespace svn
 {
+#if QT_VERSION < 0x040000
+  Targets::Targets (const QValueList<Path> & targets)
+#else
   Targets::Targets (const QList<Path> & targets)
+#endif
   {
     m_targets = targets;
   }
@@ -102,7 +106,11 @@ namespace svn
   const apr_array_header_t *
   Targets::array (const Pool & pool) const
   {
+#if QT_VERSION < 0x040000
+    QValueList<Path>::const_iterator it;
+#else
     QList<Path>::const_iterator it;
+#endif
 
     apr_pool_t *apr_pool = pool.pool ();
     apr_array_header_t *apr_targets =
@@ -112,7 +120,11 @@ namespace svn
 
     for (it = m_targets.begin (); it != m_targets.end (); it++)
     {
+#if QT_VERSION < 0x040000
+      QCString s = (*it).path().utf8();
+#else
       QByteArray s = (*it).path().toUtf8();
+#endif
 
       char * t2 =
         apr_pstrndup (apr_pool,s,s.length());
@@ -123,7 +135,11 @@ namespace svn
     return apr_targets;
   }
 
+#if QT_VERSION < 0x040000
+  const QValueList<Path> &
+#else
   const QList<Path> &
+#endif
   Targets::targets () const
   {
     return m_targets;

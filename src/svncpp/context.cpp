@@ -52,9 +52,10 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "apr.hpp"
-#include "context.hpp"
-#include "context_listener.hpp"
+#include "svncpp/apr.hpp"
+#include "svncpp/context.hpp"
+#include "svncpp/context_listener.hpp"
+
 
 namespace svn
 {
@@ -136,7 +137,11 @@ namespace svn
     {
       const char * c_configDir = 0;
       if( configDir.length () > 0 )
-        c_configDir = configDir.toUtf8();
+#if QT_VERSION < 0x040000
+          c_configDir = configDir.utf8();
+#else
+          c_configDir = configDir.toUtf8();
+#endif
 
       // make sure the configuration directory exists
       svn_config_ensure (c_configDir, pool);
@@ -228,12 +233,8 @@ namespace svn
       ctx.notify_baton = this;
       ctx.cancel_func = onCancel;
       ctx.cancel_baton = this;
-
-#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
       ctx.notify_func2 = onNotify2;
       ctx.notify_baton2 = this;
-#endif
-
     }
 
     void setAuthCache(bool value)
@@ -254,10 +255,13 @@ namespace svn
       password = pwd;
 
       svn_auth_baton_t * ab = ctx.auth_baton;
-      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME,
-                              username.toUtf8());
-      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD,
-                              password.toUtf8());
+#if QT_VERSION < 0x040000
+      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME, username.utf8());
+      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD, password.utf8());
+#else
+      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME, username.toUtf8());
+      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD, password.toUtf8());
+#endif
 
     }
 
@@ -292,7 +296,13 @@ namespace svn
           return svn_error_create (SVN_ERR_CANCELLED, NULL, "");
       }
 
-      *log_msg = apr_pstrdup (pool, msg.toUtf8());
+      *log_msg = apr_pstrdup (pool,
+#if QT_VERSION < 0x040000
+                              msg.utf8()
+#else
+                              msg.toUtf8()
+#endif
+                             );
 
       *tmp_file = NULL;
 
@@ -322,8 +332,6 @@ namespace svn
                     prop_state, revision);
     }
 
-
-#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
     /**
      * this is the callback function for the subversion 1.2
      * api functions to signal the progress of an action
@@ -333,7 +341,7 @@ namespace svn
      * @since subversion 1.2
      */
     static void
-    onNotify2(void*baton,const svn_wc_notify_t *action,apr_pool_t * /*tpool*/)
+    onNotify2(void*baton,const svn_wc_notify_t *action,apr_pool_t */*tpool*/)
     {
       if (!baton)
         return;
@@ -341,7 +349,6 @@ namespace svn
 
       data->notify (action);
     }
-#endif
 
 
     /**
@@ -388,8 +395,14 @@ namespace svn
       SVN_ERR (svn_utf_cstring_to_utf8 (
                  &lcred->username,
                  data->getUsername (), pool)); */
+
+#if QT_VERSION < 0x040000
+      lcred->password = data->getPassword().utf8();
+      lcred->username = data->getUsername().utf8();
+#else
       lcred->password = data->getPassword().toUtf8();
       lcred->username = data->getUsername().toUtf8();
+#endif
 
       // tell svn if the credentials need to be saved
       lcred->may_save = may_save;
@@ -472,7 +485,11 @@ namespace svn
                  &cred_->cert_file,
                  certFile.c_str (),
                  pool)); */
+#if QT_VERSION < 0x040000
+      cred_->cert_file = certFile.utf8();
+#else
       cred_->cert_file = certFile.toUtf8();
+#endif
 
       *cred = cred_;
 
@@ -506,7 +523,11 @@ namespace svn
                  &cred_->password,
                  password.c_str (),
                  pool)); */
+#if QT_VERSION < 0x040000
+      cred_->password = password.utf8();
+#else
       cred_->password = password.toUtf8();
+#endif
 
       cred_->may_save = may_save;
       *cred = cred_;
@@ -612,7 +633,6 @@ namespace svn
       }
     }
 
-#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
     void
     notify (const svn_wc_notify_t *action)
     {
@@ -621,7 +641,6 @@ namespace svn
         listener->contextNotify(action);
       }
     }
-#endif
 
     /**
      * if the @a listener is set call the method

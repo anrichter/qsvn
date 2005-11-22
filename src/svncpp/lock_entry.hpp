@@ -55,13 +55,12 @@ namespace svn
               const char * lock_owner,
               const char * lock_comment,
               const char * lock_token);
-#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
     void init(svn_lock_t*);
-#endif
     const QString&Comment()const;
     const QString&Owner()const;
     const QString&Token()const;
     const apr_time_t Date()const;
+    const apr_time_t Expiration()const;
     const bool Locked()const;
 
   protected:

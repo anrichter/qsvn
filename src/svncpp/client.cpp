@@ -27,7 +27,7 @@
 #endif
 
 // svncpp
-#include "client.hpp"
+#include "svncpp/client.hpp"
 #include "svn_opt.h"
 
 namespace svn
@@ -58,13 +58,31 @@ namespace svn
         Revision&start,Revision&end)
   {
     Pool pool;
-    int n = svn_opt_parse_revision(start,end,revstring.toUtf8(),pool);
+    int n = svn_opt_parse_revision(start, end,
+#if QT_VERSION < 0x040000
+                                   revstring.utf8(),
+#else
+                                   revstring.toUtf8(),
+#endif
+                                   pool);
     if (n<0) {
         start = Revision::UNDEFINED;
         end = Revision::UNDEFINED;
     }
   }
+
+    void Client::url2Revision(const QString&revstring,Revision&start) {
+        if (revstring=="WORKING") {
+            start = Revision::WORKING;
+        } else if (revstring=="BASE"){
+            start = Revision::BASE;
+        } else {
+            Revision end;
+            url2Revision(revstring,start,end);
+        }
+  }
 }
+
 /* -----------------------------------------------------------------
  * local variables:
  * eval: (load-file "../../rapidsvn-dev.el")

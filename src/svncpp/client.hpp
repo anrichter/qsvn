@@ -38,17 +38,26 @@
 
 
 // qt
-#include <QtCore>
+#include <qglobal.h>
+
+#if QT_VERSION < 0x040000
+    #include <qstring.h>
+    #include <qpair.h>
+    #include <qvaluelist.h>
+    #include <qmap.h>
+#else
+    #include <QtCore>
+#endif
 
 // svncpp
-#include "context.hpp"
-#include "exception.hpp"
-#include "path.hpp"
-#include "entry.hpp"
-#include "revision.hpp"
-#include "log_entry.hpp"
-#include "info_entry.hpp"
-#include "annotate_line.hpp"
+#include "svncpp/context.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/path.hpp"
+#include "svncpp/entry.hpp"
+#include "svncpp/revision.hpp"
+#include "svncpp/log_entry.hpp"
+#include "svncpp/info_entry.hpp"
+#include "svncpp/annotate_line.hpp"
 
 
 namespace svn
@@ -59,19 +68,32 @@ namespace svn
   class Targets;
   class DirEntry;
 
+#if QT_VERSION < 0x040000
+  typedef QValueList<LogEntry> LogEntries;
+  typedef QValueList<InfoEntry> InfoEntries;
+  typedef QValueList<Status> StatusEntries;
+  typedef QValueList<DirEntry> DirEntries;
+  typedef QValueList<AnnotateLine> AnnotatedFile;
+  typedef QValueList<Revision> Revisions;
+#else
   typedef QList<LogEntry> LogEntries;
   typedef QList<InfoEntry> InfoEntries;
   typedef QList<Status> StatusEntries;
   typedef QList<DirEntry> DirEntries;
   typedef QList<AnnotateLine> AnnotatedFile;
   typedef QList<Revision> Revisions;
+#endif
 
   // map of property names to values
   typedef QMap<QString,QString> PropertiesMap;
   // pair of path, PropertiesMap
   typedef QPair<QString, PropertiesMap> PathPropertiesMapEntry;
   // vector of path, Properties pairs
+#if QT_VERSION < 0x040000
+  typedef QValueList<PathPropertiesMapEntry> PathPropertiesMapList;
+#else
   typedef QList<PathPropertiesMapEntry> PathPropertiesMapList;
+#endif
 
   /**
    * Subversion client API.
@@ -208,19 +230,6 @@ namespace svn
 
     /**
      * Retrieves the contents for a specific @a revision of
-     * a @a path
-     *
-     * @param path path of file or directory
-     * @param revision revision to retrieve
-     * @return contents of the file
-     */
-    QByteArray
-    cat (const Path & path,
-         const Revision & revision) throw (ClientException);
-
-
-    /**
-     * Retrieves the contents for a specific @a revision of
      * a @a path at @a peg_revision
      *
      * @param path path of file or directory
@@ -229,7 +238,7 @@ namespace svn
      * @return contents of the file
      */
     QByteArray
-    cat2 (const Path & path,
+    cat (const Path & path,
           const Revision & revision,
           const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException);
 
@@ -388,15 +397,6 @@ namespace svn
 
     /**
      * Retrieve information for the given path
-     * from the wc
-     *
-     * @param path
-     * @return Entry
-     */
-    Entry
-    info (const QString& path );
-    /**
-     * Retrieve information for the given path
      * remote or local. Only gives with subversion 1.2
      * usefull results
      *
@@ -408,7 +408,7 @@ namespace svn
      * @since subversion 1.2
      */
     InfoEntries
-    info2(const QString &path,
+    info(const QString &path,
           bool rec,
           const Revision & rev,
           const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException);
@@ -651,6 +651,9 @@ namespace svn
     void
     url2Revision(const QString&revstring,
         Revision&start,Revision&end);
+    void
+    url2Revision(const QString&revstring,
+            Revision&start);
 
   private:
     Context * m_context;

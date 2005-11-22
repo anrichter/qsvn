@@ -26,7 +26,7 @@
 #include <qstring.h>
 
 // svncpp
-#include "dirent.hpp"
+#include "svncpp/dirent.hpp"
 
 
 namespace svn

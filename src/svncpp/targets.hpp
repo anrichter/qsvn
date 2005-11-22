@@ -26,7 +26,12 @@
 #ifndef _SVNCPP_TARGETS_HPP_
 #define _SVNCPP_TARGETS_HPP_
 
+#include <qglobal.h>
+#if QT_VERSION < 0x040000
+#include <qvaluelist.h>
+#else
 #include <QtCore>
+#endif
 
 // apr api
 #include "apr_tables.h"
@@ -50,7 +55,12 @@ namespace svn
      *
      * @param targets vector of paths
      */
+
+#if QT_VERSION < 0x040000
+    Targets (const QValueList<Path> & targets);
+#else
     Targets (const QList<Path> & targets);
+#endif
 
     /**
      * Constructor from an APR array containing
@@ -106,7 +116,11 @@ namespace svn
      *
      * @return vector of paths
      */
+#if QT_VERSION < 0x040000
+    const QValueList<Path> &
+#else
     const QList<Path> &
+#endif
     targets() const;
 
     /**
@@ -119,7 +133,11 @@ namespace svn
      *
      * @return vector with targets
      */
+#if QT_VERSION < 0x040000
+    operator const QValueList<Path> & () const
+#else
     operator const QList<Path> & () const
+#endif
     {
       return m_targets;
     }
@@ -137,7 +155,11 @@ namespace svn
 
 
   private:
+#if QT_VERSION < 0x040000
+    QValueList<Path> m_targets;
+#else
     QList<Path> m_targets;
+#endif
   };
 }
 

@@ -28,11 +28,11 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "exception.hpp"
-#include "path.hpp"
-#include "pool.hpp"
-#include "property.hpp"
-#include "revision.hpp"
+#include "svncpp/exception.hpp"
+#include "svncpp/path.hpp"
+#include "svncpp/pool.hpp"
+#include "svncpp/property.hpp"
+#include "svncpp/revision.hpp"
 
 
 namespace svn
@@ -108,7 +108,11 @@ namespace svn
 
     apr_hash_t *props;
     svn_client_propget (&props,
+#if QT_VERSION < 0x040000
+                        name.utf8(),
+#else
                         name.toUtf8(),
+#endif
                         m_path.cstr(),
                         revision,
                         false, // recurse
@@ -138,10 +142,20 @@ namespace svn
     Pool pool;
 
     const svn_string_t * propval
-      = svn_string_create (value.toUtf8(), pool);
+#if QT_VERSION < 0x040000
+        = svn_string_create (value.utf8(), pool);
+#else
+        = svn_string_create (value.toUtf8(), pool);
+#endif
 
     svn_error_t * error =
-      svn_client_propset (name.toUtf8(), propval, m_path.cstr (),
+      svn_client_propset (
+#if QT_VERSION < 0x040000
+                          name.utf8(),
+#else
+                          name.toUtf8(),
+#endif
+                          propval, m_path.cstr (),
                           false, pool);
     if(error != NULL)
       throw ClientException (error);
@@ -156,7 +170,12 @@ namespace svn
   //  svn_utf_cstring_to_utf8 (&pname_utf8, name, pool);
 
     svn_error_t * error;
-    error = svn_client_propset (name.toUtf8(),
+    error = svn_client_propset (
+#if QT_VERSION < 0x040000
+                                  name.utf8(),
+#else
+                                  name.toUtf8(),
+#endif
                                   0, // value = NULL
                                   m_path.cstr (),
                                   false, //dont recurse
