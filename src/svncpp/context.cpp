@@ -52,9 +52,9 @@
 //#include "svn_utf.h"
 
 // svncpp
-#include "svncpp/apr.hpp"
-#include "svncpp/context.hpp"
-#include "svncpp/context_listener.hpp"
+#include "apr.hpp"
+#include "context.hpp"
+#include "context_listener.hpp"
 
 
 namespace svn

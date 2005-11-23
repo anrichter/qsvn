@@ -50,8 +50,8 @@
 #endif
 
 // svncpp
-#include "svncpp/context.hpp"
-#include "svncpp/path.hpp"
+#include "context.hpp"
+#include "path.hpp"
 
 
 namespace svn

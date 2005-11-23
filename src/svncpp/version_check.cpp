@@ -1,4 +1,4 @@
-#include "svncpp/version_check.hpp"
+#include "version_check.hpp"
 
 #include <svn_version.h>
 #include <svn_client.h>
