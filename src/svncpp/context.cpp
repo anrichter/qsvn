@@ -399,14 +399,16 @@ namespace svn
 #if QT_VERSION < 0x040000
       QCString l;
       l = data->getPassword().utf8();
+      lcred->password = apr_pstrndup (pool,l,l.length());
       l = data->getUsername().utf8();
+      lcred->username = apr_pstrndup (pool,l,l.length());
 #else
       QByteArray l;
       l = data->getPassword().toUtf8();
-      l = data->getUsername().toUtf8();
-#endif
       lcred->password = apr_pstrndup (pool,l,l.length());
+      l = data->getUsername().toUtf8();
       lcred->username = apr_pstrndup (pool,l,l.length());
+#endif
 
       // tell svn if the credentials need to be saved
       lcred->may_save = may_save;
