@@ -58,13 +58,12 @@ namespace svn
         Revision&start,Revision&end)
   {
     Pool pool;
-    int n = svn_opt_parse_revision(start, end,
 #if QT_VERSION < 0x040000
-                                   revstring.utf8(),
+    int n = svn_opt_parse_revision(start,end,revstring.utf8(),pool);
 #else
-                                   revstring.toUtf8(),
+    int n = svn_opt_parse_revision(start,end,revstring.toUtf8(),pool);
 #endif
-                                   pool);
+
     if (n<0) {
         start = Revision::UNDEFINED;
         end = Revision::UNDEFINED;
