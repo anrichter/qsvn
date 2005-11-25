@@ -150,6 +150,7 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
     {
         QList< QVariant > columnData;
         QFileInfo fileInfo;
+        bool visible; 
 
         svn::StatusEntries statusList = SvnClient::instance()->status( directory );
         svn::StatusEntries::iterator it;
@@ -157,7 +158,20 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
         for ( it = statusList.begin(); it != statusList.end(); it++ )
         {
             fileInfo = QFileInfo( it->path() );
-            if ( !fileInfo.isDir() && isStatusForModel( it->textStatus() ) )
+            if ( m_modelFor == FileListModel::None )
+            {
+                visible = !fileInfo.isDir();
+            }
+            else
+            {
+                if ( fileInfo.isDir() )
+                    visible = ( fileInfo.canonicalPath() != QFileInfo( directory ).canonicalPath() ) && 
+                              isStatusForModel( it->textStatus() );
+                else
+                    visible = isStatusForModel( it->textStatus() );
+            }
+            
+            if (  visible )
             {
                 columnData.clear();
                 if ( it->isVersioned() )
