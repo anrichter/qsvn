@@ -52,7 +52,11 @@ FileListModel::~FileListModel()
 void FileListModel::initModel( )
 {
     QList< QVariant > rootData;
-    rootData << "Filename" << "Status" << "Revision" << "Author";
+    rootData.insert( FileListItem::FilenameColumn, "Filename" );
+    rootData.insert( FileListItem::StatusColumn, "Status" );
+    rootData.insert( FileListItem::RevisionColumn, "Revision" );
+    rootData.insert( FileListItem::AuthorColumn, "Author" );
+
     rootItem = new FileListItem( rootData );
     sortOrder = Qt::AscendingOrder;
 }
@@ -175,13 +179,16 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
             {
                 columnData.clear();
                 if ( it->isVersioned() )
-                    columnData << fileNamePrefix + it->entry().name();
+                    columnData.insert( FileListItem::FilenameColumn, fileNamePrefix + it->entry().name() );
                 else
                 {
                     QFileInfo fileInfo( it->path() );
-                    columnData << fileNamePrefix + fileInfo.fileName();
+                    columnData.insert( FileListItem::FilenameColumn, fileNamePrefix + fileInfo.fileName() );
                 }
-                columnData << it->textStatus() << int ( it->entry().cmtRev() ) << it->entry().cmtAuthor() << it->path();
+                columnData.insert( FileListItem::StatusColumn, it->textStatus() );
+                columnData.insert( FileListItem::RevisionColumn, int ( it->entry().cmtRev() ) );
+                columnData.insert( FileListItem::AuthorColumn, it->entry().cmtAuthor() );
+                columnData.insert( FileListItem::FullfilenameColumn, it->path() );
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
             }
         }
