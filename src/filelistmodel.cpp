@@ -52,6 +52,7 @@ FileListModel::~FileListModel()
 void FileListModel::initModel( )
 {
     QList< QVariant > rootData;
+    rootData.insert( FileListItem::SelectedColumn, "" );
     rootData.insert( FileListItem::FilenameColumn, "Filename" );
     rootData.insert( FileListItem::StatusColumn, "Status" );
     rootData.insert( FileListItem::RevisionColumn, "Revision" );
@@ -178,6 +179,7 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
             if (  visible )
             {
                 columnData.clear();
+                columnData.insert( FileListItem::SelectedColumn, false );
                 if ( it->isVersioned() )
                     columnData.insert( FileListItem::FilenameColumn, fileNamePrefix + it->entry().name() );
                 else
