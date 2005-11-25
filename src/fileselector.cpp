@@ -54,7 +54,7 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
             break;
     }
 
-    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff() ) );
+    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
 }
 
 FileListModel *FileSelector::model( )
@@ -69,15 +69,17 @@ void FileSelector::hideGroupBoxLogMessage( )
 
 QStringList FileSelector::selectedFileList( )
 {
-    QSet< QString > fileSet;
-    FileListItem *item;
-    QModelIndexList indexes = treeViewFiles->selectionModel()->selectedIndexes();
-    for ( int i = 0; i < indexes.count(); i++ )
+    QStringList fileList;
+    QModelIndex index;
+    for ( int i = 0; i < m_fileListModel->rowCount(); ++i )
     {
-        item = static_cast< FileListItem* >( indexes.at( i ).internalPointer() );
-        fileSet << item->fullFileName();
+        index = m_fileListModel->index( i, FileListItem::FilenameColumn );
+        if ( m_fileListModel->data( index, Qt::CheckStateRole ).toBool() )
+        {
+            fileList << m_fileListModel->data( index, Qt::DisplayRole ).toString();
+        }
     }
-    return fileSet.toList();
+    return fileList;
 }
 
 QString FileSelector::logMessage( )
@@ -85,7 +87,7 @@ QString FileSelector::logMessage( )
     return editLogMessage->toPlainText();
 }
 
-void FileSelector::diff( )
+void FileSelector::diff( const QModelIndex &index )
 {
-    SvnClient::instance()->diff( selectedFileList() );
+    SvnClient::instance()->diff( m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString() );
 }

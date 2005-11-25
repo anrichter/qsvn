@@ -44,6 +44,9 @@ public:
                     Commit = 0x02,
                     Remove = 0x04,
                     Revert = 0x05 };
+    enum Roles {
+        FullFileNameRole = Qt::UserRole + 1
+    };
 
     FileListModel( QObject *parent = 0 );
     /**
@@ -65,6 +68,8 @@ public:
     void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
 
     //make model editable
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool setData( const QModelIndex &index, const QVariant &value, int role );
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
     void removeAllRows();
 

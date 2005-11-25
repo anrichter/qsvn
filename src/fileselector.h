@@ -44,7 +44,7 @@ private:
     void hideGroupBoxLogMessage();
 
 private slots:
-    void diff();
+    void diff( const QModelIndex &index );
 };
 
 #endif

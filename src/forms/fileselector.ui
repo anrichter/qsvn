@@ -52,7 +52,7 @@
        <item row="0" column="0" >
         <widget class="QTreeView" name="treeViewFiles" >
          <property name="selectionMode" >
-          <enum>QAbstractItemView::ExtendedSelection</enum>
+          <enum>QAbstractItemView::SingleSelection</enum>
          </property>
          <property name="selectionBehavior" >
           <enum>QAbstractItemView::SelectRows</enum>

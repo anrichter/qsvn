@@ -154,7 +154,7 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
     {
         QList< QVariant > columnData;
         QFileInfo fileInfo;
-        bool visible; 
+        bool visible;
 
         svn::StatusEntries statusList = SvnClient::instance()->status( directory );
         svn::StatusEntries::iterator it;
@@ -169,12 +169,12 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
             else
             {
                 if ( fileInfo.isDir() )
-                    visible = ( fileInfo.canonicalPath() != QFileInfo( directory ).canonicalPath() ) && 
+                    visible = ( fileInfo.canonicalPath() != QFileInfo( directory ).canonicalPath() ) &&
                               isStatusForModel( it->textStatus() );
                 else
                     visible = isStatusForModel( it->textStatus() );
             }
-            
+
             if (  visible )
             {
                 columnData.clear();
@@ -189,6 +189,7 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
                 columnData.insert( FileListItem::RevisionColumn, int ( it->entry().cmtRev() ) );
                 columnData.insert( FileListItem::AuthorColumn, it->entry().cmtAuthor() );
                 columnData.insert( FileListItem::FullfilenameColumn, it->path() );
+                columnData.insert( FileListItem::CheckedColumn, false );
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
             }
         }
@@ -307,10 +308,38 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
             return item->data( index.column() );
         }
     }
-    else if ( ( role == Qt::DecorationRole ) && ( index.column() == FileListItem::FilenameColumn ))
+    else if ( ( role == Qt::DecorationRole ) && ( index.column() == FileListItem::FilenameColumn ) )
         return item->getPixmap();
+    else if ( ( m_modelFor != None ) && ( role == Qt::CheckStateRole ) && ( index.column() == FileListItem::FilenameColumn ) )
+        return item->data( FileListItem::CheckedColumn );
+    else if ( role == FullFileNameRole )
+        return item->data( FileListItem::FullfilenameColumn );
     else
         return QVariant();
+}
+
+Qt::ItemFlags FileListModel::flags( const QModelIndex &index ) const
+{
+    if ( !index.isValid() )
+        return Qt::ItemIsEnabled;
+
+    return QAbstractItemModel::flags( index ) | Qt::ItemIsUserCheckable;
+}
+
+bool FileListModel::setData( const QModelIndex &index, const QVariant &value, int role )
+{
+    if ( !index.isValid() )
+        return false;
+
+    if ( role == Qt::CheckStateRole )
+    {
+        FileListItem *item;
+        item =  static_cast< FileListItem* >( index.internalPointer() );
+        item->setData( FileListItem::CheckedColumn, value );
+        emit dataChanged( index, index );
+        return true;
+    }
+    return false;
 }
 
 bool FileListModel::removeRows( int row, int count, const QModelIndex &parent )

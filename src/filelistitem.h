@@ -34,7 +34,8 @@ public:
         StatusColumn = 1,
         RevisionColumn = 2,
         AuthorColumn = 3,
-        FullfilenameColumn = 4
+        FullfilenameColumn = 4,
+        CheckedColumn = 5
     };
 
     FileListItem( const QList<QVariant> &data, FileListItem *parent = 0 );
@@ -48,6 +49,7 @@ public:
     int childCount() const;
     int columnCount() const;
     QVariant data( int column ) const;
+    void setData( int column, QVariant value );
     int row() const;
     FileListItem *parent();
 

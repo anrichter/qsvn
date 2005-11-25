@@ -86,6 +86,11 @@ QVariant FileListItem::data( int column ) const
     return itemData.value( column );
 }
 
+void FileListItem::setData( int column, QVariant value )
+{
+    itemData.insert( column, value );
+}
+
 int FileListItem::row( ) const
 {
     if ( parentItem )
