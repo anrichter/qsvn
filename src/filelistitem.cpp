@@ -38,7 +38,7 @@ FileListItem::FileListItem( const QList< QVariant > &data, FileListItem *parent 
 {
     parentItem = parent;
     itemData = data;
-    sortColumn = 0;
+    sortColumn = FileListItem::FilenameColumn;
 }
 
 FileListItem::FileListItem( const FileListItem *fileListItem, FileListItem *parent )
@@ -47,7 +47,7 @@ FileListItem::FileListItem( const FileListItem *fileListItem, FileListItem *pare
     for ( int i = 0; i < fileListItem->columnCount(); ++i )
     {
         itemData << fileListItem->data( i );
-        sortColumn = 0;
+        sortColumn = FileListItem::FilenameColumn;
     }
 }
 
@@ -111,8 +111,8 @@ void FileListItem::setSortColumn( int column )
 
 bool FileListItem::operator < (const FileListItem &other) const
 {
-    if ( sortColumn == 2 ) //revision
-        return data( 2 ).toInt() < other.data( 2 ).toInt();
+    if ( sortColumn == FileListItem::RevisionColumn ) //revision
+        return data( FileListItem::RevisionColumn ).toInt() < other.data( FileListItem::RevisionColumn ).toInt();
     else
         return data( sortColumn ).toString() < other.data( sortColumn ).toString();
     return true;
@@ -120,7 +120,7 @@ bool FileListItem::operator < (const FileListItem &other) const
 
 QPixmap FileListItem::getPixmap( )
 {
-    int statusKind = itemData.value( 1 ).toInt();
+    int statusKind = itemData.value( FileListItem::StatusColumn ).toInt();
     switch ( statusKind )
     {
         case svn_wc_status_none:
@@ -158,5 +158,5 @@ QPixmap FileListItem::getPixmap( )
 
 QString FileListItem::fullFileName( )
 {
-    return itemData.value( 4 ).toString();
+    return itemData.value( FileListItem::FullfilenameColumn ).toString();
 }

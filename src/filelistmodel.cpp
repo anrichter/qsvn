@@ -111,7 +111,7 @@ void FileListModel::loadFromWorkingCopySelection( QItemSelectionModel *itemSelec
             loadFromDirectory( fullPath, fileNamePrefix );
         }
     }
-    sort ( 0, sortOrder );
+    sort ( FileListItem::FilenameColumn, sortOrder );
     reset();
 }
 
@@ -140,7 +140,7 @@ void FileListModel::loadFromFileListSelection( QItemSelectionModel *itemSelectio
     {
         rootItem->appendChild( new FileListItem( item, rootItem ) );
     }
-    sort ( 0, sortOrder );
+    sort ( FileListItem::FilenameColumn, sortOrder );
     reset();
 }
 
@@ -185,7 +185,7 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
             }
         }
-        sort ( 0, sortOrder );
+        sort ( FileListItem::FilenameColumn, sortOrder );
     }
     reset();
 }
@@ -258,9 +258,9 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
 
     if ( role == Qt::DisplayRole )
     {
-        if ( index.column() == 1 )
+        if ( index.column() == FileListItem::StatusColumn )
         {
-            int statusKind = item->data( 1 ).toInt();
+            int statusKind = item->data( FileListItem::StatusColumn ).toInt();
             switch ( statusKind )
             {
                 case svn_wc_status_none:
@@ -292,7 +292,7 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
                 case svn_wc_status_incomplete:
                     return QString( "incomplete" );
                 default:
-                    return item->data( 1 ).toString();
+                    return item->data( FileListItem::StatusColumn ).toString();
             }
         }
         else
@@ -300,7 +300,7 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
             return item->data( index.column() );
         }
     }
-    else if ( ( role == Qt::DecorationRole ) && ( index.column() == 0 ))
+    else if ( ( role == Qt::DecorationRole ) && ( index.column() == FileListItem::FilenameColumn ))
         return item->getPixmap();
     else
         return QVariant();

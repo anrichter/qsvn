@@ -29,6 +29,14 @@
 class FileListItem
 {
 public:
+    enum Columns {
+        FilenameColumn = 0,
+        StatusColumn = 1,
+        RevisionColumn = 2,
+        AuthorColumn = 3,
+        FullfilenameColumn = 4
+    };
+
     FileListItem( const QList<QVariant> &data, FileListItem *parent = 0 );
     FileListItem( const FileListItem *fileListItem, FileListItem *parent = 0 );
     ~FileListItem();
