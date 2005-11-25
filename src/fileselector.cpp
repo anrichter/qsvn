@@ -76,7 +76,7 @@ QStringList FileSelector::selectedFileList( )
         index = m_fileListModel->index( i, FileListItem::FilenameColumn );
         if ( m_fileListModel->data( index, Qt::CheckStateRole ).toBool() )
         {
-            fileList << m_fileListModel->data( index, Qt::DisplayRole ).toString();
+            fileList << m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString();
         }
     }
     return fileList;
