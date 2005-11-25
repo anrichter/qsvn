@@ -30,12 +30,11 @@ class FileListItem
 {
 public:
     enum Columns {
-        SelectedColumn = 0,
-        FilenameColumn = 1,
-        StatusColumn = 2,
-        RevisionColumn = 3,
-        AuthorColumn = 4,
-        FullfilenameColumn = 5
+        FilenameColumn = 0,
+        StatusColumn = 1,
+        RevisionColumn = 2,
+        AuthorColumn = 3,
+        FullfilenameColumn = 4
     };
 
     FileListItem( const QList<QVariant> &data, FileListItem *parent = 0 );

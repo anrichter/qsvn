@@ -57,7 +57,6 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     treeViewFileList->setModel( fileListModel );
     treeViewFileList->header()->setSortIndicatorShown( true );
     treeViewFileList->header()->setClickable( true );
-    treeViewFileList->setColumnHidden( FileListItem::SelectedColumn, true );
 
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
     connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff() ) );
