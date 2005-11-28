@@ -20,6 +20,7 @@
 
 
 //QSvn
+#include "about.h"
 #include "addworkingcopy.h"
 #include "checkout.h"
 #include "config.h"
@@ -340,6 +341,6 @@ void QSvn::helpIndex()
 
 void QSvn::aboutQSvn()
 {
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
+    About about( this );
+    about.exec();
 }
