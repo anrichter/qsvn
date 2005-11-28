@@ -20,6 +20,7 @@
 
 
 //QSvn
+#include "config.h"
 #include "filelistitem.h"
 #include "filelistmodel.h"
 #include "fileselector.h"
@@ -54,7 +55,13 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
             break;
     }
 
+    comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
+    comboLogHistory->insertItem( 0, "" );
+    comboLogHistory->setCurrentIndex( 0 );
+    
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
+    connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
+    connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
 }
 
 FileListModel *FileSelector::model( )
@@ -90,4 +97,22 @@ QString FileSelector::logMessage( )
 void FileSelector::diff( const QModelIndex &index )
 {
     SvnClient::instance()->diff( m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString() );
+}
+
+void FileSelector::buttonOkClickedSlot()
+{
+    comboLogHistory->insertItem( 0, editLogMessage->toPlainText() );
+    QSet< QString > logEntries;
+    for ( int i = 0; i < comboLogHistory->count(); ++i )
+    {
+        if ( !comboLogHistory->itemText( i ).isEmpty() )
+            logEntries << comboLogHistory->itemText( i );
+    }
+    Config::instance()->saveStringList( "logHistory", logEntries.toList() );
+    this->accept();
+}
+
+void FileSelector::comboLogHistoryActivatedSlot( int index )
+{
+    editLogMessage->setPlainText( comboLogHistory->currentText() );
 }

@@ -45,6 +45,8 @@ private:
 
 private slots:
     void diff( const QModelIndex &index );
+    void buttonOkClickedSlot();
+    void comboLogHistoryActivatedSlot( int index );
 };
 
 #endif

@@ -82,7 +82,11 @@
         <widget class="QTextEdit" name="editLogMessage" />
        </item>
        <item row="0" column="0" >
-        <widget class="QComboBox" name="comboLogHistory" />
+        <widget class="QComboBox" name="comboLogHistory" >
+         <property name="maxCount" >
+          <number>15</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
