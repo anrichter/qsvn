@@ -228,7 +228,7 @@ bool SvnClient::diff( const QString &file )
     {
         QFileInfo fileInfo;
         QString baseFile, workFile;
-        
+
         fileInfo = QFileInfo( file );
         baseFile = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
         baseFile = baseFile + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
@@ -251,7 +251,8 @@ bool SvnClient::diff( const QStringList &fileList )
 
 void SvnClient::completedMessage( const QString &path )
 {
-    svn::Status status = singleStatus( QString( path ) );
+    QString _path = path;
+    svn::Status status = singleStatus( _path );
     if ( status.isVersioned() )
         StatusText::instance()->outputMessage( QString( "Completed at Revision %1\n" ).arg( status.entry().revision() ) );
     else
