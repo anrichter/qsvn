@@ -96,9 +96,9 @@ void Checkout::buttonOkClickedSlot()
     }
 
     editURL->insertItem( 0, editURL->currentText() );
-    QStringList list;
+    QSet< QString > urlSet;
     for ( int i = 0; i < editURL->count(); ++i )
-        list << editURL->itemText( i );
-    Config::instance()->saveStringList( "checkoutURL", list );
+        urlSet << editURL->itemText( i );
+    Config::instance()->saveStringList( "checkoutURL", urlSet.toList() );
     this->accept();
 }
