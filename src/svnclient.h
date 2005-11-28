@@ -51,6 +51,7 @@ public:
      * @return
      */
     svn::StatusEntries status( QString &directory );
+    svn::Status singleStatus( QString &path );
 
     /**
      * Update entries from the updateList.
@@ -84,6 +85,8 @@ private:
     svn::Context *svnContext;
     svn::Client *svnClient;
     Listener *listener;
+
+    void completedMessage( const QString &path );
 };
 
 #endif

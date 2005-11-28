@@ -78,13 +78,30 @@ svn::StatusEntries SvnClient::status( QString &directory )
     return svn::StatusEntries();
 }
 
+svn::Status SvnClient::singleStatus( QString &path )
+{
+    try
+    {
+        return svnClient->singleStatus( path, false, svn::Revision::HEAD );
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        return svn::Status();
+    }
+}
+
 bool SvnClient::update( QStringList &updateList )
 {
+    if ( updateList.isEmpty() )
+        return true;
+
     try
     {
         StatusText::instance()->outputMessage( "" );
         svn::Targets targets( updateList );
         svnClient->update( targets, svn::Revision::HEAD, true, false );
+        completedMessage( QString( updateList.at( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
@@ -102,6 +119,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     try
     {
         svnClient->checkout( url, path, svn::Revision::HEAD, true );
+        completedMessage( path );
     }
     catch ( svn::ClientException e )
     {
@@ -113,28 +131,36 @@ bool SvnClient::checkout( const QString &url, const QString &path )
 
 bool SvnClient::add( const QStringList &addList )
 {
-    QString file;
-    foreach( file, addList )
+    if ( addList.isEmpty() )
+        return true;
+
+    try
     {
-        try
+        QString file;
+        foreach( file, addList )
         {
             svnClient->add( file, false );
         }
-        catch ( svn::ClientException e )
-        {
-            StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
-            return false;
-        }
+        completedMessage( file );
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        return false;
     }
     return true;
 }
 
 bool SvnClient::revert( const QStringList &revertList )
 {
+    if ( revertList.isEmpty() )
+        return true;
+
     try
     {
         svn::Targets targets( revertList );
         svnClient->revert( targets, false );
+        completedMessage( QString( revertList.at( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
@@ -146,10 +172,14 @@ bool SvnClient::revert( const QStringList &revertList )
 
 bool SvnClient::commit( const QStringList &commitList, const QString &logMessage )
 {
+    if ( commitList.isEmpty() )
+        return true;
+
     try
     {
         svn::Targets targets( commitList );
         svnClient->commit( targets, logMessage, false );
+        completedMessage( QString( commitList.at( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
@@ -161,10 +191,14 @@ bool SvnClient::commit( const QStringList &commitList, const QString &logMessage
 
 bool SvnClient::remove( const QStringList &removeList )
 {
+    if ( removeList.isEmpty() )
+        return true;
+
     try
     {
         svn::Targets targets( removeList );
         svnClient->remove( targets, false );
+        completedMessage( QString( removeList.at( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
@@ -213,4 +247,14 @@ bool SvnClient::diff( const QStringList &fileList )
         result = result && diff( file );
 
     return result;
+}
+
+void SvnClient::completedMessage( const QString &path )
+{
+    svn::Status status = singleStatus( QString( path ) );
+    if ( status.isVersioned() )
+        StatusText::instance()->outputMessage( QString( "Completed at Revision %1\n" ).arg( status.entry().revision() ) );
+    else
+        StatusText::instance()->outputMessage( "Completed\n" );
+
 }
