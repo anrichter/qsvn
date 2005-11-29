@@ -42,7 +42,7 @@ public:
     enum ModelFor { None   = 0x00,
                     Add    = 0x01,
                     Commit = 0x02,
-                    Remove = 0x04,
+                    Delete = 0x04,
                     Revert = 0x05 };
     enum Roles {
         FullFileNameRole = Qt::UserRole + 1

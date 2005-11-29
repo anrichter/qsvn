@@ -101,8 +101,8 @@ void QSvn::createActions()
     connect( actionCommit, SIGNAL( triggered() ), this, SLOT( commit() ) );
     actionAdd = new QAction( "&Add...", this );
     connect( actionAdd, SIGNAL( triggered() ), this, SLOT( add() ) );
-    actionRemove = new QAction( "&Remove...", this );
-    connect( actionRemove, SIGNAL( triggered() ), this, SLOT( remove() ) );
+    actionDelete = new QAction( "&Delete...", this );
+    connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
     actionRevert = new QAction( "Re&vert...", this );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( revert() ) );
 
@@ -137,7 +137,7 @@ void QSvn::createMenus()
     modifyMenu->addAction( actionCommit );
     modifyMenu->addSeparator();
     modifyMenu->addAction( actionAdd );
-    modifyMenu->addAction( actionRemove );
+    modifyMenu->addAction( actionDelete );
     modifyMenu->addAction( actionRevert );
 
     queryMenu = menuBar()->addMenu( tr( "&Query" ) );
@@ -292,9 +292,9 @@ void QSvn::add()
         SvnClient::instance()->add( fileselector.selectedFileList() );
 }
 
-void QSvn::remove()
+void QSvn::doDelete()
 {
-    FileSelector fileselector( this, FileListModel::Remove );
+    FileSelector fileselector( this, FileListModel::Delete );
     if ( isFileListSelected() )
         fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
     else

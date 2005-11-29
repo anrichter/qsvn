@@ -45,8 +45,8 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
         case FileListModel::Commit:
             setWindowTitle( tr( "Commit") );
             break;
-        case FileListModel::Remove:
-            setWindowTitle( tr( "Remove") );
+        case FileListModel::Delete:
+            setWindowTitle( tr( "Delete") );
             hideGroupBoxLogMessage();
             break;
         case FileListModel::Revert:

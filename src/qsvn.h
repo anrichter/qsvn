@@ -53,7 +53,7 @@ private:
     QAction* actionUpdate;
     QAction* actionCommit;
     QAction* actionAdd;
-    QAction* actionRemove;
+    QAction* actionDelete;
     QAction* actionDiff;
     QAction* actionCheckout;
     QAction* actionRevert;
@@ -88,7 +88,7 @@ private slots:
     void update();
     void commit();
     void add();
-    void remove();
+    void doDelete();
     void revert();
 
     //Query
@@ -96,6 +96,7 @@ private slots:
 
     //Settings
     void configureQSvn();
+
     //Help
     void helpContents();
     void helpIndex();

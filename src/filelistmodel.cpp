@@ -79,7 +79,7 @@ bool FileListModel::isStatusForModel( svn_wc_status_kind status )
                    ( status == svn_wc_status_replaced ) )
                 return true;
             break;
-        case Remove:
+        case Delete:
             if ( ( status == svn_wc_status_normal ) ||
                    ( status == svn_wc_status_merged ) )
                 return true;
