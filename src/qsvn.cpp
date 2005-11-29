@@ -112,10 +112,6 @@ void QSvn::createActions()
     actionConfigureQSvn = new QAction( tr( "&Configure QSvn..." ), this );
     connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvn() ) );
 
-    actionHelpContents = new QAction( tr( "&Contents..." ), this );
-    connect( actionHelpContents, SIGNAL( triggered() ), this, SLOT( helpContents() ) );
-    actionHelpIndex = new QAction( tr( "&Index..." ), this );
-    connect( actionHelpIndex, SIGNAL( triggered() ), this, SLOT( helpIndex() ) );
     actionAboutQSvn = new QAction( tr( "&About QSvn..." ), this );
     connect( actionAboutQSvn, SIGNAL( triggered() ), this, SLOT( aboutQSvn() ) );
     actionAboutQt = new QAction( tr( "About &Qt..." ), this );
@@ -147,9 +143,6 @@ void QSvn::createMenus()
     menuSettings->addAction( actionConfigureQSvn );
 
     menuHelp = menuBar()->addMenu( tr( "&Help" ) );
-    menuHelp->addAction( actionHelpContents );
-    menuHelp->addAction( actionHelpIndex );
-    menuHelp->addSeparator();
     menuHelp->addAction( actionAboutQSvn );
     menuHelp->addAction( actionAboutQt );
 }
@@ -325,18 +318,6 @@ void QSvn::configureQSvn()
 {
     Configure configure( this );
     configure.exec();
-}
-
-void QSvn::helpContents()
-{
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet..." ) );
-}
-
-void QSvn::helpIndex()
-{
-    //todo: implement
-    StatusText::instance()->outputMessage( QString( "not implemented yet" ) );
 }
 
 void QSvn::aboutQSvn()

@@ -43,8 +43,6 @@ public:
 private:
     //Actions
     QAction* actionExit;
-    QAction* actionHelpContents;
-    QAction* actionHelpIndex;
     QAction* actionAboutQSvn;
     QAction* actionAddWorkingCopy;
     QAction* actionRemoveWorkingCopy;
@@ -98,8 +96,6 @@ private slots:
     void configureQSvn();
 
     //Help
-    void helpContents();
-    void helpIndex();
     void aboutQSvn();
 
     void activateWorkingCopy( const QModelIndex &index );
