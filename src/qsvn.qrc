@@ -9,5 +9,11 @@
     <file alias="missingfile.png">images/missingfile.png</file>
     <file alias="modifiedfile.png">images/modifiedfile.png</file>
     <file alias="unknownfile.png">images/unknownfile.png</file>
+
+	<file alias="menuadd.png">images/menuadd.png</file>
+	<file alias="menucommit.png">images/menucommit.png</file>
+	<file alias="menudelete.png">images/menudelete.png</file>
+	<file alias="menurevert.png">images/menurevert.png</file>
+	<file alias="menuupdate.png">images/menuupdate.png</file>
 </qresource>
 </RCC>

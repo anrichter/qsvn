@@ -95,15 +95,15 @@ void QSvn::createActions()
     actionCheckoutWorkingCopy = new QAction( tr( "&Checkout..." ), this );
     connect( actionCheckoutWorkingCopy, SIGNAL( triggered() ), this, SLOT( doCheckoutWorkingCopy() ) );
 
-    actionUpdate = new QAction( tr( "&Update" ), this );
+    actionUpdate = new QAction( QIcon( ":menuupdate.png" ), tr( "&Update" ), this );
     connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( doUpdate() ) );
-    actionCommit = new QAction( tr( "&Commit..." ), this );
+    actionCommit = new QAction( QIcon( ":menucommit.png" ), tr( "&Commit..." ), this );
     connect( actionCommit, SIGNAL( triggered() ), this, SLOT( doCommit() ) );
-    actionAdd = new QAction( tr( "&Add..." ), this );
+    actionAdd = new QAction( QIcon( ":menuadd.png" ), tr( "&Add..." ), this );
     connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
-    actionDelete = new QAction( tr( "&Delete..." ), this );
+    actionDelete = new QAction( QIcon( ":menudelete.png" ), tr( "&Delete..." ), this );
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
-    actionRevert = new QAction( tr( "Re&vert..." ), this );
+    actionRevert = new QAction( QIcon( ":menurevert.png" ), tr( "Re&vert..." ), this );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
 
     actionDiff = new QAction( tr( "&Diff..." ), this );
