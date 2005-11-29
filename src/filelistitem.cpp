@@ -163,5 +163,6 @@ QPixmap FileListItem::getPixmap( )
 
 QString FileListItem::fullFileName( )
 {
-    return itemData.value( FileListItem::FullfilenameColumn ).toString();
+    QFileInfo fileInfo = QFileInfo( itemData.value( FileListItem::FullfilenameColumn ).toString() );
+    return fileInfo.canonicalFilePath();
 }

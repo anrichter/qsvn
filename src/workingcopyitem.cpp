@@ -104,7 +104,8 @@ QPixmap WorkingCopyItem::getPixmap()
 
 QString WorkingCopyItem::fullPath() const
 {
-    return itemData.value( 1 ).toString();
+    QFileInfo fileInfo = QFileInfo( itemData.value( 1 ).toString() );
+    return fileInfo.canonicalFilePath();
 }
 
 QStringList WorkingCopyItem::fullPathListRecursive( QStringList fullPathList )
