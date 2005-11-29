@@ -24,8 +24,11 @@
 //svncpp
 #include "svncpp/context_listener.hpp"
 
+//Qt
+#include <QtCore>
 
-class Listener : public svn::ContextListener
+
+class Listener : public QObject, public svn::ContextListener
 {
 public:
     Listener();

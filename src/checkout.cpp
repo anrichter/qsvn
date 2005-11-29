@@ -59,12 +59,12 @@ QString Checkout::path() const
 
 void Checkout::selectURLSlot()
 {
-    StatusText::instance()->outputMessage( QString( "not implemented yet") );
+    StatusText::instance()->outputMessage( QString( tr( "not implemented yet" ) ) );
 }
 
 void Checkout::selectPathSlot()
 {
-    QString directory = QFileDialog::getExistingDirectory( this, "Select a directory for working copy", editPath->text() );
+    QString directory = QFileDialog::getExistingDirectory( this, tr( "Select a directory for working copy" ), editPath->text() );
     if ( !directory.isEmpty() )
         editPath->setText( QDir::convertSeparators( directory ) );
 }
@@ -73,19 +73,19 @@ void Checkout::buttonOkClickedSlot()
 {
     if ( editURL->currentText().isEmpty() )
     {
-        QMessageBox::critical( this, "qsvn - Error", "You must specify an URL for checkout!" );
+        QMessageBox::critical( this, tr( "QSvn - Error" ), tr( "You must specify an URL for checkout!" ) );
         return;
     }
     if ( editPath->text().isEmpty() )
     {
-        QMessageBox::critical( this, "qsvn - Error", "You must specify a directory for checkout!" );
+        QMessageBox::critical( this, tr( "QSvn - Error" ), tr( "You must specify a directory for checkout!" ) );
         return;
     }
     QDir dir( editPath->text() );
     if ( !dir.exists() )
     {
-        if ( QMessageBox::question( this, "qsvn - Question",
-                                    QString( "<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>").arg( editPath->text() ),
+        if ( QMessageBox::question( this, tr( "QSvn - Question" ),
+                                    QString( tr( "<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>" ) ).arg( editPath->text() ),
                                     QMessageBox::Yes,
                                     QMessageBox::No ) == QMessageBox::Yes )
         {

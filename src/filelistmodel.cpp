@@ -52,10 +52,10 @@ FileListModel::~FileListModel()
 void FileListModel::initModel( )
 {
     QList< QVariant > rootData;
-    rootData.insert( FileListItem::FilenameColumn, "Filename" );
-    rootData.insert( FileListItem::StatusColumn, "Status" );
-    rootData.insert( FileListItem::RevisionColumn, "Revision" );
-    rootData.insert( FileListItem::AuthorColumn, "Author" );
+    rootData.insert( FileListItem::FilenameColumn, tr( "Filename" ) );
+    rootData.insert( FileListItem::StatusColumn, tr( "Status" ) );
+    rootData.insert( FileListItem::RevisionColumn, tr( "Revision" ) );
+    rootData.insert( FileListItem::AuthorColumn, tr( "Author" ) );
 
     rootItem = new FileListItem( rootData );
     sortOrder = Qt::AscendingOrder;
@@ -272,33 +272,33 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
             switch ( statusKind )
             {
                 case svn_wc_status_none:
-                    return QString( "none" );
+                    return QString( tr( "none" ) );
                 case svn_wc_status_unversioned:
-                    return QString( "unversioned" );
+                    return QString( tr( "unversioned" ) );
                 case svn_wc_status_normal:
-                    return QString( "normal" );
+                    return QString( tr( "normal" ) );
                 case svn_wc_status_added:
-                    return QString( "added" );
+                    return QString( tr( "added" ) );
                 case svn_wc_status_missing:
-                    return QString( "missing" );
+                    return QString( tr( "missing" ) );
                 case svn_wc_status_deleted:
-                    return QString( "deleted" );
+                    return QString( tr( "deleted" ) );
                 case svn_wc_status_replaced:
-                    return QString( "replaced" );
+                    return QString( tr( "replaced" ) );
                 case svn_wc_status_modified:
-                    return QString( "modified" );
+                    return QString( tr( "modified" ) );
                 case svn_wc_status_merged:
-                    return QString( "merged" );
+                    return QString( tr( "merged" ) );
                 case svn_wc_status_conflicted:
-                    return QString( "conflicted" );
+                    return QString( tr( "conflicted" ) );
                 case svn_wc_status_ignored:
-                    return QString( "ignored" );
+                    return QString( tr( "ignored" ) );
                 case svn_wc_status_obstructed:
-                    return QString( "obstructed" );
+                    return QString( tr( "obstructed" ) );
                 case svn_wc_status_external:
-                    return QString( "external" );
+                    return QString( tr( "external" ) );
                 case svn_wc_status_incomplete:
-                    return QString( "incomplete" );
+                    return QString( tr( "incomplete" ) );
                 default:
                     return item->data( FileListItem::StatusColumn ).toString();
             }

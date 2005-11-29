@@ -41,7 +41,8 @@ QString AddWorkingCopy::getSelectedDirectory() const
 
 void AddWorkingCopy::selectDirectorySlot()
 {
-    QString directory = QFileDialog::getExistingDirectory( this, "Select a working Directory", editDirectory->text(), QFileDialog::ShowDirsOnly );
+    QString directory = QFileDialog::getExistingDirectory( this, tr( "Select a working Directory" ), 
+                                                           editDirectory->text(), QFileDialog::ShowDirsOnly );
     if ( !directory.isEmpty() )
         editDirectory->setText( QDir::convertSeparators( directory ) );
 }

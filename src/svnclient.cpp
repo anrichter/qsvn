@@ -254,8 +254,7 @@ void SvnClient::completedMessage( const QString &path )
     QString _path = path;
     svn::Status status = singleStatus( _path );
     if ( status.isVersioned() )
-        StatusText::instance()->outputMessage( QString( "Completed at Revision %1\n" ).arg( status.entry().revision() ) );
+        StatusText::instance()->outputMessage( QString( tr( "Completed at Revision %1\n" ) ).arg( status.entry().revision() ) );
     else
-        StatusText::instance()->outputMessage( "Completed\n" );
-
+        StatusText::instance()->outputMessage( tr( "Completed\n" ) );
 }

@@ -85,40 +85,40 @@ QSvn::~QSvn()
 
 void QSvn::createActions()
 {
-    actionExit = new QAction( "E&xit", this );
+    actionExit = new QAction( tr( "E&xit" ), this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( exit() ) );
 
-    actionAddWorkingCopy = new QAction( "&Add...", this );
+    actionAddWorkingCopy = new QAction( tr( "&Add..." ), this );
     connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( doAddWorkingCopy() ) );
-    actionRemoveWorkingCopy = new QAction( "&Remove...", this );
+    actionRemoveWorkingCopy = new QAction( tr( "&Remove..." ), this );
     connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( doRemoveWorkingCopy() ) );
-    actionCheckoutWorkingCopy = new QAction( "&Checkout...", this );
+    actionCheckoutWorkingCopy = new QAction( tr( "&Checkout..." ), this );
     connect( actionCheckoutWorkingCopy, SIGNAL( triggered() ), this, SLOT( doCheckoutWorkingCopy() ) );
 
-    actionUpdate = new QAction( "&Update", this );
+    actionUpdate = new QAction( tr( "&Update" ), this );
     connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( doUpdate() ) );
-    actionCommit = new QAction( "&Commit...", this );
+    actionCommit = new QAction( tr( "&Commit..." ), this );
     connect( actionCommit, SIGNAL( triggered() ), this, SLOT( doCommit() ) );
-    actionAdd = new QAction( "&Add...", this );
+    actionAdd = new QAction( tr( "&Add..." ), this );
     connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
-    actionDelete = new QAction( "&Delete...", this );
+    actionDelete = new QAction( tr( "&Delete..." ), this );
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
-    actionRevert = new QAction( "Re&vert...", this );
+    actionRevert = new QAction( tr( "Re&vert..." ), this );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
 
-    actionDiff = new QAction( "&Diff...", this );
+    actionDiff = new QAction( tr( "&Diff..." ), this );
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
-    actionConfigureQSvn = new QAction( "&Configure QSvn...", this );
+    actionConfigureQSvn = new QAction( tr( "&Configure QSvn..." ), this );
     connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvn() ) );
 
-    actionHelpContents = new QAction( "&Contents...", this );
+    actionHelpContents = new QAction( tr( "&Contents..." ), this );
     connect( actionHelpContents, SIGNAL( triggered() ), this, SLOT( helpContents() ) );
-    actionHelpIndex = new QAction( "&Index...", this );
+    actionHelpIndex = new QAction( tr( "&Index..." ), this );
     connect( actionHelpIndex, SIGNAL( triggered() ), this, SLOT( helpIndex() ) );
-    actionAboutQSvn = new QAction( "&About QSvn...", this );
+    actionAboutQSvn = new QAction( tr( "&About QSvn..." ), this );
     connect( actionAboutQSvn, SIGNAL( triggered() ), this, SLOT( aboutQSvn() ) );
-    actionAboutQt = new QAction( "About &Qt...", this );
+    actionAboutQt = new QAction( tr( "About &Qt..." ), this );
     connect( actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
 }
 
@@ -234,7 +234,7 @@ void QSvn::doUpdate()
 
         if ( indexes.count() == 0 )
         {
-            QMessageBox::information( this, "QSvn", "You must select a Working Copy", QMessageBox::Ok );
+            QMessageBox::information( this, "QSvn", tr( "You must select a Working Copy" ), QMessageBox::Ok );
             return;
         }
 
@@ -249,7 +249,7 @@ void QSvn::doUpdate()
 
         if ( indexes.count() == 0 )
         {
-            QMessageBox::information( this, "QSvn", "You must select a File", QMessageBox::Ok );
+            QMessageBox::information( this, "QSvn", tr( "You must select a File" ), QMessageBox::Ok );
             return;
         }
 
@@ -258,7 +258,7 @@ void QSvn::doUpdate()
             updateSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
         }
     } else {
-        QMessageBox::information( this, "QSvn", "You must select a Working Copy", QMessageBox::Ok );
+        QMessageBox::information( this, "QSvn", tr( "You must select a Working Copy" ), QMessageBox::Ok );
     }
 
     if ( updateSet.count() > 0 )

@@ -46,7 +46,7 @@ void Configure::buttonOkClickSlot()
 
 void Configure::buttonSelectDiffViewerClickSlot()
 {
-    QString diffviewer = QFileDialog::getOpenFileName( this, "Select a Diff Viewer", editDiffViewer->text(), "" );
+    QString diffviewer = QFileDialog::getOpenFileName( this, tr( "Select a Diff Viewer" ), editDiffViewer->text(), "" );
     if ( !diffviewer.isNull() )
         editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
 }
