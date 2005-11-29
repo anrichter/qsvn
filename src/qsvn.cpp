@@ -124,34 +124,34 @@ void QSvn::createActions()
 
 void QSvn::createMenus()
 {
-    fileMenu = menuBar()->addMenu( tr( "&File" ) );
-    fileMenu->addAction( actionExit );
+    menuFile = menuBar()->addMenu( tr( "&File" ) );
+    menuFile->addAction( actionExit );
 
-    workingCopyMenu = menuBar()->addMenu( tr( "&Working Copy" ) );
-    workingCopyMenu->addAction( actionAddWorkingCopy );
-    workingCopyMenu->addAction( actionRemoveWorkingCopy );
-    workingCopyMenu->addAction( actionCheckoutWorkingCopy );
+    menuWorkingCopy = menuBar()->addMenu( tr( "&Working Copy" ) );
+    menuWorkingCopy->addAction( actionAddWorkingCopy );
+    menuWorkingCopy->addAction( actionRemoveWorkingCopy );
+    menuWorkingCopy->addAction( actionCheckoutWorkingCopy );
 
-    modifyMenu = menuBar()->addMenu( tr( "&Modify" ) );
-    modifyMenu->addAction( actionUpdate );
-    modifyMenu->addAction( actionCommit );
-    modifyMenu->addSeparator();
-    modifyMenu->addAction( actionAdd );
-    modifyMenu->addAction( actionDelete );
-    modifyMenu->addAction( actionRevert );
+    menuModify = menuBar()->addMenu( tr( "&Modify" ) );
+    menuModify->addAction( actionUpdate );
+    menuModify->addAction( actionCommit );
+    menuModify->addSeparator();
+    menuModify->addAction( actionAdd );
+    menuModify->addAction( actionDelete );
+    menuModify->addAction( actionRevert );
 
-    queryMenu = menuBar()->addMenu( tr( "&Query" ) );
-    queryMenu->addAction( actionDiff );
+    menuQuery = menuBar()->addMenu( tr( "&Query" ) );
+    menuQuery->addAction( actionDiff );
 
-    settingsMenu = menuBar()->addMenu( tr( "&Settings" ) );
-    settingsMenu->addAction( actionConfigureQSvn );
+    menuSettings = menuBar()->addMenu( tr( "&Settings" ) );
+    menuSettings->addAction( actionConfigureQSvn );
 
-    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
-    helpMenu->addAction( actionHelpContents );
-    helpMenu->addAction( actionHelpIndex );
-    helpMenu->addSeparator();
-    helpMenu->addAction( actionAboutQSvn );
-    helpMenu->addAction( actionAboutQt );
+    menuHelp = menuBar()->addMenu( tr( "&Help" ) );
+    menuHelp->addAction( actionHelpContents );
+    menuHelp->addAction( actionHelpIndex );
+    menuHelp->addSeparator();
+    menuHelp->addAction( actionAboutQSvn );
+    menuHelp->addAction( actionAboutQt );
 }
 
 void QSvn::createToolBar()

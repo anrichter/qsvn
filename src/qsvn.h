@@ -59,12 +59,12 @@ private:
     QAction* actionRevert;
 
     //Menus
-    QMenu *fileMenu;
-    QMenu *workingCopyMenu;
-    QMenu *modifyMenu;
-    QMenu *queryMenu;
-    QMenu *settingsMenu;
-    QMenu *helpMenu;
+    QMenu *menuFile;
+    QMenu *menuWorkingCopy;
+    QMenu *menuModify;
+    QMenu *menuQuery;
+    QMenu *menuSettings;
+    QMenu *menuHelp;
 
     WorkingCopyModel *workingCopyModel;
     FileListModel *fileListModel;
