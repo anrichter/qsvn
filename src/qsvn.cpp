@@ -88,11 +88,11 @@ void QSvn::createActions()
     actionExit = new QAction( tr( "E&xit" ), this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( exit() ) );
 
-    actionAddWorkingCopy = new QAction( tr( "&Add..." ), this );
+    actionAddWorkingCopy = new QAction( QIcon( ":menuadd.png" ), tr( "&Add..." ), this );
     connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( doAddWorkingCopy() ) );
-    actionRemoveWorkingCopy = new QAction( tr( "&Remove..." ), this );
+    actionRemoveWorkingCopy = new QAction( QIcon( ":menudelete.png" ), tr( "&Remove..." ), this );
     connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( doRemoveWorkingCopy() ) );
-    actionCheckoutWorkingCopy = new QAction( tr( "&Checkout..." ), this );
+    actionCheckoutWorkingCopy = new QAction( QIcon( ":menucheckout.png" ), tr( "&Checkout..." ), this );
     connect( actionCheckoutWorkingCopy, SIGNAL( triggered() ), this, SLOT( doCheckoutWorkingCopy() ) );
 
     actionUpdate = new QAction( QIcon( ":menuupdate.png" ), tr( "&Update" ), this );

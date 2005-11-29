@@ -10,6 +10,7 @@
     <file alias="modifiedfile.png">images/modifiedfile.png</file>
     <file alias="unknownfile.png">images/unknownfile.png</file>
 
+	<file alias="menucheckout.png">images/menucheckout.png</file>
 	<file alias="menuadd.png">images/menuadd.png</file>
 	<file alias="menucommit.png">images/menucommit.png</file>
 	<file alias="menudelete.png">images/menudelete.png</file>
