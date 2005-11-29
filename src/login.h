@@ -33,23 +33,23 @@ class Login : public QDialog, public Ui::Login
 {
     Q_OBJECT
 
-    public:
-        Login( QWidget *parent = 0 );
+public:
+    Login( QWidget *parent = 0 );
 
-        void setRealm( const QString &realm );
-        void setUsername( QString &username );
-        void setPassword( QString &password );
-        void setMaySave( bool &maySave );
+    void setRealm( const QString &realm );
+    void setUsername( QString &username );
+    void setPassword( QString &password );
+    void setMaySave( bool &maySave );
 
-        QString username();
-        QString password();
-        bool maySave();
+    QString username();
+    QString password();
+    bool maySave();
 
-    public slots:
+public slots:
 
-    private:
+private:
 
-    protected slots:
+protected slots:
 };
 
 #endif

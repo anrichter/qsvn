@@ -202,7 +202,9 @@ bool WorkingCopyModel::removeRows( int row, int count, const QModelIndex & paren
         if ( parent.isValid() )
         {
             static_cast< WorkingCopyItem* >( parent.internalPointer() )->removeChild( row );
-        } else {
+        }
+        else
+        {
             rootItem->removeChild( row );
         }
         return true;

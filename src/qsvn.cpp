@@ -232,7 +232,8 @@ void QSvn::doUpdate()
         {
             updateSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
         }
-    } else if ( treeViewFileList->hasFocus() )
+    }
+    else if ( treeViewFileList->hasFocus() )
     {
         QItemSelectionModel *selectionModel = treeViewFileList->selectionModel();
         QModelIndexList indexes = selectionModel->selectedIndexes();
@@ -247,7 +248,9 @@ void QSvn::doUpdate()
         {
             updateSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
         }
-    } else {
+    }
+    else
+    {
         QMessageBox::information( this, "QSvn", tr( "You must select a Working Copy" ), QMessageBox::Ok );
     }
 
@@ -279,7 +282,8 @@ void QSvn::doAdd()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
-        SvnClient::instance()->add( fileselector.selectedFileList() );
+        SvnClient::instance()->add
+        ( fileselector.selectedFileList() );
 }
 
 void QSvn::doDelete()
@@ -291,7 +295,8 @@ void QSvn::doDelete()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
-        SvnClient::instance()->remove( fileselector.selectedFileList() );
+        SvnClient::instance()->remove
+        ( fileselector.selectedFileList() );
 }
 
 void QSvn::doRevert()

@@ -46,16 +46,18 @@ public:
                                 svn_wc_notify_state_t prop_state,
                                 svn_revnum_t revision);
 #if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
+
     virtual void contextNotify( const svn_wc_notify_t *action );
 #endif
+
     virtual bool contextCancel();
     virtual bool contextGetLogMessage( QString &msg );
     virtual SslServerTrustAnswer contextSslServerTrustPrompt( const SslServerTrustData &data,
-                                                              apr_uint32_t &acceptedFailures );
+            apr_uint32_t &acceptedFailures );
     virtual bool contextSslClientCertPrompt( QString &certFile );
     virtual bool contextSslClientCertPwPrompt( QString &password,
-                                               const QString &realm,
-                                               bool &maySave );
+            const QString &realm,
+            bool &maySave );
 };
 
 #endif

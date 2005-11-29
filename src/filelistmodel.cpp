@@ -38,7 +38,7 @@ FileListModel::FileListModel( QObject *parent )
 }
 
 FileListModel::FileListModel( QObject *parent, ModelFor modelFor )
-    : QAbstractItemModel( parent )
+        : QAbstractItemModel( parent )
 {
     m_modelFor = modelFor;
     initModel();
@@ -65,32 +65,32 @@ bool FileListModel::isStatusForModel( svn_wc_status_kind status )
 {
     switch ( m_modelFor )
     {
-        case None:
+    case None:
+        return true;
+        break;
+    case Add:
+        if ( status == svn_wc_status_unversioned )
             return true;
-            break;
-        case Add:
-            if ( status == svn_wc_status_unversioned )
-                return true;
-            break;
-        case Commit:
-            if ( ( status == svn_wc_status_modified ) ||
-                   ( status == svn_wc_status_added ) ||
-                   ( status == svn_wc_status_deleted ) ||
-                   ( status == svn_wc_status_replaced ) )
-                return true;
-            break;
-        case Delete:
-            if ( ( status == svn_wc_status_normal ) ||
-                   ( status == svn_wc_status_merged ) )
-                return true;
-            break;
-        case Revert:
-            if ( ( status == svn_wc_status_modified ) ||
-                   ( status == svn_wc_status_added ) ||
-                   ( status == svn_wc_status_deleted ) ||
-                   ( status == svn_wc_status_replaced ) )
-                return true;
-            break;
+        break;
+    case Commit:
+        if ( ( status == svn_wc_status_modified ) ||
+                ( status == svn_wc_status_added ) ||
+                ( status == svn_wc_status_deleted ) ||
+                ( status == svn_wc_status_replaced ) )
+            return true;
+        break;
+    case Delete:
+        if ( ( status == svn_wc_status_normal ) ||
+                ( status == svn_wc_status_merged ) )
+            return true;
+        break;
+    case Revert:
+        if ( ( status == svn_wc_status_modified ) ||
+                ( status == svn_wc_status_added ) ||
+                ( status == svn_wc_status_deleted ) ||
+                ( status == svn_wc_status_replaced ) )
+            return true;
+        break;
     }
     return false;
 }
@@ -271,36 +271,36 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
             int statusKind = item->data( FileListItem::StatusColumn ).toInt();
             switch ( statusKind )
             {
-                case svn_wc_status_none:
-                    return QString( tr( "none" ) );
-                case svn_wc_status_unversioned:
-                    return QString( tr( "unversioned" ) );
-                case svn_wc_status_normal:
-                    return QString( tr( "normal" ) );
-                case svn_wc_status_added:
-                    return QString( tr( "added" ) );
-                case svn_wc_status_missing:
-                    return QString( tr( "missing" ) );
-                case svn_wc_status_deleted:
-                    return QString( tr( "deleted" ) );
-                case svn_wc_status_replaced:
-                    return QString( tr( "replaced" ) );
-                case svn_wc_status_modified:
-                    return QString( tr( "modified" ) );
-                case svn_wc_status_merged:
-                    return QString( tr( "merged" ) );
-                case svn_wc_status_conflicted:
-                    return QString( tr( "conflicted" ) );
-                case svn_wc_status_ignored:
-                    return QString( tr( "ignored" ) );
-                case svn_wc_status_obstructed:
-                    return QString( tr( "obstructed" ) );
-                case svn_wc_status_external:
-                    return QString( tr( "external" ) );
-                case svn_wc_status_incomplete:
-                    return QString( tr( "incomplete" ) );
-                default:
-                    return item->data( FileListItem::StatusColumn ).toString();
+            case svn_wc_status_none:
+                return QString( tr( "none" ) );
+            case svn_wc_status_unversioned:
+                return QString( tr( "unversioned" ) );
+            case svn_wc_status_normal:
+                return QString( tr( "normal" ) );
+            case svn_wc_status_added:
+                return QString( tr( "added" ) );
+            case svn_wc_status_missing:
+                return QString( tr( "missing" ) );
+            case svn_wc_status_deleted:
+                return QString( tr( "deleted" ) );
+            case svn_wc_status_replaced:
+                return QString( tr( "replaced" ) );
+            case svn_wc_status_modified:
+                return QString( tr( "modified" ) );
+            case svn_wc_status_merged:
+                return QString( tr( "merged" ) );
+            case svn_wc_status_conflicted:
+                return QString( tr( "conflicted" ) );
+            case svn_wc_status_ignored:
+                return QString( tr( "ignored" ) );
+            case svn_wc_status_obstructed:
+                return QString( tr( "obstructed" ) );
+            case svn_wc_status_external:
+                return QString( tr( "external" ) );
+            case svn_wc_status_incomplete:
+                return QString( tr( "incomplete" ) );
+            default:
+                return item->data( FileListItem::StatusColumn ).toString();
             }
         }
         else

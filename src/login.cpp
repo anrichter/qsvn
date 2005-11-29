@@ -26,7 +26,7 @@
 
 
 Login::Login( QWidget *parent )
-    : QDialog( parent)
+        : QDialog( parent)
 {
     setupUi( this );
 }

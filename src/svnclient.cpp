@@ -129,7 +129,8 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     return true;
 }
 
-bool SvnClient::add( const QStringList &addList )
+bool SvnClient::add
+    ( const QStringList &addList )
 {
     if ( addList.isEmpty() )
         return true;
@@ -139,7 +140,8 @@ bool SvnClient::add( const QStringList &addList )
         QString file;
         foreach( file, addList )
         {
-            svnClient->add( file, false );
+            svnClient->add
+            ( file, false );
         }
         completedMessage( file );
     }
@@ -189,7 +191,8 @@ bool SvnClient::commit( const QStringList &commitList, const QString &logMessage
     return true;
 }
 
-bool SvnClient::remove( const QStringList &removeList )
+bool SvnClient::remove
+    ( const QStringList &removeList )
 {
     if ( removeList.isEmpty() )
         return true;
@@ -197,7 +200,8 @@ bool SvnClient::remove( const QStringList &removeList )
     try
     {
         svn::Targets targets( removeList );
-        svnClient->remove( targets, false );
+        svnClient->remove
+        ( targets, false );
         completedMessage( QString( removeList.at( 0 ) ) );
     }
     catch ( svn::ClientException e )
@@ -244,7 +248,7 @@ bool SvnClient::diff( const QStringList &fileList )
     bool result = true;
     QString file;
     foreach( file, fileList )
-        result = result && diff( file );
+    result = result && diff( file );
 
     return result;
 }
