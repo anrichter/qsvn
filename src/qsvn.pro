@@ -64,16 +64,14 @@ CONFIG += qt
 
 RESOURCES = qsvn.qrc
 
-FORMS = forms\about.ui \
-        forms\addworkingcopy.ui \
+FORMS = forms\addworkingcopy.ui \
         forms\checkout.ui \
         forms\configure.ui \
         forms\fileselector.ui \
         forms\login.ui \
         forms\qsvn.ui
 
-HEADERS = about.h \
-          addworkingcopy.h \
+HEADERS = addworkingcopy.h \
           checkout.h \
           config.h \
           configure.h \
@@ -110,8 +108,7 @@ HEADERS = about.h \
           svncpp/version_check.hpp \
           svncpp/wc.hpp
 
-SOURCES = about.cpp \
-          addworkingcopy.cpp \
+SOURCES = addworkingcopy.cpp \
           checkout.cpp \
           config.cpp \
           configure.cpp \

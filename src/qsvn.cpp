@@ -20,7 +20,6 @@
 
 
 //QSvn
-#include "about.h"
 #include "addworkingcopy.h"
 #include "checkout.h"
 #include "config.h"
@@ -320,6 +319,14 @@ void QSvn::configureQSvn()
 
 void QSvn::aboutQSvn()
 {
-    About about( this );
-    about.exec();
+    QString aboutMsg = "";
+    aboutMsg += "<div align=\"center\">";
+    aboutMsg += "<h2>QSvn</h2>";
+    aboutMsg += "<br/>0.2.0";
+    aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
+    aboutMsg += "(c) 2004-2005 QSvn Team<br/>";
+    aboutMsg += "<a href=\"http://qsvn.berlios.de\">http://qsvn.berlios.de</p>";
+    aboutMsg += "<p>This Program is released under the terms of the<br/>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</p>";
+    aboutMsg += "</div>";
+    QMessageBox::about( this, "Caption", aboutMsg );
 }
