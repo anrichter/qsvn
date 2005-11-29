@@ -11,7 +11,7 @@ AppUpdatesURL=http://qsvn.berlios.de
 DefaultDirName={pf}\QSvn
 DefaultGroupName=QSvn
 AllowNoIcons=yes
-LicenseFile=..\COPYING
+LicenseFile=..\licenses\COPYING
 InfoBeforeFile=..\README
 InfoAfterFile=..\ChangeLog
 OutputBaseFilename=qsvn-0.2.0
@@ -26,7 +26,11 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 Source: ..\bin\qsvn.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\README; DestDir: {app}; Flags: ignoreversion
 Source: ..\ChangeLog; DestDir: {app}; Flags: ignoreversion
-Source: ..\COPYING; DestDir: {app}; Flags: ignoreversion
+Source: ..\licenses\COPYING; DestDir: {app}\licenses; Flags: ignoreversion
+Source: ..\licenses\APR.license; DestDir: {app}\licenses; Flags: ignoreversion
+Source: ..\licenses\BerkeleyDB.license; DestDir: {app}\licenses; Flags: ignoreversion
+Source: ..\licenses\OpenSSL.license; DestDir: {app}\licenses; Flags: ignoreversion
+Source: ..\licenses\Subversion.license; DestDir: {app}\licenses; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 Source: intl3_svn.dll; DestDir: {app}; Flags: ignoreversion
 Source: libapr.dll; DestDir: {app}; Flags: ignoreversion
