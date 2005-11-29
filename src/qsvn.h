@@ -55,7 +55,7 @@ private:
     QAction* actionAdd;
     QAction* actionDelete;
     QAction* actionDiff;
-    QAction* actionCheckout;
+    QAction* actionCheckoutWorkingCopy;
     QAction* actionRevert;
 
     //Menus
@@ -80,19 +80,19 @@ private slots:
     void exit();
 
     //WorkingCopy
-    void addWorkingCopy();
-    void removeWorkingCopy();
-    void checkout();
+    void doAddWorkingCopy();
+    void doRemoveWorkingCopy();
+    void doCheckoutWorkingCopy();
 
     //Modify
-    void update();
-    void commit();
-    void add();
+    void doUpdate();
+    void doCommit();
+    void doAdd();
     void doDelete();
-    void revert();
+    void doRevert();
 
     //Query
-    void diff();
+    void doDiff();
 
     //Settings
     void configureQSvn();

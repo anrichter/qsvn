@@ -89,25 +89,25 @@ void QSvn::createActions()
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( exit() ) );
 
     actionAddWorkingCopy = new QAction( "&Add...", this );
-    connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( addWorkingCopy() ) );
+    connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( doAddWorkingCopy() ) );
     actionRemoveWorkingCopy = new QAction( "&Remove...", this );
-    connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( removeWorkingCopy() ) );
-    actionCheckout = new QAction( "&Checkout...", this );
-    connect( actionCheckout, SIGNAL( triggered() ), this, SLOT( checkout() ) );
+    connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( doRemoveWorkingCopy() ) );
+    actionCheckoutWorkingCopy = new QAction( "&Checkout...", this );
+    connect( actionCheckoutWorkingCopy, SIGNAL( triggered() ), this, SLOT( doCheckoutWorkingCopy() ) );
 
     actionUpdate = new QAction( "&Update", this );
-    connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( update() ) );
+    connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( doUpdate() ) );
     actionCommit = new QAction( "&Commit...", this );
-    connect( actionCommit, SIGNAL( triggered() ), this, SLOT( commit() ) );
+    connect( actionCommit, SIGNAL( triggered() ), this, SLOT( doCommit() ) );
     actionAdd = new QAction( "&Add...", this );
-    connect( actionAdd, SIGNAL( triggered() ), this, SLOT( add() ) );
+    connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
     actionDelete = new QAction( "&Delete...", this );
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
     actionRevert = new QAction( "Re&vert...", this );
-    connect( actionRevert, SIGNAL( triggered() ), this, SLOT( revert() ) );
+    connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
 
     actionDiff = new QAction( "&Diff...", this );
-    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( diff() ) );
+    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
     actionConfigureQSvn = new QAction( "&Configure QSvn...", this );
     connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvn() ) );
@@ -130,7 +130,7 @@ void QSvn::createMenus()
     workingCopyMenu = menuBar()->addMenu( tr( "&Working Copy" ) );
     workingCopyMenu->addAction( actionAddWorkingCopy );
     workingCopyMenu->addAction( actionRemoveWorkingCopy );
-    workingCopyMenu->addAction( actionCheckout );
+    workingCopyMenu->addAction( actionCheckoutWorkingCopy );
 
     modifyMenu = menuBar()->addMenu( tr( "&Modify" ) );
     modifyMenu->addAction( actionUpdate );
@@ -185,7 +185,7 @@ void QSvn::exit()
     qApp->exit( 0 );
 }
 
-void QSvn::addWorkingCopy()
+void QSvn::doAddWorkingCopy()
 {
     AddWorkingCopy addWorkingCopy( this );
     if ( addWorkingCopy.exec() )
@@ -194,7 +194,7 @@ void QSvn::addWorkingCopy()
     }
 }
 
-void QSvn::removeWorkingCopy()
+void QSvn::doRemoveWorkingCopy()
 {
     if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Would you really remove this Working Copy?" ),
                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
@@ -211,7 +211,7 @@ void QSvn::removeWorkingCopy()
     }
 }
 
-void QSvn::checkout()
+void QSvn::doCheckoutWorkingCopy()
 {
     Checkout checkout( this );
     if ( checkout.exec() )
@@ -223,7 +223,7 @@ void QSvn::checkout()
     }
 }
 
-void QSvn::update()
+void QSvn::doUpdate()
 {
     QSet<QString> updateSet;
 
@@ -268,7 +268,7 @@ void QSvn::update()
     }
 }
 
-void QSvn::commit()
+void QSvn::doCommit()
 {
     FileSelector fileselector( this, FileListModel::Commit );
     if ( isFileListSelected() )
@@ -280,7 +280,7 @@ void QSvn::commit()
         SvnClient::instance()->commit( fileselector.selectedFileList(), fileselector.logMessage() );
 }
 
-void QSvn::add()
+void QSvn::doAdd()
 {
     FileSelector fileselector( this, FileListModel::Add );
     if ( isFileListSelected() )
@@ -304,7 +304,7 @@ void QSvn::doDelete()
         SvnClient::instance()->remove( fileselector.selectedFileList() );
 }
 
-void QSvn::revert()
+void QSvn::doRevert()
 {
     FileSelector fileselector( this, FileListModel::Revert );
     if ( isFileListSelected() )
@@ -316,7 +316,7 @@ void QSvn::revert()
         SvnClient::instance()->revert( fileselector.selectedFileList() );
 }
 
-void QSvn::diff()
+void QSvn::doDiff()
 {
     SvnClient::instance()->diff( selectedFiles() );
 }
