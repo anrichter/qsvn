@@ -30,6 +30,7 @@ AddWorkingCopy::AddWorkingCopy( QWidget *parent )
         : QDialog( parent )
 {
     setupUi( this );
+    setWindowIcon( QIcon( ":menuadd.png" ) );
 
     QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
 }

@@ -40,17 +40,21 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     {
         case FileListModel::Add:
             setWindowTitle( tr( "Add") );
+            setWindowIcon( QIcon( ":menuadd.png" ) );
             hideGroupBoxLogMessage();
             break;
         case FileListModel::Commit:
             setWindowTitle( tr( "Commit") );
+            setWindowIcon( QIcon( ":menucommit.png" ) );
             break;
         case FileListModel::Delete:
             setWindowTitle( tr( "Delete") );
+            setWindowIcon( QIcon( ":menudelete.png" ) );
             hideGroupBoxLogMessage();
             break;
         case FileListModel::Revert:
             setWindowTitle( tr( "Revert") );
+            setWindowIcon( QIcon( ":menurevert.png" ) );
             hideGroupBoxLogMessage();
             break;
     }
