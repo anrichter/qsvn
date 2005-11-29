@@ -60,7 +60,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     treeViewFileList->header()->setClickable( true );
 
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
-    connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff() ) );
+    connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
 
     Config::instance()->restoreMainWindow( this );
 }
