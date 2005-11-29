@@ -42,6 +42,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
         : QMainWindow( parent, flags )
 {
     setupUi( this );
+    setWindowIcon( QIcon( ":qsvn.png" ) );
 
     createActions();
     createMenus();
@@ -189,19 +190,16 @@ void QSvn::doAddWorkingCopy()
 
 void QSvn::doRemoveWorkingCopy()
 {
-    if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Would you really remove this Working Copy?" ),
-                                QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+    QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
+    QModelIndexList indexes = selectionModel->selectedIndexes();
+
+    for ( int i = 0; i < indexes.count(); i++ )
     {
-
-        QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-
-        for ( int i = 0; i < indexes.count(); i++ )
-        {
+        if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Would you really remove this Working Copy?" ),
+                                    QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
             workingCopyModel->removeRow( indexes.at( i ).row() );
-        }
-        activateWorkingCopy( QModelIndex() );
     }
+    activateWorkingCopy( QModelIndex() );
 }
 
 void QSvn::doCheckoutWorkingCopy()

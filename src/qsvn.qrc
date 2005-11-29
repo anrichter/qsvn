@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-    <file alias="folder.png">images/folder.png</file>
+	<file alias="qsvn.png">images/qsvn.png</file>
+	<file alias="folder.png">images/folder.png</file>
     <file alias="unknownfolder.png">images/unknownfolder.png</file>
 
     <file alias="file.png">images/file.png</file>

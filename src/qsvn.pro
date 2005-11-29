@@ -24,6 +24,7 @@ win32 {
   MOC_DIR = moc
   UI_DIR = ui
   OBJECTS_DIR = obj
+  RC_FILE = qsvn.rc
 
   LIBS += -lintl3_svn \
           -llibapr \
