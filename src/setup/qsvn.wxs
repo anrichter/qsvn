@@ -32,6 +32,15 @@
 						<File Id="QtCore4" Name="QTCORE4.DLL" LongName="QtCore4.dll" DiskId="1" src="QtCore4.dll"  Vital="yes"/>
 						<File Id="QtGui4" Name="QTGUI4.DLL" LongName="QtGui4.dll" DiskId="1" src="QtGui4.dll" Vital="yes"/>
 					</Component>
+					<Directory Id="LICENSES" Name="LICENSES" LongName="licenses">
+						<Component Id="LicenseFiles" Guid="4FDDC1C3-BD71-4a16-AFE9-041D2F8D8DD6">
+							<File Id="APRlicense" Name="APR.LIC" LongName="APR.license" DiskId="1" src="..\licenses\APR.license" />
+							<File Id="BerkeleyDBlicense" Name="BERKEL.LIC" LongName="BerkeleyDB.license" DiskId="1" src="..\licenses\BerkeleyDB.license" />
+							<File Id="QSvnlicense" Name="COPYING" LongName="COPYING" DiskId="1" src="..\licenses\COPYING" />
+							<File Id="OpenSSLlicense" Name="OPENSSL.LIC" LongName="OpenSSL.license" DiskId="1" src="..\licenses\OpenSSL.license" />
+							<File Id="Subversionlicense" Name="SUBVERS.LIC" LongName="Subversion.license" DiskId="1" src="..\licenses\Subversion.license" />
+						</Component>
+					</Directory>
 				</Directory>
 			</Directory>
 			<Directory Id="ProgramMenuFolder" Name="PMenu" LongName="Programs">
@@ -44,6 +53,7 @@
            ConfigurableDirectory="INSTALLDIR">
 			<ComponentRef Id="QSvnMainfiles" />
 			<ComponentRef Id="QtLib4" />
+			<ComponentRef Id="LicenseFiles" />
 		</Feature>
 		<Icon Id="QSvn.exe" src="..\bin\qsvn.exe" />
 	</Product>
