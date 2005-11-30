@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+
+	<Product Name="QSvn 0.2.0" Id="C9A51138-7A96-41DC-9395-C4FD34317836" 
+		  Language="1033"
+          Version="0.2.0"
+          Manufacturer="Andreas Richter">
+
+		<Package Id="4F784DF6-7D81-4B83-B1DE-A1961A9E0AB1"
+			Keywords="Installer"
+            Description="QSvn 0.2.0 Installer"
+            Comments="This Package will install QSvn 0.2.0 on your Computer"
+            Manufacturer="Andreas Richter"
+            InstallerVersion="200"
+            Languages="1033"
+            SummaryCodepage="1252"
+            Compressed="yes" />
+
+		<Media Id="1" Cabinet="qsvn.cab" EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder" Name="PFiles">
+				<Directory Id="INSTALLDIR" Name="QSVN" LongName="QSvn">
+					
+					<Component Id="QSvnMainfiles" Guid="6B49681F-8A1C-4FEF-9F33-BC849F114277">
+						<File Id="qsvn" Name="QSVN.EXE" LongName="QSvn.exe" DiskId="1" src="..\bin\qsvn.exe" Vital="yes"/>
+						<File Id="readme" Name="README" LongName="README" DiskId="1" src="..\README" />
+						<Shortcut Id="startmenuQSvn" Directory="ProgramMenuDir" Name="QSVN"
+							LongName="QSvn" Target="MainProgram" WorkingDirectory="INSTALLDIR"
+							Icon="QSvn.exe" IconIndex="0" />
+						<Shortcut Id="desktopQSvn" Directory="DesktopFolder" Name="QSvn"
+						  LongName="QSvn" Target="MainProgram" WorkingDirectory="INSTALLDIR"
+						  Icon="QSvn.exe" IconIndex="0" />
+					</Component>
+					
+					<Component Id="QtLib4" Guid="8C13219D-0480-408E-BAFB-A97B72667CE7">
+						<File Id="QtCore4" Name="QTCORE4.DLL" LongName="QtCore4.dll" DiskId="1" src="QtCore4.dll"  Vital="yes"/>
+						<File Id="QtGui4" Name="QTGUI4.DLL" LongName="QtGui4.dll" DiskId="1" src="QtGui4.dll" Vital="yes"/>
+					</Component>
+					
+					<Component Id="SubversionLib" Guid="ECC9F3F1-1A1D-44c6-9DD3-0584BF5B0A1B">
+						<File Id="intl3_svn" Name="INTL3_SV.dll" LongName="intl3_svn.dll" DiskId="1" src="intl3_svn.dll" />
+						<File Id="libapr" Name="LIBAPR.DLL" LongName="libapr.dll" DiskId="1" src="libapr.dll" />
+						<File Id="libapriconv" Name="LIBAPRIC.DLL" LongName="libapriconv.dll" DiskId="1" src="libapriconv.dll" />
+						<File Id="libaprutil" Name="LIBAPRUT.DLL" LongName="libaprutil.dll" DiskId="1" src="libaprutil.dll" />
+						<File Id="libdb43" Name="LIBDB43.DLL" LongName="libdb43.dll" DiskId="1" src="libdb43.dll" />
+						<File Id="libeay32" Name="LIBEAY32.DLL" LongName="libeay32.dll" DiskId="1" src="libeay32.dll" />
+						<File Id="ssleay32" Name="SSLEAY32.DLL" LongName="ssleay32.dll" DiskId="1" src="ssleay32.dll" />
+					</Component>
+					
+					<Directory Id="LICENSES" Name="LICENSES" LongName="licenses">
+						<Component Id="LicenseFiles" Guid="4FDDC1C3-BD71-4a16-AFE9-041D2F8D8DD6">
+							<File Id="APRlicense" Name="APR.LIC" LongName="APR.license" DiskId="1" src="..\licenses\APR.license" />
+							<File Id="BerkeleyDBlicense" Name="BERKEL.LIC" LongName="BerkeleyDB.license" DiskId="1" src="..\licenses\BerkeleyDB.license" />
+							<File Id="QSvnlicense" Name="COPYING" LongName="COPYING" DiskId="1" src="..\licenses\COPYING" />
+							<File Id="OpenSSLlicense" Name="OPENSSL.LIC" LongName="OpenSSL.license" DiskId="1" src="..\licenses\OpenSSL.license" />
+							<File Id="Subversionlicense" Name="SUBVERS.LIC" LongName="Subversion.license" DiskId="1" src="..\licenses\Subversion.license" />
+						</Component>
+					</Directory>
+					
+				</Directory>
+			</Directory>
+			<Merge Id="CRT" Language="0" DiskId="1" src="Microsoft_VC80_CRT_x86.msm" />
+			<Merge Id="CRT Policy" Language="0" DiskId="1" src="policy_8_0_Microsoft_VC80_CRT_x86.msm" />
+
+			<Directory Id="ProgramMenuFolder" Name="PMenu" LongName="Programs">
+				<Directory Id="ProgramMenuDir" Name="QSvn" />
+			</Directory>
+
+			<Directory Id="DesktopFolder" Name="Desktop" />
+		</Directory>
+
+		<Feature Id="Complete" Title="QSvn" Description="The complete Installation" 
+		   Display="expand" Level="1"
+           ConfigurableDirectory="INSTALLDIR">
+			<Feature Id="MainProgram" Title="Main Program Files" Description="This install the Main Program Files." Level="1">
+				<ComponentRef Id="QSvnMainfiles" />
+				<ComponentRef Id="SubversionLib" />
+				<ComponentRef Id="LicenseFiles" />
+			</Feature>
+			<Feature Id="QtLibs" Title="Qt4 Libraries" Description="The will install necessary Qt4 Libraries." Level="1">
+				<ComponentRef Id="QtLib4" />
+			</Feature>
+			<Feature Id="MsRedistributable" Title="Microsoft Redistributable" Description="This Feature will install the Microsoft VC8.0 CRT. These are necessary for run QSvn on your Computer." Level="1">
+				<MergeRef Id="CRT"/>
+				<MergeRef Id="CRT Policy" />
+			</Feature>
+		</Feature>
+
+		<UIRef Id="WixUI" />
+
+		<Icon Id="QSvn.exe" src="..\bin\qsvn.exe" />
+	</Product>
+</Wix>
