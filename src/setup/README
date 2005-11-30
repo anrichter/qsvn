@@ -10,8 +10,8 @@ libdb43.dll
 libeay32.dll
 ssleay32.dll
 
-msvcp80.dll
-msvcr80.dll
+Microsoft_VC80_CRT_x86.msm
+policy_8_0_Microsoft_VC80_CRT_x86.msm
 
 QtCore4.dll
 QtGui4.dll

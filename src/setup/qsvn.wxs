@@ -52,6 +52,8 @@
 					</Directory>
 				</Directory>
 			</Directory>
+			<Merge Id="CRT" Language="0" DiskId="1" src="Microsoft_VC80_CRT_x86.msm" />
+			<Merge Id="CRT Policy" Language="0" DiskId="1" src="policy_8_0_Microsoft_VC80_CRT_x86.msm" />
 			<Directory Id="ProgramMenuFolder" Name="PMenu" LongName="Programs">
 				<Directory Id="ProgramMenuDir" Name="QSVN" LongName="QSvn" />
 			</Directory>
@@ -64,6 +66,8 @@
 			<ComponentRef Id="QtLib4" />
 			<ComponentRef Id="SubversionLib" />
 			<ComponentRef Id="LicenseFiles" />
+			<MergeRef Id='CRT' />
+			<MergeRef Id='CRT Policy' />
 		</Feature>
 		<Icon Id="QSvn.exe" src="..\bin\qsvn.exe" />
 	</Product>
