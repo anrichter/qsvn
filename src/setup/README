@@ -22,4 +22,4 @@ Then you will install the WiX toolkit found at http://wix.sf.net.
 Compile the msi with:
 
 candle qsvn.wxs
-light -out qsvn.msi qsvn.wxobj \path\to\wix\ui\wixui_mondo.xlib
+light -out qsvn.msi qsvn.wixobj \path\to\wix\ui\wixui_mondo.xlib

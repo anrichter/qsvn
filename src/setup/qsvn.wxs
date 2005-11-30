@@ -64,7 +64,7 @@
 			<Merge Id="CRT Policy" Language="0" DiskId="1" src="policy_8_0_Microsoft_VC80_CRT_x86.msm" />
 
 			<Directory Id="ProgramMenuFolder" Name="PMenu" LongName="Programs">
-				<Directory Id="ProgramMenuDir" Name='Foobar10' LongName="Foobar 1.0" />
+				<Directory Id="ProgramMenuDir" Name="QSvn" />
 			</Directory>
 
 			<Directory Id="DesktopFolder" Name="Desktop" />
