@@ -1,0 +1,47 @@
+To compile QSvn you need Qt4. If your Distribution have Qt4 Packages please install it. 
+Otherwise follow the Setup Development Environment instructions.
+
+1. Setup Development Environment
+================================
+
+1.1. Install Qt4
+----------------
+
+- download Qt 4.0.1 tarball from Qt X11 Downloadpage 
+- untar it into a temporary directory. 
+- cd into these directory. 
+- configure Qt4 
+- build Qt4 
+- login as root 
+- install Qt4 
+
+cd /tmp
+tar xvzf qt-x11-opensource-src-4.0.1.tar.gz
+cd qt-x11-opensource-src-4.0.1
+./configure
+make
+su
+make install
+
+1.2. Setup environment
+----------------------
+
+- add /usr/local/Trolltech/Qt-4.0.1/bin/ to your PATH variable 
+- unset QTDIR if you have installed Qt3 
+- for daily usage you can create a set_env script and source it before you work with Qt4 
+
+export QTDIR=
+export PATH=/usr/local/Trolltech/Qt-4.0.1/bin/:$PATH
+PS1="[qt4]$PS1"
+
+2. Compile QSvn
+===============
+
+- cd into qsvn source dir.
+- run Qt4's qmake
+- run make
+
+cd /path/to/qsvn/source/
+qmake qsvn.pro
+make
+
