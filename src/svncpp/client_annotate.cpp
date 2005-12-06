@@ -31,6 +31,7 @@
 
 // svncpp
 #include "client.hpp"
+#include "svncpp_defines.hpp"
 
 
 namespace svn
@@ -63,11 +64,7 @@ namespace svn
     AnnotatedFile * entries = new AnnotatedFile;
     svn_error_t *error;
     error = svn_client_blame (
-#if QT_VERSION < 0x040000
-      path.path().utf8(),
-#else
-      path.path().toUtf8(),
-#endif
+      path.path().TOUTF8(),
       revisionStart.revision (),
       revisionEnd.revision (),
       annotateReceiver,

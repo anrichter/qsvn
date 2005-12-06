@@ -35,7 +35,7 @@
 #include "exception.hpp"
 #include "pool.hpp"
 #include "status.hpp"
-
+#include "svncpp_defines.hpp"
 
 namespace svn
 {
@@ -51,11 +51,7 @@ namespace svn
 
     svn_error_t * error;
     error = svn_client_cat2 (stream,
-#if QT_VERSION < 0x040000
-                             path.path().utf8(),
-#else
-                             path.path().toUtf8(),
-#endif
+                             path.path().TOUTF8(),
                              peg_revision.revision (),
                              revision.revision (),
                              *m_context,
@@ -99,11 +95,7 @@ namespace svn
     {
       apr_status_t status =
         apr_file_open (&file,
-#if QT_VERSION < 0x040000
-                       dstPath.path().utf8(),
-#else
-                       dstPath.path().toUtf8(),
-#endif
+                       dstPath.path().TOUTF8(),
                        APR_WRITE | APR_CREATE |
                        APR_TRUNCATE | APR_BINARY,
                        APR_OS_DEFAULT,
@@ -134,13 +126,8 @@ namespace svn
       svn_error_t * error =
         svn_io_open_unique_file (
           &file, &unique_name,
-#if QT_VERSION < 0x040000
-          tempPath.path().utf8(), // path
-          ext.utf8 (), // suffix
-#else
-          tempPath.path().toUtf8(),
-          ext.toUtf8(),
-#endif
+          tempPath.path().TOUTF8(), // path
+          ext.TOUTF8(), // suffix
           0, // dont delete on close
           pool);
 
@@ -173,11 +160,7 @@ namespace svn
     {
       svn_error_t * error = svn_client_cat (
         stream,
-#if QT_VERSION < 0x040000
-        path.path().utf8(),
-#else
-        path.path().toUtf8(),
-#endif
+        path.path().TOUTF8(),
         revision.revision (),
         *m_context, pool);
       if (error != 0)

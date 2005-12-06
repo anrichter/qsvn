@@ -36,7 +36,7 @@
 #include "client.hpp"
 #include "dirent.hpp"
 #include "exception.hpp"
-
+#include "svncpp_defines.hpp"
 
 static int
 compare_items_as_paths (const svn_sort__item_t *a, const svn_sort__item_t *b)
@@ -57,11 +57,7 @@ namespace svn
     apr_hash_t * hash;
     svn_error_t * error =
       svn_client_ls (&hash,
-#if QT_VERSION < 0x040000
-                     pathOrUrl.utf8(),
-#else
-                     pathOrUrl.toUtf8(),
-#endif
+                     pathOrUrl.TOUTF8(),
                      revision,
                      recurse,
                      *m_context,

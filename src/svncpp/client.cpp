@@ -29,6 +29,7 @@
 // svncpp
 #include "client.hpp"
 #include "svn_opt.h"
+#include "svncpp_defines.hpp"
 
 namespace svn
 {
@@ -58,11 +59,7 @@ namespace svn
         Revision&start,Revision&end)
   {
     Pool pool;
-#if QT_VERSION < 0x040000
-    int n = svn_opt_parse_revision(start,end,revstring.utf8(),pool);
-#else
-    int n = svn_opt_parse_revision(start,end,revstring.toUtf8(),pool);
-#endif
+    int n = svn_opt_parse_revision(start,end,revstring.TOUTF8(),pool);
 
     if (n<0) {
         start = Revision::UNDEFINED;

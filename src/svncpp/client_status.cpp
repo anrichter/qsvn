@@ -41,6 +41,7 @@
 #include "targets.hpp"
 #include "info_entry.hpp"
 #include "url.hpp"
+#include "svncpp_defines.hpp"
 
 namespace svn
 {
@@ -132,11 +133,7 @@ namespace svn
     baton.pool = pool;
     error = svn_client_status2 (
       &revnum,      // revnum
-#if QT_VERSION < 0x040000
-      path.utf8(),         // path
-#else
-      path.toUtf8(),
-#endif
+      path.TOUTF8(),         // path
       rev,
       StatusEntriesFunc, // status func
       &baton,        // status baton
@@ -187,13 +184,8 @@ namespace svn
     url += dirEntry.name();
 
 
-#if QT_VERSION < 0x040000
-    e->name = apr_pstrdup(pool,dirEntry.name().utf8());
-    e->url = apr_pstrdup(pool,url.utf8());
-#else
-    e->name = apr_pstrdup(pool,dirEntry.name().toUtf8());
-    e->url = apr_pstrdup(pool,url.toUtf8());
-#endif
+    e->name = apr_pstrdup(pool,dirEntry.name().TOUTF8());
+    e->url = apr_pstrdup(pool,url.TOUTF8());
     e->revision = dirEntry.createdRev ();
     e->kind = dirEntry.kind ();
     e->schedule = svn_wc_schedule_normal;
@@ -233,13 +225,8 @@ namespace svn
     url += "/";
     url += infoEntry.Name();
 
-#if QT_VERSION < 0x040000
-    e->name = apr_pstrdup(pool,infoEntry.Name().utf8());
-    e->url = apr_pstrdup(pool,url.utf8());
-#else
-    e->name = apr_pstrdup(pool,infoEntry.Name().toUtf8());
-    e->url = apr_pstrdup(pool,url.toUtf8());
-#endif
+    e->name = apr_pstrdup(pool,infoEntry.Name().TOUTF8());
+    e->url = apr_pstrdup(pool,url.TOUTF8());
     e->revision = infoEntry.revision();
     e->kind = infoEntry.kind ();
     e->schedule = svn_wc_schedule_normal;
@@ -264,17 +251,10 @@ namespace svn
         svn_lock_t*l =
             static_cast<svn_lock_t *> (
             apr_pcalloc (pool, sizeof (svn_lock_t)));
-#if QT_VERSION < 0x040000
-        l->token = apr_pstrdup(pool,infoEntry.lockEntry().Token().utf8());
-        l->path = apr_pstrdup(pool,path.utf8());
-        l->owner = apr_pstrdup(pool,infoEntry.lockEntry().Owner().utf8());
-        l->comment = apr_pstrdup(pool,infoEntry.lockEntry().Comment().utf8());
-#else
-        l->token = apr_pstrdup(pool,infoEntry.lockEntry().Token().toUtf8());
-        l->path = apr_pstrdup(pool,path.toUtf8());
-        l->owner = apr_pstrdup(pool,infoEntry.lockEntry().Owner().toUtf8());
-        l->comment = apr_pstrdup(pool,infoEntry.lockEntry().Comment().toUtf8());
-#endif
+        l->token = apr_pstrdup(pool,infoEntry.lockEntry().Token().TOUTF8());
+        l->path = apr_pstrdup(pool,path.TOUTF8());
+        l->owner = apr_pstrdup(pool,infoEntry.lockEntry().Owner().TOUTF8());
+        l->comment = apr_pstrdup(pool,infoEntry.lockEntry().Comment().TOUTF8());
         l->creation_date = infoEntry.lockEntry().Date();
         l->expiration_date = infoEntry.lockEntry().Expiration();
     } else {
@@ -344,11 +324,7 @@ namespace svn
 
     error = svn_client_status2 (
       &revnum,      // revnum
-#if QT_VERSION < 0x040000
-      path.utf8(),         // path
-#else
-      path.toUtf8(),
-#endif
+      path.TOUTF8(),         // path
       rev,
       StatusEntriesFunc, // status func
       &baton,        // status baton
@@ -447,20 +423,12 @@ namespace svn
     svn_opt_revision_t pegr;
     const char *truepath;
     error = svn_opt_parse_path (&pegr, &truepath,
-#if QT_VERSION < 0x040000
-                                 path.utf8(),
-#else
-                                 path.toUtf8(),
-#endif
+                                 path.TOUTF8(),
                                  pool);
     if (error != NULL)
       throw ClientException (error);
 
-#if QT_VERSION < 0x040000
-    if ((svn_path_is_url (path.utf8())) && (pegr.kind == svn_opt_revision_unspecified))
-#else
-    if ((svn_path_is_url (path.toUtf8())) && (pegr.kind == svn_opt_revision_unspecified))
-#endif
+    if ((svn_path_is_url (path.TOUTF8())) && (pegr.kind == svn_opt_revision_unspecified))
         pegr.kind = svn_opt_revision_head;
 
     error =

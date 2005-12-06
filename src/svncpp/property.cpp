@@ -33,6 +33,7 @@
 #include "pool.hpp"
 #include "property.hpp"
 #include "revision.hpp"
+#include "svncpp_defines.hpp"
 
 
 namespace svn
@@ -108,11 +109,7 @@ namespace svn
 
     apr_hash_t *props;
     svn_client_propget (&props,
-#if QT_VERSION < 0x040000
-                        name.utf8(),
-#else
-                        name.toUtf8(),
-#endif
+                        name.TOUTF8(),
                         m_path.cstr(),
                         revision,
                         false, // recurse
@@ -142,19 +139,11 @@ namespace svn
     Pool pool;
 
     const svn_string_t * propval
-#if QT_VERSION < 0x040000
-        = svn_string_create (value.utf8(), pool);
-#else
-        = svn_string_create (value.toUtf8(), pool);
-#endif
+        = svn_string_create (value.TOUTF8(), pool);
 
     svn_error_t * error =
       svn_client_propset (
-#if QT_VERSION < 0x040000
-                          name.utf8(),
-#else
-                          name.toUtf8(),
-#endif
+                          name.TOUTF8(),
                           propval, m_path.cstr (),
                           false, pool);
     if(error != NULL)
@@ -171,11 +160,7 @@ namespace svn
 
     svn_error_t * error;
     error = svn_client_propset (
-#if QT_VERSION < 0x040000
-                                  name.utf8(),
-#else
-                                  name.toUtf8(),
-#endif
+                                  name.TOUTF8(),
                                   0, // value = NULL
                                   m_path.cstr (),
                                   false, //dont recurse

@@ -34,6 +34,7 @@
 #include "exception.hpp"
 #include "pool.hpp"
 #include "targets.hpp"
+#include "svncpp_defines.hpp"
 
 namespace svn
 {
@@ -49,11 +50,7 @@ namespace svn
     svn_revnum_t revnum = 0;
     svn_error_t * error =
       svn_client_checkout (&revnum,
-#if QT_VERSION < 0x040000
-                           url.utf8(),
-#else
-                           url.toUtf8(),
-#endif
+                           url.TOUTF8(),
                            destPath.cstr(),
                            revision.revision (),
                            recurse,
@@ -340,11 +337,7 @@ namespace svn
     svn_error_t * error =
       svn_client_switch (&revnum,
                          path.cstr(),
-#if QT_VERSION < 0x040000
-                         url.utf8(),
-#else
-                         url.toUtf8(),
-#endif
+                         url.TOUTF8(),
                          revision.revision (),
                          recurse,
                          *m_context,
@@ -369,11 +362,7 @@ namespace svn
     svn_error_t * error =
       svn_client_import (&commit_info,
                          path.cstr (),
-#if QT_VERSION < 0x040000
-                         url.utf8(),
-#else
-                         url.toUtf8(),
-#endif
+                         url.TOUTF8(),
                          !recurse,
                          *m_context,
                          pool);
@@ -417,13 +406,8 @@ namespace svn
     Pool pool;
     svn_error_t * error =
       svn_client_relocate (path.cstr (),
-#if QT_VERSION < 0x040000
-                         from_url.utf8(),
-                         to_url.utf8(),
-#else
-                         from_url.toUtf8(),
-                         to_url.toUtf8(),
-#endif
+                         from_url.TOUTF8(),
+                         to_url.TOUTF8(),
                          recurse,
                          *m_context,
                          pool);

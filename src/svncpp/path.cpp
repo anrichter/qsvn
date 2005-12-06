@@ -33,6 +33,7 @@
 #include "path.hpp"
 #include "pool.hpp"
 #include "url.hpp"
+#include "svncpp_defines.hpp"
 
 
 namespace svn
@@ -61,11 +62,7 @@ namespace svn
       m_path = "";
     else
     {
-#if QT_VERSION < 0x040000
-      const char * int_path = svn_path_internal_style (path.utf8(), pool.pool () );
-#else
-      const char * int_path = svn_path_internal_style (path.toUtf8(), pool.pool () );
-#endif
+      const char * int_path = svn_path_internal_style (path.TOUTF8(), pool.pool () );
       m_path = QString::fromUtf8(int_path);
     }
   }
@@ -80,7 +77,7 @@ namespace svn
   const QCString
   Path::cstr() const
   {
-    return m_path.utf8();
+    return m_path.TOUTF8();
   }
 #else
   const QByteArray
@@ -113,21 +110,13 @@ namespace svn
     if (Url::isValid (m_path))
     {
       const char * newPath =
-#if QT_VERSION < 0x040000
-          svn_path_url_add_component (m_path.utf8(), component.utf8(), pool);
-#else
-          svn_path_url_add_component (m_path.toUtf8(), component.toUtf8(), pool);
-#endif
+          svn_path_url_add_component (m_path.TOUTF8(), component.TOUTF8(), pool);
       m_path = QString::fromUtf8(newPath);
     }
     else
     {
       svn_stringbuf_t * pathStringbuf =
-#if QT_VERSION < 0x040000
-          svn_stringbuf_create (m_path.utf8(), pool);
-#else
-          svn_stringbuf_create (m_path.toUtf8(), pool);
-#endif
+          svn_stringbuf_create (m_path.TOUTF8(), pool);
 
       svn_path_add_component (pathStringbuf,
 #if QT_VERSION < 0x040000
@@ -156,11 +145,7 @@ namespace svn
     const char * cdirpath;
     const char * cbasename;
 
-#if QT_VERSION < 0x040000
-    svn_path_split (m_path.utf8(), &cdirpath, &cbasename, pool);
-#else
-    svn_path_split (m_path.toUtf8(), &cdirpath, &cbasename, pool);
-#endif
+    svn_path_split (m_path.TOUTF8(), &cdirpath, &cbasename, pool);
     dirpath = QString::fromUtf8(cdirpath);
     basename = QString::fromUtf8(cbasename);
   }
@@ -319,12 +304,7 @@ end:
   {
     Pool pool;
 
-#if QT_VERSION < 0x040000
-    return QString::fromUtf8(svn_path_local_style (m_path.utf8(), pool));
-#else
-    return QString::fromUtf8(svn_path_local_style (m_path.toUtf8(), pool));
-#endif
-
+    return QString::fromUtf8(svn_path_local_style (m_path.TOUTF8(), pool));
   }
 
 }

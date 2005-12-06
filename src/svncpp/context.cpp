@@ -55,6 +55,7 @@
 #include "apr.hpp"
 #include "context.hpp"
 #include "context_listener.hpp"
+#include "svncpp_defines.hpp"
 
 
 namespace svn
@@ -137,11 +138,7 @@ namespace svn
     {
       const char * c_configDir = 0;
       if( configDir.length () > 0 )
-#if QT_VERSION < 0x040000
-          c_configDir = configDir.utf8();
-#else
-          c_configDir = configDir.toUtf8();
-#endif
+          c_configDir = configDir.TOUTF8();
 
       // make sure the configuration directory exists
       svn_config_ensure (c_configDir, pool);
@@ -255,14 +252,8 @@ namespace svn
       password = pwd;
 
       svn_auth_baton_t * ab = ctx.auth_baton;
-#if QT_VERSION < 0x040000
-      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME, username.utf8());
-      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD, password.utf8());
-#else
-      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME, username.toUtf8());
-      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD, password.toUtf8());
-#endif
-
+      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_USERNAME, username.TOUTF8());
+      svn_auth_set_parameter (ab, SVN_AUTH_PARAM_DEFAULT_PASSWORD, password.TOUTF8());
     }
 
     /** @see Context::setLogMessage */
@@ -297,11 +288,7 @@ namespace svn
       }
 
       *log_msg = apr_pstrdup (pool,
-#if QT_VERSION < 0x040000
-                              msg.utf8()
-#else
-                              msg.toUtf8()
-#endif
+                              msg.TOUTF8()
                              );
 
       *tmp_file = NULL;
@@ -389,26 +376,11 @@ namespace svn
 
       svn_auth_cred_simple_t* lcred = (svn_auth_cred_simple_t*)
         apr_palloc (pool, sizeof (svn_auth_cred_simple_t));
-/*      SVN_ERR (svn_utf_cstring_to_utf8 (
-                 &lcred->password,
-                 data->getPassword (), pool));
-      SVN_ERR (svn_utf_cstring_to_utf8 (
-                 &lcred->username,
-                 data->getUsername (), pool)); */
-
-#if QT_VERSION < 0x040000
-      QCString l;
-      l = data->getPassword().utf8();
-      lcred->password = apr_pstrndup (pool,l,l.length());
-      l = data->getUsername().utf8();
-      lcred->username = apr_pstrndup (pool,l,l.length());
-#else
       QByteArray l;
-      l = data->getPassword().toUtf8();
-      lcred->password = apr_pstrndup (pool,l,l.length());
-      l = data->getUsername().toUtf8();
-      lcred->username = apr_pstrndup (pool,l,l.length());
-#endif
+      l = data->getPassword().TOUTF8();
+      lcred->password = apr_pstrndup (pool,l,l.size());
+      l = data->getUsername().TOUTF8();
+      lcred->username = apr_pstrndup (pool,l,l.size());
 
       // tell svn if the credentials need to be saved
       lcred->may_save = may_save;
@@ -487,15 +459,7 @@ namespace svn
         (svn_auth_cred_ssl_client_cert_t*)
         apr_palloc (pool, sizeof (svn_auth_cred_ssl_client_cert_t));
 
-/*      SVN_ERR (svn_utf_cstring_to_utf8 (
-                 &cred_->cert_file,
-                 certFile.c_str (),
-                 pool)); */
-#if QT_VERSION < 0x040000
-      cred_->cert_file = certFile.utf8();
-#else
-      cred_->cert_file = certFile.toUtf8();
-#endif
+      cred_->cert_file = certFile.TOUTF8();
 
       *cred = cred_;
 
@@ -525,16 +489,7 @@ namespace svn
         (svn_auth_cred_ssl_client_cert_pw_t *)
         apr_palloc (pool, sizeof (svn_auth_cred_ssl_client_cert_pw_t));
 
-/*      SVN_ERR (svn_utf_cstring_to_utf8 (
-                 &cred_->password,
-                 password.c_str (),
-                 pool)); */
-#if QT_VERSION < 0x040000
-      cred_->password = password.utf8();
-#else
-      cred_->password = password.toUtf8();
-#endif
-
+      cred_->password = password.TOUTF8();
       cred_->may_save = may_save;
       *cred = cred_;
 

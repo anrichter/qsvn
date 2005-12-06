@@ -36,6 +36,7 @@
 #include "exception.hpp"
 #include "pool.hpp"
 #include "revision.hpp"
+#include "svncpp_defines.hpp"
 
 
 namespace svn
@@ -118,11 +119,7 @@ namespace svn
     apr_hash_t *props;
     svn_error_t * error =
       svn_client_propget (&props,
-#if QT_VERSION < 0x040000
-                           propName.utf8(),
-#else
-                           propName.toUtf8(),
-#endif
+                           propName.TOUTF8(),
                            path.cstr (),
                            revision.revision (),
                            recurse,
@@ -174,20 +171,12 @@ namespace svn
       Pool pool;
       const svn_string_t * propval
         = svn_string_create (
-#if QT_VERSION < 0x040000
-                             propValue.utf8(),
-#else
-                             propValue.toUtf8(),
-#endif
+                             propValue.TOUTF8(),
                              pool);
 
       svn_error_t * error =
         svn_client_propset (
-#if QT_VERSION < 0x040000
-                            propName.utf8(),
-#else
-                            propName.toUtf8(),
-#endif
+                            propName.TOUTF8(),
                             propval, path.cstr (),
                             recurse, pool);
       if(error != NULL)
@@ -214,11 +203,7 @@ namespace svn
     Pool pool;
     svn_error_t * error =
               svn_client_propset (
-#if QT_VERSION < 0x040000
-                                  propName.utf8(),
-#else
-                                  propName.toUtf8(),
-#endif
+                                  propName.TOUTF8(),
                                   0, // value = NULL
                                   path.cstr (),
                                   recurse,
@@ -298,11 +283,7 @@ namespace svn
     svn_revnum_t revnum;
     svn_error_t * error =
       svn_client_revprop_get (
-#if QT_VERSION < 0x040000
-                              propName.utf8(),
-#else
-                              propName.toUtf8(),
-#endif
+                              propName.TOUTF8(),
                               &propval,
                               path.cstr (),
                               revision.revision (),
@@ -317,9 +298,6 @@ namespace svn
     // if the property does not exist NULL is returned
     if( propval == NULL )
       return QPair<svn_revnum_t,QString>( 0, QString() );
-
-/*    const svn_string_t *propval_str;
-    svn_utf_string_from_utf8 (&propval_str, propval, pool); */
 
     return QPair<svn_revnum_t,QString>( revnum, QString::fromUtf8(propval->data) );
   }
@@ -347,21 +325,13 @@ namespace svn
 
     const svn_string_t * propval
       = svn_string_create (
-#if QT_VERSION < 0x040000
-                            propValue.utf8(),
-#else
-                            propValue.toUtf8(),
-#endif
+                            propValue.TOUTF8(),
                             pool);
 
     svn_revnum_t revnum;
     svn_error_t * error =
       svn_client_revprop_set (
-#if QT_VERSION < 0x040000
-                              propName.utf8(),
-#else
-                              propName.toUtf8(),
-#endif
+                              propName.TOUTF8(),
                               propval,
                               path.cstr (),
                               revision.revision (),
@@ -398,11 +368,7 @@ namespace svn
     svn_revnum_t revnum;
     svn_error_t * error =
               svn_client_revprop_set (
-#if QT_VERSION < 0x040000
-                                      propName.utf8(),
-#else
-                                      propName.toUtf8(),
-#endif
+                                      propName.TOUTF8(),
                                       0, // value = NULL
                                       path.cstr (),
                                       revision.revision (),

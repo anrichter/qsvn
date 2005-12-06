@@ -44,6 +44,12 @@ namespace svn
   class Path;
   class Pool;
 
+#if QT_VERSION < 0x040000
+  typedef QValueList<Path> Pathes;
+#else
+  typedef QList<Path> Pathes;
+#endif
+
   /**
    * Encapsulation for Subversion target arrays handling
    */
@@ -56,11 +62,7 @@ namespace svn
      * @param targets vector of paths
      */
 
-#if QT_VERSION < 0x040000
-    Targets (const QValueList<Path> & targets);
-#else
-    Targets (const QList<Path> & targets);
-#endif
+    Targets (const Pathes & targets);
 
     /**
      * Constructor from an APR array containing
@@ -116,11 +118,7 @@ namespace svn
      *
      * @return vector of paths
      */
-#if QT_VERSION < 0x040000
-    const QValueList<Path> &
-#else
-    const QList<Path> &
-#endif
+    const Pathes &
     targets() const;
 
     /**
@@ -133,11 +131,7 @@ namespace svn
      *
      * @return vector with targets
      */
-#if QT_VERSION < 0x040000
-    operator const QValueList<Path> & () const
-#else
-    operator const QList<Path> & () const
-#endif
+    operator const Pathes & () const
     {
       return m_targets;
     }
@@ -155,11 +149,7 @@ namespace svn
 
 
   private:
-#if QT_VERSION < 0x040000
-    QValueList<Path> m_targets;
-#else
-    QList<Path> m_targets;
-#endif
+    Pathes m_targets;
   };
 }
 

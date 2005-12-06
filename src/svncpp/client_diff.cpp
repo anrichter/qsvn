@@ -35,7 +35,7 @@
 #include "exception.hpp"
 #include "pool.hpp"
 #include "status.hpp"
-
+#include "svncpp_defines.hpp"
 
 namespace svn
 {
@@ -131,11 +131,7 @@ namespace svn
 
     // svn_client_diff needs a temporary file to write diff output to
     error = svn_io_open_unique_file (&outfile, &outfileName,
-#if QT_VERSION < 0x040000
-                                     tmpPath.path().utf8(),
-#else
-                                     tmpPath.path().toUtf8(),
-#endif
+                                     tmpPath.path().TOUTF8(),
                                      ".tmp",
                                      FALSE, pool);
 
