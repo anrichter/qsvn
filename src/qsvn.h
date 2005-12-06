@@ -74,9 +74,6 @@ private:
     bool isFileListSelected();
     QStringList selectedFiles();
 private slots:
-    //File
-    void exit();
-
     //WorkingCopy
     void doAddWorkingCopy();
     void doRemoveWorkingCopy();

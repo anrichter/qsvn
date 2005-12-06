@@ -80,13 +80,14 @@ void QSvn::activateWorkingCopy( const QModelIndex &index )
 
 QSvn::~QSvn()
 {
+    Config::instance()->saveMainWindow( this );
     delete( workingCopyModel );
 }
 
 void QSvn::createActions()
 {
     actionExit = new QAction( tr( "E&xit" ), this );
-    connect( actionExit, SIGNAL( triggered() ), this, SLOT( exit() ) );
+    connect( actionExit, SIGNAL( triggered() ), this, SLOT( close() ) );
 
     actionAddWorkingCopy = new QAction( QIcon( ":menuadd.png" ), tr( "&Add..." ), this );
     connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( doAddWorkingCopy() ) );
@@ -172,12 +173,6 @@ QStringList QSvn::selectedFiles()
 }
 
 //protected slots
-void QSvn::exit()
-{
-    Config::instance()->saveMainWindow( this );
-    qApp->exit( 0 );
-}
-
 void QSvn::doAddWorkingCopy()
 {
     AddWorkingCopy addWorkingCopy( this );

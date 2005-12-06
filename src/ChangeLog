@@ -4,6 +4,7 @@ Version 0.3.0 - released 200x-xx-xx
     --------
     * add new and selected log entries in commit dialog and checkout URLs in 
       checkout dialog at first position.
+    * save MainWindow settings on all close events. Not only on exit menu.
     
     
 Version 0.2.0 - released 2005-11-30
