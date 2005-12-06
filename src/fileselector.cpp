@@ -105,14 +105,14 @@ void FileSelector::diff( const QModelIndex &index )
 
 void FileSelector::buttonOkClickedSlot()
 {
-    comboLogHistory->insertItem( 0, editLogMessage->toPlainText() );
-    QSet< QString > logEntries;
+    QStringList logEntries;
+    logEntries << editLogMessage->toPlainText();
     for ( int i = 0; i < comboLogHistory->count(); ++i )
     {
-        if ( !comboLogHistory->itemText( i ).isEmpty() )
+        if ( !comboLogHistory->itemText( i ).isEmpty() && !logEntries.contains( comboLogHistory->itemText( i ) ) )
             logEntries << comboLogHistory->itemText( i );
     }
-    Config::instance()->saveStringList( "logHistory", logEntries.toList() );
+    Config::instance()->saveStringList( "logHistory", logEntries );
     this->accept();
 }
 

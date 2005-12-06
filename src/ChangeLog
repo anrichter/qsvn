@@ -1,8 +1,17 @@
+Version 0.3.0 - released 200x-xx-xx
+
+    Bugfixes
+    --------
+    * add new and selected log entries in commit dialog and checkout URLs in 
+      checkout dialog at first position.
+    
+    
 Version 0.2.0 - released 2005-11-30
 
     * Make QSvn a Subversion client. No more need for Subversion binary.
     * Rewrite from scratch for Qt4. 
     * Use new Programming Features like Model View Architecture.
+
 
 Version 0.1.0 - released 2005-04-09
 
