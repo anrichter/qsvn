@@ -86,6 +86,9 @@
          <property name="maxCount" >
           <number>15</number>
          </property>
+         <property name="sizeAdjustPolicy" >
+          <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+         </property>
         </widget>
        </item>
       </layout>
