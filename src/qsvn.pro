@@ -17,7 +17,9 @@ unix {
           -lsvn_ra-1 \
           -lsvn_repos-1 \
           -lsvn_subr-1 \
-          -lsvn_wc-1
+          -lsvn_wc-1 \
+          -lapr-0 \
+          -laprutil-0
 }
 
 win32 {
