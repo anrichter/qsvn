@@ -1,16 +1,20 @@
 Version 0.3.0 - released 200x-xx-xx
 
+    New Features
+    ------------
+    * Context Menus for working copy & file listview.
+
     Bugfixes
     --------
-    * add new and selected log entries in commit dialog and checkout URLs in 
+    * add new and selected log entries in commit dialog and checkout URLs in
       checkout dialog at first position.
     * save MainWindow settings on all close events. Not only on exit menu.
-    
-    
+
+
 Version 0.2.0 - released 2005-11-30
 
     * Make QSvn a Subversion client. No more need for Subversion binary.
-    * Rewrite from scratch for Qt4. 
+    * Rewrite from scratch for Qt4.
     * Use new Programming Features like Model View Architecture.
 
 

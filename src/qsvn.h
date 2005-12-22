@@ -40,6 +40,9 @@ public:
     QSvn( QWidget *parent = 0, Qt::WFlags flags = 0 );
     ~QSvn();
 
+protected:
+    bool eventFilter ( QObject * watched, QEvent * event );
+
 private:
     //Actions
     QAction* actionExit;
@@ -63,6 +66,10 @@ private:
     QMenu *menuQuery;
     QMenu *menuSettings;
     QMenu *menuHelp;
+
+    //ContextMenus
+    QMenu *contextMenuWorkingCopy;
+    QMenu *contextMenuFileList;
 
     WorkingCopyModel *workingCopyModel;
     FileListModel *fileListModel;

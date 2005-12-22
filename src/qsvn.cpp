@@ -52,12 +52,14 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     //setup workingCopyModel
     workingCopyModel = new WorkingCopyModel();
     treeViewWorkingCopy->setModel( workingCopyModel );
+    treeViewWorkingCopy->installEventFilter( this );
 
     //setup fileListModel
     fileListModel = new FileListModel();
     treeViewFileList->setModel( fileListModel );
     treeViewFileList->header()->setSortIndicatorShown( true );
     treeViewFileList->header()->setClickable( true );
+    treeViewFileList->installEventFilter( this );
 
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
     connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
@@ -82,6 +84,8 @@ QSvn::~QSvn()
 {
     Config::instance()->saveMainWindow( this );
     delete( workingCopyModel );
+    delete( contextMenuWorkingCopy );
+    delete( contextMenuFileList );
 }
 
 void QSvn::createActions()
@@ -146,10 +150,51 @@ void QSvn::createMenus()
     menuHelp = menuBar()->addMenu( tr( "&Help" ) );
     menuHelp->addAction( actionAboutQSvn );
     menuHelp->addAction( actionAboutQt );
+
+    contextMenuWorkingCopy = new QMenu( this );
+    contextMenuWorkingCopy->addAction( actionAddWorkingCopy );
+    contextMenuWorkingCopy->addAction( actionRemoveWorkingCopy );
+    contextMenuWorkingCopy->addAction( actionCheckoutWorkingCopy );
+    contextMenuWorkingCopy->addSeparator();
+    contextMenuWorkingCopy->addAction( actionUpdate );
+    contextMenuWorkingCopy->addAction( actionCommit );
+    contextMenuWorkingCopy->addSeparator();
+    contextMenuWorkingCopy->addAction( actionAdd );
+    contextMenuWorkingCopy->addAction( actionDelete );
+    contextMenuWorkingCopy->addAction( actionRevert );
+
+    contextMenuFileList = new QMenu( this );
+    contextMenuFileList->addAction( actionDiff );
+    contextMenuFileList->addSeparator();
+    contextMenuFileList->addAction( actionUpdate );
+    contextMenuFileList->addAction( actionCommit );
+    contextMenuFileList->addSeparator();
+    contextMenuFileList->addAction( actionAdd );
+    contextMenuFileList->addAction( actionDelete );
+    contextMenuFileList->addAction( actionRevert );
 }
 
 void QSvn::createToolBar()
 {}
+
+bool QSvn::eventFilter( QObject * watched, QEvent * event )
+{
+    if ( watched == treeViewWorkingCopy )
+    {
+        if ( event->type() == QEvent::ContextMenu )
+        {
+            contextMenuWorkingCopy->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
+        }
+    }
+    else if ( watched == treeViewFileList )
+    {
+        if ( event->type() == QEvent::ContextMenu )
+        {
+            contextMenuFileList->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
+        }
+    }
+    return QMainWindow::eventFilter( watched, event );
+}
 
 bool QSvn::isFileListSelected()
 {
