@@ -152,16 +152,16 @@ void QSvn::createMenus()
     menuHelp->addAction( actionAboutQt );
 
     contextMenuWorkingCopy = new QMenu( this );
-    contextMenuWorkingCopy->addAction( actionAddWorkingCopy );
-    contextMenuWorkingCopy->addAction( actionRemoveWorkingCopy );
-    contextMenuWorkingCopy->addAction( actionCheckoutWorkingCopy );
-    contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction( actionUpdate );
     contextMenuWorkingCopy->addAction( actionCommit );
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction( actionAdd );
     contextMenuWorkingCopy->addAction( actionDelete );
     contextMenuWorkingCopy->addAction( actionRevert );
+    contextMenuWorkingCopy->addSeparator();
+    contextMenuWorkingCopy->addAction( actionAddWorkingCopy );
+    contextMenuWorkingCopy->addAction( actionRemoveWorkingCopy );
+    contextMenuWorkingCopy->addAction( actionCheckoutWorkingCopy );
 
     contextMenuFileList = new QMenu( this );
     contextMenuFileList->addAction( actionDiff );
