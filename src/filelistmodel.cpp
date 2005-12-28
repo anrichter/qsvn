@@ -179,15 +179,19 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
             {
                 columnData.clear();
                 if ( it->isVersioned() )
+                {
                     columnData.insert( FileListItem::FilenameColumn, fileNamePrefix + it->entry().name() );
+                    columnData.insert( FileListItem::RevisionColumn, int ( it->entry().cmtRev() ) );
+                    columnData.insert( FileListItem::AuthorColumn, it->entry().cmtAuthor() );
+                }
                 else
                 {
                     QFileInfo fileInfo( it->path() );
                     columnData.insert( FileListItem::FilenameColumn, fileNamePrefix + fileInfo.fileName() );
+                    columnData.insert( FileListItem::RevisionColumn, "" );
+                    columnData.insert( FileListItem::AuthorColumn, "" );
                 }
                 columnData.insert( FileListItem::StatusColumn, it->textStatus() );
-                columnData.insert( FileListItem::RevisionColumn, int ( it->entry().cmtRev() ) );
-                columnData.insert( FileListItem::AuthorColumn, it->entry().cmtAuthor() );
                 columnData.insert( FileListItem::FullfilenameColumn, it->path() );
                 columnData.insert( FileListItem::CheckedColumn, false );
                 rootItem->appendChild( new FileListItem( columnData, rootItem ) );
