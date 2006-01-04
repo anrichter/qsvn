@@ -47,6 +47,19 @@ public:
     void saveMainWindow( QSvn *aQSvn );
     void restoreMainWindow( QSvn *aQSvn );
 
+    /**
+     * Save size and position from a widget.
+     * @param widget The widget that was saved
+     * @param prefix A prefix for unique identification additionally to the widget name.
+     */
+    void saveWidget( QWidget *widget, QString prefix = "" );
+    /**
+     * Restore saved size and position for a widget.
+     * @param widget Widget that was restored.
+     * @param prefix A prefix for unique identification additionally to the widget name.
+     */
+    void restoreWidget( QWidget *widget, QString prefix = "" );
+
     void saveStringList( const QString &prefix, const QStringList &stringList );
     QStringList getStringList( const QString &prefix );
 

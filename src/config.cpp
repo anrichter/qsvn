@@ -80,10 +80,7 @@ void Config::saveMainWindow( QSvn *aQSvn )
     {
         QSettings settings;
 
-        settings.setValue( "mainwindow/width", aQSvn->width() );
-        settings.setValue( "mainwindow/height", aQSvn->height() );
-        settings.setValue( "mainwindow/x", aQSvn->x() );
-        settings.setValue( "mainwindow/y", aQSvn->y() );
+        saveWidget( aQSvn );
 
         //save settings from splitterVertical
         int i = 0;
@@ -111,11 +108,7 @@ void Config::restoreMainWindow( QSvn *aQSvn )
     {
         QSettings settings;
 
-        aQSvn->resize( settings.value( "mainwindow/width", aQSvn->width() ).toInt(),
-                       settings.value( "mainwindow/height", aQSvn->height() ).toInt() );
-
-        aQSvn->move( QPoint( settings.value( "mainwindow/x", aQSvn->x() ).toInt(),
-                             settings.value( "mainwindow/y", aQSvn->y() ).toInt() ) );
+        restoreWidget( aQSvn );
 
         //restore settings from splitterVertical
         int i = 0;
@@ -141,6 +134,30 @@ void Config::restoreMainWindow( QSvn *aQSvn )
         }
         aQSvn->splitterHorizontal->setSizes( list );
     }
+}
+
+void Config::saveWidget( QWidget *widget, QString prefix )
+{
+
+    QSettings settings;
+    QString key = "widget" + prefix + widget->objectName();
+
+    settings.setValue( key + "/width", widget->width() );
+    settings.setValue( key + "/height", widget->height() );
+    settings.setValue( key + "/x", widget->x() );
+    settings.setValue( key + "/y", widget->y() );
+}
+
+void Config::restoreWidget( QWidget *widget, QString prefix )
+{
+    QSettings settings;
+    QString key = "widget" + prefix + widget->objectName();
+
+    widget->resize( settings.value( key + "/width", widget->width() ).toInt(),
+                    settings.value( key + "/height", widget->height() ).toInt() );
+
+    widget->move( QPoint( settings.value( key + "/x", widget->x() ).toInt(),
+                  settings.value( key + "/y", widget->y() ).toInt() ) );
 }
 
 void Config::saveStringList( const QString &prefix, const QStringList &stringList )
@@ -176,6 +193,7 @@ QStringList Config::getStringList( const QString &prefix )
 
     return stringList;
 }
+
 
 
 /*todo:
