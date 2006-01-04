@@ -37,6 +37,7 @@ class AddWorkingCopy : public QDialog, public Ui::AddWorkingCopy
 
 public:
     AddWorkingCopy( QWidget *parent = 0 );
+    ~AddWorkingCopy();
 
     /**
      * Get the selected directory.

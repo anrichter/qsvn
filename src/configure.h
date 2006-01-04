@@ -33,6 +33,7 @@ class Configure : public QDialog, private Ui::Configure
 
 public:
     Configure( QWidget *parent = 0, Qt::WFlags flags = 0 );
+    ~Configure();
 
 private slots:
     void buttonOkClickSlot();

@@ -34,6 +34,7 @@ class Checkout : public QDialog, public Ui::Checkout
 
 public:
     Checkout( QWidget *parent = 0 );
+    ~Checkout();
 
     QString url() const;
     QString path() const;

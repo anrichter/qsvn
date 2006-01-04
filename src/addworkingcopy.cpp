@@ -21,6 +21,7 @@
 
 //QSvn
 #include "addworkingcopy.h"
+#include "config.h"
 
 //Qt
 #include <QFileDialog>
@@ -31,8 +32,14 @@ AddWorkingCopy::AddWorkingCopy( QWidget *parent )
 {
     setupUi( this );
     setWindowIcon( QIcon( ":menuadd.png" ) );
+    Config::instance()->restoreWidget( this, this->windowTitle() );
 
     QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
+}
+
+AddWorkingCopy::~ AddWorkingCopy( )
+{
+    Config::instance()->saveWidget( this, this->windowTitle() );
 }
 
 QString AddWorkingCopy::getSelectedDirectory() const

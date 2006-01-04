@@ -59,6 +59,8 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
         break;
     }
 
+    Config::instance()->restoreWidget( this, this->windowTitle() );
+
     comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
     comboLogHistory->insertItem( 0, "" );
     comboLogHistory->setCurrentIndex( 0 );
@@ -66,6 +68,11 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
+}
+
+FileSelector::~ FileSelector( )
+{
+    Config::instance()->saveWidget( this, this->windowTitle() );
 }
 
 FileListModel *FileSelector::model( )
