@@ -72,7 +72,7 @@ svn::StatusEntries SvnClient::status( QString &directory )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return svn::StatusEntries();
     }
     return svn::StatusEntries();
@@ -86,7 +86,7 @@ svn::Status SvnClient::singleStatus( QString &path )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return svn::Status();
     }
 }
@@ -105,7 +105,7 @@ bool SvnClient::update( QStringList &updateList )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
     return true;
@@ -123,7 +123,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
     return true;
@@ -147,7 +147,7 @@ bool SvnClient::add
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
     return true;
@@ -166,7 +166,7 @@ bool SvnClient::revert( const QStringList &revertList )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
     return true;
@@ -185,7 +185,7 @@ bool SvnClient::commit( const QStringList &commitList, const QString &logMessage
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
     return true;
@@ -206,7 +206,7 @@ bool SvnClient::remove
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+        StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
     return true;
@@ -224,7 +224,7 @@ bool SvnClient::diff( const QString &file )
         }
         catch ( svn::ClientException e )
         {
-            StatusText::instance()->outputMessage( QString::fromLocal8Bit( e.message() ) );
+            StatusText::instance()->outputMessage( e.msg() );
             return false;
         }
     }
