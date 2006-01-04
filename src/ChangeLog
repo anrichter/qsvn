@@ -1,8 +1,9 @@
-Version 0.3.0 - released 200x-xx-xx
+Version 0.3.0 - released 2006-xx-xx
 
     New Features
     ------------
     * Context Menus for working copy & file listview.
+    * Make WorkingCopy list sortable.
 
     Bugfixes
     --------

@@ -52,6 +52,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     //setup workingCopyModel
     workingCopyModel = new WorkingCopyModel();
     treeViewWorkingCopy->setModel( workingCopyModel );
+    treeViewWorkingCopy->header()->setSortIndicatorShown( true );
+    treeViewWorkingCopy->header()->setClickable( true );
     treeViewWorkingCopy->installEventFilter( this );
 
     //setup fileListModel

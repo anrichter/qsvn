@@ -47,12 +47,14 @@ public:
     int columnCount( const QModelIndex &parent = QModelIndex() ) const;
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
+    void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
 
     bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
 
     void addWorkingCopy( QString directory );
 private:
     WorkingCopyItem *rootItem;
+    Qt::SortOrder sortOrder;
 
     void updateWorkingCopy( WorkingCopyItem *item );
 

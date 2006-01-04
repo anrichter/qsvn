@@ -40,6 +40,7 @@ WorkingCopyModel::WorkingCopyModel( QObject *parent )
     QList< QVariant > rootData;
     rootData << "Working Copy";
     rootItem = new WorkingCopyItem( rootData );
+    sortOrder = Qt::AscendingOrder;
 
     loadWorkingCopies();
 }
@@ -188,10 +189,19 @@ void WorkingCopyModel::saveWorkingCopies()
 void WorkingCopyModel::loadWorkingCopies()
 {
     QStringList wcList = Config::instance()->getStringList( "workingCopies" );
+    wcList.sort();
 
-    for ( int i = 0; i < wcList.size(); i++ )
+    if ( sortOrder == Qt::DescendingOrder )
     {
-        addWorkingCopy( wcList.at( i ) );
+        for ( int i = wcList.size() - 1; i >= 0; --i )
+        {
+            addWorkingCopy( wcList.at( i ) );
+        }
+    } else {
+        for ( int i = 0; i < wcList.size(); i++ )
+        {
+            addWorkingCopy( wcList.at( i ) );
+        }
     }
 }
 
@@ -207,7 +217,18 @@ bool WorkingCopyModel::removeRows( int row, int count, const QModelIndex & paren
         {
             rootItem->removeChild( row );
         }
-        return true;
     }
-    return false;
+    return true;
+}
+
+void WorkingCopyModel::sort( int column, Qt::SortOrder order )
+{
+    if ( column < 0 || column > rootItem->childCount() )
+        return;
+
+    sortOrder = order;
+    saveWorkingCopies();
+    removeRows( 0, rootItem->childCount() );
+    loadWorkingCopies();
+    emit layoutChanged();
 }
