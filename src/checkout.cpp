@@ -33,7 +33,7 @@ Checkout::Checkout( QWidget *parent )
 {
     setupUi( this );
     setWindowIcon( QIcon( ":menucheckout.png" ) );
-    Config::instance()->restoreWidget( this, this->windowTitle() );
+    Config::instance()->restoreWidget( this );
 
     QObject::connect( buttonURL, SIGNAL( clicked() ), this, SLOT( selectURLSlot() ) );
     QObject::connect( buttonPath, SIGNAL( clicked() ), this, SLOT( selectPathSlot() ) );
@@ -45,7 +45,7 @@ Checkout::Checkout( QWidget *parent )
 
 Checkout::~ Checkout( )
 {
-    Config::instance()->saveWidget( this, this->windowTitle() );
+    Config::instance()->saveWidget( this );
 }
 
 QString Checkout::url() const

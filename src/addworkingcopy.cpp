@@ -32,14 +32,14 @@ AddWorkingCopy::AddWorkingCopy( QWidget *parent )
 {
     setupUi( this );
     setWindowIcon( QIcon( ":menuadd.png" ) );
-    Config::instance()->restoreWidget( this, this->windowTitle() );
+    Config::instance()->restoreWidget( this );
 
     QObject::connect( buttonDirectory, SIGNAL( clicked() ), this, SLOT( selectDirectorySlot() ) );
 }
 
 AddWorkingCopy::~ AddWorkingCopy( )
 {
-    Config::instance()->saveWidget( this, this->windowTitle() );
+    Config::instance()->saveWidget( this );
 }
 
 QString AddWorkingCopy::getSelectedDirectory() const

@@ -32,7 +32,7 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
         : QDialog( parent, flags )
 {
     setupUi( this );
-    Config::instance()->restoreWidget( this, this->windowTitle() );
+    Config::instance()->restoreWidget( this );
 
     connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickSlot() ) );
     connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
@@ -42,7 +42,7 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
 
 Configure::~ Configure( )
 {
-    Config::instance()->saveWidget( this, this->windowTitle() );
+    Config::instance()->saveWidget( this );
 }
 
 void Configure::buttonOkClickSlot()
