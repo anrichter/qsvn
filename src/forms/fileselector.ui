@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>409</height>
+    <width>456</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="sizeGripEnabled" >
@@ -26,7 +26,7 @@
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QSplitter" name="splitter_3" >
+    <widget class="QSplitter" name="" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
@@ -49,6 +49,13 @@
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item row="1" column="0" >
+        <widget class="QCheckBox" name="checkSelectAll" >
+         <property name="text" >
+          <string>Select / deselect &amp;all</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" >
         <widget class="QTreeView" name="treeViewFiles" >
          <property name="selectionMode" >
@@ -146,60 +153,17 @@
     </layout>
    </item>
   </layout>
-  <widget class="QSplitter" name="splitter" >
+  <widget class="QSplitter" name="splitter_3" >
    <property name="geometry" >
     <rect>
      <x>9</x>
      <y>9</y>
-     <width>384</width>
-     <height>344</height>
+     <width>444</width>
+     <height>352</height>
     </rect>
    </property>
    <property name="orientation" >
     <enum>Qt::Vertical</enum>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget_3" >
-   <property name="geometry" >
-    <rect>
-     <x>9</x>
-     <y>170</y>
-     <width>384</width>
-     <height>183</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QSplitter" name="splitter_2" >
-   <property name="geometry" >
-    <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>381</width>
-     <height>621</height>
-    </rect>
-   </property>
-   <property name="orientation" >
-    <enum>Qt::Vertical</enum>
-   </property>
-  </widget>
-  <widget class="QWidget" name="widget" >
-   <property name="geometry" >
-    <rect>
-     <x>9</x>
-     <y>9</y>
-     <width>431</width>
-     <height>412</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget_2" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>429</width>
-     <height>185</height>
-    </rect>
    </property>
   </widget>
  </widget>

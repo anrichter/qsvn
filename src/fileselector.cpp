@@ -68,11 +68,29 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
+    connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
+
+    if ( Config::instance()->getBool( "selectAll" + this->windowTitle() ) )
+    {
+        checkSelectAll->setCheckState( Qt::Checked );
+    }
+    else
+    {
+        checkSelectAll->setCheckState( Qt::Unchecked );
+    }
 }
 
 FileSelector::~ FileSelector( )
 {
     Config::instance()->saveWidget( this, this->windowTitle() );
+    if ( checkSelectAll->checkState() == Qt::Checked )
+    {
+        Config::instance()->saveBool( "selectAll" + this->windowTitle(), true );
+    }
+    else
+    {
+        Config::instance()->saveBool( "selectAll" + this->windowTitle(), false );
+    }
 }
 
 FileListModel *FileSelector::model( )
@@ -126,4 +144,14 @@ void FileSelector::buttonOkClickedSlot()
 void FileSelector::comboLogHistoryActivatedSlot( int index )
 {
     editLogMessage->setPlainText( comboLogHistory->currentText() );
+}
+
+void FileSelector::checkSelectAllStateChanged( int state )
+{
+    QModelIndex index;
+    for ( int i = 0; i < m_fileListModel->rowCount(); ++i )
+    {
+        index = m_fileListModel->index( i, FileListItem::FilenameColumn );
+        m_fileListModel->setData( index, state, Qt::CheckStateRole );
+    }
 }

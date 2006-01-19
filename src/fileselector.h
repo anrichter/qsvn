@@ -48,6 +48,7 @@ private slots:
     void diff( const QModelIndex &index );
     void buttonOkClickedSlot();
     void comboLogHistoryActivatedSlot( int index );
+    void checkSelectAllStateChanged( int state );
 };
 
 #endif
