@@ -63,6 +63,9 @@ public:
     void saveStringList( const QString &prefix, const QStringList &stringList );
     QStringList getStringList( const QString &prefix );
 
+    void saveBool( const QString &prefix, const bool value );
+    bool getBool( const QString &prefix );
+
     /*todo:
     //ListView Settings
     void saveListView( QListView *aListView );

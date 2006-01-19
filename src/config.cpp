@@ -194,7 +194,17 @@ QStringList Config::getStringList( const QString &prefix )
     return stringList;
 }
 
+void Config::saveBool( const QString &prefix, const bool value )
+{
+    QSettings settings;
+    settings.setValue( prefix, QVariant::fromValue( value ) );
+}
 
+bool Config::getBool( const QString &prefix )
+{
+    QSettings settings;
+    return settings.value( prefix ).toBool();
+}
 
 /*todo:
 void Config::saveListView( QListView *aListView )
