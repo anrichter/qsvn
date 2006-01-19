@@ -63,8 +63,8 @@ public:
     void saveStringList( const QString &prefix, const QStringList &stringList );
     QStringList getStringList( const QString &prefix );
 
-    void saveBool( const QString &prefix, const bool value );
-    bool getBool( const QString &prefix );
+    void setValue( const QString &key, const QVariant &value );
+    QVariant value( const QString &key );
 
     /*todo:
     //ListView Settings

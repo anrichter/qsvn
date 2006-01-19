@@ -194,16 +194,16 @@ QStringList Config::getStringList( const QString &prefix )
     return stringList;
 }
 
-void Config::saveBool( const QString &prefix, const bool value )
+void Config::setValue( const QString &key, const QVariant &value )
 {
     QSettings settings;
-    settings.setValue( prefix, QVariant::fromValue( value ) );
+    settings.setValue( key, value );
 }
 
-bool Config::getBool( const QString &prefix )
+QVariant Config::value( const QString &key )
 {
     QSettings settings;
-    return settings.value( prefix ).toBool();
+    return settings.value( key );
 }
 
 /*todo:

@@ -70,27 +70,13 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
 
-    if ( Config::instance()->getBool( "selectAll" + this->windowTitle() ) )
-    {
-        checkSelectAll->setCheckState( Qt::Checked );
-    }
-    else
-    {
-        checkSelectAll->setCheckState( Qt::Unchecked );
-    }
+    checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
 }
 
 FileSelector::~ FileSelector( )
 {
     Config::instance()->saveWidget( this, this->windowTitle() );
-    if ( checkSelectAll->checkState() == Qt::Checked )
-    {
-        Config::instance()->saveBool( "selectAll" + this->windowTitle(), true );
-    }
-    else
-    {
-        Config::instance()->saveBool( "selectAll" + this->windowTitle(), false );
-    }
+    Config::instance()->setValue( "selectAll" + this->windowTitle(), checkSelectAll->checkState() );
 }
 
 FileListModel *FileSelector::model( )
