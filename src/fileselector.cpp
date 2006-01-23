@@ -74,7 +74,7 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
 int FileSelector::exec()
 {
     checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
-    QDialog::exec();
+    return QDialog::exec();
 }
 
 FileSelector::~ FileSelector( )
