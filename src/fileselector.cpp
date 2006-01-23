@@ -69,8 +69,12 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
+}
 
+int FileSelector::exec()
+{
     checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
+    QDialog::exec();
 }
 
 FileSelector::~ FileSelector( )

@@ -39,6 +39,10 @@ public:
     FileListModel *model();
     QStringList selectedFileList();
     QString logMessage();
+
+public slots:
+    int exec();
+
 private:
     FileListModel *m_fileListModel;
 
