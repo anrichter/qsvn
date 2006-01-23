@@ -369,7 +369,7 @@ void QSvn::aboutQSvn()
     QString aboutMsg = "";
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
-    aboutMsg += "<br/>0.2.0";
+    aboutMsg += "<br/>0.3.0-pre";
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
     aboutMsg += "(c) 2004-2005 QSvn Team<br/>";
     aboutMsg += "<a href=\"http://qsvn.berlios.de\">http://qsvn.berlios.de</p>";
