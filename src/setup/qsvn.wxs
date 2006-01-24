@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 
-	<Product Name="QSvn 0.3.0-pre" Id="C9A51138-7A96-41DC-9395-C4FD34317836" 
-		  Language="1033"
-          Version="0.3.0-pre"
-          Manufacturer="Andreas Richter">
+	<Product Name="QSvn 0.3.0 pre" Id="C9A51138-7A96-41DC-9395-C4FD34317836" 
+		UpgradeCode="B8C2EE75-20F4-454B-9CFF-1205532FABA5"
+		Language="1033"
+        Version="0.3.0-pre"
+		Manufacturer="Andreas Richter">
 
 		<Package Id="4F784DF6-7D81-4B83-B1DE-A1961A9E0AB1"
 			Keywords="Installer"
