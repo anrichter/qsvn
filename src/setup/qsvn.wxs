@@ -7,7 +7,7 @@
         Version="0.3.0-pre"
 		Manufacturer="Andreas Richter">
 
-		<Package Id="4F784DF6-7D81-4B83-B1DE-A1961A9E0AB1"
+		<Package Id="????????-????-????-????-????????????"
 			Keywords="Installer"
             Description="QSvn 0.3.0-pre Installer"
             Comments="This Package will install QSvn 0.3.0-pre on your Computer"
