@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of QSvn Project http://qsvn.berlios.de              *
- *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
+ *   Copyright (c) 2004-2006 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *
@@ -40,7 +40,7 @@ int main( int argc, char **argv)
     CppUnit::QtTestRunner runner;
     runner.addTest( SvnClientFileTests::testSuite() );
     runner.addTest( SvnClientSvnTests::testSuite() );
-    
+
     runner.run( false );
 
     return 0;

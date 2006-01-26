@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of QSvn Project http://qsvn.berlios.de              *
- *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
+ *   Copyright (c) 2004-2006 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *
@@ -76,7 +76,7 @@ void SvnClientSvnTests::testCheckout()
                      TEST_REPO + QDir::separator() +
                      ".svn" + QDir::separator();
 
-	CPPUNIT_ASSERT( QFile::exists( svndir + "entries" ) &&
+    CPPUNIT_ASSERT( QFile::exists( svndir + "entries" ) &&
                     QFile::exists( svndir + "format" ) &&
                     QFile::exists( svndir + "README.txt" ) );
 }
