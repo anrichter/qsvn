@@ -31,7 +31,9 @@
 
 
 Listener::Listener( )
-{}
+{
+    m_cancel = false;
+}
 
 Listener::~ Listener( )
 {}
@@ -154,7 +156,13 @@ void Listener::contextNotify( const svn_wc_notify_t *action )
 
 bool Listener::contextCancel( )
 {
-    return false;
+    if ( m_cancel )
+    {
+        m_cancel = false;
+        return true;
+    }
+    else
+        return false;
 }
 
 bool Listener::contextGetLogMessage( QString &msg )
@@ -175,4 +183,9 @@ bool Listener::contextSslClientCertPrompt( QString & certFile )
 bool Listener::contextSslClientCertPwPrompt( QString &password, const QString &realm, bool &maySave  )
 {
     return false;
+}
+
+void Listener::setCancel( bool cancel )
+{
+    m_cancel = cancel;
 }

@@ -262,3 +262,8 @@ void SvnClient::completedMessage( const QString &path )
     else
         StatusText::instance()->outputMessage( tr( "Completed\n" ) );
 }
+
+void SvnClient::setCancel( )
+{
+    listener->setCancel( true );
+}

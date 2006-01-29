@@ -58,6 +58,10 @@ public:
     virtual bool contextSslClientCertPwPrompt( QString &password,
             const QString &realm,
             bool &maySave );
+
+    void setCancel( bool cancel );
+private:
+    bool m_cancel;
 };
 
 #endif

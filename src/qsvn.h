@@ -80,6 +80,9 @@ private:
 
     bool isFileListSelected();
     QStringList selectedFiles();
+
+    void setCancelButton( QString aText );
+
 private slots:
     //WorkingCopy
     void doAddWorkingCopy();

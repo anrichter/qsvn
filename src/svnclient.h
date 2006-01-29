@@ -68,14 +68,15 @@ public:
      */
     bool checkout( const QString &url, const QString &path );
 
-    bool add
-        ( const QStringList &addList );
+    bool add( const QStringList &addList );
     bool revert( const QStringList &revertList );
     bool commit( const QStringList &commitList, const QString &logMessage );
-    bool remove
-        ( const QStringList &removeList );
+    bool remove( const QStringList &removeList );
     bool diff( const QString &file );
     bool diff( const QStringList &fileList );
+
+public slots:
+    void setCancel( );
 
 protected:
     SvnClient();

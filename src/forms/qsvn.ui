@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>518</width>
-    <height>274</height>
+    <width>457</width>
+    <height>279</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -18,7 +18,7 @@
   <widget class="QWidget" name="centralWidget" >
    <layout class="QGridLayout" >
     <property name="margin" >
-     <number>8</number>
+     <number>9</number>
     </property>
     <property name="spacing" >
      <number>6</number>
@@ -28,26 +28,10 @@
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
       </property>
-      <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>8</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-      </layout>
       <widget class="QSplitter" name="splitterVertical" >
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>8</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-       </layout>
        <widget class="QTreeView" name="treeViewWorkingCopy" >
         <property name="selectionMode" >
          <enum>QAbstractItemView::SingleSelection</enum>
@@ -62,7 +46,29 @@
         </property>
        </widget>
       </widget>
-      <widget class="QTextEdit" name="editStatusText" />
+      <widget class="QWidget" name="" >
+       <layout class="QVBoxLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="buttonCancel" >
+          <property name="enabled" >
+           <bool>false</bool>
+          </property>
+          <property name="text" >
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="editStatusText" />
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>

@@ -41,7 +41,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
         : QMainWindow( parent, flags )
 {
     setupUi( this );
-    setWindowIcon( QIcon( ":qsvn.png" ) );
+    setWindowIcon( QIcon( ":qsvn.png" ) );   
 
     createActions();
     createMenus();
@@ -248,10 +248,12 @@ void QSvn::doCheckoutWorkingCopy()
     Checkout checkout( this );
     if ( checkout.exec() )
     {
+        setCancelButton( "Checkout" );
         if ( SvnClient::instance()->checkout( checkout.url(), checkout.path() ) )
         {
             workingCopyModel->addWorkingCopy( checkout.path() );
         }
+        setCancelButton( "" );
     }
 }
 
@@ -299,7 +301,9 @@ void QSvn::doUpdate()
     if ( updateSet.count() > 0 )
     {
         QStringList updateList = updateSet.toList();
+        setCancelButton( "Update" );
         SvnClient::instance()->update( updateList );
+        setCancelButton( "" );
     }
 }
 
@@ -312,7 +316,11 @@ void QSvn::doCommit()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
+    {
+        setCancelButton( "Commit" );
         SvnClient::instance()->commit( fileselector.selectedFileList(), fileselector.logMessage() );
+        setCancelButton( "" );
+    }
 }
 
 void QSvn::doAdd()
@@ -324,8 +332,11 @@ void QSvn::doAdd()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
-        SvnClient::instance()->add
-        ( fileselector.selectedFileList() );
+    {
+        setCancelButton( "Add" );
+        SvnClient::instance()->add( fileselector.selectedFileList() );
+        setCancelButton( "" );
+    }
 }
 
 void QSvn::doDelete()
@@ -337,8 +348,11 @@ void QSvn::doDelete()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
-        SvnClient::instance()->remove
-        ( fileselector.selectedFileList() );
+    {
+        setCancelButton( "Delete" );
+        SvnClient::instance()->remove( fileselector.selectedFileList() );
+        setCancelButton( "" );
+    }
 }
 
 void QSvn::doRevert()
@@ -350,7 +364,11 @@ void QSvn::doRevert()
         fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
 
     if ( fileselector.exec() )
+    {
+        setCancelButton( "Revert" );
         SvnClient::instance()->revert( fileselector.selectedFileList() );
+        setCancelButton( "" );
+    }
 }
 
 void QSvn::doDiff()
@@ -376,4 +394,19 @@ void QSvn::aboutQSvn()
     aboutMsg += "<p>This Program is released under the terms of the<br/>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</p>";
     aboutMsg += "</div>";
     QMessageBox::about( this, "Caption", aboutMsg );
+}
+
+void QSvn::setCancelButton( QString aText )
+{
+    if ( aText.isEmpty() )
+    {
+        buttonCancel->setText( "" );
+        disconnect( buttonCancel, SIGNAL( clicked( bool ) ), 0, 0 );
+    }
+    else
+    {
+        buttonCancel->setText( "Cancel " + aText );
+        connect( buttonCancel, SIGNAL( clicked( bool ) ), SvnClient::instance(), SLOT( setCancel( ) ) );
+    }
+    buttonCancel->setEnabled( !aText.isEmpty() );
 }
