@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include Id="qsvn-defines">
+	<?define Version="0.3.0"?>
+
+	<!-- Defines pathes for include files. Adopt directories to your system. -->
+	<?define QtDir=""?>
+	<?define SvnDir=""?>
+	<?define MergeModulesDir=""?>
+</Include>

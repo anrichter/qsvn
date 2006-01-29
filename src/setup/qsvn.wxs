@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
-
-	<Product Name="QSvn 0.3.0 pre" Id="C9A51138-7A96-41DC-9395-C4FD34317836" 
+	<?include qsvn-defines.wxi?>
+	<Product Name="QSvn $(var.Version)" Id="C9A51138-7A96-41DC-9395-C4FD34317836" 
 		UpgradeCode="B8C2EE75-20F4-454B-9CFF-1205532FABA5"
 		Language="1033"
-        Version="0.3.0-pre"
+        Version="$(var.Version)"
 		Manufacturer="Andreas Richter">
 
 		<Package Id="????????-????-????-????-????????????"
 			Keywords="Installer"
-            Description="QSvn 0.3.0-pre Installer"
-            Comments="This Package will install QSvn 0.3.0-pre on your Computer"
+            Description="QSvn $(var.Version) Installer"
+            Comments="This Package will install QSvn $(var.Version) on your Computer"
             Manufacturer="Andreas Richter"
             InstallerVersion="200"
             Languages="1033"
@@ -35,18 +35,18 @@
 					</Component>
 					
 					<Component Id="QtLib4" Guid="8C13219D-0480-408E-BAFB-A97B72667CE7">
-						<File Id="QtCore4" Name="QTCORE4.DLL" LongName="QtCore4.dll" DiskId="1" src="QtCore4.dll"  Vital="yes"/>
-						<File Id="QtGui4" Name="QTGUI4.DLL" LongName="QtGui4.dll" DiskId="1" src="QtGui4.dll" Vital="yes"/>
+						<File Id="QtCore4" Name="QTCORE4.DLL" LongName="QtCore4.dll" DiskId="1" src="$(var.QtDir)\bin\QtCore4.dll"  Vital="yes"/>
+						<File Id="QtGui4" Name="QTGUI4.DLL" LongName="QtGui4.dll" DiskId="1" src="$(var.QtDir)\bin\QtGui4.dll" Vital="yes"/>
 					</Component>
 					
 					<Component Id="SubversionLib" Guid="ECC9F3F1-1A1D-44c6-9DD3-0584BF5B0A1B">
-						<File Id="intl3_svn" Name="INTL3_SV.dll" LongName="intl3_svn.dll" DiskId="1" src="intl3_svn.dll" />
-						<File Id="libapr" Name="LIBAPR.DLL" LongName="libapr.dll" DiskId="1" src="libapr.dll" />
-						<File Id="libapriconv" Name="LIBAPRIC.DLL" LongName="libapriconv.dll" DiskId="1" src="libapriconv.dll" />
-						<File Id="libaprutil" Name="LIBAPRUT.DLL" LongName="libaprutil.dll" DiskId="1" src="libaprutil.dll" />
-						<File Id="libdb43" Name="LIBDB43.DLL" LongName="libdb43.dll" DiskId="1" src="libdb43.dll" />
-						<File Id="libeay32" Name="LIBEAY32.DLL" LongName="libeay32.dll" DiskId="1" src="libeay32.dll" />
-						<File Id="ssleay32" Name="SSLEAY32.DLL" LongName="ssleay32.dll" DiskId="1" src="ssleay32.dll" />
+						<File Id="intl3_svn" Name="INTL3_SV.dll" LongName="intl3_svn.dll" DiskId="1" src="$(var.SvnDir)\bin\intl3_svn.dll" />
+						<File Id="libapr" Name="LIBAPR.DLL" LongName="libapr.dll" DiskId="1" src="$(var.SvnDir)\bin\libapr.dll" />
+						<File Id="libapriconv" Name="LIBAPRIC.DLL" LongName="libapriconv.dll" DiskId="1" src="$(var.SvnDir)\bin\libapriconv.dll" />
+						<File Id="libaprutil" Name="LIBAPRUT.DLL" LongName="libaprutil.dll" DiskId="1" src="$(var.SvnDir)\bin\libaprutil.dll" />
+						<File Id="libdb43" Name="LIBDB43.DLL" LongName="libdb43.dll" DiskId="1" src="$(var.SvnDir)\bin\libdb43.dll" />
+						<File Id="libeay32" Name="LIBEAY32.DLL" LongName="libeay32.dll" DiskId="1" src="$(var.SvnDir)\bin\libeay32.dll" />
+						<File Id="ssleay32" Name="SSLEAY32.DLL" LongName="ssleay32.dll" DiskId="1" src="$(var.SvnDir)\bin\ssleay32.dll" />
 					</Component>
 					
 					<Directory Id="LICENSES" Name="LICENSES" LongName="licenses">
@@ -61,8 +61,8 @@
 					
 				</Directory>
 			</Directory>
-			<Merge Id="CRT" Language="0" DiskId="1" src="Microsoft_VC80_CRT_x86.msm" />
-			<Merge Id="CRT Policy" Language="0" DiskId="1" src="policy_8_0_Microsoft_VC80_CRT_x86.msm" />
+			<Merge Id="CRT" Language="0" DiskId="1" src="$(var.MergeModulesDir)\Microsoft_VC80_CRT_x86.msm" />
+			<Merge Id="CRT Policy" Language="0" DiskId="1" src="$(var.MergeModulesDir)\policy_8_0_Microsoft_VC80_CRT_x86.msm" />
 
 			<Directory Id="ProgramMenuFolder" Name="PMenu" LongName="Programs">
 				<Directory Id="ProgramMenuDir" Name="QSvn" />
