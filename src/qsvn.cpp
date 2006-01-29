@@ -33,6 +33,9 @@
 #include "workingcopymodel.h"
 #include "workingcopyitem.h"
 
+//SvnCpp
+#include "svncpp/version_check.hpp"
+
 //Qt
 #include <QtGui>
 
@@ -388,6 +391,8 @@ void QSvn::aboutQSvn()
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
     aboutMsg += "<br/>0.3.0-pre";
+    aboutMsg += QString( "<br/>Build with Subversion %1" ).arg( svn::Version::linked_version() );
+    aboutMsg += QString( "<br/>Running with Subversion %1" ).arg( svn::Version::running_version() );
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
     aboutMsg += "(c) 2004-2006 QSvn Team<br/>";
     aboutMsg += "<a href=\"http://qsvn.berlios.de\">http://qsvn.berlios.de</p>";

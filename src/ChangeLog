@@ -8,6 +8,10 @@ Version 0.3.0 - released 2006-xx-xx
     * Select / deselect all ComboBox in FileSelector (Commit, Revert, Delete, ...)
     * implement Cancel for SVN actions.
 
+    Changes
+    -------
+    * About dialog show subversion version (linked and running)
+
     Bugfixes
     --------
     * add new and selected log entries in commit dialog and checkout URLs in
