@@ -54,7 +54,10 @@ void StatusText::setOutPutWidget( QTextEdit *textEdit )
 void StatusText::outputMessage( const QString messageString )
 {
     if ( editStatusText )
+    {
         editStatusText->append( messageString );
+        qApp->processEvents();
+    }
     else
         qDebug( messageString.toAscii() );
 }
