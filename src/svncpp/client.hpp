@@ -36,6 +36,7 @@
 #pragma warning (disable: 4290)
 #endif
 
+#include "svncpp_defines.hpp"
 
 // qt
 #include <qglobal.h>
@@ -98,13 +99,13 @@ namespace svn
   /**
    * Subversion client API.
    */
-  class Client
+  SVNQT_EXPORT class Client
   {
   public:
     /**
      * Initializes the primary memory pool.
      */
-    Client (Context * context = 0);
+    Client();
 
     virtual ~Client ();
 
@@ -112,8 +113,8 @@ namespace svn
     /**
      * @return returns the Client context
      */
-    const Context *
-    getContext () const;
+    virtual const Context *
+    getContext () const = 0;
 
     /**
      * sets the client context
@@ -122,8 +123,16 @@ namespace svn
      *
      * @param context new context to use
      */
-    void
-    setContext (Context * context = NULL);
+    virtual void
+    setContext (Context * context = NULL) = 0;
+
+    /**
+     * get a real instance. Result must cleaned with delete.
+     * \param context The context to use
+     * \param subtype the wanted implementation - this moment only 0 allowed.
+     * \return an instance of client or 0L if error.
+     */
+     static Client*getobject(Context * context = 0,int subtype=0);
 
     /**
      * Enumerates all files/dirs at a given path.
@@ -140,14 +149,14 @@ namespace svn
      *                        that may slow so should configureable in frontends!
      * @return vector with Status entries.
      */
-    StatusEntries
+    virtual StatusEntries
     status (const QString& path,
             const bool descend = false,
             const bool get_all = true,
             const bool update = false,
             const bool no_ignore = false,
             Revision revision = svn::Revision::HEAD,
-            bool detailed_remote = false) throw (ClientException);
+            bool detailed_remote = false) throw (ClientException) = 0;
 
     /**
      * Returns the status of a single file in the path.
@@ -159,8 +168,8 @@ namespace svn
      * @param revision list specific revision when browsing remote, on working copies parameter will ignored
      * @return a Status with Statis.isVersioned = FALSE
      */
-    Status
-    singleStatus (const QString& path,bool update=false,Revision revision = svn::Revision::HEAD) throw (ClientException);
+    virtual Status
+    singleStatus (const QString& path,bool update=false,Revision revision = svn::Revision::HEAD) throw (ClientException)=0;
 
   /**
      * Executes a revision checkout.
@@ -171,25 +180,25 @@ namespace svn
      * @param recurse whether you want it to checkout files recursively.
      * @exception ClientException
      */
-    svn_revnum_t
+    virtual svn_revnum_t
     checkout (const QString& moduleName, const Path & destPath,
               const Revision & revision,
-              bool recurse) throw (ClientException);
+              bool recurse) throw (ClientException) = 0;
 
     /**
      * relocate wc @a from to @a to
      * @exception ClientException
      */
-    void
+    virtual void
     relocate (const Path & path, const QString &from_url,
-              const QString &to_url, bool recurse) throw (ClientException);
+              const QString &to_url, bool recurse) throw (ClientException)=0;
 
     /**
      * Sets a single file for deletion.
      * @exception ClientException
      */
-    void
-    remove (const Path & path, bool force) throw (ClientException);
+    virtual void
+    remove (const Path & path, bool force) throw (ClientException)=0;
 
     /**
      * Sets files for deletion.
@@ -198,24 +207,24 @@ namespace svn
      * @param force force if files are locally modified
      * @exception ClientException
      */
-    void
+    virtual void
     remove (const Targets & targets,
-            bool force) throw (ClientException);
+            bool force) throw (ClientException) = 0;
 
     /**
      * Reverts a couple of files to a pristiner state.
      * @exception ClientException
      */
-    void
-    revert (const Targets & targets, bool recurse) throw (ClientException);
+    virtual void
+    revert (const Targets & targets, bool recurse) throw (ClientException)=0;
 
 
     /**
      * Adds a file to the repository.
      * @exception ClientException
      */
-    void
-    add (const Path & path, bool recurse) throw (ClientException);
+    virtual void
+    add (const Path & path, bool recurse) throw (ClientException)=0;
 
     /**
      * Updates the file or directory.
@@ -227,9 +236,9 @@ namespace svn
      * @param ignore_external ignore externals (only when Subversion 1.2 or above)
      * @exception ClientException
      */
-    Revisions
+    virtual Revisions
     update (const Targets & path, const Revision & revision,
-            bool recurse,bool ignore_externals) throw (ClientException);
+            bool recurse,bool ignore_externals) throw (ClientException) = 0;
 
     /**
      * Retrieves the contents for a specific @a revision of
@@ -240,10 +249,10 @@ namespace svn
      * @param revision revision to retrieve
      * @return contents of the file
      */
-    QByteArray
+    virtual QByteArray
     cat (const Path & path,
           const Revision & revision,
-          const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException);
+          const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException)=0;
 
 
     /**
@@ -261,9 +270,9 @@ namespace svn
      * @param path path or url
      * @param revision
      */
-    void
+    virtual void
     get (Path & dstPath, const Path & path,
-         const Revision & revision) throw (ClientException);
+         const Revision & revision) throw (ClientException) = 0;
 
 
     /**
@@ -275,10 +284,10 @@ namespace svn
      * @param revisionEnd revision to retrieve
      * @return contents of the file
      */
-    AnnotatedFile *
+    virtual AnnotatedFile *
     annotate (const Path & path,
               const Revision & revisionStart,
-              const Revision & revisionEnd) throw (ClientException);
+              const Revision & revisionEnd) throw (ClientException)=0;
 
     /**
      * Commits changes to the repository. This usually requires
@@ -290,29 +299,29 @@ namespace svn
      * @param recurse whether the operation should be done recursively.
      * @exception ClientException
      */
-    svn_revnum_t
+    virtual svn_revnum_t
     commit (const Targets & targets,
             const QString& message,
-            bool recurse) throw (ClientException);
+            bool recurse) throw (ClientException)=0;
 
     /**
      * Copies a versioned file with the history preserved.
      * @exception ClientException
      */
-    void
+    virtual void
     copy (const Path & srcPath,
           const Revision & srcRevision,
-          const Path & destPath) throw (ClientException);
+          const Path & destPath) throw (ClientException)=0;
 
     /**
      * Moves or renames a file.
      * @exception ClientException
      */
-    void
+    virtual void
     move (const Path & srcPath,
           const Revision & srcRevision,
           const Path & destPath,
-          bool force) throw (ClientException);
+          bool force) throw (ClientException)=0;
 
     /**
      * Creates a directory directly in a repository or creates a
@@ -323,12 +332,12 @@ namespace svn
      * @param message log message.
      * @exception ClientException
      */
-    void
+    virtual void
     mkdir (const Path & path,
-           const QString& message) throw (ClientException);
-    void
+           const QString& message) throw (ClientException)=0;
+    virtual void
     mkdir (const Targets & targets,
-           const QString& message) throw (ClientException);
+           const QString& message) throw (ClientException)=0;
 
     /**
      * Recursively cleans up a local directory, finishing any
@@ -336,15 +345,15 @@ namespace svn
      * @param path a local directory.
      * @exception ClientException
      */
-    void
-    cleanup (const Path & path) throw (ClientException);
+    virtual void
+    cleanup (const Path & path) throw (ClientException)=0;
 
     /**
      * Removes the 'conflicted' state on a file.
      * @exception ClientException
      */
-    void
-    resolved (const Path & path, bool recurse) throw (ClientException);
+    virtual void
+    resolved (const Path & path, bool recurse) throw (ClientException)=0;
 
     /**
      * Exports the contents of either a subversion repository into a
@@ -356,21 +365,21 @@ namespace svn
      * @param revision revision to use for the export
      * @param force force export
      */
-    svn_revnum_t
+    virtual svn_revnum_t
     doExport (const Path & srcPath,
               const Path & destPath,
               const Revision & revision,
-              bool force=false) throw (ClientException);
+              bool force=false) throw (ClientException)=0;
 
     /**
      * Update local copy to mirror a new url. This excapsulates the
      * svn_client_switch() client method.
      * @exception ClientException
      */
-    svn_revnum_t
+    virtual svn_revnum_t
     doSwitch (const Path & path, const QString& url,
               const Revision & revision,
-              bool recurse) throw (ClientException);
+              bool recurse) throw (ClientException)=0;
 
     /**
      * Import file or directory PATH into repository directory URL at
@@ -381,22 +390,22 @@ namespace svn
      * @param recurse
      * @exception ClientException
      */
-    void
+    virtual void
     import (const Path & path, const QString& url,
             const QString& message,
-            bool recurse) throw (ClientException);
+            bool recurse) throw (ClientException)=0;
 
     /**
      * Merge changes from two paths into a new local path.
      * @exception ClientException
      */
-    void
+    virtual void
     merge (const Path & path1, const Revision & revision1,
            const Path & path2, const Revision & revision2,
            const Path & localPath, bool force,
            bool recurse,
            bool notice_ancestry=false,
-           bool dry_run=false) throw (ClientException);
+           bool dry_run=false) throw (ClientException)=0;
 
     /**
      * Retrieve information for the given path
@@ -410,11 +419,11 @@ namespace svn
      * @return InfoEntries
      * @since subversion 1.2
      */
-    InfoEntries
+    virtual InfoEntries
     info(const QString &path,
           bool rec,
           const Revision & rev,
-          const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException);
+          const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException)=0;
     /**
      * Retrieve log information for the given path
      * Loads the log messages result set. The first
@@ -431,11 +440,11 @@ namespace svn
      * @param limit (ignored when subversion 1.1 API)
      * @return a vector with log entries
      */
-    const LogEntries *
+    virtual const LogEntries *
     log (const QString& path, const Revision & revisionStart,
          const Revision & revisionEnd,
          bool discoverChangedPaths=false,
-         bool strictNodeHistory=true,int limit = 0) throw (ClientException);
+         bool strictNodeHistory=true,int limit = 0) throw (ClientException)=0;
 
     /**
      * Produce diff output which describes the delta between
@@ -459,11 +468,11 @@ namespace svn
      * @return delta between the files
      * @exception ClientException
      */
-    QString
+    virtual QString
     diff (const Path & tmpPath, const Path & path,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
-          const bool noDiffDeleted) throw (ClientException);
+          const bool noDiffDeleted) throw (ClientException)=0;
     /**
      * Produce diff output which describes the delta between
      * @a path1/@a revision1 and @a path2/@a revision2. @a path2
@@ -486,26 +495,29 @@ namespace svn
      * @return delta between the files
      * @exception ClientException
      */
-    QString
+    virtual QString
     diff (const Path & tmpPath, const Path & path1,const Path & path2,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
-          const bool noDiffDeleted) throw (ClientException);
+          const bool noDiffDeleted) throw (ClientException)=0;
 
     /**
      * lists entries in @a pathOrUrl no matter whether local or
      * repository
      *
+     * If checking for locks is activated, it lists the locks inside repository, not locks inside 
+     * working copy!
      * @param pathOrUrl
      * @param revision
      * @param recurse
+     * @param retrieve_locks check for REPOSITORY locks while listing.
      * @return a vector of directory entries, each with
      *         a relative path (only filename)
      */
-    DirEntries
+    virtual DirEntries
     list (const QString& pathOrUrl,
           Revision& revision,
-          bool recurse) throw (ClientException);
+          bool recurse,bool retrieve_locks) throw (ClientException)=0;
 
     /**
      * lists properties in @a path no matter whether local or
@@ -516,10 +528,10 @@ namespace svn
      * @param recurse
      * @return PropertiesList
      */
-    PathPropertiesMapList
+    virtual PathPropertiesMapList
     proplist(const Path &path,
              const Revision &revision,
-             bool recurse=false);
+             bool recurse=false)=0;
 
     /**
      * lists one property in @a path no matter whether local or
@@ -531,11 +543,11 @@ namespace svn
      * @param recurse
      * @return PathPropertiesMapList
      */
-    PathPropertiesMapList
+    virtual PathPropertiesMapList
     propget(const QString& propName,
             const Path &path,
             const Revision &revision,
-            bool recurse=false);
+            bool recurse=false) = 0;
 
     /**
      * set property in @a path no matter whether local or
@@ -548,12 +560,12 @@ namespace svn
      * @param recurse
      * @return PropertiesList
      */
-    void
+    virtual void
     propset(const QString& propName,
             const QString& propValue,
             const Path &path,
             const Revision &revision,
-            bool recurse=false);
+            bool recurse=false) = 0;
 
     /**
      * delete property in @a path no matter whether local or
@@ -564,11 +576,11 @@ namespace svn
      * @param revision
      * @param recurse
      */
-    void
+    virtual void
     propdel(const QString& propName,
             const Path &path,
             const Revision &revision,
-            bool recurse=false);
+            bool recurse=false)=0;
 
 
     /**
@@ -579,9 +591,9 @@ namespace svn
      * @param revision
      * @return PropertiesList
      */
-    QPair<svn_revnum_t,PropertiesMap>
+    virtual QPair<svn_revnum_t,PropertiesMap>
     revproplist(const Path &path,
-                const Revision &revision);
+                const Revision &revision)=0;
 
     /**
      * lists one revision property in @a path no matter whether local or
@@ -592,10 +604,10 @@ namespace svn
      * @param revision
      * @return PropertiesList
      */
-    QPair<svn_revnum_t,QString>
+    virtual QPair<svn_revnum_t,QString>
     revpropget(const QString& propName,
                const Path &path,
-               const Revision &revision);
+               const Revision &revision)=0;
 
     /**
      * set revision property in @a path no matter whether local or
@@ -608,12 +620,12 @@ namespace svn
      * @param force
      * @return Revision
      */
-    svn_revnum_t
+    virtual svn_revnum_t
     revpropset(const QString& propName,
                const QString& propValue,
                const Path &path,
                const Revision &revision,
-               bool force=false);
+               bool force=false)=0;
 
     /**
      * delete revision property in @a path no matter whether local or
@@ -625,11 +637,11 @@ namespace svn
      * @param force
      * @return Revision
      */
-    svn_revnum_t
+    virtual svn_revnum_t
     revpropdel(const QString& propName,
                const Path &path,
                const Revision &revision,
-               bool force=false);
+               bool force=false) = 0;
 
   /**
    * lock files in repository or working copy
@@ -638,49 +650,35 @@ namespace svn
    * @param steal_lock if true locks in wc will stolen.
    * @since subversion 1.2
    */
-   void
+   virtual void
    lock (const Targets & targets,
         const QString& message,
-        bool steal_lock) throw (ClientException);
+        bool steal_lock) throw (ClientException)=0;
     /**
      * unlock files in repository or working copy
      * @param targets items to unlock
      * @param break_lock ignore any errors
      */
-    void
+    virtual void
     unlock (const Targets&targets,
-            bool break_lock) throw (ClientException);
+            bool break_lock) throw (ClientException)=0;
 
-    void
+    virtual void
     url2Revision(const QString&revstring,
-        Revision&start,Revision&end);
-    void
+        Revision&start,Revision&end)=0;
+    virtual void
     url2Revision(const QString&revstring,
-            Revision&start);
+            Revision&start)=0;
 
   private:
-    Context * m_context;
-
     /**
      * disallow assignment operator
      */
     Client & operator= (const Client &);
-
     /**
      * disallow copy constructor
      */
     Client (const Client &);
-
-    //! old style update
-    /*!
-     * used internal for subversion lib below 1.2
-     * \param path the path to update
-     * \param revision update to revision
-     * \param recurse make update recursive
-     * \return to which revision the item is updated
-     * @exception ClientException
-     */
-    svn_revnum_t update_old(const Path&path,const Revision&revision,bool recurse)throw (ClientException);
   };
 
 }

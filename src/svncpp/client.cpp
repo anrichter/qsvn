@@ -28,54 +28,30 @@
 
 // svncpp
 #include "client.hpp"
+#include "client_impl.hpp"
 #include "svn_opt.h"
 #include "svncpp_defines.hpp"
 
 namespace svn
 {
-  Client::Client (Context * context)
+  Client::Client()
   {
-    setContext (context);
   }
 
   Client::~Client ()
   {
   }
 
-  const Context *
-  Client::getContext () const
+  Client*Client::getobject(Context * context,int subtype)
   {
-    return m_context;
-  }
-
-  void
-  Client::setContext (Context * context)
-  {
-    m_context = context;
-  }
-
-  void
-  Client::url2Revision(const QString&revstring,
-        Revision&start,Revision&end)
-  {
-    Pool pool;
-    int n = svn_opt_parse_revision(start,end,revstring.TOUTF8(),pool);
-
-    if (n<0) {
-        start = Revision::UNDEFINED;
-        end = Revision::UNDEFINED;
+    switch(subtype) {
+      case 0:
+       return new Client_impl(context);
+       break;
+      default:
+       break;
     }
-  }
-
-    void Client::url2Revision(const QString&revstring,Revision&start) {
-        if (revstring=="WORKING") {
-            start = Revision::WORKING;
-        } else if (revstring=="BASE"){
-            start = Revision::BASE;
-        } else {
-            Revision end;
-            url2Revision(revstring,start,end);
-        }
+    return 0L;
   }
 }
 

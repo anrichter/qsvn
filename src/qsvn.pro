@@ -91,6 +91,7 @@ HEADERS = addworkingcopy.h \
           svncpp/apr.hpp \
           svncpp/check.hpp \
           svncpp/client.hpp \
+          svncpp/client_impl.hpp \
           svncpp/context.hpp \
           svncpp/context_listener.hpp \
           svncpp/datetime.hpp \
@@ -130,6 +131,7 @@ SOURCES = addworkingcopy.cpp \
           svncpp/client_cat.cpp \
           svncpp/client.cpp \
           svncpp/client_diff.cpp \
+          svncpp/client_impl.cpp \
           svncpp/client_lock.cpp \
           svncpp/client_ls.cpp \
           svncpp/client_modify.cpp \

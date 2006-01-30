@@ -25,6 +25,8 @@
 #if defined( _MSC_VER) && _MSC_VER <= 1200
 #pragma warning( disable: 4786 )// debug symbol truncated
 #endif
+// svncpp
+#include "client_impl.hpp"
 
 // Subversion api
 #include "svn_client.h"
@@ -32,8 +34,6 @@
 #include "svn_path.h"
 //#include "svn_utf.h"
 
-// svncpp
-#include "client.hpp"
 #include "dirent.hpp"
 #include "exception.hpp"
 #include "pool.hpp"
@@ -198,7 +198,7 @@ namespace svn
                 Context * context,
                 bool detailed_remote)
   {
-    DirEntries dirEntries = client->list(path, revision, descend);
+    DirEntries dirEntries = client->list(path, revision, descend,detailed_remote);
     DirEntries::const_iterator it;
 
     StatusEntries entries;
@@ -210,7 +210,8 @@ namespace svn
     for (it = dirEntries.begin (); it != dirEntries.end (); it++)
     {
       const DirEntry & dirEntry = *it;
-
+      entries.push_back(dirEntryToStatus (path, dirEntry));
+#if 0
       if (_det && dirEntry.kind()==svn_node_file) {
         try {
             InfoEntries infoEntries = client->info(url+dirEntry.name(),false,revision,Revision(Revision::UNDEFINED));
@@ -225,13 +226,14 @@ namespace svn
       if (_det && context->getListener()->contextCancel()) {
         throw ClientException("Canceld");
       }
+#endif
     }
 
     return entries;
   }
 
   StatusEntries
-  Client::status (const QString& path,
+  Client_impl::status (const QString& path,
                   const bool descend,
                   const bool get_all,
                   const bool update,
@@ -305,7 +307,7 @@ namespace svn
   }
 
   Status
-  Client::singleStatus (const QString& path,bool update,Revision revision) throw (ClientException)
+  Client_impl::singleStatus (const QString& path,bool update,Revision revision) throw (ClientException)
   {
     if (Url::isValid (path))
       return remoteSingleStatus (this, path,revision, m_context);
@@ -314,7 +316,7 @@ namespace svn
   }
 
   const LogEntries *
-  Client::log (const QString& path, const Revision & revisionStart,
+  Client_impl::log (const QString& path, const Revision & revisionStart,
                const Revision & revisionEnd, bool discoverChangedPaths,
                bool strictNodeHistory,int limit) throw (ClientException)
   {
@@ -345,7 +347,7 @@ namespace svn
   }
 
   InfoEntries
-  Client::info(const QString& path,
+  Client_impl::info(const QString& path,
                 bool rec,
                 const Revision & rev,
                 const Revision & peg_revision) throw (ClientException)

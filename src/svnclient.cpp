@@ -50,7 +50,7 @@ SvnClient* SvnClient::instance()
 SvnClient::SvnClient()
 {
     svnContext = new svn::Context();
-    svnClient = new svn::Client( svnContext );
+    svnClient = svn::Client::getobject( svnContext, 0 );
     listener = new Listener();
 
     svnContext->setListener( listener );
