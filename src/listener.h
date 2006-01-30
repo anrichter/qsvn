@@ -21,8 +21,8 @@
 #ifndef LISTENER_H
 #define LISTENER_H
 
-//svncpp
-#include "svncpp/context_listener.hpp"
+//svnqt
+#include "svnqt/context_listener.hpp"
 
 //Qt
 #include <QtCore>

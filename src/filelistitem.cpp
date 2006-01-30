@@ -27,10 +27,10 @@
 #include <QtGui>
 
 //Svn
-#include "svncpp/client.hpp"
-#include "svncpp/path.hpp"
-#include "svncpp/revision.hpp"
-#include "svncpp/wc.hpp"
+#include "svnqt/client.hpp"
+#include "svnqt/path.hpp"
+#include "svnqt/revision.hpp"
+#include "svnqt/wc.hpp"
 #include <svn_wc.h>
 
 

@@ -87,29 +87,29 @@ HEADERS = addworkingcopy.h \
           svnclient.h \
           workingcopyitem.h \
           workingcopymodel.h \
-          svncpp/annotate_line.hpp \
-          svncpp/apr.hpp \
-          svncpp/check.hpp \
-          svncpp/client.hpp \
-          svncpp/client_impl.hpp \
-          svncpp/context.hpp \
-          svncpp/context_listener.hpp \
-          svncpp/datetime.hpp \
-          svncpp/dirent.hpp \
-          svncpp/entry.hpp \
-          svncpp/exception.hpp \
-          svncpp/info_entry.hpp \
-          svncpp/lock_entry.hpp \
-          svncpp/log_entry.hpp \
-          svncpp/path.hpp \
-          svncpp/pool.hpp \
-          svncpp/property.hpp \
-          svncpp/revision.hpp \
-          svncpp/status.hpp \
-          svncpp/targets.hpp \
-          svncpp/url.hpp \
-          svncpp/version_check.hpp \
-          svncpp/wc.hpp
+          svnqt/annotate_line.hpp \
+          svnqt/apr.hpp \
+          svnqt/check.hpp \
+          svnqt/client.hpp \
+          svnqt/client_impl.hpp \
+          svnqt/context.hpp \
+          svnqt/context_listener.hpp \
+          svnqt/datetime.hpp \
+          svnqt/dirent.hpp \
+          svnqt/entry.hpp \
+          svnqt/exception.hpp \
+          svnqt/info_entry.hpp \
+          svnqt/lock_entry.hpp \
+          svnqt/log_entry.hpp \
+          svnqt/path.hpp \
+          svnqt/pool.hpp \
+          svnqt/property.hpp \
+          svnqt/revision.hpp \
+          svnqt/status.hpp \
+          svnqt/targets.hpp \
+          svnqt/url.hpp \
+          svnqt/version_check.hpp \
+          svnqt/wc.hpp
 
 SOURCES = addworkingcopy.cpp \
           checkout.cpp \
@@ -126,31 +126,31 @@ SOURCES = addworkingcopy.cpp \
           svnclient.cpp \
           workingcopyitem.cpp \
           workingcopymodel.cpp \
-          svncpp/apr.cpp \
-          svncpp/client_annotate.cpp \
-          svncpp/client_cat.cpp \
-          svncpp/client.cpp \
-          svncpp/client_diff.cpp \
-          svncpp/client_impl.cpp \
-          svncpp/client_lock.cpp \
-          svncpp/client_ls.cpp \
-          svncpp/client_modify.cpp \
-          svncpp/client_property.cpp \
-          svncpp/client_status.cpp \
-          svncpp/context.cpp \
-          svncpp/datetime.cpp \
-          svncpp/dirent.cpp \
-          svncpp/entry.cpp \
-          svncpp/exception.cpp \
-          svncpp/info_entry.cpp \
-          svncpp/lock_entry.cpp \
-          svncpp/log_entry.cpp \
-          svncpp/path.cpp \
-          svncpp/pool.cpp \
-          svncpp/property.cpp \
-          svncpp/revision.cpp \
-          svncpp/status.cpp \
-          svncpp/targets.cpp \
-          svncpp/url.cpp \
-          svncpp/version_check.cpp \
-          svncpp/wc.cpp
+          svnqt/apr.cpp \
+          svnqt/client_annotate.cpp \
+          svnqt/client_cat.cpp \
+          svnqt/client.cpp \
+          svnqt/client_diff.cpp \
+          svnqt/client_impl.cpp \
+          svnqt/client_lock.cpp \
+          svnqt/client_ls.cpp \
+          svnqt/client_modify.cpp \
+          svnqt/client_property.cpp \
+          svnqt/client_status.cpp \
+          svnqt/context.cpp \
+          svnqt/datetime.cpp \
+          svnqt/dirent.cpp \
+          svnqt/entry.cpp \
+          svnqt/exception.cpp \
+          svnqt/info_entry.cpp \
+          svnqt/lock_entry.cpp \
+          svnqt/log_entry.cpp \
+          svnqt/path.cpp \
+          svnqt/pool.cpp \
+          svnqt/property.cpp \
+          svnqt/revision.cpp \
+          svnqt/status.cpp \
+          svnqt/targets.cpp \
+          svnqt/url.cpp \
+          svnqt/version_check.cpp \
+          svnqt/wc.cpp

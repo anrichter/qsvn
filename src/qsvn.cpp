@@ -34,7 +34,7 @@
 #include "workingcopyitem.h"
 
 //SvnCpp
-#include "svncpp/version_check.hpp"
+#include "svnqt/version_check.hpp"
 
 //Qt
 #include <QtGui>

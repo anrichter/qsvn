@@ -29,7 +29,7 @@ class FileListItem;
 #include <QtGui>
 
 //SvnCpp
-#include "svncpp/status.hpp"
+#include "svnqt/status.hpp"
 
 
 class FileListModel : public QAbstractItemModel

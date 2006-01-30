@@ -26,9 +26,9 @@
 #include "svnclient.h"
 
 //SvnCpp
-#include "svncpp/client.hpp"
-#include "svncpp/status.hpp"
-#include "svncpp/targets.hpp"
+#include "svnqt/client.hpp"
+#include "svnqt/status.hpp"
+#include "svnqt/targets.hpp"
 
 //Qt
 #include <QtCore>

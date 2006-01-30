@@ -26,7 +26,7 @@
 #include "workingcopymodel.h"
 
 //SvnCpp
-#include "svncpp/wc.hpp"
+#include "svnqt/wc.hpp"
 
 //Qt
 #include <QDir>

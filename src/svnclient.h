@@ -25,9 +25,9 @@
 #include "listener.h"
 
 //SvnCpp
-#include "svncpp/client.hpp"
-#include "svncpp/context.hpp"
-#include "svncpp/status.hpp"
+#include "svnqt/client.hpp"
+#include "svnqt/context.hpp"
+#include "svnqt/status.hpp"
 
 //Qt
 #include <QtCore>

@@ -24,7 +24,7 @@
 #include "statustext.h"
 
 //SvnCpp
-#include "svncpp/context_listener.hpp"
+#include "svnqt/context_listener.hpp"
 
 //Qt
 #include "QtCore"
