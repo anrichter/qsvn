@@ -44,7 +44,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
         : QMainWindow( parent, flags )
 {
     setupUi( this );
-    setWindowIcon( QIcon( ":qsvn.png" ) );   
+    setWindowIcon( QIcon( ":qsvn.png" ) );
 
     createActions();
     createMenus();
@@ -391,8 +391,8 @@ void QSvn::aboutQSvn()
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
     aboutMsg += "<br/>0.3.0-pre";
-    aboutMsg += "<br/>Build with Subversion %1" + svn::Version::linked_version();
-    aboutMsg += "<br/>Running with Subversion %1" + svn::Version::running_version();
+    aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
+    aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
     aboutMsg += "(c) 2004-2006 QSvn Team<br/>";
     aboutMsg += "<a href=\"http://qsvn.berlios.de\">http://qsvn.berlios.de</p>";
