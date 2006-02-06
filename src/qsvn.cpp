@@ -95,67 +95,36 @@ QSvn::~QSvn()
 
 void QSvn::createActions()
 {
-    actionExit = new QAction( tr( "E&xit" ), this );
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( close() ) );
 
-    actionAddWorkingCopy = new QAction( QIcon( ":menuadd.png" ), tr( "&Add..." ), this );
+    actionAddWorkingCopy->setIcon( QIcon( ":menuadd.png" ) );
     connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( doAddWorkingCopy() ) );
-    actionRemoveWorkingCopy = new QAction( QIcon( ":menudelete.png" ), tr( "&Remove..." ), this );
+    actionRemoveWorkingCopy->setIcon( QIcon( ":menudelete.png" ) );
     connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( doRemoveWorkingCopy() ) );
-    actionCheckoutWorkingCopy = new QAction( QIcon( ":menucheckout.png" ), tr( "&Checkout..." ), this );
+    actionCheckoutWorkingCopy->setIcon( QIcon( ":menucheckout.png" ) );
     connect( actionCheckoutWorkingCopy, SIGNAL( triggered() ), this, SLOT( doCheckoutWorkingCopy() ) );
 
-    actionUpdate = new QAction( QIcon( ":menuupdate.png" ), tr( "&Update" ), this );
+    actionUpdate->setIcon( QIcon( ":menuupdate.png" ) );
     connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( doUpdate() ) );
-    actionCommit = new QAction( QIcon( ":menucommit.png" ), tr( "&Commit..." ), this );
+    actionCommit->setIcon( QIcon( ":menucommit.png" ) );
     connect( actionCommit, SIGNAL( triggered() ), this, SLOT( doCommit() ) );
-    actionAdd = new QAction( QIcon( ":menuadd.png" ), tr( "&Add..." ), this );
+    actionAdd->setIcon( QIcon( ":menuadd.png" ) );
     connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
-    actionDelete = new QAction( QIcon( ":menudelete.png" ), tr( "&Delete..." ), this );
+    actionDelete->setIcon( QIcon( ":menudelete.png" ) );
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
-    actionRevert = new QAction( QIcon( ":menurevert.png" ), tr( "Re&vert..." ), this );
+    actionRevert->setIcon( QIcon( ":menurevert.png" ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
 
-    actionDiff = new QAction( tr( "&Diff..." ), this );
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
-    actionConfigureQSvn = new QAction( tr( "&Configure QSvn..." ), this );
     connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvn() ) );
 
-    actionAboutQSvn = new QAction( tr( "&About QSvn..." ), this );
     connect( actionAboutQSvn, SIGNAL( triggered() ), this, SLOT( aboutQSvn() ) );
-    actionAboutQt = new QAction( tr( "About &Qt..." ), this );
     connect( actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
 }
 
 void QSvn::createMenus()
 {
-    menuFile = menuBar()->addMenu( tr( "&File" ) );
-    menuFile->addAction( actionExit );
-
-    menuWorkingCopy = menuBar()->addMenu( tr( "&Working Copy" ) );
-    menuWorkingCopy->addAction( actionAddWorkingCopy );
-    menuWorkingCopy->addAction( actionRemoveWorkingCopy );
-    menuWorkingCopy->addAction( actionCheckoutWorkingCopy );
-
-    menuModify = menuBar()->addMenu( tr( "&Modify" ) );
-    menuModify->addAction( actionUpdate );
-    menuModify->addAction( actionCommit );
-    menuModify->addSeparator();
-    menuModify->addAction( actionAdd );
-    menuModify->addAction( actionDelete );
-    menuModify->addAction( actionRevert );
-
-    menuQuery = menuBar()->addMenu( tr( "&Query" ) );
-    menuQuery->addAction( actionDiff );
-
-    menuSettings = menuBar()->addMenu( tr( "&Settings" ) );
-    menuSettings->addAction( actionConfigureQSvn );
-
-    menuHelp = menuBar()->addMenu( tr( "&Help" ) );
-    menuHelp->addAction( actionAboutQSvn );
-    menuHelp->addAction( actionAboutQt );
-
     contextMenuWorkingCopy = new QMenu( this );
     contextMenuWorkingCopy->addAction( actionUpdate );
     contextMenuWorkingCopy->addAction( actionCommit );

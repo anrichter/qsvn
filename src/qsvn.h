@@ -44,29 +44,6 @@ protected:
     bool eventFilter ( QObject * watched, QEvent * event );
 
 private:
-    //Actions
-    QAction* actionExit;
-    QAction* actionAboutQSvn;
-    QAction* actionAddWorkingCopy;
-    QAction* actionRemoveWorkingCopy;
-    QAction* actionAboutQt;
-    QAction* actionConfigureQSvn;
-    QAction* actionUpdate;
-    QAction* actionCommit;
-    QAction* actionAdd;
-    QAction* actionDelete;
-    QAction* actionDiff;
-    QAction* actionCheckoutWorkingCopy;
-    QAction* actionRevert;
-
-    //Menus
-    QMenu *menuFile;
-    QMenu *menuWorkingCopy;
-    QMenu *menuModify;
-    QMenu *menuQuery;
-    QMenu *menuSettings;
-    QMenu *menuHelp;
-
     //ContextMenus
     QMenu *contextMenuWorkingCopy;
     QMenu *contextMenuFileList;
