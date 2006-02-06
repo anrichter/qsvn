@@ -51,7 +51,8 @@ private:
     WorkingCopyModel *workingCopyModel;
     FileListModel *fileListModel;
 
-    void createActions();
+    void setActionIcons();
+    void connectActions();
     void createMenus();
     void createToolBar();
 

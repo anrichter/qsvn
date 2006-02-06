@@ -46,7 +46,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     setupUi( this );
     setWindowIcon( QIcon( ":qsvn.png" ) );
 
-    createActions();
+    setActionIcons();
+    connectActions();
     createMenus();
     createToolBar();
 
@@ -93,26 +94,32 @@ QSvn::~QSvn()
     delete( contextMenuFileList );
 }
 
-void QSvn::createActions()
+void QSvn::setActionIcons( )
+{
+    //todo: Qt4.1.0 Designer can't handle icons set in ui file :(
+    actionAddWorkingCopy->setIcon( QIcon( ":menuadd.png" ) );
+    actionRemoveWorkingCopy->setIcon( QIcon( ":menudelete.png" ) );
+    actionCheckoutWorkingCopy->setIcon( QIcon( ":menucheckout.png" ) );
+
+    actionUpdate->setIcon( QIcon( ":menuupdate.png" ) );
+    actionCommit->setIcon( QIcon( ":menucommit.png" ) );
+    actionAdd->setIcon( QIcon( ":menuadd.png" ) );
+    actionDelete->setIcon( QIcon( ":menudelete.png" ) );
+    actionRevert->setIcon( QIcon( ":menurevert.png" ) );
+}
+
+void QSvn::connectActions()
 {
     connect( actionExit, SIGNAL( triggered() ), this, SLOT( close() ) );
 
-    actionAddWorkingCopy->setIcon( QIcon( ":menuadd.png" ) );
     connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( doAddWorkingCopy() ) );
-    actionRemoveWorkingCopy->setIcon( QIcon( ":menudelete.png" ) );
     connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( doRemoveWorkingCopy() ) );
-    actionCheckoutWorkingCopy->setIcon( QIcon( ":menucheckout.png" ) );
     connect( actionCheckoutWorkingCopy, SIGNAL( triggered() ), this, SLOT( doCheckoutWorkingCopy() ) );
 
-    actionUpdate->setIcon( QIcon( ":menuupdate.png" ) );
     connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( doUpdate() ) );
-    actionCommit->setIcon( QIcon( ":menucommit.png" ) );
     connect( actionCommit, SIGNAL( triggered() ), this, SLOT( doCommit() ) );
-    actionAdd->setIcon( QIcon( ":menuadd.png" ) );
     connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
-    actionDelete->setIcon( QIcon( ":menudelete.png" ) );
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
-    actionRevert->setIcon( QIcon( ":menurevert.png" ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
