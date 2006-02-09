@@ -227,12 +227,12 @@ void QSvn::doCheckoutWorkingCopy()
     Checkout checkout( this );
     if ( checkout.exec() )
     {
-        setCancelButton( "Checkout" );
+        setActionStop( "Checkout" );
         if ( SvnClient::instance()->checkout( checkout.url(), checkout.path() ) )
         {
             workingCopyModel->addWorkingCopy( checkout.path() );
         }
-        setCancelButton( "" );
+        setActionStop( "" );
     }
 }
 
@@ -280,9 +280,9 @@ void QSvn::doUpdate()
     if ( updateSet.count() > 0 )
     {
         QStringList updateList = updateSet.toList();
-        setCancelButton( "Update" );
+        setActionStop( "Update" );
         SvnClient::instance()->update( updateList );
-        setCancelButton( "" );
+        setActionStop( "" );
     }
 }
 
@@ -296,9 +296,9 @@ void QSvn::doCommit()
 
     if ( fileselector.exec() )
     {
-        setCancelButton( "Commit" );
+        setActionStop( "Commit" );
         SvnClient::instance()->commit( fileselector.selectedFileList(), fileselector.logMessage() );
-        setCancelButton( "" );
+        setActionStop( "" );
     }
 }
 
@@ -312,9 +312,9 @@ void QSvn::doAdd()
 
     if ( fileselector.exec() )
     {
-        setCancelButton( "Add" );
+        setActionStop( "Add" );
         SvnClient::instance()->add( fileselector.selectedFileList() );
-        setCancelButton( "" );
+        setActionStop( "" );
     }
 }
 
@@ -328,9 +328,9 @@ void QSvn::doDelete()
 
     if ( fileselector.exec() )
     {
-        setCancelButton( "Delete" );
+        setActionStop( "Delete" );
         SvnClient::instance()->remove( fileselector.selectedFileList() );
-        setCancelButton( "" );
+        setActionStop( "" );
     }
 }
 
@@ -344,9 +344,9 @@ void QSvn::doRevert()
 
     if ( fileselector.exec() )
     {
-        setCancelButton( "Revert" );
+        setActionStop( "Revert" );
         SvnClient::instance()->revert( fileselector.selectedFileList() );
-        setCancelButton( "" );
+        setActionStop( "" );
     }
 }
 
@@ -377,7 +377,7 @@ void QSvn::aboutQSvn()
     QMessageBox::about( this, "Caption", aboutMsg );
 }
 
-void QSvn::setCancelButton( QString aText )
+void QSvn::setActionStop( QString aText )
 {
     if ( aText.isEmpty() )
     {

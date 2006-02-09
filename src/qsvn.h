@@ -58,7 +58,7 @@ private:
     bool isFileListSelected();
     QStringList selectedFiles();
 
-    void setCancelButton( QString aText );
+    void setActionStop( QString aText );
 
 private slots:
     //WorkingCopy
