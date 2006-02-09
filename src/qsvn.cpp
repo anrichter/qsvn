@@ -105,6 +105,8 @@ void QSvn::setActionIcons( )
     actionAdd->setIcon( QIcon( ":menuadd.png" ) );
     actionDelete->setIcon( QIcon( ":menudelete.png" ) );
     actionRevert->setIcon( QIcon( ":menurevert.png" ) );
+
+    actionStop->setIcon( QIcon( ":actionstop.png" ) );
 }
 
 void QSvn::connectActions()
@@ -127,6 +129,8 @@ void QSvn::connectActions()
 
     connect( actionAboutQSvn, SIGNAL( triggered() ), this, SLOT( aboutQSvn() ) );
     connect( actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
+
+    connect( actionStop, SIGNAL( triggered( ) ), SvnClient::instance(), SLOT( setCancel( ) ) );
 }
 
 void QSvn::createMenus()
@@ -377,13 +381,16 @@ void QSvn::setCancelButton( QString aText )
 {
     if ( aText.isEmpty() )
     {
-        buttonCancel->setText( "" );
-        disconnect( buttonCancel, SIGNAL( clicked( bool ) ), 0, 0 );
+        actionStop->setText( "" );
+        disconnect( actionStop, SIGNAL( triggered( ) ), 0, 0 );
+        qDebug() << "disable Stop" << endl;
     }
     else
     {
-        buttonCancel->setText( "Cancel " + aText );
-        connect( buttonCancel, SIGNAL( clicked( bool ) ), SvnClient::instance(), SLOT( setCancel( ) ) );
+        actionStop->setText( "Stop " + aText );
+        connect( actionStop, SIGNAL( triggered( ) ), SvnClient::instance(), SLOT( setCancel( ) ) );
+        qDebug() << "enable Stop" << endl;
     }
-    buttonCancel->setEnabled( !aText.isEmpty() );
+    actionStop->setEnabled( !aText.isEmpty() );
+    qApp->processEvents();
 }

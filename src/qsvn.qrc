@@ -1,7 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-	<file alias="qsvn.png">images/qsvn.png</file>
-	<file alias="folder.png">images/folder.png</file>
+    <file alias="qsvn.png">images/qsvn.png</file>
+    <file alias="folder.png">images/folder.png</file>
     <file alias="unknownfolder.png">images/unknownfolder.png</file>
 
     <file alias="file.png">images/file.png</file>
@@ -11,11 +11,13 @@
     <file alias="modifiedfile.png">images/modifiedfile.png</file>
     <file alias="unknownfile.png">images/unknownfile.png</file>
 
-	<file alias="menucheckout.png">images/menucheckout.png</file>
-	<file alias="menuadd.png">images/menuadd.png</file>
-	<file alias="menucommit.png">images/menucommit.png</file>
-	<file alias="menudelete.png">images/menudelete.png</file>
-	<file alias="menurevert.png">images/menurevert.png</file>
-	<file alias="menuupdate.png">images/menuupdate.png</file>
+    <file alias="menucheckout.png">images/menucheckout.png</file>
+    <file alias="menuadd.png">images/menuadd.png</file>
+    <file alias="menucommit.png">images/menucommit.png</file>
+    <file alias="menudelete.png">images/menudelete.png</file>
+    <file alias="menurevert.png">images/menurevert.png</file>
+    <file alias="menuupdate.png">images/menuupdate.png</file>
+
+    <file alias="actionstop.png">images/actionstop.png</file>
 </qresource>
 </RCC>

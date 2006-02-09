@@ -55,16 +55,6 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QPushButton" name="buttonCancel" >
-          <property name="enabled" >
-           <bool>false</bool>
-          </property>
-          <property name="text" >
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QTextEdit" name="editStatusText" />
         </item>
        </layout>
@@ -170,6 +160,15 @@
    <addaction name="actionDelete" />
    <addaction name="actionRevert" />
   </widget>
+  <widget class="QToolBar" name="toolBarAction" >
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <number>4</number>
+   </attribute>
+   <addaction name="actionStop" />
+  </widget>
   <action name="actionExit" >
    <property name="text" >
     <string>&amp;Exit</string>
@@ -266,6 +265,17 @@
   <action name="actionAboutQt" >
    <property name="text" >
     <string>About Qt...</string>
+   </property>
+  </action>
+  <action name="actionStop" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../qsvn.qrc" >:/images/actionstop.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Stop</string>
    </property>
   </action>
  </widget>
