@@ -182,6 +182,9 @@
    <property name="text" >
     <string>&amp;Add...</string>
    </property>
+   <property name="toolTip" >
+    <string>Add an existing working copy to list</string>
+   </property>
   </action>
   <action name="actionRemoveWorkingCopy" >
    <property name="icon" >
@@ -190,6 +193,9 @@
    <property name="text" >
     <string>&amp;Remove...</string>
    </property>
+   <property name="toolTip" >
+    <string>Remove a working copy from list</string>
+   </property>
   </action>
   <action name="actionCheckoutWorkingCopy" >
    <property name="icon" >
@@ -197,6 +203,9 @@
    </property>
    <property name="text" >
     <string>&amp;Checkout...</string>
+   </property>
+   <property name="toolTip" >
+    <string>Checkout and add a working copy to list</string>
    </property>
   </action>
   <action name="actionUpdate" >
