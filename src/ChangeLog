@@ -5,8 +5,9 @@ Version 0.3.0 - released 2006-xx-xx
     * Context Menus for working copy & file listview.
     * Make WorkingCopy list sortable.
     * Save and restore size and position for all Dialogs.
-    * Select / deselect all ComboBox in FileSelector (Commit, Revert, Delete, ...)
+    * Select / deselect all ComboBox in FileSelector (Commit, Revert, Delete, ...).
     * implement Cancel for SVN actions.
+    * add ToolBar for WorkingCopy and Modify.
 
     Changes
     -------

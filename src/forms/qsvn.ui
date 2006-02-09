@@ -79,15 +79,9 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>29</height>
+     <height>19</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile" >
-    <property name="title" >
-     <string>&amp;File</string>
-    </property>
-    <addaction name="actionExit" />
-   </widget>
    <widget class="QMenu" name="menuQuery" >
     <property name="title" >
      <string>&amp;Query</string>
@@ -107,6 +101,20 @@
     <addaction name="actionAboutQSvn" />
     <addaction name="actionAboutQt" />
    </widget>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionExit" />
+   </widget>
+   <widget class="QMenu" name="menuWorking_Copy" >
+    <property name="title" >
+     <string>&amp;Working Copy</string>
+    </property>
+    <addaction name="actionAddWorkingCopy" />
+    <addaction name="actionRemoveWorkingCopy" />
+    <addaction name="actionCheckoutWorkingCopy" />
+   </widget>
    <widget class="QMenu" name="menuModify" >
     <property name="title" >
      <string>&amp;Modify</string>
@@ -118,20 +126,49 @@
     <addaction name="actionDelete" />
     <addaction name="actionRevert" />
    </widget>
-   <widget class="QMenu" name="menuWorking_Copy" >
-    <property name="title" >
-     <string>&amp;Working Copy</string>
-    </property>
-    <addaction name="actionAddWorkingCopy" />
-    <addaction name="actionRemoveWorkingCopy" />
-    <addaction name="actionCheckoutWorkingCopy" />
-   </widget>
    <addaction name="menuFile" />
    <addaction name="menuWorking_Copy" />
    <addaction name="menuModify" />
    <addaction name="menuQuery" />
    <addaction name="menuSettings" />
    <addaction name="menuHelp" />
+  </widget>
+  <widget class="QToolBar" name="toolBarWorkingCopy" >
+   <property name="minimumSize" >
+    <size>
+     <width>46</width>
+     <height>35</height>
+    </size>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="iconSize" >
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea" >
+    <number>4</number>
+   </attribute>
+   <addaction name="actionAddWorkingCopy" />
+   <addaction name="actionRemoveWorkingCopy" />
+   <addaction name="actionCheckoutWorkingCopy" />
+  </widget>
+  <widget class="QToolBar" name="toolBarModify" >
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <number>4</number>
+   </attribute>
+   <addaction name="actionUpdate" />
+   <addaction name="actionCommit" />
+   <addaction name="separator" />
+   <addaction name="actionAdd" />
+   <addaction name="actionDelete" />
+   <addaction name="actionRevert" />
   </widget>
   <action name="actionExit" >
    <property name="text" >
@@ -140,7 +177,7 @@
   </action>
   <action name="actionAddWorkingCopy" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menuadd.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menuadd.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -148,7 +185,7 @@
   </action>
   <action name="actionRemoveWorkingCopy" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menudelete.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menudelete.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Remove...</string>
@@ -156,7 +193,7 @@
   </action>
   <action name="actionCheckoutWorkingCopy" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menucheckout.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menucheckout.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Checkout...</string>
@@ -164,7 +201,7 @@
   </action>
   <action name="actionUpdate" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menuupdate.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menuupdate.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Update</string>
@@ -172,7 +209,7 @@
   </action>
   <action name="actionCommit" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menucommit.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menucommit.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Commit...</string>
@@ -180,7 +217,7 @@
   </action>
   <action name="actionAdd" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menuadd.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menuadd.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -188,7 +225,7 @@
   </action>
   <action name="actionDelete" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menudelete.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menudelete.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Delete...</string>
@@ -196,7 +233,7 @@
   </action>
   <action name="actionRevert" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menurevert.png</iconset>
+    <iconset resource="..\qsvn.qrc" >:/images/menurevert.png</iconset>
    </property>
    <property name="text" >
     <string>Re&amp;vert...</string>
