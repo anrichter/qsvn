@@ -49,7 +49,6 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     setActionIcons();
     connectActions();
     createMenus();
-    createToolBar();
 
     StatusText::instance()->setOutPutWidget( editStatusText );
 
@@ -154,9 +153,6 @@ void QSvn::createMenus()
     contextMenuFileList->addAction( actionDelete );
     contextMenuFileList->addAction( actionRevert );
 }
-
-void QSvn::createToolBar()
-{}
 
 bool QSvn::eventFilter( QObject * watched, QEvent * event )
 {

@@ -54,7 +54,6 @@ private:
     void setActionIcons();
     void connectActions();
     void createMenus();
-    void createToolBar();
 
     bool isFileListSelected();
     QStringList selectedFiles();
