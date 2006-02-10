@@ -23,6 +23,7 @@ unix {
 }
 
 win32 {
+  CONFIG -= flat
   MOC_DIR = moc
   UI_DIR = ui
   OBJECTS_DIR = obj
