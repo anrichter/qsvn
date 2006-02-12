@@ -1,7 +1,5 @@
-The Setup for Windows version currently using InnoSetup (http://www.jrsoftware.org/isinfo.php)
-
 To compile the setup script qsvn.wxs you must first config qsvn-defines.wxi. 
-Add your local directories for inlcude files.
+Add your local directories for include files.
 
 Then you will install the WiX toolkit found at http://wix.sf.net.
 
