@@ -371,7 +371,7 @@ void QSvn::aboutQSvn()
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
     aboutMsg += "(c) 2004-2006 QSvn Team<br/>";
-    aboutMsg += "<a href=\"http://qsvn.berlios.de\">http://qsvn.berlios.de</p>";
+    aboutMsg += "<a href=\"http://ar.oszine.de/projects/qsvn/\">http://ar.oszine.de/projects/qsvn/</a></p>";
     aboutMsg += "<p>This Program is released under the terms of the<br/>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</p>";
     aboutMsg += "</div>";
     QMessageBox::about( this, "Caption", aboutMsg );
