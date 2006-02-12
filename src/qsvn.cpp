@@ -366,7 +366,7 @@ void QSvn::aboutQSvn()
     QString aboutMsg = "";
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
-    aboutMsg += "<br/>0.3.0-pre";
+    aboutMsg += "<br/>0.3.0";
     aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";

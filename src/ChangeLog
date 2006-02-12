@@ -1,4 +1,4 @@
-Version 0.3.0 - released 2006-xx-xx
+Version 0.3.0 - released 2006-02-12
 
     New Features
     ------------
@@ -12,6 +12,7 @@ Version 0.3.0 - released 2006-xx-xx
     Changes
     -------
     * About dialog show subversion version (linked and running)
+    * switch to Qt 4.1
 
     Bugfixes
     --------
