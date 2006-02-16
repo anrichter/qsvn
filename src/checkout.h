@@ -43,6 +43,8 @@ public slots:
     void selectURLSlot();
     void selectPathSlot();
     void buttonOkClickedSlot();
+private:
+    QString m_selectedURL;
 };
 
 #endif

@@ -41,6 +41,8 @@ Checkout::Checkout( QWidget *parent )
 
     editURL->addItems( Config::instance()->getStringList( "checkoutURL" ) );
     editURL->clearEditText();
+
+    m_selectedURL = "";
 }
 
 Checkout::~ Checkout( )
@@ -50,10 +52,7 @@ Checkout::~ Checkout( )
 
 QString Checkout::url() const
 {
-    QString url = editURL->currentText();
-    while ( url.endsWith( QDir::separator() ) )
-        url.chop( 1 );
-    return url;
+    return m_selectedURL;
 }
 
 QString Checkout::path() const
@@ -102,7 +101,11 @@ void Checkout::buttonOkClickedSlot()
             return;
     }
 
-    editURL->insertItem( 0, editURL->currentText() );
+    m_selectedURL = editURL->currentText();
+    while ( m_selectedURL.endsWith( QDir::separator() ) )
+        m_selectedURL.chop( 1 );
+
+    editURL->insertItem( 0, m_selectedURL );
     QStringList urlList;
     for ( int i = 0; i < editURL->count(); ++i )
         if ( !urlList.contains( editURL->itemText( i ) ) )
