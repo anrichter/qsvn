@@ -366,11 +366,11 @@ void QSvn::aboutQSvn()
     QString aboutMsg = "";
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
-    aboutMsg += "<br/>0.3.0";
+    aboutMsg += "<br/>0.4.0 pre";
     aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
-    aboutMsg += "(c) 2004-2006 QSvn Team<br/>";
+    aboutMsg += "(c) 2004-2006 Andreas Richter<br/>";
     aboutMsg += "<a href=\"http://ar.oszine.de/projects/qsvn/\">http://ar.oszine.de/projects/qsvn/</a></p>";
     aboutMsg += "<p>This Program is released under the terms of the<br/>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</p>";
     aboutMsg += "</div>";
