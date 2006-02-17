@@ -22,12 +22,14 @@
 #include "listener.h"
 #include "login.h"
 #include "statustext.h"
+#include "sslservertrust.h"
 
 //SvnCpp
 #include "svnqt/context_listener.hpp"
 
 //Qt
-#include "QtCore"
+#include <QtCore>
+#include <QtGui>
 
 
 Listener::Listener( )
@@ -172,7 +174,7 @@ bool Listener::contextGetLogMessage( QString &msg )
 
 svn::ContextListener::SslServerTrustAnswer Listener::contextSslServerTrustPrompt( const SslServerTrustData & data, apr_uint32_t & acceptedFailures )
 {
-    return DONT_ACCEPT;
+    return SslServerTrust::getSslServerTrustAnswer();
 }
 
 bool Listener::contextSslClientCertPrompt( QString & certFile )
