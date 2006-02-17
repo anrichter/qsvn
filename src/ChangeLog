@@ -1,8 +1,12 @@
 Version 0.4.0 - released 2006-??-??
 
+    New Features
+    ------------
+    * support access via HTTPS
+
     Bugfixes
     --------
-	* Checkout get the wrong URL, when more then one exist in the combo list.
+    * Checkout get the wrong URL, when more then one exist in the combo list.
 
 
 Version 0.3.0 - released 2006-02-12

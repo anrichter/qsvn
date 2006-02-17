@@ -33,14 +33,17 @@ class SslServerTrust : public QDialog, public Ui::SslServerTrust
     Q_OBJECT
 
     public:
-        SslServerTrust( QWidget *parent = 0, Qt::WFlags flags = 0 );
-        ~SslServerTrust();
+        SslServerTrust( QWidget * parent = 0, const svn::ContextListener::SslServerTrustData & data = 0 );
 
-        static svn::ContextListener::SslServerTrustAnswer getSslServerTrustAnswer();
+        static svn::ContextListener::SslServerTrustAnswer getSslServerTrustAnswer( const svn::ContextListener::SslServerTrustData & data );
+        svn::ContextListener::SslServerTrustAnswer answer();
+
+    private:
+        svn::ContextListener::SslServerTrustAnswer m_answer;
+
     private slots:
         void doAcceptTemporarily();
         void doAcceptPermanently();
-        void doCancel();
 };
 
 #endif

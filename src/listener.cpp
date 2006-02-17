@@ -174,7 +174,7 @@ bool Listener::contextGetLogMessage( QString &msg )
 
 svn::ContextListener::SslServerTrustAnswer Listener::contextSslServerTrustPrompt( const SslServerTrustData & data, apr_uint32_t & acceptedFailures )
 {
-    return SslServerTrust::getSslServerTrustAnswer();
+    return SslServerTrust::getSslServerTrustAnswer( data );
 }
 
 bool Listener::contextSslClientCertPrompt( QString & certFile )

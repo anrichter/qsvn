@@ -23,7 +23,11 @@
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QTextBrowser" name="textBrowser" />
+    <widget class="QLabel" name="labelInformation" >
+     <property name="text" >
+      <string/>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0" >
     <layout class="QHBoxLayout" >
@@ -113,12 +117,28 @@
  </widget>
  <pixmapfunction></pixmapfunction>
  <tabstops>
-  <tabstop>textBrowser</tabstop>
   <tabstop>buttonHelp</tabstop>
   <tabstop>buttonAcceptTemporarily</tabstop>
   <tabstop>buttonAcceptPermanently</tabstop>
   <tabstop>buttonCancel</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>SslServerTrust</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>456</x>
+     <y>226</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>479</x>
+     <y>240</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
