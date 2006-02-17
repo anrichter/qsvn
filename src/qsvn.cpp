@@ -383,13 +383,11 @@ void QSvn::setActionStop( QString aText )
     {
         actionStop->setText( "" );
         disconnect( actionStop, SIGNAL( triggered( ) ), 0, 0 );
-        qDebug() << "disable Stop" << endl;
     }
     else
     {
         actionStop->setText( "Stop " + aText );
         connect( actionStop, SIGNAL( triggered( ) ), SvnClient::instance(), SLOT( setCancel( ) ) );
-        qDebug() << "enable Stop" << endl;
     }
     actionStop->setEnabled( !aText.isEmpty() );
     qApp->processEvents();
