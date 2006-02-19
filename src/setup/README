@@ -1,9 +1,8 @@
- To compile the setup script qsvn.wxs you must first config qsvn-defines.wxi. 
+For setup i use the WiX toolkit. You can found it at http://wix.sf.net.
+
+To compile the setup script qsvn.wxs you must first config qsvn-defines.wxi. 
 Add your local directories for include files.
 
-Then you will install the WiX toolkit found at http://wix.sf.net.
-
 Compile the msi with:
-
-candle qsvn.wxs
-light -out qsvn.msi qsvn.wixobj \path\to\wix\ui\wixui_featuretree.xlib
+  candle qsvn.wxs
+  light -out qsvn.msi qsvn.wixobj \path\to\wix\ui\wixui_featuretree.xlib
