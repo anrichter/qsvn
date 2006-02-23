@@ -4,6 +4,10 @@ Version 0.4.0 - released 2006-??-??
     ------------
     * support access via HTTPS
 
+    Changes
+    -------
+    * use locale aware compare for file list.
+    
     Bugfixes
     --------
     * Checkout get the wrong URL, when more then one exist in the combo list.

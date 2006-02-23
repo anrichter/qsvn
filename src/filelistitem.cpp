@@ -119,8 +119,7 @@ bool FileListItem::operator < (const FileListItem &other) const
     if ( sortColumn == FileListItem::RevisionColumn ) //revision
         return data( FileListItem::RevisionColumn ).toInt() < other.data( FileListItem::RevisionColumn ).toInt();
     else
-        return data( sortColumn ).toString() < other.data( sortColumn ).toString();
-    return true;
+        return QString::localeAwareCompare( data( sortColumn ).toString(), other.data( sortColumn ).toString() ) < 0;
 }
 
 QPixmap FileListItem::getPixmap( )
