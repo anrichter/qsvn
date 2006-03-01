@@ -284,6 +284,7 @@ void QSvn::doUpdate()
         SvnClient::instance()->update( updateList );
         setActionStop( "" );
     }
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
 }
 
 void QSvn::doCommit()
@@ -300,6 +301,7 @@ void QSvn::doCommit()
         SvnClient::instance()->commit( fileselector.selectedFileList(), fileselector.logMessage() );
         setActionStop( "" );
     }
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
 }
 
 void QSvn::doAdd()
@@ -316,6 +318,7 @@ void QSvn::doAdd()
         SvnClient::instance()->add( fileselector.selectedFileList() );
         setActionStop( "" );
     }
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
 }
 
 void QSvn::doDelete()
@@ -332,6 +335,7 @@ void QSvn::doDelete()
         SvnClient::instance()->remove( fileselector.selectedFileList() );
         setActionStop( "" );
     }
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
 }
 
 void QSvn::doRevert()
@@ -348,6 +352,7 @@ void QSvn::doRevert()
         SvnClient::instance()->revert( fileselector.selectedFileList() );
         setActionStop( "" );
     }
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
 }
 
 void QSvn::doDiff()
