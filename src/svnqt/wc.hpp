@@ -27,8 +27,10 @@
 #define _SVNCPP_WC_HPP_ 
 
 // svncpp
+#include "exception.hpp"
 #include "revision.hpp"
 
+#include <qstring.h>
 
 namespace svn
 {
@@ -45,7 +47,7 @@ namespace svn
      * @return true=valid working copy
      */
     static bool 
-    checkWc (const char * dir);
+    checkWc (const QString& dir);
 
     /**
      * ensure that an administrative area exists for @a dir, so that @a dir
@@ -57,9 +59,15 @@ namespace svn
      * @param revision expected working copy revision
      */
     static void
-    ensureAdm (const char * dir, const char * uuid, 
-               const char * url, const Revision & revision);
+    ensureAdm (const QString& dir, const QString& uuid,
+               const QString& url, const Revision & revision) throw (ClientException);
 
+    /**
+     * retrieve the url of a given working copy item
+     * @param path the working copy item to check
+     * @return the repository url of @a path
+     */
+    static QString getUrl(const QString&path) throw (ClientException);
     static const char * ADM_DIR_NAME;
 
   private:
