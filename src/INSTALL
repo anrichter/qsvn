@@ -34,8 +34,27 @@ export QTDIR=
 export PATH=/usr/local/Trolltech/Qt-4.0.1/bin/:$PATH
 PS1="[qt4]$PS1"
 
+1.3. Install needed Packages
+----------------------------
+
+To compile QSvn you need the header files for apr and subversion. 
+On linux distributions you usually install the development packages for apr and subversion.
+
+
 2. Compile QSvn
 ===============
+
+2.1 Prepare
+-----------
+
+Before you compile QSvn please make sure, that the apr and subversion headers are installed in
+  /usr/include/subversion-1
+  /usr/include/apr-0
+Otherwise adopt the directories in qsvn.pro to you setup.
+
+
+2.2 Compile
+-----------
 
 - cd into qsvn source dir.
 - run Qt4's qmake
