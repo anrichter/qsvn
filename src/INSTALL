@@ -50,7 +50,7 @@ On linux distributions you usually install the development packages for apr and 
 Before you compile QSvn please make sure, that the apr and subversion headers are installed in
   /usr/include/subversion-1
   /usr/include/apr-0
-Otherwise adopt the directories in qsvn.pro to you setup.
+Otherwise adopt the directories in qsvn.pro to your setup.
 
 
 2.2 Compile
