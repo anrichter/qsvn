@@ -33,49 +33,58 @@ FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, Q
         : QDialog( parent )
 {
     setupUi( this );
-    m_fileListModel = new FileListModel( this, modelFor );
+    configUI( modelFor );
+    initModel( modelFor, selectionModel, selectionFrom );
+    Config::instance()->restoreWidget( this, this->windowTitle() );
+    setupConnections();
+}
 
+void FileSelector::initModel( FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom )
+{
+    m_fileListModel = new FileListModel( this, modelFor );
     switch( selectionFrom )
     {
-    case FileListModel::File:
-        m_fileListModel->loadFromFileListSelection( selectionModel );
-        break;
-    case FileListModel::WorkingCopy:
-        m_fileListModel->loadFromWorkingCopySelection( selectionModel );
-        break;
+        case FileListModel::File:
+            m_fileListModel->loadFromFileListSelection( selectionModel );
+            break;
+        case FileListModel::WorkingCopy:
+            m_fileListModel->loadFromWorkingCopySelection( selectionModel );
+            break;
     }
-
     treeViewFiles->setModel( m_fileListModel );
+}
 
+void FileSelector::configUI( FileListModel::ModelFor modelFor )
+{
     switch ( modelFor )
     {
-    case FileListModel::Add:
-        setWindowTitle( tr( "Add") );
-        setWindowIcon( QIcon( ":menuadd.png" ) );
-        hideGroupBoxLogMessage();
-        break;
-    case FileListModel::Commit:
-        setWindowTitle( tr( "Commit") );
-        setWindowIcon( QIcon( ":menucommit.png" ) );
-        break;
-    case FileListModel::Delete:
-        setWindowTitle( tr( "Delete") );
-        setWindowIcon( QIcon( ":menudelete.png" ) );
-        hideGroupBoxLogMessage();
-        break;
-    case FileListModel::Revert:
-        setWindowTitle( tr( "Revert") );
-        setWindowIcon( QIcon( ":menurevert.png" ) );
-        hideGroupBoxLogMessage();
-        break;
+        case FileListModel::Add:
+            setWindowTitle( tr( "Add") );
+            setWindowIcon( QIcon( ":menuadd.png" ) );
+            hideGroupBoxLogMessage();
+            break;
+        case FileListModel::Commit:
+            setWindowTitle( tr( "Commit") );
+            setWindowIcon( QIcon( ":menucommit.png" ) );
+            comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
+            comboLogHistory->insertItem( 0, "" );
+            comboLogHistory->setCurrentIndex( 0 );
+            break;
+        case FileListModel::Delete:
+            setWindowTitle( tr( "Delete") );
+            setWindowIcon( QIcon( ":menudelete.png" ) );
+            hideGroupBoxLogMessage();
+            break;
+        case FileListModel::Revert:
+            setWindowTitle( tr( "Revert") );
+            setWindowIcon( QIcon( ":menurevert.png" ) );
+            hideGroupBoxLogMessage();
+            break;
     }
+}
 
-    Config::instance()->restoreWidget( this, this->windowTitle() );
-
-    comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
-    comboLogHistory->insertItem( 0, "" );
-    comboLogHistory->setCurrentIndex( 0 );
-
+void FileSelector::setupConnections( )
+{
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );

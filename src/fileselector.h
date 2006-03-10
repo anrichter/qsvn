@@ -46,6 +46,9 @@ public slots:
 private:
     FileListModel *m_fileListModel;
 
+    void initModel( FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom );
+    void configUI( FileListModel::ModelFor modelFor );
+    void setupConnections();
     void hideGroupBoxLogMessage();
 
 private slots:
