@@ -198,6 +198,14 @@ QStringList QSvn::selectedFiles()
     return fileSet.toList();
 }
 
+QItemSelectionModel* QSvn::activeSelectionModel()
+{
+    if ( isFileListSelected() )
+        return treeViewFileList->selectionModel();
+    else
+        return treeViewWorkingCopy->selectionModel();
+}
+
 //protected slots
 void QSvn::doAddWorkingCopy()
 {
@@ -236,41 +244,21 @@ void QSvn::doUpdate()
 {
     QSet<QString> updateSet;
 
-    if ( treeViewWorkingCopy->hasFocus() )
+    QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+
+    if ( isFileListSelected() )
     {
-        QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-
-        if ( indexes.count() == 0 )
-        {
-            QMessageBox::information( this, "QSvn", tr( "You must select a Working Copy" ), QMessageBox::Ok );
-            return;
-        }
-
-        for ( int i = 0; i < indexes.count(); i++ )
-        {
-            updateSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
-        }
-    }
-    else if ( treeViewFileList->hasFocus() )
-    {
-        QItemSelectionModel *selectionModel = treeViewFileList->selectionModel();
-        QModelIndexList indexes = selectionModel->selectedIndexes();
-
-        if ( indexes.count() == 0 )
-        {
-            QMessageBox::information( this, "QSvn", tr( "You must select a File" ), QMessageBox::Ok );
-            return;
-        }
-
         for ( int i = 0; i < indexes.count(); i++ )
         {
             updateSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
         }
     }
-    else
+    else 
     {
-        QMessageBox::information( this, "QSvn", tr( "You must select a Working Copy" ), QMessageBox::Ok );
+        for ( int i = 0; i < indexes.count(); i++ )
+        {
+            updateSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
+        }
     }
 
     if ( updateSet.count() > 0 )

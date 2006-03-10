@@ -57,6 +57,7 @@ private:
 
     bool isFileListSelected();
     QStringList selectedFiles();
+    QItemSelectionModel* activeSelectionModel();
 
     void setActionStop( QString aText );
 
