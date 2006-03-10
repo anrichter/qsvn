@@ -33,7 +33,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
     Q_OBJECT
 
 public:
-    FileSelector( QWidget *parent, FileListModel::ModelFor modelFor );
+    FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom );
     ~FileSelector();
 
     FileListModel *model();

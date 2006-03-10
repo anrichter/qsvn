@@ -29,11 +29,22 @@
 #include <QtGui>
 
 
-FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor )
+FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom )
         : QDialog( parent )
 {
     setupUi( this );
     m_fileListModel = new FileListModel( this, modelFor );
+
+    switch( selectionFrom )
+    {
+    case FileListModel::File:
+        m_fileListModel->loadFromFileListSelection( selectionModel );
+        break;
+    case FileListModel::WorkingCopy:
+        m_fileListModel->loadFromWorkingCopySelection( selectionModel );
+        break;
+    }
+
     treeViewFiles->setModel( m_fileListModel );
 
     switch ( modelFor )

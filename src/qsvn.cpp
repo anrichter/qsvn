@@ -206,6 +206,15 @@ QItemSelectionModel* QSvn::activeSelectionModel()
         return treeViewWorkingCopy->selectionModel();
 }
 
+FileListModel::SelectionFrom QSvn::activeSelectionFrom( )
+{
+    if ( isFileListSelected() )
+        return FileListModel::File;
+    else
+        return FileListModel::WorkingCopy;
+}
+
+
 //protected slots
 void QSvn::doAddWorkingCopy()
 {
@@ -273,12 +282,7 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    FileSelector fileselector( this, FileListModel::Commit );
-    if ( isFileListSelected() )
-        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
-    else
-        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
-
+    FileSelector fileselector( this, FileListModel::Commit, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Commit" );
@@ -290,12 +294,7 @@ void QSvn::doCommit()
 
 void QSvn::doAdd()
 {
-    FileSelector fileselector( this, FileListModel::Add );
-    if ( isFileListSelected() )
-        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
-    else
-        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
-
+    FileSelector fileselector( this, FileListModel::Add, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Add" );
@@ -307,12 +306,7 @@ void QSvn::doAdd()
 
 void QSvn::doDelete()
 {
-    FileSelector fileselector( this, FileListModel::Delete );
-    if ( isFileListSelected() )
-        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
-    else
-        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
-
+    FileSelector fileselector( this, FileListModel::Delete, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Delete" );
@@ -324,12 +318,7 @@ void QSvn::doDelete()
 
 void QSvn::doRevert()
 {
-    FileSelector fileselector( this, FileListModel::Revert );
-    if ( isFileListSelected() )
-        fileselector.model()->loadFromFileListSelection( treeViewFileList->selectionModel() );
-    else
-        fileselector.model()->loadFromWorkingCopySelection( treeViewWorkingCopy->selectionModel() );
-
+    FileSelector fileselector( this, FileListModel::Revert, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Revert" );
