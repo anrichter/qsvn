@@ -201,11 +201,7 @@ QStringList QSvn::selectedFiles()
 //protected slots
 void QSvn::doAddWorkingCopy()
 {
-    AddWorkingCopy addWorkingCopy( this );
-    if ( addWorkingCopy.exec() )
-    {
-        workingCopyModel->addWorkingCopy( addWorkingCopy.getSelectedDirectory() );
-    }
+    AddWorkingCopy::addWorkingCopy( this, workingCopyModel );
 }
 
 void QSvn::doRemoveWorkingCopy()

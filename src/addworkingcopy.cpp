@@ -42,6 +42,17 @@ AddWorkingCopy::~ AddWorkingCopy( )
     Config::instance()->saveWidget( this );
 }
 
+bool AddWorkingCopy::addWorkingCopy( QWidget *parent, WorkingCopyModel *workingCopyModel )
+{
+    AddWorkingCopy addWC( parent );
+    if ( addWC.exec() )
+    {
+        workingCopyModel->addWorkingCopy( addWC.getSelectedDirectory() );
+        return TRUE;
+    } else
+        return FALSE;
+}
+
 QString AddWorkingCopy::getSelectedDirectory() const
 {
     return editDirectory->text();

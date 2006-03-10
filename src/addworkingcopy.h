@@ -23,6 +23,7 @@
 
 //QSvn
 #include "ui_addworkingcopy.h"
+#include "workingcopymodel.h"
 
 
 /**
@@ -39,14 +40,10 @@ public:
     AddWorkingCopy( QWidget *parent = 0 );
     ~AddWorkingCopy();
 
-    /**
-     * Get the selected directory.
-     * @return selected directory.
-     */
-    QString getSelectedDirectory() const;
-public slots:
+    static bool addWorkingCopy( QWidget *parent, WorkingCopyModel *workingCopyModel );
 
 private:
+    QString getSelectedDirectory() const;
 
 protected slots:
     void selectDirectorySlot();
