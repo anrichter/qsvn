@@ -58,6 +58,10 @@ void FileSelector::configUI( FileListModel::ModelFor modelFor )
 {
     switch ( modelFor )
     {
+        case FileListModel::None:
+            setWindowTitle( "" );
+            hideGroupBoxLogMessage();
+            break;
         case FileListModel::Add:
             setWindowTitle( tr( "Add") );
             setWindowIcon( QIcon( ":menuadd.png" ) );
@@ -153,7 +157,7 @@ void FileSelector::buttonOkClickedSlot()
 
 void FileSelector::comboLogHistoryActivatedSlot( int index )
 {
-    editLogMessage->setPlainText( comboLogHistory->currentText() );
+    editLogMessage->setPlainText( comboLogHistory->itemText( index ) );
 }
 
 void FileSelector::checkSelectAllStateChanged( int state )
