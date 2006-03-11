@@ -23,7 +23,10 @@
 #define FILELISTMODEL_H
 
 //QSvn
+#include "svnclient.h"
+
 class FileListItem;
+
 
 //Qt
 #include <QtGui>
@@ -39,11 +42,6 @@ class FileListModel : public QAbstractItemModel
 public:
     enum SelectionFrom { WorkingCopy = 0x01,
                          File = 0x02 };
-    enum ModelFor { None   = 0x00,
-                    Add    = 0x01,
-                    Commit = 0x02,
-                    Delete = 0x04,
-                    Revert = 0x05 };
     enum Roles {
         FullFileNameRole = Qt::UserRole + 1
     };
@@ -55,7 +53,7 @@ public:
      * @param itemSelection The QItemSelectionModel from an already exitsing FileListModel
      * @return
      */
-    FileListModel( QObject *parent, ModelFor modelFor );
+    FileListModel( QObject *parent, SvnClient::SvnAction svnAction );
     ~FileListModel();
 
     //basic model functions
@@ -80,7 +78,7 @@ public:
 private:
     FileListItem *rootItem;
 
-    ModelFor m_modelFor;
+    SvnClient::SvnAction m_svnAction;
     Qt::SortOrder sortOrder;
 
     void initModel();

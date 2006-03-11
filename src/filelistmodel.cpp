@@ -33,14 +33,14 @@
 FileListModel::FileListModel( QObject *parent )
         : QAbstractItemModel( parent )
 {
-    m_modelFor = None;
+    m_svnAction = SvnClient::SvnNone;
     initModel();
 }
 
-FileListModel::FileListModel( QObject *parent, ModelFor modelFor )
+FileListModel::FileListModel( QObject *parent, SvnClient::SvnAction svnAction )
         : QAbstractItemModel( parent )
 {
-    m_modelFor = modelFor;
+    m_svnAction = svnAction;
     initModel();
 }
 
@@ -63,28 +63,28 @@ void FileListModel::initModel( )
 
 bool FileListModel::isStatusForModel( svn_wc_status_kind status )
 {
-    switch ( m_modelFor )
+    switch ( m_svnAction )
     {
-    case None:
+    case SvnClient::SvnNone:
         return true;
         break;
-    case Add:
+    case SvnClient::SvnAdd:
         if ( status == svn_wc_status_unversioned )
             return true;
         break;
-    case Commit:
+    case SvnClient::SvnCommit:
         if ( ( status == svn_wc_status_modified ) ||
                 ( status == svn_wc_status_added ) ||
                 ( status == svn_wc_status_deleted ) ||
                 ( status == svn_wc_status_replaced ) )
             return true;
         break;
-    case Delete:
+    case SvnClient::SvnDelete:
         if ( ( status == svn_wc_status_normal ) ||
                 ( status == svn_wc_status_merged ) )
             return true;
         break;
-    case Revert:
+    case SvnClient::SvnRevert:
         if ( ( status == svn_wc_status_modified ) ||
                 ( status == svn_wc_status_added ) ||
                 ( status == svn_wc_status_deleted ) ||
@@ -162,7 +162,7 @@ void FileListModel::loadFromDirectory( QString directory, QString fileNamePrefix
         for ( it = statusList.begin(); it != statusList.end(); it++ )
         {
             fileInfo = QFileInfo( it->path() );
-            if ( m_modelFor == FileListModel::None )
+            if ( m_svnAction == SvnClient::SvnNone )
             {
                 visible = !fileInfo.isDir();
             }
@@ -312,9 +312,12 @@ QVariant FileListModel::data( const QModelIndex &index, int role ) const
             return item->data( index.column() );
         }
     }
-    else if ( ( role == Qt::DecorationRole ) && ( index.column() == FileListItem::FilenameColumn ) )
+    else if ( ( role == Qt::DecorationRole ) &&
+              ( index.column() == FileListItem::FilenameColumn ) )
         return item->getPixmap();
-    else if ( ( m_modelFor != None ) && ( role == Qt::CheckStateRole ) && ( index.column() == FileListItem::FilenameColumn ) )
+    else if ( ( m_svnAction != SvnClient::SvnNone ) &&
+              ( role == Qt::CheckStateRole ) &&
+              ( index.column() == FileListItem::FilenameColumn ) )
         return item->data( FileListItem::CheckedColumn );
     else if ( role == FullFileNameRole )
         return item->data( FileListItem::FullfilenameColumn );

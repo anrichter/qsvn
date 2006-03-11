@@ -26,6 +26,8 @@
 //QSvn
 #include "ui_fileselector.h"
 #include "filelistmodel.h"
+#include "svnclient.h"
+
 
 class QMenu;
 
@@ -35,7 +37,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
     Q_OBJECT
 
 public:
-    FileSelector( QWidget *parent, FileListModel::ModelFor modelFor,
+    FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
                   QItemSelectionModel *selectionModel,
                   FileListModel::SelectionFrom selectionFrom );
     ~FileSelector();
@@ -52,7 +54,7 @@ protected:
 
 private:
     FileListModel *m_fileListModel;
-    FileListModel::ModelFor m_modelFor;
+    SvnClient::SvnAction m_svnAction;
     QItemSelectionModel *m_selectionModel;
     FileListModel::SelectionFrom m_selectionFrom;
     QMenu *contextMenu;

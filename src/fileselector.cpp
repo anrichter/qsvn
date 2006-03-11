@@ -30,14 +30,14 @@
 #include <QtGui>
 
 
-FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor,
+FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
                             QItemSelectionModel *selectionModel,
                             FileListModel::SelectionFrom selectionFrom )
         : QDialog( parent )
 {
     setupUi( this );
     m_fileListModel = 0;
-    m_modelFor = modelFor;
+    m_svnAction = svnAction,
     m_selectionModel = selectionModel;
     m_selectionFrom = selectionFrom;
 
@@ -56,7 +56,7 @@ void FileSelector::initModel()
     if ( m_fileListModel )
         delete( m_fileListModel );
 
-    m_fileListModel = new FileListModel( this, m_modelFor );
+    m_fileListModel = new FileListModel( this, m_svnAction );
     switch( m_selectionFrom )
     {
         case FileListModel::File:
@@ -71,30 +71,30 @@ void FileSelector::initModel()
 
 void FileSelector::configUI()
 {
-    switch ( m_modelFor )
+    switch ( m_svnAction )
     {
-        case FileListModel::None:
+        case SvnClient::SvnNone:
             setWindowTitle( "" );
             hideGroupBoxLogMessage();
             break;
-        case FileListModel::Add:
+        case SvnClient::SvnAdd:
             setWindowTitle( tr( "Add") );
             setWindowIcon( QIcon( ":menuadd.png" ) );
             hideGroupBoxLogMessage();
             break;
-        case FileListModel::Commit:
+        case SvnClient::SvnCommit:
             setWindowTitle( tr( "Commit") );
             setWindowIcon( QIcon( ":menucommit.png" ) );
             comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
             comboLogHistory->insertItem( 0, "" );
             comboLogHistory->setCurrentIndex( 0 );
             break;
-        case FileListModel::Delete:
+        case SvnClient::SvnDelete:
             setWindowTitle( tr( "Delete") );
             setWindowIcon( QIcon( ":menudelete.png" ) );
             hideGroupBoxLogMessage();
             break;
-        case FileListModel::Revert:
+        case SvnClient::SvnRevert:
             setWindowTitle( tr( "Revert") );
             setWindowIcon( QIcon( ":menurevert.png" ) );
             hideGroupBoxLogMessage();
@@ -106,8 +106,8 @@ void FileSelector::createMenus()
 {
     contextMenu = new QMenu( this );
 
-    if ( ( m_modelFor == FileListModel::Commit ) ||
-           ( m_modelFor == FileListModel::Revert ) )
+    if ( ( m_svnAction == SvnClient::SvnCommit ) ||
+         ( m_svnAction == SvnClient::SvnRevert ) )
     {
         contextMenu->addAction( actionDiff );
         contextMenu->addAction( actionRevert );

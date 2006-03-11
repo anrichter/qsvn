@@ -282,7 +282,7 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    FileSelector fileselector( this, FileListModel::Commit, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Commit" );
@@ -294,7 +294,7 @@ void QSvn::doCommit()
 
 void QSvn::doAdd()
 {
-    FileSelector fileselector( this, FileListModel::Add, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnAdd, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Add" );
@@ -306,7 +306,7 @@ void QSvn::doAdd()
 
 void QSvn::doDelete()
 {
-    FileSelector fileselector( this, FileListModel::Delete, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnDelete, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Delete" );
@@ -318,7 +318,7 @@ void QSvn::doDelete()
 
 void QSvn::doRevert()
 {
-    FileSelector fileselector( this, FileListModel::Revert, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnRevert, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Revert" );
