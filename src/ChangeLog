@@ -3,12 +3,13 @@ Version 0.4.0 - released 2006-??-??
     New Features
     ------------
     * support access via HTTPS
+    * revert in commit dialog through a popup menu.
 
     Changes
     -------
     * use locale aware compare for file list
     * refresh file list view after a svn action
-    
+
     Bugfixes
     --------
     * Checkout get the wrong URL, when more then one exist in the combo list.

@@ -26,37 +26,52 @@
 #include "fileselector.h"
 #include "svnclient.h"
 
+//Qt
 #include <QtGui>
 
 
-FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom )
+FileSelector::FileSelector( QWidget *parent, FileListModel::ModelFor modelFor,
+                            QItemSelectionModel *selectionModel,
+                            FileListModel::SelectionFrom selectionFrom )
         : QDialog( parent )
 {
     setupUi( this );
-    configUI( modelFor );
-    initModel( modelFor, selectionModel, selectionFrom );
+    m_fileListModel = 0;
+    m_modelFor = modelFor;
+    m_selectionModel = selectionModel;
+    m_selectionFrom = selectionFrom;
+
+    createMenus();
+    configUI();
+
+    initModel();
     Config::instance()->restoreWidget( this, this->windowTitle() );
     setupConnections();
+
+    treeViewFiles->installEventFilter( this );
 }
 
-void FileSelector::initModel( FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom )
+void FileSelector::initModel()
 {
-    m_fileListModel = new FileListModel( this, modelFor );
-    switch( selectionFrom )
+    if ( m_fileListModel )
+        delete( m_fileListModel );
+
+    m_fileListModel = new FileListModel( this, m_modelFor );
+    switch( m_selectionFrom )
     {
         case FileListModel::File:
-            m_fileListModel->loadFromFileListSelection( selectionModel );
+            m_fileListModel->loadFromFileListSelection( m_selectionModel );
             break;
         case FileListModel::WorkingCopy:
-            m_fileListModel->loadFromWorkingCopySelection( selectionModel );
+            m_fileListModel->loadFromWorkingCopySelection( m_selectionModel );
             break;
     }
     treeViewFiles->setModel( m_fileListModel );
 }
 
-void FileSelector::configUI( FileListModel::ModelFor modelFor )
+void FileSelector::configUI()
 {
-    switch ( modelFor )
+    switch ( m_modelFor )
     {
         case FileListModel::None:
             setWindowTitle( "" );
@@ -87,12 +102,28 @@ void FileSelector::configUI( FileListModel::ModelFor modelFor )
     }
 }
 
+void FileSelector::createMenus()
+{
+    contextMenu = new QMenu( this );
+
+    if ( ( m_modelFor == FileListModel::Commit ) ||
+           ( m_modelFor == FileListModel::Revert ) )
+    {
+        contextMenu->addAction( actionDiff );
+        contextMenu->addAction( actionRevert );
+        actionRevert->setIcon( QIcon( ":menurevert.png" ) );
+    }
+}
+
 void FileSelector::setupConnections( )
 {
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
+
+    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
+    connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
 }
 
 int FileSelector::exec()
@@ -137,11 +168,6 @@ QString FileSelector::logMessage( )
     return editLogMessage->toPlainText();
 }
 
-void FileSelector::diff( const QModelIndex &index )
-{
-    SvnClient::instance()->diff( m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString() );
-}
-
 void FileSelector::buttonOkClickedSlot()
 {
     QStringList logEntries;
@@ -169,3 +195,42 @@ void FileSelector::checkSelectAllStateChanged( int state )
         m_fileListModel->setData( index, state, Qt::CheckStateRole );
     }
 }
+
+bool FileSelector::eventFilter( QObject * watched, QEvent * event )
+{
+    if ( watched == treeViewFiles )
+    {
+        if ( event->type() == QEvent::ContextMenu )
+        {
+            contextMenu->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
+        }
+    }
+    return QDialog::eventFilter( watched, event );
+}
+
+void FileSelector::doRevert( )
+{
+    QString fullFileName;
+    fullFileName = m_fileListModel->data( treeViewFiles->selectionModel()->currentIndex(),
+                                          FileListModel::FullFileNameRole ).toString();
+
+    if ( QMessageBox::question( this, tr( "Revert" ),
+                                QString( tr( "Do you really want to revert local changes from\n%1?" ) ).arg( fullFileName ),
+                                QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+    {
+        SvnClient::instance()->revert( fullFileName );
+        initModel();
+        checkSelectAll->setCheckState( checkSelectAll->checkState() );
+    }
+}
+
+void FileSelector::diff( const QModelIndex &index )
+{
+    SvnClient::instance()->diff( m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString() );
+}
+
+void FileSelector::doDiff( )
+{
+    diff( treeViewFiles->selectionModel()->currentIndex() );
+}
+

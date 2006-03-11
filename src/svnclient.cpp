@@ -172,6 +172,13 @@ bool SvnClient::revert( const QStringList &revertList )
     return true;
 }
 
+bool SvnClient::revert( const QString fileName )
+{
+    QStringList fileList;
+    fileList << fileName;
+    return revert( fileList );
+}
+
 bool SvnClient::commit( const QStringList &commitList, const QString &logMessage )
 {
     if ( commitList.isEmpty() )

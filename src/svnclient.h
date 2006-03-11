@@ -70,6 +70,7 @@ public:
 
     bool add( const QStringList &addList );
     bool revert( const QStringList &revertList );
+    bool revert( const QString fileName );
     bool commit( const QStringList &commitList, const QString &logMessage );
     bool remove( const QStringList &removeList );
     bool diff( const QString &file );

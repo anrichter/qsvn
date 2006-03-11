@@ -27,13 +27,17 @@
 #include "ui_fileselector.h"
 #include "filelistmodel.h"
 
+class QMenu;
+
 
 class FileSelector : public QDialog, public Ui::FileSelector
 {
     Q_OBJECT
 
 public:
-    FileSelector( QWidget *parent, FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom );
+    FileSelector( QWidget *parent, FileListModel::ModelFor modelFor,
+                  QItemSelectionModel *selectionModel,
+                  FileListModel::SelectionFrom selectionFrom );
     ~FileSelector();
 
     FileListModel *model();
@@ -43,11 +47,19 @@ public:
 public slots:
     int exec();
 
+protected:
+    bool eventFilter( QObject *watched, QEvent *event );
+
 private:
     FileListModel *m_fileListModel;
+    FileListModel::ModelFor m_modelFor;
+    QItemSelectionModel *m_selectionModel;
+    FileListModel::SelectionFrom m_selectionFrom;
+    QMenu *contextMenu;
 
-    void initModel( FileListModel::ModelFor modelFor, QItemSelectionModel *selectionModel, FileListModel::SelectionFrom selectionFrom );
-    void configUI( FileListModel::ModelFor modelFor );
+    void initModel();
+    void configUI();
+    void createMenus();
     void setupConnections();
     void hideGroupBoxLogMessage();
 
@@ -56,6 +68,10 @@ private slots:
     void buttonOkClickedSlot();
     void comboLogHistoryActivatedSlot( int index );
     void checkSelectAllStateChanged( int state );
+
+    void doDiff();
+    void doRevert();
+    
 };
 
 #endif

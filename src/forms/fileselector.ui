@@ -26,18 +26,10 @@
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QSplitter" name="" >
+    <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-     </layout>
      <widget class="QGroupBox" name="groupBoxFiles" >
       <property name="title" >
        <string>Files</string>
@@ -166,9 +158,24 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
+  <action name="actionRevert" >
+   <property name="icon" >
+    <iconset resource="../qsvn.qrc" >:/images/menurevert.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Revert</string>
+   </property>
+  </action>
+  <action name="actionDiff" >
+   <property name="text" >
+    <string>Diff</string>
+   </property>
+  </action>
  </widget>
  <pixmapfunction></pixmapfunction>
- <resources/>
+ <resources>
+  <include location="../qsvn.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>okButton</sender>
