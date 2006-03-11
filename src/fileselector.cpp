@@ -219,8 +219,10 @@ void FileSelector::doRevert( )
                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
     {
         SvnClient::instance()->revert( fullFileName );
-        initModel();
-        checkSelectAll->setCheckState( checkSelectAll->checkState() );
+
+        m_fileListModel->removeRows( static_cast< FileListItem* >( treeViewFiles->selectionModel()->currentIndex().internalPointer() )->row(), 1 );
+        treeViewFiles->dataChanged( m_fileListModel->index( 0, 0 ),
+                                    m_fileListModel->index( m_fileListModel->rowCount(), m_fileListModel->columnCount() ) );
     }
 }
 
