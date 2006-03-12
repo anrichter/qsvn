@@ -27,6 +27,7 @@
 
 //SvnCpp
 #include "svnqt/client.hpp"
+#include "svnqt/revision.hpp"
 #include "svnqt/status.hpp"
 #include "svnqt/targets.hpp"
 
@@ -258,6 +259,19 @@ bool SvnClient::diff( const QStringList &fileList )
     result = result && diff( file );
 
     return result;
+}
+
+const svn::LogEntries* SvnClient::log( const QString &path )
+{
+    try
+    {
+        return svnClient->log( path, svn::Revision::HEAD, svn::Revision( ( long ) 0 ), true, false, 0 );
+    }
+    catch ( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( e.msg() );
+        return false;
+    }
 }
 
 void SvnClient::completedMessage( const QString &path )

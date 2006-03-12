@@ -81,6 +81,7 @@ public:
     bool remove( const QStringList &removeList );
     bool diff( const QString &file );
     bool diff( const QStringList &fileList );
+    const svn::LogEntries* log( const QString &path );
 
 public slots:
     void setCancel( );

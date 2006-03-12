@@ -122,6 +122,7 @@ void QSvn::connectActions()
     connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
+    connect( actionLog, SIGNAL( triggered() ), this, SLOT( doLog() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
@@ -138,6 +139,7 @@ void QSvn::createMenus()
     contextMenuWorkingCopy = new QMenu( this );
     contextMenuWorkingCopy->addAction( actionUpdate );
     contextMenuWorkingCopy->addAction( actionCommit );
+    contextMenuWorkingCopy->addAction( actionLog );
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction( actionAdd );
     contextMenuWorkingCopy->addAction( actionDelete );
@@ -152,6 +154,7 @@ void QSvn::createMenus()
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction( actionUpdate );
     contextMenuFileList->addAction( actionCommit );
+    contextMenuFileList->addAction( actionLog );
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction( actionAdd );
     contextMenuFileList->addAction( actionDelete );
@@ -262,7 +265,7 @@ void QSvn::doUpdate()
             updateSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
         }
     }
-    else 
+    else
     {
         for ( int i = 0; i < indexes.count(); i++ )
         {
@@ -298,7 +301,8 @@ void QSvn::doAdd()
     if ( fileselector.exec() )
     {
         setActionStop( "Add" );
-        SvnClient::instance()->add( fileselector.selectedFileList() );
+        SvnClient::instance()->add
+        ( fileselector.selectedFileList() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
@@ -310,7 +314,8 @@ void QSvn::doDelete()
     if ( fileselector.exec() )
     {
         setActionStop( "Delete" );
-        SvnClient::instance()->remove( fileselector.selectedFileList() );
+        SvnClient::instance()->remove
+        ( fileselector.selectedFileList() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
@@ -326,6 +331,36 @@ void QSvn::doRevert()
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
+}
+
+void QSvn::doLog()
+{
+    QString path;
+
+    QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+    if ( indexes.count() <= 0 )
+        return;
+
+    if ( isFileListSelected() )
+        path = static_cast< FileListItem* >( indexes.at( 0 ).internalPointer() )->fullFileName();
+    else
+        path = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() )->fullPath();
+
+    setActionStop( "Log" );
+    const svn::LogEntries *logEntries;
+    logEntries = SvnClient::instance()->log( path );
+    setActionStop( "" );
+
+    StatusText::instance()->outputMessage( QString( "Log for: %1" ).arg( path ) );
+    svn::LogEntries::ConstIterator it;
+    for ( it = logEntries->begin(); it != logEntries->end(); it++ )
+    {
+        const svn::LogEntry &logEntry = *it;
+        StatusText::instance()->outputMessage( QString( "%1 \t %2 \t %3" )
+                .arg( logEntry.revision )
+                .arg( logEntry.author )
+                .arg( logEntry.message ) );
+    }
 }
 
 void QSvn::doDiff()
@@ -370,3 +405,4 @@ void QSvn::setActionStop( QString aText )
     actionStop->setEnabled( !aText.isEmpty() );
     qApp->processEvents();
 }
+
