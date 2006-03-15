@@ -2,6 +2,7 @@ Version 0.4.0 - released 2006-??-??
 
     New Features
     ------------
+    * cleanup working copies
     * support access via HTTPS
     * revert in commit dialog through a popup menu.
 

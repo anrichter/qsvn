@@ -97,14 +97,6 @@
     </property>
     <addaction name="actionExit" />
    </widget>
-   <widget class="QMenu" name="menuWorking_Copy" >
-    <property name="title" >
-     <string>&amp;Working Copy</string>
-    </property>
-    <addaction name="actionAddWorkingCopy" />
-    <addaction name="actionRemoveWorkingCopy" />
-    <addaction name="actionCheckoutWorkingCopy" />
-   </widget>
    <widget class="QMenu" name="menuModify" >
     <property name="title" >
      <string>&amp;Modify</string>
@@ -116,6 +108,15 @@
     <addaction name="actionAdd" />
     <addaction name="actionDelete" />
     <addaction name="actionRevert" />
+   </widget>
+   <widget class="QMenu" name="menuWorking_Copy" >
+    <property name="title" >
+     <string>&amp;Working Copy</string>
+    </property>
+    <addaction name="actionAddWorkingCopy" />
+    <addaction name="actionRemoveWorkingCopy" />
+    <addaction name="actionCheckoutWorkingCopy" />
+    <addaction name="actionCleanup" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuWorking_Copy" />
@@ -285,6 +286,14 @@
    </property>
    <property name="toolTip" >
     <string>Show Log History</string>
+   </property>
+  </action>
+  <action name="actionCleanup" >
+   <property name="icon" >
+    <iconset resource="../qsvn.qrc" >:/images/actioncleanup.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Cleanup</string>
    </property>
   </action>
  </widget>

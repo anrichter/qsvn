@@ -105,6 +105,7 @@ void QSvn::setActionIcons( )
     actionAdd->setIcon( QIcon( ":menuadd.png" ) );
     actionDelete->setIcon( QIcon( ":menudelete.png" ) );
     actionRevert->setIcon( QIcon( ":menurevert.png" ) );
+    actionCleanup->setIcon( QIcon( ":actioncleanup.png" ) );
 
     actionStop->setIcon( QIcon( ":actionstop.png" ) );
 }
@@ -123,6 +124,7 @@ void QSvn::connectActions()
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
     connect( actionLog, SIGNAL( triggered() ), this, SLOT( doLog() ) );
+    connect( actionCleanup, SIGNAL( triggered() ), this, SLOT( doCleanup() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
@@ -144,6 +146,7 @@ void QSvn::createMenus()
     contextMenuWorkingCopy->addAction( actionAdd );
     contextMenuWorkingCopy->addAction( actionDelete );
     contextMenuWorkingCopy->addAction( actionRevert );
+    contextMenuWorkingCopy->addAction( actionCleanup );
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction( actionAddWorkingCopy );
     contextMenuWorkingCopy->addAction( actionRemoveWorkingCopy );
@@ -361,6 +364,25 @@ void QSvn::doLog()
                 .arg( logEntry.author )
                 .arg( logEntry.message ) );
     }
+}
+
+void QSvn::doCleanup()
+{
+    QSet<QString> cleanupSet;
+
+    QModelIndexList indexes = treeViewWorkingCopy->selectionModel()->selectedIndexes();
+
+    for ( int i = 0; i < indexes.count(); i++ )
+    {
+        cleanupSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
+    }
+
+    setActionStop( "Cleanup" );
+    for ( int i = 0; i < cleanupSet.count(); i++ )
+    {
+        SvnClient::instance()->cleanup( cleanupSet.values().at( i ) );
+    }
+    setActionStop( "" );
 }
 
 void QSvn::doDiff()

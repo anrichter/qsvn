@@ -82,6 +82,7 @@ public:
     bool diff( const QString &file );
     bool diff( const QStringList &fileList );
     const svn::LogEntries* log( const QString &path );
+    bool cleanup( const QString &path );
 
 public slots:
     void setCancel( );

@@ -274,6 +274,20 @@ const svn::LogEntries* SvnClient::log( const QString &path )
     }
 }
 
+bool SvnClient::cleanup( const QString &path )
+{
+    try
+    {
+        svnClient->cleanup( path );
+    }
+    catch( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( e.msg() );
+        return false;
+    }
+    return true;
+}
+
 void SvnClient::completedMessage( const QString &path )
 {
     QString _path = path;

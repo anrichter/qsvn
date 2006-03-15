@@ -17,6 +17,7 @@
     <file alias="menudelete.png">images/menudelete.png</file>
     <file alias="menurevert.png">images/menurevert.png</file>
     <file alias="menuupdate.png">images/menuupdate.png</file>
+    <file alias="actioncleanup.png">images/actioncleanup.png</file>
 
     <file alias="actionstop.png">images/actionstop.png</file>
 </qresource>

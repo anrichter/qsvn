@@ -75,6 +75,7 @@ private slots:
     void doDelete();
     void doRevert();
     void doLog();
+    void doCleanup();
 
     //Query
     void doDiff();
