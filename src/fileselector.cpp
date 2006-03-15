@@ -170,14 +170,18 @@ QString FileSelector::logMessage( )
 
 void FileSelector::buttonOkClickedSlot()
 {
-    QStringList logEntries;
-    logEntries << editLogMessage->toPlainText();
-    for ( int i = 0; i < comboLogHistory->count(); ++i )
+    if ( m_svnAction == SvnClient::SvnCommit )
     {
-        if ( !comboLogHistory->itemText( i ).isEmpty() && !logEntries.contains( comboLogHistory->itemText( i ) ) )
-            logEntries << comboLogHistory->itemText( i );
+        QStringList logEntries;
+        logEntries << editLogMessage->toPlainText();
+        for ( int i = 0; i < comboLogHistory->count(); ++i )
+        {
+            if ( !comboLogHistory->itemText( i ).isEmpty() && !logEntries.contains( comboLogHistory->itemText( i ) ) )
+                logEntries << comboLogHistory->itemText( i );
+        }
+        Config::instance()->saveStringList( "logHistory", logEntries );
     }
-    Config::instance()->saveStringList( "logHistory", logEntries );
+
     this->accept();
 }
 
