@@ -39,23 +39,24 @@
 namespace svn
 {
   svn_revnum_t
-  Client_impl::checkout (const QString& url,
-                    const Path & destPath,
-                    const Revision & revision,
-                    bool recurse) throw (ClientException)
+  Client_impl::checkout (const QString& url, const Path & destPath,
+              const Revision & revision,
+              const Revision & peg,
+              bool recurse,
+              bool ignore_externals) throw (ClientException)
   {
     Pool subPool;
-    apr_pool_t * apr_pool = subPool.pool ();
-
     svn_revnum_t revnum = 0;
     svn_error_t * error =
-      svn_client_checkout (&revnum,
+      svn_client_checkout2(&revnum,
                            url.TOUTF8(),
                            destPath.cstr(),
+                           peg.revision(),
                            revision.revision (),
                            recurse,
+                           ignore_externals,
                            *m_context,
-                           apr_pool);
+                           subPool);
 
     if(error != NULL)
       throw ClientException (error);
@@ -66,18 +67,8 @@ namespace svn
   Client_impl::remove (const Path & path,
                   bool force) throw (ClientException)
   {
-    Pool pool;
     Targets targets (path.path());
-    svn_client_commit_info_t *commit_info = NULL;
-
-    svn_error_t * error =
-      svn_client_delete (&commit_info,
-                         const_cast<apr_array_header_t*> (targets.array (pool)),
-                         force,
-                         *m_context,
-                         pool);
-    if(error != NULL)
-      throw ClientException (error);
+    remove(targets,force);
   }
 
   void
@@ -85,10 +76,21 @@ namespace svn
                   bool force) throw (ClientException)
   {
     Pool pool;
+
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+    svn_commit_info_t *commit_info = NULL;
+#else
     svn_client_commit_info_t *commit_info = NULL;
+#endif
 
     svn_error_t * error =
-      svn_client_delete (&commit_info,
+
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+      svn_client_delete2
+#else
+      svn_client_delete
+#endif
+                    (&commit_info,
                          const_cast<apr_array_header_t*> (targets.array (pool)),
                          force,
                          *m_context,
@@ -115,16 +117,24 @@ namespace svn
 
   void
   Client_impl::add (const Path & path,
-               bool recurse) throw (ClientException)
+               bool recurse,bool force, bool no_ignore) throw (ClientException)
   {
     Pool pool;
-
     svn_error_t * error =
-      svn_client_add (path.cstr (),
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+      svn_client_add3 (path.cstr (),
                       recurse,
+                      force,
+                      no_ignore,
                       *m_context,
                       pool);
-
+#else
+      svn_client_add2 (path.cstr (),
+                      recurse,
+                      force,
+                      *m_context,
+                      pool);
+#endif
     if(error != NULL)
       throw ClientException (error);
   }
@@ -175,19 +185,31 @@ namespace svn
 
   svn_revnum_t
   Client_impl::commit (const Targets & targets, const QString& message,
-                  bool recurse) throw (ClientException)
+                  bool recurse,bool keep_locks) throw (ClientException)
   {
     Pool pool;
 
     m_context->setLogMessage (message);
 
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+    svn_commit_info_t *commit_info = NULL;
+#else
     svn_client_commit_info_t *commit_info = NULL;
+#endif
+
     svn_error_t * error =
-      svn_client_commit (&commit_info,
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+      svn_client_commit3
+#else
+      svn_client_commit2
+#endif
+                        (&commit_info,
                          targets.array (pool),
-                         !recurse,
+                         recurse,
+                         keep_locks,
                          *m_context,
                          pool);
+
     if (error != NULL)
       throw ClientException (error);
 
@@ -203,9 +225,18 @@ namespace svn
                 const Path & destPath) throw (ClientException)
   {
     Pool pool;
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+    svn_commit_info_t *commit_info = NULL;
+#else
     svn_client_commit_info_t *commit_info = NULL;
+#endif
     svn_error_t * error =
-      svn_client_copy (&commit_info,
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+        svn_client_copy2
+#else
+        svn_client_copy
+#endif
+                    (&commit_info,
                        srcPath.cstr (),
                        srcRevision.revision (),
                        destPath.cstr (),
@@ -218,16 +249,23 @@ namespace svn
 
   void
   Client_impl::move (const Path & srcPath,
-                const Revision & srcRevision,
                 const Path & destPath,
                 bool force) throw (ClientException)
   {
     Pool pool;
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+    svn_commit_info_t *commit_info = NULL;
+#else
     svn_client_commit_info_t *commit_info = NULL;
+#endif
     svn_error_t * error =
-      svn_client_move (&commit_info,
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+    svn_client_move3
+#else
+    svn_client_move2
+#endif
+                     (&commit_info,
                        srcPath.cstr (),
-                       srcRevision.revision (),
                        destPath.cstr (),
                        force,
                        *m_context,
@@ -241,20 +279,8 @@ namespace svn
   Client_impl::mkdir (const Path & path,
                  const QString& message) throw (ClientException)
   {
-    Pool pool;
-    m_context->setLogMessage (message);
-
     Targets targets(path.path());
-
-    svn_client_commit_info_t *commit_info = NULL;
-    svn_error_t * error =
-      svn_client_mkdir (&commit_info,
-                        const_cast<apr_array_header_t*>
-                        (targets.array (pool)),
-                        *m_context, pool);
-
-    if(error != NULL)
-      throw ClientException (error);
+    mkdir(targets,message);
   }
 
   void
@@ -262,14 +288,22 @@ namespace svn
                  const QString& message) throw (ClientException)
   {
     Pool pool;
-    m_context->setLogMessage (message);
-
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+    svn_commit_info_t *commit_info = NULL;
+#else
     svn_client_commit_info_t *commit_info = NULL;
+#endif
+
     svn_error_t * error =
-      svn_client_mkdir (&commit_info,
-                        const_cast<apr_array_header_t*>
-                        (targets.array (pool)),
-                        *m_context, pool);
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+    svn_client_mkdir2
+#else
+    svn_client_mkdir
+#endif
+            (&commit_info,
+                const_cast<apr_array_header_t*>
+                (targets.array (pool)),
+                    *m_context, pool);
 
     if(error != NULL)
       throw ClientException (error);
@@ -305,22 +339,39 @@ namespace svn
 
   svn_revnum_t
   Client_impl::doExport (const Path & srcPath,
-                    const Path & destPath,
-                    const Revision & revision,
-                    bool force) throw (ClientException)
+              const Path & destPath,
+              const Revision & revision,
+              const Revision & peg,
+              bool overwrite,
+              const QString&native_eol,
+              bool ignore_externals,
+              bool recurse) throw (ClientException)
   {
     Pool pool;
     svn_revnum_t revnum = 0;
     svn_error_t * error =
-      svn_client_export(&revnum,
+#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
+      svn_client_export3(&revnum,
                         srcPath.cstr(),
                         destPath.cstr(),
-                         const_cast<svn_opt_revision_t*>
-                         (revision.revision ()),
-                         force,
+                        peg.revision(),
+                        revision.revision(),
+                        overwrite,
+                        ignore_externals,
+                        recurse,
+                        (native_eol == QString::null?"":native_eol.TOUTF8()),
                          *m_context,
                          pool);
-
+#else
+      svn_client_export2(&revnum,
+                        srcPath.cstr(),
+                        destPath.cstr(),
+                        const_cast<svn_opt_revision_t*>(revision.revision()),
+                        overwrite,
+                        (native_eol==QString::null?"":native_eol.TOUTF8()),
+                         *m_context,
+                         pool);
+#endif
     if(error != NULL)
       throw ClientException (error);
     return revnum;

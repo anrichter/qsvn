@@ -227,7 +227,10 @@ bool SvnClient::diff( const QString &file )
         //diff output to StatusText
         try
         {
-            QString delta = svnClient->diff( svn::Path( QDir::tempPath() + QDir::separator() + "qsvn" ), svn::Path( file ), svn::Revision::BASE, svn::Revision::WORKING, true, false, false );
+            QString delta = svnClient->diff( svn::Path( QDir::tempPath() + QDir::separator() + "qsvn" ),
+                                             svn::Path( file ),
+                                             svn::Revision::BASE, svn::Revision::WORKING,
+                                             true, false, false, true );
             StatusText::instance()->outputMessage( delta );
         }
         catch ( svn::ClientException e )

@@ -96,6 +96,7 @@ HEADERS = addworkingcopy.h \
           svnqt/client.hpp \
           svnqt/client_impl.hpp \
           svnqt/context.hpp \
+          svnqt/contextdata.h \
           svnqt/context_listener.hpp \
           svnqt/datetime.hpp \
           svnqt/dirent.hpp \
@@ -142,6 +143,7 @@ SOURCES = addworkingcopy.cpp \
           svnqt/client_property.cpp \
           svnqt/client_status.cpp \
           svnqt/context.cpp \
+          svnqt/contextdata.cpp \
           svnqt/datetime.cpp \
           svnqt/dirent.cpp \
           svnqt/entry.cpp \

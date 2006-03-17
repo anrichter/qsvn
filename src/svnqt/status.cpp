@@ -82,7 +82,7 @@ namespace svn
     }
     else
     {
-      m_isVersioned = status->text_status > svn_wc_status_unversioned;
+      m_isVersioned = status->text_status > svn_wc_status_unversioned||status->repos_text_status>svn_wc_status_unversioned;
       m_hasReal = m_isVersioned &&
                           status->text_status!=svn_wc_status_ignored;
       // now duplicate the contents
@@ -274,5 +274,17 @@ namespace svn
     Status::path () const
     {
       return m_Data->m_Path;
+    }
+
+    bool
+    Status::validReposStatus()const
+    {
+        return reposTextStatus()!=svn_wc_status_none||reposPropStatus()!=svn_wc_status_none;
+    }
+
+    bool
+    Status::validLocalStatus()const
+    {
+        return textStatus()!=svn_wc_status_none||propStatus()!=svn_wc_status_none;
     }
 }

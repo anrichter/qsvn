@@ -146,6 +146,7 @@ namespace svn
      * @param get_all Return all entries, not just the interesting ones.
      * @param update Query the repository for updates.
      * @param no_ignore Disregard default and svn:ignore property ignores.
+     * @param hide_externals don't recurse into external definitions
      * @param revision list specific revision when browsing remote, on working copies parameter will ignored
      * @param detailed_remote if on remote listing detailed item info should get if possible
      *                        that may slow so should configureable in frontends!
@@ -158,7 +159,8 @@ namespace svn
             const bool update = false,
             const bool no_ignore = false,
             Revision revision = svn::Revision::HEAD,
-            bool detailed_remote = false) throw (ClientException) = 0;
+            bool detailed_remote = false,
+            const bool hide_externals = false) throw (ClientException) = 0;
 
     /**
      * Returns the status of a single file in the path.
@@ -179,13 +181,17 @@ namespace svn
      * @param destPath destination directory for checkout.
      * @param revision the revision number to checkout. If the number is -1
      *                 then it will checkout the latest revision.
+     * @param peg Revision to look up
      * @param recurse whether you want it to checkout files recursively.
+     * @param ignore_externals if true don't process externals definitions.
      * @exception ClientException
      */
     virtual svn_revnum_t
     checkout (const QString& moduleName, const Path & destPath,
               const Revision & revision,
-              bool recurse) throw (ClientException) = 0;
+              const Revision & peg = Revision::UNDEFINED,
+              bool recurse = true,
+              bool ignore_externals=false) throw (ClientException) = 0;
 
     /**
      * relocate wc @a from to @a to
@@ -223,10 +229,14 @@ namespace svn
 
     /**
      * Adds a file to the repository.
+     * @param path the path to add
+     * @param recurse if @a path is a folder add items recursive
+     * @param force if true, do not error on already-versioned items.
+     * @param no_ignore if false don't add files or directories that match ignore patterns. When build against svn 1.2 always false
      * @exception ClientException
      */
     virtual void
-    add (const Path & path, bool recurse) throw (ClientException)=0;
+    add (const Path & path, bool recurse,bool force=false, bool no_ignore=false) throw (ClientException)=0;
 
     /**
      * Updates the file or directory.
@@ -256,40 +266,22 @@ namespace svn
           const Revision & revision,
           const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException)=0;
 
-
     /**
      * Retrieves the contents for a specific @a revision of
-     * a @a path and saves it to the destination file @a dstPath.
+     * a @a path and stores the result in @a target
      *
-     * If @a dstPath is empty (""), then this path will be
-     * constructed from the temporary directory on this system
-     * and the filename in @a path. @a dstPath will still have
-     * the file extension from @a path and uniqueness of the
-     * temporary filename will be ensured.
-     *
-     * @param dstPath Filename in which the contents
-     *                of the file file will be safed.
-     * @param path path or url
-     * @param revision
-     */
-    virtual void
-    get (Path & dstPath, const Path & path,
-         const Revision & revision) throw (ClientException) = 0;
-
-
-    /**
-     * Retrieves the contents for a specific @a revision of
-     * a @a path
-     *
+     * @param target the container where to store the result
      * @param path path of file or directory
      * @param revisionStart revision to retrieve
      * @param revisionEnd revision to retrieve
-     * @return contents of the file
+     * @param peg indicates in which revision path is valid
      */
-    virtual AnnotatedFile *
-    annotate (const Path & path,
+    virtual void
+    annotate (AnnotatedFile&target,
+              const Path & path,
               const Revision & revisionStart,
-              const Revision & revisionEnd) throw (ClientException)=0;
+              const Revision & revisionEnd,
+              const Revision & peg = Revision::UNDEFINED) throw (ClientException)=0;
 
     /**
      * Commits changes to the repository. This usually requires
@@ -299,12 +291,13 @@ namespace svn
      * @param targets files to commit.
      * @param message log message.
      * @param recurse whether the operation should be done recursively.
+     * @param keep_locks if false unlock items in paths
      * @exception ClientException
      */
     virtual svn_revnum_t
     commit (const Targets & targets,
             const QString& message,
-            bool recurse) throw (ClientException)=0;
+            bool recurse,bool keep_locks=true) throw (ClientException)=0;
 
     /**
      * Copies a versioned file with the history preserved.
@@ -321,7 +314,6 @@ namespace svn
      */
     virtual void
     move (const Path & srcPath,
-          const Revision & srcRevision,
           const Path & destPath,
           bool force) throw (ClientException)=0;
 
@@ -365,13 +357,23 @@ namespace svn
      * @param srcPath source path
      * @param destPath a destination path that must not already exist.
      * @param revision revision to use for the export
-     * @param force force export
+     * @param peg the revision where the path is first looked up when exporting from a repository.
+     * @param overwrite overwrite existing files
+     * @param native_eol Either "LF", "CR" or "CRLF" or NULL.
+     * @param ignore_externals don't process externals definitions as part of this operation.
+     * @param recurse if true, export recursively.<br>
+      Otherwise, export just the directory represented by from and its immediate non-directory children.
      */
     virtual svn_revnum_t
     doExport (const Path & srcPath,
               const Path & destPath,
               const Revision & revision,
-              bool force=false) throw (ClientException)=0;
+              const Revision & peg = Revision::UNDEFINED,
+              bool overwrite=false,
+              const QString&native_eol=QString::null,
+              bool ignore_externals = false,
+              bool recurse = true
+              ) throw (ClientException)=0;
 
     /**
      * Update local copy to mirror a new url. This excapsulates the
@@ -498,7 +500,7 @@ namespace svn
     diff (const Path & tmpPath, const Path & path,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
-          const bool noDiffDeleted) throw (ClientException)=0;
+          const bool noDiffDeleted,const bool ignore_contenttype) throw (ClientException)=0;
     /**
      * Produce diff output which describes the delta between
      * @a path1/@a revision1 and @a path2/@a revision2. @a path2
@@ -525,7 +527,7 @@ namespace svn
     diff (const Path & tmpPath, const Path & path1,const Path & path2,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
-          const bool noDiffDeleted) throw (ClientException)=0;
+          const bool noDiffDeleted,const bool ignore_contenttype) throw (ClientException)=0;
 
     /**
      * lists entries in @a pathOrUrl no matter whether local or
@@ -551,12 +553,14 @@ namespace svn
      *
      * @param path
      * @param revision
+     * @param peg most case should set to @a revision
      * @param recurse
      * @return PropertiesList
      */
     virtual PathPropertiesMapList
     proplist(const Path &path,
              const Revision &revision,
+             const Revision &peg,
              bool recurse=false)=0;
 
     /**
@@ -566,6 +570,7 @@ namespace svn
      * @param propName
      * @param path
      * @param revision
+     * @param peg most case should set to @a revision
      * @param recurse
      * @return PathPropertiesMapList
      */
@@ -573,6 +578,7 @@ namespace svn
     propget(const QString& propName,
             const Path &path,
             const Revision &revision,
+            const Revision &peg,
             bool recurse=false) = 0;
 
     /**
@@ -583,6 +589,7 @@ namespace svn
      * @param revision
      * @param propName
      * @param propValue
+     * @param skip_check if true skip validity checks
      * @param recurse
      * @return PropertiesList
      */
@@ -591,7 +598,8 @@ namespace svn
             const QString& propValue,
             const Path &path,
             const Revision &revision,
-            bool recurse=false) = 0;
+            bool recurse=false,
+            bool skip_checks=false) = 0;
 
     /**
      * delete property in @a path no matter whether local or
