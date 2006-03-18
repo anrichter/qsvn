@@ -349,8 +349,13 @@ namespace svn
   {
     Pool pool;
     svn_revnum_t revnum = 0;
+    const char*_neol;
+    if (native_eol==QString::null) {
+        _neol = (const char*)0;
+    } else {
+        _neol = native_eol.TOUTF8();
+    }
     svn_error_t * error =
-#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 3)
       svn_client_export3(&revnum,
                         srcPath.cstr(),
                         destPath.cstr(),
@@ -359,19 +364,9 @@ namespace svn
                         overwrite,
                         ignore_externals,
                         recurse,
-                        (native_eol == QString::null?"":native_eol.TOUTF8()),
+                        _neol,
                          *m_context,
                          pool);
-#else
-      svn_client_export2(&revnum,
-                        srcPath.cstr(),
-                        destPath.cstr(),
-                        const_cast<svn_opt_revision_t*>(revision.revision()),
-                        overwrite,
-                        (native_eol==QString::null?"":native_eol.TOUTF8()),
-                         *m_context,
-                         pool);
-#endif
     if(error != NULL)
       throw ClientException (error);
     return revnum;
