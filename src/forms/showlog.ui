@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>457</height>
+    <width>401</width>
+    <height>294</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -30,9 +30,9 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QListView" name="lvRevisions" />
-     <widget class="QListView" name="lvActions" />
-     <widget class="QTextEdit" name="edLogMessage" />
+     <widget class="QTreeView" name="viewRevisions" />
+     <widget class="QListView" name="viewActions" />
+     <widget class="QTextEdit" name="editLogMessage" />
     </widget>
    </item>
    <item row="1" column="0" >

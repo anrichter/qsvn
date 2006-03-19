@@ -1,6 +1,6 @@
 /***************************************************************************
- *   This file is part of QSvn Project http://qsvn.berlios.de              *
- *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
+ *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
+ *   Copyright (c) 2004-2006 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *
@@ -17,33 +17,33 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  *                                                                         *
  ***************************************************************************/
-#ifndef SHOWLOG_H
-#define SHOWLOG_H
-
-//QSvn
-#include "ui_showlog.h"
-class ShowLogRevisionsModel;
+#ifndef SHOWLOGREVISIONSMODEL_H
+#define SHOWLOGREVISIONSMODEL_H
 
 //SvnQt
 #include "svnqt/client.hpp"
 
 //Qt
-class QDialog;
+class QAbstractTableModel;
+class QModelIndex;
+class QVariant;
 
 
 /**
     @author Andreas Richter <ar@oszine.de>
 */
-
-class ShowLog : public QDialog, public Ui::ShowLog
+class ShowLogRevisionsModel : public QAbstractTableModel
 {
-    Q_OBJECT
-
 public:
-    ShowLog( QWidget *parent = 0, const svn::LogEntries *logEntries = 0 );
-    ~ShowLog();
+    ShowLogRevisionsModel( QObject * parent = 0, const svn::LogEntries *logEntries = 0 );
+    ~ShowLogRevisionsModel();
+
+    int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
+    int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
+    QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+    QVariant data( const QModelIndex &index, int role ) const;
 private:
-    ShowLogRevisionsModel *m_showLogRevisionsModel;
+    const svn::LogEntries *m_logEntries;
 };
 
 #endif

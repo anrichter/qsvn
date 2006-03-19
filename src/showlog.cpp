@@ -20,6 +20,7 @@
 
 //QSvn
 #include "showlog.h"
+#include "showlogrevisionsmodel.h"
 
 //Qt
 #include <QtGui>
@@ -30,16 +31,11 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
 {
     setupUi( this );
 
-    svn::LogEntries::ConstIterator it;
-    for ( it = logEntries->begin(); it != logEntries->end(); it++ )
-    {
-        const svn::LogEntry &logEntry = *it;
-        edLogMessage->append( QString( "%1 \t %2 \t %3" )
-                .arg( logEntry.revision )
-                .arg( logEntry.author )
-                .arg( logEntry.message ) );
-    }
+    m_showLogRevisionsModel = new ShowLogRevisionsModel( this, logEntries );
+    viewRevisions->setModel( m_showLogRevisionsModel );
 }
 
 ShowLog::~ShowLog()
-{}
+{
+    delete m_showLogRevisionsModel;
+}
