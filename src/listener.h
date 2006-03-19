@@ -31,7 +31,7 @@
 class Listener : public QObject, public svn::ContextListener
 {
 public:
-    Listener();
+    Listener( QObject *parent = 0 );
     virtual ~Listener();
 
     virtual bool contextGetLogin (const QString & realm,
@@ -51,7 +51,7 @@ public:
 #endif
 
     virtual bool contextCancel();
-    virtual bool contextGetLogMessage( QString &msg );
+    virtual bool contextGetLogMessage( QString &msg, const svn::CommitItemList& );
     virtual SslServerTrustAnswer contextSslServerTrustPrompt( const SslServerTrustData &data,
             apr_uint32_t &acceptedFailures );
     virtual bool contextSslClientCertPrompt( QString &certFile );

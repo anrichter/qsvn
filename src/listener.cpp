@@ -32,7 +32,8 @@
 #include <QtGui>
 
 
-Listener::Listener( )
+Listener::Listener( QObject *parent )
+    : QObject( parent )
 {
     m_cancel = false;
 }
@@ -168,7 +169,7 @@ bool Listener::contextCancel( )
         return false;
 }
 
-bool Listener::contextGetLogMessage( QString &msg )
+bool Listener::contextGetLogMessage( QString &msg, const svn::CommitItemList &itemList)
 {
     return false;
 }
