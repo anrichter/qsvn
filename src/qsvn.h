@@ -74,7 +74,7 @@ private slots:
     void doAdd();
     void doDelete();
     void doRevert();
-    void doLog();
+    void doShowLog();
     void doCleanup();
 
     //Query

@@ -28,6 +28,7 @@
 #include "filelistitem.h"
 #include "fileselector.h"
 #include "qsvn.h"
+#include "showlog.h"
 #include "statustext.h"
 #include "svnclient.h"
 #include "workingcopymodel.h"
@@ -123,7 +124,7 @@ void QSvn::connectActions()
     connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
     connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
-    connect( actionLog, SIGNAL( triggered() ), this, SLOT( doLog() ) );
+    connect( actionLog, SIGNAL( triggered() ), this, SLOT( doShowLog() ) );
     connect( actionCleanup, SIGNAL( triggered() ), this, SLOT( doCleanup() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
@@ -336,7 +337,7 @@ void QSvn::doRevert()
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
 }
 
-void QSvn::doLog()
+void QSvn::doShowLog()
 {
     QString path;
 
@@ -354,16 +355,8 @@ void QSvn::doLog()
     logEntries = SvnClient::instance()->log( path );
     setActionStop( "" );
 
-    StatusText::instance()->outputMessage( QString( "Log for: %1" ).arg( path ) );
-    svn::LogEntries::ConstIterator it;
-    for ( it = logEntries->begin(); it != logEntries->end(); it++ )
-    {
-        const svn::LogEntry &logEntry = *it;
-        StatusText::instance()->outputMessage( QString( "%1 \t %2 \t %3" )
-                .arg( logEntry.revision )
-                .arg( logEntry.author )
-                .arg( logEntry.message ) );
-    }
+    ShowLog showLog( this, logEntries );
+    showLog.exec();
 }
 
 void QSvn::doCleanup()

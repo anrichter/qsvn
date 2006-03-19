@@ -73,6 +73,7 @@ FORMS = forms\addworkingcopy.ui \
         forms\fileselector.ui \
         forms\login.ui \
         forms\qsvn.ui \
+        forms\showlog.ui \
         forms\sslservertrust.ui
 
 HEADERS = addworkingcopy.h \
@@ -85,6 +86,7 @@ HEADERS = addworkingcopy.h \
           listener.h \
           login.h \
           qsvn.h \
+          showlog.h \
           sslservertrust.h \
           statustext.h \
           svnclient.h \
@@ -127,6 +129,7 @@ SOURCES = addworkingcopy.cpp \
           login.cpp \
           main.cpp \
           qsvn.cpp \
+          showlog.cpp \
           sslservertrust.cpp \
           statustext.cpp \
           svnclient.cpp \
