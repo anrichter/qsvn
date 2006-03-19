@@ -352,7 +352,7 @@ void QSvn::doShowLog()
 
     setActionStop( "Log" );
     const svn::LogEntries *logEntries;
-    logEntries = SvnClient::instance()->log( path );
+    logEntries = SvnClient::instance()->log( path, svn::Revision::HEAD, svn::Revision::START );
     setActionStop( "" );
 
     ShowLog showLog( this, logEntries );

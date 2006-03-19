@@ -264,11 +264,11 @@ bool SvnClient::diff( const QStringList &fileList )
     return result;
 }
 
-const svn::LogEntries* SvnClient::log( const QString &path )
+const svn::LogEntries* SvnClient::log( const QString &path, const svn::Revision &revisionStart, const svn::Revision &revisionEnd )
 {
     try
     {
-        return svnClient->log( path, svn::Revision::HEAD, svn::Revision( ( long ) 0 ), true, false, 0 );
+        return svnClient->log( path, revisionStart, revisionEnd, true, false, 100 );
     }
     catch ( svn::ClientException e )
     {
