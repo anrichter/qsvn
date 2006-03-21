@@ -31,7 +31,8 @@
 ShowLogRevisionsModel::ShowLogRevisionsModel( QObject * parent, const svn::LogEntries *logEntries )
     : QAbstractTableModel( parent )
 {
-    m_logEntries = logEntries;
+    m_logEntries = svn::LogEntries( *logEntries );
+    sort( 0, Qt::DescendingOrder );
 }
 
 ShowLogRevisionsModel::~ShowLogRevisionsModel()
@@ -39,7 +40,7 @@ ShowLogRevisionsModel::~ShowLogRevisionsModel()
 
 int ShowLogRevisionsModel::rowCount( const QModelIndex & parent ) const
 {
-    return m_logEntries->count();
+    return m_logEntries.count();
 }
 
 int ShowLogRevisionsModel::columnCount( const QModelIndex & parent ) const
@@ -77,7 +78,7 @@ QVariant ShowLogRevisionsModel::data( const QModelIndex & index, int role ) cons
     if ( role != Qt::DisplayRole )
         return QVariant();
 
-    const svn::LogEntry &logEntry = m_logEntries->at( index.row() );
+    const svn::LogEntry &logEntry = m_logEntries.at( index.row() );
     QDateTime dateTime;
     switch( index.column() )
     {
@@ -95,4 +96,27 @@ QVariant ShowLogRevisionsModel::data( const QModelIndex & index, int role ) cons
         return logEntry.message;
         break;
     }
+}
+
+void ShowLogRevisionsModel::sort( int column, Qt::SortOrder order )
+{
+    if ( column != 0 )
+        return;
+
+    if ( order == Qt::AscendingOrder )
+        qSort( m_logEntries.begin(), m_logEntries.end(), &logEntryLessThan );
+    else
+        qSort( m_logEntries.begin(), m_logEntries.end(), &logEntryGreaterThan );
+
+    emit layoutChanged();
+}
+
+bool ShowLogRevisionsModel::logEntryLessThan( const svn::LogEntry & left, const svn::LogEntry & right )
+{
+    return left.revision < right.revision;
+}
+
+bool ShowLogRevisionsModel::logEntryGreaterThan( const svn::LogEntry & left, const svn::LogEntry & right )
+{
+    return left.revision > right.revision;
 }

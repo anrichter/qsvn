@@ -42,8 +42,15 @@ public:
     int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
     QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
     QVariant data( const QModelIndex &index, int role ) const;
+
+    void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
+
 private:
-    const svn::LogEntries *m_logEntries;
+    svn::LogEntries m_logEntries;
+
+    //sorting algorithms
+    static bool logEntryLessThan( const svn::LogEntry &left, const svn::LogEntry &right );
+    static bool logEntryGreaterThan( const svn::LogEntry &left, const svn::LogEntry &right );
 };
 
 #endif
