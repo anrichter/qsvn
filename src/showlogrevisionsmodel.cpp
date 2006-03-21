@@ -88,8 +88,8 @@ QVariant ShowLogRevisionsModel::data( const QModelIndex & index, int role ) cons
         return logEntry.author;
         break;
     case 2:
-        dateTime.setTime_t( logEntry.date );
-        return dateTime;
+        dateTime.setTime_t( logEntry.date / (1000*1000) );
+        return dateTime.toString( "yyyy-MM-dd hh:mm:ss" );
         break;
     case 3:
         return logEntry.message;
