@@ -84,6 +84,7 @@ HEADERS = addworkingcopy.h \
           filelistmodel.h \
           fileselector.h \
           listener.h \
+          logchangepathentriesmodel.h \
           logentriesmodel.h \
           login.h \
           qsvn.h \
@@ -127,6 +128,7 @@ SOURCES = addworkingcopy.cpp \
           filelistmodel.cpp \
           fileselector.cpp \
           listener.cpp \
+          logchangepathentriesmodel.cpp \
           logentriesmodel.cpp \
           login.cpp \
           main.cpp \

@@ -31,7 +31,7 @@
       <enum>Qt::Vertical</enum>
      </property>
      <widget class="QTreeView" name="viewRevisions" />
-     <widget class="QListView" name="viewActions" />
+     <widget class="QTreeView" name="viewActions" />
      <widget class="QTextEdit" name="editLogMessage" />
     </widget>
    </item>

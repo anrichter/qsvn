@@ -22,6 +22,10 @@
 #include "config.h"
 #include "showlog.h"
 #include "logentriesmodel.h"
+#include "logchangepathentriesmodel.h"
+
+//svnqt
+#include "svnqt/log_entry.hpp"
 
 //Qt
 #include <QtGui>
@@ -37,6 +41,9 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
     viewRevisions->setModel( m_logEntriesModel );
 
     connect( viewRevisions, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
+
+    m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
+    viewActions->setModel( m_logChangePathEntriesModel );
 }
 
 ShowLog::~ShowLog()
@@ -50,5 +57,8 @@ void ShowLog::selectLogEntry( const QModelIndex & index )
     if ( index.isValid() )
     {
         editLogMessage->setPlainText( m_logEntriesModel->getLogEntry( index ).message );
+        delete m_logChangePathEntriesModel;
+        m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, m_logEntriesModel->getLogEntry( index ).changedPaths );
+        viewActions->setModel( m_logChangePathEntriesModel );
     }
 }
