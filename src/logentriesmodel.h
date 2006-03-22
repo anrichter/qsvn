@@ -17,8 +17,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  *                                                                         *
  ***************************************************************************/
-#ifndef SHOWLOGREVISIONSMODEL_H
-#define SHOWLOGREVISIONSMODEL_H
+#ifndef LOGENTRIESMODEL_H
+#define LOGENTRIESMODEL_H
 
 //SvnQt
 #include "svnqt/client.hpp"
@@ -32,11 +32,11 @@ class QVariant;
 /**
     @author Andreas Richter <ar@oszine.de>
 */
-class ShowLogRevisionsModel : public QAbstractTableModel
+class LogEntriesModel : public QAbstractTableModel
 {
 public:
-    ShowLogRevisionsModel( QObject * parent = 0, const svn::LogEntries *logEntries = 0 );
-    ~ShowLogRevisionsModel();
+    LogEntriesModel( QObject * parent = 0, const svn::LogEntries *logEntries = 0 );
+    ~LogEntriesModel();
 
     int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
     int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;

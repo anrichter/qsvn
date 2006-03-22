@@ -21,7 +21,7 @@
 //QSvn
 #include "config.h"
 #include "showlog.h"
-#include "showlogrevisionsmodel.h"
+#include "logentriesmodel.h"
 
 //Qt
 #include <QtGui>
@@ -33,15 +33,15 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
     setupUi( this );
     Config::instance()->restoreWidget( this );
 
-    m_showLogRevisionsModel = new ShowLogRevisionsModel( this, logEntries );
-    viewRevisions->setModel( m_showLogRevisionsModel );
+    m_logEntriesModel = new LogEntriesModel( this, logEntries );
+    viewRevisions->setModel( m_logEntriesModel );
 
     connect( viewRevisions, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
 }
 
 ShowLog::~ShowLog()
 {
-    delete m_showLogRevisionsModel;
+    delete m_logEntriesModel;
     Config::instance()->saveWidget( this );
 }
 
@@ -49,6 +49,6 @@ void ShowLog::selectLogEntry( const QModelIndex & index )
 {
     if ( index.isValid() )
     {
-        editLogMessage->setPlainText( m_showLogRevisionsModel->getLogEntry( index ).message );
+        editLogMessage->setPlainText( m_logEntriesModel->getLogEntry( index ).message );
     }
 }

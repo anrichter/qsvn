@@ -22,7 +22,7 @@
 
 //QSvn
 #include "ui_showlog.h"
-class ShowLogRevisionsModel;
+class LogEntriesModel;
 
 //SvnQt
 #include "svnqt/client.hpp"
@@ -44,7 +44,7 @@ public:
     ~ShowLog();
 
 private:
-    ShowLogRevisionsModel *m_showLogRevisionsModel;
+    LogEntriesModel *m_logEntriesModel;
 
 private slots:
     void selectLogEntry( const QModelIndex &index );

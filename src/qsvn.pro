@@ -84,10 +84,10 @@ HEADERS = addworkingcopy.h \
           filelistmodel.h \
           fileselector.h \
           listener.h \
+          logentriesmodel.h \
           login.h \
           qsvn.h \
           showlog.h \
-          showlogrevisionsmodel.h \
           sslservertrust.h \
           statustext.h \
           svnclient.h \
@@ -127,11 +127,11 @@ SOURCES = addworkingcopy.cpp \
           filelistmodel.cpp \
           fileselector.cpp \
           listener.cpp \
+          logentriesmodel.cpp \
           login.cpp \
           main.cpp \
           qsvn.cpp \
           showlog.cpp \
-          showlogrevisionsmodel.cpp \
           sslservertrust.cpp \
           statustext.cpp \
           svnclient.cpp \

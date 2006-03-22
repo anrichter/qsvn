@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 //QSvn
-#include "showlogrevisionsmodel.h"
+#include "logentriesmodel.h"
 
 //SvnQt
 #include "svnqt/client.hpp"
@@ -28,27 +28,27 @@
 #include <QtCore>
 
 
-ShowLogRevisionsModel::ShowLogRevisionsModel( QObject * parent, const svn::LogEntries *logEntries )
+LogEntriesModel::LogEntriesModel( QObject * parent, const svn::LogEntries *logEntries )
     : QAbstractTableModel( parent )
 {
     m_logEntries = svn::LogEntries( *logEntries );
     sort( 0, Qt::DescendingOrder );
 }
 
-ShowLogRevisionsModel::~ShowLogRevisionsModel()
+LogEntriesModel::~LogEntriesModel()
 {}
 
-int ShowLogRevisionsModel::rowCount( const QModelIndex & parent ) const
+int LogEntriesModel::rowCount( const QModelIndex & parent ) const
 {
     return m_logEntries.count();
 }
 
-int ShowLogRevisionsModel::columnCount( const QModelIndex & parent ) const
+int LogEntriesModel::columnCount( const QModelIndex & parent ) const
 {
     return 4;
 }
 
-QVariant ShowLogRevisionsModel::headerData( int section, Qt::Orientation orientation, int role ) const
+QVariant LogEntriesModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
     if ( orientation == Qt::Horizontal && role == Qt::DisplayRole )
     {
@@ -71,7 +71,7 @@ QVariant ShowLogRevisionsModel::headerData( int section, Qt::Orientation orienta
     return QVariant();
 }
 
-QVariant ShowLogRevisionsModel::data( const QModelIndex & index, int role ) const
+QVariant LogEntriesModel::data( const QModelIndex & index, int role ) const
 {
     if ( !index.isValid() )
         return QVariant();
@@ -98,7 +98,7 @@ QVariant ShowLogRevisionsModel::data( const QModelIndex & index, int role ) cons
     }
 }
 
-void ShowLogRevisionsModel::sort( int column, Qt::SortOrder order )
+void LogEntriesModel::sort( int column, Qt::SortOrder order )
 {
     if ( column != 0 )
         return;
@@ -111,17 +111,17 @@ void ShowLogRevisionsModel::sort( int column, Qt::SortOrder order )
     emit layoutChanged();
 }
 
-bool ShowLogRevisionsModel::logEntryLessThan( const svn::LogEntry & left, const svn::LogEntry & right )
+bool LogEntriesModel::logEntryLessThan( const svn::LogEntry & left, const svn::LogEntry & right )
 {
     return left.revision < right.revision;
 }
 
-bool ShowLogRevisionsModel::logEntryGreaterThan( const svn::LogEntry & left, const svn::LogEntry & right )
+bool LogEntriesModel::logEntryGreaterThan( const svn::LogEntry & left, const svn::LogEntry & right )
 {
     return left.revision > right.revision;
 }
 
-svn::LogEntry ShowLogRevisionsModel::getLogEntry( const QModelIndex & index )
+svn::LogEntry LogEntriesModel::getLogEntry( const QModelIndex & index )
 {
     return m_logEntries.at( index.row() );
 }
