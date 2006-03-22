@@ -44,6 +44,7 @@ public:
     QVariant data( const QModelIndex &index, int role ) const;
 
     void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
+    svn::LogEntry getLogEntry( const QModelIndex & index );
 
 private:
     svn::LogEntries m_logEntries;

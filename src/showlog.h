@@ -42,8 +42,13 @@ class ShowLog : public QDialog, public Ui::ShowLog
 public:
     ShowLog( QWidget *parent = 0, const svn::LogEntries *logEntries = 0 );
     ~ShowLog();
+
 private:
     ShowLogRevisionsModel *m_showLogRevisionsModel;
+
+private slots:
+    void selectLogEntry( const QModelIndex &index );
+
 };
 
 #endif

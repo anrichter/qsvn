@@ -120,3 +120,8 @@ bool ShowLogRevisionsModel::logEntryGreaterThan( const svn::LogEntry & left, con
 {
     return left.revision > right.revision;
 }
+
+svn::LogEntry ShowLogRevisionsModel::getLogEntry( const QModelIndex & index )
+{
+    return m_logEntries.at( index.row() );
+}

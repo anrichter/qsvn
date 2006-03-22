@@ -35,10 +35,20 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
 
     m_showLogRevisionsModel = new ShowLogRevisionsModel( this, logEntries );
     viewRevisions->setModel( m_showLogRevisionsModel );
+
+    connect( viewRevisions, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
 }
 
 ShowLog::~ShowLog()
 {
     delete m_showLogRevisionsModel;
     Config::instance()->saveWidget( this );
+}
+
+void ShowLog::selectLogEntry( const QModelIndex & index )
+{
+    if ( index.isValid() )
+    {
+        editLogMessage->setPlainText( m_showLogRevisionsModel->getLogEntry( index ).message );
+    }
 }
