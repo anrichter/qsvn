@@ -38,12 +38,12 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
     Config::instance()->restoreWidget( this );
 
     m_logEntriesModel = new LogEntriesModel( this, logEntries );
-    viewRevisions->setModel( m_logEntriesModel );
+    viewLogEntries->setModel( m_logEntriesModel );
 
-    connect( viewRevisions, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
+    connect( viewLogEntries, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
 
     m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
-    viewActions->setModel( m_logChangePathEntriesModel );
+    viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
 }
 
 ShowLog::~ShowLog()
@@ -59,6 +59,6 @@ void ShowLog::selectLogEntry( const QModelIndex & index )
         editLogMessage->setPlainText( m_logEntriesModel->getLogEntry( index ).message );
         delete m_logChangePathEntriesModel;
         m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, m_logEntriesModel->getLogEntry( index ).changedPaths );
-        viewActions->setModel( m_logChangePathEntriesModel );
+        viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
     }
 }

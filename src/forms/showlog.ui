@@ -26,12 +26,12 @@
     <number>6</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QSplitter" name="" >
+    <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QTreeView" name="viewRevisions" />
-     <widget class="QTreeView" name="viewActions" />
+     <widget class="QTreeView" name="viewLogEntries" />
+     <widget class="QTreeView" name="viewLogChangePathEntries" />
      <widget class="QTextEdit" name="editLogMessage" />
     </widget>
    </item>
