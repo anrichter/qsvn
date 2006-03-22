@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 //QSvn
+#include "config.h"
 #include "showlog.h"
 #include "showlogrevisionsmodel.h"
 
@@ -30,6 +31,7 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
     : QDialog( parent )
 {
     setupUi( this );
+    Config::instance()->restoreWidget( this );
 
     m_showLogRevisionsModel = new ShowLogRevisionsModel( this, logEntries );
     viewRevisions->setModel( m_showLogRevisionsModel );
@@ -38,4 +40,5 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
 ShowLog::~ShowLog()
 {
     delete m_showLogRevisionsModel;
+    Config::instance()->saveWidget( this );
 }
