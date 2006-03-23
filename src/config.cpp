@@ -24,7 +24,7 @@
 #include "qsvn.h"
 
 //Qt
-#include <QtCore>
+#include <QtGui>
 
 
 //make Config a singleton
@@ -82,23 +82,8 @@ void Config::saveMainWindow( QSvn *aQSvn )
 
         saveWidget( aQSvn );
 
-        //save settings from splitterVertical
-        int i = 0;
-        QListIterator< int > it( aQSvn->splitterVertical->sizes() );
-        while ( it.hasNext() )
-        {
-            settings.setValue( QString( "verticalSize%1" ).arg( i ), it.next() );
-            i++;
-        }
-
-        //save settings from splitterHorizontal
-        i = 0;
-        it = ( aQSvn->splitterHorizontal->sizes() );
-        while ( it.hasNext() )
-        {
-            settings.setValue( QString( "horizontalSize%1" ).arg( i ), it.next() );
-            i++;
-        }
+        saveSplitter( aQSvn, aQSvn->splitterVertical );
+        saveSplitter( aQSvn, aQSvn->splitterHorizontal );
     }
 }
 
@@ -111,34 +96,13 @@ void Config::restoreMainWindow( QSvn *aQSvn )
         restoreWidget( aQSvn );
 
         //restore settings from splitterVertical
-        int i = 0;
-        QList< int > list = aQSvn->splitterVertical->sizes();
-        QList< int >::Iterator it = list.begin();
-        while( it != list.end() )
-        {
-            *it = settings.value( QString( "verticalSize%1" ).arg( i ), &it ).toInt();
-            ++it;
-            ++i;
-        }
-        aQSvn->splitterVertical->setSizes( list );
-
-        //restore settings from splitterHorizontal
-        i = 0;
-        list = aQSvn->splitterVertical->sizes();
-        it = list.begin();
-        while( it != list.end() )
-        {
-            *it = settings.value( QString( "horizontalSize%1" ).arg( i ), &it ).toInt();
-            ++it;
-            ++i;
-        }
-        aQSvn->splitterHorizontal->setSizes( list );
+        restoreSplitter( aQSvn, aQSvn->splitterVertical );
+        restoreSplitter( aQSvn, aQSvn->splitterHorizontal );
     }
 }
 
 void Config::saveWidget( QWidget *widget, QString prefix )
 {
-
     QSettings settings;
     QString key = "widget" + prefix + widget->objectName();
 
@@ -158,6 +122,40 @@ void Config::restoreWidget( QWidget *widget, QString prefix )
 
     widget->move( QPoint( settings.value( key + "/x", widget->x() ).toInt(),
                   settings.value( key + "/y", widget->y() ).toInt() ) );
+}
+
+void Config::saveSplitter( QObject *parent, QSplitter *splitter )
+{
+    QSettings settings;
+    QString key = parent->objectName() + "_" + splitter->objectName();
+
+    settings.remove( key );
+    settings.beginWriteArray( key, splitter->sizes().count() );
+    for ( int i = 0; i < splitter->sizes().count(); ++i )
+    {
+        settings.setArrayIndex( i );
+        settings.setValue( "value", splitter->sizes().at( i ) );
+    }
+    settings.endArray();
+}
+
+void Config::restoreSplitter( QObject *parent, QSplitter *splitter )
+{
+    QSettings settings;
+    QString key = parent->objectName() + "_" + splitter->objectName();
+    int size = settings.beginReadArray( key );
+    if ( size <= 0 )
+        return;
+
+    QList< int > list = splitter->sizes();
+    for ( int i = 0; i < size; i++ )
+    {
+        settings.setArrayIndex( i );
+        list.replace( i, settings.value( "value" ).toInt() );
+    }
+    settings.endArray();
+
+    splitter->setSizes( list );
 }
 
 void Config::saveStringList( const QString &prefix, const QStringList &stringList )

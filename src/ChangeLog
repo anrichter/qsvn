@@ -5,11 +5,13 @@ Version 0.4.0 - released 2006-??-??
     * cleanup working copies
     * support access via HTTPS
     * revert in commit dialog through a popup menu.
+    * save and restore splitter sizes
 
     Changes
     -------
     * use locale aware compare for file list
     * refresh file list view after a svn action
+    * storage of config values (all configs are lost on update to 0.4.0)
 
     Bugfixes
     --------

@@ -26,6 +26,7 @@ class QSvn;
 
 //Qt
 #include <QObject>
+class QSplitter;
 
 
 /**
@@ -59,6 +60,9 @@ public:
      * @param prefix A prefix for unique identification additionally to the widget name.
      */
     void restoreWidget( QWidget *widget, QString prefix = "" );
+
+    void saveSplitter( QObject *parent, QSplitter *splitter );
+    void restoreSplitter( QObject *parent, QSplitter *splitter );
 
     void saveStringList( const QString &prefix, const QStringList &stringList );
     QStringList getStringList( const QString &prefix );

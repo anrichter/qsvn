@@ -36,6 +36,7 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
 {
     setupUi( this );
     Config::instance()->restoreWidget( this );
+    Config::instance()->restoreSplitter( this, splitter );
 
     m_logEntriesModel = new LogEntriesModel( this, logEntries );
     viewLogEntries->setModel( m_logEntriesModel );
@@ -50,6 +51,7 @@ ShowLog::~ShowLog()
 {
     delete m_logEntriesModel;
     Config::instance()->saveWidget( this );
+    Config::instance()->saveSplitter( this, splitter );
 }
 
 void ShowLog::selectLogEntry( const QModelIndex & index )

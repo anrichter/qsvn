@@ -42,12 +42,11 @@ FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
     m_selectionFrom = selectionFrom;
 
     createMenus();
-    configUI();
-
     initModel();
+
     Config::instance()->restoreWidget( this, this->windowTitle() );
     setupConnections();
-
+    configUI();
     treeViewFiles->installEventFilter( this );
 }
 
@@ -88,6 +87,7 @@ void FileSelector::configUI()
             comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
             comboLogHistory->insertItem( 0, "" );
             comboLogHistory->setCurrentIndex( 0 );
+            Config::instance()->restoreSplitter( this, splitter );
             break;
         case SvnClient::SvnDelete:
             setWindowTitle( tr( "Delete") );
@@ -180,6 +180,7 @@ void FileSelector::buttonOkClickedSlot()
                 logEntries << comboLogHistory->itemText( i );
         }
         Config::instance()->saveStringList( "logHistory", logEntries );
+        Config::instance()->saveSplitter( this, splitter );
     }
 
     this->accept();
