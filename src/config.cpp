@@ -60,7 +60,7 @@ void Config::saveChanges()
     settings.setValue( "configuration/diffViewer", _diffViewer );
 }
 
-void Config::setDiffViewer( QString aString )
+void Config::setDiffViewer( const QString aString )
 {
     if ( aString != _diffViewer )
     {
@@ -74,7 +74,7 @@ QString Config::getDiffViewer()
     return _diffViewer;
 }
 
-void Config::saveMainWindow( QSvn *aQSvn )
+void Config::saveMainWindow( const QSvn *aQSvn )
 {
     if ( aQSvn )
     {
@@ -101,7 +101,7 @@ void Config::restoreMainWindow( QSvn *aQSvn )
     }
 }
 
-void Config::saveWidget( QWidget *widget, QString prefix )
+void Config::saveWidget( const QWidget *widget, const QString prefix )
 {
     QSettings settings;
     QString key = "widget" + prefix + widget->objectName();
@@ -112,7 +112,7 @@ void Config::saveWidget( QWidget *widget, QString prefix )
     settings.setValue( key + "/y", widget->y() );
 }
 
-void Config::restoreWidget( QWidget *widget, QString prefix )
+void Config::restoreWidget( QWidget *widget, const QString prefix )
 {
     QSettings settings;
     QString key = "widget" + prefix + widget->objectName();
@@ -124,7 +124,7 @@ void Config::restoreWidget( QWidget *widget, QString prefix )
                   settings.value( key + "/y", widget->y() ).toInt() ) );
 }
 
-void Config::saveSplitter( QObject *parent, QSplitter *splitter )
+void Config::saveSplitter( const QObject *parent, const QSplitter *splitter )
 {
     QSettings settings;
     QString key = parent->objectName() + "_" + splitter->objectName();
@@ -139,7 +139,7 @@ void Config::saveSplitter( QObject *parent, QSplitter *splitter )
     settings.endArray();
 }
 
-void Config::restoreSplitter( QObject *parent, QSplitter *splitter )
+void Config::restoreSplitter( const QObject *parent, QSplitter *splitter )
 {
     QSettings settings;
     QString key = parent->objectName() + "_" + splitter->objectName();
@@ -203,37 +203,3 @@ QVariant Config::value( const QString &key )
     QSettings settings;
     return settings.value( key );
 }
-
-/*todo:
-void Config::saveListView( QListView *aListView )
-{
-    if ( aListView )
-    {
-        QSettings settings;
-        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "listViews/" + QString( aListView->name() ) );
-        for ( int i = 0; i < aListView->columns(); i++ )
-        {
-            settings.writeEntry( QString( "Column%1" ).arg( i ), aListView->columnWidth( i ) );
-        }
-        settings.endGroup();
-    }
-}
-
-void Config::restoreListView( QListView *aListView )
-{
-    if ( aListView )
-    {
-        QSettings settings;
-        settings.setPath( _SETTINGS_DOMAIN, _SETTINGS_PRODUCT, QSettings::User );
-        settings.beginGroup( "listViews/" + QString( aListView->name() ) );
-        for ( int i = 0; i < aListView->columns(); i++ )
-        {
-            aListView->setColumnWidth( i,
-                                       settings.readNumEntry( QString( "Column%1" ).arg( i ),
-                                       aListView->columnWidth( i ) ) );
-        }
-        settings.endGroup();
-    }
-}
-*/

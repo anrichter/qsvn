@@ -41,11 +41,11 @@ class Config : public QObject
 public:
     static Config* instance();
 
-    void setDiffViewer( QString aString ); //!< set the complete path to a diff viewer like kompare
+    void setDiffViewer( const QString aString ); //!< set the complete path to a diff viewer like kompare
     QString getDiffViewer(); //!< get the complete path to a diff viewer
 
     //Main Window
-    void saveMainWindow( QSvn *aQSvn );
+    void saveMainWindow( const QSvn *aQSvn );
     void restoreMainWindow( QSvn *aQSvn );
 
     /**
@@ -53,16 +53,16 @@ public:
      * @param widget The widget that was saved
      * @param prefix A prefix for unique identification additionally to the widget name.
      */
-    void saveWidget( QWidget *widget, QString prefix = "" );
+    void saveWidget( const QWidget *widget, const QString prefix = "" );
     /**
      * Restore saved size and position for a widget.
      * @param widget Widget that was restored.
      * @param prefix A prefix for unique identification additionally to the widget name.
      */
-    void restoreWidget( QWidget *widget, QString prefix = "" );
+    void restoreWidget( QWidget *widget, const QString prefix = "" );
 
-    void saveSplitter( QObject *parent, QSplitter *splitter );
-    void restoreSplitter( QObject *parent, QSplitter *splitter );
+    void saveSplitter( const QObject *parent, const QSplitter *splitter );
+    void restoreSplitter( const QObject *parent, QSplitter *splitter );
 
     void saveStringList( const QString &prefix, const QStringList &stringList );
     QStringList getStringList( const QString &prefix );
@@ -70,11 +70,6 @@ public:
     void setValue( const QString &key, const QVariant &value );
     QVariant value( const QString &key );
 
-    /*todo:
-    //ListView Settings
-    void saveListView( QListView *aListView );
-    void restoreListView( QListView *aListView );
-    */
 public slots:
 
 private:
