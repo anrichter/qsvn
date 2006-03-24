@@ -48,6 +48,7 @@ FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
     setupConnections();
     configUI();
     treeViewFiles->installEventFilter( this );
+    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
 }
 
 void FileSelector::initModel()
@@ -183,6 +184,7 @@ void FileSelector::buttonOkClickedSlot()
         Config::instance()->saveSplitter( this, splitter );
     }
 
+    Config::instance()->saveHeaderView( this, treeViewFiles->header() );
     this->accept();
 }
 

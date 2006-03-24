@@ -26,6 +26,7 @@ class QSvn;
 
 //Qt
 #include <QObject>
+class QHeaderView;
 class QSplitter;
 
 
@@ -69,6 +70,9 @@ public:
 
     void setValue( const QString &key, const QVariant &value );
     QVariant value( const QString &key );
+
+    void saveHeaderView( const QObject *parent, const QHeaderView *headerView );
+    void restoreHeaderView( const QObject *parent, QHeaderView *headerView );
 
 public slots:
 

@@ -203,3 +203,32 @@ QVariant Config::value( const QString &key )
     QSettings settings;
     return settings.value( key );
 }
+
+void Config::saveHeaderView( const QObject * parent, const QHeaderView * headerView )
+{
+    QSettings settings;
+    QString key = parent->objectName() + "_" + headerView->parent()->objectName();
+
+    settings.remove( key );
+    settings.beginWriteArray( key, headerView->count() );
+    for ( int i = 0; i < headerView->count(); ++i )
+    {
+        settings.setArrayIndex( i );
+        settings.setValue( "value", headerView->sectionSize( i ) );
+    }
+    settings.endArray();
+}
+
+void Config::restoreHeaderView( const QObject * parent, QHeaderView * headerView )
+{
+    QSettings settings;
+    QString key = parent->objectName() + "_" + headerView->parent()->objectName();
+
+    settings.beginReadArray( key );
+    for ( int i = 0; i < headerView->count(); i++ )
+    {
+        settings.setArrayIndex( i );
+        headerView->resizeSection( i, settings.value( "value", headerView->sectionSize( i ) ).toInt() );
+    }
+    settings.endArray();
+}

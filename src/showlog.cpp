@@ -40,11 +40,13 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
 
     m_logEntriesModel = new LogEntriesModel( this, logEntries );
     viewLogEntries->setModel( m_logEntriesModel );
+    Config::instance()->restoreHeaderView( this, viewLogEntries->header() );
 
     connect( viewLogEntries, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
 
     m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
     viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
+    Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
 }
 
 ShowLog::~ShowLog()
@@ -52,15 +54,19 @@ ShowLog::~ShowLog()
     delete m_logEntriesModel;
     Config::instance()->saveWidget( this );
     Config::instance()->saveSplitter( this, splitter );
+    Config::instance()->saveHeaderView( this, viewLogEntries->header() );
+    Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
 }
 
 void ShowLog::selectLogEntry( const QModelIndex & index )
 {
     if ( index.isValid() )
     {
+        Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
         editLogMessage->setPlainText( m_logEntriesModel->getLogEntry( index ).message );
         delete m_logChangePathEntriesModel;
         m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, m_logEntriesModel->getLogEntry( index ).changedPaths );
         viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
+        Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
     }
 }

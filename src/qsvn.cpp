@@ -71,6 +71,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
 
     Config::instance()->restoreMainWindow( this );
+    Config::instance()->restoreHeaderView( this, treeViewFileList->header() );
 }
 
 void QSvn::activateWorkingCopy( const QModelIndex &index )
@@ -89,6 +90,7 @@ void QSvn::activateWorkingCopy( const QModelIndex &index )
 QSvn::~QSvn()
 {
     Config::instance()->saveMainWindow( this );
+    Config::instance()->saveHeaderView( this, treeViewFileList->header() );
     delete( workingCopyModel );
     delete( contextMenuWorkingCopy );
     delete( contextMenuFileList );
