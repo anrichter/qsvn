@@ -3,7 +3,7 @@
 	<?define Version="0.3.0"?>
 
 	<!-- Defines pathes for include files. Adopt directories to your system. -->
-	<?define QtDir=""?>
-	<?define SvnDir=""?>
-	<?define MergeModulesDir=""?>
+	<?define QtDir="c:\src\qt-win-opensource-src-4.1.1\"?>
+	<?define SvnDir="c:\src\stage\"?>
+	<?define MergeModulesDir="c:\Programme\Gemeinsame Dateien\Merge Modules\"?>
 </Include>

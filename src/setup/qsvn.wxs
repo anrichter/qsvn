@@ -89,7 +89,7 @@
 			</Feature>
 		</Feature>
 
-		<UIRef Id="WixUI" />
+		<?include qsvn-ui.wxi?>
 
 		<Icon Id="QSvn.exe" src="..\bin\qsvn.exe" />
 	</Product>
