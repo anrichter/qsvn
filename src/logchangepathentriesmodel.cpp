@@ -45,7 +45,7 @@ int LogChangePathEntriesModel::rowCount( const QModelIndex & parent ) const
 
 int LogChangePathEntriesModel::columnCount( const QModelIndex & parent ) const
 {
-    return 2;
+    return 4;
 }
 
 QVariant LogChangePathEntriesModel::headerData( int section, Qt::Orientation orientation, int role ) const
@@ -55,15 +55,17 @@ QVariant LogChangePathEntriesModel::headerData( int section, Qt::Orientation ori
         switch ( section )
         {
         case 0:
-            return QString( tr( "Path" ) );
-            break;
-        case 1:
             return QString( tr( "Action" ) );
             break;
-            //      QString copyFromPath;
-            //      svn_revnum_t copyFromRevision;
-            //      QString copyToPath;
-            //      svn_revnum_t copyToRevision;
+        case 1:
+            return QString( tr( "Path" ) );
+            break;
+        case 2:
+            return QString( tr( "Copy from path" ) );
+            break;
+        case 3:
+            return QString( tr( "Copy from Revision" ) );
+            break;
         }
     }
     return QVariant();
@@ -81,7 +83,19 @@ QVariant LogChangePathEntriesModel::data( const QModelIndex & index, int role ) 
     switch( index.column() )
     {
     case 0:
+        return QChar( logChangePathEntry.action );
+        break;
+    case 1:
         return logChangePathEntry.path;
+        break;
+    case 2:
+        return logChangePathEntry.copyFromPath;
+        break;
+    case 3:
+        if ( SVN_IS_VALID_REVNUM( logChangePathEntry.copyFromRevision ) )
+            return logChangePathEntry.copyFromRevision;
+        else
+            return QVariant();
         break;
     default:
         return QVariant();
