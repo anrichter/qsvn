@@ -93,7 +93,7 @@ QVariant LogChangePathEntriesModel::data( const QModelIndex & index, int role ) 
         break;
     case 3:
         if ( SVN_IS_VALID_REVNUM( logChangePathEntry.copyFromRevision ) )
-            return logChangePathEntry.copyFromRevision;
+            return int( logChangePathEntry.copyFromRevision );
         else
             return QVariant();
         break;
