@@ -44,10 +44,11 @@ FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
     createMenus();
     initModel();
 
-    Config::instance()->restoreWidget( this, this->windowTitle() );
-    setupConnections();
     configUI();
+    setupConnections();
     treeViewFiles->installEventFilter( this );
+
+    Config::instance()->restoreWidget( this, this->windowTitle() );
     Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
 }
 
