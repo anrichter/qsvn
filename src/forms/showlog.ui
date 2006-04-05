@@ -80,9 +80,16 @@
     </layout>
    </item>
   </layout>
+  <action name="actionDiff" >
+   <property name="text" >
+    <string>Diff</string>
+   </property>
+  </action>
  </widget>
  <pixmapfunction></pixmapfunction>
- <resources/>
+ <resources>
+  <include location="../qsvn.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>btnOk</sender>

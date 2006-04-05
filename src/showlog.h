@@ -44,13 +44,20 @@ public:
     ShowLog( QWidget *parent = 0, const svn::LogEntries *logEntries = 0 );
     ~ShowLog();
 
+protected:
+    bool eventFilter ( QObject * watched, QEvent * event );
+
 private:
     LogEntriesModel *m_logEntriesModel;
     LogChangePathEntriesModel *m_logChangePathEntriesModel;
+    QMenu *contextLogChangePathEntries;
+
+    void connectActions();
 
 private slots:
     void selectLogEntry( const QModelIndex &index );
 
+    void doDiff();
 };
 
 #endif

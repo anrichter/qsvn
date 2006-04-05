@@ -220,7 +220,7 @@ bool SvnClient::remove
     return true;
 }
 
-bool SvnClient::diff( const QString &file )
+bool SvnClient::diff( const QString & file, const svn::Revision & revisionFrom, const svn::Revision & revisionTo )
 {
     if ( Config::instance()->getDiffViewer().isEmpty() )
     {
@@ -229,7 +229,7 @@ bool SvnClient::diff( const QString &file )
         {
             QString delta = svnClient->diff( svn::Path( QDir::tempPath() + QDir::separator() + "qsvn" ),
                                              svn::Path( file ),
-                                             svn::Revision::BASE, svn::Revision::WORKING,
+                                             revisionFrom, revisionTo,
                                              true, false, false, true );
             StatusText::instance()->outputMessage( delta );
         }
@@ -242,16 +242,22 @@ bool SvnClient::diff( const QString &file )
     else
     {
         QFileInfo fileInfo;
-        QString baseFile, workFile;
+        QString fileFrom, fileTo;
 
         fileInfo = QFileInfo( file );
-        baseFile = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
-        baseFile = baseFile + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
-        workFile = QDir::convertSeparators( fileInfo.absoluteFilePath() );
+        fileFrom = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
+        fileFrom = fileFrom + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
 
-        QProcess::startDetached( Config::instance()->getDiffViewer(), QStringList() << baseFile << workFile );
+        fileTo = QDir::convertSeparators( fileInfo.absoluteFilePath() );
+
+        QProcess::startDetached( Config::instance()->getDiffViewer(), QStringList() << fileFrom << fileTo );
     }
     return true;
+}
+
+bool SvnClient::diff( const QString &file )
+{
+    return diff( file, svn::Revision::BASE, svn::Revision::WORKING );
 }
 
 bool SvnClient::diff( const QStringList &fileList )
@@ -259,7 +265,7 @@ bool SvnClient::diff( const QStringList &fileList )
     bool result = true;
     QString file;
     foreach( file, fileList )
-    result = result && diff( file );
+        result = result && diff( file, svn::Revision::BASE, svn::Revision::WORKING );
 
     return result;
 }

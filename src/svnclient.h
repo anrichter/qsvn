@@ -79,8 +79,10 @@ public:
     bool revert( const QString fileName );
     bool commit( const QStringList &commitList, const QString &logMessage );
     bool remove( const QStringList &removeList );
+    bool diff( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo );
     bool diff( const QString &file );
     bool diff( const QStringList &fileList );
+
     const svn::LogEntries* log( const QString &path, const svn::Revision &revisionStart, const svn::Revision &revisionEnd );
     bool cleanup( const QString &path );
 

@@ -25,6 +25,7 @@
 #include "logchangepathentriesmodel.h"
 
 //svnqt
+#include "svnqt/client.hpp"
 #include "svnqt/log_entry.hpp"
 
 //Qt
@@ -46,16 +47,33 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
 
     m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
     viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
+    viewLogChangePathEntries->installEventFilter( this );
     Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
+
+    contextLogChangePathEntries = new QMenu( this );
+    contextLogChangePathEntries->addAction( actionDiff );
 }
 
 ShowLog::~ShowLog()
 {
     delete m_logEntriesModel;
+    delete contextLogChangePathEntries;
     Config::instance()->saveWidget( this );
     Config::instance()->saveSplitter( this, splitter );
     Config::instance()->saveHeaderView( this, viewLogEntries->header() );
     Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
+}
+
+bool ShowLog::eventFilter( QObject * watched, QEvent * event )
+{
+    if ( watched == viewLogChangePathEntries )
+    {
+        if ( event->type() == QEvent::ContextMenu )
+        {
+            contextLogChangePathEntries->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
+        }
+    }
+    return QDialog::eventFilter( watched, event );
 }
 
 void ShowLog::selectLogEntry( const QModelIndex & index )
@@ -69,4 +87,33 @@ void ShowLog::selectLogEntry( const QModelIndex & index )
         viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
         Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
     }
+}
+
+void ShowLog::connectActions( )
+{
+    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
+}
+
+void ShowLog::doDiff( )
+{
+    //todo: SvnClient::instance()->diff( file );
+
+    svn::LogEntry logEntry;
+    svn::LogChangePathEntry logChangePathEntry;
+
+    //int row = viewLogEntries->selectionModel()->selectedIndexes().at( 0 ).row();
+    logEntry = m_logEntriesModel->getLogEntry( viewLogEntries->selectionModel()->selectedIndexes().at( 0 ) );
+    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( viewLogChangePathEntries->selectionModel()->selectedIndexes().at( 0 ) );
+
+
+/*    QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
+
+    for ( int i = 0; i < indexes.count(); ++i )
+    {
+        fileSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
+    }
+
+    return fileSet.toList();
+*/
+    //logEntry = m_logEntriesModel->getLogEntry( viewLogEntries
 }
