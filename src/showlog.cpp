@@ -20,9 +20,10 @@
 
 //QSvn
 #include "config.h"
-#include "showlog.h"
 #include "logentriesmodel.h"
 #include "logchangepathentriesmodel.h"
+#include "showlog.h"
+#include "svnclient.h"
 
 //svnqt
 #include "svnqt/client.hpp"
@@ -52,6 +53,7 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
 
     contextLogChangePathEntries = new QMenu( this );
     contextLogChangePathEntries->addAction( actionDiff );
+    connectActions();
 }
 
 ShowLog::~ShowLog()
@@ -96,24 +98,20 @@ void ShowLog::connectActions( )
 
 void ShowLog::doDiff( )
 {
-    //todo: SvnClient::instance()->diff( file );
-
     svn::LogEntry logEntry;
     svn::LogChangePathEntry logChangePathEntry;
 
-    //int row = viewLogEntries->selectionModel()->selectedIndexes().at( 0 ).row();
-    logEntry = m_logEntriesModel->getLogEntry( viewLogEntries->selectionModel()->selectedIndexes().at( 0 ) );
-    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( viewLogChangePathEntries->selectionModel()->selectedIndexes().at( 0 ) );
+    QModelIndexList indexes;
+    indexes = viewLogEntries->selectionModel()->selectedIndexes();
+    if (indexes.count() == 0 )
+        return;
+    logEntry = m_logEntriesModel->getLogEntry( indexes.at( 0 ) );
 
+    indexes = viewLogChangePathEntries->selectionModel()->selectedIndexes();
+    if ( indexes.count() == 0 )
+        return;
+    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( indexes.at( 0 ) );
 
-/*    QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
-
-    for ( int i = 0; i < indexes.count(); ++i )
-    {
-        fileSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
-    }
-
-    return fileSet.toList();
-*/
-    //logEntry = m_logEntriesModel->getLogEntry( viewLogEntries
+    //todo: add base path to logChangePathEntry.path
+    SvnClient::instance()->diff( QString( logChangePathEntry.path ), svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
 }

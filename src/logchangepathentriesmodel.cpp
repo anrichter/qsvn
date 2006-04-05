@@ -105,5 +105,5 @@ QVariant LogChangePathEntriesModel::data( const QModelIndex & index, int role ) 
 
 svn::LogChangePathEntry LogChangePathEntriesModel::getLogChangePathEntry( const QModelIndex & index )
 {
-    m_logChangePathEntries.at( index.row() );
+    return m_logChangePathEntries.at( index.row() );
 }
