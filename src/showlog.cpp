@@ -66,6 +66,18 @@ ShowLog::~ShowLog()
     Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
 }
 
+void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
+{
+    const svn::LogEntries *logEntries;
+    logEntries = SvnClient::instance()->log( path, revisionStart, revisionEnd );
+
+    ShowLog *showLog;
+    showLog = new ShowLog( parent, logEntries );
+    showLog->show();
+    showLog->raise();
+    showLog->activateWindow();
+}
+
 bool ShowLog::eventFilter( QObject * watched, QEvent * event )
 {
     if ( watched == viewLogChangePathEntries )

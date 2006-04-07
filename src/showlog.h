@@ -44,6 +44,8 @@ public:
     ShowLog( QWidget *parent = 0, const svn::LogEntries *logEntries = 0 );
     ~ShowLog();
 
+    static void doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd );
+
 protected:
     bool eventFilter ( QObject * watched, QEvent * event );
 

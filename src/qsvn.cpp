@@ -351,14 +351,8 @@ void QSvn::doShowLog()
         path = static_cast< FileListItem* >( indexes.at( 0 ).internalPointer() )->fullFileName();
     else
         path = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() )->fullPath();
-
-    setActionStop( "Log" );
-    const svn::LogEntries *logEntries;
-    logEntries = SvnClient::instance()->log( path, svn::Revision::HEAD, svn::Revision::START );
-    setActionStop( "" );
-
-    ShowLog showLog( this, logEntries );
-    showLog.exec();
+    
+    ShowLog::doShowLog( this, path, svn::Revision::HEAD, svn::Revision::START );
 }
 
 void QSvn::doCleanup()
