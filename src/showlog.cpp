@@ -28,6 +28,7 @@
 //svnqt
 #include "svnqt/client.hpp"
 #include "svnqt/log_entry.hpp"
+#include "svnqt/wc.hpp"
 
 //Qt
 #include <QtGui>
@@ -129,6 +130,6 @@ void ShowLog::doDiff( )
         return;
     logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( indexes.at( 0 ) );
 
-    //todo: get the path from repository. not the local one
-    SvnClient::instance()->diff( QString( m_path + logChangePathEntry.path ), svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
+    SvnClient::instance()->diff( QString( svn::Wc::getRepos( m_path ) + logChangePathEntry.path ), 
+                                 svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
 }
