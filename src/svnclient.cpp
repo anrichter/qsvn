@@ -220,9 +220,12 @@ bool SvnClient::remove
     return true;
 }
 
-bool SvnClient::diff( const QString & file, const svn::Revision & revisionFrom, const svn::Revision & revisionTo )
+bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo )
 {
-    if ( Config::instance()->getDiffViewer().isEmpty() )
+    //todo: show diffs with temporary checked out files
+    if ( ( Config::instance()->getDiffViewer().isEmpty() ) || 
+         ( svn::Revision( revisionFrom ) != svn::Revision::BASE ) ||
+         ( svn::Revision( revisionTo )   != svn::Revision::WORKING ) )
     {
         //diff output to StatusText
         try

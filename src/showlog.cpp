@@ -129,5 +129,6 @@ void ShowLog::doDiff( )
         return;
     logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( indexes.at( 0 ) );
 
-    SvnClient::instance()->diff( QString( "c:/src/ar-auf-asterix/" + logChangePathEntry.path ), svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
+    //todo: get the path from repository. not the local one
+    SvnClient::instance()->diff( QString( m_path + logChangePathEntry.path ), svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
 }
