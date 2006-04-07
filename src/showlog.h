@@ -41,7 +41,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
     Q_OBJECT
 
 public:
-    ShowLog( QWidget *parent = 0, const svn::LogEntries *logEntries = 0 );
+    ShowLog( QWidget *parent = 0, const QString path = 0, const svn::LogEntries *logEntries = 0 );
     ~ShowLog();
 
     static void doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd );
@@ -53,6 +53,7 @@ private:
     LogEntriesModel *m_logEntriesModel;
     LogChangePathEntriesModel *m_logChangePathEntriesModel;
     QMenu *contextLogChangePathEntries;
+    QString m_path;
 
     void connectActions();
 

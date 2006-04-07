@@ -33,7 +33,7 @@
 #include <QtGui>
 
 
-ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
+ShowLog::ShowLog( QWidget *parent, const QString path, const svn::LogEntries *logEntries )
     : QDialog( parent )
 {
     setupUi( this );
@@ -54,6 +54,11 @@ ShowLog::ShowLog( QWidget *parent, const svn::LogEntries *logEntries )
     contextLogChangePathEntries = new QMenu( this );
     contextLogChangePathEntries->addAction( actionDiff );
     connectActions();
+
+    m_path = path;
+    m_path.replace( "\\", "/" );
+    if ( !m_path.endsWith( "/" ) )
+        m_path.append( "/" );
 }
 
 ShowLog::~ShowLog()
@@ -72,7 +77,7 @@ void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revisio
     logEntries = SvnClient::instance()->log( path, revisionStart, revisionEnd );
 
     ShowLog *showLog;
-    showLog = new ShowLog( parent, logEntries );
+    showLog = new ShowLog( parent, path, logEntries );
     showLog->show();
     showLog->raise();
     showLog->activateWindow();
@@ -124,6 +129,5 @@ void ShowLog::doDiff( )
         return;
     logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( indexes.at( 0 ) );
 
-    //todo: add base path to logChangePathEntry.path
-    SvnClient::instance()->diff( QString( logChangePathEntry.path ), svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
+    SvnClient::instance()->diff( QString( "c:/src/ar-auf-asterix/" + logChangePathEntry.path ), svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
 }
