@@ -68,9 +68,12 @@ namespace svn
      * @return the repository url of @a path
      */
     static QString getUrl(const QString&path) throw (ClientException);
+    static QString getRepos(const QString&path) throw (ClientException);
     static const char * ADM_DIR_NAME;
 
   private:
+    static const svn_wc_entry_t *getEntry( const QString &path ) throw ( ClientException );
+
   };
 }
 
