@@ -17,6 +17,7 @@ Version 0.4.0 - released 2006-??-??
     Bugfixes
     --------
     * Checkout get the wrong URL, when more then one exist in the combo list.
+    * Problem in checkout url that doesn't exist in revision 1.
 
 
 Version 0.3.0 - released 2006-02-12
