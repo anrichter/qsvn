@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 	<?include qsvn-defines.wxi?>
-	<Product Name="QSvn $(var.Version)" Id="C9A51138-7A96-41DC-9395-C4FD34317836" 
+	<Product Name="QSvn $(var.Version)" Id="????????-????-????-????-????????????" 
 		UpgradeCode="B8C2EE75-20F4-454B-9CFF-1205532FABA5"
 		Language="1033"
         Version="$(var.Version)"
@@ -16,6 +16,10 @@
             Languages="1033"
             SummaryCodepage="1252"
             Compressed="yes" />
+
+		<Upgrade Id="B8C2EE75-20F4-454B-9CFF-1205532FABA5" >
+			<UpgradeVersion OnlyDetect="no" Property="FOUNDINSTALLEDVERSION" />
+		</Upgrade>
 
 		<Media Id="1" Cabinet="qsvn.cab" EmbedCab="yes" />
 
