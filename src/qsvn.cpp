@@ -76,21 +76,16 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
 void QSvn::activateWorkingCopy( const QModelIndex &index )
 {
+    fileListModel->removeAllRows();
     if ( index.isValid() )
-    {
-        fileListModel->removeAllRows();
         fileListModel->loadFromDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
-    }
-    else
-    {
-        fileListModel->removeAllRows();
-    }
 }
 
 QSvn::~QSvn()
 {
     Config::instance()->saveMainWindow( this );
     Config::instance()->saveHeaderView( this, treeViewFileList->header() );
+    delete( fileListModel );
     delete( workingCopyModel );
     delete( contextMenuWorkingCopy );
     delete( contextMenuFileList );
