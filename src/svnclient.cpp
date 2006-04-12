@@ -30,6 +30,7 @@
 #include "svnqt/revision.hpp"
 #include "svnqt/status.hpp"
 #include "svnqt/targets.hpp"
+#include "svnqt/url.hpp"
 
 //Qt
 #include <QtCore>
@@ -222,15 +223,12 @@ bool SvnClient::remove
 
 bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo )
 {
-    //todo: show diffs with temporary checked out files
-    if ( ( Config::instance()->getDiffViewer().isEmpty() ) || 
-         ( svn::Revision( revisionFrom ) != svn::Revision::BASE ) ||
-         ( svn::Revision( revisionTo )   != svn::Revision::WORKING ) )
+    if ( Config::instance()->getDiffViewer().isEmpty() )
     {
         //diff output to StatusText
         try
         {
-            QString delta = svnClient->diff( svn::Path( QDir::tempPath() + QDir::separator() + "qsvn" ),
+            QString delta = svnClient->diff( Config::instance()->tempDir(),
                                              svn::Path( file ),
                                              revisionFrom, revisionTo,
                                              true, false, false, true );
@@ -244,14 +242,73 @@ bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, co
     }
     else
     {
-        QFileInfo fileInfo;
+        QFileInfo fileInfo( file );
         QString fileFrom, fileTo;
+        svn::Path filePath( file );
 
-        fileInfo = QFileInfo( file );
-        fileFrom = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
-        fileFrom = fileFrom + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
+        //fileFrom
+        switch ( svn::Revision( revisionFrom ).kind() )
+        {
+            case svn_opt_revision_base:
+                fileFrom = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
+                fileFrom = fileFrom + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
+                break;
+            case svn_opt_revision_working:
+                fileFrom = QDir::convertSeparators( fileInfo.absoluteFilePath() );
+                break;
+            default:
+                if ( svn::Url::isValid( file ) )
+                {
+                    QString dir, filename, ext;
 
-        fileTo = QDir::convertSeparators( fileInfo.absoluteFilePath() );
+                    try
+                    {
+                        svnClient->doExport( filePath, Config::instance()->tempDir(), revisionFrom );
+                    }
+                    catch ( svn::ClientException e )
+                    {
+                        StatusText::instance()->outputMessage( e.msg() );
+                        return false;
+                    }
+                    filePath.split( dir, filename, ext );
+                    fileFrom = Config::instance()->tempDir() + filename + revisionFrom.revnum() + ext;
+                    QFile::rename( Config::instance()->tempDir() + filename + ext, fileFrom );
+                } else
+                    fileFrom = "";
+                break;
+        }
+
+        //fileTo
+        switch( svn::Revision( revisionTo ).kind() )
+        {
+            case svn_opt_revision_base: 
+                fileTo = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
+                fileTo = fileTo + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
+                break;
+            case svn_opt_revision_working:
+                fileTo = QDir::convertSeparators( fileInfo.absoluteFilePath() );
+                break;
+            default:
+                if ( svn::Url::isValid( file ) )
+                {
+                    QString dir, filename, ext;
+
+                    try
+                    {
+                        svnClient->doExport( filePath, Config::instance()->tempDir(), revisionTo );
+                    }
+                    catch ( svn::ClientException e )
+                    {
+                        StatusText::instance()->outputMessage( e.msg() );
+                        return false;
+                    }
+                    filePath.split( dir, filename, ext );
+                    fileTo = Config::instance()->tempDir() + filename + revisionTo.revnum() + ext;
+                    QFile::rename( Config::instance()->tempDir() + filename + ext, fileTo );
+                } else
+                    fileTo = "";
+                break;
+        }
 
         QProcess::startDetached( Config::instance()->getDiffViewer(), QStringList() << fileFrom << fileTo );
     }
