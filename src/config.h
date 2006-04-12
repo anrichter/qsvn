@@ -74,6 +74,7 @@ public:
     void saveHeaderView( const QObject *parent, const QHeaderView *headerView );
     void restoreHeaderView( const QObject *parent, QHeaderView *headerView );
 
+    QString tempDir();
 public slots:
 
 private:
@@ -82,6 +83,7 @@ private:
     static Config* m_instance;
 
     QString _diffViewer;
+    QString _tempDir;
 
     void saveChanges();
 };

@@ -51,6 +51,11 @@ Config::Config( QObject *parent )
 
     //read saved settings
     _diffViewer = settings.value( "configuration/diffViewer", "" ).toString();
+    _tempDir = QDir::tempPath() + QDir::separator() + "qsvn" + QDir::separator();
+    _tempDir = QDir::convertSeparators( _tempDir );
+    QDir dir( _tempDir );
+    if ( !dir.exists() )
+        dir.mkpath( _tempDir );
 }
 
 void Config::saveChanges()
@@ -231,4 +236,9 @@ void Config::restoreHeaderView( const QObject * parent, QHeaderView * headerView
         headerView->resizeSection( i, settings.value( "value", headerView->sectionSize( i ) ).toInt() );
     }
     settings.endArray();
+}
+
+QString Config::tempDir()
+{
+    return _tempDir;
 }
