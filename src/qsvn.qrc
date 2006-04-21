@@ -17,7 +17,7 @@
     <file alias="actioncommit.png">images/actioncommit.png</file>
     <file alias="actiondelete.png">images/actiondelete.png</file>
     <file alias="actiondeletelocal.png">images/actiondeletelocal.png</file>
-    <file alias="menurevert.png">images/menurevert.png</file>
+    <file alias="actionrevert.png">images/actionrevert.png</file>
     <file alias="actionupdate.png">images/actionupdate.png</file>
     <file alias="actioncleanup.png">images/actioncleanup.png</file>
 

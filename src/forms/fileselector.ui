@@ -160,7 +160,7 @@
   </widget>
   <action name="actionRevert" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menurevert.png</iconset>
+    <iconset resource="../qsvn.qrc" >:/images/actionrevert.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Revert</string>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="blank"
+   sodipodi:version="0.34"
+   width="210mm"
+   height="210mm"
+   xml:space="preserve"
+   sodipodi:docbase="/home/ar/src/qt/qsvn/images/svg"
+   sodipodi:docname="/home/ar/src/qt/qsvn/images/svg/actionrevert.svg"><defs
+   id="defs1468"><linearGradient
+   id="linearGradient1320"><stop
+   style="stop-color:#ffffff;stop-opacity:1;"
+   offset="0"
+   id="stop1321" /><stop
+   style="stop-color:#ffffff;stop-opacity:0;"
+   offset="1"
+   id="stop1322" /></linearGradient><radialGradient
+   xlink:href="#linearGradient1320"
+   id="radialGradient1323"
+   cx="0.72169787"
+   cy="0.19576719"
+   r="0.37706837"
+   fx="0.72169787"
+   fy="0.19576719"
+   spreadMethod="reflect" /><linearGradient
+   xlink:href="#linearGradient1320"
+   id="linearGradient1324"
+   x1="0"
+   y1="0"
+   x2="1"
+   y2="0" /></defs><sodipodi:namedview
+   id="base" /><path
+   style="fill:#0000cd;fill-rule:evenodd;stroke:#00007f;stroke-opacity:1;stroke-width:12.5;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;stroke-dasharray:none;"
+   d="M 448.857 680.4865 C 599.2761 613.278 699.2887 489.6622 709.29 386.4492 C 715.2908 176.0225 512.465 64.00833 373.2473 104.4134 C 278.0352 136.8175 204.4259 192.0245 178.8227 285.6363 L 60.00757 238.8303 L 150.019 494.4628 L 415.2526 376.8477 L 270.0341 326.4415 C 302.4383 234.0298 369.6469 201.6259 432.0548 200.4256 C 524.0665 192.4245 600.4762 303.2385 584.4742 381.6484 C 581.6738 459.2583 456.4579 533.2678 369.6469 582.074 L 448.857 680.4865 z "
+   id="path1317"
+   sodipodi:nodetypes="cccccccccccc" /><path
+   style="fill:url(#radialGradient1323);fill-rule:evenodd;stroke:none;stroke-opacity:1;stroke-width:12.5;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;stroke-dasharray:none;"
+   d="M 448.857 680.4865 C 599.2761 613.278 699.2887 489.6622 709.29 386.4492 C 715.2908 176.0225 512.465 64.00833 373.2473 104.4134 C 278.0352 136.8175 204.4259 192.0245 178.8227 285.6363 L 60.00757 238.8303 L 150.019 494.4628 L 415.2526 376.8477 L 270.0341 326.4415 C 302.4383 234.0298 369.6469 201.6259 432.0548 200.4256 C 524.0665 192.4245 600.4762 303.2385 584.4742 381.6484 C 581.6738 459.2583 456.4579 533.2678 369.6469 582.074 L 448.857 680.4865 z "
+   id="path1359"
+   sodipodi:nodetypes="cccccccccccc" /></svg>

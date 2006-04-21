@@ -80,12 +80,12 @@ void FileSelector::configUI()
             break;
         case SvnClient::SvnAdd:
             setWindowTitle( tr( "Add") );
-            setWindowIcon( QIcon( ":menuadd.png" ) );
+            setWindowIcon( QIcon( ":actionaddlocal.png" ) );
             hideGroupBoxLogMessage();
             break;
         case SvnClient::SvnCommit:
             setWindowTitle( tr( "Commit") );
-            setWindowIcon( QIcon( ":menucommit.png" ) );
+            setWindowIcon( QIcon( ":actioncommit.png" ) );
             comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
             comboLogHistory->insertItem( 0, "" );
             comboLogHistory->setCurrentIndex( 0 );
@@ -93,12 +93,12 @@ void FileSelector::configUI()
             break;
         case SvnClient::SvnDelete:
             setWindowTitle( tr( "Delete") );
-            setWindowIcon( QIcon( ":menudelete.png" ) );
+            setWindowIcon( QIcon( ":actiondeletelocal.png" ) );
             hideGroupBoxLogMessage();
             break;
         case SvnClient::SvnRevert:
             setWindowTitle( tr( "Revert") );
-            setWindowIcon( QIcon( ":menurevert.png" ) );
+            setWindowIcon( QIcon( ":actionrevert.png" ) );
             hideGroupBoxLogMessage();
             break;
     }
@@ -113,7 +113,7 @@ void FileSelector::createMenus()
     {
         contextMenu->addAction( actionDiff );
         contextMenu->addAction( actionRevert );
-        actionRevert->setIcon( QIcon( ":menurevert.png" ) );
+        actionRevert->setIcon( QIcon( ":actionrevert.png" ) );
     }
 }
 

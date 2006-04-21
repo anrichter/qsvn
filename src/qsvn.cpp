@@ -102,7 +102,7 @@ void QSvn::setActionIcons( )
     actionCommit->setIcon( QIcon( ":actioncommit.png" ) );
     actionAdd->setIcon( QIcon( ":actionaddlocal.png" ) );
     actionDelete->setIcon( QIcon( ":actiondeletelocal.png" ) );
-    actionRevert->setIcon( QIcon( ":menurevert.png" ) );
+    actionRevert->setIcon( QIcon( ":actionrevert.png" ) );
     actionCleanup->setIcon( QIcon( ":actioncleanup.png" ) );
 
     actionStop->setIcon( QIcon( ":actionstop.png" ) );
