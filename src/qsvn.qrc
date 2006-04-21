@@ -13,8 +13,10 @@
 
     <file alias="actioncheckout.png">images/actioncheckout.png</file>
     <file alias="actionadd.png">images/actionadd.png</file>
+    <file alias="actionaddlocal.png">images/actionaddlocal.png</file>
     <file alias="actioncommit.png">images/actioncommit.png</file>
     <file alias="actiondelete.png">images/actiondelete.png</file>
+    <file alias="actiondeletelocal.png">images/actiondeletelocal.png</file>
     <file alias="menurevert.png">images/menurevert.png</file>
     <file alias="actionupdate.png">images/actionupdate.png</file>
     <file alias="actioncleanup.png">images/actioncleanup.png</file>

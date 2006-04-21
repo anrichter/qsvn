@@ -196,7 +196,7 @@
   </action>
   <action name="actionAddWorkingCopy" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menuadd.png</iconset>
+    <iconset resource="../qsvn.qrc" >:/images/actionadd.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -207,7 +207,7 @@
   </action>
   <action name="actionRemoveWorkingCopy" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menudelete.png</iconset>
+    <iconset resource="../qsvn.qrc" >:/images/actiondelete.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Remove...</string>
@@ -245,7 +245,7 @@
   </action>
   <action name="actionAdd" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menuadd.png</iconset>
+    <iconset resource="../qsvn.qrc" >:/images/actionaddlocal.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -253,7 +253,7 @@
   </action>
   <action name="actionDelete" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menudelete.png</iconset>
+    <iconset resource="../qsvn.qrc" >:/images/actiondeletelocal.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Delete...</string>

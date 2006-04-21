@@ -12,7 +12,7 @@
    height="210mm"
    xml:space="preserve"
    sodipodi:docbase="/home/ar/src/qt/qsvn/images/svg/"
-   sodipodi:docname="/home/ar/src/qt/qsvn/images/svg/actionremove.svg"><defs
+   sodipodi:docname="/home/ar/src/qt/qsvn/images/svg/actiondelete.svg"><defs
    id="defs1468"><linearGradient
    id="linearGradient1348"><stop
    style="stop-color:#ffffff;stop-opacity:1;"
@@ -31,8 +31,10 @@
    fx="0.48931119"
    fy="0.5234375"
    spreadMethod="pad" /></defs><sodipodi:namedview
-   id="base" /><rect
-   style="font-size:12;fill:#e20000;fill-rule:evenodd;"
+   id="base" /><g
+   id="g749"
+   transform="matrix(1.000008,0,0,1,0.681587,0.287476)"><rect
+   style="font-size:12;fill:#e20000;fill-rule:evenodd;stroke:#7f0000;stroke-opacity:1;stroke-width:12.5;stroke-dasharray:none;"
    id="rect1324"
    width="464.458893"
    height="141.61792"
@@ -45,4 +47,4 @@
    height="141.61792"
    x="136.817352"
    y="308.439087"
-   ry="38.4048767" /></svg>
+   ry="38.4048767" /></g></svg>
