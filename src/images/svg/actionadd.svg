@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg1361"
+   sodipodi:version="0.34"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="210mm"
+   height="210mm"
+   xml:space="preserve"
+   sodipodi:docbase="/home/ar/src/qt/qsvn/images/svg"
+   sodipodi:docname="/home/ar/src/qt/qsvn/images/svg/actionadd.svg"><defs
+   id="defs1363"><linearGradient
+   id="linearGradient1398"><stop
+   style="stop-color:#ffffff;stop-opacity:1;"
+   offset="0"
+   id="stop1399" /><stop
+   style="stop-color:#ffffff;stop-opacity:0;"
+   offset="1"
+   id="stop1400" /></linearGradient><radialGradient
+   xlink:href="#linearGradient1398"
+   id="radialGradient1401"
+   cx="0.50387299"
+   cy="0.47655827"
+   r="0.40498659"
+   fx="0.50387299"
+   fy="0.47655827" /></defs><sodipodi:namedview
+   id="base" /><path
+   style="font-size:12;fill:#00cc00;fill-rule:evenodd;"
+   d="M 184.0625 286.25 C 162.8125 286.25 145.6875 303.375 145.6875 324.6875 L 145.6875 389.5 C 145.6875 410.75 162.8125 427.875 184.0625 427.875 L 307.625 427.875 L 308.5625 551.4375 C 308.6875 572.6875 325.9375 589.6875 347.25 589.5625 L 412 589.0625 C 433.3125 588.9375 450.3125 571.6875 450.125 550.375 L 449.25 427.875 L 571.75 427.875 C 593 427.875 610.125 410.75 610.125 389.5 L 610.125 324.6875 C 610.125 303.375 593 286.25 571.75 286.25 L 448.1875 286.25 L 447.3125 162.75 C 447.125 141.4375 429.875 124.4375 408.625 124.625 L 343.8125 125.125 C 322.5 125.25 305.5 142.5 305.6875 163.8125 L 306.5625 286.25 L 184.0625 286.25 z "
+   id="path1418" /><path
+   style="font-size:12;fill:url(#radialGradient1401);fill-rule:evenodd;"
+   d="M 184.0625 286.25 C 162.8125 286.25 145.6875 303.375 145.6875 324.6875 L 145.6875 389.5 C 145.6875 410.75 162.8125 427.875 184.0625 427.875 L 307.625 427.875 L 308.5625 551.4375 C 308.6875 572.6875 325.9375 589.6875 347.25 589.5625 L 412 589.0625 C 433.3125 588.9375 450.3125 571.6875 450.125 550.375 L 449.25 427.875 L 571.75 427.875 C 593 427.875 610.125 410.75 610.125 389.5 L 610.125 324.6875 C 610.125 303.375 593 286.25 571.75 286.25 L 448.1875 286.25 L 447.3125 162.75 C 447.125 141.4375 429.875 124.4375 408.625 124.625 L 343.8125 125.125 C 322.5 125.25 305.5 142.5 305.6875 163.8125 L 306.5625 286.25 L 184.0625 286.25 z "
+   id="path1419" /></svg>

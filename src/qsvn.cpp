@@ -94,14 +94,14 @@ QSvn::~QSvn()
 void QSvn::setActionIcons( )
 {
     //todo: Qt4.1.0 Designer can't handle icons set in ui file :(
-    actionAddWorkingCopy->setIcon( QIcon( ":menuadd.png" ) );
-    actionRemoveWorkingCopy->setIcon( QIcon( ":menudelete.png" ) );
+    actionAddWorkingCopy->setIcon( QIcon( ":actionadd.png" ) );
+    actionRemoveWorkingCopy->setIcon( QIcon( ":actiondelete.png" ) );
     actionCheckoutWorkingCopy->setIcon( QIcon( ":actioncheckout.png" ) );
 
     actionUpdate->setIcon( QIcon( ":actionupdate.png" ) );
     actionCommit->setIcon( QIcon( ":actioncommit.png" ) );
-    actionAdd->setIcon( QIcon( ":menuadd.png" ) );
-    actionDelete->setIcon( QIcon( ":menudelete.png" ) );
+    actionAdd->setIcon( QIcon( ":actionadd.png" ) );
+    actionDelete->setIcon( QIcon( ":actiondelete.png" ) );
     actionRevert->setIcon( QIcon( ":menurevert.png" ) );
     actionCleanup->setIcon( QIcon( ":actioncleanup.png" ) );
 

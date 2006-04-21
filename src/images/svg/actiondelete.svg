@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="blank"
+   sodipodi:version="0.34"
+   width="210mm"
+   height="210mm"
+   xml:space="preserve"
+   sodipodi:docbase="/home/ar/src/qt/qsvn/images/svg/"
+   sodipodi:docname="/home/ar/src/qt/qsvn/images/svg/actionremove.svg"><defs
+   id="defs1468"><linearGradient
+   id="linearGradient1348"><stop
+   style="stop-color:#ffffff;stop-opacity:1;"
+   offset="0"
+   id="stop1349" /><stop
+   style="stop-color:#ffffff;stop-opacity:0;"
+   offset="1"
+   id="stop1350" /></linearGradient><linearGradient
+   xlink:href="#linearGradient1348"
+   id="linearGradient1351" /><radialGradient
+   xlink:href="#linearGradient1348"
+   id="radialGradient1352"
+   cx="0.48931119"
+   cy="0.5234375"
+   r="0.48718652"
+   fx="0.48931119"
+   fy="0.5234375"
+   spreadMethod="pad" /></defs><sodipodi:namedview
+   id="base" /><rect
+   style="font-size:12;fill:#e20000;fill-rule:evenodd;"
+   id="rect1324"
+   width="464.458893"
+   height="141.61792"
+   x="136.817352"
+   y="308.439087"
+   ry="38.4048767" /><rect
+   style="font-size:12;fill:url(#radialGradient1352);fill-rule:evenodd;"
+   id="rect1357"
+   width="464.458893"
+   height="141.61792"
+   x="136.817352"
+   y="308.439087"
+   ry="38.4048767" /></svg>
