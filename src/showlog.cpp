@@ -51,7 +51,8 @@ ShowLog::ShowLog( QWidget *parent, const QString path, const svn::LogEntries *lo
     viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
     viewLogChangePathEntries->installEventFilter( this );
     Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
-
+    connect( viewLogChangePathEntries, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
+    
     contextLogChangePathEntries = new QMenu( this );
     contextLogChangePathEntries->addAction( actionDiff );
     connectActions();

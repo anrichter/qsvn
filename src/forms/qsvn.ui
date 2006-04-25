@@ -81,7 +81,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -140,8 +140,8 @@
   <widget class="QToolBar" name="toolBarWorkingCopy" >
    <property name="minimumSize" >
     <size>
-     <width>50</width>
-     <height>38</height>
+     <width>38</width>
+     <height>27</height>
     </size>
    </property>
    <property name="orientation" >
@@ -149,8 +149,8 @@
    </property>
    <property name="iconSize" >
     <size>
-     <width>24</width>
-     <height>24</height>
+     <width>16</width>
+     <height>16</height>
     </size>
    </property>
    <attribute name="toolBarArea" >
@@ -163,6 +163,12 @@
   <widget class="QToolBar" name="toolBarModify" >
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="iconSize" >
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
    </property>
    <attribute name="toolBarArea" >
     <number>4</number>
@@ -180,8 +186,8 @@
    </property>
    <property name="iconSize" >
     <size>
-     <width>24</width>
-     <height>24</height>
+     <width>16</width>
+     <height>16</height>
     </size>
    </property>
    <attribute name="toolBarArea" >
@@ -261,7 +267,7 @@
   </action>
   <action name="actionRevert" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/menurevert.png</iconset>
+    <iconset resource="../qsvn.qrc" >:/images/actionrevert.png</iconset>
    </property>
    <property name="text" >
     <string>Re&amp;vert...</string>
