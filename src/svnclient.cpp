@@ -31,6 +31,7 @@
 #include "svnqt/status.hpp"
 #include "svnqt/targets.hpp"
 #include "svnqt/url.hpp"
+#include "svnqt/wc.hpp"
 
 //Qt
 #include <QtCore>
@@ -67,7 +68,11 @@ SvnClient::~SvnClient()
 
 svn::StatusEntries SvnClient::status( QString &directory )
 {
+    if ( !svn::Wc::checkWc( directory ) )
+        return svn::StatusEntries();
+
     QDir dir( directory );
+    listener->setVerbose( false );
     try
     {
         return svnClient->status( dir.canonicalPath(), false, true, false, false);
@@ -77,11 +82,14 @@ svn::StatusEntries SvnClient::status( QString &directory )
         StatusText::instance()->outputMessage( e.msg() );
         return svn::StatusEntries();
     }
-    return svn::StatusEntries();
 }
 
 svn::Status SvnClient::singleStatus( QString &path )
 {
+    if ( !svn::Wc::checkWc( path ) )
+        return svn::Status();
+
+    listener->setVerbose( false );
     try
     {
         return svnClient->singleStatus( path, false, svn::Revision::HEAD );
@@ -98,6 +106,7 @@ bool SvnClient::update( QStringList &updateList )
     if ( updateList.isEmpty() )
         return true;
 
+    listener->setVerbose( true );
     try
     {
         StatusText::instance()->outputMessage( "" );
@@ -118,6 +127,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     if ( url.isEmpty() || path.isEmpty() )
         return false;
 
+    listener->setVerbose( true );
     try
     {
         svnClient->checkout( url, path, svn::Revision::HEAD );
@@ -131,11 +141,12 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     return true;
 }
 
-bool SvnClient::svnexport( const QString &url, const QString &path, const svn::Revision &revision )
+bool SvnClient::svnexport( const QString &url, const QString &path, const svn::Revision &revision, const bool verbose )
 {
     if ( url.isEmpty() || path.isEmpty() )
         return false;
 
+    listener->setVerbose( verbose );
     try
     {
         svnClient->doExport( url, path, revision );
@@ -145,6 +156,7 @@ bool SvnClient::svnexport( const QString &url, const QString &path, const svn::R
         StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
+    listener->setVerbose( true );
     return true;
 }
 
@@ -154,13 +166,13 @@ bool SvnClient::add
     if ( addList.isEmpty() )
         return true;
 
+    listener->setVerbose( true );
     try
     {
         QString file;
         foreach( file, addList )
         {
-            svnClient->add
-            ( file, false );
+            svnClient->add( file, false );
         }
         completedMessage( file );
     }
@@ -177,6 +189,7 @@ bool SvnClient::revert( const QStringList &revertList )
     if ( revertList.isEmpty() )
         return true;
 
+    listener->setVerbose( true );
     try
     {
         svn::Targets targets( revertList );
@@ -203,6 +216,7 @@ bool SvnClient::commit( const QStringList &commitList, const QString &logMessage
     if ( commitList.isEmpty() )
         return true;
 
+    listener->setVerbose( true );
     try
     {
         svn::Targets targets( commitList );
@@ -223,6 +237,7 @@ bool SvnClient::remove
     if ( removeList.isEmpty() )
         return true;
 
+    listener->setVerbose( true );
     try
     {
         svn::Targets targets( removeList );
@@ -243,6 +258,7 @@ bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, co
     if ( Config::instance()->getDiffViewer().isEmpty() )
     {
         //diff output to StatusText
+        listener->setVerbose( true );
         try
         {
             QString delta = svnClient->diff( Config::instance()->tempDir(),
@@ -281,7 +297,7 @@ bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, co
                     fileFrom = Config::instance()->tempDir() + filename + QString( ".%1.%2 " )
                             .arg( int ( revisionFrom.revnum() ) )
                             .arg( ext );
-                    if ( !svnexport( file, fileFrom, revisionFrom ) )
+                    if ( !svnexport( file, fileFrom, revisionFrom, false ) )
                         return false;
                 } else
                     fileFrom = "";
@@ -304,7 +320,7 @@ bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, co
                     fileTo = Config::instance()->tempDir() + filename + QString( ".%1.%2 " )
                             .arg( int ( revisionTo.revnum() ) )
                             .arg( ext );
-                    if ( !svnexport( file, fileTo, revisionTo ) )
+                    if ( !svnexport( file, fileTo, revisionTo, false ) )
                         return false;
                 } else
                     fileTo = "";
@@ -333,6 +349,7 @@ bool SvnClient::diff( const QStringList &fileList )
 
 const svn::LogEntries* SvnClient::log( const QString &path, const svn::Revision &revisionStart, const svn::Revision &revisionEnd )
 {
+    listener->setVerbose( true );
     try
     {
         return svnClient->log( path, revisionStart, revisionEnd, true, false, 100 );
@@ -346,6 +363,7 @@ const svn::LogEntries* SvnClient::log( const QString &path, const svn::Revision 
 
 bool SvnClient::cleanup( const QString &path )
 {
+    listener->setVerbose( true );
     try
     {
         svnClient->cleanup( path );

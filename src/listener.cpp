@@ -36,6 +36,7 @@ Listener::Listener( QObject *parent )
     : QObject( parent )
 {
     m_cancel = false;
+    m_verbose = true;
 }
 
 Listener::~ Listener( )
@@ -62,6 +63,9 @@ bool Listener::contextGetLogin( const QString &realm, QString &username, QString
 
 void Listener::contextNotify( const char * path, svn_wc_notify_action_t action, svn_node_kind_t kind, const char * mime_type, svn_wc_notify_state_t content_state, svn_wc_notify_state_t prop_state, svn_revnum_t revision )
 {
+    if ( !m_verbose )
+        return;
+
     //action to string
     QString notifyString;
     switch ( action )
@@ -192,4 +196,9 @@ bool Listener::contextSslClientCertPwPrompt( QString &password, const QString &r
 void Listener::setCancel( bool cancel )
 {
     m_cancel = cancel;
+}
+
+void Listener::setVerbose( bool verbose )
+{
+    m_verbose = verbose;
 }

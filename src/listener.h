@@ -60,8 +60,9 @@ public:
             bool &maySave );
 
     void setCancel( bool cancel );
+    void setVerbose( bool verbose );
 private:
-    bool m_cancel;
+    bool m_cancel, m_verbose;
 };
 
 #endif

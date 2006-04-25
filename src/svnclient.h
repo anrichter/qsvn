@@ -73,7 +73,7 @@ public:
      * @return True if checkout properly otherwise False
      */
     bool checkout( const QString &url, const QString &path );
-    bool svnexport( const QString &url, const QString &path, const svn::Revision &revision );
+    bool svnexport( const QString &url, const QString &path, const svn::Revision &revision, const bool verbose = true );
 
     bool add( const QStringList &addList );
     bool revert( const QStringList &revertList );
