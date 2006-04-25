@@ -226,7 +226,7 @@ void FileSelector::doRevert( )
                                 QString( tr( "Do you really want to revert local changes from\n%1?" ) ).arg( fullFileName ),
                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
     {
-        SvnClient::instance()->revert( fullFileName );
+        SvnClient::instance()->revert( fullFileName, false );
 
         m_fileListModel->removeRows( static_cast< FileListItem* >( treeViewFiles->selectionModel()->currentIndex().internalPointer() )->row(), 1 );
         treeViewFiles->dataChanged( m_fileListModel->index( 0, 0 ),

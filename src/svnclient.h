@@ -76,8 +76,8 @@ public:
     bool svnexport( const QString &url, const QString &path, const svn::Revision &revision, const bool verbose = true );
 
     bool add( const QStringList &addList );
-    bool revert( const QStringList &revertList );
-    bool revert( const QString fileName );
+    bool revert( const QStringList &revertList, const bool verbose = true );
+    bool revert( const QString fileName, const bool verbose = true );
     bool commit( const QStringList &commitList, const QString &logMessage );
     bool remove( const QStringList &removeList );
     bool diff( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo );

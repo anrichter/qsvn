@@ -184,17 +184,18 @@ bool SvnClient::add
     return true;
 }
 
-bool SvnClient::revert( const QStringList &revertList )
+bool SvnClient::revert( const QStringList &revertList, const bool verbose )
 {
     if ( revertList.isEmpty() )
         return true;
 
-    listener->setVerbose( true );
+    listener->setVerbose( verbose );
     try
     {
         svn::Targets targets( revertList );
         svnClient->revert( targets, false );
-        completedMessage( QString( revertList.at( 0 ) ) );
+        if ( verbose )
+            completedMessage( QString( revertList.at( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
@@ -204,11 +205,11 @@ bool SvnClient::revert( const QStringList &revertList )
     return true;
 }
 
-bool SvnClient::revert( const QString fileName )
+bool SvnClient::revert( const QString fileName, const bool verbose )
 {
     QStringList fileList;
     fileList << fileName;
-    return revert( fileList );
+    return revert( fileList, verbose );
 }
 
 bool SvnClient::commit( const QStringList &commitList, const QString &logMessage )
