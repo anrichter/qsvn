@@ -86,9 +86,6 @@ svn::StatusEntries SvnClient::status( QString &directory )
 
 svn::Status SvnClient::singleStatus( QString &path )
 {
-    if ( !svn::Wc::checkWc( path ) )
-        return svn::Status();
-
     listener->setVerbose( false );
     try
     {
