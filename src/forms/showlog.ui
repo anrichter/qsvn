@@ -38,6 +38,7 @@
        <bool>false</bool>
       </property>
      </widget>
+     <widget class="QTextEdit" name="editLogMessage" />
      <widget class="QTreeView" name="viewLogChangePathEntries" >
       <property name="rootIsDecorated" >
        <bool>false</bool>
@@ -46,7 +47,6 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QTextEdit" name="editLogMessage" />
     </widget>
    </item>
    <item row="1" column="0" >
