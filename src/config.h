@@ -75,6 +75,8 @@ public:
     void restoreHeaderView( const QObject *parent, QHeaderView *headerView );
 
     QString tempDir();
+    void removeTempDir();
+
 public slots:
 
 private:

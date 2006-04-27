@@ -58,6 +58,16 @@ Config::Config( QObject *parent )
         dir.mkpath( _tempDir );
 }
 
+void Config::removeTempDir()
+{
+    QDir tempDir( _tempDir );
+    QStringListIterator it( tempDir.entryList() );
+    while ( it.hasNext() )
+        tempDir.remove( it.next() );
+
+    tempDir.rmdir( _tempDir );
+}
+
 void Config::saveChanges()
 {
     //write the entire settings in config-file

@@ -85,6 +85,7 @@ QSvn::~QSvn()
 {
     Config::instance()->saveMainWindow( this );
     Config::instance()->saveHeaderView( this, treeViewFileList->header() );
+    Config::instance()->removeTempDir();
     delete( fileListModel );
     delete( workingCopyModel );
     delete( contextMenuWorkingCopy );
