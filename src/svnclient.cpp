@@ -106,6 +106,9 @@ bool SvnClient::update( QStringList &updateList )
 
     svn::Revisions revisions;
 
+    svn::Status status = singleStatus( QString( updateList.at( 0 ) ) );
+    svn_revnum_t fromRevision = status.entry().cmtRev();
+
     listener->setVerbose( true );
     try
     {
@@ -118,7 +121,7 @@ bool SvnClient::update( QStringList &updateList )
              ( !revisions.isEmpty() )                       //only if update results with a non-empty revisions-list
            )
         {
-            ShowLog::doShowLog( 0, updateList.at( 0 ), revisions.at( 0 ).revision(), revisions.at( revisions.count() -1 ).revision() );
+            ShowLog::doShowLog( 0, updateList.at( 0 ), fromRevision, revisions.at( 0 ).revision() );
         }
 
     }
