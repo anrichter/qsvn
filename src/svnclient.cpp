@@ -106,7 +106,8 @@ bool SvnClient::update( QStringList &updateList )
 
     svn::Revisions revisions;
 
-    svn::Status status = singleStatus( QString( updateList.at( 0 ) ) );
+    QString path = updateList.at( 0 );
+    svn::Status status = singleStatus( path );
     svn_revnum_t fromRevision = status.entry().cmtRev();
 
     listener->setVerbose( true );
