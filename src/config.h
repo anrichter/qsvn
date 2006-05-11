@@ -77,6 +77,9 @@ public:
     QString tempDir();
     void removeTempDir();
 
+    bool showLogAfterUpdate();
+    void setShowLogAfterUpdate( bool value );
+
 public slots:
 
 private:
@@ -86,8 +89,10 @@ private:
 
     QString _diffViewer;
     QString _tempDir;
+    bool _showLogAfterUpdate;
 
-    void saveChanges();
+    void writeConfig();
+    void readConfig();
 };
 
 #endif

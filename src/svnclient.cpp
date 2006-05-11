@@ -22,6 +22,7 @@
 //QSvn
 #include "config.h"
 #include "listener.h"
+#include "showlog.h"
 #include "statustext.h"
 #include "svnclient.h"
 
@@ -103,13 +104,23 @@ bool SvnClient::update( QStringList &updateList )
     if ( updateList.isEmpty() )
         return true;
 
+    svn::Revisions revisions;
+
     listener->setVerbose( true );
     try
     {
         StatusText::instance()->outputMessage( "" );
         svn::Targets targets( updateList );
-        svnClient->update( targets, svn::Revision::HEAD, true, false );
+        revisions = svnClient->update( targets, svn::Revision::HEAD, true, false );
         completedMessage( QString( updateList.at( 0 ) ) );
+        if ( ( updateList.count() == 1 ) &&                 //only for one Entry
+             Config::instance()->showLogAfterUpdate() &&    //only if configured
+             ( !revisions.isEmpty() )                       //only if update results with a non-empty revisions-list
+           )
+        {
+            ShowLog::doShowLog( 0, updateList.at( 0 ), revisions.at( 0 ).revision(), revisions.at( revisions.count() -1 ).revision() );
+        }
+
     }
     catch ( svn::ClientException e )
     {
