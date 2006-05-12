@@ -182,6 +182,11 @@ bool QSvn::eventFilter( QObject * watched, QEvent * event )
     return QMainWindow::eventFilter( watched, event );
 }
 
+void QSvn::closeEvent( QCloseEvent * event )
+{
+    qApp->exit();
+}
+
 bool QSvn::isFileListSelected()
 {
     if ( treeViewFileList->hasFocus() && ( treeViewFileList->selectionModel()->selection().count() > 0 ) )
@@ -348,7 +353,7 @@ void QSvn::doShowLog()
     else
         path = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() )->fullPath();
 
-    ShowLog::doShowLog( this, path, svn::Revision::HEAD, svn::Revision::START );
+    ShowLog::doShowLog( 0, path, svn::Revision::HEAD, svn::Revision::START );
 }
 
 void QSvn::doCleanup()

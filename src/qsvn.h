@@ -41,7 +41,8 @@ public:
     ~QSvn();
 
 protected:
-    bool eventFilter ( QObject * watched, QEvent * event );
+    bool eventFilter( QObject * watched, QEvent * event );
+    void closeEvent( QCloseEvent * event );
 
 private:
     //ContextMenus
