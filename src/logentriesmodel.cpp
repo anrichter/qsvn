@@ -93,7 +93,7 @@ QVariant LogEntriesModel::data( const QModelIndex & index, int role ) const
         return dateTime.toString( "yyyy-MM-dd hh:mm:ss" );
         break;
     case 3:
-        return logEntry.message;
+        return logEntry.message.simplified();
         break;
     }
 }
