@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include Id="qsvn-defines">
-	<?define Version="0.4.0"?>
+	<?define Version=$(env.QSVN_MAJOR_VERSION).$(env.QSVN_MINOR_VERSION).$(env.QSVN_MICRO_VERSION)?>
 
 	<!-- Defines pathes for include files. Adopt directories to your system. -->
 	<?define QtDir="c:\src\qt-win-opensource-src-4.1.2\"?>
