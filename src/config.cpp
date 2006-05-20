@@ -47,8 +47,6 @@ Config::Config( QObject *parent )
     QCoreApplication::setOrganizationDomain( "" );
     QCoreApplication::setApplicationName( "QSvn" );
 
-    readConfig();
-
     _tempDir = QDir::tempPath() + QDir::separator() + "qsvn" + QDir::separator();
     _tempDir = QDir::convertSeparators( _tempDir );
     QDir dir( _tempDir );
@@ -64,35 +62,6 @@ void Config::removeTempDir()
         tempDir.remove( it.next() );
 
     tempDir.rmdir( _tempDir );
-}
-
-void Config::writeConfig()
-{
-    //write the entire settings in config-file
-    QSettings settings;
-    settings.setValue( "configuration/diffViewer", _diffViewer );
-    settings.setValue( "configuration/showLogAfterUpdate", _showLogAfterUpdate );
-}
-
-void Config::readConfig()
-{
-    QSettings settings;
-    _diffViewer = settings.value( "configuration/diffViewer", "" ).toString();
-    _showLogAfterUpdate = settings.value( "configuration/showLogAfterUpdate", true ).toBool();
-}
-
-void Config::setDiffViewer( const QString aString )
-{
-    if ( aString != _diffViewer )
-    {
-        _diffViewer = aString;
-        writeConfig();
-    }
-}
-
-QString Config::getDiffViewer()
-{
-    return _diffViewer;
 }
 
 void Config::saveMainWindow( const QSvn *aQSvn )
@@ -257,18 +226,4 @@ void Config::restoreHeaderView( const QObject * parent, QHeaderView * headerView
 QString Config::tempDir()
 {
     return _tempDir;
-}
-
-bool Config::showLogAfterUpdate()
-{
-    return _showLogAfterUpdate;
-}
-
-void Config::setShowLogAfterUpdate( bool value )
-{
-    if ( _showLogAfterUpdate != value )
-    {
-        _showLogAfterUpdate = value;
-        writeConfig();
-    }
 }

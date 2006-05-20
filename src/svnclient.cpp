@@ -118,7 +118,7 @@ bool SvnClient::update( QStringList &updateList )
         revisions = svnClient->update( targets, svn::Revision::HEAD, true, false );
         completedMessage( QString( updateList.at( 0 ) ) );
         if ( ( updateList.count() == 1 ) &&                 //only for one Entry
-             Config::instance()->showLogAfterUpdate() &&    //only if configured
+               Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() &&    //only if configured
              ( !revisions.isEmpty() )                       //only if update results with a non-empty revisions-list
            )
         {
@@ -268,7 +268,7 @@ bool SvnClient::remove
 
 bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo )
 {
-    if ( Config::instance()->getDiffViewer().isEmpty() )
+    if ( Config::instance()->value( KEY_DIFFVIEWER ).isNull() )
     {
         //diff output to StatusText
         listener->setVerbose( true );
@@ -340,7 +340,7 @@ bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, co
                 break;
         }
 
-        QProcess::startDetached( Config::instance()->getDiffViewer(), QStringList() << fileFrom << fileTo );
+        QProcess::startDetached( Config::instance()->value( KEY_DIFFVIEWER ).toString(), QStringList() << fileFrom << fileTo );
     }
     return true;
 }

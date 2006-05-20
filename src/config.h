@@ -30,6 +30,11 @@ class QHeaderView;
 class QSplitter;
 
 
+//configuration strings
+#define KEY_DIFFVIEWER "configuration/diffViewer"
+#define KEY_SHOWLOGAFTERUPDATE "configuration/showLogAfterUpdate"
+
+
 /**
 this singelton holds the configuration for qsvn
 
@@ -41,9 +46,6 @@ class Config : public QObject
     Q_OBJECT
 public:
     static Config* instance();
-
-    void setDiffViewer( const QString aString ); //!< set the complete path to a diff viewer like kompare
-    QString getDiffViewer(); //!< get the complete path to a diff viewer
 
     //Main Window
     void saveMainWindow( const QSvn *aQSvn );
@@ -77,22 +79,13 @@ public:
     QString tempDir();
     void removeTempDir();
 
-    bool showLogAfterUpdate();
-    void setShowLogAfterUpdate( bool value );
-
 public slots:
 
 private:
     Config( QObject *parent = 0 );
 
     static Config* m_instance;
-
-    QString _diffViewer;
     QString _tempDir;
-    bool _showLogAfterUpdate;
-
-    void writeConfig();
-    void readConfig();
 };
 
 #endif
