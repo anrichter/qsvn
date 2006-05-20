@@ -19,7 +19,6 @@
     <file alias="actiondeletelocal.png">images/actiondeletelocal.png</file>
     <file alias="actionrevert.png">images/actionrevert.png</file>
     <file alias="actionupdate.png">images/actionupdate.png</file>
-    <file alias="actioncleanup.png">images/actioncleanup.png</file>
 
     <file alias="actionstop.png">images/actionstop.png</file>
 </qresource>
