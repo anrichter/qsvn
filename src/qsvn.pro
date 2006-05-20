@@ -92,6 +92,7 @@ HEADERS = addworkingcopy.h \
           sslservertrust.h \
           statustext.h \
           svnclient.h \
+          version.h \
           workingcopyitem.h \
           workingcopymodel.h \
           svnqt/annotate_line.hpp \

@@ -31,6 +31,7 @@
 #include "showlog.h"
 #include "statustext.h"
 #include "svnclient.h"
+#include "version.h"
 #include "workingcopymodel.h"
 #include "workingcopyitem.h"
 
@@ -390,7 +391,10 @@ void QSvn::aboutQSvn()
     QString aboutMsg = "";
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
-    aboutMsg += "<br/>0.4.0 pre";
+    aboutMsg += QString( "<br/> %1.%2.%3" )
+            .arg( QSVN_MAJOR_VERSION )
+            .arg( QSVN_MINOR_VERSION )
+            .arg( QSVN_MICRO_VERSION );
     aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
