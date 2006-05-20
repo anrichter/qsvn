@@ -38,6 +38,10 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
     connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
 
     editDiffViewer->setText( Config::instance()->value( KEY_DIFFVIEWER ).toString() );
+    if ( Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() )
+        checkBoxShowLogAfterUpdate->setCheckState( Qt::Checked );
+    else
+        checkBoxShowLogAfterUpdate->setCheckState( Qt::Unchecked );
 }
 
 Configure::~ Configure( )
@@ -48,6 +52,10 @@ Configure::~ Configure( )
 void Configure::buttonOkClickSlot()
 {
     Config::instance()->setValue( KEY_DIFFVIEWER, editDiffViewer->text() );
+    if ( checkBoxShowLogAfterUpdate->checkState() == Qt::Checked )
+        Config::instance()->setValue( KEY_SHOWLOGAFTERUPDATE, true );
+    else
+        Config::instance()->setValue( KEY_SHOWLOGAFTERUPDATE, false );
 }
 
 void Configure::buttonSelectDiffViewerClickSlot()

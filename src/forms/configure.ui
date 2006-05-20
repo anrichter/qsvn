@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
-    <height>146</height>
+    <width>347</width>
+    <height>276</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -20,28 +20,12 @@
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>8</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="1" column="0" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>330</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0" >
+   <item row="2" column="0" colspan="3" >
     <widget class="QGroupBox" name="groupBoxExternalProgramms" >
      <property name="title" >
       <string>External Programs</string>
@@ -96,7 +80,54 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" >
+   <item row="1" column="0" colspan="3" >
+    <widget class="QGroupBox" name="groupBoxSettings" >
+     <property name="title" >
+      <string>Settings</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QCheckBox" name="checkBoxShowLogAfterUpdate" >
+        <property name="text" >
+         <string>Show log after update</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="3" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>329</width>
+       <height>21</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="2" >
+    <widget class="QWidget" name="widget" />
+   </item>
+   <item row="0" column="0" >
+    <widget class="QWidget" name="widget" />
+   </item>
+   <item row="0" column="1" >
+    <widget class="QWidget" name="widget" />
+   </item>
+   <item row="4" column="0" colspan="3" >
     <layout class="QHBoxLayout" >
      <property name="margin" >
       <number>0</number>
@@ -165,18 +196,16 @@
     </layout>
    </item>
   </layout>
-  <widget class="QWidget" name="" />
-  <widget class="QWidget" name="" />
-  <widget class="QWidget" name="" />
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
+  <tabstop>checkBoxShowLogAfterUpdate</tabstop>
   <tabstop>editDiffViewer</tabstop>
   <tabstop>buttonSelectDiffViewer</tabstop>
-  <tabstop>buttonHelp</tabstop>
   <tabstop>buttonOk</tabstop>
   <tabstop>buttonCancel</tabstop>
+  <tabstop>buttonHelp</tabstop>
  </tabstops>
  <resources/>
  <connections>
