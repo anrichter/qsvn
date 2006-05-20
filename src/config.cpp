@@ -191,7 +191,7 @@ void Config::setValue( const QString &key, const QVariant &value )
 QVariant Config::value( const QString &key )
 {
     QSettings settings;
-    return settings.value( key );
+    return settings.value( key, defaultValue( key ) );
 }
 
 void Config::saveHeaderView( const QObject * parent, const QHeaderView * headerView )
@@ -226,4 +226,12 @@ void Config::restoreHeaderView( const QObject * parent, QHeaderView * headerView
 QString Config::tempDir()
 {
     return _tempDir;
+}
+
+QVariant Config::defaultValue( const QString & key )
+{
+    if ( key == KEY_SHOWLOGAFTERUPDATE )
+        return true;
+    else
+        return QVariant();
 }

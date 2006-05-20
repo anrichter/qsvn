@@ -86,6 +86,8 @@ private:
 
     static Config* m_instance;
     QString _tempDir;
+
+    QVariant defaultValue( const QString &key ); //returns default values for configuration parameters
 };
 
 #endif
