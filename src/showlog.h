@@ -32,28 +32,27 @@ class LogChangePathEntriesModel;
 class QDialog;
 
 
-/**
-    @author Andreas Richter <ar@oszine.de>
-*/
-
 class ShowLog : public QDialog, public Ui::ShowLog
 {
     Q_OBJECT
 
 public:
-    ShowLog( QWidget *parent = 0, const QString path = 0, const svn::LogEntries *logEntries = 0 );
+    ShowLog( QWidget *parent = 0, const QString path = 0, const svn::Revision revisionStart = svn::Revision::UNDEFINED, const svn::Revision revisionEnd = svn::Revision::UNDEFINED );
     ~ShowLog();
 
     static void doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd );
+    void addLogEntries();
 
 protected:
     bool eventFilter ( QObject * watched, QEvent * event );
 
 private:
+    svn::LogEntries *m_logEntries;
     LogEntriesModel *m_logEntriesModel;
     LogChangePathEntriesModel *m_logChangePathEntriesModel;
     QMenu *contextLogChangePathEntries;
     QString m_path;
+    svn::Revision m_revisionStart, m_revisionEnd;
 
     void connectActions();
 

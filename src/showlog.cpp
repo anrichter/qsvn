@@ -34,17 +34,19 @@
 #include <QtGui>
 
 
-ShowLog::ShowLog( QWidget *parent, const QString path, const svn::LogEntries *logEntries )
-    : QDialog( parent )
+ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
 {
+    m_revisionStart = revisionStart;
+    m_revisionEnd = revisionEnd;
+
     setupUi( this );
+
     Config::instance()->restoreWidget( this );
     Config::instance()->restoreSplitter( this, splitter );
 
-    m_logEntriesModel = new LogEntriesModel( this, logEntries );
+    m_logEntriesModel = new LogEntriesModel( this );
     viewLogEntries->setModel( m_logEntriesModel );
     Config::instance()->restoreHeaderView( this, viewLogEntries->header() );
-
     connect( viewLogEntries, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
 
     m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
@@ -52,7 +54,7 @@ ShowLog::ShowLog( QWidget *parent, const QString path, const svn::LogEntries *lo
     viewLogChangePathEntries->installEventFilter( this );
     Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
     connect( viewLogChangePathEntries, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
-    
+
     contextLogChangePathEntries = new QMenu( this );
     contextLogChangePathEntries->addAction( actionDiff );
     connectActions();
@@ -73,16 +75,22 @@ ShowLog::~ShowLog()
     Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
 }
 
+void ShowLog::addLogEntries( )
+{
+    qApp->processEvents();
+    QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
+    m_logEntriesModel->appendLogEntries( SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd ) );
+    QApplication::restoreOverrideCursor();
+}
+
 void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
 {
-    const svn::LogEntries *logEntries;
-    logEntries = SvnClient::instance()->log( path, revisionStart, revisionEnd );
-
     ShowLog *showLog;
-    showLog = new ShowLog( parent, path, logEntries );
+    showLog = new ShowLog( parent, path, revisionStart, revisionEnd );
     showLog->show();
     showLog->raise();
     showLog->activateWindow();
+    showLog->addLogEntries();
 }
 
 bool ShowLog::eventFilter( QObject * watched, QEvent * event )

@@ -35,7 +35,7 @@ class QVariant;
 class LogEntriesModel : public QAbstractTableModel
 {
 public:
-    LogEntriesModel( QObject * parent = 0, const svn::LogEntries *logEntries = 0 );
+    LogEntriesModel( QObject * parent );
     ~LogEntriesModel();
 
     int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
@@ -45,6 +45,8 @@ public:
 
     void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
     svn::LogEntry getLogEntry( const QModelIndex & index );
+
+    void appendLogEntries( const svn::LogEntries *logEntries );
 
 private:
     svn::LogEntries m_logEntries;

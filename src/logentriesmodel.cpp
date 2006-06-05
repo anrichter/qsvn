@@ -28,11 +28,10 @@
 #include <QtCore>
 
 
-LogEntriesModel::LogEntriesModel( QObject * parent, const svn::LogEntries *logEntries )
+LogEntriesModel::LogEntriesModel( QObject * parent )
     : QAbstractTableModel( parent )
 {
-    m_logEntries = svn::LogEntries( *logEntries );
-    sort( 0, Qt::DescendingOrder );
+    m_logEntries = svn::LogEntries();
 }
 
 LogEntriesModel::~LogEntriesModel()
@@ -124,4 +123,12 @@ bool LogEntriesModel::logEntryGreaterThan( const svn::LogEntry & left, const svn
 svn::LogEntry LogEntriesModel::getLogEntry( const QModelIndex & index )
 {
     return m_logEntries.at( index.row() );
+}
+
+void LogEntriesModel::appendLogEntries( const svn::LogEntries * logEntries )
+{
+    beginInsertRows( QModelIndex(), rowCount(), rowCount() + logEntries->count() - 1 );
+    m_logEntries += *logEntries;
+    endInsertRows();
+    sort( 0, Qt::DescendingOrder );
 }
