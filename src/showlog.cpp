@@ -105,7 +105,9 @@ void ShowLog::addLogEntries( int limit )
 
     m_logEntriesModel->appendLogEntries( SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, limit ) );
     m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
+
     btnNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
+    btnAll->setEnabled( btnNext->isEnabled() );
 
     QApplication::restoreOverrideCursor();
 }
