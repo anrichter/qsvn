@@ -403,3 +403,18 @@ void SvnClient::setCancel( )
 {
     listener->setCancel( true );
 }
+
+bool SvnClient::resolved( const QString & path )
+{
+    listener->setVerbose( true );
+    try
+    {
+        svnClient->resolved( path, false );
+    }
+    catch( svn::ClientException e )
+    {
+        StatusText::instance()->outputMessage( e.msg() );
+        return false;
+    }
+    return true;
+}

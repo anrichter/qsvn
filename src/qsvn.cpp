@@ -124,6 +124,7 @@ void QSvn::connectActions()
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
     connect( actionLog, SIGNAL( triggered() ), this, SLOT( doShowLog() ) );
     connect( actionCleanup, SIGNAL( triggered() ), this, SLOT( doCleanup() ) );
+    connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
@@ -161,6 +162,7 @@ void QSvn::createMenus()
     contextMenuFileList->addAction( actionAdd );
     contextMenuFileList->addAction( actionDelete );
     contextMenuFileList->addAction( actionRevert );
+    contextMenuFileList->addAction( actionResolved );
 }
 
 bool QSvn::eventFilter( QObject * watched, QEvent * event )
@@ -238,7 +240,7 @@ void QSvn::doRemoveWorkingCopy()
 
     for ( int i = 0; i < indexes.count(); i++ )
     {
-        if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Would you really remove this Working Copy?" ),
+        if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Should i really remove this Working Copy?" ),
                                     QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
             workingCopyModel->removeRow( indexes.at( i ).row() );
     }
@@ -421,3 +423,13 @@ void QSvn::setActionStop( QString aText )
     qApp->processEvents();
 }
 
+void QSvn::doResolved( )
+{
+    if ( isFileListSelected() )
+    {
+        if ( QMessageBox::question( this, tr( "Confirmation" ), QString( tr( "Are you sure that\n%1\nis resolved?" ).arg( selectedFiles().at( 0 ) ) ),
+             QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+
+            SvnClient::instance()->resolved( selectedFiles().at( 0 ) );
+    }
+}

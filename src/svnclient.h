@@ -86,6 +86,7 @@ public:
 
     const svn::LogEntries* log( const QString &path, const svn::Revision &revisionStart, const svn::Revision &revisionEnd, int limit );
     bool cleanup( const QString &path );
+    bool resolved( const QString &path );
 
 public slots:
     void setCancel( );
