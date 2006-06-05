@@ -60,6 +60,7 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
     connectActions();
 
     connect( btnNext, SIGNAL( clicked() ), this, SLOT( addLogEntries() ) );
+    connect( btnAll, SIGNAL( clicked() ), this, SLOT( addAllLogEntries() ) );
 
     m_path = path;
     m_path.replace( "\\", "/" );
@@ -77,18 +78,6 @@ ShowLog::~ShowLog()
     Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
 }
 
-void ShowLog::addLogEntries( )
-{
-    qApp->processEvents();
-    QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
-
-    m_logEntriesModel->appendLogEntries( SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd ) );
-    m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
-    btnNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
-
-    QApplication::restoreOverrideCursor();
-}
-
 void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
 {
     ShowLog *showLog;
@@ -97,6 +86,28 @@ void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revisio
     showLog->raise();
     showLog->activateWindow();
     showLog->addLogEntries();
+}
+
+void ShowLog::addLogEntries()
+{
+    addLogEntries( 100 );
+}
+
+void ShowLog::addAllLogEntries()
+{
+    addLogEntries( 0 );
+}
+
+void ShowLog::addLogEntries( int limit )
+{
+    qApp->processEvents();
+    QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
+
+    m_logEntriesModel->appendLogEntries( SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, limit ) );
+    m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
+    btnNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
+
+    QApplication::restoreOverrideCursor();
 }
 
 bool ShowLog::eventFilter( QObject * watched, QEvent * event )

@@ -41,13 +41,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="btnAll" >
+       <property name="text" >
+        <string>Show All</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" >
         <size>
-         <width>171</width>
+         <width>71</width>
          <height>31</height>
         </size>
        </property>

@@ -44,6 +44,7 @@ public:
 
 public slots:
     void addLogEntries();
+    void addAllLogEntries();
 
 protected:
     bool eventFilter ( QObject * watched, QEvent * event );
@@ -57,6 +58,7 @@ private:
     svn::Revision m_revisionStart, m_revisionEnd;
 
     void connectActions();
+    void addLogEntries( int limit );
 
 private slots:
     void selectLogEntry( const QModelIndex &index );

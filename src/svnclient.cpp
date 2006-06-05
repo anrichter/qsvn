@@ -122,7 +122,7 @@ bool SvnClient::update( QStringList &updateList )
              ( !revisions.isEmpty() )                       //only if update results with a non-empty revisions-list
            )
         {
-            ShowLog::doShowLog( 0, updateList.at( 0 ), fromRevision, revisions.at( 0 ).revision() );
+            ShowLog::doShowLog( 0, updateList.at( 0 ), revisions.at( 0 ).revision(), fromRevision );
         }
 
     }
@@ -360,12 +360,12 @@ bool SvnClient::diff( const QStringList &fileList )
     return result;
 }
 
-const svn::LogEntries* SvnClient::log( const QString &path, const svn::Revision &revisionStart, const svn::Revision &revisionEnd )
+const svn::LogEntries* SvnClient::log( const QString &path, const svn::Revision &revisionStart, const svn::Revision &revisionEnd, int limit )
 {
     listener->setVerbose( true );
     try
     {
-        return svnClient->log( path, revisionStart, revisionEnd, true, false, 100 );
+        return svnClient->log( path, revisionStart, revisionEnd, true, false, limit );
     }
     catch ( svn::ClientException e )
     {
