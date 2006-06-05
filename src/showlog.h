@@ -41,6 +41,8 @@ public:
     ~ShowLog();
 
     static void doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd );
+
+public slots:
     void addLogEntries();
 
 protected:

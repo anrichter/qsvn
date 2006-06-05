@@ -59,6 +59,8 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
     contextLogChangePathEntries->addAction( actionDiff );
     connectActions();
 
+    connect( btnNext, SIGNAL( clicked() ), this, SLOT( addLogEntries() ) );
+
     m_path = path;
     m_path.replace( "\\", "/" );
     if ( !m_path.endsWith( "/" ) )
@@ -79,7 +81,11 @@ void ShowLog::addLogEntries( )
 {
     qApp->processEvents();
     QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
+
     m_logEntriesModel->appendLogEntries( SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd ) );
+    m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
+    btnNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
+
     QApplication::restoreOverrideCursor();
 }
 

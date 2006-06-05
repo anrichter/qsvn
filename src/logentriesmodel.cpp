@@ -128,6 +128,8 @@ svn::LogEntry LogEntriesModel::getLogEntry( const QModelIndex & index )
 void LogEntriesModel::appendLogEntries( const svn::LogEntries * logEntries )
 {
     beginInsertRows( QModelIndex(), rowCount(), rowCount() + logEntries->count() - 1 );
+    if ( m_logEntries.count() > 0 )
+        m_logEntries.removeLast();
     m_logEntries += *logEntries;
     endInsertRows();
     sort( 0, Qt::DescendingOrder );
