@@ -133,4 +133,6 @@ void LogEntriesModel::appendLogEntries( const svn::LogEntries * logEntries )
     m_logEntries += *logEntries;
     endInsertRows();
     sort( 0, Qt::DescendingOrder );
+    
+    delete logEntries;
 }

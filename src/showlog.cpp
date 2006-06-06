@@ -36,6 +36,8 @@
 
 ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
 {
+    setAttribute( Qt::WA_DeleteOnClose, true );
+
     m_revisionStart = revisionStart;
     m_revisionEnd = revisionEnd;
 
@@ -71,6 +73,7 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
 ShowLog::~ShowLog()
 {
     delete m_logEntriesModel;
+    delete m_logChangePathEntriesModel;
     delete contextLogChangePathEntries;
     Config::instance()->saveWidget( this );
     Config::instance()->saveSplitter( this, splitter );
@@ -80,8 +83,7 @@ ShowLog::~ShowLog()
 
 void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
 {
-    ShowLog *showLog;
-    showLog = new ShowLog( parent, path, revisionStart, revisionEnd );
+    ShowLog *showLog = new ShowLog( parent, path, revisionStart, revisionEnd );
     showLog->show();
     showLog->raise();
     showLog->activateWindow();
