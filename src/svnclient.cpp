@@ -370,7 +370,7 @@ const svn::LogEntries* SvnClient::log( const QString &path, const svn::Revision 
     catch ( svn::ClientException e )
     {
         StatusText::instance()->outputMessage( e.msg() );
-        return false;
+        return new svn::LogEntries();
     }
 }
 
