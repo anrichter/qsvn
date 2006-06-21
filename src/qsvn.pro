@@ -90,6 +90,7 @@ HEADERS = addworkingcopy.h \
           qsvn.h \
           showlog.h \
           sslservertrust.h \
+          statusentriesmodel.h \
           statustext.h \
           svnclient.h \
           version.h \
@@ -136,6 +137,7 @@ SOURCES = addworkingcopy.cpp \
           qsvn.cpp \
           showlog.cpp \
           sslservertrust.cpp \
+          statusentriesmodel.cpp \
           statustext.cpp \
           svnclient.cpp \
           workingcopyitem.cpp \
