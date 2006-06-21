@@ -59,6 +59,7 @@
 #include "log_entry.hpp"
 #include "info_entry.hpp"
 #include "annotate_line.hpp"
+#include "status.hpp"
 
 
 namespace svn
