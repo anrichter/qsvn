@@ -43,7 +43,7 @@ int StatusEntriesModel::rowCount( const QModelIndex &parent ) const
 
 int StatusEntriesModel::columnCount( const QModelIndex &parent ) const
 {
-    return 5;
+    return 4;
 }
 
 QVariant StatusEntriesModel::headerData( int section, Qt::Orientation orientation, int role ) const
@@ -80,23 +80,33 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
         return QVariant();
 
     svn::Status status = m_statusEntries.at( index.row() );
+    QFileInfo fileInfo( status.path() );
 
-    switch( index.column() )
+    switch( role )
     {
-        case 0:
-            return status.entry().name();
-            break;
-        case 1:
-            return status.textStatus();
-            break;
-        case 2:
-            return int( status.entry().cmtRev() );
-            break;
-        case 3:
-            return status.entry().cmtAuthor();
-            break;
-        case 4:
-            return status.path();
+        case Qt::DisplayRole:
+            switch( index.column() )
+            {
+                case 0:
+                    if ( !status.isVersioned() ||                         //return path for unversioned Files
+                          ( status.isVersioned() && fileInfo.isDir() ) )  //            and for versioned Directories
+                        return status.path().right( status.path().size() - m_directory.size() - 1  );
+                    else
+                        return status.entry().name();
+                    break;
+                case 1:
+                    return status.textStatus();
+                    break;
+                case 2:
+                    return int( status.entry().cmtRev() );
+                    break;
+                case 3:
+                    return status.entry().cmtAuthor();
+                    break;
+                case 4:
+                    return status.path();
+                    break;
+            }
             break;
     }
     return QVariant();
@@ -104,6 +114,15 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
 
 void StatusEntriesModel::readDirectory( QString directory )
 {
-    m_statusEntries = SvnClient::instance()->status( directory );
-    emit layoutChanged();
+    if ( m_directory != directory )
+    {
+        m_directory = directory;
+        m_statusEntries = SvnClient::instance()->status( m_directory );
+        emit layoutChanged();
+    }
+}
+
+svn::Status StatusEntriesModel::at( int row )
+{
+    return m_statusEntries.at( row );
 }

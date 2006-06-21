@@ -82,6 +82,7 @@ HEADERS = addworkingcopy.h \
           configure.h \
           filelistitem.h \
           filelistmodel.h \
+          filelistproxy.h \
           fileselector.h \
           listener.h \
           logchangepathentriesmodel.h \
@@ -128,6 +129,7 @@ SOURCES = addworkingcopy.cpp \
           configure.cpp \
           filelistitem.cpp \
           filelistmodel.cpp \
+          filelistproxy.cpp \
           fileselector.cpp \
           listener.cpp \
           logchangepathentriesmodel.cpp \

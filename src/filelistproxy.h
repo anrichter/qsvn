@@ -18,33 +18,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef STATUSENTRIESMODEL_H
-#define STATUSENTRIESMODEL_H
+#ifndef FILELISTPROXY_H
+#define FILELISTPROXY_H
 
-//SvnQt
-#include "svnqt/client.hpp"
+//QSvn
+#include "statusentriesmodel.h"
 
 //Qt
-#include <QtCore>
+#include <QSortFilterProxyModel>
 
-
-class StatusEntriesModel : public QAbstractTableModel
+class FileListProxy : public QSortFilterProxyModel
 {
     public:
-        StatusEntriesModel( QObject * parent );
-        ~StatusEntriesModel();
+        FileListProxy( QObject *parent );
+        ~FileListProxy();
 
-        int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-        QVariant data( const QModelIndex &index, int role ) const;
-
-        void readDirectory( QString directory );
-        svn::Status at( int row );
-
+        StatusEntriesModel *statusEntriesModel();
+    protected:
+        bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
     private:
-        svn::StatusEntries m_statusEntries;
-        QString m_directory;
+        StatusEntriesModel *m_statusEntriesModel;
 };
 
 #endif

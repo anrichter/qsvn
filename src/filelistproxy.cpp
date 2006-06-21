@@ -18,33 +18,41 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef STATUSENTRIESMODEL_H
-#define STATUSENTRIESMODEL_H
+//QSvn
+#include "filelistproxy.h"
 
 //SvnQt
 #include "svnqt/client.hpp"
 
 //Qt
 #include <QtCore>
+#include <QSortFilterProxyModel>
 
-
-class StatusEntriesModel : public QAbstractTableModel
+FileListProxy::FileListProxy( QObject *parent )
+    : QSortFilterProxyModel( parent )
 {
-    public:
-        StatusEntriesModel( QObject * parent );
-        ~StatusEntriesModel();
+    m_statusEntriesModel = new StatusEntriesModel( this );
+    setSourceModel( m_statusEntriesModel );
+}
 
-        int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-        QVariant data( const QModelIndex &index, int role ) const;
+FileListProxy::~FileListProxy()
+{
+    delete( m_statusEntriesModel );
+}
 
-        void readDirectory( QString directory );
-        svn::Status at( int row );
+StatusEntriesModel *FileListProxy::statusEntriesModel()
+{
+    return m_statusEntriesModel;
+}
 
-    private:
-        svn::StatusEntries m_statusEntries;
-        QString m_directory;
-};
+bool FileListProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const
+{
+    svn::Status status = m_statusEntriesModel->at( source_row );
+/*    if ( !status.isVersioned() )
+        return false;*/
 
-#endif
+    if ( QFileInfo( status.path() ).isDir() ) // don't show any directories in filelist
+         return false;
+
+    return true;
+}
