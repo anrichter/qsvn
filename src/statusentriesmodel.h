@@ -45,6 +45,9 @@ class StatusEntriesModel : public QAbstractTableModel
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;
+
+        QPixmap statusPixmap( svn::Status status ) const;
+        QString statusString( svn::Status status ) const;
 };
 
 #endif

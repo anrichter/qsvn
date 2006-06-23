@@ -25,6 +25,9 @@
 //SvnQt
 #include "svnqt/client.hpp"
 
+//Qt
+#include <QtGui>
+
 
 StatusEntriesModel::StatusEntriesModel( QObject * parent )
     : QAbstractTableModel( parent )
@@ -76,8 +79,6 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
 {
     if ( !index.isValid() )
         return QVariant();
-    if ( role != Qt::DisplayRole )
-        return QVariant();
 
     svn::Status status = m_statusEntries.at( index.row() );
     QFileInfo fileInfo( status.path() );
@@ -95,10 +96,11 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
                         return status.entry().name();
                     break;
                 case 1:
-                    return status.textStatus();
+                    return statusString( status );
                     break;
                 case 2:
-                    return int( status.entry().cmtRev() );
+                    if ( status.isVersioned() )
+                        return int( status.entry().cmtRev() );
                     break;
                 case 3:
                     return status.entry().cmtAuthor();
@@ -107,6 +109,10 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
                     return status.path();
                     break;
             }
+            break;
+        case Qt::DecorationRole:
+            if ( index.column() == 0 )
+                return statusPixmap( status );
             break;
     }
     return QVariant();
@@ -125,4 +131,78 @@ void StatusEntriesModel::readDirectory( QString directory )
 svn::Status StatusEntriesModel::at( int row )
 {
     return m_statusEntries.at( row );
+}
+
+QPixmap StatusEntriesModel::statusPixmap( svn::Status status ) const
+{
+    switch ( status.textStatus() )
+    {
+    case svn_wc_status_none:
+        return QPixmap( ":file.png" );
+    case svn_wc_status_unversioned:
+        return QPixmap( ":unknownfile.png" );
+    case svn_wc_status_normal:
+        return QPixmap( ":file.png" );
+    case svn_wc_status_added:
+        return QPixmap( ":addedfile.png" );
+    case svn_wc_status_missing:
+        return QPixmap( ":missingfile.png" );
+    case svn_wc_status_deleted:
+        return QPixmap( ":modifiedfile.png" );
+    case svn_wc_status_replaced:
+        return QPixmap( ":modifiedfile.png" );
+    case svn_wc_status_modified:
+        return QPixmap( ":modifiedfile.png" );
+    case svn_wc_status_merged:
+        return QPixmap( ":modifiedfile.png" );
+    case svn_wc_status_conflicted:
+        return QPixmap( ":conflictedfile.png" );
+    case svn_wc_status_ignored:
+        return QPixmap( ":file.png" );
+    case svn_wc_status_obstructed:
+        return QPixmap( ":file.png" );
+    case svn_wc_status_external:
+        return QPixmap( ":file.png" );
+    case svn_wc_status_incomplete:
+        return QPixmap( ":file.png" );
+    default:
+        return QPixmap( ":file.png" );
+    }
+}
+
+QString StatusEntriesModel::statusString( svn::Status status ) const
+{
+        switch ( status.textStatus() )
+        {
+        case svn_wc_status_none:
+            return QString( tr( "none" ) );
+        case svn_wc_status_unversioned:
+            return QString( tr( "unversioned" ) );
+        case svn_wc_status_normal:
+            return QString( tr( "normal" ) );
+        case svn_wc_status_added:
+            return QString( tr( "added" ) );
+        case svn_wc_status_missing:
+            return QString( tr( "missing" ) );
+        case svn_wc_status_deleted:
+            return QString( tr( "deleted" ) );
+        case svn_wc_status_replaced:
+            return QString( tr( "replaced" ) );
+        case svn_wc_status_modified:
+            return QString( tr( "modified" ) );
+        case svn_wc_status_merged:
+            return QString( tr( "merged" ) );
+        case svn_wc_status_conflicted:
+            return QString( tr( "conflicted" ) );
+        case svn_wc_status_ignored:
+            return QString( tr( "ignored" ) );
+        case svn_wc_status_obstructed:
+            return QString( tr( "obstructed" ) );
+        case svn_wc_status_external:
+            return QString( tr( "external" ) );
+        case svn_wc_status_incomplete:
+            return QString( tr( "incomplete" ) );
+        default:
+            return QString( status.textStatus() );
+        }
 }
