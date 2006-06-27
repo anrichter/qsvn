@@ -136,3 +136,9 @@ void LogEntriesModel::appendLogEntries( const svn::LogEntries * logEntries )
     
     delete logEntries;
 }
+
+void LogEntriesModel::clear()
+{
+    m_logEntries.clear();
+    emit layoutChanged();
+}

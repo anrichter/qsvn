@@ -360,12 +360,14 @@ bool SvnClient::diff( const QStringList &fileList )
     return result;
 }
 
-const svn::LogEntries* SvnClient::log( const QString &path, const svn::Revision &revisionStart, const svn::Revision &revisionEnd, int limit )
+const svn::LogEntries* SvnClient::log( const QString &path, 
+                                       const svn::Revision &revisionStart, const svn::Revision &revisionEnd, 
+                                       bool discoverChangedPaths, bool strictNodeHistory, int limit )
 {
     listener->setVerbose( true );
     try
     {
-        return svnClient->log( path, revisionStart, revisionEnd, true, false, limit );
+        return svnClient->log( path, revisionStart, revisionEnd, discoverChangedPaths, strictNodeHistory, limit );
     }
     catch ( svn::ClientException e )
     {

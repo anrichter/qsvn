@@ -47,6 +47,7 @@ public:
     svn::LogEntry getLogEntry( const QModelIndex & index );
 
     void appendLogEntries( const svn::LogEntries *logEntries );
+    void clear();
 
 private:
     svn::LogEntries m_logEntries;

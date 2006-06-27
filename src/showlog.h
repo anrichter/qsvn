@@ -62,6 +62,7 @@ private:
 
 private slots:
     void selectLogEntry( const QModelIndex &index );
+    void cbStrictNodeHistoryStateChanged();
 
     void doDiff();
 };

@@ -63,6 +63,8 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
 
     connect( btnNext, SIGNAL( clicked() ), this, SLOT( addLogEntries() ) );
     connect( btnAll, SIGNAL( clicked() ), this, SLOT( addAllLogEntries() ) );
+    connect( cbStrictNodeHistory, SIGNAL( stateChanged( int ) ), 
+             this, SLOT( cbStrictNodeHistoryStateChanged() ) );
 
     m_path = path;
     m_path.replace( "\\", "/" );
@@ -105,7 +107,10 @@ void ShowLog::addLogEntries( int limit )
     qApp->processEvents();
     QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
 
-    m_logEntriesModel->appendLogEntries( SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, limit ) );
+    m_logEntriesModel->appendLogEntries( 
+        SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, true, 
+                                    ( cbStrictNodeHistory->checkState() == Qt::Checked ), 
+                                    limit ) );
     m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
 
     btnNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
@@ -137,6 +142,12 @@ void ShowLog::selectLogEntry( const QModelIndex & index )
         viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
         Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
     }
+}
+
+void ShowLog::cbStrictNodeHistoryStateChanged()
+{
+    m_logEntriesModel->clear();
+    addLogEntries();
 }
 
 void ShowLog::connectActions( )
