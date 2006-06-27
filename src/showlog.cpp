@@ -40,6 +40,7 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
 
     m_revisionStart = revisionStart;
     m_revisionEnd = revisionEnd;
+    m_revisionBeginShowLog = revisionStart;
 
     setupUi( this );
 
@@ -147,6 +148,7 @@ void ShowLog::selectLogEntry( const QModelIndex & index )
 void ShowLog::cbStrictNodeHistoryStateChanged()
 {
     m_logEntriesModel->clear();
+    m_revisionStart = m_revisionBeginShowLog;
     addLogEntries();
 }
 

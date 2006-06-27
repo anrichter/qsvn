@@ -122,23 +122,33 @@ bool LogEntriesModel::logEntryGreaterThan( const svn::LogEntry & left, const svn
 
 svn::LogEntry LogEntriesModel::getLogEntry( const QModelIndex & index )
 {
+    if ( !index.isValid() )
+        return svn::LogEntry();
+
     return m_logEntries.at( index.row() );
 }
 
 void LogEntriesModel::appendLogEntries( const svn::LogEntries * logEntries )
 {
+    if ( logEntries->count() <= 0 )
+        return;
+
     beginInsertRows( QModelIndex(), rowCount(), rowCount() + logEntries->count() - 1 );
     if ( m_logEntries.count() > 0 )
         m_logEntries.removeLast();
     m_logEntries += *logEntries;
     endInsertRows();
     sort( 0, Qt::DescendingOrder );
-    
+
     delete logEntries;
 }
 
 void LogEntriesModel::clear()
 {
+    if ( m_logEntries.count() <= 0 )
+        return;
+
+    beginRemoveRows( QModelIndex(), 0, rowCount() - 1 );
     m_logEntries.clear();
-    emit layoutChanged();
+    endRemoveRows();
 }

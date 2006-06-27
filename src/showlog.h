@@ -55,7 +55,7 @@ private:
     LogChangePathEntriesModel *m_logChangePathEntriesModel;
     QMenu *contextLogChangePathEntries;
     QString m_path;
-    svn::Revision m_revisionStart, m_revisionEnd;
+    svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
 
     void connectActions();
     void addLogEntries( int limit );
