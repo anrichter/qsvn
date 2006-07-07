@@ -3,7 +3,7 @@
 	<?define Version=$(env.QSVN_MAJOR_VERSION).$(env.QSVN_MINOR_VERSION).$(env.QSVN_MICRO_VERSION)?>
 
 	<!-- Defines pathes for include files. Adopt directories to your system. -->
-	<?define QtDir="c:\src\qt-win-opensource-src-4.1.3\"?>
+	<?define QtDir=$(env.QTDIR)?>
 	<?define SvnDir="c:\src\stage\"?>
 	<?define MergeModulesDir="c:\Programme\Gemeinsame Dateien\Merge Modules\"?>
 </Include>
