@@ -160,6 +160,8 @@ void Listener::contextNotify( const svn_wc_notify_t *action )
 
     contextNotify( action->path, action->action, action->kind, action->mime_type,
                    action->content_state, action->prop_state, action->revision );
+
+	qApp->processEvents();
 }
 
 bool Listener::contextCancel( )
