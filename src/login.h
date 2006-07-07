@@ -31,8 +31,6 @@
 
 class Login : public QDialog, public Ui::Login
 {
-    Q_OBJECT
-
 public:
     Login( QWidget *parent = 0 );
 
@@ -44,12 +42,6 @@ public:
     QString username();
     QString password();
     bool maySave();
-
-public slots:
-
-private:
-
-protected slots:
 };
 
 #endif

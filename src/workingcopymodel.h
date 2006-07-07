@@ -33,8 +33,6 @@ class WorkingCopyItem;
 
 class WorkingCopyModel : public QAbstractItemModel
 {
-    Q_OBJECT
-
 public:
     enum Roles { FullDirectory = Qt::UserRole + 1 };
 

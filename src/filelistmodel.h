@@ -37,7 +37,6 @@ class FileListItem;
 
 class FileListModel : public QAbstractItemModel
 {
-    Q_OBJECT
 
 public:
     enum SelectionFrom { WorkingCopy = 0x01,

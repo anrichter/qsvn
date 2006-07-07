@@ -37,7 +37,6 @@ This class handle the status text output
 
 class StatusText : public QObject
 {
-    Q_OBJECT
 public:
     static StatusText* instance();
 

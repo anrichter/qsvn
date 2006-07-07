@@ -43,7 +43,6 @@ this singelton holds the configuration for qsvn
 
 class Config : public QObject
 {
-    Q_OBJECT
 public:
     static Config* instance();
 
@@ -78,8 +77,6 @@ public:
 
     QString tempDir();
     void removeTempDir();
-
-public slots:
 
 private:
     Config( QObject *parent = 0 );
