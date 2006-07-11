@@ -381,6 +381,7 @@ bool SvnClient::cleanup( const QString &path )
     listener->setVerbose( true );
     try
     {
+        StatusText::instance()->outputMessage( tr( "cleanup %1" ).arg( path ) );
         svnClient->cleanup( path );
     }
     catch( svn::ClientException e )
@@ -388,6 +389,7 @@ bool SvnClient::cleanup( const QString &path )
         StatusText::instance()->outputMessage( e.msg() );
         return false;
     }
+    completedMessage( path );
     return true;
 }
 
