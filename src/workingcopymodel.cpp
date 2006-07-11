@@ -96,7 +96,6 @@ void WorkingCopyModel::updateWorkingCopy( WorkingCopyItem *item )
                 updateWorkingCopy( newItem );
             }
         }
-
     }
 }
 

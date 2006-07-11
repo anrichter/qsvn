@@ -24,8 +24,7 @@
 #include "checkout.h"
 #include "config.h"
 #include "configure.h"
-#include "filelistmodel.h"
-#include "filelistitem.h"
+#include "filelistproxy.h"
 #include "fileselector.h"
 #include "qsvn.h"
 #include "showlog.h"
@@ -62,8 +61,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     treeViewWorkingCopy->installEventFilter( this );
 
     //setup fileListModel
-    fileListModel = new FileListModel();
-    treeViewFileList->setModel( fileListModel );
+	fileListProxy = new FileListProxy( this );
+    treeViewFileList->setModel( fileListProxy );
     treeViewFileList->header()->setSortIndicatorShown( true );
     treeViewFileList->header()->setClickable( true );
     treeViewFileList->installEventFilter( this );
@@ -77,9 +76,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
 void QSvn::activateWorkingCopy( const QModelIndex &index )
 {
-    fileListModel->removeAllRows();
-    if ( index.isValid() )
-        fileListModel->loadFromDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
+	if ( index.isValid() )
+		fileListProxy->statusEntriesModel()->readDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
 }
 
 QSvn::~QSvn()
@@ -87,7 +85,7 @@ QSvn::~QSvn()
     Config::instance()->saveMainWindow( this );
     Config::instance()->saveHeaderView( this, treeViewFileList->header() );
     Config::instance()->removeTempDir();
-    delete( fileListModel );
+    delete( fileListProxy );
     delete( workingCopyModel );
     delete( contextMenuWorkingCopy );
     delete( contextMenuFileList );
@@ -201,10 +199,12 @@ QStringList QSvn::selectedFiles()
 {
     QSet<QString> fileSet;
     QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
+	svn::Status status;
 
     for ( int i = 0; i < indexes.count(); ++i )
     {
-        fileSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
+		status = fileListProxy->statusEntriesModel()->at( fileListProxy->mapToSource( indexes.at( i ) ).row() );
+		fileSet << status.path();
     }
 
     return fileSet.toList();
@@ -265,17 +265,13 @@ void QSvn::doUpdate()
 {
     QSet<QString> updateSet;
 
-    QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
-
     if ( isFileListSelected() )
     {
-        for ( int i = 0; i < indexes.count(); i++ )
-        {
-            updateSet << static_cast< FileListItem* >( indexes.at( i ).internalPointer() )->fullFileName();
-        }
+		updateSet = selectedFiles().toSet();
     }
     else
     {
+       QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
         for ( int i = 0; i < indexes.count(); i++ )
         {
             updateSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
@@ -294,7 +290,7 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
+	FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Commit" );
@@ -346,14 +342,18 @@ void QSvn::doShowLog()
 {
     QString path;
 
-    QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
-    if ( indexes.count() <= 0 )
-        return;
-
-    if ( isFileListSelected() )
-        path = static_cast< FileListItem* >( indexes.at( 0 ).internalPointer() )->fullFileName();
-    else
+	if ( isFileListSelected() )
+	{
+		QStringList select = selectedFiles();
+		if ( select.count() <= 0 )
+			return;
+		path = select.at( 0 );
+	} else {
+		QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+		if ( indexes.count() <= 0 )
+			return;
         path = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() )->fullPath();
+	}
 
     ShowLog::doShowLog( 0, path, svn::Revision::HEAD, svn::Revision::START );
 }

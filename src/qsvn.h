@@ -24,8 +24,9 @@
 //QSvn
 #include "ui_qsvn.h"
 #include "filelistmodel.h"
-#include "fileselector.h"
+
 class WorkingCopyModel;
+class FileListProxy;
 
 
 //QT
@@ -50,7 +51,7 @@ private:
     QMenu *contextMenuFileList;
 
     WorkingCopyModel *workingCopyModel;
-    FileListModel *fileListModel;
+	FileListProxy *fileListProxy;
 
     void setActionIcons();
     void connectActions();

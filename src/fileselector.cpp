@@ -61,7 +61,7 @@ void FileSelector::initModel()
     switch( m_selectionFrom )
     {
         case FileListModel::File:
-            m_fileListModel->loadFromFileListSelection( m_selectionModel );
+            //todo: m_fileListModel->loadFromFileListSelection( m_selectionModel );
             break;
         case FileListModel::WorkingCopy:
             m_fileListModel->loadFromWorkingCopySelection( m_selectionModel );
