@@ -61,7 +61,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     treeViewWorkingCopy->installEventFilter( this );
 
     //setup fileListModel
-	fileListProxy = new FileListProxy( this );
+    fileListProxy = new FileListProxy( this );
     treeViewFileList->setModel( fileListProxy );
     treeViewFileList->header()->setSortIndicatorShown( true );
     treeViewFileList->header()->setClickable( true );
@@ -76,8 +76,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
 void QSvn::activateWorkingCopy( const QModelIndex &index )
 {
-	if ( index.isValid() )
-		fileListProxy->statusEntriesModel()->readDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
+    if ( index.isValid() )
+        fileListProxy->statusEntriesModel()->readDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
 }
 
 QSvn::~QSvn()
@@ -199,12 +199,12 @@ QStringList QSvn::selectedFiles()
 {
     QSet<QString> fileSet;
     QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
-	svn::Status status;
+    svn::Status status;
 
     for ( int i = 0; i < indexes.count(); ++i )
     {
-		status = fileListProxy->statusEntriesModel()->at( fileListProxy->mapToSource( indexes.at( i ) ).row() );
-		fileSet << status.path();
+        status = fileListProxy->statusEntriesModel()->at( fileListProxy->mapToSource( indexes.at( i ) ).row() );
+        fileSet << status.path();
     }
 
     return fileSet.toList();
@@ -267,11 +267,11 @@ void QSvn::doUpdate()
 
     if ( isFileListSelected() )
     {
-		updateSet = selectedFiles().toSet();
+        updateSet = selectedFiles().toSet();
     }
     else
     {
-       QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+        QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
         for ( int i = 0; i < indexes.count(); i++ )
         {
             updateSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
@@ -290,7 +290,7 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-	FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
     if ( fileselector.exec() )
     {
         setActionStop( "Commit" );
@@ -342,18 +342,20 @@ void QSvn::doShowLog()
 {
     QString path;
 
-	if ( isFileListSelected() )
-	{
-		QStringList select = selectedFiles();
-		if ( select.count() <= 0 )
-			return;
-		path = select.at( 0 );
-	} else {
-		QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
-		if ( indexes.count() <= 0 )
-			return;
+    if ( isFileListSelected() )
+    {
+        QStringList select = selectedFiles();
+        if ( select.count() <= 0 )
+            return;
+        path = select.at( 0 );
+    }
+    else
+    {
+        QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+        if ( indexes.count() <= 0 )
+            return;
         path = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() )->fullPath();
-	}
+    }
 
     ShowLog::doShowLog( 0, path, svn::Revision::HEAD, svn::Revision::START );
 }
@@ -394,9 +396,9 @@ void QSvn::aboutQSvn()
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
     aboutMsg += QString( "<br/> %1.%2.%3" )
-            .arg( QSVN_MAJOR_VERSION )
-            .arg( QSVN_MINOR_VERSION )
-            .arg( QSVN_MICRO_VERSION );
+                .arg( QSVN_MAJOR_VERSION )
+                .arg( QSVN_MINOR_VERSION )
+                .arg( QSVN_MICRO_VERSION );
     aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
@@ -428,7 +430,7 @@ void QSvn::doResolved( )
     if ( isFileListSelected() )
     {
         if ( QMessageBox::question( this, tr( "Confirmation" ), QString( tr( "Are you sure that\n%1\nis resolved?" ).arg( selectedFiles().at( 0 ) ) ),
-             QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+                                    QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
 
             SvnClient::instance()->resolved( selectedFiles().at( 0 ) );
     }
