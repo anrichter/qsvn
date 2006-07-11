@@ -210,6 +210,17 @@ QStringList QSvn::selectedFiles()
     return fileSet.toList();
 }
 
+QStringList QSvn::selectedDirs()
+{
+    QSet<QString> fileSet;
+    QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+    for ( int i = 0; i < indexes.count(); i++ )
+    {
+        fileSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
+    }
+    return fileSet.toList();
+}
+
 QItemSelectionModel* QSvn::activeSelectionModel()
 {
     if ( isFileListSelected() )
@@ -263,24 +274,19 @@ void QSvn::doCheckoutWorkingCopy()
 
 void QSvn::doUpdate()
 {
-    QSet<QString> updateSet;
+    QStringList updateList;
 
     if ( isFileListSelected() )
     {
-        updateSet = selectedFiles().toSet();
+        updateList = selectedFiles();
     }
     else
     {
-        QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
-        for ( int i = 0; i < indexes.count(); i++ )
-        {
-            updateSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
-        }
+        updateList = selectedDirs();
     }
 
-    if ( updateSet.count() > 0 )
+    if ( updateList.count() > 0 )
     {
-        QStringList updateList = updateSet.toList();
         setActionStop( "Update" );
         SvnClient::instance()->update( updateList );
         setActionStop( "" );
@@ -340,41 +346,24 @@ void QSvn::doRevert()
 
 void QSvn::doShowLog()
 {
-    QString path;
+    QStringList logList;
 
     if ( isFileListSelected() )
-    {
-        QStringList select = selectedFiles();
-        if ( select.count() <= 0 )
-            return;
-        path = select.at( 0 );
-    }
+        logList = selectedFiles();
     else
-    {
-        QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
-        if ( indexes.count() <= 0 )
-            return;
-        path = static_cast< WorkingCopyItem* >( indexes.at( 0 ).internalPointer() )->fullPath();
-    }
+        logList = selectedDirs();
 
-    ShowLog::doShowLog( 0, path, svn::Revision::HEAD, svn::Revision::START );
+    ShowLog::doShowLog( 0, logList.at( 0 ), svn::Revision::HEAD, svn::Revision::START );
 }
 
 void QSvn::doCleanup()
 {
-    QSet<QString> cleanupSet;
-
-    QModelIndexList indexes = treeViewWorkingCopy->selectionModel()->selectedIndexes();
-
-    for ( int i = 0; i < indexes.count(); i++ )
-    {
-        cleanupSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
-    }
+    QStringList cleanupList = selectedDirs();
 
     setActionStop( "Cleanup" );
-    for ( int i = 0; i < cleanupSet.count(); i++ )
+    for ( int i = 0; i < cleanupList.count(); i++ )
     {
-        SvnClient::instance()->cleanup( cleanupSet.values().at( i ) );
+        SvnClient::instance()->cleanup( cleanupList.at( i ) );
     }
     setActionStop( "" );
 }
@@ -427,11 +416,15 @@ void QSvn::setActionStop( QString aText )
 
 void QSvn::doResolved( )
 {
-    if ( isFileListSelected() )
-    {
-        if ( QMessageBox::question( this, tr( "Confirmation" ), QString( tr( "Are you sure that\n%1\nis resolved?" ).arg( selectedFiles().at( 0 ) ) ),
-                                    QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+    QStringList resolveList = selectedFiles();
 
-            SvnClient::instance()->resolved( selectedFiles().at( 0 ) );
+    setActionStop( "Resolve" );
+    for ( int i = 0; i < resolveList.count(); i++ )
+    {
+        if ( QMessageBox::question( this, tr( "Confirmation" ), QString( tr( "Are you sure that\n%1\nis resolved?" ).arg( resolveList.at( i ) ) ),
+             QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+
+            SvnClient::instance()->resolved( resolveList.at( i ) );
     }
+    setActionStop( "Cleanup finished" );
 }

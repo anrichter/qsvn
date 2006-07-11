@@ -59,6 +59,7 @@ private:
 
     bool isFileListSelected();
     QStringList selectedFiles();
+    QStringList selectedDirs();
     QItemSelectionModel* activeSelectionModel();
     FileListModel::SelectionFrom activeSelectionFrom();
 
