@@ -115,7 +115,6 @@ HEADERS = addworkingcopy.h \
           svnqt/log_entry.hpp \
           svnqt/path.hpp \
           svnqt/pool.hpp \
-          svnqt/property.hpp \
           svnqt/repository.hpp \
           svnqt/repositorydata.hpp \
           svnqt/repositorylistener.hpp \
@@ -173,7 +172,6 @@ SOURCES = addworkingcopy.cpp \
           svnqt/log_entry.cpp \
           svnqt/path.cpp \
           svnqt/pool.cpp \
-          svnqt/property.cpp \
           svnqt/repository.cpp \
           svnqt/repositorydata.cpp \
           svnqt/repositorylistener.cpp \
