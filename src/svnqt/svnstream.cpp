@@ -154,10 +154,10 @@ void SvnStream::setError(const QString&aError)const
     m_Data->m_LastError = aError;
 }
 
+#if QT_VERSION < 0x040000
 void SvnStream::setError(int ioError)const
 {
    switch (ioError) {
-#if QT_VERSION < 0x040000
        case IO_Ok:
             setError("Operation was successfull.");
             break;
@@ -182,58 +182,12 @@ void SvnStream::setError(int ioError)const
         case IO_UnspecifiedError:
             setError("An unspecified error happened on close.");
             break;
-#else
-        case QFile::NoError:
-            setError("No error occurred.");
-            break;
-        case QFile::ReadError:
-            setError("An error occurred when reading from the file.");
-            break;
-        case QFile::WriteError:
-            setError("An error occurred when writing to the file.");
-            break;
-        case QFile::FatalError:
-            setError("A fatal error occurred.");
-            break;
-        case QFile::ResourceError:
-            setError("Resource Error.");
-            break;
-        case QFile::OpenError:
-            setError("The file could not be opened.");
-            break;
-        case QFile::AbortError:
-            setError("The operation was aborted.");
-            break;
-        case QFile::TimeOutError:
-            setError("A timeout occurred.");
-            break;
-        case QFile::UnspecifiedError:
-            setError("An unspecified error occurred.");
-            break;
-        case QFile::RemoveError:
-            setError("The file could not be removed.");
-            break;
-        case QFile::RenameError:
-            setError("The file could not be renamed.");
-            break;
-        case QFile::PositionError:
-            setError("The position in the file could not be changed.");
-            break;
-        case QFile::ResizeError:
-            setError("The file could not be resized.");
-            break;
-        case QFile::PermissionsError:
-            setError("The file could not be accessed.");
-            break;
-        case QFile::CopyError:
-            setError("The file could not be copied.");
-            break;
-#endif
         default:
             setError("Unknown error happend.");
             break;
     }
 }
+#endif
 
 class SvnByteStream_private {
 public:
