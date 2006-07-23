@@ -40,11 +40,9 @@
 #if QT_VERSION < 0x040000
 #define TOUTF8 local8Bit
 #define FROMUTF8 fromLocal8Bit
-#define TOLOWER lower
 #else
 #define TOUTF8 toLocal8Bit
 #define FROMUTF8 fromLocal8Bit
-#define TOLOWER toLower
 #endif
 
 #endif
