@@ -27,7 +27,7 @@
 #define _SVNCPP_CLIENT_IMPL_H_
 
 #include "client.hpp"
-#include "svncpp_defines.hpp"
+#include "svnqt_defines.hpp"
 
 // Ignore MSVC 6 compiler warning: debug symbol truncated
 #if defined (_MSC_VER) && _MSC_VER <= 1200
@@ -40,6 +40,10 @@
 #endif
 namespace svn
 {
+  namespace stream {
+    class SvnStream;
+  }
+
   /**
    * Subversion client API.
    */
@@ -179,7 +183,7 @@ namespace svn
      *                 Revision::HEAD will checkout the
      *                 latest revision.
      * @param recurse recursively update.
-     * @param ignore_external ignore externals (only when Subversion 1.2 or above)
+     * @param ignore_externals ignore externals (only when Subversion 1.2 or above)
      * @exception ClientException
      */
     virtual Revisions
@@ -193,10 +197,27 @@ namespace svn
      * @param path path of file or directory
      * @param peg_revision revision to base the URL
      * @param revision revision to retrieve
+     * @param peg_revision Revision to look at
      * @return contents of the file
      */
     virtual QByteArray
     cat (const Path & path,
+          const Revision & revision,
+          const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException);
+
+    /**
+     * Retrieves the contents for a specific @a revision of
+     * a @a path at @a peg_revision
+     *
+     * @param path path of file or directory
+     * @param target new (local) name
+     * @param peg_revision revision to base the URL
+     * @param revision revision to retrieve
+     * @param peg_revision Revision to look at
+     */
+    virtual void
+    get (const Path & path,
+          const QString  & target,
           const Revision & revision,
           const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException);
 
@@ -258,7 +279,7 @@ namespace svn
      * the callback asks for a logmessage.
      *
      * @param path
-     * @param message log message. This parameter will be ignored!
+     * @param message log message. if it is QString::null asks when working on repository
      * @exception ClientException
      */
     virtual void
@@ -271,7 +292,7 @@ namespace svn
      * the callback asks for a logmessage.
      *
      * @param targets encoded pathes to create
-     * @param message log message. This parameter will be ignored!
+     * @param message log message. if it is QString::null asks when working on repository
      * @exception ClientException
      */
     virtual void
@@ -435,10 +456,11 @@ namespace svn
      * relatedness.
      * @param noDiffDeleted if true, no diff output will be generated
      * on deleted files.
+     * @param ignore_contenttype if true generate diff even the items are marked as binaries
      * @return delta between the files
      * @exception ClientException
      */
-    virtual QString
+    virtual QByteArray
     diff (const Path & tmpPath, const Path & path,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
@@ -454,18 +476,19 @@ namespace svn
      * @param tmpPath prefix for a temporary directory needed by diff.
      * Filenames will have ".tmp" and similar added to this prefix in
      * order to ensure uniqueness.
-     * @param path path of the file.
-     * @param revision1 one of the revisions to check.
-     * @param revision2 the other revision.
+     * @param path1 first file or folder to diff.
+     * @param path2 second file or folder to diff.
+     * @param revision1 one of the revisions to check (path1).
+     * @param revision2 the other revision (path2).
      * @param recurse whether the operation should be done recursively.
      * @param ignoreAncestry whether the files will be checked for
      * relatedness.
-     * @param noDiffDeleted if true, no diff output will be generated
-     * on deleted files.
+     * @param noDiffDeleted if true, no diff output will be generated on deleted files.
+     * @param ignore_contenttype if true generate diff even the items are marked as binaries
      * @return delta between the files
      * @exception ClientException
      */
-    virtual QString
+    virtual QByteArray
     diff (const Path & tmpPath, const Path & path1,const Path & path2,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
@@ -497,7 +520,6 @@ namespace svn
      * @param revision
      * @param peg most case should set to @a revision
      * @param recurse
-     * @param skip_check if true skip validity checks
      * @return PropertiesList
      */
     virtual PathPropertiesMapList
@@ -533,6 +555,7 @@ namespace svn
      * @param propName
      * @param propValue
      * @param recurse
+     * @param skip_check if true skip validity checks
      * @return PropertiesList
      */
     virtual void
@@ -674,6 +697,11 @@ namespace svn
           const Revision& revision,
           const Revision& peg,
           bool recurse) throw (ClientException);
+
+    svn_error_t * internal_cat(const Path & path,
+                const Revision & revision,
+                const Revision & peg_revision,
+                svn::stream::SvnStream&);
   };
 
 }

@@ -34,7 +34,7 @@
 #include "targets.hpp"
 #include "path.hpp"
 #include "pool.hpp"
-#include "svncpp_defines.hpp"
+#include "svnqt_defines.hpp"
 
 #include <qstringlist.h>
 
@@ -88,7 +88,7 @@ namespace svn
   Targets::Targets (const char* target)
   {
     if (target) {
-      m_targets.push_back(QString::fromUtf8(target));
+      m_targets.push_back(QString::FROMUTF8(target));
     }
   }
 

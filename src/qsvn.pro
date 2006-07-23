@@ -116,8 +116,14 @@ HEADERS = addworkingcopy.h \
           svnqt/path.hpp \
           svnqt/pool.hpp \
           svnqt/property.hpp \
+          svnqt/repository.hpp \
+          svnqt/repositorydata.hpp \
+          svnqt/repositorylistener.hpp \
           svnqt/revision.hpp \
           svnqt/status.hpp \
+          svnqt/svnfilestream.hpp \
+          svnqt/svnqt_defines.hpp \
+          svnqt/svnstream.hpp \
           svnqt/targets.hpp \
           svnqt/url.hpp \
           svnqt/version_check.hpp \
@@ -168,8 +174,13 @@ SOURCES = addworkingcopy.cpp \
           svnqt/path.cpp \
           svnqt/pool.cpp \
           svnqt/property.cpp \
+          svnqt/repository.cpp \
+          svnqt/repositorydata.cpp \
+          svnqt/repositorylistener.cpp \
           svnqt/revision.cpp \
           svnqt/status.cpp \
+          svnqt/svnfilestream.cpp \
+          svnqt/svnstream.cpp \
           svnqt/targets.cpp \
           svnqt/url.cpp \
           svnqt/version_check.cpp \

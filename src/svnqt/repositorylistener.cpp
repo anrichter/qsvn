@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2005 by Rajko Albrecht                                  *
+ *   Copyright (C) 2006 by Rajko Albrecht                                  *
  *   ral@alwins-world.de                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,47 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
  ***************************************************************************/
-// svncpp
-#include "client_impl.hpp"
+#include "repositorylistener.hpp"
 
-// subversion api
-#include "svn_client.h"
+namespace svn {
 
-#include "exception.hpp"
-#include "pool.hpp"
-#include "targets.hpp"
-#include "svnqt_defines.hpp"
+namespace repository {
 
-namespace svn
+RepositoryListener::RepositoryListener()
 {
+}
 
-  void
-  Client_impl::lock (const Targets & targets,
-    const QString& message,
-    bool steal_lock)  throw (ClientException)
-  {
-    Pool pool;
-    svn_error_t * error =
-      svn_client_lock(const_cast<apr_array_header_t*> (targets.array (pool)),
-                      message.TOUTF8(),
-                      steal_lock,
-                      *m_context,
-                      pool);
-    if(error != NULL)
-       throw ClientException (error);
-  }
 
-  void
-  Client_impl::unlock (const Targets&targets,
-            bool break_lock)  throw (ClientException)
-  {
-    Pool pool;
-    svn_error_t * error =
-      svn_client_unlock(const_cast<apr_array_header_t*> (targets.array (pool)),
-                        break_lock,
-                        *m_context,
-                        pool);
-    if(error != NULL)
-       throw ClientException (error);
-  }
+RepositoryListener::~RepositoryListener()
+{
+}
+
+}
+
 }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2005 by Rajko Albrecht                                  *
+ *   Copyright (C) 2006 by Rajko Albrecht                                  *
  *   ral@alwins-world.de                                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,29 +17,56 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
  ***************************************************************************/
+#ifndef SVNREPOSITORYDATA_H
+#define SVNREPOSITORYDATA_H
 
-#ifndef _SVNCPP_DEFINES_H
-#define _SVNCPP_DEFINES_H
+#include "pool.hpp"
+#include "revision.hpp"
+#include "apr.hpp"
 
-// config
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include <qstring.h>
 
-#ifdef __KDE_HAVE_GCC_VISIBILITY_DISABLED_MACRO
-#define SVNQT_EXPORT __attribute__ ((visibility("visible")))
-#define SVNQT_NOEXPORT __attribute__ ((visibility("hidden")))
-#else
-#define SVNQT_EXPORT
-#define SVNQT_NOEXPORT
-#endif
-#endif
+#include <svn_repos.h>
+#include <svn_error.h>
 
-// qt
-#include <qglobal.h>
+namespace svn {
 
-#if QT_VERSION < 0x040000
-#define TOUTF8 utf8
-#else
-#define TOUTF8 toUtf8
+namespace repository {
+
+class Repository;
+class RepositoryListener;
+/**
+	@author Rajko Albrecht <ral@alwins-world.de>
+*/
+class RepositoryData{
+    friend class Repository;
+
+public:
+    RepositoryData(RepositoryListener*);
+
+    virtual ~RepositoryData();
+    void Close();
+    svn_error_t * Open(const QString&);
+    svn_error_t * CreateOpen(const QString&path, const QString&fstype, bool _bdbnosync = false,
+        bool _bdbautologremove = true, bool nosvn1diff=false);
+
+    void reposFsWarning(const QString&msg);
+    svn_error_t* dump(const QString&output,const svn::Revision&start,const svn::Revision&end, bool incremental, bool use_deltas);
+    svn_error_t* loaddump(const QString&dump,svn_repos_load_uuid uuida, const QString&parentFolder, bool usePre, bool usePost);
+    static svn_error_t* hotcopy(const QString&src,const QString&dest,bool cleanlogs);
+
+protected:
+    Pool m_Pool;
+    svn_repos_t*m_Repository;
+    RepositoryListener*m_Listener;
+
+private:
+    static void warning_func(void *baton, svn_error_t *err);
+    static svn_error_t*cancel_func(void*baton);
+};
+
+}
+
+}
+
 #endif

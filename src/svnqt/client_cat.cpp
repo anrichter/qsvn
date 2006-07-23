@@ -35,7 +35,9 @@
 #include "exception.hpp"
 #include "pool.hpp"
 #include "status.hpp"
-#include "svncpp_defines.hpp"
+#include "svnqt_defines.hpp"
+#include "svnstream.hpp"
+#include "svnfilestream.hpp"
 
 namespace svn
 {
@@ -44,30 +46,40 @@ namespace svn
                 const Revision & revision,
                 const Revision & peg_revision) throw (ClientException)
   {
+    svn::stream::SvnByteStream buffer(*m_context);
+    svn_error_t * error = internal_cat(path,revision,peg_revision,buffer);
+    if (error != 0)
+      throw ClientException (error);
+
+    return buffer.content();
+  }
+
+  void
+  Client_impl::get (const Path & path,
+        const QString  & target,
+        const Revision & revision,
+        const Revision & peg_revision) throw (ClientException)
+  {
+    svn::stream::SvnFileOStream buffer(target,*m_context);
+    svn_error_t * error = internal_cat(path,revision,peg_revision,buffer);
+    if (error != 0)
+      throw ClientException (error);
+  }
+
+  svn_error_t * Client_impl::internal_cat(const Path & path,
+            const Revision & revision,
+            const Revision & peg_revision,
+            svn::stream::SvnStream&buffer)
+  {
     Pool pool;
-
-    svn_stringbuf_t * stringbuf = svn_stringbuf_create ("", pool);
-    svn_stream_t * stream = svn_stream_from_stringbuf (stringbuf, pool);
-
-    svn_error_t * error;
-    error = svn_client_cat2 (stream,
+    return svn_client_cat2 (buffer,
                              path.path().TOUTF8(),
                              peg_revision.revision (),
                              revision.revision (),
                              *m_context,
                              pool);
-
-    if (error != 0)
-      throw ClientException (error);
-#if QT_VERSION < 0x040000
-    QByteArray res;
-    /// @todo check if realy dup or just assign!
-    res.duplicate(stringbuf->data,stringbuf->len);
-#else
-    QByteArray res( stringbuf->data, stringbuf->len );
-#endif
-    return res;
   }
+
 }
 
 /* -----------------------------------------------------------------

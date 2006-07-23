@@ -17,47 +17,34 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
  ***************************************************************************/
-// svncpp
-#include "client_impl.hpp"
 
-// subversion api
-#include "svn_client.h"
+#ifndef _SVNQT_DEFINES_H
+#define _SVNQT_DEFINES_H
 
-#include "exception.hpp"
-#include "pool.hpp"
-#include "targets.hpp"
-#include "svnqt_defines.hpp"
+// config
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-namespace svn
-{
+#ifdef __KDE_HAVE_GCC_VISIBILITY_DISABLED_MACRO
+#define SVNQT_EXPORT __attribute__ ((visibility("visible")))
+#define SVNQT_NOEXPORT __attribute__ ((visibility("hidden")))
+#else
+#define SVNQT_EXPORT
+#define SVNQT_NOEXPORT
+#endif
 
-  void
-  Client_impl::lock (const Targets & targets,
-    const QString& message,
-    bool steal_lock)  throw (ClientException)
-  {
-    Pool pool;
-    svn_error_t * error =
-      svn_client_lock(const_cast<apr_array_header_t*> (targets.array (pool)),
-                      message.TOUTF8(),
-                      steal_lock,
-                      *m_context,
-                      pool);
-    if(error != NULL)
-       throw ClientException (error);
-  }
+// qt
+#include <qglobal.h>
 
-  void
-  Client_impl::unlock (const Targets&targets,
-            bool break_lock)  throw (ClientException)
-  {
-    Pool pool;
-    svn_error_t * error =
-      svn_client_unlock(const_cast<apr_array_header_t*> (targets.array (pool)),
-                        break_lock,
-                        *m_context,
-                        pool);
-    if(error != NULL)
-       throw ClientException (error);
-  }
-}
+#if QT_VERSION < 0x040000
+#define TOUTF8 local8Bit
+#define FROMUTF8 fromLocal8Bit
+#define TOLOWER lower
+#else
+#define TOUTF8 toLocal8Bit
+#define FROMUTF8 fromLocal8Bit
+#define TOLOWER toLower
+#endif
+
+#endif

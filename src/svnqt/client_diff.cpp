@@ -35,7 +35,9 @@
 #include "exception.hpp"
 #include "pool.hpp"
 #include "status.hpp"
-#include "svncpp_defines.hpp"
+#include "svnqt_defines.hpp"
+
+#include <qfile.h>
 
 namespace svn
 {
@@ -78,7 +80,7 @@ namespace svn
       svn_error_clear (svn_io_remove_file (errfileName, pool));
   }
 
-  QString
+  QByteArray
   Client_impl::diff (const Path & tmpPath, const Path & path,
                 const Revision & revision1, const Revision & revision2,
                 const bool recurse, const bool ignoreAncestry,
@@ -87,7 +89,7 @@ namespace svn
     return diff(tmpPath,path,path,revision1,revision2,recurse,ignoreAncestry,noDiffDeleted,ignore_contenttype);
   }
 
-  QString
+  QByteArray
   Client_impl::diff (const Path & tmpPath, const Path & path1,const Path&path2,
                 const Revision & revision1, const Revision & revision2,
                 const bool recurse, const bool ignoreAncestry,
@@ -102,7 +104,6 @@ namespace svn
     apr_file_t * errfile = 0L;
     const char * errfileName = 0L;
     apr_array_header_t * options;
-    svn_stringbuf_t * stringbuf;
     bool working_copy_present = false;
     bool url_is_present = false;
     Revision r1,r2;
@@ -167,7 +168,6 @@ namespace svn
       throw ClientException (error);
     }
 
-    // then we reopen outfile for reading
     status = apr_file_close (outfile);
     if (status)
     {
@@ -175,34 +175,22 @@ namespace svn
       fail (pool, status, "failed to close '%s'", outfileName);
     }
 
-    status = apr_file_open (&outfile, outfileName, APR_READ, APR_OS_DEFAULT, pool);
-    if (status)
-    {
-      diffCleanup (outfile, outfileName, errfile, errfileName, pool);
-      fail (pool, status, "failed to open '%s'", outfileName);
+    QFile fi(outfileName);
+#if QT_VERSION < 0x040000
+    if (!fi.open(IO_ReadOnly|IO_Raw)) {
+#else
+    if (!fi.open(QIODevice::ReadOnly)) {
+#endif
+        diffCleanup (outfile, outfileName, errfile, errfileName, pool);
+        fail(pool,0,fi.errorString().TOUTF8() + "'%s'",outfileName);
     }
 
-    // now we can read the diff output from outfile and return that
-    error = svn_stringbuf_from_aprfile (&stringbuf, outfile, pool);
-
-    if (error != NULL)
-    {
-      diffCleanup (outfile, outfileName, errfile, errfileName, pool);
-      throw ClientException (error);
-    }
+    QByteArray res = fi.readAll();
+    fi.close();
 
     diffCleanup (outfile, outfileName, errfile, errfileName, pool);
-#if QT_VERSION < 0x040000
-    QCString res;
-    res.duplicate(stringbuf->data,stringbuf->len);
-#else
-    QByteArray res( stringbuf->data, stringbuf->len );
-#endif
-    res.resize(stringbuf->len+1);
-    QString nstring = QString::fromUtf8(res);
-    return nstring;
+    return res;
   }
-
 }
 
 /* -----------------------------------------------------------------

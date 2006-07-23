@@ -36,7 +36,7 @@
 #pragma warning (disable: 4290)
 #endif
 
-#include "svncpp_defines.hpp"
+#include "svnqt_defines.hpp"
 
 // qt
 #include <qglobal.h>
@@ -59,7 +59,6 @@
 #include "log_entry.hpp"
 #include "info_entry.hpp"
 #include "annotate_line.hpp"
-#include "status.hpp"
 
 
 namespace svn
@@ -246,7 +245,7 @@ namespace svn
      *                 Revision::HEAD will checkout the
      *                 latest revision.
      * @param recurse recursively update.
-     * @param ignore_external ignore externals (only when Subversion 1.2 or above)
+     * @param ignore_externals ignore externals (only when Subversion 1.2 or above)
      * @exception ClientException
      */
     virtual Revisions
@@ -264,6 +263,21 @@ namespace svn
      */
     virtual QByteArray
     cat (const Path & path,
+          const Revision & revision,
+          const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException)=0;
+    /**
+     * Retrieves the contents for a specific @a revision of
+     * a @a path at @a peg_revision
+     *
+     * @param path path of file or directory
+     * @param target new (local) name
+     * @param peg_revision revision to base the URL
+     * @param revision revision to retrieve
+     * @param peg_revision Revision to look at
+     */
+    virtual void
+    get (const Path & path,
+          const QString  & target,
           const Revision & revision,
           const Revision & peg_revision=svn_opt_revision_unspecified) throw (ClientException)=0;
 
@@ -325,7 +339,7 @@ namespace svn
      * the callback asks for a logmessage.
      *
      * @param path
-     * @param message log message. This parameter will be ignored!
+     * @param message log message. if it is QString::null asks when working on repository
      * @exception ClientException
      */
     virtual void
@@ -338,7 +352,7 @@ namespace svn
      * the callback asks for a logmessage.
      *
      * @param targets encoded pathes to create
-     * @param message log message. This parameter will be ignored!
+     * @param message log message. if it is QString::null asks when working on repository
      * @exception ClientException
      */
     virtual void
@@ -503,12 +517,12 @@ namespace svn
      * @param recurse whether the operation should be done recursively.
      * @param ignoreAncestry whether the files will be checked for
      * relatedness.
-     * @param noDiffDeleted if true, no diff output will be generated
-     * on deleted files.
+     * @param noDiffDeleted if true, no diff output will be generated on deleted files.
+     * @param ignore_contenttype if true generate diff even the items are marked as binaries
      * @return delta between the files
      * @exception ClientException
      */
-    virtual QString
+    virtual QByteArray
     diff (const Path & tmpPath, const Path & path,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
@@ -524,18 +538,19 @@ namespace svn
      * @param tmpPath prefix for a temporary directory needed by diff.
      * Filenames will have ".tmp" and similar added to this prefix in
      * order to ensure uniqueness.
-     * @param path path of the file.
-     * @param revision1 one of the revisions to check.
-     * @param revision2 the other revision.
+     * @param path1 first file or folder to diff.
+     * @param path2 second file or folder to diff.
+     * @param revision1 one of the revisions to check (path1).
+     * @param revision2 the other revision (path2).
      * @param recurse whether the operation should be done recursively.
      * @param ignoreAncestry whether the files will be checked for
      * relatedness.
-     * @param noDiffDeleted if true, no diff output will be generated
-     * on deleted files.
+     * @param noDiffDeleted if true, no diff output will be generated on deleted files.
+     * @param ignore_contenttype if true generate diff even the items are marked as binaries
      * @return delta between the files
      * @exception ClientException
      */
-    virtual QString
+    virtual QByteArray
     diff (const Path & tmpPath, const Path & path1,const Path & path2,
           const Revision & revision1, const Revision & revision2,
           const bool recurse, const bool ignoreAncestry,
@@ -603,8 +618,8 @@ namespace svn
      * @param revision
      * @param propName
      * @param propValue
-     * @param skip_check if true skip validity checks
      * @param recurse
+     * @param skip_checks if true skip validity checks
      * @return PropertiesList
      */
     virtual void
