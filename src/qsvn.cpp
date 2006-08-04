@@ -242,6 +242,7 @@ FileListModel::SelectionFrom QSvn::activeSelectionFrom( )
 void QSvn::doAddWorkingCopy()
 {
     AddWorkingCopy::addWorkingCopy( this, workingCopyModel );
+	workingCopyModel->sort( 0, Qt::AscendingOrder );
 }
 
 void QSvn::doRemoveWorkingCopy()
@@ -253,7 +254,10 @@ void QSvn::doRemoveWorkingCopy()
     {
         if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Should i really remove this Working Copy?" ),
                                     QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+		{
             workingCopyModel->removeRow( indexes.at( i ).row() );
+			workingCopyModel->sort( 0, Qt::AscendingOrder );
+		}
     }
     activateWorkingCopy( QModelIndex() );
 }
