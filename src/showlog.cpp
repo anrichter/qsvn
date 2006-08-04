@@ -50,8 +50,10 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
     m_logEntriesModel = new LogEntriesModel( this );
     viewLogEntries->setModel( m_logEntriesModel );
     Config::instance()->restoreHeaderView( this, viewLogEntries->header() );
-    connect( viewLogEntries, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( selectLogEntry( const QModelIndex & ) ) );
-
+	connect( viewLogEntries->selectionModel(), 
+		     SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
+			 this, SLOT( selectionChanged( const QItemSelection &, const QItemSelection & ) ) );
+	
     m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
     viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
     viewLogChangePathEntries->installEventFilter( this );
@@ -132,17 +134,18 @@ bool ShowLog::eventFilter( QObject * watched, QEvent * event )
     return QDialog::eventFilter( watched, event );
 }
 
-void ShowLog::selectLogEntry( const QModelIndex & index )
+void ShowLog::selectionChanged( const QItemSelection &selected, const QItemSelection &deselected )
 {
-    if ( index.isValid() )
-    {
+	QModelIndex index = selected.indexes().at( 0 );
+	if ( index.isValid() )
+	{
         Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
         editLogMessage->setPlainText( m_logEntriesModel->getLogEntry( index ).message );
         delete m_logChangePathEntriesModel;
         m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, m_logEntriesModel->getLogEntry( index ).changedPaths );
         viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
         Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
-    }
+	}
 }
 
 void ShowLog::cbStrictNodeHistoryStateChanged()

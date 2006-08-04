@@ -61,8 +61,8 @@ private:
     void addLogEntries( int limit );
 
 private slots:
-    void selectLogEntry( const QModelIndex &index );
-    void cbStrictNodeHistoryStateChanged();
+	void selectionChanged( const QItemSelection &selected, const QItemSelection &deselected );
+	void cbStrictNodeHistoryStateChanged();
 
     void doDiff();
 };
