@@ -113,3 +113,5 @@ void Checkout::buttonOkClickedSlot()
     Config::instance()->saveStringList( "checkoutURL", urlList );
     this->accept();
 }
+
+#include "checkout.moc"

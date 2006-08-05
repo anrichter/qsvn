@@ -65,3 +65,5 @@ void AddWorkingCopy::selectDirectorySlot()
     if ( !directory.isEmpty() )
         editDirectory->setText( QDir::convertSeparators( directory ) );
 }
+
+#include "addworkingcopy.moc"

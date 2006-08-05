@@ -432,3 +432,5 @@ void QSvn::doResolved( )
     }
     setActionStop( "Cleanup finished" );
 }
+
+#include "qsvn.moc"

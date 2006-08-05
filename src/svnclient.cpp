@@ -422,3 +422,5 @@ bool SvnClient::resolved( const QString & path )
     }
     return true;
 }
+
+#include "svnclient.moc"

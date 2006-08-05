@@ -179,3 +179,5 @@ void ShowLog::doDiff( )
     SvnClient::instance()->diff( QString( svn::Wc::getRepos( m_path ) + logChangePathEntry.path ), 
                                  svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
 }
+
+#include "showlog.moc"

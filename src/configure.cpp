@@ -64,3 +64,5 @@ void Configure::buttonSelectDiffViewerClickSlot()
     if ( !diffviewer.isNull() )
         editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
 }
+
+#include "configure.moc"

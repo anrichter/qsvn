@@ -244,3 +244,4 @@ void FileSelector::doDiff( )
     diff( treeViewFiles->selectionModel()->currentIndex() );
 }
 
+#include "fileselector.moc"
