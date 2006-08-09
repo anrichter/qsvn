@@ -98,8 +98,10 @@ namespace svn
   typedef QList<PathPropertiesMapEntry> PathPropertiesMapList;
 #endif
 
-  /**
-   * Subversion client API.
+  /** Subversion client API.
+   * 
+   * Never use an object of this as global static! This will make problems with subversion
+   * initialize.
    */
   SVNQT_EXPORT class Client
   {
