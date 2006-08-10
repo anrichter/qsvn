@@ -7,7 +7,7 @@ IF (UNIX)
   SET(QT_MOC_EXECUTABLE moc-qt4)
   SET(QT_UIC_EXECUTABLE uic-qt4)
   SET(CMAKE_INSTALL_PREFIX /usr)
-ENDI (UNIX)
+ENDIF (UNIX)
 
 include(${CMAKE_ROOT}/Modules/FindQt4.cmake)
 include(${CMAKE_ROOT}/Modules/UseQt4.cmake)
