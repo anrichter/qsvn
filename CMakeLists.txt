@@ -2,10 +2,12 @@ PROJECT(QSVN)
 
 cmake_minimum_required(VERSION 2.4.0)
 
-SET(QT_QMAKE_EXECUTABLE qmake-qt4)
-SET(QT_MOC_EXECUTABLE moc-qt4)
-SET(QT_UIC_EXECUTABLE uic-qt4)
-SET(CMAKE_INSTALL_PREFIX /usr)
+IF (UNIX)
+  SET(QT_QMAKE_EXECUTABLE qmake-qt4)
+  SET(QT_MOC_EXECUTABLE moc-qt4)
+  SET(QT_UIC_EXECUTABLE uic-qt4)
+  SET(CMAKE_INSTALL_PREFIX /usr)
+ENDI (UNIX)
 
 include(${CMAKE_ROOT}/Modules/FindQt4.cmake)
 include(${CMAKE_ROOT}/Modules/UseQt4.cmake)

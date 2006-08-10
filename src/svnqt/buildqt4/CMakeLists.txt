@@ -44,13 +44,13 @@ SET(ALL_LINKFLAGS ${APR_EXTRA_LIBFLAGS})
 SET(ALL_LINKFLAGS "${ALL_LINKFLAGS} ${APU_EXTRA_LIBFLAGS}")
 SET_TARGET_PROPERTIES(svnqt-qt4 PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS} ${LINK_NO_UNDEFINED}")
 target_link_libraries(svnqt-qt4 ${QT_LIBRARIES} ${SUBVESION_ALL_LIBS})
+IF (WIN32)
+  target_link_libraries( svnqt-qt4 wsock32.lib )
+ENDIF (WIN32)
 
 # Just a small linking test
 ADD_EXECUTABLE(testlink ../testmain.cpp)
 target_link_libraries(testlink svnqt-qt4)
-IF (WIN32)
-  target_link_libraries( svnqt-qt4 wsock32.lib )
-ENDIF (WIN32)
 
 # install rules
 INSTALL(TARGETS svnqt-qt4
