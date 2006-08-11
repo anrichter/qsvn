@@ -12,7 +12,12 @@ QT4_WRAP_UI(ui_h ${uifiles})
 QT4_AUTOMOC(${srces})
 QT4_ADD_RESOURCES(resfiles qsvn.qrc)
 
-ADD_EXECUTABLE(qsvn ${srces} ${ui_h} ${mocfiles} ${resfiles})
+ADD_EXECUTABLE(qsvn WIN32 ${srces} ${ui_h} ${mocfiles} ${resfiles})
 
 SET_TARGET_PROPERTIES(qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}")
 target_link_libraries(qsvn svnqt-qt4 ${QT_LIBRARIES})
+
+IF (WIN32)
+  TARGET_LINK_LIBRARIES(qsvn ${QT_QTMAIN_LIBRARY})
+  TARGET_LINK_LIBRARIES(qsvn qtmain.lib)
+ENDIF (WIN32)
