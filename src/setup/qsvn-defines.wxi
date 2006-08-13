@@ -4,6 +4,6 @@
 
 	<!-- Defines pathes for include files. Adopt directories to your system. -->
 	<?define QtDir=$(env.QTDIR)?>
-	<?define SvnDir="c:\src\stage\"?>
+	<?define SvnDir="$(env.PROGRAMFILES)\Subversion\"?>
 	<?define MergeModulesDir="c:\Programme\Gemeinsame Dateien\Merge Modules\"?>
 </Include>
