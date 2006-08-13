@@ -76,3 +76,5 @@ IF (WIN32)
   TARGET_LINK_LIBRARIES( qsvn ${QT_QTMAIN_LIBRARY} )
   TARGET_LINK_LIBRARIES( qsvn qtmain.lib ) #link qtmain.lib hard until cmake doesn't fill QT_QTMAIN_LIBRARY
 ENDIF (WIN32)
+
+INSTALL( TARGETS qsvn DESTINATION bin )
