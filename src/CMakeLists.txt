@@ -1,23 +1,73 @@
-SUBDIRS(svnqt/buildqt4)
+ADD_SUBDIRECTORY( svnqt/buildqt4 )
 
-FILE(GLOB uifiles forms/*.ui)
-FILE(GLOB srces *.cpp)
-FILE(GLOB headrs *.h)
+SET( qsvn_headers
+         addworkingcopy.h
+         checkout.h
+         config.h
+         configure.h
+         filelistitem.h
+         filelistmodel.h
+         filelistproxy.h
+         fileselector.h
+         listener.h
+         logchangepathentriesmodel.h
+         logentriesmodel.h
+         login.h
+         qsvn.h
+         showlog.h
+         sslservertrust.h
+         statusentriesmodel.h
+         statustext.h
+         svnclient.h
+         version.h
+         workingcopyitem.h
+         workingcopymodel.h
+)
 
-include(${CMAKE_ROOT}/Modules/FindQt4.cmake)
-include(${CMAKE_ROOT}/Modules/UseQt4.cmake)
-include(./svnqt/cmakemodules/FindSubversion.cmake)
+SET( qsvn_sources 
+         addworkingcopy.cpp
+         checkout.cpp
+         config.cpp
+         configure.cpp
+         filelistitem.cpp
+         filelistmodel.cpp
+         filelistproxy.cpp
+         fileselector.cpp
+         listener.cpp
+         logchangepathentriesmodel.cpp
+         logentriesmodel.cpp
+         login.cpp
+         main.cpp
+         qsvn.cpp
+         showlog.cpp
+         sslservertrust.cpp
+         statusentriesmodel.cpp
+         statustext.cpp
+         svnclient.cpp
+         workingcopyitem.cpp
+         workingcopymodel.cpp
+)
 
-QT4_WRAP_UI(ui_h ${uifiles})
-QT4_AUTOMOC(${srces})
-QT4_ADD_RESOURCES(resfiles qsvn.qrc)
+SET( qsvn_forms 
+         forms/addworkingcopy.ui
+         forms/checkout.ui
+         forms/configure.ui
+         forms/fileselector.ui
+         forms/login.ui
+         forms/qsvn.ui
+         forms/showlog.ui
+         forms/sslservertrust.ui
+)
 
-ADD_EXECUTABLE(qsvn WIN32 ${srces} ${ui_h} ${mocfiles} ${resfiles})
+QT4_WRAP_UI( ui_headers ${qsvn_forms} )  #todo: output ui_ files into subdir
+QT4_AUTOMOC( ${qsvn_sources} )           #todo: output moc files into subdir
+QT4_ADD_RESOURCES( resfiles qsvn.qrc )
 
-SET_TARGET_PROPERTIES(qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}")
-target_link_libraries(qsvn svnqt-qt4 ${QT_LIBRARIES})
+ADD_EXECUTABLE( qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} )
+SET_TARGET_PROPERTIES( qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}" )
+TARGET_LINK_LIBRARIES( qsvn svnqt-qt4 ${QT_LIBRARIES} )
 
 IF (WIN32)
-  TARGET_LINK_LIBRARIES(qsvn ${QT_QTMAIN_LIBRARY})
-  TARGET_LINK_LIBRARIES(qsvn qtmain.lib)
+  TARGET_LINK_LIBRARIES( qsvn ${QT_QTMAIN_LIBRARY} )
+  TARGET_LINK_LIBRARIES( qsvn qtmain.lib ) #link qtmain.lib hard until cmake doesn't fill QT_QTMAIN_LIBRARY
 ENDIF (WIN32)
