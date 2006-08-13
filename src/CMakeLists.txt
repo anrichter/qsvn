@@ -63,7 +63,12 @@ QT4_WRAP_UI( ui_headers ${qsvn_forms} )  #todo: output ui_ files into subdir
 QT4_AUTOMOC( ${qsvn_sources} )           #todo: output moc files into subdir
 QT4_ADD_RESOURCES( resfiles qsvn.qrc )
 
-ADD_EXECUTABLE( qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} )
+IF ( WIN32 )
+    ADD_EXECUTABLE( qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc )
+ELSE ( WIN32 )
+    ADD_EXECUTABLE( qsvn ${qsvn_sources} ${ui_headers} ${resfiles} )
+ENDIF( WIN32 )
+
 SET_TARGET_PROPERTIES( qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}" )
 TARGET_LINK_LIBRARIES( qsvn svnqt-qt4 ${QT_LIBRARIES} )
 
