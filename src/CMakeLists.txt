@@ -73,8 +73,11 @@ SET_TARGET_PROPERTIES( qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}" )
 TARGET_LINK_LIBRARIES( qsvn svnqt-qt4 ${QT_LIBRARIES} )
 
 IF (WIN32)
-  TARGET_LINK_LIBRARIES( qsvn ${QT_QTMAIN_LIBRARY} )
-  TARGET_LINK_LIBRARIES( qsvn qtmain.lib ) #link qtmain.lib hard until cmake doesn't fill QT_QTMAIN_LIBRARY
+    TARGET_LINK_LIBRARIES( qsvn ${QT_QTMAIN_LIBRARY} )
+    TARGET_LINK_LIBRARIES( qsvn qtmain.lib ) #link qtmain.lib hard until cmake doesn't fill QT_QTMAIN_LIBRARY
 ENDIF (WIN32)
 
-INSTALL( TARGETS qsvn DESTINATION bin )
+
+IF ( UNIX )
+    INSTALL( TARGETS qsvn DESTINATION bin )
+ENDIF ( UNIX )
