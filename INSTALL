@@ -1,66 +1,75 @@
-To compile QSvn you need Qt4. If your Distribution have Qt4 Packages please install it. 
-Otherwise follow the Setup Development Environment instructions.
+Compile & Install under UNIX
+============================
 
-1. Setup Development Environment
-================================
+For compilation under UNIX you need the following software packages:
 
-1.1. Install Qt4
-----------------
+- Qt4
+- cmake 2.4.0 or greater
+- subversion libraries and headers
 
-- download Qt 4.0.1 tarball from Qt X11 Downloadpage 
-- untar it into a temporary directory. 
-- cd into these directory. 
-- configure Qt4 
-- build Qt4 
-- login as root 
-- install Qt4 
+Compile for Release
+-------------------
 
-cd /tmp
-tar xvzf qt-x11-opensource-src-4.0.1.tar.gz
-cd qt-x11-opensource-src-4.0.1
-./configure
-make
-su
-make install
+  cmake -D CMAKE_BUILD_TYPE="Release" .
+  make
+  sudo make install
 
-1.2. Setup environment
+Compile for Developing
 ----------------------
 
-- add /usr/local/Trolltech/Qt-4.0.1/bin/ to your PATH variable 
-- unset QTDIR if you have installed Qt3 
-- for daily usage you can create a set_env script and source it before you work with Qt4 
+  cmake -D CMAKE_BUILD_TYPE="Debug" .
+  make
 
-export QTDIR=
-export PATH=/usr/local/Trolltech/Qt-4.0.1/bin/:$PATH
-PS1="[qt4]$PS1"
+If you prefer to use KDevelop as an IDE type:
 
-1.3. Install needed Packages
-----------------------------
-
-To compile QSvn you need the header files for apr and subversion. 
-On linux distributions you usually install the development packages for apr and subversion.
+  cmake -G "KDevelop3" -D CMAKE_BUILD_TYPE="Debug" .
 
 
-2. Compile QSvn
-===============
 
-2.1 Prepare
------------
+Compile & Install under Windows
+===============================
 
-Before you compile QSvn please make sure, that the apr and subversion headers are installed in
-  /usr/include/subversion-1
-  /usr/include/apr-0
-Otherwise adopt the directories in qsvn.pro to your setup.
+For compilation under Windows you need the following software packages:
 
+- Microsoft Visual Studio
+  I recommended the free available Express Edition from
+    http://msdn.microsoft.com/vstudio/express/visualc/
+- MSVC 2005 Express Users need the Microsoft Platform SDK
+    http://www.microsoft.com/msdownload/platformsdk/sdkupdate/
+- Subversion & Development Libraries
+  Download the latest Subversion Release and the corresponding Development Libraries.
+  Install Subversion in your Program Folder.
+  Unpack the Development Libraries into the Subversion Installation folder.
+    http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91
+- CMake 2.4 or greater
+    http://www.cmake.org
+- Qt4 compiled for use with MSVC++
+  Download the latest Qt4 Source Package for Windows.
+    http://www.trolltech.com
+  Download the unoffical Patch for additional Compiler support for Qt4 Open Source Edition
+    http://sourceforge.net/projects/qtwin
+  Patch & Compile Qt4 Libraries for your Compiler ( as recommended for MSVC+ 2005 )
+- Windows Installer XML (WiX) toolset, if you would build QSvn Installer.
+    http://wix.sourceforge.net/ 
 
-2.2 Compile
------------
+Compile for Release
+-------------------
 
-- cd into qsvn source dir.
-- run Qt4's qmake
-- run make
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" .
+  nmake
 
-cd /path/to/qsvn/source/
-qmake qsvn.pro
-make
+Compile for Development
+-----------------------
 
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Debug" .
+  nmake
+
+If you prefer the Microsoft Visual C++ 2005 Express Edition as your IDE type in:
+
+  cmake -G "Visual Studio 8 2005" .
+
+Build Installation
+------------------
+
+For build the QSvn Installer for Windows follow the instruction found in
+  src\setup\README
