@@ -49,18 +49,19 @@ SET( qsvn_sources
 )
 
 SET( qsvn_forms 
-         forms/addworkingcopy.ui
-         forms/checkout.ui
-         forms/configure.ui
-         forms/fileselector.ui
-         forms/login.ui
-         forms/qsvn.ui
-         forms/showlog.ui
-         forms/sslservertrust.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/addworkingcopy.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/checkout.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/configure.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/fileselector.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/login.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/qsvn.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/showlog.ui
+         ${CMAKE_SOURCE_DIR}/src/forms/sslservertrust.ui
 )
 
-QT4_WRAP_UI( ui_headers ${qsvn_forms} )  #todo: output ui_ files into subdir
-QT4_AUTOMOC( ${qsvn_sources} )           #todo: output moc files into subdir
+QT4_WRAP_UI( ui_headers ${qsvn_forms} )
+INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR} )
+QT4_AUTOMOC( ${qsvn_sources} )
 QT4_ADD_RESOURCES( resfiles qsvn.qrc )
 
 IF ( WIN32 )

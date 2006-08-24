@@ -10,19 +10,25 @@ For compilation under UNIX you need the following software packages:
 Compile for Release
 -------------------
 
-  cmake -D CMAKE_BUILD_TYPE="Release" .
+  mkdir build
+  cd build
+  cmake -D CMAKE_BUILD_TYPE="Release" ..
   make
   sudo make install
 
 Compile for Developing
 ----------------------
 
-  cmake -D CMAKE_BUILD_TYPE="Debug" .
+  mkdir build
+  cd build
+  cmake -D CMAKE_BUILD_TYPE="Debug" ..
   make
 
 If you prefer to use KDevelop as an IDE type:
 
-  cmake -G "KDevelop3" -D CMAKE_BUILD_TYPE="Debug" .
+  mkdir build
+  cd build
+  cmake -G "KDevelop3" -D CMAKE_BUILD_TYPE="Debug" ..
 
 
 
@@ -55,18 +61,24 @@ For compilation under Windows you need the following software packages:
 Compile for Release
 -------------------
 
-  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" .
+  mkdir build
+  cd build
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..
   nmake
 
 Compile for Development
 -----------------------
 
-  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Debug" .
+  mkdir build
+  cd build
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Debug" ..
   nmake
 
 If you prefer the Microsoft Visual C++ 2005 Express Edition as your IDE type in:
 
-  cmake -G "Visual Studio 8 2005" .
+  mkdir build
+  cd build
+  cmake -G "Visual Studio 8 2005" ..
 
 Build Installation
 ------------------
