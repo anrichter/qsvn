@@ -1,3 +1,28 @@
+PROJECT( qsvn )
+
+CMAKE_MINIMUM_REQUIRED( VERSION 2.4.0 )
+
+IF ( UNIX )
+  SET( QT_QMAKE_EXECUTABLE qmake-qt4 )
+  SET( QT_MOC_EXECUTABLE moc-qt4 )
+  SET( QT_UIC_EXECUTABLE uic-qt4 )
+  SET( CMAKE_INSTALL_PREFIX /usr )
+ENDIF ( UNIX )
+
+INCLUDE( ${CMAKE_ROOT}/Modules/FindQt4.cmake )
+INCLUDE( ${CMAKE_ROOT}/Modules/UseQt4.cmake )
+INCLUDE( ${CMAKE_SOURCE_DIR}/svnqt/cmakemodules/FindSubversion.cmake )
+
+SET ( LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib )
+SET ( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin )
+
+INCLUDE_DIRECTORIES( ${QT_INCLUDES} 
+                     ${APR_INCLUDE_DIR}
+                     ${APU_INCLUDE_DIR}
+                     ${SUBVERSION_INCLUDE_DIR}
+                     ${QSVN_SOURCE_DIR}/svnqt 
+)
+
 ADD_SUBDIRECTORY( svnqt/buildqt4 )
 
 SET( qsvn_headers
@@ -49,14 +74,14 @@ SET( qsvn_sources
 )
 
 SET( qsvn_forms 
-         ${CMAKE_SOURCE_DIR}/src/forms/addworkingcopy.ui
-         ${CMAKE_SOURCE_DIR}/src/forms/checkout.ui
-         ${CMAKE_SOURCE_DIR}/src/forms/configure.ui
-         ${CMAKE_SOURCE_DIR}/src/forms/fileselector.ui
-         ${CMAKE_SOURCE_DIR}/src/forms/login.ui
-         ${CMAKE_SOURCE_DIR}/src/forms/qsvn.ui
-         ${CMAKE_SOURCE_DIR}/src/forms/showlog.ui
-         ${CMAKE_SOURCE_DIR}/src/forms/sslservertrust.ui
+         forms/addworkingcopy.ui
+         forms/checkout.ui
+         forms/configure.ui
+         forms/fileselector.ui
+         forms/login.ui
+         forms/qsvn.ui
+         forms/showlog.ui
+         forms/sslservertrust.ui
 )
 
 QT4_WRAP_UI( ui_headers ${qsvn_forms} )

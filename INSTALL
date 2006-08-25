@@ -12,7 +12,7 @@ Compile for Release
 
   mkdir build
   cd build
-  cmake -D CMAKE_BUILD_TYPE="Release" ..
+  cmake -D CMAKE_BUILD_TYPE="Release" ../src
   make
   sudo make install
 
@@ -21,14 +21,14 @@ Compile for Developing
 
   mkdir build
   cd build
-  cmake -D CMAKE_BUILD_TYPE="Debug" ..
+  cmake -D CMAKE_BUILD_TYPE="Debug" ../src
   make
 
 If you prefer to use KDevelop as an IDE type:
 
   mkdir build
   cd build
-  cmake -G "KDevelop3" -D CMAKE_BUILD_TYPE="Debug" ..
+  cmake -G "KDevelop3" -D CMAKE_BUILD_TYPE="Debug" ../src
 
 
 
@@ -63,7 +63,7 @@ Compile for Release
 
   mkdir build
   cd build
-  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src
   nmake
 
 Compile for Development
@@ -71,14 +71,14 @@ Compile for Development
 
   mkdir build
   cd build
-  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Debug" ..
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Debug" ..\src
   nmake
 
 If you prefer the Microsoft Visual C++ 2005 Express Edition as your IDE type in:
 
   mkdir build
   cd build
-  cmake -G "Visual Studio 8 2005" ..
+  cmake -G "Visual Studio 8 2005" ..\src
 
 Build Installation
 ------------------
