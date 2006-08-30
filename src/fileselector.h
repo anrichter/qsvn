@@ -25,7 +25,6 @@
 
 //QSvn
 #include "ui_fileselector.h"
-#include "filelistmodel.h"
 #include "fileselectorproxy.h"
 #include "svnclient.h"
 
@@ -38,9 +37,6 @@ class FileSelector : public QDialog, public Ui::FileSelector
     Q_OBJECT
 
 public:
-    FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
-                  QItemSelectionModel *selectionModel,
-                  FileListModel::SelectionFrom selectionFrom );
     /**
      * Create a FileSelector for a working copy
      * @param parent the parent widget
@@ -51,8 +47,6 @@ public:
                   QString wc );
     ~FileSelector();
 
-    FileListModel *model();
-    QStringList selectedFileList();
     QStringList checkedFileList();
     QString logMessage();
 
@@ -63,15 +57,12 @@ protected:
     bool eventFilter( QObject *watched, QEvent *event );
 
 private:
-    FileListModel *m_fileListModel;
     SvnClient::SvnAction m_svnAction;
     QItemSelectionModel *m_selectionModel;
-    FileListModel::SelectionFrom m_selectionFrom;
     QMenu *contextMenu;
 
     FileSelectorProxy *m_fileSelectorProxy;
 
-    void initModel();
     void configUI();
     void createMenus();
     void setupConnections();

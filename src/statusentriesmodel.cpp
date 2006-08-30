@@ -137,6 +137,13 @@ svn::Status StatusEntriesModel::at( int row )
     return m_statusEntries.at( row );
 }
 
+void StatusEntriesModel::updateEntry( int row )
+{
+    svn::Status status = SvnClient::instance()->singleStatus( m_statusEntries.at( row ).path() );
+    m_statusEntries.replace( row, status );
+    emit dataChanged( index( row, 0 ), index( row, 4 ) );
+}
+
 QPixmap StatusEntriesModel::statusPixmap( svn::Status status ) const
 {
     switch ( status.textStatus() )

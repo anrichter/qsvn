@@ -21,8 +21,6 @@
 
 //QSvn
 #include "config.h"
-#include "filelistitem.h"
-#include "filelistmodel.h"
 #include "fileselector.h"
 #include "fileselectorproxy.h"
 #include "svnclient.h"
@@ -30,29 +28,6 @@
 //Qt
 #include <QtGui>
 
-
-FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
-                            QItemSelectionModel *selectionModel,
-                            FileListModel::SelectionFrom selectionFrom )
-        : QDialog( parent )
-{
-    setupUi( this );
-    m_fileListModel = 0;
-    m_fileSelectorProxy = 0;
-    m_svnAction = svnAction;
-    m_selectionModel = selectionModel;
-    m_selectionFrom = selectionFrom;
-
-    createMenus();
-    initModel();
-
-    configUI();
-    setupConnections();
-    treeViewFiles->installEventFilter( this );
-
-    Config::instance()->restoreWidget( this, this->windowTitle() );
-    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
-}
 
 FileSelector::FileSelector( QWidget * parent, SvnClient::SvnAction svnAction, QString wc )
     : QDialog( parent )
@@ -81,24 +56,6 @@ FileSelector::~ FileSelector( )
     Config::instance()->setValue( "selectAll" + this->windowTitle(), checkSelectAll->checkState() );
     if ( m_fileSelectorProxy )
         delete( m_fileSelectorProxy );
-}
-
-void FileSelector::initModel()
-{
-    if ( m_fileListModel )
-        delete( m_fileListModel );
-
-    m_fileListModel = new FileListModel( this, m_svnAction );
-    switch( m_selectionFrom )
-    {
-        case FileListModel::File:
-            //todo: m_fileListModel->loadFromFileListSelection( m_selectionModel );
-            break;
-        case FileListModel::WorkingCopy:
-            m_fileListModel->loadFromWorkingCopySelection( m_selectionModel );
-            break;
-    }
-    treeViewFiles->setModel( m_fileListModel );
 }
 
 void FileSelector::configUI()
@@ -165,29 +122,9 @@ int FileSelector::exec()
     return QDialog::exec();
 }
 
-FileListModel *FileSelector::model( )
-{
-    return m_fileListModel;
-}
-
 void FileSelector::hideGroupBoxLogMessage( )
 {
     groupBoxLogMessage->setVisible( false );
-}
-
-QStringList FileSelector::selectedFileList( )
-{
-    QStringList fileList;
-    QModelIndex index;
-    for ( int i = 0; i < m_fileListModel->rowCount(); ++i )
-    {
-        index = m_fileListModel->index( i, FileListItem::FilenameColumn );
-        if ( m_fileListModel->data( index, Qt::CheckStateRole ).toBool() )
-        {
-            fileList << m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString();
-        }
-    }
-    return fileList;
 }
 
 QStringList FileSelector::checkedFileList()
@@ -229,12 +166,13 @@ void FileSelector::comboLogHistoryActivatedSlot( int index )
 
 void FileSelector::checkSelectAllStateChanged( int state )
 {
-    QModelIndex index;
+    //todo:
+/*    QModelIndex index;
     for ( int i = 0; i < m_fileListModel->rowCount(); ++i )
     {
         index = m_fileListModel->index( i, FileListItem::FilenameColumn );
         m_fileListModel->setData( index, state, Qt::CheckStateRole );
-    }
+    }*/
 }
 
 bool FileSelector::eventFilter( QObject * watched, QEvent * event )
@@ -251,9 +189,11 @@ bool FileSelector::eventFilter( QObject * watched, QEvent * event )
 
 void FileSelector::doRevert( )
 {
+    int row;
+    row = m_fileSelectorProxy->mapToSource( treeViewFiles->selectionModel()->currentIndex() ).row();
+
     QString fullFileName;
-    fullFileName = m_fileListModel->data( treeViewFiles->selectionModel()->currentIndex(),
-                                          FileListModel::FullFileNameRole ).toString();
+    fullFileName = m_fileSelectorProxy->at( row ).path(); 
 
     if ( QMessageBox::question( this, tr( "Revert" ),
                                 QString( tr( "Do you really want to revert local changes from\n%1?" ) ).arg( fullFileName ),
@@ -261,18 +201,13 @@ void FileSelector::doRevert( )
     {
         SvnClient::instance()->revert( fullFileName, false );
 
-        m_fileListModel->removeRows( static_cast< FileListItem* >( treeViewFiles->selectionModel()->currentIndex().internalPointer() )->row(), 1 );
-        treeViewFiles->dataChanged( m_fileListModel->index( 0, 0 ),
-                                    m_fileListModel->index( m_fileListModel->rowCount(), m_fileListModel->columnCount() ) );
+        m_fileSelectorProxy->updateEntry( row );
     }
 }
 
 void FileSelector::diff( const QModelIndex &index )
 {
-    if ( m_fileSelectorProxy )
-        SvnClient::instance()->diff( m_fileSelectorProxy->at( m_fileSelectorProxy->mapToSource( index ).row() ).path() );
-    else
-        SvnClient::instance()->diff( m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString() );
+    SvnClient::instance()->diff( m_fileSelectorProxy->at( m_fileSelectorProxy->mapToSource( index ).row() ).path() );
 }
 
 void FileSelector::doDiff( )

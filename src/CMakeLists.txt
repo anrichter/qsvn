@@ -30,8 +30,6 @@ SET( qsvn_headers
          checkout.h
          config.h
          configure.h
-         filelistitem.h
-         filelistmodel.h
          filelistproxy.h
          fileselector.h
          fileselectorproxy.h
@@ -55,8 +53,6 @@ SET( qsvn_sources
          checkout.cpp
          config.cpp
          configure.cpp
-         filelistitem.cpp
-         filelistmodel.cpp
          filelistproxy.cpp
          fileselector.cpp
          fileselectorproxy.cpp

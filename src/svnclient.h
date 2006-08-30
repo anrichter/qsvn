@@ -65,7 +65,7 @@ public:
                                bool detailed_remote = false,
                                const bool hide_externals = false );
     
-    svn::Status singleStatus( QString &path );
+    svn::Status singleStatus( const QString &path );
 
     /**
      * Update entries from the updateList.

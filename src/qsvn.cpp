@@ -232,15 +232,6 @@ QItemSelectionModel* QSvn::activeSelectionModel()
         return treeViewWorkingCopy->selectionModel();
 }
 
-FileListModel::SelectionFrom QSvn::activeSelectionFrom( )
-{
-    if ( isFileListSelected() )
-        return FileListModel::File;
-    else
-        return FileListModel::WorkingCopy;
-}
-
-
 //protected slots
 void QSvn::doAddWorkingCopy()
 {
@@ -303,7 +294,6 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    //FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
     FileSelector fileselector( this, SvnClient::SvnCommit, m_currentWCpath );
     if ( fileselector.exec() )
     {
@@ -316,12 +306,11 @@ void QSvn::doCommit()
 
 void QSvn::doAdd()
 {
-    FileSelector fileselector( this, SvnClient::SvnAdd, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnAdd, m_currentWCpath );
     if ( fileselector.exec() )
     {
         setActionStop( "Add" );
-        SvnClient::instance()->add
-        ( fileselector.selectedFileList() );
+        SvnClient::instance()->add( fileselector.checkedFileList() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
@@ -329,12 +318,11 @@ void QSvn::doAdd()
 
 void QSvn::doDelete()
 {
-    FileSelector fileselector( this, SvnClient::SvnDelete, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnDelete, m_currentWCpath );
     if ( fileselector.exec() )
     {
         setActionStop( "Delete" );
-        SvnClient::instance()->remove
-        ( fileselector.selectedFileList() );
+        SvnClient::instance()->remove( fileselector.checkedFileList() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
@@ -342,11 +330,11 @@ void QSvn::doDelete()
 
 void QSvn::doRevert()
 {
-    FileSelector fileselector( this, SvnClient::SvnRevert, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnRevert, m_currentWCpath );
     if ( fileselector.exec() )
     {
         setActionStop( "Revert" );
-        SvnClient::instance()->revert( fileselector.selectedFileList() );
+        SvnClient::instance()->revert( fileselector.checkedFileList() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );

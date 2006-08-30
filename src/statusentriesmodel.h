@@ -41,6 +41,7 @@ class StatusEntriesModel : public QAbstractTableModel
 
         void readDirectory( QString directory, const bool descend = false );
         svn::Status at( int row );
+        void updateEntry( int row ); //read a single status and replace it in m_statusEntriesModel
 
     private:
         svn::StatusEntries m_statusEntries;

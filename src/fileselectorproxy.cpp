@@ -53,6 +53,11 @@ svn::Status FileSelectorProxy::at( int row )
     return m_statusEntriesModel->at( row );
 }
 
+void FileSelectorProxy::updateEntry( int row )
+{
+    m_statusEntriesModel->updateEntry( row );
+}
+
 bool FileSelectorProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const
 {
     svn::Status status = m_statusEntriesModel->at( source_row );

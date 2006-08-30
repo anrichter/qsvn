@@ -23,7 +23,6 @@
 
 //QSvn
 #include "ui_qsvn.h"
-#include "filelistmodel.h"
 
 class WorkingCopyModel;
 class FileListProxy;
@@ -62,7 +61,6 @@ private:
     QStringList selectedFiles();
     QStringList selectedDirs();
     QItemSelectionModel* activeSelectionModel();
-    FileListModel::SelectionFrom activeSelectionFrom();
 
     void setActionStop( QString aText );
 

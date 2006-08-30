@@ -37,6 +37,7 @@ class FileSelectorProxy : public QSortFilterProxyModel
 
         void readDirectory( QString directory, const bool descend = false );
         svn::Status at( int row );
+        void updateEntry( int row ); //read a single status and replace it in m_statusEntriesModel
 
         QVariant data( const QModelIndex &index, int role ) const;
         bool setData( const QModelIndex &index, const QVariant &value, int role );

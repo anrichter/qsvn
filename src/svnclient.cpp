@@ -92,7 +92,7 @@ svn::StatusEntries SvnClient::status( const QString& path,
     }
 }
 
-svn::Status SvnClient::singleStatus( QString &path )
+svn::Status SvnClient::singleStatus( const QString &path )
 {
     listener->setVerbose( false );
     try
