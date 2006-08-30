@@ -1,13 +1,15 @@
 Version 0.5.0 - released 2006-??-??
-    
+
+    * switch to cmake build system
+
     New Features
     ------------
     * [0000005] show strict node history in Show Log is selectable.
-    
+
     Bugfixes
     --------
     * [0000007] show log don't always show details on select a new log entry.
-    
+
 
 Version 0.4.0 - released 2006-06-05
 
