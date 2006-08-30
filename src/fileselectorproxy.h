@@ -18,37 +18,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef STATUSENTRIESMODEL_H
-#define STATUSENTRIESMODEL_H
+#ifndef FILESELECTORPROXY_H
+#define FILESELECTORPROXY_H
 
-//SvnQt
-#include "svnqt/client.hpp"
+//QSvn
+#include "statusentriesmodel.h"
+#include "svnclient.h"
 
 //Qt
-#include <QtCore>
+#include <QSortFilterProxyModel>
 
 
-class StatusEntriesModel : public QAbstractTableModel
+class FileSelectorProxy : public QSortFilterProxyModel
 {
     public:
-        StatusEntriesModel( QObject * parent );
-        ~StatusEntriesModel();
-
-        int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-        QVariant data( const QModelIndex &index, int role ) const;
+        FileSelectorProxy( QObject *parent, SvnClient::SvnAction svnAction );
+        ~FileSelectorProxy();
 
         void readDirectory( QString directory, const bool descend = false );
         svn::Status at( int row );
 
-    private:
-        svn::StatusEntries m_statusEntries;
-        QString m_directory;
-        bool m_descend;
+        QVariant data( const QModelIndex &index, int role ) const;
+        bool setData( const QModelIndex &index, const QVariant &value, int role );
+        Qt::ItemFlags flags(const QModelIndex &index) const;
 
-        QPixmap statusPixmap( svn::Status status ) const;
-        QString statusString( svn::Status status ) const;
+        QStringList checkedFileList(); //return a list with full path from checked entries
+    protected:
+        bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
+    private:
+        StatusEntriesModel *m_statusEntriesModel;
+        QSet<int> checkedRows;
+        SvnClient::SvnAction m_svnAction;
 };
 
 #endif

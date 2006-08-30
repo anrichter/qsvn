@@ -67,16 +67,23 @@ SvnClient::~SvnClient()
     delete svnContext;
 }
 
-svn::StatusEntries SvnClient::status( QString &directory )
+svn::StatusEntries SvnClient::status( const QString& path,
+                                      const bool descend,
+                                      const bool get_all,
+                                      const bool update,
+                                      const bool no_ignore,
+                                      const svn::Revision revision,
+                                      bool detailed_remote,
+                                      const bool hide_externals )
 {
-    if ( !svn::Wc::checkWc( directory ) )
+    if ( !svn::Wc::checkWc( path ) )
         return svn::StatusEntries();
 
-    QDir dir( directory );
+    QDir dir( path );
     listener->setVerbose( false );
     try
     {
-        return svnClient->status( dir.canonicalPath(), false, true, false, false);
+        return svnClient->status( dir.canonicalPath(), descend, get_all, update, no_ignore, revision, detailed_remote, hide_externals );
     }
     catch ( svn::ClientException e )
     {

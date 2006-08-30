@@ -56,7 +56,15 @@ public:
      * @param directory
      * @return
      */
-    svn::StatusEntries status( QString &directory );
+    svn::StatusEntries status( const QString& path,
+                               const bool descend = false,
+                               const bool get_all = true,
+                               const bool update = false,
+                               const bool no_ignore = false,
+                               const svn::Revision revision = svn::Revision::HEAD,
+                               bool detailed_remote = false,
+                               const bool hide_externals = false );
+    
     svn::Status singleStatus( QString &path );
 
     /**

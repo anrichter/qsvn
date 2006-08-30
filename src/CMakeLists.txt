@@ -34,6 +34,7 @@ SET( qsvn_headers
          filelistmodel.h
          filelistproxy.h
          fileselector.h
+         fileselectorproxy.h
          listener.h
          logchangepathentriesmodel.h
          logentriesmodel.h
@@ -58,6 +59,7 @@ SET( qsvn_sources
          filelistmodel.cpp
          filelistproxy.cpp
          fileselector.cpp
+         fileselectorproxy.cpp
          listener.cpp
          logchangepathentriesmodel.cpp
          logentriesmodel.cpp

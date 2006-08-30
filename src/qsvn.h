@@ -52,6 +52,7 @@ private:
 
     WorkingCopyModel *workingCopyModel;
 	FileListProxy *fileListProxy;
+    QString m_currentWCpath; //current working copy path
 
     void setActionIcons();
     void connectActions();

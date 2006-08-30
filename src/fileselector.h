@@ -26,6 +26,7 @@
 //QSvn
 #include "ui_fileselector.h"
 #include "filelistmodel.h"
+#include "fileselectorproxy.h"
 #include "svnclient.h"
 
 //Qt
@@ -40,10 +41,19 @@ public:
     FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
                   QItemSelectionModel *selectionModel,
                   FileListModel::SelectionFrom selectionFrom );
+    /**
+     * Create a FileSelector for a working copy
+     * @param parent the parent widget
+     * @param svnAction the action the file selector is for
+     * @param wc the working copy
+     */
+    FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
+                  QString wc );
     ~FileSelector();
 
     FileListModel *model();
     QStringList selectedFileList();
+    QStringList checkedFileList();
     QString logMessage();
 
 public slots:
@@ -58,6 +68,8 @@ private:
     QItemSelectionModel *m_selectionModel;
     FileListModel::SelectionFrom m_selectionFrom;
     QMenu *contextMenu;
+
+    FileSelectorProxy *m_fileSelectorProxy;
 
     void initModel();
     void configUI();

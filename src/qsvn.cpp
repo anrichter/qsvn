@@ -77,7 +77,10 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 void QSvn::activateWorkingCopy( const QModelIndex &index )
 {
     if ( index.isValid() )
-        fileListProxy->statusEntriesModel()->readDirectory( workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString() );
+    {
+        m_currentWCpath = workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString();
+        fileListProxy->statusEntriesModel()->readDirectory( m_currentWCpath );
+    }
 }
 
 QSvn::~QSvn()
@@ -300,11 +303,12 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
+    //FileSelector fileselector( this, SvnClient::SvnCommit, activeSelectionModel(), activeSelectionFrom() );
+    FileSelector fileselector( this, SvnClient::SvnCommit, m_currentWCpath );
     if ( fileselector.exec() )
     {
         setActionStop( "Commit" );
-        SvnClient::instance()->commit( fileselector.selectedFileList(), fileselector.logMessage() );
+        SvnClient::instance()->commit( fileselector.checkedFileList(), fileselector.logMessage() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );

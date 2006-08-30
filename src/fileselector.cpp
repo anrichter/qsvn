@@ -24,6 +24,7 @@
 #include "filelistitem.h"
 #include "filelistmodel.h"
 #include "fileselector.h"
+#include "fileselectorproxy.h"
 #include "svnclient.h"
 
 //Qt
@@ -37,7 +38,8 @@ FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
 {
     setupUi( this );
     m_fileListModel = 0;
-    m_svnAction = svnAction,
+    m_fileSelectorProxy = 0;
+    m_svnAction = svnAction;
     m_selectionModel = selectionModel;
     m_selectionFrom = selectionFrom;
 
@@ -50,6 +52,35 @@ FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
 
     Config::instance()->restoreWidget( this, this->windowTitle() );
     Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
+}
+
+FileSelector::FileSelector( QWidget * parent, SvnClient::SvnAction svnAction, QString wc )
+    : QDialog( parent )
+{
+    setupUi( this );
+
+    m_svnAction = svnAction;
+    createMenus();
+
+    //initModelProxy
+    m_fileSelectorProxy = new FileSelectorProxy( parent, svnAction );
+    m_fileSelectorProxy->readDirectory( wc, true );
+    treeViewFiles->setModel( m_fileSelectorProxy );
+
+    configUI();
+    setupConnections();
+    treeViewFiles->installEventFilter( this );
+
+    Config::instance()->restoreWidget( this, this->windowTitle() );
+    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
+}
+
+FileSelector::~ FileSelector( )
+{
+    Config::instance()->saveWidget( this, this->windowTitle() );
+    Config::instance()->setValue( "selectAll" + this->windowTitle(), checkSelectAll->checkState() );
+    if ( m_fileSelectorProxy )
+        delete( m_fileSelectorProxy );
 }
 
 void FileSelector::initModel()
@@ -122,7 +153,7 @@ void FileSelector::setupConnections( )
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
-    connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
+    //connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
@@ -132,12 +163,6 @@ int FileSelector::exec()
 {
     checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
     return QDialog::exec();
-}
-
-FileSelector::~ FileSelector( )
-{
-    Config::instance()->saveWidget( this, this->windowTitle() );
-    Config::instance()->setValue( "selectAll" + this->windowTitle(), checkSelectAll->checkState() );
 }
 
 FileListModel *FileSelector::model( )
@@ -163,6 +188,14 @@ QStringList FileSelector::selectedFileList( )
         }
     }
     return fileList;
+}
+
+QStringList FileSelector::checkedFileList()
+{
+    if ( m_fileSelectorProxy )
+        return m_fileSelectorProxy->checkedFileList();
+    else
+        return QStringList();
 }
 
 QString FileSelector::logMessage( )
@@ -236,7 +269,10 @@ void FileSelector::doRevert( )
 
 void FileSelector::diff( const QModelIndex &index )
 {
-    SvnClient::instance()->diff( m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString() );
+    if ( m_fileSelectorProxy )
+        SvnClient::instance()->diff( m_fileSelectorProxy->at( m_fileSelectorProxy->mapToSource( index ).row() ).path() );
+    else
+        SvnClient::instance()->diff( m_fileListModel->data( index, FileListModel::FullFileNameRole ).toString() );
 }
 
 void FileSelector::doDiff( )
