@@ -94,7 +94,10 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
                         ( status.isVersioned() && fileInfo.isDir() ) ||  //            and for versioned Directories
                         m_descend
                        )
-                        return QString( status.path() ).remove( m_directory );
+					{
+						QString path = QDir::convertSeparators( status.path() );
+						return path.remove( m_directory );
+					}
                     else
                         return status.entry().name();
                     break;
@@ -123,10 +126,12 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
 
 void StatusEntriesModel::readDirectory( QString directory, const bool descend )
 {
-    if ( m_directory != directory )
+	directory = QDir::cleanPath( directory )+ QDir::separator();
+	directory = QDir::convertSeparators( directory );
+	if ( m_directory != directory )
     {
         m_descend = descend;
-        m_directory = QDir::cleanPath( directory ) + QDir::separator();
+		m_directory = directory;
         m_statusEntries = SvnClient::instance()->status( m_directory, m_descend );
         emit layoutChanged();
     }
