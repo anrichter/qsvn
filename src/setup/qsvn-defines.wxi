@@ -3,6 +3,7 @@
 	<?define Version=$(env.QSVN_MAJOR_VERSION).$(env.QSVN_MINOR_VERSION).$(env.QSVN_MICRO_VERSION)?>
 
 	<!-- Defines pathes for include files. Adopt directories to your system. -->
+	<?define QSvnBinDir="..\..\build\bin\"?>
 	<?define QtDir=$(env.QTDIR)?>
 	<?define SvnDir="$(env.PROGRAMFILES)\Subversion\"?>
 	<?define MergeModulesDir="c:\Programme\Gemeinsame Dateien\Merge Modules\"?>
