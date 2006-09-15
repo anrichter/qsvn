@@ -46,12 +46,8 @@ Config::Config( QObject *parent )
     QCoreApplication::setOrganizationName( "QSvn" );
     QCoreApplication::setOrganizationDomain( "" );
     QCoreApplication::setApplicationName( "QSvn" );
-
     _tempDir = QDir::tempPath() + QDir::separator() + "qsvn" + QDir::separator();
     _tempDir = QDir::convertSeparators( _tempDir );
-    QDir dir( _tempDir );
-    if ( !dir.exists() )
-        dir.mkpath( _tempDir );
 }
 
 void Config::removeTempDir()
@@ -225,6 +221,9 @@ void Config::restoreHeaderView( const QObject * parent, QHeaderView * headerView
 
 QString Config::tempDir()
 {
+	QDir dir( _tempDir );
+    if ( !dir.exists() )
+        dir.mkpath( _tempDir );
     return _tempDir;
 }
 
