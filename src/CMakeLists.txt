@@ -16,11 +16,15 @@ INCLUDE( ${CMAKE_SOURCE_DIR}/svnqt/cmakemodules/FindSubversion.cmake )
 SET ( LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib )
 SET ( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin )
 
-INCLUDE_DIRECTORIES( ${QT_INCLUDES} 
+INCLUDE_DIRECTORIES(
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR}/svnqt/buildqt4
+                     ${CMAKE_CURRENT_SOURCE_DIR}
+                     ${CMAKE_CURRENT_SOURCE_DIR}/svnqt/buildqt4
+                     ${QT_INCLUDES}
                      ${APR_INCLUDE_DIR}
                      ${APU_INCLUDE_DIR}
                      ${SUBVERSION_INCLUDE_DIR}
-                     ${QSVN_SOURCE_DIR}/svnqt 
 )
 
 ADD_SUBDIRECTORY( svnqt/buildqt4 )
@@ -48,7 +52,7 @@ SET( qsvn_headers
          workingcopymodel.h
 )
 
-SET( qsvn_sources 
+SET( qsvn_sources
          addworkingcopy.cpp
          checkout.cpp
          config.cpp
@@ -71,7 +75,7 @@ SET( qsvn_sources
          workingcopymodel.cpp
 )
 
-SET( qsvn_forms 
+SET( qsvn_forms
          forms/addworkingcopy.ui
          forms/checkout.ui
          forms/configure.ui
