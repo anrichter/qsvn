@@ -33,7 +33,7 @@
 
 
 Listener::Listener( QObject *parent )
-    : QObject( parent )
+    : QObject( parent ), svn::ContextListener()
 {
     m_cancel = false;
     m_verbose = true;
@@ -203,4 +203,8 @@ void Listener::setCancel( bool cancel )
 void Listener::setVerbose( bool verbose )
 {
     m_verbose = verbose;
+}
+
+void Listener::contextProgress( long long int current, long long int max )
+{
 }

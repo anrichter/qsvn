@@ -64,7 +64,7 @@ public:
                                const svn::Revision revision = svn::Revision::HEAD,
                                bool detailed_remote = false,
                                const bool hide_externals = false );
-    
+
     svn::Status singleStatus( const QString &path );
 
     /**
@@ -92,8 +92,8 @@ public:
     bool diff( const QString &file );
     bool diff( const QStringList &fileList );
 
-    const svn::LogEntries* log( const QString &path, 
-                                const svn::Revision &revisionStart, const svn::Revision &revisionEnd, 
+    const svn::LogEntries* log( const QString &path,
+                                const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
                                 bool discoverChangedPaths, bool strictNodeHistory,
                                 int limit );
     bool cleanup( const QString &path );
@@ -109,7 +109,7 @@ protected:
 private:
     static SvnClient* m_instance;
 
-    svn::Context *svnContext;
+    svn::ContextP svnContext;
     svn::Client *svnClient;
     Listener *listener;
 

@@ -45,10 +45,7 @@ public:
                                 svn_wc_notify_state_t content_state,
                                 svn_wc_notify_state_t prop_state,
                                 svn_revnum_t revision);
-#if (SVN_VER_MAJOR >= 1) && (SVN_VER_MINOR >= 2)
-
     virtual void contextNotify( const svn_wc_notify_t *action );
-#endif
 
     virtual bool contextCancel();
     virtual bool contextGetLogMessage( QString &msg, const svn::CommitItemList& );
@@ -58,6 +55,7 @@ public:
     virtual bool contextSslClientCertPwPrompt( QString &password,
             const QString &realm,
             bool &maySave );
+    virtual void contextProgress( long long int current, long long int max );
 
     void setCancel( bool cancel );
     void setVerbose( bool verbose );

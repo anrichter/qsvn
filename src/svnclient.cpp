@@ -64,7 +64,6 @@ SvnClient::~SvnClient()
 {
     delete listener;
     delete svnClient;
-    delete svnContext;
 }
 
 svn::StatusEntries SvnClient::status( const QString& path,
@@ -367,8 +366,8 @@ bool SvnClient::diff( const QStringList &fileList )
     return result;
 }
 
-const svn::LogEntries* SvnClient::log( const QString &path, 
-                                       const svn::Revision &revisionStart, const svn::Revision &revisionEnd, 
+const svn::LogEntries* SvnClient::log( const QString &path,
+                                       const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
                                        bool discoverChangedPaths, bool strictNodeHistory, int limit )
 {
     listener->setVerbose( true );
