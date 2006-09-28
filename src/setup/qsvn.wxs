@@ -50,7 +50,7 @@
 						<File Id="libapr" Name="LIBAPR.DLL" LongName="libapr.dll" DiskId="1" src="$(var.SvnDir)\bin\libapr.dll" />
 						<File Id="libapriconv" Name="LIBAPRIC.DLL" LongName="libapriconv.dll" DiskId="1" src="$(var.SvnDir)\bin\libapriconv.dll" />
 						<File Id="libaprutil" Name="LIBAPRUT.DLL" LongName="libaprutil.dll" DiskId="1" src="$(var.SvnDir)\bin\libaprutil.dll" />
-						<File Id="libdb43" Name="LIBDB43.DLL" LongName="libdb43.dll" DiskId="1" src="$(var.SvnDir)\bin\libdb43.dll" />
+						<File Id="libdb44" Name="LIBDB44.DLL" LongName="libdb44.dll" DiskId="1" src="$(var.SvnDir)\bin\libdb44.dll" />
 						<File Id="libeay32" Name="LIBEAY32.DLL" LongName="libeay32.dll" DiskId="1" src="$(var.SvnDir)\bin\libeay32.dll" />
 						<File Id="ssleay32" Name="SSLEAY32.DLL" LongName="ssleay32.dll" DiskId="1" src="$(var.SvnDir)\bin\ssleay32.dll" />
 					</Component>

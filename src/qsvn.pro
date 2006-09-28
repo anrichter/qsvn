@@ -33,7 +33,7 @@ win32 {
           -llibapr \
           -llibapriconv \
           -llibaprutil \
-          -llibdb43 \
+          -llibdb44 \
           -llibneon \
           -llibsvn_client-1 \
           -llibsvn_delta-1 \

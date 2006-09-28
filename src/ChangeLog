@@ -1,3 +1,8 @@
+Version 0.4.1 - released 2006-08-29
+
+    * This release is only a binary release for Windows. It is build against Subversion 1.4, BDB 4.4 and Qt 4.1.4
+    
+    
 Version 0.4.0 - released 2006-06-05
 
     New Features
