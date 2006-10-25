@@ -44,6 +44,7 @@ class FileSelectorProxy : public QSortFilterProxyModel
         Qt::ItemFlags flags(const QModelIndex &index) const;
 
         QStringList checkedFileList(); //return a list with full path from checked entries
+		void setSelectAllState( int state );
     protected:
         bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
     private:

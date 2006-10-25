@@ -110,7 +110,7 @@ void FileSelector::setupConnections( )
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
-    //connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
+    connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
@@ -166,13 +166,7 @@ void FileSelector::comboLogHistoryActivatedSlot( int index )
 
 void FileSelector::checkSelectAllStateChanged( int state )
 {
-    //todo:
-/*    QModelIndex index;
-    for ( int i = 0; i < m_fileListModel->rowCount(); ++i )
-    {
-        index = m_fileListModel->index( i, FileListItem::FilenameColumn );
-        m_fileListModel->setData( index, state, Qt::CheckStateRole );
-    }*/
+	m_fileSelectorProxy->setSelectAllState( state );
 }
 
 bool FileSelector::eventFilter( QObject * watched, QEvent * event )

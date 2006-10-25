@@ -146,3 +146,9 @@ QStringList FileSelectorProxy::checkedFileList()
 
     return fileList;
 }
+
+void FileSelectorProxy::setSelectAllState( int state )
+{
+	for ( int i = 0; i < rowCount(); ++i )
+        setData( index( i, 0 ), state, Qt::CheckStateRole );
+}
