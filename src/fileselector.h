@@ -65,6 +65,7 @@ private:
 
     void configUI();
     void createMenus();
+    void updateMenus(); //enable and disable some actions depend on what entry is selected
     void setupConnections();
     void hideGroupBoxLogMessage();
 

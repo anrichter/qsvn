@@ -175,6 +175,7 @@ bool FileSelector::eventFilter( QObject * watched, QEvent * event )
     {
         if ( event->type() == QEvent::ContextMenu )
         {
+            updateMenus();
             contextMenu->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
         }
     }
@@ -207,6 +208,17 @@ void FileSelector::diff( const QModelIndex &index )
 void FileSelector::doDiff( )
 {
     diff( treeViewFiles->selectionModel()->currentIndex() );
+}
+
+void FileSelector::updateMenus( )
+{
+    if ( treeViewFiles->selectionModel()->hasSelection() )
+    {
+        int row = m_fileSelectorProxy->mapToSource( treeViewFiles->selectionModel()->currentIndex() ).row();
+        svn::Status _status = m_fileSelectorProxy->at( row );
+
+        actionDiff->setEnabled( _status.textStatus() == svn_wc_status_modified );
+    }
 }
 
 #include "fileselector.moc"
