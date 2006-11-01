@@ -42,6 +42,9 @@ For compilation under Windows you need the following software packages:
     http://msdn.microsoft.com/vstudio/express/visualc/
 - MSVC 2005 Express Users need the Microsoft Platform SDK
     http://www.microsoft.com/msdownload/platformsdk/sdkupdate/
+  You need at least the Build Environment for:
+    * Microsoft Windows Core SDK 
+    * Microsoft Web Workshop
 - Subversion & Development Libraries
   Download the latest Subversion Release and the corresponding Development Libraries.
   Install Subversion in your Program Folder.
