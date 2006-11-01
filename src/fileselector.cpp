@@ -112,7 +112,7 @@ void FileSelector::setupConnections( )
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
 	connect( treeViewFiles->selectionModel(), 
 		     SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
-			 this, SLOT( updateActions() ) );
+			 this, SLOT( updateActions( const QItemSelection &, const QItemSelection & ) ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
@@ -209,22 +209,19 @@ void FileSelector::doDiff( )
     diff( treeViewFiles->selectionModel()->currentIndex() );
 }
 
-void FileSelector::updateActions( )
+void FileSelector::updateActions( const QItemSelection &selected, const QItemSelection &deselected )
 {
-    if ( treeViewFiles->selectionModel()->hasSelection() )
-    {
-        int row = m_fileSelectorProxy->mapToSource( treeViewFiles->selectionModel()->currentIndex() ).row();
-        svn::Status _status = m_fileSelectorProxy->at( row );
+	int row = m_fileSelectorProxy->mapToSource( selected.indexes().at( 0 ) ).row();
+    svn::Status _status = m_fileSelectorProxy->at( row );
 
-		if ( _status.textStatus() == svn_wc_status_modified )
-		{
-			actionDiff->setEnabled( true );
-			connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
-		} else {
-			actionDiff->setEnabled( false );
-			disconnect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
-		}
-    }
+	if ( _status.textStatus() == svn_wc_status_modified )
+	{
+		actionDiff->setEnabled( true );
+		connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
+	} else {
+		actionDiff->setEnabled( false );
+		disconnect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
+	}
 }
 
 #include "fileselector.moc"

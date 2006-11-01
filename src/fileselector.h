@@ -73,7 +73,7 @@ private slots:
     void buttonOkClickedSlot();
     void comboLogHistoryActivatedSlot( int index );
     void checkSelectAllStateChanged( int state );
-    void updateActions(); //enable and disable some actions depend on what entry is selected
+    void updateActions( const QItemSelection &selected, const QItemSelection &deselected ); //enable and disable some actions depend on what entry is selected
 
     void doDiff();
     void doRevert();
