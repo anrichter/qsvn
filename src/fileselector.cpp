@@ -107,10 +107,12 @@ void FileSelector::createMenus()
 
 void FileSelector::setupConnections( )
 {
-    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
+	connect( treeViewFiles->selectionModel(), 
+		     SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
+			 this, SLOT( updateActions() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
@@ -174,10 +176,7 @@ bool FileSelector::eventFilter( QObject * watched, QEvent * event )
     if ( watched == treeViewFiles )
     {
         if ( event->type() == QEvent::ContextMenu )
-        {
-            updateMenus();
             contextMenu->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
-        }
     }
     return QDialog::eventFilter( watched, event );
 }
@@ -210,14 +209,21 @@ void FileSelector::doDiff( )
     diff( treeViewFiles->selectionModel()->currentIndex() );
 }
 
-void FileSelector::updateMenus( )
+void FileSelector::updateActions( )
 {
     if ( treeViewFiles->selectionModel()->hasSelection() )
     {
         int row = m_fileSelectorProxy->mapToSource( treeViewFiles->selectionModel()->currentIndex() ).row();
         svn::Status _status = m_fileSelectorProxy->at( row );
 
-        actionDiff->setEnabled( _status.textStatus() == svn_wc_status_modified );
+		if ( _status.textStatus() == svn_wc_status_modified )
+		{
+			actionDiff->setEnabled( true );
+			connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
+		} else {
+			actionDiff->setEnabled( false );
+			disconnect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
+		}
     }
 }
 

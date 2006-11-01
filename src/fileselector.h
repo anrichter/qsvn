@@ -65,7 +65,6 @@ private:
 
     void configUI();
     void createMenus();
-    void updateMenus(); //enable and disable some actions depend on what entry is selected
     void setupConnections();
     void hideGroupBoxLogMessage();
 
@@ -74,10 +73,10 @@ private slots:
     void buttonOkClickedSlot();
     void comboLogHistoryActivatedSlot( int index );
     void checkSelectAllStateChanged( int state );
+    void updateActions(); //enable and disable some actions depend on what entry is selected
 
     void doDiff();
     void doRevert();
-    
 };
 
 #endif
