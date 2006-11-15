@@ -52,12 +52,17 @@ For compilation under Windows you need the following software packages:
     http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91
 - CMake 2.4 or greater
     http://www.cmake.org
+  After install cmake on your computer get the latest UseQt4.cmake from cmakes CVS
+    http://www.cmake.org/cgi-bin/viewcvs.cgi/Modules/UseQt4.cmake?root=CMake&view=auto
+  and replace the installed version under {ProgrammFiles}CMake 2.4\share\CMake\Modules\ with it.
 - Qt4 compiled for use with MSVC++
   Download the latest Qt4 Source Package for Windows.
     http://www.trolltech.com
   Download the unoffical Patch for additional Compiler support for Qt4 Open Source Edition
     http://sourceforge.net/projects/qtwin
   Patch & Compile Qt4 Libraries for your Compiler ( as recommended for MSVC+ 2005 )
+  Remeber: This is an unofficial but legal patch. So please don't ask on official Trolltech lists 
+  for problems with this patched version of Qt.
 - Windows Installer XML (WiX) toolset, if you would build QSvn Installer.
     http://wix.sourceforge.net/ 
 
