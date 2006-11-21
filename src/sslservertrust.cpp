@@ -30,7 +30,7 @@
 
 
 SslServerTrust::SslServerTrust( QWidget * parent, const svn::ContextListener::SslServerTrustData & data  )
-    : QDialog( parent )
+        : QDialog( parent )
 {
     setupUi( this );
 

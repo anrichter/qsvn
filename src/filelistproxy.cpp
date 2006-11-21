@@ -30,7 +30,7 @@
 #include <QSortFilterProxyModel>
 
 FileListProxy::FileListProxy( QObject *parent )
-    : QSortFilterProxyModel( parent )
+        : QSortFilterProxyModel( parent )
 {
     m_statusEntriesModel = new StatusEntriesModel( this );
     setSourceModel( m_statusEntriesModel );
@@ -49,11 +49,11 @@ StatusEntriesModel *FileListProxy::statusEntriesModel()
 bool FileListProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const
 {
     svn::Status status = m_statusEntriesModel->at( source_row );
-/*    if ( !status.isVersioned() )
-        return false;*/
+    /*    if ( !status.isVersioned() )
+            return false;*/
 
     if ( QFileInfo( status.path() ).isDir() ) // don't show any directories in filelist
-         return false;
+        return false;
 
     return true;
 }

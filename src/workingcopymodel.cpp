@@ -196,7 +196,9 @@ void WorkingCopyModel::loadWorkingCopies()
         {
             addWorkingCopy( wcList.at( i ) );
         }
-    } else {
+    }
+    else
+    {
         for ( int i = 0; i < wcList.size(); i++ )
         {
             addWorkingCopy( wcList.at( i ) );

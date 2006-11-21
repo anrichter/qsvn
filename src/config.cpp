@@ -107,7 +107,7 @@ void Config::restoreWidget( QWidget *widget, const QString prefix )
                     settings.value( key + "/height", widget->height() ).toInt() );
 
     widget->move( QPoint( settings.value( key + "/x", widget->x() ).toInt(),
-                  settings.value( key + "/y", widget->y() ).toInt() ) );
+                          settings.value( key + "/y", widget->y() ).toInt() ) );
 }
 
 void Config::saveSplitter( const QObject *parent, const QSplitter *splitter )
@@ -221,7 +221,7 @@ void Config::restoreHeaderView( const QObject * parent, QHeaderView * headerView
 
 QString Config::tempDir()
 {
-	QDir dir( _tempDir );
+    QDir dir( _tempDir );
     if ( !dir.exists() )
         dir.mkpath( _tempDir );
     return _tempDir;

@@ -50,10 +50,10 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
     m_logEntriesModel = new LogEntriesModel( this );
     viewLogEntries->setModel( m_logEntriesModel );
     Config::instance()->restoreHeaderView( this, viewLogEntries->header() );
-	connect( viewLogEntries->selectionModel(), 
-		     SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
-			 this, SLOT( selectionChanged( const QItemSelection &, const QItemSelection & ) ) );
-	
+    connect( viewLogEntries->selectionModel(),
+             SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
+             this, SLOT( selectionChanged( const QItemSelection &, const QItemSelection & ) ) );
+
     m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
     viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
     viewLogChangePathEntries->installEventFilter( this );
@@ -66,7 +66,7 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
 
     connect( btnNext, SIGNAL( clicked() ), this, SLOT( addLogEntries() ) );
     connect( btnAll, SIGNAL( clicked() ), this, SLOT( addAllLogEntries() ) );
-    connect( cbStrictNodeHistory, SIGNAL( stateChanged( int ) ), 
+    connect( cbStrictNodeHistory, SIGNAL( stateChanged( int ) ),
              this, SLOT( cbStrictNodeHistoryStateChanged() ) );
 
     m_path = path;
@@ -110,9 +110,9 @@ void ShowLog::addLogEntries( int limit )
     qApp->processEvents();
     QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
 
-    m_logEntriesModel->appendLogEntries( 
-        SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, true, 
-                                    ( cbStrictNodeHistory->checkState() == Qt::Checked ), 
+    m_logEntriesModel->appendLogEntries(
+        SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, true,
+                                    ( cbStrictNodeHistory->checkState() == Qt::Checked ),
                                     limit ) );
     m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
 
@@ -136,16 +136,16 @@ bool ShowLog::eventFilter( QObject * watched, QEvent * event )
 
 void ShowLog::selectionChanged( const QItemSelection &selected, const QItemSelection &deselected )
 {
-	QModelIndex index = selected.indexes().at( 0 );
-	if ( index.isValid() )
-	{
+    QModelIndex index = selected.indexes().at( 0 );
+    if ( index.isValid() )
+    {
         Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
         editLogMessage->setPlainText( m_logEntriesModel->getLogEntry( index ).message );
         delete m_logChangePathEntriesModel;
         m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, m_logEntriesModel->getLogEntry( index ).changedPaths );
         viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
         Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
-	}
+    }
 }
 
 void ShowLog::cbStrictNodeHistoryStateChanged()
@@ -176,7 +176,7 @@ void ShowLog::doDiff( )
         return;
     logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( indexes.at( 0 ) );
 
-    SvnClient::instance()->diff( QString( svn::Wc::getRepos( m_path ) + logChangePathEntry.path ), 
+    SvnClient::instance()->diff( QString( svn::Wc::getRepos( m_path ) + logChangePathEntry.path ),
                                  svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
 }
 

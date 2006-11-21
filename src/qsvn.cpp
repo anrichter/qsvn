@@ -236,7 +236,7 @@ QItemSelectionModel* QSvn::activeSelectionModel()
 void QSvn::doAddWorkingCopy()
 {
     AddWorkingCopy::addWorkingCopy( this, workingCopyModel );
-	workingCopyModel->sort( 0, Qt::AscendingOrder );
+    workingCopyModel->sort( 0, Qt::AscendingOrder );
 }
 
 void QSvn::doRemoveWorkingCopy()
@@ -248,10 +248,10 @@ void QSvn::doRemoveWorkingCopy()
     {
         if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Should i really remove this Working Copy?" ),
                                     QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
-		{
+        {
             workingCopyModel->removeRow( indexes.at( i ).row() );
-			workingCopyModel->sort( 0, Qt::AscendingOrder );
-		}
+            workingCopyModel->sort( 0, Qt::AscendingOrder );
+        }
     }
     activateWorkingCopy( QModelIndex() );
 }
@@ -310,7 +310,8 @@ void QSvn::doAdd()
     if ( fileselector.exec() )
     {
         setActionStop( "Add" );
-        SvnClient::instance()->add( fileselector.checkedFileList() );
+        SvnClient::instance()->add
+        ( fileselector.checkedFileList() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
@@ -322,7 +323,8 @@ void QSvn::doDelete()
     if ( fileselector.exec() )
     {
         setActionStop( "Delete" );
-        SvnClient::instance()->remove( fileselector.checkedFileList() );
+        SvnClient::instance()->remove
+        ( fileselector.checkedFileList() );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
@@ -418,7 +420,7 @@ void QSvn::doResolved( )
     for ( int i = 0; i < resolveList.count(); i++ )
     {
         if ( QMessageBox::question( this, tr( "Confirmation" ), QString( tr( "Are you sure that\n%1\nis resolved?" ).arg( resolveList.at( i ) ) ),
-             QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+                                    QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
 
             SvnClient::instance()->resolved( resolveList.at( i ) );
     }

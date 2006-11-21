@@ -30,7 +30,7 @@
 
 
 FileSelector::FileSelector( QWidget * parent, SvnClient::SvnAction svnAction, QString wc )
-    : QDialog( parent )
+        : QDialog( parent )
 {
     setupUi( this );
 
@@ -62,33 +62,33 @@ void FileSelector::configUI()
 {
     switch ( m_svnAction )
     {
-        case SvnClient::SvnNone:
-            setWindowTitle( "" );
-            hideGroupBoxLogMessage();
-            break;
-        case SvnClient::SvnAdd:
-            setWindowTitle( tr( "Add") );
-            setWindowIcon( QIcon( ":actionaddlocal.png" ) );
-            hideGroupBoxLogMessage();
-            break;
-        case SvnClient::SvnCommit:
-            setWindowTitle( tr( "Commit") );
-            setWindowIcon( QIcon( ":actioncommit.png" ) );
-            comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
-            comboLogHistory->insertItem( 0, "" );
-            comboLogHistory->setCurrentIndex( 0 );
-            Config::instance()->restoreSplitter( this, splitter );
-            break;
-        case SvnClient::SvnDelete:
-            setWindowTitle( tr( "Delete") );
-            setWindowIcon( QIcon( ":actiondeletelocal.png" ) );
-            hideGroupBoxLogMessage();
-            break;
-        case SvnClient::SvnRevert:
-            setWindowTitle( tr( "Revert") );
-            setWindowIcon( QIcon( ":actionrevert.png" ) );
-            hideGroupBoxLogMessage();
-            break;
+    case SvnClient::SvnNone:
+        setWindowTitle( "" );
+        hideGroupBoxLogMessage();
+        break;
+    case SvnClient::SvnAdd:
+        setWindowTitle( tr( "Add") );
+        setWindowIcon( QIcon( ":actionaddlocal.png" ) );
+        hideGroupBoxLogMessage();
+        break;
+    case SvnClient::SvnCommit:
+        setWindowTitle( tr( "Commit") );
+        setWindowIcon( QIcon( ":actioncommit.png" ) );
+        comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
+        comboLogHistory->insertItem( 0, "" );
+        comboLogHistory->setCurrentIndex( 0 );
+        Config::instance()->restoreSplitter( this, splitter );
+        break;
+    case SvnClient::SvnDelete:
+        setWindowTitle( tr( "Delete") );
+        setWindowIcon( QIcon( ":actiondeletelocal.png" ) );
+        hideGroupBoxLogMessage();
+        break;
+    case SvnClient::SvnRevert:
+        setWindowTitle( tr( "Revert") );
+        setWindowIcon( QIcon( ":actionrevert.png" ) );
+        hideGroupBoxLogMessage();
+        break;
     }
 }
 
@@ -97,7 +97,7 @@ void FileSelector::createMenus()
     contextMenu = new QMenu( this );
 
     if ( ( m_svnAction == SvnClient::SvnCommit ) ||
-         ( m_svnAction == SvnClient::SvnRevert ) )
+            ( m_svnAction == SvnClient::SvnRevert ) )
     {
         contextMenu->addAction( actionDiff );
         contextMenu->addAction( actionRevert );
@@ -110,9 +110,9 @@ void FileSelector::setupConnections( )
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
-	connect( treeViewFiles->selectionModel(),
-		     SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
-			 this, SLOT( updateActions( const QItemSelection &, const QItemSelection & ) ) );
+    connect( treeViewFiles->selectionModel(),
+             SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
+             this, SLOT( updateActions( const QItemSelection &, const QItemSelection & ) ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
@@ -168,7 +168,7 @@ void FileSelector::comboLogHistoryActivatedSlot( int index )
 
 void FileSelector::checkSelectAllStateChanged( int state )
 {
-	m_fileSelectorProxy->setSelectAllState( state );
+    m_fileSelectorProxy->setSelectAllState( state );
 }
 
 bool FileSelector::eventFilter( QObject * watched, QEvent * event )
@@ -212,14 +212,16 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
 {
     svn::Status _status = m_fileSelectorProxy->at( selected.indexes().at( 0 ) );
 
-	if ( _status.textStatus() == svn_wc_status_modified )
-	{
-		actionDiff->setEnabled( true );
-		connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
-	} else {
-		actionDiff->setEnabled( false );
-		disconnect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
-	}
+    if ( _status.textStatus() == svn_wc_status_modified )
+    {
+        actionDiff->setEnabled( true );
+        connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
+    }
+    else
+    {
+        actionDiff->setEnabled( false );
+        disconnect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
+    }
 }
 
 #include "fileselector.moc"

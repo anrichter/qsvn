@@ -49,7 +49,8 @@ bool AddWorkingCopy::addWorkingCopy( QWidget *parent, WorkingCopyModel *workingC
     {
         workingCopyModel->addWorkingCopy( addWC.getSelectedDirectory() );
         return TRUE;
-    } else
+    }
+    else
         return FALSE;
 }
 

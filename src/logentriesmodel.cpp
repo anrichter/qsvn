@@ -29,7 +29,7 @@
 
 
 LogEntriesModel::LogEntriesModel( QObject * parent )
-    : QAbstractTableModel( parent )
+        : QAbstractTableModel( parent )
 {
     m_logEntries = svn::LogEntries();
 }
