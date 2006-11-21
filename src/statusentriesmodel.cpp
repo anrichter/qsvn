@@ -145,7 +145,7 @@ void StatusEntriesModel::updateEntry( int row )
 {
     svn::Status status = SvnClient::instance()->singleStatus( m_statusEntries.at( row ).path() );
     m_statusEntries.replace( row, status );
-    emit dataChanged( index( row, 0 ), index( row, 4 ) );
+    emit layoutChanged();
 }
 
 QPixmap StatusEntriesModel::statusPixmap( svn::Status status ) const
