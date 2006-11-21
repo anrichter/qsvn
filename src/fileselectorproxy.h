@@ -36,15 +36,15 @@ class FileSelectorProxy : public QSortFilterProxyModel
         ~FileSelectorProxy();
 
         void readDirectory( QString directory, const bool descend = false );
-        svn::Status at( int row );
-        void updateEntry( int row ); //read a single status and replace it in m_statusEntriesModel
+        svn::Status at( const QModelIndex &index );
+        void updateEntry( const QModelIndex &index );
 
         QVariant data( const QModelIndex &index, int role ) const;
         bool setData( const QModelIndex &index, const QVariant &value, int role );
         Qt::ItemFlags flags(const QModelIndex &index) const;
 
         QStringList checkedFileList(); //return a list with full path from checked entries
-		void setSelectAllState( int state );
+        void setSelectAllState( int state );
     protected:
         bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
     private:

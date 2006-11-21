@@ -110,7 +110,7 @@ void FileSelector::setupConnections( )
     connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
-	connect( treeViewFiles->selectionModel(), 
+	connect( treeViewFiles->selectionModel(),
 		     SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
 			 this, SLOT( updateActions( const QItemSelection &, const QItemSelection & ) ) );
 
@@ -183,11 +183,10 @@ bool FileSelector::eventFilter( QObject * watched, QEvent * event )
 
 void FileSelector::doRevert( )
 {
-    int row;
-    row = m_fileSelectorProxy->mapToSource( treeViewFiles->selectionModel()->currentIndex() ).row();
+    QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
     QString fullFileName;
-    fullFileName = m_fileSelectorProxy->at( row ).path(); 
+    fullFileName = m_fileSelectorProxy->at( index ).path();
 
     if ( QMessageBox::question( this, tr( "Revert" ),
                                 QString( tr( "Do you really want to revert local changes from\n%1?" ) ).arg( fullFileName ),
@@ -195,13 +194,13 @@ void FileSelector::doRevert( )
     {
         SvnClient::instance()->revert( fullFileName, false );
 
-        m_fileSelectorProxy->updateEntry( row );
+        m_fileSelectorProxy->updateEntry( index );
     }
 }
 
 void FileSelector::diff( const QModelIndex &index )
 {
-    SvnClient::instance()->diff( m_fileSelectorProxy->at( m_fileSelectorProxy->mapToSource( index ).row() ).path() );
+    SvnClient::instance()->diff( m_fileSelectorProxy->at( index ).path() );
 }
 
 void FileSelector::doDiff( )
@@ -211,8 +210,7 @@ void FileSelector::doDiff( )
 
 void FileSelector::updateActions( const QItemSelection &selected, const QItemSelection &deselected )
 {
-	int row = m_fileSelectorProxy->mapToSource( selected.indexes().at( 0 ) ).row();
-    svn::Status _status = m_fileSelectorProxy->at( row );
+    svn::Status _status = m_fileSelectorProxy->at( selected.indexes().at( 0 ) );
 
 	if ( _status.textStatus() == svn_wc_status_modified )
 	{

@@ -48,14 +48,14 @@ void FileSelectorProxy::readDirectory( QString directory, const bool descend )
     checkedRows.clear();
 }
 
-svn::Status FileSelectorProxy::at( int row )
+svn::Status FileSelectorProxy::at( const QModelIndex &index )
 {
-    return m_statusEntriesModel->at( row );
+    return m_statusEntriesModel->at( mapToSource( index ).row() );
 }
 
-void FileSelectorProxy::updateEntry( int row )
+void FileSelectorProxy::updateEntry( const QModelIndex &index )
 {
-    m_statusEntriesModel->updateEntry( row );
+    m_statusEntriesModel->updateEntry( mapToSource( index ).row() );
 }
 
 bool FileSelectorProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const

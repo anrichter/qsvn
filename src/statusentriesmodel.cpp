@@ -94,10 +94,10 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
                         ( status.isVersioned() && fileInfo.isDir() ) ||  //            and for versioned Directories
                         m_descend
                        )
-					{
-						QString path = QDir::convertSeparators( status.path() );
-						return path.remove( m_directory );
-					}
+                    {
+                        QString path = QDir::convertSeparators( status.path() );
+                        return path.remove( m_directory );
+                    }
                     else
                         return status.entry().name();
                     break;
