@@ -50,11 +50,8 @@ For compilation under Windows you need the following software packages:
   Install Subversion in your Program Folder.
   Unpack the Development Libraries into the Subversion Installation folder.
     http://subversion.tigris.org/servlets/ProjectDocumentList?folderID=91
-- CMake 2.4 or greater
+- CMake 2.4.4 or greater
     http://www.cmake.org
-  After install cmake on your computer get the latest UseQt4.cmake from cmakes CVS
-    http://www.cmake.org/cgi-bin/viewcvs.cgi/Modules/UseQt4.cmake?root=CMake&view=auto
-  and replace the installed version under {ProgrammFiles}CMake 2.4\share\CMake\Modules\ with it.
 - Qt4 compiled for use with MSVC++
   Download the latest Qt4 Source Package for Windows.
     http://www.trolltech.com
