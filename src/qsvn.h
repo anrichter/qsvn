@@ -23,9 +23,11 @@
 
 //QSvn
 #include "ui_qsvn.h"
+#include "svnclient.h"
 
 class WorkingCopyModel;
 class FileListProxy;
+class FileSelector;
 
 
 //QT
@@ -63,6 +65,7 @@ private:
     QItemSelectionModel* activeSelectionModel();
 
     void setActionStop( QString aText );
+    FileSelector* newFileSelector( SvnClient::SvnAction svnAction );
 
 private slots:
     //WorkingCopy

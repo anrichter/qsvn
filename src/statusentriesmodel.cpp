@@ -136,6 +136,16 @@ void StatusEntriesModel::readDirectory( QString directory, const bool descend )
     }
 }
 
+void StatusEntriesModel::readFileList( QStringList fileList )
+{
+    m_statusEntries.clear();
+    
+    foreach( QString file, fileList )
+    {
+        m_statusEntries.append( SvnClient::instance()->singleStatus( file ) );
+    }
+}
+
 svn::Status StatusEntriesModel::at( int row )
 {
     return m_statusEntries.at( row );

@@ -50,7 +50,29 @@ FileSelector::FileSelector( QWidget * parent, SvnClient::SvnAction svnAction, QS
     Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
 }
 
-FileSelector::~ FileSelector( )
+FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,  
+                            QStringList fileList )
+        : QDialog( parent )
+{
+    setupUi( this );
+
+    m_svnAction = svnAction;
+    createMenus();
+
+    //initModelProxy
+    m_fileSelectorProxy = new FileSelectorProxy( parent, svnAction );
+    m_fileSelectorProxy->readFileList( fileList );
+    treeViewFiles->setModel( m_fileSelectorProxy );
+
+    configUI();
+    setupConnections();
+    treeViewFiles->installEventFilter( this );
+
+    Config::instance()->restoreWidget( this, this->windowTitle() );
+    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
+}
+
+FileSelector::~FileSelector( )
 {
     Config::instance()->saveWidget( this, this->windowTitle() );
     Config::instance()->setValue( "selectAll" + this->windowTitle(), checkSelectAll->checkState() );

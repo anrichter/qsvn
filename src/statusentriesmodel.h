@@ -40,6 +40,8 @@ class StatusEntriesModel : public QAbstractTableModel
         QVariant data( const QModelIndex &index, int role ) const;
 
         void readDirectory( QString directory, const bool descend = false );
+        void readFileList( QStringList fileList );
+
         svn::Status at( int row );
         void updateEntry( int row ); //read a single status and replace it in m_statusEntriesModel
 

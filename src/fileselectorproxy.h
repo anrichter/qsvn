@@ -36,6 +36,8 @@ public:
     ~FileSelectorProxy();
 
     void readDirectory( QString directory, const bool descend = false );
+    void readFileList( QStringList fileList );
+
     svn::Status at( const QModelIndex &index );
     void updateEntry( const QModelIndex &index );
 

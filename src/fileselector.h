@@ -45,6 +45,8 @@ public:
      */
     FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
                   QString wc );
+	FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
+		          QStringList fileList );
     ~FileSelector();
 
     QStringList checkedFileList();

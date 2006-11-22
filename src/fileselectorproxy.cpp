@@ -48,6 +48,12 @@ void FileSelectorProxy::readDirectory( QString directory, const bool descend )
     checkedRows.clear();
 }
 
+void FileSelectorProxy::readFileList( QStringList fileList )
+{
+    m_statusEntriesModel->readFileList( fileList );
+    checkedRows.clear();
+}
+
 svn::Status FileSelectorProxy::at( const QModelIndex &index )
 {
     return m_statusEntriesModel->at( mapToSource( index ).row() );
