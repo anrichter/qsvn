@@ -74,12 +74,12 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     Config::instance()->restoreHeaderView( this, treeViewFileList->header() );
 }
 
-void QSvn::activateWorkingCopy( const QModelIndex &index )
+void QSvn::activateWorkingCopy( const QModelIndex &index, const bool force )
 {
     if ( index.isValid() )
     {
         m_currentWCpath = workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString();
-        fileListProxy->statusEntriesModel()->readDirectory( m_currentWCpath );
+        fileListProxy->statusEntriesModel()->readDirectory( m_currentWCpath, false, force );
     }
 }
 
@@ -297,7 +297,7 @@ void QSvn::doUpdate()
         SvnClient::instance()->update( updateList );
         setActionStop( "" );
     }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
 }
 
 void QSvn::doCommit()
@@ -309,7 +309,7 @@ void QSvn::doCommit()
         SvnClient::instance()->commit( fileSelector->checkedFileList(), fileSelector->logMessage() );
         setActionStop( "" );
     }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
     delete( fileSelector);
 }
 
@@ -323,7 +323,7 @@ void QSvn::doAdd()
         ( fileSelector->checkedFileList() );
         setActionStop( "" );
     }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
     delete(fileSelector);
 }
 
@@ -337,7 +337,7 @@ void QSvn::doDelete()
         ( fileSelector->checkedFileList() );
         setActionStop( "" );
     }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
     delete( fileSelector );
 }
 
@@ -350,7 +350,7 @@ void QSvn::doRevert()
         SvnClient::instance()->revert( fileSelector->checkedFileList() );
         setActionStop( "" );
     }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex() );
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
     delete( fileSelector );
 }
 

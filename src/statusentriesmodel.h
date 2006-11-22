@@ -39,7 +39,7 @@ class StatusEntriesModel : public QAbstractTableModel
         QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
         QVariant data( const QModelIndex &index, int role ) const;
 
-        void readDirectory( QString directory, const bool descend = false );
+        void readDirectory( QString directory, const bool descend, const bool force );
         void readFileList( QStringList fileList );
 
         svn::Status at( int row );

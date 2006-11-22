@@ -92,7 +92,7 @@ private slots:
     //Help
     void aboutQSvn();
 
-    void activateWorkingCopy( const QModelIndex &index );
+    void activateWorkingCopy( const QModelIndex &index, const bool force = false );
 };
 
 #endif

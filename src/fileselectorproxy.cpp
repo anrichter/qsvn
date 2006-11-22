@@ -44,7 +44,7 @@ FileSelectorProxy::~FileSelectorProxy()
 
 void FileSelectorProxy::readDirectory( QString directory, const bool descend )
 {
-    m_statusEntriesModel->readDirectory( directory, descend );
+    m_statusEntriesModel->readDirectory( directory, descend, true );
     checkedRows.clear();
 }
 

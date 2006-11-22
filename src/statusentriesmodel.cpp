@@ -123,11 +123,11 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
     return QVariant();
 }
 
-void StatusEntriesModel::readDirectory( QString directory, const bool descend )
+void StatusEntriesModel::readDirectory( QString directory, const bool descend, const bool force )
 {
     directory = QDir::cleanPath( directory )+ QDir::separator();
     directory = QDir::convertSeparators( directory );
-    if ( m_directory != directory )
+    if ( force || ( m_directory != directory ) )
     {
         m_descend = descend;
         m_directory = directory;
