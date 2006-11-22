@@ -41,9 +41,14 @@ FileListProxy::~FileListProxy()
     delete( m_statusEntriesModel );
 }
 
-StatusEntriesModel *FileListProxy::statusEntriesModel()
+void FileListProxy::readDirectory( QString directory, const bool descend, const bool force )
 {
-    return m_statusEntriesModel;
+    return m_statusEntriesModel->readDirectory( directory, descend, force );
+}
+
+svn::Status FileListProxy::at( const QModelIndex &index )
+{
+    return m_statusEntriesModel->at( mapToSource( index ).row() );
 }
 
 bool FileListProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const

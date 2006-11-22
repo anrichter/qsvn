@@ -33,7 +33,8 @@ class FileListProxy : public QSortFilterProxyModel
         FileListProxy( QObject *parent );
         ~FileListProxy();
 
-        StatusEntriesModel *statusEntriesModel();
+        void readDirectory( QString directory, const bool descend, const bool force );
+        svn::Status at( const QModelIndex &index );
     protected:
         bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
     private:

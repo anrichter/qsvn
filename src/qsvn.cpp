@@ -79,7 +79,7 @@ void QSvn::activateWorkingCopy( const QModelIndex &index, const bool force )
     if ( index.isValid() )
     {
         m_currentWCpath = workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString();
-        fileListProxy->statusEntriesModel()->readDirectory( m_currentWCpath, false, force );
+        fileListProxy->readDirectory( m_currentWCpath, false, force );
     }
 }
 
@@ -206,7 +206,7 @@ QStringList QSvn::selectedFiles()
 
     for ( int i = 0; i < indexes.count(); ++i )
     {
-        status = fileListProxy->statusEntriesModel()->at( fileListProxy->mapToSource( indexes.at( i ) ).row() );
+        status = fileListProxy->at( indexes.at( i ) );
         fileSet << status.path();
     }
 
