@@ -65,8 +65,9 @@ private:
 
     FileSelectorProxy *m_fileSelectorProxy;
 
-    void configUI();
-    void createMenus();
+    void setupFileSelector( SvnClient::SvnAction svnAction );
+    void setupUI();
+    void setupMenus();
     void setupConnections();
     void hideGroupBoxLogMessage();
 

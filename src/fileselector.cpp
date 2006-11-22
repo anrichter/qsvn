@@ -33,21 +33,10 @@ FileSelector::FileSelector( QWidget * parent, SvnClient::SvnAction svnAction, QS
         : QDialog( parent )
 {
     setupUi( this );
-
-    m_svnAction = svnAction;
-    createMenus();
-
     //initModelProxy
     m_fileSelectorProxy = new FileSelectorProxy( parent, svnAction );
     m_fileSelectorProxy->readDirectory( wc, true );
-    treeViewFiles->setModel( m_fileSelectorProxy );
-
-    configUI();
-    setupConnections();
-    treeViewFiles->installEventFilter( this );
-
-    Config::instance()->restoreWidget( this, this->windowTitle() );
-    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
+    setupFileSelector( svnAction );
 }
 
 FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,  
@@ -55,21 +44,10 @@ FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
         : QDialog( parent )
 {
     setupUi( this );
-
-    m_svnAction = svnAction;
-    createMenus();
-
     //initModelProxy
     m_fileSelectorProxy = new FileSelectorProxy( parent, svnAction );
     m_fileSelectorProxy->readFileList( fileList );
-    treeViewFiles->setModel( m_fileSelectorProxy );
-
-    configUI();
-    setupConnections();
-    treeViewFiles->installEventFilter( this );
-
-    Config::instance()->restoreWidget( this, this->windowTitle() );
-    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
+    setupFileSelector( svnAction );
 }
 
 FileSelector::~FileSelector( )
@@ -80,7 +58,23 @@ FileSelector::~FileSelector( )
         delete( m_fileSelectorProxy );
 }
 
-void FileSelector::configUI()
+void FileSelector::setupFileSelector( SvnClient::SvnAction svnAction )
+{
+    m_svnAction = svnAction;
+    
+    treeViewFiles->setModel( m_fileSelectorProxy );
+
+    setupMenus();
+    setupUI();
+    setupConnections();
+    
+    treeViewFiles->installEventFilter( this );
+
+    Config::instance()->restoreWidget( this, this->windowTitle() );
+    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
+}
+
+void FileSelector::setupUI()
 {
     switch ( m_svnAction )
     {
@@ -114,7 +108,7 @@ void FileSelector::configUI()
     }
 }
 
-void FileSelector::createMenus()
+void FileSelector::setupMenus()
 {
     contextMenu = new QMenu( this );
 
