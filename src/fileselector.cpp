@@ -162,6 +162,17 @@ void FileSelector::buttonOkClickedSlot()
 {
     if ( m_svnAction == SvnClient::SvnCommit )
     {
+        if ( ( editLogMessage->toPlainText().isEmpty() ) && 
+              ( Config::instance()->value( KEY_CHECKEMPTYLOGMESSAGE ).toBool() ) )
+        {
+            if ( QMessageBox::question( this, tr( "Commit without Log Message" ), 
+                                        tr( "Would you really commit your Changes without a Log Message?"), 
+                                        QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
+            {
+                return;
+            }
+        }
+
         QStringList logEntries;
         logEntries << editLogMessage->toPlainText();
         for ( int i = 0; i < comboLogHistory->count(); ++i )

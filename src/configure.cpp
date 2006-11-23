@@ -42,6 +42,10 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
         checkBoxShowLogAfterUpdate->setCheckState( Qt::Checked );
     else
         checkBoxShowLogAfterUpdate->setCheckState( Qt::Unchecked );
+    if ( Config::instance()->value( KEY_CHECKEMPTYLOGMESSAGE ).toBool() )
+        checkBoxCheckEmptyLogMessage->setCheckState( Qt::Checked );
+    else
+        checkBoxCheckEmptyLogMessage->setCheckState( Qt::Unchecked );
 }
 
 Configure::~ Configure( )
@@ -56,6 +60,10 @@ void Configure::buttonOkClickSlot()
         Config::instance()->setValue( KEY_SHOWLOGAFTERUPDATE, true );
     else
         Config::instance()->setValue( KEY_SHOWLOGAFTERUPDATE, false );
+    if ( checkBoxCheckEmptyLogMessage->checkState() == Qt::Checked )
+        Config::instance()->setValue( KEY_CHECKEMPTYLOGMESSAGE, true );
+    else
+        Config::instance()->setValue( KEY_CHECKEMPTYLOGMESSAGE, false );
 }
 
 void Configure::buttonSelectDiffViewerClickSlot()
