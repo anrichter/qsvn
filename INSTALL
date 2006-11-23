@@ -70,6 +70,8 @@ Compile for Release
   cd build
   cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src
   nmake
+If you would build the installer type in
+  nmake wix
 
 Compile for Development
 -----------------------
