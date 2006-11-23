@@ -80,18 +80,12 @@
 		<Feature Id="Complete" Title="QSvn" Description="The complete Installation" 
 		   Display="expand" Level="1"
            ConfigurableDirectory="INSTALLDIR">
-			<Feature Id="MainProgram" Title="Main Program Files" Description="This install the Main Program Files." Level="1">
-				<ComponentRef Id="QSvnMainfiles" />
-				<ComponentRef Id="SubversionLib" />
-				<ComponentRef Id="LicenseFiles" />
-			</Feature>
-			<Feature Id="QtLibs" Title="Qt4 Libraries" Description="The will install necessary Qt4 Libraries." Level="1">
-				<ComponentRef Id="QtLib4" />
-			</Feature>
-			<Feature Id="MsRedistributable" Title="Microsoft Redistributable" Description="This Feature will install the Microsoft VC8.0 CRT. These are necessary for run QSvn on your Computer." Level="1">
-				<MergeRef Id="CRT"/>
-				<MergeRef Id="CRT Policy" />
-			</Feature>
+			<ComponentRef Id="QSvnMainfiles" />
+			<ComponentRef Id="SubversionLib" />
+			<ComponentRef Id="LicenseFiles" />
+			<ComponentRef Id="QtLib4" />
+			<MergeRef Id="CRT"/>
+			<MergeRef Id="CRT Policy" />
 		</Feature>
 
 		<?include qsvn-ui.wxi?>
