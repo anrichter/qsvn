@@ -26,11 +26,11 @@
 #include "configure.h"
 #include "filelistproxy.h"
 #include "fileselector.h"
+#include "qsvn_defines.h"
 #include "qsvn.h"
 #include "showlog.h"
 #include "statustext.h"
 #include "svnclient.h"
-#include "version.h"
 #include "workingcopymodel.h"
 #include "workingcopyitem.h"
 

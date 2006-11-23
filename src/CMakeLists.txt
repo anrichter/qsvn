@@ -50,9 +50,9 @@ SET( qsvn_headers
          statusentriesmodel.h
          statustext.h
          svnclient.h
-         version.h
          workingcopyitem.h
          workingcopymodel.h
+         ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h         
 )
 
 SET( qsvn_sources
@@ -94,6 +94,11 @@ INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR} )
 QT4_AUTOMOC( ${qsvn_sources} )
 QT4_ADD_RESOURCES( resfiles qsvn.qrc )
 
+CONFIGURE_FILE( "${CMAKE_CURRENT_SOURCE_DIR}/qsvn_defines.h.in"
+                "${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h"
+                IMMEDIATE
+                @ONLY )
+
 IF ( WIN32 )
     ADD_EXECUTABLE( qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc )
 ELSE ( WIN32 )
@@ -123,6 +128,7 @@ IF ( WIN32 )
                             -dQSvnMinorVersion=${QSVN_MINOR_VERSION}
                             -dQSvnMicroVersion=${QSVN_MICRO_VERSION}
                             ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
-                        COMMAND light -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi qsvn.wixobj
-                      )
+                        COMMAND light 
+                            -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi 
+                            qsvn.wixobj )
 ENDIF ( WIN32 )
