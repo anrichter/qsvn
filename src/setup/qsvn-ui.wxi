@@ -390,7 +390,7 @@
 			</Control>
 			<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 			<Control Id="AgreementText" Type="ScrollableText" X="20" Y="60" Width="330" Height="160" Sunken="yes" TabSkip="no">
-				<Text src="license.rtf" />
+				<Text src="$(var.QSvnWiXDir)\license.rtf" />
 			</Control>
 			<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" />
 			<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="374" Height="0" />
@@ -1079,15 +1079,15 @@
 	<InstallExecuteSequence>
 		<RemoveExistingProducts After="InstallFinalize" />
 	</InstallExecuteSequence>
-	<Binary Id="bannrbmp" src="Binary\bannrbmp.bmp" />
-	<Binary Id="completi" src="Binary\completi.ico" />
-	<Binary Id="custicon" src="Binary\custicon.ico" />
-	<Binary Id="dlgbmp" src="Binary\dlgbmp.bmp" />
-	<Binary Id="exclamic" src="Binary\exclamic.ico" />
-	<Binary Id="info" src="Binary\info.ico" />
-	<Binary Id="insticon" src="Binary\insticon.ico" />
-	<Binary Id="New" src="Binary\New.ico" />
-	<Binary Id="removico" src="Binary\removico.ico" />
-	<Binary Id="repairic" src="Binary\repairic.ico" />
-	<Binary Id="Up" src="Binary\Up.ico" />
+	<Binary Id="bannrbmp" src="$(var.QSvnWiXDir)\Binary\bannrbmp.bmp" />
+	<Binary Id="completi" src="$(var.QSvnWiXDir)\Binary\completi.ico" />
+	<Binary Id="custicon" src="$(var.QSvnWiXDir)\Binary\custicon.ico" />
+	<Binary Id="dlgbmp" src="$(var.QSvnWiXDir)\Binary\dlgbmp.bmp" />
+	<Binary Id="exclamic" src="$(var.QSvnWiXDir)\Binary\exclamic.ico" />
+	<Binary Id="info" src="$(var.QSvnWiXDir)\Binary\info.ico" />
+	<Binary Id="insticon" src="$(var.QSvnWiXDir)\Binary\insticon.ico" />
+	<Binary Id="New" src="$(var.QSvnWiXDir)\Binary\New.ico" />
+	<Binary Id="removico" src="$(var.QSvnWiXDir)\Binary\removico.ico" />
+	<Binary Id="repairic" src="$(var.QSvnWiXDir)\Binary\repairic.ico" />
+	<Binary Id="Up" src="$(var.QSvnWiXDir)\Binary\Up.ico" />
 </Include>

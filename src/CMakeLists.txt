@@ -1,4 +1,7 @@
 PROJECT( qsvn )
+SET( QSVN_MAJOR_VERSION 0 )
+SET( QSVN_MINOR_VERSION 4 )
+SET( QSVN_MICRO_VERSION 94 )
 
 CMAKE_MINIMUM_REQUIRED( VERSION 2.4.0 )
 
@@ -100,12 +103,26 @@ ENDIF( WIN32 )
 SET_TARGET_PROPERTIES( qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}" )
 TARGET_LINK_LIBRARIES( qsvn svnqt-qt4 ${QT_LIBRARIES} )
 
-IF (WIN32)
+IF ( WIN32 )
     TARGET_LINK_LIBRARIES( qsvn ${QT_QTMAIN_LIBRARY} )
     TARGET_LINK_LIBRARIES( qsvn qtmain.lib ) #link qtmain.lib hard until cmake doesn't fill QT_QTMAIN_LIBRARY
-ENDIF (WIN32)
+ENDIF ( WIN32 )
 
 
 IF ( UNIX )
     INSTALL( TARGETS qsvn DESTINATION bin )
 ENDIF ( UNIX )
+
+IF ( WIN32 )
+    ADD_CUSTOM_TARGET ( wix
+                        COMMAND candle 
+                            -dQSvnSourceDir=${CMAKE_SOURCE_DIR}
+                            -dQSvnBinDir=${EXECUTABLE_OUTPUT_PATH}
+                            -dQSvnWiXDir=${CMAKE_SOURCE_DIR}/setup
+                            -dQSvnMajorVersion=${QSVN_MAJOR_VERSION}
+                            -dQSvnMinorVersion=${QSVN_MINOR_VERSION}
+                            -dQSvnMicroVersion=${QSVN_MICRO_VERSION}
+                            ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
+                        COMMAND light -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi qsvn.wixobj
+                      )
+ENDIF ( WIN32 )

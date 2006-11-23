@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 	<?include qsvn-defines.wxi?>
-	<Product Name="QSvn $(var.Version)" Id="????????-????-????-????-????????????" 
+	<Product Name="QSvn $(var.QSvnMajorVersion).$(var.QSvnMinorVersion).$(var.QSvnMicroVersion)" Id="????????-????-????-????-????????????" 
 		UpgradeCode="B8C2EE75-20F4-454B-9CFF-1205532FABA5"
 		Language="1033"
-        Version="$(var.Version)"
+        Version="$(var.QSvnMajorVersion).$(var.QSvnMinorVersion).$(var.QSvnMicroVersion)"
 		Manufacturer="Andreas Richter">
 
 		<Package Id="????????-????-????-????-????????????"
 			Keywords="Installer"
-            Description="QSvn $(var.Version) Installer"
-            Comments="This Package will install QSvn $(var.Version) on your Computer"
+            Description="QSvn $(var.QSvnMajorVersion).$(var.QSvnMinorVersion).$(var.QSvnMicroVersion) Installer"
+            Comments="This Package will install QSvn $(var.QSvnMajorVersion).$(var.QSvnMinorVersion).$(var.QSvnMicroVersion) on your Computer"
             Manufacturer="Andreas Richter"
             InstallerVersion="200"
             Languages="1033"
@@ -30,8 +30,8 @@
 					<Component Id="QSvnMainfiles" Guid="6B49681F-8A1C-4FEF-9F33-BC849F114277">
 						<File Id="qsvn" Name="QSVN.EXE" LongName="QSvn.exe" DiskId="1" src="$(var.QSvnBinDir)\qsvn.exe" Vital="yes"/>
 						<File Id="qsvn.exe.manifest" Name="QSVN.EXE.MAN" LongName="qsvn.exe.manifest" DiskId="1" src="$(var.QSvnBinDir)\qsvn.exe.manifest" Vital="yes"/>
-						<File Id="readme" Name="README" LongName="README" DiskId="1" src="..\..\README" />
-						<File Id="changelog" Name="CHANGELG" LongName="ChangeLog" DiskId="1" src="..\..\ChangeLog" />
+						<File Id="readme" Name="README" LongName="README" DiskId="1" src="$(var.QSvnSourceDir)\..\README" />
+						<File Id="changelog" Name="CHANGELG" LongName="ChangeLog" DiskId="1" src="$(var.QSvnSourceDir)\..\ChangeLog" />
 						<Shortcut Id="startmenuQSvn" Directory="ProgramMenuDir" Name="QSVN"
 							LongName="QSvn" Target="MainProgram" WorkingDirectory="INSTALLDIR"
 							Icon="QSvn.exe" IconIndex="0" />
@@ -57,11 +57,11 @@
 					
 					<Directory Id="LICENSES" Name="LICENSES" LongName="licenses">
 						<Component Id="LicenseFiles" Guid="4FDDC1C3-BD71-4a16-AFE9-041D2F8D8DD6">
-							<File Id="APRlicense" Name="APR.LIC" LongName="APR.license" DiskId="1" src="..\licenses\APR.license" />
-							<File Id="BerkeleyDBlicense" Name="BERKEL.LIC" LongName="BerkeleyDB.license" DiskId="1" src="..\licenses\BerkeleyDB.license" />
-							<File Id="QSvnlicense" Name="COPYING" LongName="COPYING" DiskId="1" src="..\licenses\COPYING" />
-							<File Id="OpenSSLlicense" Name="OPENSSL.LIC" LongName="OpenSSL.license" DiskId="1" src="..\licenses\OpenSSL.license" />
-							<File Id="Subversionlicense" Name="SUBVERS.LIC" LongName="Subversion.license" DiskId="1" src="..\licenses\Subversion.license" />
+							<File Id="APRlicense" Name="APR.LIC" LongName="APR.license" DiskId="1" src="$(var.QSvnSourceDir)\licenses\APR.license" />
+							<File Id="BerkeleyDBlicense" Name="BERKEL.LIC" LongName="BerkeleyDB.license" DiskId="1" src="$(var.QSvnSourceDir)\licenses\BerkeleyDB.license" />
+							<File Id="QSvnlicense" Name="COPYING" LongName="COPYING" DiskId="1" src="$(var.QSvnSourceDir)\licenses\COPYING" />
+							<File Id="OpenSSLlicense" Name="OPENSSL.LIC" LongName="OpenSSL.license" DiskId="1" src="$(var.QSvnSourceDir)\licenses\OpenSSL.license" />
+							<File Id="Subversionlicense" Name="SUBVERS.LIC" LongName="Subversion.license" DiskId="1" src="$(var.QSvnSourceDir)\licenses\Subversion.license" />
 						</Component>
 					</Directory>
 					
