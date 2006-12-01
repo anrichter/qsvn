@@ -132,6 +132,10 @@ void FileSelector::setupConnections( )
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
+
+    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), 
+        this, SLOT( diff( const QModelIndex & ) ) );
+
 }
 
 int FileSelector::exec()
@@ -227,7 +231,8 @@ void FileSelector::doRevert( )
 
 void FileSelector::diff( const QModelIndex &index )
 {
-    SvnClient::instance()->diff( m_fileSelectorProxy->at( index ).path() );
+    if ( actionDiff->isEnabled() )
+        SvnClient::instance()->diff( m_fileSelectorProxy->at( index ).path() );
 }
 
 void FileSelector::doDiff( )
@@ -242,12 +247,10 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
     if ( _status.textStatus() == svn_wc_status_modified )
     {
         actionDiff->setEnabled( true );
-        connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     }
     else
     {
         actionDiff->setEnabled( false );
-        disconnect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( diff( const QModelIndex & ) ) );
     }
 }
 
