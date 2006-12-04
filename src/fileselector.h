@@ -80,6 +80,7 @@ private slots:
 
     void doDiff();
     void doRevert();
+    void doResolved();
 };
 
 #endif

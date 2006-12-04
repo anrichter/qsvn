@@ -59,11 +59,12 @@ svn::Status FileSelectorProxy::at( const QModelIndex &index )
     return m_statusEntriesModel->at( mapToSource( index ).row() );
 }
 
-void FileSelectorProxy::updateEntry( const QModelIndex &index )
+void FileSelectorProxy::updateEntry( const QModelIndex &index, const bool deselect )
 {
     int sourceRow = mapToSource( index ).row();
     m_statusEntriesModel->updateEntry( sourceRow );
-    checkedRows.remove( sourceRow );
+    if ( deselect )
+        checkedRows.remove( sourceRow );
 }
 
 bool FileSelectorProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const
@@ -83,7 +84,8 @@ bool FileSelectorProxy::filterAcceptsRow ( int source_row, const QModelIndex &so
         if ( ( status.textStatus() == svn_wc_status_modified ) ||
                 ( status.textStatus() == svn_wc_status_added ) ||
                 ( status.textStatus() == svn_wc_status_deleted ) ||
-                ( status.textStatus() == svn_wc_status_replaced ) )
+                ( status.textStatus() == svn_wc_status_replaced ) ||
+                ( status.textStatus() == svn_wc_status_conflicted ) )
             return true;
         break;
     case SvnClient::SvnDelete:

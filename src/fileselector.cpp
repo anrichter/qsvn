@@ -117,6 +117,7 @@ void FileSelector::setupMenus()
     {
         contextMenu->addAction( actionDiff );
         contextMenu->addAction( actionRevert );
+        contextMenu->addAction( actionResolved );
         actionRevert->setIcon( QIcon( ":actionrevert.png" ) );
     }
 }
@@ -132,6 +133,7 @@ void FileSelector::setupConnections( )
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
+    connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
 
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), 
         this, SLOT( diff( const QModelIndex & ) ) );
@@ -229,6 +231,24 @@ void FileSelector::doRevert( )
     }
 }
 
+void FileSelector::doResolved()
+{
+    QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
+
+    QString fullFileName;
+    fullFileName = m_fileSelectorProxy->at( index ).path();
+
+    if ( QMessageBox::question( this, tr( "Resolved" ),
+                                QString( tr( "Do you really want to mark %1 as resolved\n?" ) ).arg( fullFileName ),
+                                QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+    {
+        SvnClient::instance()->resolved( fullFileName );
+
+        m_fileSelectorProxy->updateEntry( index, false );
+    }
+}
+
+
 void FileSelector::diff( const QModelIndex &index )
 {
     if ( actionDiff->isEnabled() )
@@ -244,14 +264,9 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
 {
     svn::Status _status = m_fileSelectorProxy->at( selected.indexes().at( 0 ) );
 
-    if ( _status.textStatus() == svn_wc_status_modified )
-    {
-        actionDiff->setEnabled( true );
-    }
-    else
-    {
-        actionDiff->setEnabled( false );
-    }
+    actionDiff->setEnabled( ( _status.textStatus() == svn_wc_status_modified ) ||
+        ( _status.textStatus() == svn_wc_status_conflicted ) );
+    actionResolved->setEnabled( _status.textStatus() == svn_wc_status_conflicted );
 }
 
 #include "fileselector.moc"

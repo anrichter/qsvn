@@ -39,7 +39,7 @@ public:
     void readFileList( QStringList fileList );
 
     svn::Status at( const QModelIndex &index );
-    void updateEntry( const QModelIndex &index );
+    void updateEntry( const QModelIndex &index, const bool deselect = true );
 
     QVariant data( const QModelIndex &index, int role ) const;
     bool setData( const QModelIndex &index, const QVariant &value, int role );

@@ -171,6 +171,17 @@
     <string>Diff</string>
    </property>
   </action>
+  <action name="actionResolved" >
+   <property name="text" >
+    <string>Resolved</string>
+   </property>
+   <property name="iconText" >
+    <string>Resolved</string>
+   </property>
+   <property name="toolTip" >
+    <string>Resolved</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../qsvn.qrc" />
