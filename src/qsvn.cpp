@@ -437,6 +437,7 @@ void QSvn::doResolved( )
             SvnClient::instance()->resolved( resolveList.at( i ) );
     }
     setActionStop( "Cleanup finished" );
+    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
 }
 
 #include "qsvn.moc"
