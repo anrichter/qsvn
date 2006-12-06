@@ -92,10 +92,8 @@ void Config::saveWidget( const QWidget *widget, const QString prefix )
     QSettings settings;
     QString key = "widget" + prefix + widget->objectName();
 
-    settings.setValue( key + "/width", widget->width() );
-    settings.setValue( key + "/height", widget->height() );
-    settings.setValue( key + "/x", widget->x() );
-    settings.setValue( key + "/y", widget->y() );
+    settings.remove( key );
+    settings.setValue( key + "/geometry", widget->saveGeometry() );
 }
 
 void Config::restoreWidget( QWidget *widget, const QString prefix )
@@ -103,11 +101,7 @@ void Config::restoreWidget( QWidget *widget, const QString prefix )
     QSettings settings;
     QString key = "widget" + prefix + widget->objectName();
 
-    widget->resize( settings.value( key + "/width", widget->width() ).toInt(),
-                    settings.value( key + "/height", widget->height() ).toInt() );
-
-    widget->move( QPoint( settings.value( key + "/x", widget->x() ).toInt(),
-                          settings.value( key + "/y", widget->y() ).toInt() ) );
+    widget->restoreGeometry( settings.value( key + "/geometry" ).toByteArray( ) );
 }
 
 void Config::saveSplitter( const QObject *parent, const QSplitter *splitter )
@@ -230,6 +224,8 @@ QString Config::tempDir()
 QVariant Config::defaultValue( const QString & key )
 {
     if ( key == KEY_SHOWLOGAFTERUPDATE )
+        return true;
+    else if ( key == KEY_CHECKEMPTYLOGMESSAGE )
         return true;
     else
         return QVariant();
