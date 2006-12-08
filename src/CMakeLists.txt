@@ -50,9 +50,10 @@ SET( qsvn_headers
          statusentriesmodel.h
          statustext.h
          svnclient.h
+         wcmodel.h
          workingcopyitem.h
          workingcopymodel.h
-         ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h         
+         ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h
 )
 
 SET( qsvn_sources
@@ -74,6 +75,7 @@ SET( qsvn_sources
          statusentriesmodel.cpp
          statustext.cpp
          svnclient.cpp
+         wcmodel.cpp
          workingcopyitem.cpp
          workingcopymodel.cpp
 )
@@ -120,7 +122,7 @@ ENDIF ( UNIX )
 
 IF ( WIN32 )
     ADD_CUSTOM_TARGET ( wix
-                        COMMAND candle 
+                        COMMAND candle
                             -dQSvnSourceDir=${CMAKE_SOURCE_DIR}
                             -dQSvnBinDir=${EXECUTABLE_OUTPUT_PATH}
                             -dQSvnWiXDir=${CMAKE_SOURCE_DIR}/setup
@@ -128,7 +130,7 @@ IF ( WIN32 )
                             -dQSvnMinorVersion=${QSVN_MINOR_VERSION}
                             -dQSvnMicroVersion=${QSVN_MICRO_VERSION}
                             ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
-                        COMMAND light 
-                            -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi 
+                        COMMAND light
+                            -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi
                             qsvn.wixobj )
 ENDIF ( WIN32 )
