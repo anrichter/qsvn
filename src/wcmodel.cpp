@@ -34,6 +34,7 @@
 WcModel::WcModel( QObject *parent )
     : QStandardItemModel( parent )
 {
+    setHorizontalHeaderLabels( QStringList( "Working Copy" ) );
     loadWcList();
 }
 
