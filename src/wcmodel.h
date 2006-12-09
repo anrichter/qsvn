@@ -29,13 +29,13 @@
 class WcModel : public QStandardItemModel
 {
 public:
-    WcModel(QObject *parent = 0);
+    WcModel( QObject *parent = 0 );
     ~WcModel();
 
-    void addWorkingCopy(QString directory);
+    void addDir( QString dir, QStandardItem *parent );
 private:
-    void saveWorkingCopies();
-    void loadWorkingCopies();
+    void saveWcList();
+    void loadWcList();
 };
 
 #endif

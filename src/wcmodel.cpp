@@ -27,44 +27,53 @@
 //SvnCpp
 #include "svnqt/wc.hpp"
 
-//Qt
-#include <QIcon>
-#include <QStandardItem>
 
-
-WcModel::WcModel(QObject *parent)
-    : QStandardItemModel(parent)
+WcModel::WcModel( QObject *parent )
+    : QStandardItemModel( parent )
 {
-    loadWorkingCopies();
+    loadWcList();
 }
 
 WcModel::~WcModel()
 {
+    saveWcList();
 }
 
-void WcModel::addWorkingCopy(QString directory)
+void WcModel::addDir( QString dir, QStandardItem *parent )
 {
-    if ( !svn::Wc::checkWc(directory.toLocal8Bit()))
-    {
-        StatusText::instance()->outputMessage(QString("%1 is not a Working Copy").arg(directory));
-        return;
-    }
+    QStandardItem *item = new QStandardItem( QDir::cleanPath( dir ) );
 
-    QStandardItem *item = new QStandardItem(QIcon(":folder.png"), directory);
-    invisibleRootItem()->appendRow(item);
+    if ( svn::Wc::checkWc( dir.toLocal8Bit() ) )
+        item->setIcon( QIcon( ":folder.png" ) );
+    else
+        item->setIcon( QIcon( ":unknownfolder.png" ) );
+
+    item->setData( dir );
+    parent->appendRow( item );
+
+    //call addDirectory for every sub-directory
+    QStringList dirLst = QDir( dir ).entryList( QDir::AllDirs );
+    foreach( QString entry, dirLst )
+        if ( ( entry != "." ) && ( entry != ".." ) )
+            addDir(  dir + QDir::separator() + entry, item );
+
 }
 
-void WcModel::saveWorkingCopies()
+void WcModel::saveWcList()
 {
+    QStringList wcList;
+
+    for ( int i = 0; i < invisibleRootItem()->rowCount(); i++ )
+        wcList << invisibleRootItem()->child( i )->data().toString();
+
+    Config::instance()->saveStringList( "workingCopies2", wcList );
 }
 
-void WcModel::loadWorkingCopies()
+void WcModel::loadWcList()
 {
     QStringList wcList = Config::instance()->getStringList( "workingCopies" );
     wcList.sort();
 
-    for (int i = wcList.size() - 1; i >= 0; --i )
-    {
-        addWorkingCopy(wcList.at(i));
-    }
+    foreach ( QString wc, wcList )
+        addDir( wc, invisibleRootItem() );
 }
