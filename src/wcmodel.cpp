@@ -27,6 +27,9 @@
 //SvnCpp
 #include "svnqt/wc.hpp"
 
+//Qt
+#include <QtGui>
+
 
 WcModel::WcModel( QObject *parent )
     : QStandardItemModel( parent )
@@ -41,21 +44,27 @@ WcModel::~WcModel()
 
 void WcModel::addDir( QString dir, QStandardItem *parent )
 {
-    QStandardItem *item = new QStandardItem( QDir::cleanPath( dir ) );
+    QStandardItem *item = new QStandardItem();
+
+    item->setText( dir );
+
+    //complete dir to full path if necessary
+    if ( parent != invisibleRootItem() )
+        dir = parent->data().toString() + QDir::separator() + dir;
+    item->setData( dir );
 
     if ( svn::Wc::checkWc( dir.toLocal8Bit() ) )
         item->setIcon( QIcon( ":folder.png" ) );
     else
         item->setIcon( QIcon( ":unknownfolder.png" ) );
 
-    item->setData( dir );
     parent->appendRow( item );
 
     //call addDirectory for every sub-directory
     QStringList dirLst = QDir( dir ).entryList( QDir::AllDirs );
     foreach( QString entry, dirLst )
         if ( ( entry != "." ) && ( entry != ".." ) )
-            addDir(  dir + QDir::separator() + entry, item );
+            addDir( entry, item );
 
 }
 
@@ -75,5 +84,5 @@ void WcModel::loadWcList()
     wcList.sort();
 
     foreach ( QString wc, wcList )
-        addDir( wc, invisibleRootItem() );
+        addDir( QDir::cleanPath( wc ), invisibleRootItem() );
 }
