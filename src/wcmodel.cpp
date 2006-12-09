@@ -43,6 +43,11 @@ WcModel::~WcModel()
     saveWcList();
 }
 
+QString WcModel::getPath( const QModelIndex &index )
+{
+    return itemFromIndex( index )->data().toString();
+}
+
 void WcModel::addDir( QString dir, QStandardItem *parent )
 {
     QStandardItem *item = new QStandardItem();
