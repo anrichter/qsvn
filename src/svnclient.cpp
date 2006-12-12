@@ -275,7 +275,7 @@ bool SvnClient::remove
 
 bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo )
 {
-    if ( Config::instance()->value( KEY_DIFFVIEWER ).isNull() )
+    if ( Config::instance()->value( KEY_DIFFVIEWER ).toString().isEmpty() )
     {
         //diff output to StatusText
         listener->setVerbose( true );
