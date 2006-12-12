@@ -65,7 +65,7 @@ QString Checkout::path() const
 
 void Checkout::selectURLSlot()
 {
-    StatusText::instance()->outputMessage( QString( tr( "not implemented yet" ) ) );
+    StatusText::out( QString( tr( "not implemented yet" ) ) );
 }
 
 void Checkout::selectPathSlot()

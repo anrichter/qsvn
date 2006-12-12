@@ -58,7 +58,7 @@ void WorkingCopyModel::addWorkingCopy( QString directory )
 
     if ( !svn::Wc::checkWc( directory.toLocal8Bit() ) )
     {
-        StatusText::instance()->outputMessage( directory + " is not a Working Copy" );
+        StatusText::out( directory + " is not a Working Copy" );
         return;
     }
 

@@ -150,7 +150,7 @@ void Listener::contextNotify( const char * path, svn_wc_notify_action_t action, 
     notifyString = notifyString + " " + path;
     if ( revision > -1 )
         notifyString = QString( tr( "%1 Revision %2" ) ).arg( notifyString ).arg ( revision );
-    StatusText::instance()->outputMessage( notifyString );
+    StatusText::out( notifyString );
 }
 
 void Listener::contextNotify( const svn_wc_notify_t *action )

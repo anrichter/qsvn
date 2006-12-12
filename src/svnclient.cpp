@@ -86,7 +86,7 @@ svn::StatusEntries SvnClient::status( const QString& path,
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return svn::StatusEntries();
     }
 }
@@ -100,7 +100,7 @@ svn::Status SvnClient::singleStatus( const QString &path )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return svn::Status();
     }
 }
@@ -119,7 +119,7 @@ bool SvnClient::update( QStringList &updateList )
     listener->setVerbose( true );
     try
     {
-        StatusText::instance()->outputMessage( "" );
+        StatusText::out( "" );
         svn::Targets targets( updateList );
         revisions = svnClient->update( targets, svn::Revision::HEAD, true, false );
         completedMessage( QString( updateList.at( 0 ) ) );
@@ -134,7 +134,7 @@ bool SvnClient::update( QStringList &updateList )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     return true;
@@ -153,7 +153,7 @@ bool SvnClient::checkout( const QString &url, const QString &path )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     return true;
@@ -171,7 +171,7 @@ bool SvnClient::svnexport( const QString &url, const QString &path, const svn::R
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     listener->setVerbose( true );
@@ -197,7 +197,7 @@ bool SvnClient::add
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     return true;
@@ -218,7 +218,7 @@ bool SvnClient::revert( const QStringList &revertList, const bool verbose )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     return true;
@@ -245,7 +245,7 @@ bool SvnClient::commit( const QStringList &commitList, const QString &logMessage
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     return true;
@@ -267,7 +267,7 @@ bool SvnClient::remove
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     return true;
@@ -285,11 +285,11 @@ bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, co
                                              svn::Path( file ),
                                              revisionFrom, revisionTo,
                                              true, false, false, true );
-            StatusText::instance()->outputMessage( delta );
+            StatusText::out( delta );
         }
         catch ( svn::ClientException e )
         {
-            StatusText::instance()->outputMessage( e.msg() );
+            StatusText::out( e.msg() );
             return false;
         }
     }
@@ -380,7 +380,7 @@ const svn::LogEntries* SvnClient::log( const QString &path,
     }
     catch ( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return new svn::LogEntries();
     }
 }
@@ -390,12 +390,12 @@ bool SvnClient::cleanup( const QString &path )
     listener->setVerbose( true );
     try
     {
-        StatusText::instance()->outputMessage( tr( "cleanup %1" ).arg( path ) );
+        StatusText::out( tr( "cleanup %1" ).arg( path ) );
         svnClient->cleanup( path );
     }
     catch( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     completedMessage( path );
@@ -407,9 +407,9 @@ void SvnClient::completedMessage( const QString &path )
     QString _path = path;
     svn::Status status = singleStatus( _path );
     if ( status.isVersioned() )
-        StatusText::instance()->outputMessage( QString( tr( "Completed at Revision %1\n" ) ).arg( status.entry().revision() ) );
+        StatusText::out( QString( tr( "Completed at Revision %1\n" ) ).arg( status.entry().revision() ) );
     else
-        StatusText::instance()->outputMessage( tr( "Completed\n" ) );
+        StatusText::out( tr( "Completed\n" ) );
 }
 
 void SvnClient::setCancel( )
@@ -426,7 +426,7 @@ bool SvnClient::resolved( const QString & path )
     }
     catch( svn::ClientException e )
     {
-        StatusText::instance()->outputMessage( e.msg() );
+        StatusText::out( e.msg() );
         return false;
     }
     return true;

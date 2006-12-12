@@ -22,11 +22,10 @@
 #define STATUSTEXT_H
 
 //Qt
-#include <qobject.h>
+#include <QObject>
 
 //Qt classes
 class QTextEdit;
-class QStringList;
 
 
 /**
@@ -42,14 +41,16 @@ public:
 
     void setOutPutWidget( QTextEdit *textEdit );
 
-    void outputMessage( const QString messageString );
-    void outputMessage( QStringList messageStringList );
-
+    inline static void out( const QString s ) { 
+        StatusText::instance()->outString( s );
+    }
 private:
+    StatusText( QObject *parent = 0 );
+
     static StatusText *m_instance;
     QTextEdit *editStatusText;
 
-    StatusText( QObject *parent = 0 );
+    void outString( const QString s );
 };
 
 #endif

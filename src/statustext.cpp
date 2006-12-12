@@ -51,20 +51,13 @@ void StatusText::setOutPutWidget( QTextEdit *textEdit )
         editStatusText = textEdit;
 }
 
-void StatusText::outputMessage( const QString messageString )
+void StatusText::outString( const QString s )
 {
     if ( editStatusText )
     {
-        editStatusText->append( messageString );
+        editStatusText->append( s );
         qApp->processEvents();
     }
     else
-        qDebug( messageString.toAscii() );
-}
-
-void StatusText::outputMessage( QStringList messageStringList )
-{
-    QStringList::const_iterator it;
-    for ( it = messageStringList.constBegin(); it != messageStringList.constEnd(); ++it )
-        this->outputMessage( *it );
+        qDebug( s.toAscii() );
 }
