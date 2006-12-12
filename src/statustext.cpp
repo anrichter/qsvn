@@ -38,7 +38,7 @@ StatusText* StatusText::instance()
     return m_instance;
 }
 
-//FileList implementation
+//StatusText implementation
 StatusText::StatusText( QObject *parent )
         : QObject( parent )
 {

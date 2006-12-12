@@ -51,7 +51,7 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     connectActions();
     createMenus();
 
-    StatusText::instance()->setOutPutWidget( editStatusText );
+    StatusText::setOut( editStatusText );
 
     //setup workingCopyModel
     workingCopyModel = new WorkingCopyModel();
