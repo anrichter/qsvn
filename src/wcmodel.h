@@ -32,6 +32,8 @@ public:
     WcModel( QObject *parent = 0 );
     ~WcModel();
 
+    void addWc( QString dir );
+    void removeWc( const QModelIndex &index );
     QString getPath( const QModelIndex &index );
 private:
     void addDir( QString dir, QStandardItem *parent );

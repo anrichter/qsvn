@@ -25,7 +25,7 @@
 #include "ui_qsvn.h"
 #include "svnclient.h"
 
-class WorkingCopyModel;
+class WcModel;
 class FileListProxy;
 class FileSelector;
 
@@ -51,8 +51,8 @@ private:
     QMenu *contextMenuWorkingCopy;
     QMenu *contextMenuFileList;
 
-    WorkingCopyModel *workingCopyModel;
-	FileListProxy *fileListProxy;
+    WcModel *wcModel;
+    FileListProxy *fileListProxy;
     QString m_currentWCpath; //current working copy path
 
     void setActionIcons();

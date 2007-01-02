@@ -20,7 +20,6 @@
 
 
 //QSvn
-#include "addworkingcopy.h"
 #include "checkout.h"
 #include "config.h"
 #include "configure.h"
@@ -31,8 +30,7 @@
 #include "showlog.h"
 #include "statustext.h"
 #include "svnclient.h"
-#include "workingcopymodel.h"
-#include "workingcopyitem.h"
+#include "wcmodel.h"
 
 //SvnCpp
 #include "svnqt/version_check.hpp"
@@ -53,11 +51,11 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
 
     StatusText::setOut( editStatusText );
 
-    //setup workingCopyModel
-    workingCopyModel = new WorkingCopyModel();
-    treeViewWorkingCopy->setModel( workingCopyModel );
-    treeViewWorkingCopy->header()->setSortIndicatorShown( true );
-    treeViewWorkingCopy->header()->setClickable( true );
+    //setup wcModel
+    wcModel = new WcModel( this );
+    treeViewWorkingCopy->setModel( wcModel );
+/*    treeViewWorkingCopy->header()->setSortIndicatorShown( true );
+    treeViewWorkingCopy->header()->setClickable( true );*/
     treeViewWorkingCopy->installEventFilter( this );
 
     //setup fileListModel
@@ -78,7 +76,7 @@ void QSvn::activateWorkingCopy( const QModelIndex &index, const bool force )
 {
     if ( index.isValid() )
     {
-        m_currentWCpath = workingCopyModel->data( index, WorkingCopyModel::FullDirectory ).toString();
+        m_currentWCpath = wcModel->getPath( index );
         fileListProxy->readDirectory( m_currentWCpath, false, force );
     }
 }
@@ -89,7 +87,6 @@ QSvn::~QSvn()
     Config::instance()->saveHeaderView( this, treeViewFileList->header() );
     Config::instance()->removeTempDir();
     delete( fileListProxy );
-    delete( workingCopyModel );
     delete( contextMenuWorkingCopy );
     delete( contextMenuFileList );
 }
@@ -219,7 +216,7 @@ QStringList QSvn::selectedDirs()
     QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
     for ( int i = 0; i < indexes.count(); i++ )
     {
-        fileSet << static_cast< WorkingCopyItem* >( indexes.at( i ).internalPointer() )->fullPath();
+        fileSet << wcModel->getPath( indexes.at( i ) );
     }
     return fileSet.toList();
 }
@@ -243,8 +240,10 @@ QItemSelectionModel* QSvn::activeSelectionModel()
 //protected slots
 void QSvn::doAddWorkingCopy()
 {
-    AddWorkingCopy::addWorkingCopy( this, workingCopyModel );
-    workingCopyModel->sort( 0, Qt::AscendingOrder );
+    QString dir = QFileDialog::getExistingDirectory( this,
+            tr( "Select a working Directory" ), "", QFileDialog::ShowDirsOnly );
+    if ( !dir.isEmpty() )
+        wcModel->addWc( dir );
 }
 
 void QSvn::doRemoveWorkingCopy()
@@ -257,8 +256,7 @@ void QSvn::doRemoveWorkingCopy()
         if ( QMessageBox::question( this, tr( "Confirmation" ), tr( "Should i really remove this Working Copy?" ),
                                     QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
         {
-            workingCopyModel->removeRow( indexes.at( i ).row() );
-            workingCopyModel->sort( 0, Qt::AscendingOrder );
+            wcModel->removeWc( indexes.at( i ) );
         }
     }
     activateWorkingCopy( QModelIndex() );
@@ -272,7 +270,7 @@ void QSvn::doCheckoutWorkingCopy()
         setActionStop( "Checkout" );
         if ( SvnClient::instance()->checkout( checkout.url(), checkout.path() ) )
         {
-            workingCopyModel->addWorkingCopy( checkout.path() );
+            wcModel->addWc( checkout.path() );
         }
         setActionStop( "" );
     }

@@ -33,7 +33,6 @@ INCLUDE_DIRECTORIES(
 ADD_SUBDIRECTORY( svnqt/buildqt4 )
 
 SET( qsvn_headers
-         addworkingcopy.h
          checkout.h
          config.h
          configure.h
@@ -51,13 +50,10 @@ SET( qsvn_headers
          statustext.h
          svnclient.h
          wcmodel.h
-         workingcopyitem.h
-         workingcopymodel.h
          ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h
 )
 
 SET( qsvn_sources
-         addworkingcopy.cpp
          checkout.cpp
          config.cpp
          configure.cpp
@@ -76,12 +72,9 @@ SET( qsvn_sources
          statustext.cpp
          svnclient.cpp
          wcmodel.cpp
-         workingcopyitem.cpp
-         workingcopymodel.cpp
 )
 
 SET( qsvn_forms
-         forms/addworkingcopy.ui
          forms/checkout.ui
          forms/configure.ui
          forms/fileselector.ui

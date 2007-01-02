@@ -43,6 +43,16 @@ WcModel::~WcModel()
     saveWcList();
 }
 
+void WcModel::addWc( QString dir )
+{
+    addDir( dir, invisibleRootItem() );
+}
+
+void WcModel::removeWc( const QModelIndex &index )
+{
+    removeRow( index.row(), index.parent() );
+}
+
 QString WcModel::getPath( const QModelIndex &index )
 {
     return itemFromIndex( index )->data().toString();
