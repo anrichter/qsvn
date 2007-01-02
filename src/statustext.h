@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
- *   Copyright (c) 2004-2006 Andreas Richter <ar@oszine.de>                *
+ *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *
@@ -40,7 +40,7 @@ public:
     inline static void setOut( QTextEdit *textEdit ) {
         StatusText::instance()->setOutPutWidget( textEdit );
     }
-    inline static void out( const QString s ) { 
+    inline static void out( const QString s ) {
         StatusText::instance()->outString( s );
     }
 private:

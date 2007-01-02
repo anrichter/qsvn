@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
- *   Copyright (c) 2004-2005 Andreas Richter <ar@oszine.de>                *
+ *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *

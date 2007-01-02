@@ -1,6 +1,6 @@
 /***************************************************************************
  *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
- *   Copyright (c) 2004-2006 Andreas Richter <ar@oszine.de>                *
+ *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *
@@ -399,7 +399,7 @@ void QSvn::aboutQSvn()
     aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
-    aboutMsg += "(c) 2004-2006 Andreas Richter<br/>";
+    aboutMsg += "(c) 2004-2007 Andreas Richter<br/>";
     aboutMsg += "<a href=\"http://ar.oszine.de/projects/qsvn/\">http://ar.oszine.de/projects/qsvn/</a></p>";
     aboutMsg += "<p>This Program is released under the terms of the<br/>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</p>";
     aboutMsg += "</div>";
