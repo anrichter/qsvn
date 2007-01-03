@@ -91,7 +91,7 @@ void WcModel::saveWcList()
     for ( int i = 0; i < invisibleRootItem()->rowCount(); i++ )
         wcList << invisibleRootItem()->child( i )->data().toString();
 
-    Config::instance()->saveStringList( "workingCopies2", wcList );
+    Config::instance()->saveStringList( "workingCopies", wcList );
 }
 
 void WcModel::loadWcList()
