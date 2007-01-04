@@ -43,6 +43,29 @@ WcModel::~WcModel()
     saveWcList();
 }
 
+int WcModel::rowCount( const QModelIndex &parent ) const
+{
+    if ( !parent.isValid() )
+        return QStandardItemModel::rowCount( parent );
+
+    WcModel *model = static_cast<const WcModel *>( parent.model() );
+    QStandardItem *item = model->itemFromIndex( parent );
+    if ( item->rowCount() == 0 )
+    {
+        //add subDirectories
+        foreach( QString entry, QDir( model->getPath( parent ) ).entryList( QDir::AllDirs ) )
+            if ( ( entry != "." ) && ( entry != ".." ) )
+                model->addDir( entry, item );
+    }
+
+    return item->rowCount();
+}
+
+bool WcModel::hasChildren( const QModelIndex &parent ) const
+{
+    return rowCount( parent ) > 0;
+}
+
 void WcModel::addWc( QString dir )
 {
     addDir( dir, invisibleRootItem() );
@@ -75,13 +98,6 @@ void WcModel::addDir( QString dir, QStandardItem *parent )
         item->setIcon( QIcon( ":unknownfolder.png" ) );
 
     parent->appendRow( item );
-
-    //call addDirectory for every sub-directory
-    QStringList dirLst = QDir( dir ).entryList( QDir::AllDirs );
-    foreach( QString entry, dirLst )
-        if ( ( entry != "." ) && ( entry != ".." ) )
-            addDir( entry, item );
-
 }
 
 void WcModel::saveWcList()
