@@ -48,7 +48,7 @@ int WcModel::rowCount( const QModelIndex &parent ) const
     if ( !parent.isValid() )
         return QStandardItemModel::rowCount( parent );
 
-    WcModel *model = static_cast<const WcModel *>( parent.model() );
+    const WcModel *model = static_cast<const WcModel *>( parent.model() );
     QStandardItem *item = model->itemFromIndex( parent );
     if ( item->rowCount() == 0 )
     {
@@ -76,12 +76,12 @@ void WcModel::removeWc( const QModelIndex &index )
     removeRow( index.row(), index.parent() );
 }
 
-QString WcModel::getPath( const QModelIndex &index )
+QString WcModel::getPath( const QModelIndex &index ) const
 {
     return itemFromIndex( index )->data().toString();
 }
 
-void WcModel::addDir( QString dir, QStandardItem *parent )
+void WcModel::addDir( QString dir, QStandardItem *parent ) const
 {
     QStandardItem *item = new QStandardItem();
 

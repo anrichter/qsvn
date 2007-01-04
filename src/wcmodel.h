@@ -39,13 +39,13 @@ public:
 
     void addWc( QString dir );
     void removeWc( const QModelIndex &index );
-    QString getPath( const QModelIndex &index );
+    QString getPath( const QModelIndex &index ) const;
 
 public slots:
     void doUpdate( const QModelIndex &index );
 
 private:
-    void addDir( QString dir, QStandardItem *parent );
+    void addDir( QString dir, QStandardItem *parent ) const;
 
     void saveWcList();
     void loadWcList();
