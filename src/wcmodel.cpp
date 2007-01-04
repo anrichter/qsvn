@@ -118,3 +118,11 @@ void WcModel::loadWcList()
     foreach ( QString wc, wcList )
         addDir( QDir::cleanPath( wc ), invisibleRootItem() );
 }
+
+void WcModel::doUpdate( const QModelIndex &index )
+{
+    QStandardItem *item = itemFromIndex( index );
+    item->removeRows( 0, item->rowCount() );
+}
+
+#include "wcmodel.moc"

@@ -68,6 +68,9 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
     connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
 
+    connect( treeViewWorkingCopy, SIGNAL( collapsed( const QModelIndex & ) ), wcModel, SLOT( doUpdate( const QModelIndex & ) ) );
+    connect( treeViewWorkingCopy, SIGNAL( expanded( const QModelIndex & ) ), wcModel, SLOT( doUpdate( const QModelIndex & ) ) );
+
     Config::instance()->restoreMainWindow( this );
     Config::instance()->restoreHeaderView( this, treeViewFileList->header() );
 }

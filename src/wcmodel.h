@@ -28,6 +28,8 @@
 
 class WcModel : public QStandardItemModel
 {
+    Q_OBJECT
+
 public:
     WcModel( QObject *parent = 0 );
     ~WcModel();
@@ -38,6 +40,10 @@ public:
     void addWc( QString dir );
     void removeWc( const QModelIndex &index );
     QString getPath( const QModelIndex &index );
+
+public slots:
+    void doUpdate( const QModelIndex &index );
+
 private:
     void addDir( QString dir, QStandardItem *parent );
 
