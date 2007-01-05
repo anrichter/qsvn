@@ -39,7 +39,7 @@ FileSelector::FileSelector( QWidget * parent, SvnClient::SvnAction svnAction, QS
     setupFileSelector( svnAction );
 }
 
-FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,  
+FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
                             QStringList fileList )
         : QDialog( parent )
 {
@@ -61,13 +61,13 @@ FileSelector::~FileSelector( )
 void FileSelector::setupFileSelector( SvnClient::SvnAction svnAction )
 {
     m_svnAction = svnAction;
-    
+
     treeViewFiles->setModel( m_fileSelectorProxy );
 
     setupMenus();
     setupUI();
     setupConnections();
-    
+
     treeViewFiles->installEventFilter( this );
 
     Config::instance()->restoreWidget( this, this->windowTitle() );
@@ -135,7 +135,7 @@ void FileSelector::setupConnections( )
     connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
     connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
 
-    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ), 
+    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ),
         this, SLOT( diff( const QModelIndex & ) ) );
 
 }
@@ -144,6 +144,14 @@ int FileSelector::exec()
 {
     checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
     return QDialog::exec();
+}
+
+void FileSelector::showModeless()
+{
+    setAttribute( Qt::WA_DeleteOnClose, true );
+    show();
+    raise();
+    activateWindow();
 }
 
 void FileSelector::hideGroupBoxLogMessage( )
@@ -168,11 +176,11 @@ void FileSelector::buttonOkClickedSlot()
 {
     if ( m_svnAction == SvnClient::SvnCommit )
     {
-        if ( ( editLogMessage->toPlainText().isEmpty() ) && 
+        if ( ( editLogMessage->toPlainText().isEmpty() ) &&
               ( Config::instance()->value( KEY_CHECKEMPTYLOGMESSAGE ).toBool() ) )
         {
-            if ( QMessageBox::question( this, tr( "Commit without Log Message" ), 
-                                        tr( "Would you really commit your Changes without a Log Message?"), 
+            if ( QMessageBox::question( this, tr( "Commit without Log Message" ),
+                                        tr( "Would you really commit your Changes without a Log Message?"),
                                         QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
             {
                 return;
@@ -191,6 +199,14 @@ void FileSelector::buttonOkClickedSlot()
     }
 
     Config::instance()->saveHeaderView( this, treeViewFiles->header() );
+
+    //call svn actions
+    switch ( m_svnAction )
+    {
+        case SvnClient::SvnCommit:
+            SvnClient::instance()->commit( checkedFileList(), logMessage() );
+            break;
+    }
     this->accept();
 }
 
@@ -267,6 +283,19 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
     actionDiff->setEnabled( ( _status.textStatus() == svn_wc_status_modified ) ||
         ( _status.textStatus() == svn_wc_status_conflicted ) );
     actionResolved->setEnabled( _status.textStatus() == svn_wc_status_conflicted );
+}
+
+//static functions
+void FileSelector::commit( QString wc )
+{
+    FileSelector *fileSelector = new FileSelector( 0, SvnClient::SvnCommit, wc );
+    fileSelector->showModeless();
+}
+
+void FileSelector::commit( QStringList fileList )
+{
+    FileSelector *fileSelector = new FileSelector( 0, SvnClient::SvnCommit, fileList );
+    fileSelector->showModeless();
 }
 
 #include "fileselector.moc"

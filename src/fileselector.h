@@ -52,6 +52,10 @@ public:
     QStringList checkedFileList();
     QString logMessage();
 
+    //static functions
+    static void commit( QString wc );
+    static void commit( QStringList fileList );
+
 public slots:
     int exec();
 
@@ -65,6 +69,7 @@ private:
 
     FileSelectorProxy *m_fileSelectorProxy;
 
+    void showModeless();
     void setupFileSelector( SvnClient::SvnAction svnAction );
     void setupUI();
     void setupMenus();

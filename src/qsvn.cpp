@@ -303,15 +303,10 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    FileSelector *fileSelector = newFileSelector( SvnClient::SvnCommit );
-    if ( fileSelector->exec() )
-    {
-        setActionStop( "Commit" );
-        SvnClient::instance()->commit( fileSelector->checkedFileList(), fileSelector->logMessage() );
-        setActionStop( "" );
-    }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
-    delete( fileSelector);
+    if ( isFileListSelected() )
+        FileSelector::commit( selectedFiles() );
+    else
+        FileSelector::commit( m_currentWCpath );
 }
 
 void QSvn::doAdd()
