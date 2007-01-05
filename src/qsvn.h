@@ -60,7 +60,6 @@ private:
 
     bool isFileListSelected();
     QStringList selectedPaths();
-    QItemSelectionModel* activeSelectionModel();
 
     void setActionStop( QString aText );
 

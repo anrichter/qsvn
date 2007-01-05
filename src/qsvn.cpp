@@ -200,41 +200,32 @@ bool QSvn::isFileListSelected()
 
 QStringList QSvn::selectedPaths()
 {
+    QSet<QString> pathSet;
+
     if ( isFileListSelected() )
     {
-        QSet<QString> fileSet;
         QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
         svn::Status status;
 
         for ( int i = 0; i < indexes.count(); ++i )
         {
             status = fileListProxy->at( indexes.at( i ) );
-            fileSet << status.path();
+            pathSet << status.path();
         }
 
-        return fileSet.toList();
     }
     else
     {
-        QSet<QString> fileSet;
-        QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+        QModelIndexList indexes = treeViewWorkingCopy->selectionModel()->selectedIndexes();
         for ( int i = 0; i < indexes.count(); i++ )
         {
-            fileSet << wcModel->getPath( indexes.at( i ) );
+            pathSet << wcModel->getPath( indexes.at( i ) );
         }
-        return fileSet.toList();
     }
+    return pathSet.toList();
 }
 
-QItemSelectionModel* QSvn::activeSelectionModel()
-{
-    if ( isFileListSelected() )
-        return treeViewFileList->selectionModel();
-    else
-        return treeViewWorkingCopy->selectionModel();
-}
-
-//protected slots
+//private slots
 void QSvn::doAddWorkingCopy()
 {
     QString dir = QFileDialog::getExistingDirectory( this,
