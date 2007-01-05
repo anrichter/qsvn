@@ -1,7 +1,7 @@
 PROJECT( qsvn )
 SET( QSVN_MAJOR_VERSION 0 )
 SET( QSVN_MINOR_VERSION 4 )
-SET( QSVN_MICRO_VERSION 94 )
+SET( QSVN_MICRO_VERSION 95 )
 
 CMAKE_MINIMUM_REQUIRED( VERSION 2.4.0 )
 
@@ -16,14 +16,12 @@ INCLUDE( ${CMAKE_ROOT}/Modules/FindQt4.cmake )
 INCLUDE( ${CMAKE_ROOT}/Modules/UseQt4.cmake )
 INCLUDE( ${CMAKE_SOURCE_DIR}/svnqt/cmakemodules/FindSubversion.cmake )
 
-SET ( LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib )
+SET ( LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin )
 SET ( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin )
 
 INCLUDE_DIRECTORIES(
                      ${CMAKE_CURRENT_BINARY_DIR}
-                     ${CMAKE_CURRENT_BINARY_DIR}/svnqt/buildqt4
                      ${CMAKE_CURRENT_SOURCE_DIR}
-                     ${CMAKE_CURRENT_SOURCE_DIR}/svnqt/buildqt4
                      ${QT_INCLUDES}
                      ${APR_INCLUDE_DIR}
                      ${APU_INCLUDE_DIR}
@@ -94,6 +92,22 @@ CONFIGURE_FILE( "${CMAKE_CURRENT_SOURCE_DIR}/qsvn_defines.h.in"
                 IMMEDIATE
                 @ONLY )
 
+
+IF (WIN32)
+    SET(_SVNQT_EXPORT "__declspec(dllimport)")
+ENDIF (WIN32)
+
+SET(TOUTF8 "toUtf8")
+SET(FROMUTF8 "fromUtf8")
+SET(QLIST "QList")
+
+CONFIGURE_FILE(
+    "${CMAKE_CURRENT_SOURCE_DIR}/svnqt/svnqt_defines.hpp.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/svnqt/svnqt_defines.hpp"
+    IMMEDIATE
+    @ONLY)
+
+
 IF ( WIN32 )
     ADD_EXECUTABLE( qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc )
 ELSE ( WIN32 )
@@ -117,6 +131,7 @@ IF ( WIN32 )
     ADD_CUSTOM_TARGET ( wix
                         COMMAND candle
                             -dQSvnSourceDir=${CMAKE_SOURCE_DIR}
+                            -dQSvnLibDir=${LIBRARY_OUTPUT_PATH}
                             -dQSvnBinDir=${EXECUTABLE_OUTPUT_PATH}
                             -dQSvnWiXDir=${CMAKE_SOURCE_DIR}/setup
                             -dQSvnMajorVersion=${QSVN_MAJOR_VERSION}

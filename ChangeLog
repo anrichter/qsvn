@@ -11,6 +11,7 @@ Version 0.5.0 - released 2006-??-??
     New Features (Windows only)
     ---------------------------
     * Store encrypted passwords on Windows Versions with CryptAPI (Windows 2000 and above)
+    * Use DLL svnqt-qt4 instead of static link svnqt-qt4 into qsvn.exe.
 
     Bugfixes
     --------
