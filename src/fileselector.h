@@ -53,7 +53,8 @@ public:
     QString logMessage();
 
     //static functions
-    static void commit( QStringList pathList, bool isFileList );
+    static void doSvnAction( SvnClient::SvnAction svnAction,
+                             QStringList pathList, bool isFileList );
 
 public slots:
     int exec();

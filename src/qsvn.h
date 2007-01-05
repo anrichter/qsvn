@@ -27,7 +27,6 @@
 
 class WcModel;
 class FileListProxy;
-class FileSelector;
 
 
 //QT
@@ -66,7 +65,6 @@ private:
     QItemSelectionModel* activeSelectionModel();
 
     void setActionStop( QString aText );
-    FileSelector* newFileSelector( SvnClient::SvnAction svnAction );
 
 private slots:
     //WorkingCopy
@@ -78,7 +76,7 @@ private slots:
     void doUpdate();
     void doCommit();
     void doAdd();
-    void doDelete();
+    void doDelete(); //todo: refactoring - rename to doRemove (consistence in source code)
     void doRevert();
     void doShowLog();
     void doCleanup();

@@ -232,14 +232,6 @@ QStringList QSvn::selectedPaths()
         return selectedDirs();
 }
 
-FileSelector* QSvn::newFileSelector( SvnClient::SvnAction svnAction )
-{
-    if ( isFileListSelected() )
-        return new FileSelector( this, svnAction, selectedFiles() );
-    else
-        return new FileSelector( this, svnAction, m_currentWCpath );
-}
-
 QItemSelectionModel* QSvn::activeSelectionModel()
 {
     if ( isFileListSelected() )
@@ -311,48 +303,22 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    FileSelector::commit( selectedPaths(), isFileListSelected() );
+    FileSelector::doSvnAction( SvnClient::SvnCommit, selectedPaths(), isFileListSelected() );
 }
 
 void QSvn::doAdd()
 {
-    FileSelector *fileSelector = newFileSelector( SvnClient::SvnAdd );
-    if ( fileSelector->exec() )
-    {
-        setActionStop( "Add" );
-        SvnClient::instance()->add
-        ( fileSelector->checkedFileList() );
-        setActionStop( "" );
-    }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
-    delete(fileSelector);
+    FileSelector::doSvnAction( SvnClient::SvnAdd, selectedPaths(), isFileListSelected() );
 }
 
 void QSvn::doDelete()
 {
-    FileSelector *fileSelector = newFileSelector( SvnClient::SvnDelete );
-    if ( fileSelector->exec() )
-    {
-        setActionStop( "Delete" );
-        SvnClient::instance()->remove
-        ( fileSelector->checkedFileList() );
-        setActionStop( "" );
-    }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
-    delete( fileSelector );
+    FileSelector::doSvnAction( SvnClient::SvnDelete, selectedPaths(), isFileListSelected() );
 }
 
 void QSvn::doRevert()
 {
-    FileSelector *fileSelector = newFileSelector( SvnClient::SvnRevert );
-    if ( fileSelector->exec() )
-    {
-        setActionStop( "Revert" );
-        SvnClient::instance()->revert( fileSelector->checkedFileList() );
-        setActionStop( "" );
-    }
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
-    delete( fileSelector );
+    FileSelector::doSvnAction( SvnClient::SvnRevert, selectedPaths(), isFileListSelected() );
 }
 
 void QSvn::doShowLog()

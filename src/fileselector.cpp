@@ -203,9 +203,17 @@ void FileSelector::buttonOkClickedSlot()
     //call svn actions
     switch ( m_svnAction )
     {
+        case SvnClient::SvnAdd:
+            SvnClient::instance()->add( checkedFileList() );
+            break;
         case SvnClient::SvnCommit:
             SvnClient::instance()->commit( checkedFileList(), logMessage() );
             break;
+        case SvnClient::SvnDelete:
+            SvnClient::instance()->remove( checkedFileList() );
+            break;
+        case SvnClient::SvnRevert:
+            SvnClient::instance()->revert( checkedFileList(), true );
     }
     this->accept();
 }
@@ -286,13 +294,14 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
 }
 
 //static functions
-void FileSelector::commit( QStringList pathList, bool isFileList )
+void FileSelector::doSvnAction( SvnClient::SvnAction svnAction,
+                                QStringList pathList, bool isFileList )
 {
     FileSelector *fs;
     if ( isFileList )
-        fs = new FileSelector( 0, SvnClient::SvnCommit, pathList );
+        fs = new FileSelector( 0, svnAction, pathList );
     else
-        fs = new FileSelector( 0, SvnClient::SvnCommit, pathList.at( 0 ) );
+        fs = new FileSelector( 0, svnAction, pathList.at( 0 ) );
     fs->showModeless();
 }
 
