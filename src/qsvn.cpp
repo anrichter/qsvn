@@ -198,17 +198,6 @@ bool QSvn::isFileListSelected()
         return false;
 }
 
-QStringList QSvn::selectedDirs()
-{
-    QSet<QString> fileSet;
-    QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
-    for ( int i = 0; i < indexes.count(); i++ )
-    {
-        fileSet << wcModel->getPath( indexes.at( i ) );
-    }
-    return fileSet.toList();
-}
-
 QStringList QSvn::selectedPaths()
 {
     if ( isFileListSelected() )
@@ -226,7 +215,15 @@ QStringList QSvn::selectedPaths()
         return fileSet.toList();
     }
     else
-        return selectedDirs();
+    {
+        QSet<QString> fileSet;
+        QModelIndexList indexes = activeSelectionModel()->selectedIndexes();
+        for ( int i = 0; i < indexes.count(); i++ )
+        {
+            fileSet << wcModel->getPath( indexes.at( i ) );
+        }
+        return fileSet.toList();
+    }
 }
 
 QItemSelectionModel* QSvn::activeSelectionModel()
@@ -316,14 +313,17 @@ void QSvn::doShowLog()
 
 void QSvn::doCleanup()
 {
-    QStringList cleanupList = selectedDirs();
-
-    setActionStop( "Cleanup" );
-    for ( int i = 0; i < cleanupList.count(); i++ )
+    if ( !isFileListSelected() )
     {
-        SvnClient::instance()->cleanup( cleanupList.at( i ) );
+        QStringList cleanupList = selectedPaths();
+
+        setActionStop( "Cleanup" );
+        for ( int i = 0; i < cleanupList.count(); i++ )
+        {
+            SvnClient::instance()->cleanup( cleanupList.at( i ) );
+        }
+        setActionStop( "" );
     }
-    setActionStop( "" );
 }
 
 void QSvn::doDiff()

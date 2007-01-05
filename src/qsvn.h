@@ -59,7 +59,6 @@ private:
     void createMenus();
 
     bool isFileListSelected();
-    QStringList selectedDirs(); //todo: refactoring - remove
     QStringList selectedPaths();
     QItemSelectionModel* activeSelectionModel();
 
