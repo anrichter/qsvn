@@ -43,9 +43,8 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
         : QMainWindow( parent, flags )
 {
     setupUi( this );
-    setWindowIcon( QIcon( ":qsvn.png" ) );
+    setWindowIcon( QIcon( ":/images/qsvn.png" ) );
 
-    setActionIcons();
     connectActions();
     createMenus();
 
@@ -92,22 +91,6 @@ QSvn::~QSvn()
     delete( fileListProxy );
     delete( contextMenuWorkingCopy );
     delete( contextMenuFileList );
-}
-
-void QSvn::setActionIcons( )
-{
-    //todo: Qt4.1.0 Designer can't handle icons set in ui file :(
-    actionAddWorkingCopy->setIcon( QIcon( ":actionadd.png" ) );
-    actionRemoveWorkingCopy->setIcon( QIcon( ":actiondelete.png" ) );
-    actionCheckoutWorkingCopy->setIcon( QIcon( ":actioncheckout.png" ) );
-
-    actionUpdate->setIcon( QIcon( ":actionupdate.png" ) );
-    actionCommit->setIcon( QIcon( ":actioncommit.png" ) );
-    actionAdd->setIcon( QIcon( ":actionaddlocal.png" ) );
-    actionDelete->setIcon( QIcon( ":actiondeletelocal.png" ) );
-    actionRevert->setIcon( QIcon( ":actionrevert.png" ) );
-
-    actionStop->setIcon( QIcon( ":actionstop.png" ) );
 }
 
 void QSvn::connectActions()

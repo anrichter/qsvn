@@ -32,7 +32,7 @@ Checkout::Checkout( QWidget *parent )
         : QDialog( parent )
 {
     setupUi( this );
-    setWindowIcon( QIcon( ":actioncheckout.png" ) );
+    setWindowIcon( QIcon( ":/images/actioncheckout.png" ) );
     Config::instance()->restoreWidget( this );
 
     QObject::connect( buttonURL, SIGNAL( clicked() ), this, SLOT( selectURLSlot() ) );

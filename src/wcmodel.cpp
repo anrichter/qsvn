@@ -93,9 +93,9 @@ void WcModel::addDir( QString dir, QStandardItem *parent ) const
     item->setData( dir );
 
     if ( svn::Wc::checkWc( dir.toLocal8Bit() ) )
-        item->setIcon( QIcon( ":folder.png" ) );
+        item->setIcon( QIcon( ":/images/folder.png" ) );
     else
-        item->setIcon( QIcon( ":unknownfolder.png" ) );
+        item->setIcon( QIcon( ":/images/unknownfolder.png" ) );
 
     parent->appendRow( item );
 }
