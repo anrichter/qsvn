@@ -46,7 +46,7 @@ public:
     enum SvnAction { SvnNone   = 0x00,
                      SvnAdd    = 0x01,
                      SvnCommit = 0x02,
-                     SvnDelete = 0x04, //todo: refactor - rename to SvnRemove (consistence in source-code)
+                     SvnDelete = 0x04,
                      SvnRevert = 0x05 };
 
     static SvnClient* instance();

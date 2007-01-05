@@ -198,21 +198,6 @@ bool QSvn::isFileListSelected()
         return false;
 }
 
-QStringList QSvn::selectedFiles()
-{
-    QSet<QString> fileSet;
-    QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
-    svn::Status status;
-
-    for ( int i = 0; i < indexes.count(); ++i )
-    {
-        status = fileListProxy->at( indexes.at( i ) );
-        fileSet << status.path();
-    }
-
-    return fileSet.toList();
-}
-
 QStringList QSvn::selectedDirs()
 {
     QSet<QString> fileSet;
@@ -227,7 +212,19 @@ QStringList QSvn::selectedDirs()
 QStringList QSvn::selectedPaths()
 {
     if ( isFileListSelected() )
-        return selectedFiles();
+    {
+        QSet<QString> fileSet;
+        QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
+        svn::Status status;
+
+        for ( int i = 0; i < indexes.count(); ++i )
+        {
+            status = fileListProxy->at( indexes.at( i ) );
+            fileSet << status.path();
+        }
+
+        return fileSet.toList();
+    }
     else
         return selectedDirs();
 }
@@ -281,21 +278,12 @@ void QSvn::doCheckoutWorkingCopy()
 
 void QSvn::doUpdate()
 {
-    QStringList updateList;
+    QStringList pathList = selectedPaths();
 
-    if ( isFileListSelected() )
-    {
-        updateList = selectedFiles();
-    }
-    else
-    {
-        updateList = selectedDirs();
-    }
-
-    if ( updateList.count() > 0 )
+    if ( pathList.count() > 0 )
     {
         setActionStop( "Update" );
-        SvnClient::instance()->update( updateList );
+        SvnClient::instance()->update( pathList );
         setActionStop( "" );
     }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
@@ -323,14 +311,7 @@ void QSvn::doRevert()
 
 void QSvn::doShowLog()
 {
-    QStringList logList;
-
-    if ( isFileListSelected() )
-        logList = selectedFiles();
-    else
-        logList = selectedDirs();
-
-    ShowLog::doShowLog( 0, logList.at( 0 ), svn::Revision::HEAD, svn::Revision::START );
+    ShowLog::doShowLog( 0, selectedPaths().at( 0 ), svn::Revision::HEAD, svn::Revision::START );
 }
 
 void QSvn::doCleanup()
@@ -347,7 +328,8 @@ void QSvn::doCleanup()
 
 void QSvn::doDiff()
 {
-    SvnClient::instance()->diff( selectedFiles() );
+    if ( isFileListSelected() )
+        SvnClient::instance()->diff( selectedPaths() );
 }
 
 void QSvn::configureQSvn()
@@ -393,18 +375,21 @@ void QSvn::setActionStop( QString aText )
 
 void QSvn::doResolved( )
 {
-    QStringList resolveList = selectedFiles();
-
-    setActionStop( "Resolve" );
-    for ( int i = 0; i < resolveList.count(); i++ )
+    if ( isFileListSelected() )
     {
-        if ( QMessageBox::question( this, tr( "Confirmation" ), QString( tr( "Are you sure that\n%1\nis resolved?" ).arg( resolveList.at( i ) ) ),
-                                    QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+        QStringList resolveList = selectedPaths();
 
-            SvnClient::instance()->resolved( resolveList.at( i ) );
+        setActionStop( "Resolve" );
+        for ( int i = 0; i < resolveList.count(); i++ )
+        {
+            if ( QMessageBox::question( this, tr( "Confirmation" ), QString( tr( "Are you sure that\n%1\nis resolved?" ).arg( resolveList.at( i ) ) ),
+                                        QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+
+                SvnClient::instance()->resolved( resolveList.at( i ) );
+        }
+        setActionStop( "Cleanup finished" );
+        activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
     }
-    setActionStop( "Cleanup finished" );
-    activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
 }
 
 #include "qsvn.moc"

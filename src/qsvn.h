@@ -59,7 +59,6 @@ private:
     void createMenus();
 
     bool isFileListSelected();
-    QStringList selectedFiles(); //todo: refactoring - remove
     QStringList selectedDirs(); //todo: refactoring - remove
     QStringList selectedPaths();
     QItemSelectionModel* activeSelectionModel();
@@ -76,7 +75,7 @@ private slots:
     void doUpdate();
     void doCommit();
     void doAdd();
-    void doDelete(); //todo: refactoring - rename to doRemove (consistence in source code)
+    void doDelete();
     void doRevert();
     void doShowLog();
     void doCleanup();
