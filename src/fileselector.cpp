@@ -286,16 +286,14 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
 }
 
 //static functions
-void FileSelector::commit( QString wc )
+void FileSelector::commit( QStringList pathList, bool isFileList )
 {
-    FileSelector *fileSelector = new FileSelector( 0, SvnClient::SvnCommit, wc );
-    fileSelector->showModeless();
-}
-
-void FileSelector::commit( QStringList fileList )
-{
-    FileSelector *fileSelector = new FileSelector( 0, SvnClient::SvnCommit, fileList );
-    fileSelector->showModeless();
+    FileSelector *fs;
+    if ( isFileList )
+        fs = new FileSelector( 0, SvnClient::SvnCommit, pathList );
+    else
+        fs = new FileSelector( 0, SvnClient::SvnCommit, pathList.at( 0 ) );
+    fs->showModeless();
 }
 
 #include "fileselector.moc"

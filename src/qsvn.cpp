@@ -224,6 +224,14 @@ QStringList QSvn::selectedDirs()
     return fileSet.toList();
 }
 
+QStringList QSvn::selectedPaths()
+{
+    if ( isFileListSelected() )
+        return selectedFiles();
+    else
+        return selectedDirs();
+}
+
 FileSelector* QSvn::newFileSelector( SvnClient::SvnAction svnAction )
 {
     if ( isFileListSelected() )
@@ -303,10 +311,7 @@ void QSvn::doUpdate()
 
 void QSvn::doCommit()
 {
-    if ( isFileListSelected() )
-        FileSelector::commit( selectedFiles() );
-    else
-        FileSelector::commit( m_currentWCpath );
+    FileSelector::commit( selectedPaths(), isFileListSelected() );
 }
 
 void QSvn::doAdd()

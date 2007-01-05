@@ -60,8 +60,9 @@ private:
     void createMenus();
 
     bool isFileListSelected();
-    QStringList selectedFiles();
-    QStringList selectedDirs();
+    QStringList selectedFiles(); //todo: refactoring - remove
+    QStringList selectedDirs(); //todo: refactoring - remove
+    QStringList selectedPaths();
     QItemSelectionModel* activeSelectionModel();
 
     void setActionStop( QString aText );

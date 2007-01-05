@@ -53,8 +53,7 @@ public:
     QString logMessage();
 
     //static functions
-    static void commit( QString wc );
-    static void commit( QStringList fileList );
+    static void commit( QStringList pathList, bool isFileList );
 
 public slots:
     int exec();
