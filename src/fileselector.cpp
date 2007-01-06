@@ -128,7 +128,7 @@ void FileSelector::setupConnections( )
     connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
 
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ),
-        this, SLOT( diff( const QModelIndex & ) ) );
+        this, SLOT( doDiff() ) );
 
 }
 
@@ -247,15 +247,13 @@ void FileSelector::doResolved()
 }
 
 
-void FileSelector::diff( const QModelIndex &index )
+void FileSelector::doDiff()
 {
-    if ( actionDiff->isEnabled() )
-        SvnClient::instance()->diff( m_fileSelectorProxy->at( index ).path() );
-}
+    if ( !actionDiff->isEnabled() )
+        return;
 
-void FileSelector::doDiff( )
-{
-    diff( treeViewFiles->selectionModel()->currentIndex() );
+    //todo: multiselect in treeViewFiles and call SvnClient::instance()->diff wiht a QStringList
+    SvnClient::instance()->diff( m_fileSelectorProxy->at( treeViewFiles->selectionModel()->currentIndex() ).path() );
 }
 
 void FileSelector::updateActions( const QItemSelection &selected, const QItemSelection &deselected )
