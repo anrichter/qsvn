@@ -28,25 +28,17 @@
 //Qt
 #include <QtGui>
 
-
-FileSelector::FileSelector( QWidget * parent, SvnClient::SvnAction svnAction, QString wc )
-        : QDialog( parent )
+FileSelector::FileSelector( const SvnClient::SvnAction svnAction,
+                            const QStringList pathList, const bool isFileList )
+        : QDialog( 0 )
 {
     setupUi( this );
-    //initModelProxy
-    m_fileSelectorProxy = new FileSelectorProxy( parent, svnAction );
-    m_fileSelectorProxy->readDirectory( wc, true );
-    setupFileSelector( svnAction );
-}
 
-FileSelector::FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
-                            QStringList fileList )
-        : QDialog( parent )
-{
-    setupUi( this );
-    //initModelProxy
-    m_fileSelectorProxy = new FileSelectorProxy( parent, svnAction );
-    m_fileSelectorProxy->readFileList( fileList );
+    m_fileSelectorProxy = new FileSelectorProxy( this, svnAction );
+    if ( isFileList )
+        m_fileSelectorProxy->readFileList( pathList );
+    else
+        m_fileSelectorProxy->readDirectory( pathList.at( 0 ), true );
     setupFileSelector( svnAction );
 }
 
@@ -294,14 +286,10 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
 }
 
 //static functions
-void FileSelector::doSvnAction( SvnClient::SvnAction svnAction,
-                                QStringList pathList, bool isFileList )
+void FileSelector::doSvnAction( const SvnClient::SvnAction svnAction,
+                                const QStringList pathList, const bool isFileList )
 {
-    FileSelector *fs;
-    if ( isFileList )
-        fs = new FileSelector( 0, svnAction, pathList );
-    else
-        fs = new FileSelector( 0, svnAction, pathList.at( 0 ) );
+    FileSelector *fs = new FileSelector( svnAction, pathList, isFileList );
     fs->showModeless();
 }
 

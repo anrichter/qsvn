@@ -37,24 +37,16 @@ class FileSelector : public QDialog, public Ui::FileSelector
     Q_OBJECT
 
 public:
-    /**
-     * Create a FileSelector for a working copy
-     * @param parent the parent widget
-     * @param svnAction the action the file selector is for
-     * @param wc the working copy
-     */
-    FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
-                  QString wc );
-	FileSelector( QWidget *parent, SvnClient::SvnAction svnAction,
-		          QStringList fileList );
+    FileSelector( const SvnClient::SvnAction svnAction,
+                  const QStringList pathList, const bool isFileList );
     ~FileSelector();
 
     QStringList checkedFileList();
     QString logMessage();
 
     //static functions
-    static void doSvnAction( SvnClient::SvnAction svnAction,
-                             QStringList pathList, bool isFileList );
+    static void doSvnAction( const SvnClient::SvnAction svnAction,
+                             const QStringList pathList, const bool isFileList );
 
 public slots:
     int exec();
