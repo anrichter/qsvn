@@ -41,9 +41,6 @@ public:
                   const QStringList pathList, const bool isFileList );
     ~FileSelector();
 
-    QStringList checkedFileList();
-    QString logMessage();
-
     //static functions
     static void doSvnAction( const SvnClient::SvnAction svnAction,
                              const QStringList pathList, const bool isFileList );
@@ -58,7 +55,6 @@ private:
     SvnClient::SvnAction m_svnAction;
     QItemSelectionModel *m_selectionModel;
     QMenu *contextMenu;
-
     FileSelectorProxy *m_fileSelectorProxy;
 
     void showModeless();
@@ -66,7 +62,6 @@ private:
     void setupUI();
     void setupMenus();
     void setupConnections();
-    void hideGroupBoxLogMessage();
 
 private slots:
     void diff( const QModelIndex &index );

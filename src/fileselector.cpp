@@ -72,12 +72,12 @@ void FileSelector::setupUI()
     {
     case SvnClient::SvnNone:
         setWindowTitle( "" );
-        hideGroupBoxLogMessage();
+        groupBoxLogMessage->setVisible( false );
         break;
     case SvnClient::SvnAdd:
         setWindowTitle( tr( "Add") );
         setWindowIcon( QIcon( ":/images/actionaddlocal.png" ) );
-        hideGroupBoxLogMessage();
+        groupBoxLogMessage->setVisible( false );
         break;
     case SvnClient::SvnCommit:
         setWindowTitle( tr( "Commit") );
@@ -90,12 +90,12 @@ void FileSelector::setupUI()
     case SvnClient::SvnDelete:
         setWindowTitle( tr( "Delete") );
         setWindowIcon( QIcon( ":/images/actiondeletelocal.png" ) );
-        hideGroupBoxLogMessage();
+        groupBoxLogMessage->setVisible( false );
         break;
     case SvnClient::SvnRevert:
         setWindowTitle( tr( "Revert") );
         setWindowIcon( QIcon( ":/images/actionrevert.png" ) );
-        hideGroupBoxLogMessage();
+        groupBoxLogMessage->setVisible( false );
         break;
     }
 }
@@ -146,24 +146,6 @@ void FileSelector::showModeless()
     activateWindow();
 }
 
-void FileSelector::hideGroupBoxLogMessage( )
-{
-    groupBoxLogMessage->setVisible( false );
-}
-
-QStringList FileSelector::checkedFileList()
-{
-    if ( m_fileSelectorProxy )
-        return m_fileSelectorProxy->checkedFileList();
-    else
-        return QStringList();
-}
-
-QString FileSelector::logMessage( )
-{
-    return editLogMessage->toPlainText();
-}
-
 void FileSelector::buttonOkClickedSlot()
 {
     if ( m_svnAction == SvnClient::SvnCommit )
@@ -196,16 +178,16 @@ void FileSelector::buttonOkClickedSlot()
     switch ( m_svnAction )
     {
         case SvnClient::SvnAdd:
-            SvnClient::instance()->add( checkedFileList() );
+            SvnClient::instance()->add( m_fileSelectorProxy->checkedFileList() );
             break;
         case SvnClient::SvnCommit:
-            SvnClient::instance()->commit( checkedFileList(), logMessage() );
+            SvnClient::instance()->commit( m_fileSelectorProxy->checkedFileList(), editLogMessage->toPlainText() );
             break;
         case SvnClient::SvnDelete:
-            SvnClient::instance()->remove( checkedFileList() );
+            SvnClient::instance()->remove( m_fileSelectorProxy->checkedFileList() );
             break;
         case SvnClient::SvnRevert:
-            SvnClient::instance()->revert( checkedFileList(), true );
+            SvnClient::instance()->revert( m_fileSelectorProxy->checkedFileList(), true );
     }
     this->accept();
 }
