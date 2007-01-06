@@ -37,21 +37,18 @@ class FileSelector : public QDialog, public Ui::FileSelector
     Q_OBJECT
 
 public:
-    FileSelector( const SvnClient::SvnAction svnAction,
-                  const QStringList pathList, const bool isFileList );
-    ~FileSelector();
-
     //static functions
     static void doSvnAction( const SvnClient::SvnAction svnAction,
                              const QStringList pathList, const bool isFileList );
-
-public slots:
-    int exec();
 
 protected:
     bool eventFilter( QObject *watched, QEvent *event );
 
 private:
+    FileSelector( const SvnClient::SvnAction svnAction,
+                  const QStringList pathList, const bool isFileList );
+    ~FileSelector();
+
     SvnClient::SvnAction m_svnAction;
     QItemSelectionModel *m_selectionModel;
     QMenu *contextMenu;

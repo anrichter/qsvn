@@ -40,6 +40,7 @@ FileSelector::FileSelector( const SvnClient::SvnAction svnAction,
     else
         m_fileSelectorProxy->readDirectory( pathList.at( 0 ), true );
     setupFileSelector( svnAction );
+    checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
 }
 
 FileSelector::~FileSelector( )
@@ -130,12 +131,6 @@ void FileSelector::setupConnections( )
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ),
         this, SLOT( doDiff() ) );
 
-}
-
-int FileSelector::exec()
-{
-    checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
-    return QDialog::exec();
 }
 
 void FileSelector::showModeless()
