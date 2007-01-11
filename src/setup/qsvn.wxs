@@ -81,12 +81,14 @@
 		<Feature Id="Complete" Title="QSvn" Description="The complete Installation" 
 		   Display="expand" Level="1"
            ConfigurableDirectory="INSTALLDIR">
-			<ComponentRef Id="QSvnMainfiles" />
-			<ComponentRef Id="SubversionLib" />
-			<ComponentRef Id="LicenseFiles" />
-			<ComponentRef Id="QtLib4" />
-			<MergeRef Id="CRT"/>
-			<MergeRef Id="CRT Policy" />
+			<Feature Id="MainProgram" Title="Main Program Files" Description="This install the Main Program Files." Level="1">
+				<ComponentRef Id="QSvnMainfiles" />
+				<ComponentRef Id="SubversionLib" />
+				<ComponentRef Id="LicenseFiles" />
+				<ComponentRef Id="QtLib4" />
+				<MergeRef Id="CRT"/>
+				<MergeRef Id="CRT Policy" />
+			</Feature>
 		</Feature>
 
 		<?include qsvn-ui.wxi?>
