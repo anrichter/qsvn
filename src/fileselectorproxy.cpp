@@ -94,9 +94,10 @@ bool FileSelectorProxy::filterAcceptsRow ( int source_row, const QModelIndex &so
             return true;
         break;
     case SvnClient::SvnRevert:
-        if ( ( status.textStatus() == svn_wc_status_modified ) ||
-                ( status.textStatus() == svn_wc_status_added ) ||
+        if ( ( status.textStatus() == svn_wc_status_added ) ||
+                ( status.textStatus() == svn_wc_status_conflicted ) ||
                 ( status.textStatus() == svn_wc_status_deleted ) ||
+                ( status.textStatus() == svn_wc_status_modified ) ||
                 ( status.textStatus() == svn_wc_status_replaced ) )
             return true;
         break;
