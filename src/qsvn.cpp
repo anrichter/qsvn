@@ -24,6 +24,7 @@
 #include "config.h"
 #include "configure.h"
 #include "filelistproxy.h"
+#include "filemodifier.h"
 #include "fileselector.h"
 #include "qsvn_defines.h"
 #include "qsvn.h"
@@ -109,6 +110,7 @@ void QSvn::connectActions()
     connect( actionLog, SIGNAL( triggered() ), this, SLOT( doShowLog() ) );
     connect( actionCleanup, SIGNAL( triggered() ), this, SLOT( doCleanup() ) );
     connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
+    connect( actionRename, SIGNAL( triggered() ), this, SLOT( doRename() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
@@ -147,6 +149,8 @@ void QSvn::createMenus()
     contextMenuFileList->addAction( actionDelete );
     contextMenuFileList->addAction( actionRevert );
     contextMenuFileList->addAction( actionResolved );
+    contextMenuFileList->addSeparator();
+    contextMenuFileList->addAction( actionRename );
 }
 
 bool QSvn::eventFilter( QObject * watched, QEvent * event )
@@ -363,6 +367,18 @@ void QSvn::doResolved( )
         }
         setActionStop( "Cleanup finished" );
         activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
+    }
+}
+
+void QSvn::doRename()
+{
+    if ( isFileListSelected() )
+    {
+        foreach( QString path, selectedPaths() )
+        {
+            FileModifier fm( this, path, SvnClient::SvnRename );
+            fm.exec();
+        }
     }
 }
 

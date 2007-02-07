@@ -35,6 +35,7 @@ SET( qsvn_headers
          config.h
          configure.h
          filelistproxy.h
+         filemodifier.h
          fileselector.h
          fileselectorproxy.h
          listener.h
@@ -56,6 +57,7 @@ SET( qsvn_sources
          config.cpp
          configure.cpp
          filelistproxy.cpp
+         filemodifier.cpp
          fileselector.cpp
          fileselectorproxy.cpp
          listener.cpp
@@ -76,6 +78,7 @@ SET( qsvn_forms
          forms/checkout.ui
          forms/configure.ui
          forms/fileselector.ui
+         forms/filemodifier.ui
          forms/login.ui
          forms/qsvn.ui
          forms/showlog.ui

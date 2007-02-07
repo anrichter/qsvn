@@ -16,79 +16,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  *                                                                         *
-***************************************************************************/
+ ***************************************************************************/
 
-#ifndef QSVN_H
-#define QSVN_H
+#ifndef FILEMODIFIER_H
+#define FILEMODIFIER_H
 
 //QSvn
-#include "ui_qsvn.h"
+#include "ui_filemodifier.h"
 #include "svnclient.h"
 
-class WcModel;
-class FileListProxy;
 
-
-//QT
-#include <QtCore>
-
-
-class QSvn : public QMainWindow, public Ui::QSvn
+class FileModifier : public QDialog, public Ui::FileModifier
 {
     Q_OBJECT
 
-public:
-    QSvn( QWidget *parent = 0, Qt::WFlags flags = 0 );
-    ~QSvn();
-
-protected:
-    bool eventFilter( QObject * watched, QEvent * event );
-    void closeEvent( QCloseEvent * event );
-
-private:
-    //ContextMenus
-    QMenu *contextMenuWorkingCopy;
-    QMenu *contextMenuFileList;
-
-    WcModel *wcModel;
-    FileListProxy *fileListProxy;
-    QString m_currentWCpath; //current working copy path
-
-    void connectActions();
-    void createMenus();
-
-    bool isFileListSelected();
-    QStringList selectedPaths();
-
-    void setActionStop( QString aText );
-
-private slots:
-    //WorkingCopy
-    void doAddWorkingCopy();
-    void doRemoveWorkingCopy();
-    void doCheckoutWorkingCopy();
-
-    //Modify
-    void doUpdate();
-    void doCommit();
-    void doAdd();
-    void doDelete();
-    void doRevert();
-    void doShowLog();
-    void doCleanup();
-    void doResolved();
-    void doRename();
-
-    //Query
-    void doDiff();
-
-    //Settings
-    void configureQSvn();
-
-    //Help
-    void aboutQSvn();
-
-    void activateWorkingCopy( const QModelIndex &index, const bool force = false );
+    public:
+        FileModifier( QWidget *parent, QString path, SvnClient::SvnAction svnAction );
+        ~FileModifier();
+    private:
+        SvnClient::SvnAction _svnAction;
 };
 
 #endif

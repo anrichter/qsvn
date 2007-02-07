@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>QSvn</class>
  <widget class="QMainWindow" name="QSvn" >
   <property name="geometry" >
@@ -341,8 +338,12 @@
     <string>Resolved</string>
    </property>
   </action>
+  <action name="actionRename" >
+   <property name="text" >
+    <string>Rename</string>
+   </property>
+  </action>
  </widget>
- <pixmapfunction></pixmapfunction>
  <resources>
   <include location="../qsvn.qrc" />
  </resources>

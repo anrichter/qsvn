@@ -47,7 +47,8 @@ public:
                      SvnAdd    = 0x01,
                      SvnCommit = 0x02,
                      SvnDelete = 0x04,
-                     SvnRevert = 0x05 };
+                     SvnRevert = 0x05,
+                     SvnRename = 0x06 };
 
     static SvnClient* instance();
 
