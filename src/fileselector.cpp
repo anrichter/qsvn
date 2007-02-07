@@ -171,6 +171,7 @@ void FileSelector::buttonOkClickedSlot()
 
     //call svn actions
     setEnabled( false );
+    qApp->processEvents();
     switch ( m_svnAction )
     {
         case SvnClient::SvnAdd:
@@ -186,6 +187,7 @@ void FileSelector::buttonOkClickedSlot()
             SvnClient::instance()->revert( m_fileSelectorProxy->checkedFileList(), true );
     }
     setEnabled( true );
+    qApp->processEvents();
     this->accept();
 }
 
