@@ -170,6 +170,7 @@ void FileSelector::buttonOkClickedSlot()
     Config::instance()->saveHeaderView( this, treeViewFiles->header() );
 
     //call svn actions
+    setEnabled( false );
     switch ( m_svnAction )
     {
         case SvnClient::SvnAdd:
@@ -184,6 +185,7 @@ void FileSelector::buttonOkClickedSlot()
         case SvnClient::SvnRevert:
             SvnClient::instance()->revert( m_fileSelectorProxy->checkedFileList(), true );
     }
+    setEnabled( true );
     this->accept();
 }
 
