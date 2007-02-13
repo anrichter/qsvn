@@ -35,9 +35,7 @@ Checkout::Checkout( QWidget *parent )
     setWindowIcon( QIcon( ":/images/actioncheckout.png" ) );
     Config::instance()->restoreWidget( this );
 
-    QObject::connect( buttonURL, SIGNAL( clicked() ), this, SLOT( selectURLSlot() ) );
     QObject::connect( buttonPath, SIGNAL( clicked() ), this, SLOT( selectPathSlot() ) );
-    QObject::connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
 
     editURL->addItems( Config::instance()->getStringList( "checkoutURL" ) );
     editURL->clearEditText();
@@ -63,11 +61,6 @@ QString Checkout::path() const
     return path;
 }
 
-void Checkout::selectURLSlot()
-{
-    StatusText::out( QString( tr( "not implemented yet" ) ) );
-}
-
 void Checkout::selectPathSlot()
 {
     QString directory = QFileDialog::getExistingDirectory( this, tr( "Select a directory for working copy" ), editPath->text() );
@@ -75,7 +68,7 @@ void Checkout::selectPathSlot()
         editPath->setText( QDir::convertSeparators( directory ) );
 }
 
-void Checkout::buttonOkClickedSlot()
+void Checkout::accept()
 {
     if ( editURL->currentText().isEmpty() )
     {
@@ -111,7 +104,7 @@ void Checkout::buttonOkClickedSlot()
         if ( !urlList.contains( editURL->itemText( i ) ) )
             urlList << editURL->itemText( i );
     Config::instance()->saveStringList( "checkoutURL", urlList );
-    this->accept();
+    QDialog::accept();
 }
 
 #include "checkout.moc"

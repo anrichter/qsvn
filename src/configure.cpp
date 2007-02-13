@@ -34,7 +34,6 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
     setupUi( this );
     Config::instance()->restoreWidget( this );
 
-    connect( buttonOk, SIGNAL( clicked() ), this, SLOT( buttonOkClickSlot() ) );
     connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
 
     editDiffViewer->setText( Config::instance()->value( KEY_DIFFVIEWER ).toString() );
@@ -53,7 +52,7 @@ Configure::~ Configure( )
     Config::instance()->saveWidget( this );
 }
 
-void Configure::buttonOkClickSlot()
+void Configure::accept()
 {
     Config::instance()->setValue( KEY_DIFFVIEWER, editDiffViewer->text() );
     if ( checkBoxShowLogAfterUpdate->checkState() == Qt::Checked )
@@ -64,6 +63,7 @@ void Configure::buttonOkClickSlot()
         Config::instance()->setValue( KEY_CHECKEMPTYLOGMESSAGE, true );
     else
         Config::instance()->setValue( KEY_CHECKEMPTYLOGMESSAGE, false );
+    QDialog::accept();
 }
 
 void Configure::buttonSelectDiffViewerClickSlot()

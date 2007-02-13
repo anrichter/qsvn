@@ -36,7 +36,7 @@ public:
     ~Configure();
 
 private slots:
-    void buttonOkClickSlot();
+    void accept();
     void buttonSelectDiffViewerClickSlot();
 };
 

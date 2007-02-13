@@ -40,9 +40,9 @@ public:
     QString path() const;
 
 public slots:
-    void selectURLSlot();
     void selectPathSlot();
-    void buttonOkClickedSlot();
+    void accept();
+
 private:
     QString m_selectedURL;
 };

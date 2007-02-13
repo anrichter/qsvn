@@ -117,7 +117,6 @@ void FileSelector::setupMenus()
 
 void FileSelector::setupConnections( )
 {
-    connect( okButton, SIGNAL( clicked() ), this, SLOT( buttonOkClickedSlot() ) );
     connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
     connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
     connect( treeViewFiles->selectionModel(),
@@ -141,7 +140,7 @@ void FileSelector::showModeless()
     activateWindow();
 }
 
-void FileSelector::buttonOkClickedSlot()
+void FileSelector::accept()
 {
     if ( m_svnAction == SvnClient::SvnCommit )
     {
@@ -188,7 +187,7 @@ void FileSelector::buttonOkClickedSlot()
     }
     setEnabled( true );
     qApp->processEvents();
-    this->accept();
+    QDialog::accept();
 }
 
 void FileSelector::comboLogHistoryActivatedSlot( int index )
