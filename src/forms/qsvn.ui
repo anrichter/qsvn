@@ -31,7 +31,7 @@
        </property>
        <widget class="QTreeView" name="treeViewWorkingCopy" >
         <property name="selectionMode" >
-         <enum>QAbstractItemView::SingleSelection</enum>
+         <enum>QAbstractItemView::ExtendedSelection</enum>
         </property>
         <property name="uniformRowHeights" >
          <bool>true</bool>
@@ -87,7 +87,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -147,8 +147,8 @@
   <widget class="QToolBar" name="toolBarWorkingCopy" >
    <property name="minimumSize" >
     <size>
-     <width>43</width>
-     <height>31</height>
+     <width>35</width>
+     <height>26</height>
     </size>
    </property>
    <property name="orientation" >

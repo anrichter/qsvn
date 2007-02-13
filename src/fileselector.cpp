@@ -268,8 +268,20 @@ void FileSelector::updateActions( const QItemSelection &selected, const QItemSel
 void FileSelector::doSvnAction( const SvnClient::SvnAction svnAction,
                                 const QStringList pathList, const bool isFileList )
 {
-    FileSelector *fs = new FileSelector( svnAction, pathList, isFileList );
-    fs->showModeless();
+    if ( isFileList )
+    {
+        FileSelector *fs = new FileSelector( svnAction, pathList, isFileList );
+        fs->showModeless();
+    } else {
+        QStringList singlePathList;
+        foreach( QString path, pathList )
+        {
+            singlePathList.clear();
+            singlePathList << path;
+            FileSelector *fs = new FileSelector( svnAction, singlePathList, isFileList );
+            fs->showModeless();
+        }
+    }
 }
 
 #include "fileselector.moc"

@@ -105,32 +105,30 @@ svn::Status SvnClient::singleStatus( const QString &path )
     }
 }
 
-bool SvnClient::update( QStringList &updateList )
+bool SvnClient::update( QStringList &updateList, const bool isFileList )
 {
     if ( updateList.isEmpty() )
         return true;
 
-    svn::Revisions revisions;
+    svn::Revisions fromRevisions, toRevisions;
 
-    QString path = updateList.at( 0 );
-    svn::Status status = singleStatus( path );
-    svn_revnum_t fromRevision = status.entry().cmtRev();
+    foreach( QString path, updateList )
+        fromRevisions.append( singleStatus( path ).entry().cmtRev() );
 
     listener->setVerbose( true );
     try
     {
         StatusText::out( "" );
-        svn::Targets targets( updateList );
-        revisions = svnClient->update( targets, svn::Revision::HEAD, true, false );
-        completedMessage( QString( updateList.at( 0 ) ) );
-        if ( ( updateList.count() == 1 ) &&                 //only for one Entry
-                Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() &&    //only if configured
-                ( !revisions.isEmpty() )                       //only if update results with a non-empty revisions-list
-           )
+        toRevisions = svnClient->update( svn::Targets( updateList ), svn::Revision::HEAD, true, false );
+        if ( ( fromRevisions.count() == toRevisions.count() ) &&                //only when same count
+                Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() && //only if configured
+                ( !toRevisions.isEmpty() ) )                                    //only if update results with a non-empty revisions-list
         {
-            ShowLog::doShowLog( 0, updateList.at( 0 ), revisions.at( 0 ).revision(), fromRevision );
+            for ( int i = 0; i < fromRevisions.count(); ++i ) 
+            {
+                ShowLog::doShowLog( 0, updateList.at( i ), toRevisions.at( i ).revision(), fromRevisions.at( i ) );
+            }
         }
-
     }
     catch ( svn::ClientException e )
     {

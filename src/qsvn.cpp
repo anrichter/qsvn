@@ -253,14 +253,10 @@ void QSvn::doCheckoutWorkingCopy()
 
 void QSvn::doUpdate()
 {
-    QStringList pathList = selectedPaths();
+    setActionStop( "Update" );
+    SvnClient::instance()->update( selectedPaths(), isFileListSelected() );
+    setActionStop( "" );
 
-    if ( pathList.count() > 0 )
-    {
-        setActionStop( "Update" );
-        SvnClient::instance()->update( pathList );
-        setActionStop( "" );
-    }
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
 }
 
@@ -286,7 +282,8 @@ void QSvn::doRevert()
 
 void QSvn::doShowLog()
 {
-    ShowLog::doShowLog( 0, selectedPaths().at( 0 ), svn::Revision::HEAD, svn::Revision::START );
+    foreach( QString path, selectedPaths() )
+        ShowLog::doShowLog( 0, path, svn::Revision::HEAD, svn::Revision::START );
 }
 
 void QSvn::doCleanup()
