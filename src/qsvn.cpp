@@ -197,9 +197,8 @@ QStringList QSvn::selectedPaths()
         for ( int i = 0; i < indexes.count(); ++i )
         {
             status = fileListProxy->at( indexes.at( i ) );
-            pathSet << status.path();
+            pathSet << QDir::toNativeSeparators( status.path() );
         }
-
     }
     else
     {

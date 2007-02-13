@@ -66,9 +66,6 @@ QVariant StatusEntriesModel::headerData( int section, Qt::Orientation orientatio
         case 3:
             return QString( tr( "Author" ) );
             break;
-        case 4:
-            return QString( tr( "Path" ) );
-            break;
         }
     }
     return QVariant();
@@ -94,7 +91,7 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
                 m_descend
             )
             {
-                QString path = QDir::convertSeparators( status.path() );
+                QString path = QDir::toNativeSeparators( status.path() );
                 return path.remove( m_directory );
             }
             else
@@ -109,9 +106,6 @@ QVariant StatusEntriesModel::data( const QModelIndex &index, int role ) const
             break;
         case 3:
             return status.entry().cmtAuthor();
-            break;
-        case 4:
-            return status.path();
             break;
         }
         break;

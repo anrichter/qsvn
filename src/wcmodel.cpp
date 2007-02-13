@@ -85,12 +85,12 @@ void WcModel::addDir( QString dir, QStandardItem *parent ) const
 {
     QStandardItem *item = new QStandardItem();
 
-    item->setText( dir );
+    item->setText( QDir::toNativeSeparators( dir ) );
 
     //complete dir to full path if necessary
     if ( parent != invisibleRootItem() )
         dir = parent->data().toString() + QDir::separator() + dir;
-    item->setData( dir );
+    item->setData( QDir::toNativeSeparators( dir ) );
 
     if ( svn::Wc::checkWc( dir.toLocal8Bit() ) )
         item->setIcon( QIcon( ":/images/folder.png" ) );
