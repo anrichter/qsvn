@@ -105,7 +105,7 @@ svn::Status SvnClient::singleStatus( const QString &path )
     }
 }
 
-bool SvnClient::update( QStringList &updateList, const bool isFileList )
+bool SvnClient::update( QStringList updateList, const bool isFileList )
 {
     if ( updateList.isEmpty() )
         return true;
@@ -124,7 +124,7 @@ bool SvnClient::update( QStringList &updateList, const bool isFileList )
                 Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() && //only if configured
                 ( !toRevisions.isEmpty() ) )                                    //only if update results with a non-empty revisions-list
         {
-            for ( int i = 0; i < fromRevisions.count(); ++i ) 
+            for ( int i = 0; i < fromRevisions.count(); ++i )
             {
                 ShowLog::doShowLog( 0, updateList.at( i ), toRevisions.at( i ).revision(), fromRevisions.at( i ) );
             }
