@@ -73,6 +73,8 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
     m_path.replace( "\\", "/" );
     if ( !m_path.endsWith( "/" ) )
         m_path.append( "/" );
+
+    this->setWindowTitle( QString( tr( "Show Log for %1" ) ).arg( QDir::toNativeSeparators( m_path ) ) );
 }
 
 ShowLog::~ShowLog()
