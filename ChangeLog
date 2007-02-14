@@ -6,6 +6,7 @@ Version 0.5.0 - released 2006-??-??
     ------------
     * [0000002] add-, commit- delete- and revert-Dialogs are now modeless.
     * [0000005] show strict node history in Show Log is selectable.
+    * [0000015] rename files
     * Check for empty Log Messages in Commit Dialog (optional).
     * Commit Dialog shows conflicted files.
     * Enable Multiselect for Working Copies.
