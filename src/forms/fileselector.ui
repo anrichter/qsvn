@@ -78,7 +78,11 @@
         <number>6</number>
        </property>
        <item row="1" column="0" >
-        <widget class="QTextEdit" name="editLogMessage" />
+        <widget class="QTextEdit" name="editLogMessage" >
+         <property name="tabChangesFocus" >
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="0" column="0" >
         <widget class="QComboBox" name="comboLogHistory" >
@@ -130,6 +134,13 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>treeViewFiles</tabstop>
+  <tabstop>checkSelectAll</tabstop>
+  <tabstop>comboLogHistory</tabstop>
+  <tabstop>editLogMessage</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources>
   <include location="../qsvn.qrc" />
  </resources>
@@ -141,8 +152,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>330</x>
-     <y>401</y>
+     <x>335</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel" >
      <x>267</x>
@@ -157,8 +168,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>404</x>
-     <y>416</y>
+     <x>409</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel" >
      <x>450</x>
