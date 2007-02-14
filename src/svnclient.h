@@ -99,6 +99,7 @@ public:
                                 int limit );
     bool cleanup( const QString &path );
     bool resolved( const QString &path );
+    bool move( const QString &srcPath, const QString &destPath, bool force );
 
 public slots:
     void setCancel( );

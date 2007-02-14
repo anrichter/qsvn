@@ -430,4 +430,19 @@ bool SvnClient::resolved( const QString & path )
     return true;
 }
 
+bool SvnClient::move( const QString &srcPath, const QString &destPath, bool force )
+{
+    listener->setVerbose( true );
+    try
+    {
+        svnClient->move( srcPath, destPath, force );
+    }
+    catch( svn::ClientException e )
+    {
+        StatusText::out( e.msg() );
+        return false;
+    }
+    return true;
+}
+
 #include "svnclient.moc"

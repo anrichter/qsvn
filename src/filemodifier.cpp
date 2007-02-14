@@ -28,17 +28,32 @@ FileModifier::FileModifier( QWidget *parent, QString path, SvnClient::SvnAction 
 {
     setupUi( this );
 
-    switch ( svnAction )
+    m_svnAction = svnAction;
+    m_srcPath = path;
+
+    switch ( m_svnAction )
     {
         case SvnClient::SvnRename:
-            labelModify->setText( tr( "Rename" ) );
+            setWindowTitle( tr( "Rename" ) );
             break;
     }
-    labelFromFile->setText( path );
+    labelFromFile->setText( m_srcPath );
+    editToFile->setText( m_srcPath );
 }
 
 FileModifier::~FileModifier( )
 {
+}
+
+void FileModifier::accept()
+{
+    switch( m_svnAction )
+    {
+        case SvnClient::SvnRename:
+            SvnClient::instance()->move( m_srcPath, editToFile->text(), false );
+            break;
+    }
+    QDialog::accept();
 }
 
 #include "filemodifier.moc"
