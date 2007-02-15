@@ -36,6 +36,9 @@ FileModifier::FileModifier( QWidget *parent, QString path, SvnClient::SvnAction 
         case SvnClient::SvnRename:
             setWindowTitle( tr( "Rename" ) );
             break;
+        case SvnClient::SvnMove:
+            setWindowTitle( tr( "Move" ) );
+            break;
     }
     labelFromFile->setText( m_srcPath );
     editToFile->setText( m_srcPath );
@@ -52,6 +55,8 @@ void FileModifier::accept()
         case SvnClient::SvnRename:
             SvnClient::instance()->move( m_srcPath, editToFile->text(), false );
             break;
+        case SvnClient::SvnMove:
+            SvnClient::instance()->move( m_srcPath, editToFile->text(), false );
     }
     QDialog::accept();
 }

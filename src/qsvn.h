@@ -78,6 +78,7 @@ private slots:
     void doCleanup();
     void doResolved();
     void doRename();
+    void doMove();
 
     //Query
     void doDiff();
