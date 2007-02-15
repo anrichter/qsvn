@@ -49,7 +49,8 @@ public:
                      SvnDelete = 0x04,
                      SvnRevert = 0x05,
                      SvnRename = 0x06,
-                     SvnMove   = 0x07 };
+                     SvnMove   = 0x07,
+                     SvnCopy   = 0x08 };
 
     static SvnClient* instance();
 
@@ -101,6 +102,7 @@ public:
     bool cleanup( const QString &path );
     bool resolved( const QString &path );
     bool move( const QString &srcPath, const QString &destPath, bool force );
+    bool copy( const QString &srcPath, const QString &destPath);
 
 public slots:
     void setCancel( );

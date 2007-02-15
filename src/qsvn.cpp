@@ -112,6 +112,7 @@ void QSvn::connectActions()
     connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
     connect( actionRename, SIGNAL( triggered() ), this, SLOT( doRename() ) );
     connect( actionMove, SIGNAL( triggered() ), this, SLOT( doMove() ) );
+    connect( actionCopy, SIGNAL( triggered() ), this, SLOT( doCopy() ) );
 
     connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
 
@@ -153,6 +154,7 @@ void QSvn::createMenus()
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction( actionRename );
     contextMenuFileList->addAction( actionMove );
+    contextMenuFileList->addAction( actionCopy );
 }
 
 bool QSvn::eventFilter( QObject * watched, QEvent * event )
@@ -387,6 +389,18 @@ void QSvn::doMove()
         foreach( QString path, selectedPaths() )
         {
             FileModifier fm( this, path, SvnClient::SvnMove );
+            fm.exec();
+        }
+    }
+}
+
+void QSvn::doCopy()
+{
+    if ( isFileListSelected() )
+    {
+        foreach( QString path, selectedPaths() )
+        {
+            FileModifier fm( this, path, SvnClient::SvnCopy );
             fm.exec();
         }
     }

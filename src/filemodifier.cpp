@@ -39,6 +39,9 @@ FileModifier::FileModifier( QWidget *parent, QString path, SvnClient::SvnAction 
         case SvnClient::SvnMove:
             setWindowTitle( tr( "Move" ) );
             break;
+        case SvnClient::SvnCopy:
+            setWindowTitle( tr( "Copy" ) );
+            break;
     }
     labelFromFile->setText( m_srcPath );
     editToFile->setText( m_srcPath );
@@ -57,6 +60,10 @@ void FileModifier::accept()
             break;
         case SvnClient::SvnMove:
             SvnClient::instance()->move( m_srcPath, editToFile->text(), false );
+            break;
+        case SvnClient::SvnCopy:
+            SvnClient::instance()->copy( m_srcPath, editToFile->text() );
+            break;
     }
     QDialog::accept();
 }

@@ -79,6 +79,7 @@ private slots:
     void doResolved();
     void doRename();
     void doMove();
+    void doCopy();
 
     //Query
     void doDiff();

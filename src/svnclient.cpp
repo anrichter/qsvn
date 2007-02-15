@@ -445,4 +445,20 @@ bool SvnClient::move( const QString &srcPath, const QString &destPath, bool forc
     return true;
 }
 
+bool SvnClient::copy( const QString &srcPath, const QString &destPath)
+{
+    listener->setVerbose( true );
+    try
+    {
+        svnClient->copy( srcPath, svn::Revision::WORKING, destPath );
+    }
+    catch( svn::ClientException e )
+    {
+        StatusText::out( e.msg() );
+        return false;
+    }
+    return true;
+}
+
+
 #include "svnclient.moc"
