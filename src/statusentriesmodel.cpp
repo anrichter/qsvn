@@ -33,6 +33,8 @@ StatusEntriesModel::StatusEntriesModel( QObject * parent )
         : QAbstractTableModel( parent )
 {
     m_statusEntries = svn::StatusEntries();
+    connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)), this, SLOT(doFileChanged(const QString &)));
+    connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)), this, SLOT(doDirectoryChanged(const QString &)));
 }
 
 StatusEntriesModel::~StatusEntriesModel()
@@ -123,21 +125,24 @@ void StatusEntriesModel::readDirectory( QString directory, const bool descend, c
     directory = QDir::toNativeSeparators( directory );
     if ( force || ( m_directory != directory ) )
     {
+        removeFromFsWatcher();
         m_descend = descend;
         m_directory = directory;
         m_statusEntries = SvnClient::instance()->status( m_directory, m_descend );
+        addToFsWatcher();
         emit layoutChanged();
     }
 }
 
 void StatusEntriesModel::readFileList( QStringList fileList )
 {
+    removeFromFsWatcher();
     m_statusEntries.clear();
 
     foreach( QString file, fileList )
-    {
         m_statusEntries.append( SvnClient::instance()->singleStatus( file ) );
-    }
+
+    addToFsWatcher();
 }
 
 svn::Status StatusEntriesModel::at( int row )
@@ -225,3 +230,39 @@ QString StatusEntriesModel::statusString( svn::Status status ) const
         return QString( status.textStatus() );
     }
 }
+
+void StatusEntriesModel::doDirectoryChanged(const QString & path)
+{
+    readDirectory( m_directory, m_descend, true );
+}
+
+void StatusEntriesModel::doFileChanged( const QString & path )
+{
+    for ( int i; i < m_statusEntries.count(); i++ )
+    {
+        if ( m_statusEntries.at( i ).path() == path )
+        {
+            if ( QFile::exists( path ) )
+                updateEntry( i );
+            else
+                m_statusEntries.removeAt( i );
+
+            emit layoutChanged();
+            break;
+        }
+    }
+}
+
+void StatusEntriesModel::removeFromFsWatcher()
+{
+    foreach( svn::Status status, m_statusEntries )
+        m_fsWatcher.removePath( status.path() );
+}
+
+void StatusEntriesModel::addToFsWatcher()
+{
+    foreach( svn::Status status, m_statusEntries )
+        m_fsWatcher.addPath( status.path() );
+}
+
+#include "statusentriesmodel.moc"

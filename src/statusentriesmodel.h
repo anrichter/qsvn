@@ -30,6 +30,8 @@
 
 class StatusEntriesModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
     public:
         StatusEntriesModel( QObject * parent );
         ~StatusEntriesModel();
@@ -45,13 +47,21 @@ class StatusEntriesModel : public QAbstractTableModel
         svn::Status at( int row );
         void updateEntry( int row ); //read a single status and replace it in m_statusEntriesModel
 
+    private slots:
+        void doFileChanged(const QString & path);
+        void doDirectoryChanged(const QString & path);
+
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;
         bool m_descend;
+        QFileSystemWatcher m_fsWatcher;
 
         QPixmap statusPixmap( svn::Status status ) const;
         QString statusString( svn::Status status ) const;
+
+        void removeFromFsWatcher();
+        void addToFsWatcher();
 };
 
 #endif
