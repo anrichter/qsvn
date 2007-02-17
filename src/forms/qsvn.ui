@@ -87,7 +87,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -123,6 +123,7 @@
      <string>&amp;Query</string>
     </property>
     <addaction name="actionDiff" />
+    <addaction name="actionLog" />
    </widget>
    <widget class="QMenu" name="menuModify" >
     <property name="title" >
@@ -130,12 +131,14 @@
     </property>
     <addaction name="actionUpdate" />
     <addaction name="actionCommit" />
-    <addaction name="actionLog" />
+    <addaction name="actionRevert" />
+    <addaction name="actionResolved" />
     <addaction name="separator" />
     <addaction name="actionAdd" />
     <addaction name="actionDelete" />
-    <addaction name="actionRevert" />
-    <addaction name="actionResolved" />
+    <addaction name="actionRename" />
+    <addaction name="actionMove" />
+    <addaction name="actionCopy" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuWorking_Copy" />
@@ -147,8 +150,8 @@
   <widget class="QToolBar" name="toolBarWorkingCopy" >
    <property name="minimumSize" >
     <size>
-     <width>35</width>
-     <height>26</height>
+     <width>43</width>
+     <height>31</height>
     </size>
    </property>
    <property name="orientation" >
@@ -340,17 +343,17 @@
   </action>
   <action name="actionRename" >
    <property name="text" >
-    <string>Rename</string>
+    <string>Rename...</string>
    </property>
   </action>
   <action name="actionMove" >
    <property name="text" >
-    <string>Move</string>
+    <string>Move...</string>
    </property>
   </action>
   <action name="actionCopy" >
    <property name="text" >
-    <string>Copy</string>
+    <string>Copy...</string>
    </property>
   </action>
  </widget>

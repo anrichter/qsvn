@@ -20,6 +20,10 @@ Version 0.5.0 - released 2006-??-??
     * Store encrypted passwords on Windows Versions with CryptAPI (Windows 2000 and above)
     * Use DLL svnqt-qt4 instead of static link svnqt-qt4 into qsvn.exe.
 
+    Changes
+    -------
+    * Reorder Menu-Items
+
     Bugfixes
     --------
     * [0000007] show log don't always show details on select a new log entry.

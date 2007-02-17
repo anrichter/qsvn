@@ -101,14 +101,14 @@ void QSvn::connectActions()
 void QSvn::createMenus()
 {
     contextMenuWorkingCopy = new QMenu ( this );
+    contextMenuWorkingCopy->addAction ( actionLog );
     contextMenuWorkingCopy->addAction ( actionUpdate );
     contextMenuWorkingCopy->addAction ( actionCommit );
-    contextMenuWorkingCopy->addAction ( actionLog );
+    contextMenuWorkingCopy->addAction ( actionRevert );
+    contextMenuWorkingCopy->addAction ( actionCleanup );
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction ( actionAdd );
     contextMenuWorkingCopy->addAction ( actionDelete );
-    contextMenuWorkingCopy->addAction ( actionRevert );
-    contextMenuWorkingCopy->addAction ( actionCleanup );
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction ( actionAddWorkingCopy );
     contextMenuWorkingCopy->addAction ( actionRemoveWorkingCopy );
@@ -116,16 +116,15 @@ void QSvn::createMenus()
 
     contextMenuFileList = new QMenu ( this );
     contextMenuFileList->addAction ( actionDiff );
+    contextMenuFileList->addAction ( actionLog );
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction ( actionUpdate );
     contextMenuFileList->addAction ( actionCommit );
-    contextMenuFileList->addAction ( actionLog );
-    contextMenuFileList->addSeparator();
-    contextMenuFileList->addAction ( actionAdd );
-    contextMenuFileList->addAction ( actionDelete );
     contextMenuFileList->addAction ( actionRevert );
     contextMenuFileList->addAction ( actionResolved );
     contextMenuFileList->addSeparator();
+    contextMenuFileList->addAction ( actionAdd );
+    contextMenuFileList->addAction ( actionDelete );
     contextMenuFileList->addAction ( actionRename );
     contextMenuFileList->addAction ( actionMove );
     contextMenuFileList->addAction ( actionCopy );
