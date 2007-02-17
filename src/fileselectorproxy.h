@@ -31,27 +31,29 @@
 
 class FileSelectorProxy : public QSortFilterProxyModel
 {
-public:
-    FileSelectorProxy( QObject *parent, SvnClient::SvnAction svnAction );
-    ~FileSelectorProxy();
+    public:
+        FileSelectorProxy ( QObject *parent, SvnClient::SvnAction svnAction );
+        ~FileSelectorProxy();
 
-    void readDirectory( QString directory, const bool descend = false );
-    void readFileList( QStringList fileList );
+        void readDirectory ( QString directory, const bool descend = false );
+        void readFileList ( QStringList fileList );
 
-    svn::Status at( const QModelIndex &index );
+        svn::Status at ( const QModelIndex &index );
 
-    QVariant data( const QModelIndex &index, int role ) const;
-    bool setData( const QModelIndex &index, const QVariant &value, int role );
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+        QVariant data ( const QModelIndex &index, int role ) const;
+        bool setData ( const QModelIndex &index, const QVariant &value, int role );
+        Qt::ItemFlags flags ( const QModelIndex &index ) const;
 
-    QStringList checkedFileList(); //return a list with full path from checked entries
-    void setSelectAllState( int state );
-protected:
-    bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
-private:
-    StatusEntriesModel *m_statusEntriesModel;
-    QSet<int> checkedRows;
-    SvnClient::SvnAction m_svnAction;
+        QStringList checkedFileList(); //return a list with full path from checked entries
+        void setSelectAllState ( int state );
+
+    protected:
+        bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
+
+    private:
+        StatusEntriesModel *m_statusEntriesModel;
+        QSet<int> checkedRows;
+        SvnClient::SvnAction m_svnAction;
 };
 
 #endif

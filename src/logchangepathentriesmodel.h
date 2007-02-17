@@ -35,19 +35,19 @@ class QVariant;
 */
 class LogChangePathEntriesModel : public QAbstractTableModel
 {
-public:
-    LogChangePathEntriesModel( QObject * parent, svn::LogChangePathEntries logChangePathEntries );
-    ~LogChangePathEntriesModel();
+    public:
+        LogChangePathEntriesModel ( QObject * parent, svn::LogChangePathEntries logChangePathEntries );
+        ~LogChangePathEntriesModel();
 
-    int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
-    int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
-    QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-    QVariant data( const QModelIndex &index, int role ) const;
+        int rowCount ( const QModelIndex &parent = QModelIndex( ) ) const;
+        int columnCount ( const QModelIndex &parent = QModelIndex( ) ) const;
+        QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+        QVariant data ( const QModelIndex &index, int role ) const;
 
-    svn::LogChangePathEntry getLogChangePathEntry( const QModelIndex & index );
+        svn::LogChangePathEntry getLogChangePathEntry ( const QModelIndex & index );
 
-private:
-    svn::LogChangePathEntries m_logChangePathEntries;
+    private:
+        svn::LogChangePathEntries m_logChangePathEntries;
 };
 
 #endif

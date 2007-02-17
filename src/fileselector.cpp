@@ -28,105 +28,105 @@
 //Qt
 #include <QtGui>
 
-FileSelector::FileSelector( const SvnClient::SvnAction svnAction,
-                            const QStringList pathList, const bool isFileList )
-        : QDialog( 0 )
+FileSelector::FileSelector ( const SvnClient::SvnAction svnAction,
+                             const QStringList pathList, const bool isFileList )
+        : QDialog ( 0 )
 {
-    setupUi( this );
+    setupUi ( this );
 
-    m_fileSelectorProxy = new FileSelectorProxy( this, svnAction );
+    m_fileSelectorProxy = new FileSelectorProxy ( this, svnAction );
     if ( isFileList )
-        m_fileSelectorProxy->readFileList( pathList );
+        m_fileSelectorProxy->readFileList ( pathList );
     else
-        m_fileSelectorProxy->readDirectory( pathList.at( 0 ), true );
-    setupFileSelector( svnAction );
-    checkSelectAll->setCheckState( Qt::CheckState( Config::instance()->value( "selectAll" + this->windowTitle() ).toInt() ) );
+        m_fileSelectorProxy->readDirectory ( pathList.at ( 0 ), true );
+    setupFileSelector ( svnAction );
+    checkSelectAll->setCheckState ( Qt::CheckState ( Config::instance()->value ( "selectAll" + this->windowTitle() ).toInt() ) );
 }
 
 FileSelector::~FileSelector( )
 {
-    Config::instance()->saveWidget( this, this->windowTitle() );
-    Config::instance()->setValue( "selectAll" + this->windowTitle(), checkSelectAll->checkState() );
+    Config::instance()->saveWidget ( this, this->windowTitle() );
+    Config::instance()->setValue ( "selectAll" + this->windowTitle(), checkSelectAll->checkState() );
     if ( m_fileSelectorProxy )
-        delete( m_fileSelectorProxy );
+        delete ( m_fileSelectorProxy );
 }
 
-void FileSelector::setupFileSelector( SvnClient::SvnAction svnAction )
+void FileSelector::setupFileSelector ( SvnClient::SvnAction svnAction )
 {
     m_svnAction = svnAction;
 
-    treeViewFiles->setModel( m_fileSelectorProxy );
+    treeViewFiles->setModel ( m_fileSelectorProxy );
 
     setupMenus();
     setupUI();
     setupConnections();
 
-    treeViewFiles->installEventFilter( this );
+    treeViewFiles->installEventFilter ( this );
 
-    Config::instance()->restoreWidget( this, this->windowTitle() );
-    Config::instance()->restoreHeaderView( this, treeViewFiles->header() );
+    Config::instance()->restoreWidget ( this, this->windowTitle() );
+    Config::instance()->restoreHeaderView ( this, treeViewFiles->header() );
 }
 
 void FileSelector::setupUI()
 {
     switch ( m_svnAction )
     {
-    case SvnClient::SvnNone:
-        setWindowTitle( "" );
-        groupBoxLogMessage->setVisible( false );
-        break;
-    case SvnClient::SvnAdd:
-        setWindowTitle( tr( "Add") );
-        setWindowIcon( QIcon( ":/images/actionaddlocal.png" ) );
-        groupBoxLogMessage->setVisible( false );
-        break;
-    case SvnClient::SvnCommit:
-        setWindowTitle( tr( "Commit") );
-        setWindowIcon( QIcon( ":/images/actioncommit.png" ) );
-        comboLogHistory->addItems( Config::instance()->getStringList( "logHistory" ) );
-        comboLogHistory->insertItem( 0, "" );
-        comboLogHistory->setCurrentIndex( 0 );
-        Config::instance()->restoreSplitter( this, splitter );
-        break;
-    case SvnClient::SvnDelete:
-        setWindowTitle( tr( "Delete") );
-        setWindowIcon( QIcon( ":/images/actiondeletelocal.png" ) );
-        groupBoxLogMessage->setVisible( false );
-        break;
-    case SvnClient::SvnRevert:
-        setWindowTitle( tr( "Revert") );
-        setWindowIcon( QIcon( ":/images/actionrevert.png" ) );
-        groupBoxLogMessage->setVisible( false );
-        break;
+        case SvnClient::SvnNone:
+            setWindowTitle ( "" );
+            groupBoxLogMessage->setVisible ( false );
+            break;
+        case SvnClient::SvnAdd:
+            setWindowTitle ( tr ( "Add" ) );
+            setWindowIcon ( QIcon ( ":/images/actionaddlocal.png" ) );
+            groupBoxLogMessage->setVisible ( false );
+            break;
+        case SvnClient::SvnCommit:
+            setWindowTitle ( tr ( "Commit" ) );
+            setWindowIcon ( QIcon ( ":/images/actioncommit.png" ) );
+            comboLogHistory->addItems ( Config::instance()->getStringList ( "logHistory" ) );
+            comboLogHistory->insertItem ( 0, "" );
+            comboLogHistory->setCurrentIndex ( 0 );
+            Config::instance()->restoreSplitter ( this, splitter );
+            break;
+        case SvnClient::SvnDelete:
+            setWindowTitle ( tr ( "Delete" ) );
+            setWindowIcon ( QIcon ( ":/images/actiondeletelocal.png" ) );
+            groupBoxLogMessage->setVisible ( false );
+            break;
+        case SvnClient::SvnRevert:
+            setWindowTitle ( tr ( "Revert" ) );
+            setWindowIcon ( QIcon ( ":/images/actionrevert.png" ) );
+            groupBoxLogMessage->setVisible ( false );
+            break;
     }
 }
 
 void FileSelector::setupMenus()
 {
-    contextMenu = new QMenu( this );
+    contextMenu = new QMenu ( this );
 
     if ( ( m_svnAction == SvnClient::SvnCommit ) ||
             ( m_svnAction == SvnClient::SvnRevert ) )
     {
-        contextMenu->addAction( actionDiff );
-        contextMenu->addAction( actionRevert );
-        contextMenu->addAction( actionResolved );
-        actionRevert->setIcon( QIcon( ":/images/actionrevert.png" ) );
+        contextMenu->addAction ( actionDiff );
+        contextMenu->addAction ( actionRevert );
+        contextMenu->addAction ( actionResolved );
+        actionRevert->setIcon ( QIcon ( ":/images/actionrevert.png" ) );
     }
 }
 
 void FileSelector::setupConnections( )
 {
-    connect( treeViewFiles->selectionModel(),
-             SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
-             this, SLOT( updateActions( const QItemSelection &, const QItemSelection & ) ) );
-    connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ),
-        this, SLOT( on_actionDiff_triggered() ) );
+    connect ( treeViewFiles->selectionModel(),
+              SIGNAL ( selectionChanged ( const QItemSelection &, const QItemSelection & ) ),
+              this, SLOT ( updateActions ( const QItemSelection &, const QItemSelection & ) ) );
+    connect ( treeViewFiles, SIGNAL ( doubleClicked ( const QModelIndex & ) ),
+              this, SLOT ( on_actionDiff_triggered() ) );
 }
 
 void FileSelector::showModeless()
 {
-    setAttribute( Qt::WA_DeleteOnClose, true );
+    setAttribute ( Qt::WA_DeleteOnClose, true );
     show();
     raise();
     activateWindow();
@@ -137,11 +137,11 @@ void FileSelector::accept()
     if ( m_svnAction == SvnClient::SvnCommit )
     {
         if ( ( editLogMessage->toPlainText().isEmpty() ) &&
-              ( Config::instance()->value( KEY_CHECKEMPTYLOGMESSAGE ).toBool() ) )
+                ( Config::instance()->value ( KEY_CHECKEMPTYLOGMESSAGE ).toBool() ) )
         {
-            if ( QMessageBox::question( this, tr( "Commit without Log Message" ),
-                                        tr( "Would you really commit your Changes without a Log Message?"),
-                                        QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
+            if ( QMessageBox::question ( this, tr ( "Commit without Log Message" ),
+                                         tr ( "Would you really commit your Changes without a Log Message?" ),
+                                         QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) == QMessageBox::No )
             {
                 return;
             }
@@ -151,55 +151,55 @@ void FileSelector::accept()
         logEntries << editLogMessage->toPlainText();
         for ( int i = 0; i < comboLogHistory->count(); ++i )
         {
-            if ( !comboLogHistory->itemText( i ).isEmpty() && !logEntries.contains( comboLogHistory->itemText( i ) ) )
-                logEntries << comboLogHistory->itemText( i );
+            if ( !comboLogHistory->itemText ( i ).isEmpty() && !logEntries.contains ( comboLogHistory->itemText ( i ) ) )
+                logEntries << comboLogHistory->itemText ( i );
         }
-        Config::instance()->saveStringList( "logHistory", logEntries );
-        Config::instance()->saveSplitter( this, splitter );
+        Config::instance()->saveStringList ( "logHistory", logEntries );
+        Config::instance()->saveSplitter ( this, splitter );
     }
 
-    Config::instance()->saveHeaderView( this, treeViewFiles->header() );
+    Config::instance()->saveHeaderView ( this, treeViewFiles->header() );
 
     //call svn actions
-    setEnabled( false );
+    setEnabled ( false );
     qApp->processEvents();
     switch ( m_svnAction )
     {
         case SvnClient::SvnAdd:
-            SvnClient::instance()->add( m_fileSelectorProxy->checkedFileList() );
+            SvnClient::instance()->add ( m_fileSelectorProxy->checkedFileList() );
             break;
         case SvnClient::SvnCommit:
-            SvnClient::instance()->commit( m_fileSelectorProxy->checkedFileList(), editLogMessage->toPlainText() );
+            SvnClient::instance()->commit ( m_fileSelectorProxy->checkedFileList(), editLogMessage->toPlainText() );
             break;
         case SvnClient::SvnDelete:
-            SvnClient::instance()->remove( m_fileSelectorProxy->checkedFileList() );
+            SvnClient::instance()->remove ( m_fileSelectorProxy->checkedFileList() );
             break;
         case SvnClient::SvnRevert:
-            SvnClient::instance()->revert( m_fileSelectorProxy->checkedFileList(), true );
+            SvnClient::instance()->revert ( m_fileSelectorProxy->checkedFileList(), true );
     }
-    setEnabled( true );
+    setEnabled ( true );
     qApp->processEvents();
     QDialog::accept();
 }
 
-void FileSelector::on_comboLogHistory_activated( int index )
+void FileSelector::on_comboLogHistory_activated ( int index )
 {
-    editLogMessage->setPlainText( comboLogHistory->itemText( index ) );
+    editLogMessage->setPlainText ( comboLogHistory->itemText ( index ) );
 }
 
-void FileSelector::on_checkSelectAll_stateChanged( int state )
+void FileSelector::on_checkSelectAll_stateChanged ( int state )
 {
-    m_fileSelectorProxy->setSelectAllState( state );
+    m_fileSelectorProxy->setSelectAllState ( state );
 }
 
-bool FileSelector::eventFilter( QObject * watched, QEvent * event )
+bool FileSelector::eventFilter ( QObject * watched, QEvent * event )
 {
     if ( watched == treeViewFiles )
     {
         if ( event->type() == QEvent::ContextMenu )
-            contextMenu->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
+            contextMenu->popup ( static_cast< QContextMenuEvent* > ( event )->globalPos() );
     }
-    return QDialog::eventFilter( watched, event );
+    return QDialog::eventFilter ( watched, event );
 }
 
 void FileSelector::on_actionRevert_triggered( )
@@ -207,13 +207,13 @@ void FileSelector::on_actionRevert_triggered( )
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
     QString fullFileName;
-    fullFileName = m_fileSelectorProxy->at( index ).path();
+    fullFileName = m_fileSelectorProxy->at ( index ).path();
 
-    if ( QMessageBox::question( this, tr( "Revert" ),
-                                QString( tr( "Do you really want to revert local changes from\n%1?" ) ).arg( fullFileName ),
-                                QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+    if ( QMessageBox::question ( this, tr ( "Revert" ),
+                                 QString ( tr ( "Do you really want to revert local changes from\n%1?" ) ).arg ( fullFileName ),
+                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
     {
-        SvnClient::instance()->revert( fullFileName, false );
+        SvnClient::instance()->revert ( fullFileName, false );
     }
 }
 
@@ -222,13 +222,13 @@ void FileSelector::on_actionResolved_triggered()
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
     QString fullFileName;
-    fullFileName = m_fileSelectorProxy->at( index ).path();
+    fullFileName = m_fileSelectorProxy->at ( index ).path();
 
-    if ( QMessageBox::question( this, tr( "Resolved" ),
-                                QString( tr( "Do you really want to mark %1 as resolved\n?" ) ).arg( fullFileName ),
-                                QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
+    if ( QMessageBox::question ( this, tr ( "Resolved" ),
+                                 QString ( tr ( "Do you really want to mark %1 as resolved\n?" ) ).arg ( fullFileName ),
+                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
     {
-        SvnClient::instance()->resolved( fullFileName );
+        SvnClient::instance()->resolved ( fullFileName );
     }
 }
 
@@ -239,33 +239,35 @@ void FileSelector::on_actionDiff_triggered()
         return;
 
     //todo: multiselect in treeViewFiles and call SvnClient::instance()->diff wiht a QStringList
-    SvnClient::instance()->diff( m_fileSelectorProxy->at( treeViewFiles->selectionModel()->currentIndex() ).path() );
+    SvnClient::instance()->diff ( m_fileSelectorProxy->at ( treeViewFiles->selectionModel()->currentIndex() ).path() );
 }
 
-void FileSelector::updateActions( const QItemSelection &selected, const QItemSelection &deselected )
+void FileSelector::updateActions ( const QItemSelection &selected, const QItemSelection &deselected )
 {
-    svn::Status _status = m_fileSelectorProxy->at( selected.indexes().at( 0 ) );
+    svn::Status _status = m_fileSelectorProxy->at ( selected.indexes().at ( 0 ) );
 
-    actionDiff->setEnabled( ( _status.textStatus() == svn_wc_status_modified ) ||
-        ( _status.textStatus() == svn_wc_status_conflicted ) );
-    actionResolved->setEnabled( _status.textStatus() == svn_wc_status_conflicted );
+    actionDiff->setEnabled ( ( _status.textStatus() == svn_wc_status_modified ) ||
+                             ( _status.textStatus() == svn_wc_status_conflicted ) );
+    actionResolved->setEnabled ( _status.textStatus() == svn_wc_status_conflicted );
 }
 
 //static functions
-void FileSelector::doSvnAction( const SvnClient::SvnAction svnAction,
-                                const QStringList pathList, const bool isFileList )
+void FileSelector::doSvnAction ( const SvnClient::SvnAction svnAction,
+                                 const QStringList pathList, const bool isFileList )
 {
     if ( isFileList )
     {
-        FileSelector *fs = new FileSelector( svnAction, pathList, isFileList );
+        FileSelector *fs = new FileSelector ( svnAction, pathList, isFileList );
         fs->showModeless();
-    } else {
+    }
+    else
+    {
         QStringList singlePathList;
-        foreach( QString path, pathList )
+        foreach ( QString path, pathList )
         {
             singlePathList.clear();
             singlePathList << path;
-            FileSelector *fs = new FileSelector( svnAction, singlePathList, isFileList );
+            FileSelector *fs = new FileSelector ( svnAction, singlePathList, isFileList );
             fs->showModeless();
         }
     }

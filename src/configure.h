@@ -29,15 +29,15 @@
 
 class Configure : public QDialog, private Ui::Configure
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    Configure( QWidget *parent = 0, Qt::WFlags flags = 0 );
-    ~Configure();
+    public:
+        Configure ( QWidget *parent = 0, Qt::WFlags flags = 0 );
+        ~Configure();
 
-private slots:
-    void accept();
-    void on_buttonSelectDiffViewer_clicked();
+    private slots:
+        void accept();
+        void on_buttonSelectDiffViewer_clicked();
 };
 
 #endif

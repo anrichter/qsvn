@@ -30,12 +30,12 @@
 
 class SslServerTrust : public QDialog, public Ui::SslServerTrust
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
-        SslServerTrust( QWidget * parent = 0, const svn::ContextListener::SslServerTrustData & data = 0 );
+        SslServerTrust ( QWidget * parent = 0, const svn::ContextListener::SslServerTrustData & data = 0 );
 
-        static svn::ContextListener::SslServerTrustAnswer getSslServerTrustAnswer( const svn::ContextListener::SslServerTrustData & data );
+        static svn::ContextListener::SslServerTrustAnswer getSslServerTrustAnswer ( const svn::ContextListener::SslServerTrustData & data );
         svn::ContextListener::SslServerTrustAnswer answer();
 
     private:

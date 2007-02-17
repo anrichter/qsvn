@@ -34,34 +34,38 @@ class QDialog;
 
 class ShowLog : public QDialog, public Ui::ShowLog
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    static void doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd );
+    public:
+        static void doShowLog ( QWidget *parent, const QString path,
+                                const svn::Revision revisionStart,
+                                const svn::Revision revisionEnd );
 
-protected:
-    bool eventFilter ( QObject * watched, QEvent * event );
+    protected:
+        bool eventFilter ( QObject * watched, QEvent * event );
 
-private:
-    svn::LogEntries *m_logEntries;
-    LogEntriesModel *m_logEntriesModel;
-    LogChangePathEntriesModel *m_logChangePathEntriesModel;
-    QMenu *contextLogChangePathEntries;
-    QString m_path;
-    svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
+    private:
+        svn::LogEntries *m_logEntries;
+        LogEntriesModel *m_logEntriesModel;
+        LogChangePathEntriesModel *m_logChangePathEntriesModel;
+        QMenu *contextLogChangePathEntries;
+        QString m_path;
+        svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
 
-    ShowLog( QWidget *parent = 0, const QString path = 0, const svn::Revision revisionStart = svn::Revision::UNDEFINED, const svn::Revision revisionEnd = svn::Revision::UNDEFINED );
-    ~ShowLog();
+        ShowLog ( QWidget *parent = 0, const QString path = 0,
+                  const svn::Revision revisionStart = svn::Revision::UNDEFINED,
+                  const svn::Revision revisionEnd = svn::Revision::UNDEFINED );
+        ~ShowLog();
 
-private slots:
-    void selectionChanged( const QItemSelection &selected, const QItemSelection &deselected );
+    private slots:
+        void selectionChanged ( const QItemSelection &selected, const QItemSelection &deselected );
 
-    void on_checkBoxStrictNodeHistory_stateChanged();
-    void on_buttonNext_clicked();
-    void on_buttonNext_clicked( int limit );
-    void on_btnAll_clicked();
+        void on_checkBoxStrictNodeHistory_stateChanged();
+        void on_buttonNext_clicked();
+        void on_buttonNext_clicked ( int limit );
+        void on_btnAll_clicked();
 
-    void on_actionDiff_triggered();
+        void on_actionDiff_triggered();
 };
 
 #endif

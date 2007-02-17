@@ -31,10 +31,10 @@
 #include <QtGui>
 
 
-WcModel::WcModel( QObject *parent )
-    : QStandardItemModel( parent )
+WcModel::WcModel ( QObject *parent )
+        : QStandardItemModel ( parent )
 {
-    setHorizontalHeaderLabels( QStringList( "Working Copy" ) );
+    setHorizontalHeaderLabels ( QStringList ( "Working Copy" ) );
     loadWcList();
 }
 
@@ -43,61 +43,61 @@ WcModel::~WcModel()
     saveWcList();
 }
 
-int WcModel::rowCount( const QModelIndex &parent ) const
+int WcModel::rowCount ( const QModelIndex &parent ) const
 {
     if ( !parent.isValid() )
-        return QStandardItemModel::rowCount( parent );
+        return QStandardItemModel::rowCount ( parent );
 
-    const WcModel *model = static_cast<const WcModel *>( parent.model() );
-    QStandardItem *item = model->itemFromIndex( parent );
+    const WcModel *model = static_cast<const WcModel *> ( parent.model() );
+    QStandardItem *item = model->itemFromIndex ( parent );
     if ( item->rowCount() == 0 )
     {
         //add subDirectories
-        foreach( QString entry, QDir( model->getPath( parent ) ).entryList( QDir::AllDirs ) )
-            if ( ( entry != "." ) && ( entry != ".." ) )
-                model->addDir( entry, item );
+        foreach ( QString entry, QDir ( model->getPath ( parent ) ).entryList ( QDir::AllDirs ) )
+        if ( ( entry != "." ) && ( entry != ".." ) )
+            model->addDir ( entry, item );
     }
 
     return item->rowCount();
 }
 
-bool WcModel::hasChildren( const QModelIndex &parent ) const
+bool WcModel::hasChildren ( const QModelIndex &parent ) const
 {
-    return rowCount( parent ) > 0;
+    return rowCount ( parent ) > 0;
 }
 
-void WcModel::addWc( QString dir )
+void WcModel::addWc ( QString dir )
 {
-    addDir( dir, invisibleRootItem() );
+    addDir ( dir, invisibleRootItem() );
 }
 
-void WcModel::removeWc( const QModelIndex &index )
+void WcModel::removeWc ( const QModelIndex &index )
 {
-    removeRow( index.row(), index.parent() );
+    removeRow ( index.row(), index.parent() );
 }
 
-QString WcModel::getPath( const QModelIndex &index ) const
+QString WcModel::getPath ( const QModelIndex &index ) const
 {
-    return itemFromIndex( index )->data().toString();
+    return itemFromIndex ( index )->data().toString();
 }
 
-void WcModel::addDir( QString dir, QStandardItem *parent ) const
+void WcModel::addDir ( QString dir, QStandardItem *parent ) const
 {
     QStandardItem *item = new QStandardItem();
 
-    item->setText( QDir::toNativeSeparators( dir ) );
+    item->setText ( QDir::toNativeSeparators ( dir ) );
 
     //complete dir to full path if necessary
     if ( parent != invisibleRootItem() )
         dir = parent->data().toString() + QDir::separator() + dir;
-    item->setData( QDir::toNativeSeparators( dir ) );
+    item->setData ( QDir::toNativeSeparators ( dir ) );
 
-    if ( svn::Wc::checkWc( dir.toLocal8Bit() ) )
-        item->setIcon( QIcon( ":/images/folder.png" ) );
+    if ( svn::Wc::checkWc ( dir.toLocal8Bit() ) )
+        item->setIcon ( QIcon ( ":/images/folder.png" ) );
     else
-        item->setIcon( QIcon( ":/images/unknownfolder.png" ) );
+        item->setIcon ( QIcon ( ":/images/unknownfolder.png" ) );
 
-    parent->appendRow( item );
+    parent->appendRow ( item );
 }
 
 void WcModel::saveWcList()
@@ -105,24 +105,24 @@ void WcModel::saveWcList()
     QStringList wcList;
 
     for ( int i = 0; i < invisibleRootItem()->rowCount(); i++ )
-        wcList << invisibleRootItem()->child( i )->data().toString();
+        wcList << invisibleRootItem()->child ( i )->data().toString();
 
-    Config::instance()->saveStringList( "workingCopies", wcList );
+    Config::instance()->saveStringList ( "workingCopies", wcList );
 }
 
 void WcModel::loadWcList()
 {
-    QStringList wcList = Config::instance()->getStringList( "workingCopies" );
+    QStringList wcList = Config::instance()->getStringList ( "workingCopies" );
     wcList.sort();
 
     foreach ( QString wc, wcList )
-        addDir( QDir::cleanPath( wc ), invisibleRootItem() );
+    addDir ( QDir::cleanPath ( wc ), invisibleRootItem() );
 }
 
-void WcModel::doUpdate( const QModelIndex &index )
+void WcModel::doUpdate ( const QModelIndex &index )
 {
-    QStandardItem *item = itemFromIndex( index );
-    item->removeRows( 0, item->rowCount() );
+    QStandardItem *item = itemFromIndex ( index );
+    item->removeRows ( 0, item->rowCount() );
 }
 
 #include "wcmodel.moc"

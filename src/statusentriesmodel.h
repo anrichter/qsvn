@@ -30,25 +30,21 @@
 
 class StatusEntriesModel : public QAbstractTableModel
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
-        StatusEntriesModel( QObject * parent );
+        StatusEntriesModel ( QObject * parent );
         ~StatusEntriesModel();
 
-        int rowCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        int columnCount( const QModelIndex &parent = QModelIndex( ) ) const;
-        QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-        QVariant data( const QModelIndex &index, int role ) const;
+        int rowCount ( const QModelIndex &parent = QModelIndex( ) ) const;
+        int columnCount ( const QModelIndex &parent = QModelIndex( ) ) const;
+        QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+        QVariant data ( const QModelIndex &index, int role ) const;
 
-        void readDirectory( QString directory, const bool descend, const bool force );
-        void readFileList( QStringList fileList );
+        void readDirectory ( QString directory, const bool descend, const bool force );
+        void readFileList ( QStringList fileList );
 
-        svn::Status at( int row );
-
-    private slots:
-        void doFileChanged(const QString & path);
-        void doDirectoryChanged(const QString & path);
+        svn::Status at ( int row );
 
     private:
         svn::StatusEntries m_statusEntries;
@@ -56,11 +52,15 @@ class StatusEntriesModel : public QAbstractTableModel
         bool m_descend;
         QFileSystemWatcher m_fsWatcher;
 
-        QPixmap statusPixmap( svn::Status status ) const;
-        QString statusString( svn::Status status ) const;
+        QPixmap statusPixmap ( svn::Status status ) const;
+        QString statusString ( svn::Status status ) const;
 
         void removeFromFsWatcher();
         void addToFsWatcher();
+
+    private slots:
+        void doFileChanged ( const QString & path );
+        void doDirectoryChanged ( const QString & path );
 };
 
 #endif

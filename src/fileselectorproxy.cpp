@@ -29,94 +29,94 @@
 #include <QtCore>
 #include <QSortFilterProxyModel>
 
-FileSelectorProxy::FileSelectorProxy( QObject *parent, SvnClient::SvnAction svnAction )
-        : QSortFilterProxyModel( parent )
+FileSelectorProxy::FileSelectorProxy ( QObject *parent, SvnClient::SvnAction svnAction )
+        : QSortFilterProxyModel ( parent )
 {
     m_svnAction = svnAction;
-    m_statusEntriesModel = new StatusEntriesModel( this );
-    setSourceModel( m_statusEntriesModel );
+    m_statusEntriesModel = new StatusEntriesModel ( this );
+    setSourceModel ( m_statusEntriesModel );
 }
 
 FileSelectorProxy::~FileSelectorProxy()
 {
-    delete( m_statusEntriesModel );
+    delete ( m_statusEntriesModel );
 }
 
-void FileSelectorProxy::readDirectory( QString directory, const bool descend )
+void FileSelectorProxy::readDirectory ( QString directory, const bool descend )
 {
-    m_statusEntriesModel->readDirectory( directory, descend, true );
+    m_statusEntriesModel->readDirectory ( directory, descend, true );
     checkedRows.clear();
 }
 
-void FileSelectorProxy::readFileList( QStringList fileList )
+void FileSelectorProxy::readFileList ( QStringList fileList )
 {
-    m_statusEntriesModel->readFileList( fileList );
+    m_statusEntriesModel->readFileList ( fileList );
     checkedRows.clear();
 }
 
-svn::Status FileSelectorProxy::at( const QModelIndex &index )
+svn::Status FileSelectorProxy::at ( const QModelIndex &index )
 {
-    return m_statusEntriesModel->at( mapToSource( index ).row() );
+    return m_statusEntriesModel->at ( mapToSource ( index ).row() );
 }
 
 bool FileSelectorProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const
 {
-    svn::Status status = m_statusEntriesModel->at( source_row );
+    svn::Status status = m_statusEntriesModel->at ( source_row );
 
     switch ( m_svnAction )
     {
-    case SvnClient::SvnNone:
-        return true;
-        break;
-    case SvnClient::SvnAdd:
-        if ( status.textStatus() == svn_wc_status_unversioned )
+        case SvnClient::SvnNone:
             return true;
-        break;
-    case SvnClient::SvnCommit:
-        if ( ( status.textStatus() == svn_wc_status_modified ) ||
-                ( status.textStatus() == svn_wc_status_added ) ||
-                ( status.textStatus() == svn_wc_status_deleted ) ||
-                ( status.textStatus() == svn_wc_status_replaced ) ||
-                ( status.textStatus() == svn_wc_status_conflicted ) )
-            return true;
-        break;
-    case SvnClient::SvnDelete:
-        if ( ( status.textStatus() == svn_wc_status_normal ) ||
-                ( status.textStatus() == svn_wc_status_merged ) )
-            return true;
-        break;
-    case SvnClient::SvnRevert:
-        if ( ( status.textStatus() == svn_wc_status_added ) ||
-                ( status.textStatus() == svn_wc_status_conflicted ) ||
-                ( status.textStatus() == svn_wc_status_deleted ) ||
-                ( status.textStatus() == svn_wc_status_modified ) ||
-                ( status.textStatus() == svn_wc_status_replaced ) )
-            return true;
-        break;
+            break;
+        case SvnClient::SvnAdd:
+            if ( status.textStatus() == svn_wc_status_unversioned )
+                return true;
+            break;
+        case SvnClient::SvnCommit:
+            if ( ( status.textStatus() == svn_wc_status_modified ) ||
+                    ( status.textStatus() == svn_wc_status_added ) ||
+                    ( status.textStatus() == svn_wc_status_deleted ) ||
+                    ( status.textStatus() == svn_wc_status_replaced ) ||
+                    ( status.textStatus() == svn_wc_status_conflicted ) )
+                return true;
+            break;
+        case SvnClient::SvnDelete:
+            if ( ( status.textStatus() == svn_wc_status_normal ) ||
+                    ( status.textStatus() == svn_wc_status_merged ) )
+                return true;
+            break;
+        case SvnClient::SvnRevert:
+            if ( ( status.textStatus() == svn_wc_status_added ) ||
+                    ( status.textStatus() == svn_wc_status_conflicted ) ||
+                    ( status.textStatus() == svn_wc_status_deleted ) ||
+                    ( status.textStatus() == svn_wc_status_modified ) ||
+                    ( status.textStatus() == svn_wc_status_replaced ) )
+                return true;
+            break;
     }
 
     return false;
 }
 
-QVariant FileSelectorProxy::data( const QModelIndex &index, int role ) const
+QVariant FileSelectorProxy::data ( const QModelIndex &index, int role ) const
 {
     if ( !index.isValid() )
         return QVariant();
 
     if ( ( role == Qt::CheckStateRole ) && ( index.column() == 0 ) )
     {
-        if ( checkedRows.contains( mapToSource( index ).row() ) )
+        if ( checkedRows.contains ( mapToSource ( index ).row() ) )
             return Qt::Checked;
         else
             return Qt::Unchecked;
     }
     else
     {
-        return m_statusEntriesModel->data( mapToSource( index ), role );
+        return m_statusEntriesModel->data ( mapToSource ( index ), role );
     }
 }
 
-bool FileSelectorProxy::setData( const QModelIndex &index, const QVariant &value, int role )
+bool FileSelectorProxy::setData ( const QModelIndex &index, const QVariant &value, int role )
 {
     if ( !index.isValid() )
         return false;
@@ -124,21 +124,21 @@ bool FileSelectorProxy::setData( const QModelIndex &index, const QVariant &value
     if ( role == Qt::CheckStateRole )
     {
         if ( value == Qt::Checked )
-            checkedRows.insert( mapToSource( index ).row() );
+            checkedRows.insert ( mapToSource ( index ).row() );
         else
-            checkedRows.remove( mapToSource( index ).row() );
-        emit dataChanged( index, index );
+            checkedRows.remove ( mapToSource ( index ).row() );
+        emit dataChanged ( index, index );
         return true;
     }
     return false;
 }
 
-Qt::ItemFlags FileSelectorProxy::flags( const QModelIndex &index ) const
+Qt::ItemFlags FileSelectorProxy::flags ( const QModelIndex &index ) const
 {
     if ( !index.isValid() )
         return Qt::ItemIsEnabled;
 
-    return QAbstractItemModel::flags( index ) | Qt::ItemIsUserCheckable;
+    return QAbstractItemModel::flags ( index ) | Qt::ItemIsUserCheckable;
 }
 
 QStringList FileSelectorProxy::checkedFileList()
@@ -146,14 +146,14 @@ QStringList FileSelectorProxy::checkedFileList()
     QStringList fileList;
     QModelIndex index;
 
-    foreach( int row, checkedRows )
-    fileList << m_statusEntriesModel->at( row ).path();
+    foreach ( int row, checkedRows )
+    fileList << m_statusEntriesModel->at ( row ).path();
 
     return fileList;
 }
 
-void FileSelectorProxy::setSelectAllState( int state )
+void FileSelectorProxy::setSelectAllState ( int state )
 {
     for ( int i = 0; i < rowCount(); ++i )
-        setData( index( i, 0 ), state, Qt::CheckStateRole );
+        setData ( index ( i, 0 ), state, Qt::CheckStateRole );
 }

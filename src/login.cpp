@@ -25,33 +25,33 @@
 #include <QtGui>
 
 
-Login::Login( QWidget *parent )
-        : QDialog( parent)
+Login::Login ( QWidget *parent )
+        : QDialog ( parent )
 {
-    setupUi( this );
+    setupUi ( this );
 }
 
-void Login::setRealm( const QString &realm )
+void Login::setRealm ( const QString &realm )
 {
-    labelRealm->setText( realm );
+    labelRealm->setText ( realm );
 }
 
-void Login::setUsername( QString &username )
+void Login::setUsername ( QString &username )
 {
-    editUsername->setText( username );
+    editUsername->setText ( username );
 }
 
-void Login::setPassword( QString &password )
+void Login::setPassword ( QString &password )
 {
-    editPassword->setText( password );
+    editPassword->setText ( password );
 }
 
-void Login::setMaySave( bool & maySave )
+void Login::setMaySave ( bool & maySave )
 {
     if ( maySave )
-        checkSaveAuth->setCheckState( Qt::Checked );
+        checkSaveAuth->setCheckState ( Qt::Checked );
     else
-        checkSaveAuth->setCheckState( Qt::Unchecked );
+        checkSaveAuth->setCheckState ( Qt::Unchecked );
 }
 
 QString Login::username( )

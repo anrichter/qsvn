@@ -29,24 +29,24 @@
 #include <QtCore>
 
 
-SslServerTrust::SslServerTrust( QWidget * parent, const svn::ContextListener::SslServerTrustData & data  )
-        : QDialog( parent )
+SslServerTrust::SslServerTrust ( QWidget * parent, const svn::ContextListener::SslServerTrustData & data )
+        : QDialog ( parent )
 {
-    setupUi( this );
+    setupUi ( this );
 
     m_answer = svn::ContextListener::DONT_ACCEPT;
 
     QString infoText;
-    infoText.append( "Hostname: " + data.hostname + "<br />" );
-    infoText.append( "Fingerprint: " + data.fingerprint + "<br />" );
-    infoText.append( "valid From: " + data.validFrom + "<br />" );
-    infoText.append( "valid Until: " + data.validUntil + "<br />" );
-    infoText.append( "issuer DName: " + data.issuerDName + "<br />" );
-    infoText.append( "Realm: " + data.realm );
-    labelInformation->setText( infoText );
+    infoText.append ( "Hostname: " + data.hostname + "<br />" );
+    infoText.append ( "Fingerprint: " + data.fingerprint + "<br />" );
+    infoText.append ( "valid From: " + data.validFrom + "<br />" );
+    infoText.append ( "valid Until: " + data.validUntil + "<br />" );
+    infoText.append ( "issuer DName: " + data.issuerDName + "<br />" );
+    infoText.append ( "Realm: " + data.realm );
+    labelInformation->setText ( infoText );
 
-    connect( buttonAcceptTemporarily, SIGNAL( clicked( bool ) ), this, SLOT( doAcceptTemporarily() ) );
-    connect( buttonAcceptPermanently, SIGNAL( clicked( bool ) ), this, SLOT( doAcceptPermanently() ) );
+    connect ( buttonAcceptTemporarily, SIGNAL ( clicked ( bool ) ), this, SLOT ( doAcceptTemporarily() ) );
+    connect ( buttonAcceptPermanently, SIGNAL ( clicked ( bool ) ), this, SLOT ( doAcceptPermanently() ) );
 }
 
 void SslServerTrust::doAcceptTemporarily( )
@@ -66,9 +66,9 @@ svn::ContextListener::SslServerTrustAnswer SslServerTrust::answer( )
     return m_answer;
 }
 
-svn::ContextListener::SslServerTrustAnswer SslServerTrust::getSslServerTrustAnswer( const svn::ContextListener::SslServerTrustData & data )
+svn::ContextListener::SslServerTrustAnswer SslServerTrust::getSslServerTrustAnswer ( const svn::ContextListener::SslServerTrustData & data )
 {
-    SslServerTrust sslServerTrust( 0, data );
+    SslServerTrust sslServerTrust ( 0, data );
     sslServerTrust.exec();
     return sslServerTrust.answer();
 }

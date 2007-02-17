@@ -23,10 +23,10 @@
 #include "svnclient.h"
 
 
-FileModifier::FileModifier( QWidget *parent, QString path, SvnClient::SvnAction svnAction )
-        : QDialog( parent )
+FileModifier::FileModifier ( QWidget *parent, QString path, SvnClient::SvnAction svnAction )
+        : QDialog ( parent )
 {
-    setupUi( this );
+    setupUi ( this );
 
     m_svnAction = svnAction;
     m_srcPath = path;
@@ -34,35 +34,34 @@ FileModifier::FileModifier( QWidget *parent, QString path, SvnClient::SvnAction 
     switch ( m_svnAction )
     {
         case SvnClient::SvnRename:
-            setWindowTitle( tr( "Rename" ) );
+            setWindowTitle ( tr ( "Rename" ) );
             break;
         case SvnClient::SvnMove:
-            setWindowTitle( tr( "Move" ) );
+            setWindowTitle ( tr ( "Move" ) );
             break;
         case SvnClient::SvnCopy:
-            setWindowTitle( tr( "Copy" ) );
+            setWindowTitle ( tr ( "Copy" ) );
             break;
     }
-    labelFromFile->setText( m_srcPath );
-    editToFile->setText( m_srcPath );
+    labelFromFile->setText ( m_srcPath );
+    editToFile->setText ( m_srcPath );
 }
 
 FileModifier::~FileModifier( )
-{
-}
+{}
 
 void FileModifier::accept()
 {
-    switch( m_svnAction )
+    switch ( m_svnAction )
     {
         case SvnClient::SvnRename:
-            SvnClient::instance()->move( m_srcPath, editToFile->text(), false );
+            SvnClient::instance()->move ( m_srcPath, editToFile->text(), false );
             break;
         case SvnClient::SvnMove:
-            SvnClient::instance()->move( m_srcPath, editToFile->text(), false );
+            SvnClient::instance()->move ( m_srcPath, editToFile->text(), false );
             break;
         case SvnClient::SvnCopy:
-            SvnClient::instance()->copy( m_srcPath, editToFile->text() );
+            SvnClient::instance()->copy ( m_srcPath, editToFile->text() );
             break;
     }
     QDialog::accept();

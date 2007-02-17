@@ -35,62 +35,62 @@ class FileListProxy;
 
 class QSvn : public QMainWindow, public Ui::QSvn
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    QSvn( QWidget *parent = 0, Qt::WFlags flags = 0 );
-    ~QSvn();
+    public:
+        QSvn ( QWidget *parent = 0, Qt::WFlags flags = 0 );
+        ~QSvn();
 
-protected:
-    bool eventFilter( QObject * watched, QEvent * event );
-    void closeEvent( QCloseEvent * event );
+    protected:
+        bool eventFilter ( QObject * watched, QEvent * event );
+        void closeEvent ( QCloseEvent * event );
 
-private:
-    //ContextMenus
-    QMenu *contextMenuWorkingCopy;
-    QMenu *contextMenuFileList;
+    private:
+        //ContextMenus
+        QMenu *contextMenuWorkingCopy;
+        QMenu *contextMenuFileList;
 
-    WcModel *wcModel;
-    FileListProxy *fileListProxy;
-    QString m_currentWCpath; //current working copy path
+        WcModel *wcModel;
+        FileListProxy *fileListProxy;
+        QString m_currentWCpath; //current working copy path
 
-    void connectActions();
-    void createMenus();
+        void connectActions();
+        void createMenus();
 
-    bool isFileListSelected();
-    QStringList selectedPaths();
+        bool isFileListSelected();
+        QStringList selectedPaths();
 
-    void setActionStop( QString aText );
+        void setActionStop ( QString aText );
 
-private slots:
-    //WorkingCopy
-    void on_actionAddWorkingCopy_triggered();
-    void on_actionRemoveWorkingCopy_triggered();
-    void on_actionCheckoutWorkingCopy_triggered();
+    private slots:
+        //WorkingCopy
+        void on_actionAddWorkingCopy_triggered();
+        void on_actionRemoveWorkingCopy_triggered();
+        void on_actionCheckoutWorkingCopy_triggered();
 
-    //Modify
-    void on_actionUpdate_triggered();
-    void on_actionCommit_triggered();
-    void on_actionAdd_triggered();
-    void on_actionDelete_triggered();
-    void on_actionRevert_triggered();
-    void on_actionLog_triggered();
-    void on_actionCleanup_triggered();
-    void on_actionResolved_triggered();
-    void on_actionRename_triggered();
-    void on_actionMove_triggered();
-    void on_actionCopy_triggered();
+        //Modify
+        void on_actionUpdate_triggered();
+        void on_actionCommit_triggered();
+        void on_actionAdd_triggered();
+        void on_actionDelete_triggered();
+        void on_actionRevert_triggered();
+        void on_actionLog_triggered();
+        void on_actionCleanup_triggered();
+        void on_actionResolved_triggered();
+        void on_actionRename_triggered();
+        void on_actionMove_triggered();
+        void on_actionCopy_triggered();
 
-    //Query
-    void on_actionDiff_triggered();
+        //Query
+        void on_actionDiff_triggered();
 
-    //Settings
-    void on_actionConfigureQSvn_triggered();
+        //Settings
+        void on_actionConfigureQSvn_triggered();
 
-    //Help
-    void on_actionAboutQSvn_triggered();
+        //Help
+        void on_actionAboutQSvn_triggered();
 
-    void activateWorkingCopy( const QModelIndex &index, const bool force = false );
+        void activateWorkingCopy ( const QModelIndex &index, const bool force = false );
 };
 
 #endif

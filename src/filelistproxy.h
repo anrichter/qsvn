@@ -30,13 +30,15 @@
 class FileListProxy : public QSortFilterProxyModel
 {
     public:
-        FileListProxy( QObject *parent );
+        FileListProxy ( QObject *parent );
         ~FileListProxy();
 
-        void readDirectory( QString directory, const bool descend, const bool force );
-        svn::Status at( const QModelIndex &index );
+        void readDirectory ( QString directory, const bool descend, const bool force );
+        svn::Status at ( const QModelIndex &index );
+
     protected:
         bool filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const;
+
     private:
         StatusEntriesModel *m_statusEntriesModel;
 };

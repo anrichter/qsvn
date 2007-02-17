@@ -28,47 +28,47 @@
 #include <QtGui>
 
 
-Configure::Configure( QWidget *parent, Qt::WFlags flags )
-        : QDialog( parent, flags )
+Configure::Configure ( QWidget *parent, Qt::WFlags flags )
+        : QDialog ( parent, flags )
 {
-    setupUi( this );
-    Config::instance()->restoreWidget( this );
+    setupUi ( this );
+    Config::instance()->restoreWidget ( this );
 
-    editDiffViewer->setText( Config::instance()->value( KEY_DIFFVIEWER ).toString() );
-    if ( Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() )
-        checkBoxShowLogAfterUpdate->setCheckState( Qt::Checked );
+    editDiffViewer->setText ( Config::instance()->value ( KEY_DIFFVIEWER ).toString() );
+    if ( Config::instance()->value ( KEY_SHOWLOGAFTERUPDATE ).toBool() )
+        checkBoxShowLogAfterUpdate->setCheckState ( Qt::Checked );
     else
-        checkBoxShowLogAfterUpdate->setCheckState( Qt::Unchecked );
-    if ( Config::instance()->value( KEY_CHECKEMPTYLOGMESSAGE ).toBool() )
-        checkBoxCheckEmptyLogMessage->setCheckState( Qt::Checked );
+        checkBoxShowLogAfterUpdate->setCheckState ( Qt::Unchecked );
+    if ( Config::instance()->value ( KEY_CHECKEMPTYLOGMESSAGE ).toBool() )
+        checkBoxCheckEmptyLogMessage->setCheckState ( Qt::Checked );
     else
-        checkBoxCheckEmptyLogMessage->setCheckState( Qt::Unchecked );
+        checkBoxCheckEmptyLogMessage->setCheckState ( Qt::Unchecked );
 }
 
 Configure::~ Configure( )
 {
-    Config::instance()->saveWidget( this );
+    Config::instance()->saveWidget ( this );
 }
 
 void Configure::accept()
 {
-    Config::instance()->setValue( KEY_DIFFVIEWER, editDiffViewer->text() );
+    Config::instance()->setValue ( KEY_DIFFVIEWER, editDiffViewer->text() );
     if ( checkBoxShowLogAfterUpdate->checkState() == Qt::Checked )
-        Config::instance()->setValue( KEY_SHOWLOGAFTERUPDATE, true );
+        Config::instance()->setValue ( KEY_SHOWLOGAFTERUPDATE, true );
     else
-        Config::instance()->setValue( KEY_SHOWLOGAFTERUPDATE, false );
+        Config::instance()->setValue ( KEY_SHOWLOGAFTERUPDATE, false );
     if ( checkBoxCheckEmptyLogMessage->checkState() == Qt::Checked )
-        Config::instance()->setValue( KEY_CHECKEMPTYLOGMESSAGE, true );
+        Config::instance()->setValue ( KEY_CHECKEMPTYLOGMESSAGE, true );
     else
-        Config::instance()->setValue( KEY_CHECKEMPTYLOGMESSAGE, false );
+        Config::instance()->setValue ( KEY_CHECKEMPTYLOGMESSAGE, false );
     QDialog::accept();
 }
 
 void Configure::on_buttonSelectDiffViewer_clicked()
 {
-    QString diffviewer = QFileDialog::getOpenFileName( this, tr( "Select a Diff Viewer" ), editDiffViewer->text(), "" );
+    QString diffviewer = QFileDialog::getOpenFileName ( this, tr ( "Select a Diff Viewer" ), editDiffViewer->text(), "" );
     if ( !diffviewer.isNull() )
-        editDiffViewer->setText( QDir::convertSeparators( diffviewer ) );
+        editDiffViewer->setText ( QDir::convertSeparators ( diffviewer ) );
 }
 
 #include "configure.moc"

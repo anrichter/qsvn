@@ -44,48 +44,48 @@ this singelton holds the configuration for qsvn
 
 class Config : public QObject
 {
-public:
-    static Config* instance();
+    public:
+        static Config* instance();
 
-    //Main Window
-    void saveMainWindow( const QSvn *aQSvn );
-    void restoreMainWindow( QSvn *aQSvn );
+        //Main Window
+        void saveMainWindow ( const QSvn *aQSvn );
+        void restoreMainWindow ( QSvn *aQSvn );
 
-    /**
-     * Save size and position from a widget.
-     * @param widget The widget that was saved
-     * @param prefix A prefix for unique identification additionally to the widget name.
-     */
-    void saveWidget( const QWidget *widget, const QString prefix = "" );
-    /**
-     * Restore saved size and position for a widget.
-     * @param widget Widget that was restored.
-     * @param prefix A prefix for unique identification additionally to the widget name.
-     */
-    void restoreWidget( QWidget *widget, const QString prefix = "" );
+        /**
+         * Save size and position from a widget.
+         * @param widget The widget that was saved
+         * @param prefix A prefix for unique identification additionally to the widget name.
+         */
+        void saveWidget ( const QWidget *widget, const QString prefix = "" );
+        /**
+         * Restore saved size and position for a widget.
+         * @param widget Widget that was restored.
+         * @param prefix A prefix for unique identification additionally to the widget name.
+         */
+        void restoreWidget ( QWidget *widget, const QString prefix = "" );
 
-    void saveSplitter( const QObject *parent, const QSplitter *splitter );
-    void restoreSplitter( const QObject *parent, QSplitter *splitter );
+        void saveSplitter ( const QObject *parent, const QSplitter *splitter );
+        void restoreSplitter ( const QObject *parent, QSplitter *splitter );
 
-    void saveStringList( const QString &prefix, const QStringList &stringList );
-    QStringList getStringList( const QString &prefix );
+        void saveStringList ( const QString &prefix, const QStringList &stringList );
+        QStringList getStringList ( const QString &prefix );
 
-    void setValue( const QString &key, const QVariant &value );
-    QVariant value( const QString &key );
+        void setValue ( const QString &key, const QVariant &value );
+        QVariant value ( const QString &key );
 
-    void saveHeaderView( const QObject *parent, const QHeaderView *headerView );
-    void restoreHeaderView( const QObject *parent, QHeaderView *headerView );
+        void saveHeaderView ( const QObject *parent, const QHeaderView *headerView );
+        void restoreHeaderView ( const QObject *parent, QHeaderView *headerView );
 
-    QString tempDir();
-    void removeTempDir();
+        QString tempDir();
+        void removeTempDir();
 
-private:
-    Config( QObject *parent = 0 );
+    private:
+        Config ( QObject *parent = 0 );
 
-    static Config* m_instance;
-    QString _tempDir;
+        static Config* m_instance;
+        QString _tempDir;
 
-    QVariant defaultValue( const QString &key ); //returns default values for configuration parameters
+        QVariant defaultValue ( const QString &key ); //returns default values for configuration parameters
 };
 
 #endif

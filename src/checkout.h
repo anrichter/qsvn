@@ -30,21 +30,21 @@
 
 class Checkout : public QDialog, public Ui::Checkout
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    Checkout( QWidget *parent = 0 );
-    ~Checkout();
+    public:
+        Checkout ( QWidget *parent = 0 );
+        ~Checkout();
 
-    QString url() const;
-    QString path() const;
+        QString url() const;
+        QString path() const;
 
-public slots:
-    void selectPathSlot();
-    void accept();
+    private:
+        QString m_selectedURL;
 
-private:
-    QString m_selectedURL;
+    public slots:
+        void selectPathSlot();
+        void accept();
 };
 
 #endif

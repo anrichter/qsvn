@@ -54,10 +54,10 @@ SvnClient* SvnClient::instance()
 SvnClient::SvnClient()
 {
     svnContext = new svn::Context();
-    svnClient = svn::Client::getobject( svnContext, 0 );
+    svnClient = svn::Client::getobject ( svnContext, 0 );
     listener = new Listener();
 
-    svnContext->setListener( listener );
+    svnContext->setListener ( listener );
 }
 
 SvnClient::~SvnClient()
@@ -66,113 +66,113 @@ SvnClient::~SvnClient()
     delete svnClient;
 }
 
-svn::StatusEntries SvnClient::status( const QString& path,
-                                      const bool descend,
-                                      const bool get_all,
-                                      const bool update,
-                                      const bool no_ignore,
-                                      const svn::Revision revision,
-                                      bool detailed_remote,
-                                      const bool hide_externals )
+svn::StatusEntries SvnClient::status ( const QString& path,
+                                       const bool descend,
+                                       const bool get_all,
+                                       const bool update,
+                                       const bool no_ignore,
+                                       const svn::Revision revision,
+                                       bool detailed_remote,
+                                       const bool hide_externals )
 {
-    if ( !svn::Wc::checkWc( path ) )
+    if ( !svn::Wc::checkWc ( path ) )
         return svn::StatusEntries();
 
-    QDir dir( path );
-    listener->setVerbose( false );
+    QDir dir ( path );
+    listener->setVerbose ( false );
     try
     {
-        return svnClient->status( dir.canonicalPath(), descend, get_all, update, no_ignore, revision, detailed_remote, hide_externals );
+        return svnClient->status ( dir.canonicalPath(), descend, get_all, update, no_ignore, revision, detailed_remote, hide_externals );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return svn::StatusEntries();
     }
 }
 
-svn::Status SvnClient::singleStatus( const QString &path )
+svn::Status SvnClient::singleStatus ( const QString &path )
 {
-    listener->setVerbose( false );
+    listener->setVerbose ( false );
     try
     {
-        return svnClient->singleStatus( path, false, svn::Revision::HEAD );
+        return svnClient->singleStatus ( path, false, svn::Revision::HEAD );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return svn::Status();
     }
 }
 
-bool SvnClient::update( QStringList updateList, const bool isFileList )
+bool SvnClient::update ( QStringList updateList, const bool isFileList )
 {
     if ( updateList.isEmpty() )
         return true;
 
     svn::Revisions fromRevisions, toRevisions;
 
-    foreach( QString path, updateList )
-        fromRevisions.append( singleStatus( path ).entry().cmtRev() );
+    foreach ( QString path, updateList )
+    fromRevisions.append ( singleStatus ( path ).entry().cmtRev() );
 
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        StatusText::out( "" );
-        toRevisions = svnClient->update( svn::Targets( updateList ), svn::Revision::HEAD, true, false );
+        StatusText::out ( "" );
+        toRevisions = svnClient->update ( svn::Targets ( updateList ), svn::Revision::HEAD, true, false );
         if ( ( fromRevisions.count() == toRevisions.count() ) &&                //only when same count
-                Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() && //only if configured
+                Config::instance()->value ( KEY_SHOWLOGAFTERUPDATE ).toBool() && //only if configured
                 ( !toRevisions.isEmpty() ) )                                    //only if update results with a non-empty revisions-list
         {
             for ( int i = 0; i < fromRevisions.count(); ++i )
             {
-                ShowLog::doShowLog( 0, updateList.at( i ), toRevisions.at( i ).revision(), fromRevisions.at( i ) );
+                ShowLog::doShowLog ( 0, updateList.at ( i ), toRevisions.at ( i ).revision(), fromRevisions.at ( i ) );
             }
         }
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
 
-bool SvnClient::checkout( const QString &url, const QString &path )
+bool SvnClient::checkout ( const QString &url, const QString &path )
 {
     if ( url.isEmpty() || path.isEmpty() )
         return false;
 
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        svnClient->checkout( url, path, svn::Revision::HEAD );
-        completedMessage( path );
+        svnClient->checkout ( url, path, svn::Revision::HEAD );
+        completedMessage ( path );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
 
-bool SvnClient::svnexport( const QString &url, const QString &path, const svn::Revision &revision, const bool verbose )
+bool SvnClient::svnexport ( const QString &url, const QString &path, const svn::Revision &revision, const bool verbose )
 {
     if ( url.isEmpty() || path.isEmpty() )
         return false;
 
-    listener->setVerbose( verbose );
+    listener->setVerbose ( verbose );
     try
     {
-        svnClient->doExport( url, path, revision );
+        svnClient->doExport ( url, path, revision );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     return true;
 }
 
@@ -182,68 +182,68 @@ bool SvnClient::add
     if ( addList.isEmpty() )
         return true;
 
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
         QString file;
-        foreach( file, addList )
+        foreach ( file, addList )
         {
             svnClient->add
             ( file, false );
         }
-        completedMessage( file );
+        completedMessage ( file );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
 
-bool SvnClient::revert( const QStringList &revertList, const bool verbose )
+bool SvnClient::revert ( const QStringList &revertList, const bool verbose )
 {
     if ( revertList.isEmpty() )
         return true;
 
-    listener->setVerbose( verbose );
+    listener->setVerbose ( verbose );
     try
     {
-        svn::Targets targets( revertList );
-        svnClient->revert( targets, false );
+        svn::Targets targets ( revertList );
+        svnClient->revert ( targets, false );
         if ( verbose )
-            completedMessage( QString( revertList.at( 0 ) ) );
+            completedMessage ( QString ( revertList.at ( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
 
-bool SvnClient::revert( const QString fileName, const bool verbose )
+bool SvnClient::revert ( const QString fileName, const bool verbose )
 {
     QStringList fileList;
     fileList << fileName;
-    return revert( fileList, verbose );
+    return revert ( fileList, verbose );
 }
 
-bool SvnClient::commit( const QStringList &commitList, const QString &logMessage )
+bool SvnClient::commit ( const QStringList &commitList, const QString &logMessage )
 {
     if ( commitList.isEmpty() )
         return true;
 
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        svn::Targets targets( commitList );
-        svnClient->commit( targets, logMessage, true );
-        completedMessage( QString( commitList.at( 0 ) ) );
+        svn::Targets targets ( commitList );
+        svnClient->commit ( targets, logMessage, true );
+        completedMessage ( QString ( commitList.at ( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
@@ -255,210 +255,209 @@ bool SvnClient::remove
     if ( removeList.isEmpty() )
         return true;
 
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        svn::Targets targets( removeList );
+        svn::Targets targets ( removeList );
         svnClient->remove
         ( targets, false );
-        completedMessage( QString( removeList.at( 0 ) ) );
+        completedMessage ( QString ( removeList.at ( 0 ) ) );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
 
-bool SvnClient::diff( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo )
+bool SvnClient::diff ( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo )
 {
-    if ( Config::instance()->value( KEY_DIFFVIEWER ).toString().isEmpty() )
+    if ( Config::instance()->value ( KEY_DIFFVIEWER ).toString().isEmpty() )
     {
         //diff output to StatusText
-        listener->setVerbose( true );
+        listener->setVerbose ( true );
         try
         {
-            QString delta = svnClient->diff( Config::instance()->tempDir(),
-                                             svn::Path( file ),
-                                             revisionFrom, revisionTo,
-                                             true, false, false, true );
-            StatusText::out( delta );
+            QString delta = svnClient->diff ( Config::instance()->tempDir(),
+                                              svn::Path ( file ),
+                                              revisionFrom, revisionTo,
+                                              true, false, false, true );
+            StatusText::out ( delta );
         }
         catch ( svn::ClientException e )
         {
-            StatusText::out( e.msg() );
+            StatusText::out ( e.msg() );
             return false;
         }
     }
     else
     {
-        QFileInfo fileInfo( file );
+        QFileInfo fileInfo ( file );
         QString fileFrom, fileTo, dir, filename, ext;
-        svn::Path filePath( file );
+        svn::Path filePath ( file );
 
-        filePath.split( dir, filename, ext );
+        filePath.split ( dir, filename, ext );
 
         //fileFrom
-        switch ( svn::Revision( revisionFrom ).kind() )
+        switch ( svn::Revision ( revisionFrom ).kind() )
         {
-        case svn_opt_revision_base:
-            fileFrom = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
-            fileFrom = fileFrom + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
-            break;
-        case svn_opt_revision_working:
-            fileFrom = QDir::convertSeparators( fileInfo.absoluteFilePath() );
-            break;
-        default:
-            if ( svn::Url::isValid( file ) )
-            {
-                fileFrom = Config::instance()->tempDir() + filename + QString( ".%1.%2 " )
-                           .arg( int ( revisionFrom.revnum() ) )
-                           .arg( ext );
-                if ( !svnexport( file, fileFrom, revisionFrom, false ) )
-                    return false;
-            }
-            else
-                fileFrom = "";
-            break;
+            case svn_opt_revision_base:
+                fileFrom = QDir::convertSeparators ( fileInfo.absolutePath() ) + QDir::separator();
+                fileFrom = fileFrom + QString ( QDir::convertSeparators ( ".svn/text-base/%1.svn-base" ) ).arg ( fileInfo.fileName() );
+                break;
+            case svn_opt_revision_working:
+                fileFrom = QDir::convertSeparators ( fileInfo.absoluteFilePath() );
+                break;
+            default:
+                if ( svn::Url::isValid ( file ) )
+                {
+                    fileFrom = Config::instance()->tempDir() + filename + QString ( ".%1.%2 " )
+                               .arg ( int ( revisionFrom.revnum() ) )
+                               .arg ( ext );
+                    if ( !svnexport ( file, fileFrom, revisionFrom, false ) )
+                        return false;
+                }
+                else
+                    fileFrom = "";
+                break;
         }
 
         //fileTo
-        switch( svn::Revision( revisionTo ).kind() )
+        switch ( svn::Revision ( revisionTo ).kind() )
         {
-        case svn_opt_revision_base:
-            fileTo = QDir::convertSeparators( fileInfo.absolutePath() ) + QDir::separator();
-            fileTo = fileTo + QString( QDir::convertSeparators( ".svn/text-base/%1.svn-base" ) ).arg( fileInfo.fileName() );
-            break;
-        case svn_opt_revision_working:
-            fileTo = QDir::convertSeparators( fileInfo.absoluteFilePath() );
-            break;
-        default:
-            if ( svn::Url::isValid( file ) )
-            {
-                fileTo = Config::instance()->tempDir() + filename + QString( ".%1.%2 " )
-                         .arg( int ( revisionTo.revnum() ) )
-                         .arg( ext );
-                if ( !svnexport( file, fileTo, revisionTo, false ) )
-                    return false;
-            }
-            else
-                fileTo = "";
-            break;
+            case svn_opt_revision_base:
+                fileTo = QDir::convertSeparators ( fileInfo.absolutePath() ) + QDir::separator();
+                fileTo = fileTo + QString ( QDir::convertSeparators ( ".svn/text-base/%1.svn-base" ) ).arg ( fileInfo.fileName() );
+                break;
+            case svn_opt_revision_working:
+                fileTo = QDir::convertSeparators ( fileInfo.absoluteFilePath() );
+                break;
+            default:
+                if ( svn::Url::isValid ( file ) )
+                {
+                    fileTo = Config::instance()->tempDir() + filename + QString ( ".%1.%2 " )
+                             .arg ( int ( revisionTo.revnum() ) )
+                             .arg ( ext );
+                    if ( !svnexport ( file, fileTo, revisionTo, false ) )
+                        return false;
+                }
+                else
+                    fileTo = "";
+                break;
         }
 
-        QProcess::startDetached( Config::instance()->value( KEY_DIFFVIEWER ).toString(), QStringList() << fileFrom << fileTo );
+        QProcess::startDetached ( Config::instance()->value ( KEY_DIFFVIEWER ).toString(), QStringList() << fileFrom << fileTo );
     }
     return true;
 }
 
-bool SvnClient::diff( const QString &file )
+bool SvnClient::diff ( const QString &file )
 {
-    return diff( file, svn::Revision::BASE, svn::Revision::WORKING );
+    return diff ( file, svn::Revision::BASE, svn::Revision::WORKING );
 }
 
-bool SvnClient::diff( const QStringList &fileList )
+bool SvnClient::diff ( const QStringList &fileList )
 {
     bool result = true;
     QString file;
-    foreach( file, fileList )
-    result = result && diff( file, svn::Revision::BASE, svn::Revision::WORKING );
+    foreach ( file, fileList )
+    result = result && diff ( file, svn::Revision::BASE, svn::Revision::WORKING );
 
     return result;
 }
 
-const svn::LogEntries* SvnClient::log( const QString &path,
-                                       const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
-                                       bool discoverChangedPaths, bool strictNodeHistory, int limit )
+const svn::LogEntries* SvnClient::log ( const QString &path,
+                                        const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
+                                        bool discoverChangedPaths, bool strictNodeHistory, int limit )
 {
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        return svnClient->log( path, revisionStart, revisionEnd, discoverChangedPaths, strictNodeHistory, limit );
+        return svnClient->log ( path, revisionStart, revisionEnd, discoverChangedPaths, strictNodeHistory, limit );
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return new svn::LogEntries();
     }
 }
 
-bool SvnClient::cleanup( const QString &path )
+bool SvnClient::cleanup ( const QString &path )
 {
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        StatusText::out( tr( "cleanup %1" ).arg( path ) );
-        svnClient->cleanup( path );
+        StatusText::out ( tr ( "cleanup %1" ).arg ( path ) );
+        svnClient->cleanup ( path );
     }
-    catch( svn::ClientException e )
+    catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
-    completedMessage( path );
+    completedMessage ( path );
     return true;
 }
 
-void SvnClient::completedMessage( const QString &path )
+void SvnClient::completedMessage ( const QString &path )
 {
     QString _path = path;
-    svn::Status status = singleStatus( _path );
+    svn::Status status = singleStatus ( _path );
     if ( status.isVersioned() )
-        StatusText::out( QString( tr( "Completed at Revision %1\n" ) ).arg( status.entry().revision() ) );
+        StatusText::out ( QString ( tr ( "Completed at Revision %1\n" ) ).arg ( status.entry().revision() ) );
     else
-        StatusText::out( tr( "Completed\n" ) );
+        StatusText::out ( tr ( "Completed\n" ) );
 }
 
 void SvnClient::setCancel( )
 {
-    listener->setCancel( true );
+    listener->setCancel ( true );
 }
 
-bool SvnClient::resolved( const QString & path )
+bool SvnClient::resolved ( const QString & path )
 {
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        svnClient->resolved( path, false );
+        svnClient->resolved ( path, false );
     }
-    catch( svn::ClientException e )
+    catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
 
-bool SvnClient::move( const QString &srcPath, const QString &destPath, bool force )
+bool SvnClient::move ( const QString &srcPath, const QString &destPath, bool force )
 {
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        svnClient->move( srcPath, destPath, force );
+        svnClient->move ( srcPath, destPath, force );
     }
-    catch( svn::ClientException e )
+    catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
 
-bool SvnClient::copy( const QString &srcPath, const QString &destPath)
+bool SvnClient::copy ( const QString &srcPath, const QString &destPath )
 {
-    listener->setVerbose( true );
+    listener->setVerbose ( true );
     try
     {
-        svnClient->copy( srcPath, svn::Revision::WORKING, destPath );
+        svnClient->copy ( srcPath, svn::Revision::WORKING, destPath );
     }
-    catch( svn::ClientException e )
+    catch ( svn::ClientException e )
     {
-        StatusText::out( e.msg() );
+        StatusText::out ( e.msg() );
         return false;
     }
     return true;
 }
-
 
 #include "svnclient.moc"

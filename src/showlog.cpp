@@ -34,41 +34,41 @@
 #include <QtGui>
 
 
-ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
+ShowLog::ShowLog ( QWidget * parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
 {
-    setAttribute( Qt::WA_DeleteOnClose, true );
+    setAttribute ( Qt::WA_DeleteOnClose, true );
 
     m_revisionStart = revisionStart;
     m_revisionEnd = revisionEnd;
     m_revisionBeginShowLog = revisionStart;
 
-    setupUi( this );
+    setupUi ( this );
 
-    Config::instance()->restoreWidget( this );
-    Config::instance()->restoreSplitter( this, splitter );
+    Config::instance()->restoreWidget ( this );
+    Config::instance()->restoreSplitter ( this, splitter );
 
-    m_logEntriesModel = new LogEntriesModel( this );
-    viewLogEntries->setModel( m_logEntriesModel );
-    Config::instance()->restoreHeaderView( this, viewLogEntries->header() );
-    connect( viewLogEntries->selectionModel(),
-             SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
-             this, SLOT( selectionChanged( const QItemSelection &, const QItemSelection & ) ) );
+    m_logEntriesModel = new LogEntriesModel ( this );
+    viewLogEntries->setModel ( m_logEntriesModel );
+    Config::instance()->restoreHeaderView ( this, viewLogEntries->header() );
+    connect ( viewLogEntries->selectionModel(),
+              SIGNAL ( selectionChanged ( const QItemSelection &, const QItemSelection & ) ),
+              this, SLOT ( selectionChanged ( const QItemSelection &, const QItemSelection & ) ) );
 
-    m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, svn::LogChangePathEntries() );
-    viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
-    viewLogChangePathEntries->installEventFilter( this );
-    Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
-    connect( viewLogChangePathEntries, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( on_actionDiff_triggered() ) );
+    m_logChangePathEntriesModel = new LogChangePathEntriesModel ( this, svn::LogChangePathEntries() );
+    viewLogChangePathEntries->setModel ( m_logChangePathEntriesModel );
+    viewLogChangePathEntries->installEventFilter ( this );
+    Config::instance()->restoreHeaderView ( this, viewLogChangePathEntries->header() );
+    connect ( viewLogChangePathEntries, SIGNAL ( doubleClicked ( const QModelIndex & ) ), this, SLOT ( on_actionDiff_triggered() ) );
 
-    contextLogChangePathEntries = new QMenu( this );
-    contextLogChangePathEntries->addAction( actionDiff );
+    contextLogChangePathEntries = new QMenu ( this );
+    contextLogChangePathEntries->addAction ( actionDiff );
 
     m_path = path;
-    m_path.replace( "\\", "/" );
-    if ( !m_path.endsWith( "/" ) )
-        m_path.append( "/" );
+    m_path.replace ( "\\", "/" );
+    if ( !m_path.endsWith ( "/" ) )
+        m_path.append ( "/" );
 
-    this->setWindowTitle( QString( tr( "Show Log for %1" ) ).arg( path ) );
+    this->setWindowTitle ( QString ( tr ( "Show Log for %1" ) ).arg ( path ) );
 }
 
 ShowLog::~ShowLog()
@@ -76,15 +76,15 @@ ShowLog::~ShowLog()
     delete m_logEntriesModel;
     delete m_logChangePathEntriesModel;
     delete contextLogChangePathEntries;
-    Config::instance()->saveWidget( this );
-    Config::instance()->saveSplitter( this, splitter );
-    Config::instance()->saveHeaderView( this, viewLogEntries->header() );
-    Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
+    Config::instance()->saveWidget ( this );
+    Config::instance()->saveSplitter ( this, splitter );
+    Config::instance()->saveHeaderView ( this, viewLogEntries->header() );
+    Config::instance()->saveHeaderView ( this, viewLogChangePathEntries->header() );
 }
 
-void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
+void ShowLog::doShowLog ( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd )
 {
-    ShowLog *showLog = new ShowLog( parent, path, revisionStart, revisionEnd );
+    ShowLog *showLog = new ShowLog ( parent, path, revisionStart, revisionEnd );
     showLog->show();
     showLog->raise();
     showLog->activateWindow();
@@ -93,54 +93,54 @@ void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revisio
 
 void ShowLog::on_buttonNext_clicked()
 {
-    on_buttonNext_clicked( 100 );
+    on_buttonNext_clicked ( 100 );
 }
 
 void ShowLog::on_btnAll_clicked()
 {
-    on_buttonNext_clicked( 0 );
+    on_buttonNext_clicked ( 0 );
 }
 
-void ShowLog::on_buttonNext_clicked( int limit )
+void ShowLog::on_buttonNext_clicked ( int limit )
 {
     qApp->processEvents();
-    QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
+    QApplication::setOverrideCursor ( QCursor ( Qt::WaitCursor ) );
 
-    m_logEntriesModel->appendLogEntries(
-        SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, true,
-                                    ( checkBoxStrictNodeHistory->checkState() == Qt::Checked ),
-                                    limit ) );
-    m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
+    m_logEntriesModel->appendLogEntries (
+        SvnClient::instance()->log ( m_path, m_revisionStart, m_revisionEnd, true,
+                                     ( checkBoxStrictNodeHistory->checkState() == Qt::Checked ),
+                                     limit ) );
+    m_revisionStart = m_logEntriesModel->getLogEntry ( m_logEntriesModel->index ( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
 
-    buttonNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
-    buttonShowAll->setEnabled( buttonNext->isEnabled() );
+    buttonNext->setEnabled ( m_revisionStart.revnum() > m_revisionEnd.revnum() );
+    buttonShowAll->setEnabled ( buttonNext->isEnabled() );
 
     QApplication::restoreOverrideCursor();
 }
 
-bool ShowLog::eventFilter( QObject * watched, QEvent * event )
+bool ShowLog::eventFilter ( QObject * watched, QEvent * event )
 {
     if ( watched == viewLogChangePathEntries )
     {
         if ( event->type() == QEvent::ContextMenu )
         {
-            contextLogChangePathEntries->popup( static_cast< QContextMenuEvent* >( event )->globalPos() );
+            contextLogChangePathEntries->popup ( static_cast< QContextMenuEvent* > ( event )->globalPos() );
         }
     }
-    return QDialog::eventFilter( watched, event );
+    return QDialog::eventFilter ( watched, event );
 }
 
-void ShowLog::selectionChanged( const QItemSelection &selected, const QItemSelection &deselected )
+void ShowLog::selectionChanged ( const QItemSelection &selected, const QItemSelection &deselected )
 {
-    QModelIndex index = selected.indexes().at( 0 );
+    QModelIndex index = selected.indexes().at ( 0 );
     if ( index.isValid() )
     {
-        Config::instance()->saveHeaderView( this, viewLogChangePathEntries->header() );
-        editLogMessage->setPlainText( m_logEntriesModel->getLogEntry( index ).message );
+        Config::instance()->saveHeaderView ( this, viewLogChangePathEntries->header() );
+        editLogMessage->setPlainText ( m_logEntriesModel->getLogEntry ( index ).message );
         delete m_logChangePathEntriesModel;
-        m_logChangePathEntriesModel = new LogChangePathEntriesModel( this, m_logEntriesModel->getLogEntry( index ).changedPaths );
-        viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
-        Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
+        m_logChangePathEntriesModel = new LogChangePathEntriesModel ( this, m_logEntriesModel->getLogEntry ( index ).changedPaths );
+        viewLogChangePathEntries->setModel ( m_logChangePathEntriesModel );
+        Config::instance()->restoreHeaderView ( this, viewLogChangePathEntries->header() );
     }
 }
 
@@ -158,17 +158,17 @@ void ShowLog::on_actionDiff_triggered( )
 
     QModelIndexList indexes;
     indexes = viewLogEntries->selectionModel()->selectedIndexes();
-    if (indexes.count() == 0 )
+    if ( indexes.count() == 0 )
         return;
-    logEntry = m_logEntriesModel->getLogEntry( indexes.at( 0 ) );
+    logEntry = m_logEntriesModel->getLogEntry ( indexes.at ( 0 ) );
 
     indexes = viewLogChangePathEntries->selectionModel()->selectedIndexes();
     if ( indexes.count() == 0 )
         return;
-    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry( indexes.at( 0 ) );
+    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry ( indexes.at ( 0 ) );
 
-    SvnClient::instance()->diff( QString( svn::Wc::getRepos( m_path ) + logChangePathEntry.path ),
-                                 svn::Revision( logEntry.revision - 1 ), svn::Revision( logEntry.revision ) );
+    SvnClient::instance()->diff ( QString ( svn::Wc::getRepos ( m_path ) + logChangePathEntry.path ),
+                                  svn::Revision ( logEntry.revision - 1 ), svn::Revision ( logEntry.revision ) );
 }
 
 #include "showlog.moc"
