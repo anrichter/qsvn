@@ -58,16 +58,11 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
     viewLogChangePathEntries->setModel( m_logChangePathEntriesModel );
     viewLogChangePathEntries->installEventFilter( this );
     Config::instance()->restoreHeaderView( this, viewLogChangePathEntries->header() );
-    connect( viewLogChangePathEntries, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
+    connect( viewLogChangePathEntries, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( on_actionDiff_triggered() ) );
 
     contextLogChangePathEntries = new QMenu( this );
     contextLogChangePathEntries->addAction( actionDiff );
     connectActions();
-
-    connect( btnNext, SIGNAL( clicked() ), this, SLOT( addLogEntries() ) );
-    connect( btnAll, SIGNAL( clicked() ), this, SLOT( addAllLogEntries() ) );
-    connect( cbStrictNodeHistory, SIGNAL( stateChanged( int ) ),
-             this, SLOT( cbStrictNodeHistoryStateChanged() ) );
 
     m_path = path;
     m_path.replace( "\\", "/" );
@@ -94,20 +89,20 @@ void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revisio
     showLog->show();
     showLog->raise();
     showLog->activateWindow();
-    showLog->addLogEntries();
+    showLog->on_btnNext_clicked();
 }
 
-void ShowLog::addLogEntries()
+void ShowLog::on_btnNext_clicked()
 {
-    addLogEntries( 100 );
+    on_btnNext_clicked( 100 );
 }
 
-void ShowLog::addAllLogEntries()
+void ShowLog::on_btnAll_clicked()
 {
-    addLogEntries( 0 );
+    on_btnNext_clicked( 0 );
 }
 
-void ShowLog::addLogEntries( int limit )
+void ShowLog::on_btnNext_clicked( int limit )
 {
     qApp->processEvents();
     QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
@@ -150,19 +145,19 @@ void ShowLog::selectionChanged( const QItemSelection &selected, const QItemSelec
     }
 }
 
-void ShowLog::cbStrictNodeHistoryStateChanged()
+void ShowLog::on_cbStrictNodeHistory_stateChanged()
 {
     m_logEntriesModel->clear();
     m_revisionStart = m_revisionBeginShowLog;
-    addLogEntries();
+    on_btnNext_clicked();
 }
 
 void ShowLog::connectActions( )
 {
-    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
+    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( on_actionDiff_triggered() ) );
 }
 
-void ShowLog::doDiff( )
+void ShowLog::on_actionDiff_triggered( )
 {
     svn::LogEntry logEntry;
     svn::LogChangePathEntry logChangePathEntry;

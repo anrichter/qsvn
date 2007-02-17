@@ -34,8 +34,6 @@ Configure::Configure( QWidget *parent, Qt::WFlags flags )
     setupUi( this );
     Config::instance()->restoreWidget( this );
 
-    connect( buttonSelectDiffViewer, SIGNAL( clicked() ), this, SLOT( buttonSelectDiffViewerClickSlot() ) );
-
     editDiffViewer->setText( Config::instance()->value( KEY_DIFFVIEWER ).toString() );
     if ( Config::instance()->value( KEY_SHOWLOGAFTERUPDATE ).toBool() )
         checkBoxShowLogAfterUpdate->setCheckState( Qt::Checked );
@@ -66,7 +64,7 @@ void Configure::accept()
     QDialog::accept();
 }
 
-void Configure::buttonSelectDiffViewerClickSlot()
+void Configure::on_buttonSelectDiffViewer_clicked()
 {
     QString diffviewer = QFileDialog::getOpenFileName( this, tr( "Select a Diff Viewer" ), editDiffViewer->text(), "" );
     if ( !diffviewer.isNull() )

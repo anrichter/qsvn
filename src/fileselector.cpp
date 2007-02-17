@@ -117,19 +117,11 @@ void FileSelector::setupMenus()
 
 void FileSelector::setupConnections( )
 {
-    connect( comboLogHistory, SIGNAL( activated( int ) ), this, SLOT( comboLogHistoryActivatedSlot( int ) ) );
-    connect( checkSelectAll, SIGNAL( stateChanged( int ) ), this, SLOT( checkSelectAllStateChanged( int ) ) );
     connect( treeViewFiles->selectionModel(),
              SIGNAL( selectionChanged( const QItemSelection &, const QItemSelection & ) ),
              this, SLOT( updateActions( const QItemSelection &, const QItemSelection & ) ) );
-
-    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
-    connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
-    connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
-
     connect( treeViewFiles, SIGNAL( doubleClicked( const QModelIndex & ) ),
-        this, SLOT( doDiff() ) );
-
+        this, SLOT( on_actionDiff_triggered() ) );
 }
 
 void FileSelector::showModeless()
@@ -190,12 +182,12 @@ void FileSelector::accept()
     QDialog::accept();
 }
 
-void FileSelector::comboLogHistoryActivatedSlot( int index )
+void FileSelector::on_comboLogHistory_activated( int index )
 {
     editLogMessage->setPlainText( comboLogHistory->itemText( index ) );
 }
 
-void FileSelector::checkSelectAllStateChanged( int state )
+void FileSelector::on_checkSelectAll_stateChanged( int state )
 {
     m_fileSelectorProxy->setSelectAllState( state );
 }
@@ -210,7 +202,7 @@ bool FileSelector::eventFilter( QObject * watched, QEvent * event )
     return QDialog::eventFilter( watched, event );
 }
 
-void FileSelector::doRevert( )
+void FileSelector::on_actionRevert_triggered( )
 {
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
@@ -225,7 +217,7 @@ void FileSelector::doRevert( )
     }
 }
 
-void FileSelector::doResolved()
+void FileSelector::on_actionResolved_triggered()
 {
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
@@ -241,7 +233,7 @@ void FileSelector::doResolved()
 }
 
 
-void FileSelector::doDiff()
+void FileSelector::on_actionDiff_triggered()
 {
     if ( !actionDiff->isEnabled() )
         return;

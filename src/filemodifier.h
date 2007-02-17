@@ -33,6 +33,7 @@ class FileModifier : public QDialog, public Ui::FileModifier
     public:
         FileModifier( QWidget *parent, QString path, SvnClient::SvnAction svnAction );
         ~FileModifier();
+
     public slots:
         void accept();
 

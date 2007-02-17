@@ -43,8 +43,8 @@ public:
     static void doShowLog( QWidget *parent, const QString path, const svn::Revision revisionStart, const svn::Revision revisionEnd );
 
 public slots:
-    void addLogEntries();
-    void addAllLogEntries();
+    void on_btnNext_clicked();
+    void on_btnAll_clicked();
 
 protected:
     bool eventFilter ( QObject * watched, QEvent * event );
@@ -58,13 +58,13 @@ private:
     svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
 
     void connectActions();
-    void addLogEntries( int limit );
+    void on_btnNext_clicked( int limit );
 
 private slots:
-	void selectionChanged( const QItemSelection &selected, const QItemSelection &deselected );
-	void cbStrictNodeHistoryStateChanged();
+    void selectionChanged( const QItemSelection &selected, const QItemSelection &deselected );
+    void on_cbStrictNodeHistory_stateChanged();
 
-    void doDiff();
+    void on_actionDiff_triggered();
 };
 
 #endif

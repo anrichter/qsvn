@@ -37,7 +37,7 @@ public:
 
 private slots:
     void accept();
-    void buttonSelectDiffViewerClickSlot();
+    void on_buttonSelectDiffViewer_clicked();
 };
 
 #endif

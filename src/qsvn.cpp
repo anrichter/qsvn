@@ -46,7 +46,6 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     setupUi( this );
     setWindowIcon( QIcon( ":/images/qsvn.png" ) );
 
-    connectActions();
     createMenus();
 
     StatusText::setOut( editStatusText );
@@ -66,10 +65,12 @@ QSvn::QSvn( QWidget *parent, Qt::WFlags flags )
     treeViewFileList->installEventFilter( this );
 
     connect( treeViewWorkingCopy, SIGNAL( clicked( const QModelIndex & ) ), this, SLOT( activateWorkingCopy( const QModelIndex & ) ) );
-    connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( doDiff() ) );
+    connect( treeViewFileList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( on_actionDiff_triggered() ) );
 
     connect( treeViewWorkingCopy, SIGNAL( collapsed( const QModelIndex & ) ), wcModel, SLOT( doUpdate( const QModelIndex & ) ) );
     connect( treeViewWorkingCopy, SIGNAL( expanded( const QModelIndex & ) ), wcModel, SLOT( doUpdate( const QModelIndex & ) ) );
+
+    connect( actionExit, SIGNAL( triggered() ), this, SLOT( close() ) );
 
     Config::instance()->restoreMainWindow( this );
     Config::instance()->restoreHeaderView( this, treeViewFileList->header() );
@@ -96,32 +97,6 @@ QSvn::~QSvn()
 
 void QSvn::connectActions()
 {
-    connect( actionExit, SIGNAL( triggered() ), this, SLOT( close() ) );
-
-    connect( actionAddWorkingCopy, SIGNAL( triggered() ), this, SLOT( doAddWorkingCopy() ) );
-    connect( actionRemoveWorkingCopy, SIGNAL( triggered() ), this, SLOT( doRemoveWorkingCopy() ) );
-    connect( actionCheckoutWorkingCopy, SIGNAL( triggered() ), this, SLOT( doCheckoutWorkingCopy() ) );
-
-    connect( actionUpdate, SIGNAL( triggered() ), this, SLOT( doUpdate() ) );
-    connect( actionCommit, SIGNAL( triggered() ), this, SLOT( doCommit() ) );
-    connect( actionAdd, SIGNAL( triggered() ), this, SLOT( doAdd() ) );
-    connect( actionDelete, SIGNAL( triggered() ), this, SLOT( doDelete() ) );
-    connect( actionRevert, SIGNAL( triggered() ), this, SLOT( doRevert() ) );
-    connect( actionLog, SIGNAL( triggered() ), this, SLOT( doShowLog() ) );
-    connect( actionCleanup, SIGNAL( triggered() ), this, SLOT( doCleanup() ) );
-    connect( actionResolved, SIGNAL( triggered() ), this, SLOT( doResolved() ) );
-    connect( actionRename, SIGNAL( triggered() ), this, SLOT( doRename() ) );
-    connect( actionMove, SIGNAL( triggered() ), this, SLOT( doMove() ) );
-    connect( actionCopy, SIGNAL( triggered() ), this, SLOT( doCopy() ) );
-
-    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( doDiff() ) );
-
-    connect( actionConfigureQSvn, SIGNAL( triggered() ), this, SLOT( configureQSvn() ) );
-
-    connect( actionAboutQSvn, SIGNAL( triggered() ), this, SLOT( aboutQSvn() ) );
-    connect( actionAboutQt, SIGNAL( triggered() ), qApp, SLOT( aboutQt() ) );
-
-    connect( actionStop, SIGNAL( triggered( ) ), SvnClient::instance(), SLOT( setCancel( ) ) );
 }
 
 void QSvn::createMenus()
@@ -216,7 +191,7 @@ QStringList QSvn::selectedPaths()
 }
 
 //private slots
-void QSvn::doAddWorkingCopy()
+void QSvn::on_actionAddWorkingCopy_triggered()
 {
     QString dir = QFileDialog::getExistingDirectory( this,
             tr( "Select a working Directory" ), "", QFileDialog::ShowDirsOnly );
@@ -224,7 +199,7 @@ void QSvn::doAddWorkingCopy()
         wcModel->addWc( dir );
 }
 
-void QSvn::doRemoveWorkingCopy()
+void QSvn::on_actionRemoveWorkingCopy_triggered()
 {
     QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
     QModelIndexList indexes = selectionModel->selectedIndexes();
@@ -240,7 +215,7 @@ void QSvn::doRemoveWorkingCopy()
     activateWorkingCopy( QModelIndex() );
 }
 
-void QSvn::doCheckoutWorkingCopy()
+void QSvn::on_actionCheckoutWorkingCopy_triggered()
 {
     Checkout checkout( this );
     if ( checkout.exec() )
@@ -254,7 +229,7 @@ void QSvn::doCheckoutWorkingCopy()
     }
 }
 
-void QSvn::doUpdate()
+void QSvn::on_actionUpdate_triggered()
 {
     setActionStop( "Update" );
     SvnClient::instance()->update( selectedPaths(), isFileListSelected() );
@@ -263,33 +238,33 @@ void QSvn::doUpdate()
     activateWorkingCopy( treeViewWorkingCopy->selectionModel()->currentIndex(), true );
 }
 
-void QSvn::doCommit()
+void QSvn::on_actionCommit_triggered()
 {
     FileSelector::doSvnAction( SvnClient::SvnCommit, selectedPaths(), isFileListSelected() );
 }
 
-void QSvn::doAdd()
+void QSvn::on_actionAdd_triggered()
 {
     FileSelector::doSvnAction( SvnClient::SvnAdd, selectedPaths(), isFileListSelected() );
 }
 
-void QSvn::doDelete()
+void QSvn::on_actionDelete_triggered()
 {
     FileSelector::doSvnAction( SvnClient::SvnDelete, selectedPaths(), isFileListSelected() );
 }
 
-void QSvn::doRevert()
+void QSvn::on_actionRevert_triggered()
 {
     FileSelector::doSvnAction( SvnClient::SvnRevert, selectedPaths(), isFileListSelected() );
 }
 
-void QSvn::doShowLog()
+void QSvn::on_actionLog_triggered()
 {
     foreach( QString path, selectedPaths() )
         ShowLog::doShowLog( 0, path, svn::Revision::HEAD, svn::Revision::START );
 }
 
-void QSvn::doCleanup()
+void QSvn::on_actionCleanup_triggered()
 {
     if ( !isFileListSelected() )
     {
@@ -304,19 +279,19 @@ void QSvn::doCleanup()
     }
 }
 
-void QSvn::doDiff()
+void QSvn::on_actionDiff_triggered()
 {
     if ( isFileListSelected() )
         SvnClient::instance()->diff( selectedPaths() );
 }
 
-void QSvn::configureQSvn()
+void QSvn::on_actionConfigureQSvn_triggered()
 {
     Configure configure( this );
     configure.exec();
 }
 
-void QSvn::aboutQSvn()
+void QSvn::on_actionAboutQSvn_triggered()
 {
     QString aboutMsg = "";
     aboutMsg += "<div align=\"center\">";
@@ -351,7 +326,7 @@ void QSvn::setActionStop( QString aText )
     qApp->processEvents();
 }
 
-void QSvn::doResolved( )
+void QSvn::on_actionResolved_triggered( )
 {
     if ( isFileListSelected() )
     {
@@ -370,7 +345,7 @@ void QSvn::doResolved( )
     }
 }
 
-void QSvn::doRename()
+void QSvn::on_actionRename_triggered()
 {
     if ( isFileListSelected() )
     {
@@ -382,7 +357,7 @@ void QSvn::doRename()
     }
 }
 
-void QSvn::doMove()
+void QSvn::on_actionMove_triggered()
 {
     if ( isFileListSelected() )
     {
@@ -394,7 +369,7 @@ void QSvn::doMove()
     }
 }
 
-void QSvn::doCopy()
+void QSvn::on_actionCopy_triggered()
 {
     if ( isFileListSelected() )
     {

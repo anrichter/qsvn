@@ -64,31 +64,31 @@ private:
 
 private slots:
     //WorkingCopy
-    void doAddWorkingCopy();
-    void doRemoveWorkingCopy();
-    void doCheckoutWorkingCopy();
+    void on_actionAddWorkingCopy_triggered();
+    void on_actionRemoveWorkingCopy_triggered();
+    void on_actionCheckoutWorkingCopy_triggered();
 
     //Modify
-    void doUpdate();
-    void doCommit();
-    void doAdd();
-    void doDelete();
-    void doRevert();
-    void doShowLog();
-    void doCleanup();
-    void doResolved();
-    void doRename();
-    void doMove();
-    void doCopy();
+    void on_actionUpdate_triggered();
+    void on_actionCommit_triggered();
+    void on_actionAdd_triggered();
+    void on_actionDelete_triggered();
+    void on_actionRevert_triggered();
+    void on_actionLog_triggered();
+    void on_actionCleanup_triggered();
+    void on_actionResolved_triggered();
+    void on_actionRename_triggered();
+    void on_actionMove_triggered();
+    void on_actionCopy_triggered();
 
     //Query
-    void doDiff();
+    void on_actionDiff_triggered();
 
     //Settings
-    void configureQSvn();
+    void on_actionConfigureQSvn_triggered();
 
     //Help
-    void aboutQSvn();
+    void on_actionAboutQSvn_triggered();
 
     void activateWorkingCopy( const QModelIndex &index, const bool force = false );
 };
