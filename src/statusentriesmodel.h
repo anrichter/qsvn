@@ -45,7 +45,6 @@ class StatusEntriesModel : public QAbstractTableModel
         void readFileList( QStringList fileList );
 
         svn::Status at( int row );
-        void updateEntry( int row ); //read a single status and replace it in m_statusEntriesModel
 
     private slots:
         void doFileChanged(const QString & path);

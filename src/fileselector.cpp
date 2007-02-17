@@ -222,8 +222,6 @@ void FileSelector::doRevert( )
                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
     {
         SvnClient::instance()->revert( fullFileName, false );
-
-        m_fileSelectorProxy->updateEntry( index );
     }
 }
 
@@ -239,8 +237,6 @@ void FileSelector::doResolved()
                                 QMessageBox::Yes, QMessageBox::No ) == QMessageBox::Yes )
     {
         SvnClient::instance()->resolved( fullFileName );
-
-        m_fileSelectorProxy->updateEntry( index, false );
     }
 }
 

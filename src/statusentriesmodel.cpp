@@ -150,13 +150,6 @@ svn::Status StatusEntriesModel::at( int row )
     return m_statusEntries.at( row );
 }
 
-void StatusEntriesModel::updateEntry( int row )
-{
-    svn::Status status = SvnClient::instance()->singleStatus( m_statusEntries.at( row ).path() );
-    m_statusEntries.replace( row, status );
-    emit layoutChanged();
-}
-
 QPixmap StatusEntriesModel::statusPixmap( svn::Status status ) const
 {
     switch ( status.textStatus() )
@@ -243,7 +236,11 @@ void StatusEntriesModel::doFileChanged( const QString & path )
         if ( m_statusEntries.at( i ).path() == path )
         {
             if ( QFile::exists( path ) )
-                updateEntry( i );
+            {
+                svn::Status status = SvnClient::instance()->singleStatus( m_statusEntries.at( i ).path() );
+                m_statusEntries.replace( i, status );
+                emit layoutChanged();
+            }
             else
                 m_statusEntries.removeAt( i );
 

@@ -59,14 +59,6 @@ svn::Status FileSelectorProxy::at( const QModelIndex &index )
     return m_statusEntriesModel->at( mapToSource( index ).row() );
 }
 
-void FileSelectorProxy::updateEntry( const QModelIndex &index, const bool deselect )
-{
-    int sourceRow = mapToSource( index ).row();
-    m_statusEntriesModel->updateEntry( sourceRow );
-    if ( deselect )
-        checkedRows.remove( sourceRow );
-}
-
 bool FileSelectorProxy::filterAcceptsRow ( int source_row, const QModelIndex &source_parent ) const
 {
     svn::Status status = m_statusEntriesModel->at( source_row );
