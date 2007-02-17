@@ -62,7 +62,6 @@ ShowLog::ShowLog( QWidget * parent, const QString path, const svn::Revision revi
 
     contextLogChangePathEntries = new QMenu( this );
     contextLogChangePathEntries->addAction( actionDiff );
-    connectActions();
 
     m_path = path;
     m_path.replace( "\\", "/" );
@@ -89,32 +88,32 @@ void ShowLog::doShowLog( QWidget *parent, const QString path, const svn::Revisio
     showLog->show();
     showLog->raise();
     showLog->activateWindow();
-    showLog->on_btnNext_clicked();
+    showLog->on_buttonNext_clicked();
 }
 
-void ShowLog::on_btnNext_clicked()
+void ShowLog::on_buttonNext_clicked()
 {
-    on_btnNext_clicked( 100 );
+    on_buttonNext_clicked( 100 );
 }
 
 void ShowLog::on_btnAll_clicked()
 {
-    on_btnNext_clicked( 0 );
+    on_buttonNext_clicked( 0 );
 }
 
-void ShowLog::on_btnNext_clicked( int limit )
+void ShowLog::on_buttonNext_clicked( int limit )
 {
     qApp->processEvents();
     QApplication::setOverrideCursor( QCursor( Qt::WaitCursor ) );
 
     m_logEntriesModel->appendLogEntries(
         SvnClient::instance()->log( m_path, m_revisionStart, m_revisionEnd, true,
-                                    ( cbStrictNodeHistory->checkState() == Qt::Checked ),
+                                    ( checkBoxStrictNodeHistory->checkState() == Qt::Checked ),
                                     limit ) );
     m_revisionStart = m_logEntriesModel->getLogEntry( m_logEntriesModel->index( m_logEntriesModel->rowCount() - 1, 0 ) ).revision;
 
-    btnNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
-    btnAll->setEnabled( btnNext->isEnabled() );
+    buttonNext->setEnabled( m_revisionStart.revnum() > m_revisionEnd.revnum() );
+    buttonShowAll->setEnabled( buttonNext->isEnabled() );
 
     QApplication::restoreOverrideCursor();
 }
@@ -145,16 +144,11 @@ void ShowLog::selectionChanged( const QItemSelection &selected, const QItemSelec
     }
 }
 
-void ShowLog::on_cbStrictNodeHistory_stateChanged()
+void ShowLog::on_checkBoxStrictNodeHistory_stateChanged()
 {
     m_logEntriesModel->clear();
     m_revisionStart = m_revisionBeginShowLog;
-    on_btnNext_clicked();
-}
-
-void ShowLog::connectActions( )
-{
-    connect( actionDiff, SIGNAL( triggered() ), this, SLOT( on_actionDiff_triggered() ) );
+    on_buttonNext_clicked();
 }
 
 void ShowLog::on_actionDiff_triggered( )
