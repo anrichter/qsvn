@@ -102,6 +102,7 @@ void QSvn::createMenus()
 {
     contextMenuWorkingCopy = new QMenu ( this );
     contextMenuWorkingCopy->addAction ( actionLog );
+    contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction ( actionUpdate );
     contextMenuWorkingCopy->addAction ( actionCommit );
     contextMenuWorkingCopy->addAction ( actionRevert );
