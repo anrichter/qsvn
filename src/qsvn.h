@@ -54,7 +54,6 @@ class QSvn : public QMainWindow, public Ui::QSvn
         FileListProxy *fileListProxy;
         QString m_currentWCpath; //current working copy path
 
-        void connectActions();
         void createMenus();
 
         bool isFileListSelected();

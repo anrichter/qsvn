@@ -95,9 +95,6 @@ QSvn::~QSvn()
     delete ( contextMenuFileList );
 }
 
-void QSvn::connectActions()
-{}
-
 void QSvn::createMenus()
 {
     contextMenuWorkingCopy = new QMenu ( this );
