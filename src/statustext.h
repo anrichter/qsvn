@@ -37,24 +37,24 @@ This class handle the status text output
 class StatusText : public QObject
 {
     public:
-        inline static void setOut ( QTextEdit *textEdit )
+        inline static void setOut(QTextEdit *textEdit)
         {
-            StatusText::instance()->setOutPutWidget ( textEdit );
+            StatusText::instance()->setOutPutWidget(textEdit);
         }
-        inline static void out ( const QString s )
+        inline static void out(const QString s)
         {
-            StatusText::instance()->outString ( s );
+            StatusText::instance()->outString(s);
         }
 
     private:
-        StatusText ( QObject *parent = 0 );
+        StatusText(QObject *parent = 0);
 
         static StatusText *m_instance;
         static StatusText* instance();
 
         QTextEdit *editStatusText;
-        void outString ( const QString s );
-        void setOutPutWidget ( QTextEdit *textEdit );
+        void outString(const QString s);
+        void setOutPutWidget(QTextEdit *textEdit);
 };
 
 #endif

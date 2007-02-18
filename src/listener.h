@@ -31,34 +31,34 @@
 class Listener : public QObject, public svn::ContextListener
 {
     public:
-        Listener ( QObject *parent = 0 );
+        Listener(QObject *parent = 0);
         virtual ~Listener();
 
-        virtual bool contextGetLogin ( const QString & realm,
-                                       QString & username,
-                                       QString & password,
-                                       bool & maySave );
-        virtual void contextNotify ( const char *path,
-                                     svn_wc_notify_action_t action,
-                                     svn_node_kind_t kind,
-                                     const char *mime_type,
-                                     svn_wc_notify_state_t content_state,
-                                     svn_wc_notify_state_t prop_state,
-                                     svn_revnum_t revision );
-        virtual void contextNotify ( const svn_wc_notify_t *action );
+        virtual bool contextGetLogin(const QString & realm,
+                                     QString & username,
+                                     QString & password,
+                                     bool & maySave);
+        virtual void contextNotify(const char *path,
+                                   svn_wc_notify_action_t action,
+                                   svn_node_kind_t kind,
+                                   const char *mime_type,
+                                   svn_wc_notify_state_t content_state,
+                                   svn_wc_notify_state_t prop_state,
+                                   svn_revnum_t revision);
+        virtual void contextNotify(const svn_wc_notify_t *action);
 
         virtual bool contextCancel();
-        virtual bool contextGetLogMessage ( QString &msg, const svn::CommitItemList& );
-        virtual SslServerTrustAnswer contextSslServerTrustPrompt ( const SslServerTrustData &data,
-                apr_uint32_t &acceptedFailures );
-        virtual bool contextSslClientCertPrompt ( QString &certFile );
-        virtual bool contextSslClientCertPwPrompt ( QString &password,
+        virtual bool contextGetLogMessage(QString &msg, const svn::CommitItemList&);
+        virtual SslServerTrustAnswer contextSslServerTrustPrompt(const SslServerTrustData &data,
+                apr_uint32_t &acceptedFailures);
+        virtual bool contextSslClientCertPrompt(QString &certFile);
+        virtual bool contextSslClientCertPwPrompt(QString &password,
                 const QString &realm,
-                bool &maySave );
-        virtual void contextProgress ( long long int current, long long int max );
+                bool &maySave);
+        virtual void contextProgress(long long int current, long long int max);
 
-        void setCancel ( bool cancel );
-        void setVerbose ( bool verbose );
+        void setCancel(bool cancel);
+        void setVerbose(bool verbose);
 
     private:
         bool m_cancel, m_verbose;

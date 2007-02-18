@@ -31,24 +31,24 @@ class WcModel : public QStandardItemModel
         Q_OBJECT
 
     public:
-        WcModel ( QObject *parent = 0 );
+        WcModel(QObject *parent = 0);
         ~WcModel();
 
-        int rowCount ( const QModelIndex &parent = QModelIndex() ) const;
-        bool hasChildren ( const QModelIndex &parent = QModelIndex() ) const;
+        int rowCount(const QModelIndex &parent = QModelIndex()) const;
+        bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
 
-        void addWc ( QString dir );
-        void removeWc ( const QModelIndex &index );
-        QString getPath ( const QModelIndex &index ) const;
+        void addWc(QString dir);
+        void removeWc(const QModelIndex &index);
+        QString getPath(const QModelIndex &index) const;
 
     private:
-        void addDir ( QString dir, QStandardItem *parent ) const;
+        void addDir(QString dir, QStandardItem *parent) const;
 
         void saveWcList();
         void loadWcList();
 
     public slots:
-        void doUpdate ( const QModelIndex &index );
+        void doUpdate(const QModelIndex &index);
 };
 
 #endif

@@ -38,12 +38,12 @@ class QSvn : public QMainWindow, public Ui::QSvn
         Q_OBJECT
 
     public:
-        QSvn ( QWidget *parent = 0, Qt::WFlags flags = 0 );
+        QSvn(QWidget *parent = 0, Qt::WFlags flags = 0);
         ~QSvn();
 
     protected:
-        bool eventFilter ( QObject * watched, QEvent * event );
-        void closeEvent ( QCloseEvent * event );
+        bool eventFilter(QObject *watched, QEvent *event);
+        void closeEvent(QCloseEvent *event);
 
     private:
         //ContextMenus
@@ -59,7 +59,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         bool isFileListSelected();
         QStringList selectedPaths();
 
-        void setActionStop ( QString aText );
+        void setActionStop(QString aText);
 
     private slots:
         //WorkingCopy
@@ -90,7 +90,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         //Help
         void on_actionAboutQSvn_triggered();
 
-        void activateWorkingCopy ( const QModelIndex &index, const bool force = false );
+        void activateWorkingCopy(const QModelIndex &index, const bool force = false);
 };
 
 #endif

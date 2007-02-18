@@ -35,26 +35,26 @@ class QVariant;
 class LogEntriesModel : public QAbstractTableModel
 {
     public:
-        LogEntriesModel ( QObject * parent );
+        LogEntriesModel(QObject *parent);
         ~LogEntriesModel();
 
-        int rowCount ( const QModelIndex &parent = QModelIndex( ) ) const;
-        int columnCount ( const QModelIndex &parent = QModelIndex( ) ) const;
-        QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-        QVariant data ( const QModelIndex &index, int role ) const;
+        int rowCount(const QModelIndex &parent = QModelIndex()) const;
+        int columnCount(const QModelIndex &parent = QModelIndex()) const;
+        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+        QVariant data(const QModelIndex &index, int role) const;
 
-        void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
-        svn::LogEntry getLogEntry ( const QModelIndex & index );
+        void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+        svn::LogEntry getLogEntry(const QModelIndex & index);
 
-        void appendLogEntries ( const svn::LogEntries *logEntries );
+        void appendLogEntries(const svn::LogEntries *logEntries);
         void clear();
 
     private:
         svn::LogEntries m_logEntries;
 
         //sorting algorithms
-        static bool logEntryLessThan ( const svn::LogEntry &left, const svn::LogEntry &right );
-        static bool logEntryGreaterThan ( const svn::LogEntry &left, const svn::LogEntry &right );
+        static bool logEntryLessThan(const svn::LogEntry &left, const svn::LogEntry &right);
+        static bool logEntryGreaterThan(const svn::LogEntry &left, const svn::LogEntry &right);
 };
 
 #endif

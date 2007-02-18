@@ -32,12 +32,12 @@
 class Login : public QDialog, public Ui::Login
 {
     public:
-        Login ( QWidget *parent = 0 );
+        Login(QWidget *parent = 0);
 
-        void setRealm ( const QString &realm );
-        void setUsername ( QString &username );
-        void setPassword ( QString &password );
-        void setMaySave ( bool &maySave );
+        void setRealm(const QString &realm);
+        void setUsername(QString &username);
+        void setPassword(QString &password);
+        void setMaySave(bool &maySave);
 
         QString username();
         QString password();

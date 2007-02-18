@@ -37,12 +37,12 @@ class ShowLog : public QDialog, public Ui::ShowLog
         Q_OBJECT
 
     public:
-        static void doShowLog ( QWidget *parent, const QString path,
-                                const svn::Revision revisionStart,
-                                const svn::Revision revisionEnd );
+        static void doShowLog(QWidget *parent, const QString path,
+                              const svn::Revision revisionStart,
+                              const svn::Revision revisionEnd);
 
     protected:
-        bool eventFilter ( QObject * watched, QEvent * event );
+        bool eventFilter(QObject *watched, QEvent *event);
 
     private:
         svn::LogEntries *m_logEntries;
@@ -52,13 +52,13 @@ class ShowLog : public QDialog, public Ui::ShowLog
         QString m_path;
         svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
 
-        ShowLog ( QWidget *parent = 0, const QString path = 0,
-                  const svn::Revision revisionStart = svn::Revision::UNDEFINED,
-                  const svn::Revision revisionEnd = svn::Revision::UNDEFINED );
+        ShowLog(QWidget *parent = 0, const QString path = 0,
+                const svn::Revision revisionStart = svn::Revision::UNDEFINED,
+                const svn::Revision revisionEnd = svn::Revision::UNDEFINED);
         ~ShowLog();
 
     private slots:
-        void selectionChanged ( const QItemSelection &selected, const QItemSelection &deselected );
+        void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
         void buttonNextClicked(int limit);
 
         void on_checkBoxStrictNodeHistory_stateChanged();

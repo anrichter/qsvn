@@ -44,15 +44,18 @@ class SvnClient : public QObject
         Q_OBJECT
 
     public:
-        enum SvnAction { SvnNone   = 0x00,
-                         SvnAdd    = 0x01,
-                         SvnCommit = 0x02,
-                         SvnDelete = 0x04,
-                         SvnRevert = 0x05,
-                         SvnRename = 0x06,
-                         SvnMove   = 0x07,
-                         SvnCopy   = 0x08,
-                         SvnMkDir  = 0x09 };
+        enum SvnAction
+        {
+            SvnNone   = 0x00,
+            SvnAdd    = 0x01,
+            SvnCommit = 0x02,
+            SvnDelete = 0x04,
+            SvnRevert = 0x05,
+            SvnRename = 0x06,
+            SvnMove   = 0x07,
+            SvnCopy   = 0x08,
+            SvnMkDir  = 0x09
+        };
 
         static SvnClient* instance();
 
@@ -61,23 +64,23 @@ class SvnClient : public QObject
          * @param directory
          * @return
          */
-        svn::StatusEntries status ( const QString& path,
-                                    const bool descend = false,
-                                    const bool get_all = true,
-                                    const bool update = false,
-                                    const bool no_ignore = false,
-                                    const svn::Revision revision = svn::Revision::HEAD,
-                                    bool detailed_remote = false,
-                                    const bool hide_externals = false );
+        svn::StatusEntries status(const QString& path,
+                                  const bool descend = false,
+                                  const bool get_all = true,
+                                  const bool update = false,
+                                  const bool no_ignore = false,
+                                  const svn::Revision revision = svn::Revision::HEAD,
+                                  bool detailed_remote = false,
+                                  const bool hide_externals = false);
 
-        svn::Status singleStatus ( const QString &path );
+        svn::Status singleStatus(const QString &path);
 
         /**
          * Update entries from the updateList.
          * @param updateList
          * @return
          */
-        bool update ( QStringList updateList, const bool isFileList );
+        bool update(QStringList updateList, const bool isFileList);
 
         /**
          * Checkout a working copy
@@ -85,30 +88,30 @@ class SvnClient : public QObject
          * @param path The where the working copy will be checked out.
          * @return True if checkout properly otherwise False
          */
-        bool checkout ( const QString &url, const QString &path );
-        bool svnexport ( const QString &url, const QString &path, const svn::Revision &revision, const bool verbose = true );
+        bool checkout(const QString &url, const QString &path);
+        bool svnexport(const QString &url, const QString &path, const svn::Revision &revision, const bool verbose = true);
 
-        bool add ( const QStringList &addList );
-        bool revert ( const QStringList &revertList, const bool verbose = true );
-        bool revert ( const QString fileName, const bool verbose = true );
-        bool commit ( const QStringList &commitList, const QString &logMessage );
-        bool remove ( const QStringList &removeList );
-        bool diff ( const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo );
-        bool diff ( const QString &file );
-        bool diff ( const QStringList &fileList );
+        bool add(const QStringList &addList);
+        bool revert(const QStringList &revertList, const bool verbose = true);
+        bool revert(const QString fileName, const bool verbose = true);
+        bool commit(const QStringList &commitList, const QString &logMessage);
+        bool remove(const QStringList &removeList);
+        bool diff(const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo);
+        bool diff(const QString &file);
+        bool diff(const QStringList &fileList);
 
-        const svn::LogEntries* log ( const QString &path,
-                                     const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
-                                     bool discoverChangedPaths, bool strictNodeHistory,
-                                     int limit );
-        bool cleanup ( const QString &path );
-        bool resolved ( const QString &path );
-        bool move ( const QString &srcPath, const QString &destPath, bool force );
-        bool copy ( const QString &srcPath, const QString &destPath );
+        const svn::LogEntries* log(const QString &path,
+                                   const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
+                                   bool discoverChangedPaths, bool strictNodeHistory,
+                                   int limit);
+        bool cleanup(const QString &path);
+        bool resolved(const QString &path);
+        bool move(const QString &srcPath, const QString &destPath, bool force);
+        bool copy(const QString &srcPath, const QString &destPath);
         bool mkdir(const QString &destPath);
 
     public slots:
-        void setCancel( );
+        void setCancel();
 
     protected:
         SvnClient();
@@ -121,7 +124,7 @@ class SvnClient : public QObject
         svn::Client *svnClient;
         Listener *listener;
 
-        void completedMessage ( const QString &path );
+        void completedMessage(const QString &path);
 };
 
 #endif

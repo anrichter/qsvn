@@ -32,7 +32,7 @@ class Configure : public QDialog, private Ui::Configure
         Q_OBJECT
 
     public:
-        Configure ( QWidget *parent = 0, Qt::WFlags flags = 0 );
+        Configure(QWidget *parent = 0, Qt::WFlags flags = 0);
         ~Configure();
 
     private slots:
