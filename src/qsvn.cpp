@@ -101,7 +101,7 @@ void QSvn::connectActions()
 void QSvn::createMenus()
 {
     contextMenuWorkingCopy = new QMenu ( this );
-    contextMenuWorkingCopy->addAction ( actionLog );
+    contextMenuWorkingCopy->addAction(actionShowLog);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction ( actionUpdate );
     contextMenuWorkingCopy->addAction ( actionCommit );
@@ -118,7 +118,7 @@ void QSvn::createMenus()
 
     contextMenuFileList = new QMenu ( this );
     contextMenuFileList->addAction ( actionDiff );
-    contextMenuFileList->addAction ( actionLog );
+    contextMenuFileList->addAction(actionShowLog);
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction ( actionUpdate );
     contextMenuFileList->addAction ( actionCommit );
@@ -258,7 +258,7 @@ void QSvn::on_actionRevert_triggered()
     FileSelector::doSvnAction ( SvnClient::SvnRevert, selectedPaths(), isFileListSelected() );
 }
 
-void QSvn::on_actionLog_triggered()
+void QSvn::on_actionShowLog_triggered()
 {
     foreach ( QString path, selectedPaths() )
     ShowLog::doShowLog ( 0, path, svn::Revision::HEAD, svn::Revision::START );

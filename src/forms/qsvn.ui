@@ -118,13 +118,6 @@
     <addaction name="actionCheckoutWorkingCopy" />
     <addaction name="actionCleanup" />
    </widget>
-   <widget class="QMenu" name="menuQuery" >
-    <property name="title" >
-     <string>&amp;Query</string>
-    </property>
-    <addaction name="actionDiff" />
-    <addaction name="actionLog" />
-   </widget>
    <widget class="QMenu" name="menuModify" >
     <property name="title" >
      <string>&amp;Modify</string>
@@ -140,6 +133,13 @@
     <addaction name="actionMove" />
     <addaction name="actionCopy" />
     <addaction name="actionMkDir" />
+   </widget>
+   <widget class="QMenu" name="menuQuery" >
+    <property name="title" >
+     <string>&amp;Query</string>
+    </property>
+    <addaction name="actionDiff" />
+    <addaction name="actionShowLog" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuWorking_Copy" />
@@ -286,7 +286,7 @@
   </action>
   <action name="actionDiff" >
    <property name="text" >
-    <string>Diff...</string>
+    <string>&amp;Diff...</string>
    </property>
   </action>
   <action name="actionConfigureQSvn" >
@@ -315,9 +315,12 @@
     <string>Stop</string>
    </property>
   </action>
-  <action name="actionLog" >
+  <action name="actionShowLog" >
    <property name="text" >
-    <string>&amp;Log...</string>
+    <string>Show &amp;Log...</string>
+   </property>
+   <property name="iconText" >
+    <string>Show Log</string>
    </property>
    <property name="toolTip" >
     <string>Show Log History</string>

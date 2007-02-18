@@ -74,7 +74,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         void on_actionAdd_triggered();
         void on_actionDelete_triggered();
         void on_actionRevert_triggered();
-        void on_actionLog_triggered();
+        void on_actionShowLog_triggered();
         void on_actionCleanup_triggered();
         void on_actionResolved_triggered();
         void on_actionRename_triggered();
