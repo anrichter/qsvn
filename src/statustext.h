@@ -41,7 +41,7 @@ class StatusText : public QObject
         {
             StatusText::instance()->setOutPutWidget(textEdit);
         }
-        inline static void out(const QString s)
+        inline static void out(const QString &s)
         {
             StatusText::instance()->outString(s);
         }
@@ -53,7 +53,7 @@ class StatusText : public QObject
         static StatusText* instance();
 
         QTextEdit *editStatusText;
-        void outString(const QString s);
+        void outString(const QString &s);
         void setOutPutWidget(QTextEdit *textEdit);
 };
 

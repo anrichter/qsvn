@@ -51,7 +51,7 @@ void StatusText::setOutPutWidget ( QTextEdit *textEdit )
         editStatusText = textEdit;
 }
 
-void StatusText::outString ( const QString s )
+void StatusText::outString ( const QString &s )
 {
     if ( editStatusText )
     {
