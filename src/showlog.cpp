@@ -93,15 +93,15 @@ void ShowLog::doShowLog ( QWidget *parent, const QString path, const svn::Revisi
 
 void ShowLog::on_buttonNext_clicked()
 {
-    on_buttonNext_clicked ( 100 );
+    buttonNextClicked(100);
 }
 
-void ShowLog::on_btnAll_clicked()
+void ShowLog::on_buttonShowAll_clicked()
 {
-    on_buttonNext_clicked ( 0 );
+    buttonNextClicked(0);
 }
 
-void ShowLog::on_buttonNext_clicked ( int limit )
+void ShowLog::buttonNextClicked(int limit)
 {
     qApp->processEvents();
     QApplication::setOverrideCursor ( QCursor ( Qt::WaitCursor ) );

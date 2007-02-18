@@ -59,11 +59,11 @@ class ShowLog : public QDialog, public Ui::ShowLog
 
     private slots:
         void selectionChanged ( const QItemSelection &selected, const QItemSelection &deselected );
+        void buttonNextClicked(int limit);
 
         void on_checkBoxStrictNodeHistory_stateChanged();
         void on_buttonNext_clicked();
-        void on_buttonNext_clicked ( int limit );
-        void on_btnAll_clicked();
+        void on_buttonShowAll_clicked();
 
         void on_actionDiff_triggered();
 };
