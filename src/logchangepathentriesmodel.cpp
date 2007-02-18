@@ -29,8 +29,8 @@
 #include <QtCore>
 
 
-LogChangePathEntriesModel::LogChangePathEntriesModel ( QObject * parent, svn::LogChangePathEntries logChangePathEntries )
-        : QAbstractTableModel ( parent )
+LogChangePathEntriesModel::LogChangePathEntriesModel(QObject *parent, svn::LogChangePathEntries logChangePathEntries)
+        : QAbstractTableModel(parent)
 {
     m_logChangePathEntries = logChangePathEntries;
 }
@@ -38,52 +38,52 @@ LogChangePathEntriesModel::LogChangePathEntriesModel ( QObject * parent, svn::Lo
 LogChangePathEntriesModel::~LogChangePathEntriesModel()
 {}
 
-int LogChangePathEntriesModel::rowCount ( const QModelIndex & parent ) const
+int LogChangePathEntriesModel::rowCount(const QModelIndex &parent) const
 {
     return m_logChangePathEntries.count();
 }
 
-int LogChangePathEntriesModel::columnCount ( const QModelIndex & parent ) const
+int LogChangePathEntriesModel::columnCount(const QModelIndex &parent) const
 {
     return 4;
 }
 
-QVariant LogChangePathEntriesModel::headerData ( int section, Qt::Orientation orientation, int role ) const
+QVariant LogChangePathEntriesModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if ( orientation == Qt::Horizontal && role == Qt::DisplayRole )
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
-        switch ( section )
+        switch (section)
         {
             case 0:
-                return QString ( tr ( "Action" ) );
+                return QString(tr("Action"));
                 break;
             case 1:
-                return QString ( tr ( "Path" ) );
+                return QString(tr("Path"));
                 break;
             case 2:
-                return QString ( tr ( "Copy from path" ) );
+                return QString(tr("Copy from path"));
                 break;
             case 3:
-                return QString ( tr ( "Copy from Revision" ) );
+                return QString(tr("Copy from Revision"));
                 break;
         }
     }
     return QVariant();
 }
 
-QVariant LogChangePathEntriesModel::data ( const QModelIndex & index, int role ) const
+QVariant LogChangePathEntriesModel::data(const QModelIndex &index, int role) const
 {
-    if ( !index.isValid() )
+    if (!index.isValid())
         return QVariant();
-    if ( role != Qt::DisplayRole )
+    if (role != Qt::DisplayRole)
         return QVariant();
 
-    svn::LogChangePathEntry logChangePathEntry = m_logChangePathEntries.at ( index.row() );
+    svn::LogChangePathEntry logChangePathEntry = m_logChangePathEntries.at(index.row());
 
-    switch ( index.column() )
+    switch (index.column())
     {
         case 0:
-            return QChar ( logChangePathEntry.action );
+            return QChar(logChangePathEntry.action);
             break;
         case 1:
             return logChangePathEntry.path;
@@ -92,8 +92,8 @@ QVariant LogChangePathEntriesModel::data ( const QModelIndex & index, int role )
             return logChangePathEntry.copyFromPath;
             break;
         case 3:
-            if ( SVN_IS_VALID_REVNUM ( logChangePathEntry.copyFromRevision ) )
-                return int ( logChangePathEntry.copyFromRevision );
+            if (SVN_IS_VALID_REVNUM(logChangePathEntry.copyFromRevision))
+                return int(logChangePathEntry.copyFromRevision);
             else
                 return QVariant();
             break;
@@ -103,7 +103,7 @@ QVariant LogChangePathEntriesModel::data ( const QModelIndex & index, int role )
     }
 }
 
-svn::LogChangePathEntry LogChangePathEntriesModel::getLogChangePathEntry ( const QModelIndex & index )
+svn::LogChangePathEntry LogChangePathEntriesModel::getLogChangePathEntry(const QModelIndex &index)
 {
-    return m_logChangePathEntries.at ( index.row() );
+    return m_logChangePathEntries.at(index.row());
 }

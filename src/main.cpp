@@ -25,11 +25,11 @@
 //Qt
 #include <QApplication>
 
-int main ( int argc, char ** argv )
+int main(int argc, char **argv)
 {
-    Q_INIT_RESOURCE ( qsvn );
+    Q_INIT_RESOURCE(qsvn);
 
-    QApplication app ( argc, argv );
+    QApplication app(argc, argv);
     QSvn qsvn;
     qsvn.show();
 

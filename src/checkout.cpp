@@ -28,24 +28,24 @@
 #include <QtGui>
 
 
-Checkout::Checkout ( QWidget *parent )
-        : QDialog ( parent )
+Checkout::Checkout(QWidget *parent)
+        : QDialog(parent)
 {
-    setupUi ( this );
-    setWindowIcon ( QIcon ( ":/images/actioncheckout.png" ) );
-    Config::instance()->restoreWidget ( this );
+    setupUi(this);
+    setWindowIcon(QIcon(":/images/actioncheckout.png"));
+    Config::instance()->restoreWidget(this);
 
-    QObject::connect ( buttonPath, SIGNAL ( clicked() ), this, SLOT ( selectPathSlot() ) );
+    connect(buttonPath, SIGNAL(clicked()), this, SLOT(selectPathSlot()));
 
-    editURL->addItems ( Config::instance()->getStringList ( "checkoutURL" ) );
+    editURL->addItems(Config::instance()->getStringList("checkoutURL"));
     editURL->clearEditText();
 
     m_selectedURL = "";
 }
 
-Checkout::~ Checkout( )
+Checkout::~Checkout()
 {
-    Config::instance()->saveWidget ( this );
+    Config::instance()->saveWidget(this);
 }
 
 QString Checkout::url() const
@@ -56,54 +56,58 @@ QString Checkout::url() const
 QString Checkout::path() const
 {
     QString path = editPath->text();
-    while ( path.endsWith ( QDir::separator() ) )
-        path.chop ( 1 );
+    while (path.endsWith(QDir::separator()))
+        path.chop(1);
     return path;
 }
 
 void Checkout::selectPathSlot()
 {
-    QString directory = QFileDialog::getExistingDirectory ( this, tr ( "Select a directory for working copy" ), editPath->text() );
-    if ( !directory.isEmpty() )
-        editPath->setText ( QDir::convertSeparators ( directory ) );
+    QString directory =
+            QFileDialog::getExistingDirectory(this,
+                                              tr("Select a directory for working copy"),
+                                              editPath->text());
+    if (!directory.isEmpty())
+        editPath->setText(QDir::toNativeSeparators(directory));
 }
 
 void Checkout::accept()
 {
-    if ( editURL->currentText().isEmpty() )
+    if (editURL->currentText().isEmpty())
     {
-        QMessageBox::critical ( this, tr ( "QSvn - Error" ), tr ( "You must specify an URL for checkout!" ) );
+        QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify an URL for checkout!"));
         return;
     }
-    if ( editPath->text().isEmpty() )
+    if (editPath->text().isEmpty())
     {
-        QMessageBox::critical ( this, tr ( "QSvn - Error" ), tr ( "You must specify a directory for checkout!" ) );
+        QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify a directory for checkout!"));
         return;
     }
-    QDir dir ( editPath->text() );
-    if ( !dir.exists() )
+    QDir dir(editPath->text());
+    if (!dir.exists())
     {
-        if ( QMessageBox::question ( this, tr ( "QSvn - Question" ),
-                                     QString ( tr ( "<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>" ) ).arg ( editPath->text() ),
-                                     QMessageBox::Yes,
-                                     QMessageBox::No ) == QMessageBox::Yes )
+        if (QMessageBox::question(this,
+                                  tr("QSvn - Question"),
+                                  QString(tr("<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>"))
+                                          .arg(editPath->text()),
+                                  QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
         {
-            dir.mkdir ( editPath->text() );
+            dir.mkdir(editPath->text());
         }
         else
             return;
     }
 
     m_selectedURL = editURL->currentText();
-    while ( m_selectedURL.endsWith ( QDir::separator() ) )
-        m_selectedURL.chop ( 1 );
+    while (m_selectedURL.endsWith(QDir::separator()))
+        m_selectedURL.chop(1);
 
-    editURL->insertItem ( 0, m_selectedURL );
+    editURL->insertItem(0, m_selectedURL);
     QStringList urlList;
-    for ( int i = 0; i < editURL->count(); ++i )
-        if ( !urlList.contains ( editURL->itemText ( i ) ) )
-            urlList << editURL->itemText ( i );
-    Config::instance()->saveStringList ( "checkoutURL", urlList );
+    for (int i = 0; i < editURL->count(); ++i)
+        if (!urlList.contains(editURL->itemText(i)))
+            urlList << editURL->itemText(i);
+    Config::instance()->saveStringList("checkoutURL", urlList);
     QDialog::accept();
 }
 

@@ -25,48 +25,48 @@
 #include <QtGui>
 
 
-Login::Login ( QWidget *parent )
-        : QDialog ( parent )
+Login::Login(QWidget *parent)
+        : QDialog(parent)
 {
-    setupUi ( this );
+    setupUi(this);
 }
 
-void Login::setRealm ( const QString &realm )
+void Login::setRealm(const QString &realm)
 {
-    labelRealm->setText ( realm );
+    labelRealm->setText(realm);
 }
 
-void Login::setUsername ( QString &username )
+void Login::setUsername(QString &username)
 {
-    editUsername->setText ( username );
+    editUsername->setText(username);
 }
 
-void Login::setPassword ( QString &password )
+void Login::setPassword(QString &password)
 {
-    editPassword->setText ( password );
+    editPassword->setText(password);
 }
 
-void Login::setMaySave ( bool & maySave )
+void Login::setMaySave(bool &maySave)
 {
-    if ( maySave )
-        checkSaveAuth->setCheckState ( Qt::Checked );
+    if (maySave)
+        checkSaveAuth->setCheckState(Qt::Checked);
     else
-        checkSaveAuth->setCheckState ( Qt::Unchecked );
+        checkSaveAuth->setCheckState(Qt::Unchecked);
 }
 
-QString Login::username( )
+QString Login::username()
 {
     return editUsername->text();
 }
 
-QString Login::password( )
+QString Login::password()
 {
     return editPassword->text();
 }
 
-bool Login::maySave( )
+bool Login::maySave()
 {
-    if ( checkSaveAuth->checkState() == Qt::Checked )
+    if (checkSaveAuth->checkState() == Qt::Checked)
         return true;
     else
         return false;

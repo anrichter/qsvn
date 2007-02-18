@@ -31,7 +31,7 @@ StatusText* StatusText::m_instance = 0;
 
 StatusText* StatusText::instance()
 {
-    if ( m_instance == 0 )
+    if (m_instance == 0)
     {
         m_instance = new StatusText;
     }
@@ -39,25 +39,25 @@ StatusText* StatusText::instance()
 }
 
 //StatusText implementation
-StatusText::StatusText ( QObject *parent )
-        : QObject ( parent )
+StatusText::StatusText(QObject *parent)
+        : QObject(parent)
 {
     editStatusText = 0;
 }
 
-void StatusText::setOutPutWidget ( QTextEdit *textEdit )
+void StatusText::setOutPutWidget(QTextEdit *textEdit)
 {
-    if ( textEdit )
+    if (textEdit)
         editStatusText = textEdit;
 }
 
-void StatusText::outString ( const QString &s )
+void StatusText::outString(const QString &s)
 {
-    if ( editStatusText )
+    if (editStatusText)
     {
-        editStatusText->append ( s );
+        editStatusText->append(s);
         qApp->processEvents();
     }
     else
-        qDebug ( s.toAscii() );
+        qDebug(s.toAscii());
 }
