@@ -110,6 +110,7 @@ void QSvn::createMenus()
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction ( actionAdd );
     contextMenuWorkingCopy->addAction ( actionDelete );
+    contextMenuWorkingCopy->addAction(actionMkDir);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction ( actionAddWorkingCopy );
     contextMenuWorkingCopy->addAction ( actionRemoveWorkingCopy );
@@ -378,6 +379,12 @@ void QSvn::on_actionCopy_triggered()
             fm.exec();
         }
     }
+}
+
+void QSvn::on_actionMkDir_triggered()
+{
+    FileModifier fm(this, m_currentWCpath, SvnClient::SvnMkDir);
+    fm.exec();
 }
 
 #include "qsvn.moc"

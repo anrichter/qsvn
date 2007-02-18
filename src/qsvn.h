@@ -80,6 +80,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         void on_actionRename_triggered();
         void on_actionMove_triggered();
         void on_actionCopy_triggered();
+        void on_actionMkDir_triggered();
 
         //Query
         void on_actionDiff_triggered();

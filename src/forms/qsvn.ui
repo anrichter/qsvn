@@ -139,6 +139,7 @@
     <addaction name="actionRename" />
     <addaction name="actionMove" />
     <addaction name="actionCopy" />
+    <addaction name="actionMkDir" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuWorking_Copy" />
@@ -354,6 +355,17 @@
   <action name="actionCopy" >
    <property name="text" >
     <string>Copy...</string>
+   </property>
+  </action>
+  <action name="actionMkDir" >
+   <property name="text" >
+    <string>Make Directory...</string>
+   </property>
+   <property name="iconText" >
+    <string>Make Directory</string>
+   </property>
+   <property name="toolTip" >
+    <string>Make Directory</string>
    </property>
   </action>
  </widget>

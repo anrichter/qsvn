@@ -42,6 +42,11 @@ FileModifier::FileModifier ( QWidget *parent, QString path, SvnClient::SvnAction
         case SvnClient::SvnCopy:
             setWindowTitle ( tr ( "Copy" ) );
             break;
+        case SvnClient::SvnMkDir:
+            setWindowTitle ( tr ( "Make Directory" ) );
+            labelFromFile->setVisible( false );
+            labelTo->setVisible( false );
+            break;
     }
     labelFromFile->setText ( m_srcPath );
     editToFile->setText ( m_srcPath );
@@ -62,6 +67,9 @@ void FileModifier::accept()
             break;
         case SvnClient::SvnCopy:
             SvnClient::instance()->copy ( m_srcPath, editToFile->text() );
+            break;
+        case SvnClient::SvnMkDir:
+            SvnClient::instance()->mkdir(editToFile->text());
             break;
     }
     QDialog::accept();

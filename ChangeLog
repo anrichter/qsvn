@@ -9,6 +9,7 @@ Version 0.5.0 - released 2006-??-??
     * [0000013] copy file
     * [0000014] move file
     * [0000015] rename file
+    * [0000016] mkdir
     * Check for empty Log Messages in Commit Dialog (optional).
     * Commit Dialog shows conflicted files.
     * Enable Multiselect for Working Copies.

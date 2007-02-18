@@ -51,7 +51,8 @@ class SvnClient : public QObject
                          SvnRevert = 0x05,
                          SvnRename = 0x06,
                          SvnMove   = 0x07,
-                         SvnCopy   = 0x08 };
+                         SvnCopy   = 0x08,
+                         SvnMkDir  = 0x09 };
 
         static SvnClient* instance();
 
@@ -104,6 +105,7 @@ class SvnClient : public QObject
         bool resolved ( const QString &path );
         bool move ( const QString &srcPath, const QString &destPath, bool force );
         bool copy ( const QString &srcPath, const QString &destPath );
+        bool mkdir(const QString &destPath);
 
     public slots:
         void setCancel( );

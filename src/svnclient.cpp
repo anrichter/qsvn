@@ -313,8 +313,8 @@ bool SvnClient::diff ( const QString &file, const svn::Revision &revisionFrom, c
                 if ( svn::Url::isValid ( file ) )
                 {
                     fileFrom = Config::instance()->tempDir() + filename + QString ( ".%1.%2 " )
-                               .arg ( int ( revisionFrom.revnum() ) )
-                               .arg ( ext );
+                            .arg ( int ( revisionFrom.revnum() ) )
+                            .arg ( ext );
                     if ( !svnexport ( file, fileFrom, revisionFrom, false ) )
                         return false;
                 }
@@ -337,8 +337,8 @@ bool SvnClient::diff ( const QString &file, const svn::Revision &revisionFrom, c
                 if ( svn::Url::isValid ( file ) )
                 {
                     fileTo = Config::instance()->tempDir() + filename + QString ( ".%1.%2 " )
-                             .arg ( int ( revisionTo.revnum() ) )
-                             .arg ( ext );
+                            .arg ( int ( revisionTo.revnum() ) )
+                            .arg ( ext );
                     if ( !svnexport ( file, fileTo, revisionTo, false ) )
                         return false;
                 }
@@ -454,10 +454,27 @@ bool SvnClient::copy ( const QString &srcPath, const QString &destPath )
     }
     catch ( svn::ClientException e )
     {
-        StatusText::out ( e.msg() );
+        StatusText::out(e.msg());
         return false;
     }
     return true;
 }
+
+bool SvnClient::mkdir(const QString & destPath)
+{
+    const QString message = "";
+    listener->setVerbose(true);
+    try
+    {
+        svnClient->mkdir(svn::Path(destPath), message);
+    }
+    catch (svn::ClientException e)
+    {
+        StatusText::out(e.msg());
+        return false;
+    }
+    return true;
+}
+
 
 #include "svnclient.moc"
