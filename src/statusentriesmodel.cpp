@@ -235,15 +235,14 @@ void StatusEntriesModel::doFileChanged ( const QString & path )
     {
         if ( m_statusEntries.at ( i ).path() == path )
         {
-            if ( QFile::exists ( path ) )
+            svn::Status status = SvnClient::instance()->singleStatus ( m_statusEntries.at ( i ).path() );
+            if ( status.isVersioned() )
             {
-                svn::Status status = SvnClient::instance()->singleStatus ( m_statusEntries.at ( i ).path() );
                 m_statusEntries.replace ( i, status );
-                emit layoutChanged();
             }
-            else
-                m_statusEntries.removeAt ( i );
-
+            else {
+                m_statusEntries.removeAt( i );
+            }
             emit layoutChanged();
             break;
         }
@@ -253,13 +252,21 @@ void StatusEntriesModel::doFileChanged ( const QString & path )
 void StatusEntriesModel::removeFromFsWatcher()
 {
     foreach ( svn::Status status, m_statusEntries )
-    m_fsWatcher.removePath ( status.path() );
+    {
+        m_fsWatcher.removePath ( status.path() );
+    }
 }
 
 void StatusEntriesModel::addToFsWatcher()
 {
     foreach ( svn::Status status, m_statusEntries )
-    m_fsWatcher.addPath ( status.path() );
+    {
+        if ( ( status.textStatus() != svn_wc_status_deleted ) &&
+               ( status.textStatus() != svn_wc_status_missing ) )
+        {
+            m_fsWatcher.addPath ( status.path() );
+        }
+    }
 }
 
 #include "statusentriesmodel.moc"
