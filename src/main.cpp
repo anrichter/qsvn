@@ -20,16 +20,33 @@
 
 
 //QSvn
+#include "config.h"
 #include "qsvn.h"
 
 //Qt
 #include <QApplication>
+
 
 int main(int argc, char **argv)
 {
     Q_INIT_RESOURCE(qsvn);
 
     QApplication app(argc, argv);
+    
+    //check command line parameter
+    foreach(QString arg, qApp->arguments())
+    {
+        if (arg.contains("--inifile", Qt::CaseSensitive))
+        {
+            QStringList list = arg.split("=");
+            if ((list.count() == 2) && 
+                (!list.at(1).isEmpty()))
+            {
+                Config::instance()->setIniFile(list.at(1));
+            }
+        }
+    }
+
     QSvn qsvn;
     qsvn.show();
 

@@ -27,8 +27,8 @@ class QSvn;
 //Qt
 #include <QObject>
 class QHeaderView;
-class QSplitter;
 class QSettings;
+class QSplitter;
 
 
 //configuration strings
@@ -46,8 +46,8 @@ this singelton holds the configuration for qsvn
 class Config : public QObject
 {
     public:
-        static Config* instance();
-
+        static Config *instance();
+        
         //Main Window
         void saveMainWindow(const QSvn *aQSvn);
         void restoreMainWindow(QSvn *aQSvn);
@@ -79,6 +79,8 @@ class Config : public QObject
 
         QString tempDir();
         void removeTempDir();
+
+        void setIniFile(const QString iniFile);
 
     private:
         Config(QObject *parent = 0);
