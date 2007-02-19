@@ -43,29 +43,26 @@ Config* Config::instance()
 Config::Config(QObject *parent)
         : QObject(parent)
 {
-    QCoreApplication::setOrganizationName("QSvn");
-    QCoreApplication::setOrganizationDomain("");
-    QCoreApplication::setApplicationName("QSvn");
-    _tempDir = QDir::tempPath() + QDir::separator() + "qsvn" + QDir::separator();
-    _tempDir = QDir::toNativeSeparators(_tempDir);
+    m_settings = new QSettings( "QSvn", "QSvn", this );
+    
+    m_tempDir = QDir::tempPath() + QDir::separator() + "qsvn" + QDir::separator();
+    m_tempDir = QDir::toNativeSeparators(m_tempDir);
 }
 
 void Config::removeTempDir()
 {
-    QDir tempDir(_tempDir);
+    QDir tempDir(m_tempDir);
     QStringListIterator it(tempDir.entryList());
     while (it.hasNext())
         tempDir.remove(it.next());
 
-    tempDir.rmdir(_tempDir);
+    tempDir.rmdir(m_tempDir);
 }
 
 void Config::saveMainWindow(const QSvn *aQSvn)
 {
     if (aQSvn)
     {
-        QSettings settings;
-
         saveWidget(aQSvn);
 
         saveSplitter(aQSvn, aQSvn->splitterVertical);
@@ -77,8 +74,6 @@ void Config::restoreMainWindow(QSvn *aQSvn)
 {
     if (aQSvn)
     {
-        QSettings settings;
-
         restoreWidget(aQSvn);
 
         //restore settings from splitterVertical
@@ -89,51 +84,48 @@ void Config::restoreMainWindow(QSvn *aQSvn)
 
 void Config::saveWidget(const QWidget *widget, const QString prefix)
 {
-    QSettings settings;
     QString key = "widget" + prefix + widget->objectName();
 
-    settings.remove(key);
-    settings.setValue(key + "/geometry", widget->saveGeometry());
+    m_settings->remove(key);
+    m_settings->setValue(key + "/geometry", widget->saveGeometry());
 }
 
 void Config::restoreWidget(QWidget *widget, const QString prefix)
 {
-    QSettings settings;
     QString key = "widget" + prefix + widget->objectName();
 
-    widget->restoreGeometry(settings.value(key + "/geometry").toByteArray());
+    widget->restoreGeometry(m_settings->value(key + "/geometry").toByteArray());
 }
 
 void Config::saveSplitter(const QObject *parent, const QSplitter *splitter)
 {
-    QSettings settings;
     QString key = parent->objectName() + "_" + splitter->objectName();
 
-    settings.remove(key);
-    settings.beginWriteArray(key, splitter->sizes().count());
+    m_settings->remove(key);
+    m_settings->beginWriteArray(key, splitter->sizes().count());
     for (int i = 0; i < splitter->sizes().count(); ++i)
     {
-        settings.setArrayIndex(i);
-        settings.setValue("value", splitter->sizes().at(i));
+        m_settings->setArrayIndex(i);
+        m_settings->setValue("value", splitter->sizes().at(i));
     }
-    settings.endArray();
+    m_settings->endArray();
 }
 
 void Config::restoreSplitter(const QObject *parent, QSplitter *splitter)
 {
-    QSettings settings;
     QString key = parent->objectName() + "_" + splitter->objectName();
-    int size = settings.beginReadArray(key);
+
+    int size = m_settings->beginReadArray(key);
     if (size <= 0)
         return;
 
     QList<int> list = splitter->sizes();
     for (int i = 0; i < size; i++)
     {
-        settings.setArrayIndex(i);
-        list.replace(i, settings.value("value").toInt());
+        m_settings->setArrayIndex(i);
+        list.replace(i, m_settings->value("value").toInt());
     }
-    settings.endArray();
+    m_settings->endArray();
 
     splitter->setSizes(list);
 }
@@ -143,82 +135,74 @@ void Config::saveStringList(const QString &prefix, const QStringList &stringList
     if (prefix.isEmpty())
         return;
 
-    QSettings settings;
-
-    settings.remove(prefix);
-    settings.beginWriteArray(prefix, stringList.count());
+    m_settings->remove(prefix);
+    m_settings->beginWriteArray(prefix, stringList.count());
     for (int i = 0; i < stringList.count(); ++i)
     {
-        settings.setArrayIndex(i);
-        settings.setValue("entry" , stringList.at(i));
+        m_settings->setArrayIndex(i);
+        m_settings->setValue("entry" , stringList.at(i));
     }
-    settings.endArray();
+    m_settings->endArray();
 }
 
 QStringList Config::getStringList(const QString &prefix)
 {
     QStringList stringList;
-    QSettings settings;
-
-    int size = settings.beginReadArray(prefix);
+    int size = m_settings->beginReadArray(prefix);
 
     for (int i = 0; i < size; ++i)
     {
-        settings.setArrayIndex(i);
-        stringList.append(settings.value("entry").toString());
+        m_settings->setArrayIndex(i);
+        stringList.append(m_settings->value("entry").toString());
     }
-    settings.endArray();
+    m_settings->endArray();
 
     return stringList;
 }
 
 void Config::setValue(const QString &key, const QVariant &value)
 {
-    QSettings settings;
-    settings.setValue(key, value);
+    m_settings->setValue(key, value);
 }
 
 QVariant Config::value(const QString &key)
 {
-    QSettings settings;
-    return settings.value(key, defaultValue(key));
+    return m_settings->value(key, defaultValue(key));
 }
 
 void Config::saveHeaderView(const QObject *parent, const QHeaderView *headerView)
 {
-    QSettings settings;
     QString key = parent->objectName() + "_" + headerView->parent()->objectName();
 
-    settings.remove(key);
-    settings.beginWriteArray(key, headerView->count());
+    m_settings->remove(key);
+    m_settings->beginWriteArray(key, headerView->count());
     for (int i = 0; i < headerView->count(); ++i)
     {
-        settings.setArrayIndex(i);
-        settings.setValue("value", headerView->sectionSize(i));
+        m_settings->setArrayIndex(i);
+        m_settings->setValue("value", headerView->sectionSize(i));
     }
-    settings.endArray();
+    m_settings->endArray();
 }
 
 void Config::restoreHeaderView(const QObject *parent, QHeaderView *headerView)
 {
-    QSettings settings;
     QString key = parent->objectName() + "_" + headerView->parent()->objectName();
 
-    settings.beginReadArray(key);
+    m_settings->beginReadArray(key);
     for (int i = 0; i < headerView->count(); i++)
     {
-        settings.setArrayIndex(i);
-        headerView->resizeSection(i, settings.value("value", headerView->sectionSize(i)).toInt());
+        m_settings->setArrayIndex(i);
+        headerView->resizeSection(i, m_settings->value("value", headerView->sectionSize(i)).toInt());
     }
-    settings.endArray();
+    m_settings->endArray();
 }
 
 QString Config::tempDir()
 {
-    QDir dir(_tempDir);
+    QDir dir(m_tempDir);
     if (!dir.exists())
-        dir.mkpath(_tempDir);
-    return _tempDir;
+        dir.mkpath(m_tempDir);
+    return m_tempDir;
 }
 
 QVariant Config::defaultValue(const QString &key)

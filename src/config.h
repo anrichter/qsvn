@@ -28,6 +28,7 @@ class QSvn;
 #include <QObject>
 class QHeaderView;
 class QSplitter;
+class QSettings;
 
 
 //configuration strings
@@ -82,8 +83,10 @@ class Config : public QObject
     private:
         Config(QObject *parent = 0);
 
-        static Config* m_instance;
-        QString _tempDir;
+        static Config *m_instance;
+        QSettings *m_settings;
+        QString m_tempDir;
+
 
         QVariant defaultValue(const QString &key); //returns default values for configuration parameters
 };
