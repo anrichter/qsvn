@@ -75,6 +75,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
             wcModel, SLOT(doUpdate(const QModelIndex &)));
 
     connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     Config::instance()->restoreMainWindow(this);
     Config::instance()->restoreHeaderView(this, treeViewFileList->header());
