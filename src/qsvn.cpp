@@ -103,27 +103,25 @@ QSvn::~QSvn()
 void QSvn::createMenus()
 {
     contextMenuWorkingCopy = new QMenu(this);
-    contextMenuWorkingCopy->addAction(actionShowLog);
-    contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionUpdate);
     contextMenuWorkingCopy->addAction(actionCommit);
+    contextMenuWorkingCopy->addSeparator();
+    contextMenuWorkingCopy->addAction(actionShowLog);
+    contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionRevert);
     contextMenuWorkingCopy->addAction(actionCleanup);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionAdd);
     contextMenuWorkingCopy->addAction(actionDelete);
     contextMenuWorkingCopy->addAction(actionMkDir);
-    contextMenuWorkingCopy->addSeparator();
-    contextMenuWorkingCopy->addAction(actionAddWorkingCopy);
-    contextMenuWorkingCopy->addAction(actionRemoveWorkingCopy);
-    contextMenuWorkingCopy->addAction(actionCheckoutWorkingCopy);
 
     contextMenuFileList = new QMenu(this);
+    contextMenuFileList->addAction(actionUpdate);
+    contextMenuFileList->addAction(actionCommit);
+    contextMenuFileList->addSeparator();
     contextMenuFileList->addAction(actionDiff);
     contextMenuFileList->addAction(actionShowLog);
     contextMenuFileList->addSeparator();
-    contextMenuFileList->addAction(actionUpdate);
-    contextMenuFileList->addAction(actionCommit);
     contextMenuFileList->addAction(actionRevert);
     contextMenuFileList->addAction(actionResolved);
     contextMenuFileList->addSeparator();
