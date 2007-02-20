@@ -45,7 +45,8 @@ class StatusEntriesModel : public QAbstractTableModel
         void readFileList(QStringList fileList);
 
         svn::Status at(int row);
-
+        
+        void setFsWatcherEnabled();
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;

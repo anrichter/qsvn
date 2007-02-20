@@ -33,6 +33,7 @@ FileListProxy::FileListProxy(QObject *parent)
         : QSortFilterProxyModel(parent)
 {
     m_statusEntriesModel = new StatusEntriesModel(this);
+    m_statusEntriesModel->setFsWatcherEnabled();
     setSourceModel(m_statusEntriesModel);
 }
 

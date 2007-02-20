@@ -34,12 +34,24 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
         : QAbstractTableModel(parent)
 {
     m_statusEntries = svn::StatusEntries();
-    m_fsWatcher = new QFileSystemWatcher(this);
+    m_fsWatcher = 0;
 }
 
 StatusEntriesModel::~StatusEntriesModel()
 {
     clearFsWatcher();
+}
+
+void StatusEntriesModel::setFsWatcherEnabled()
+{
+    if (m_fsWatcher) 
+    {
+        clearFsWatcher();
+        delete(m_fsWatcher);
+    }
+
+    m_fsWatcher = new QFileSystemWatcher(this);
+    fillFsWatcher();
 }
 
 int StatusEntriesModel::rowCount(const QModelIndex &parent) const
@@ -255,6 +267,9 @@ void StatusEntriesModel::doFileChanged(const QString &path)
 
 void StatusEntriesModel::clearFsWatcher()
 {
+    if (!m_fsWatcher)
+        return;
+
     disconnect(m_fsWatcher, 0, 0, 0);
     
     QStringList paths;
@@ -267,6 +282,9 @@ void StatusEntriesModel::clearFsWatcher()
 
 void StatusEntriesModel::fillFsWatcher()
 {
+    if (!m_fsWatcher)
+        return;
+
     QStringList paths;
     foreach (svn::Status status, m_statusEntries)
     {
@@ -282,7 +300,6 @@ void StatusEntriesModel::fillFsWatcher()
              this, SLOT(doFileChanged(const QString &)));
     connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
              this, SLOT(doDirectoryChanged(const QString &)));
-
 }
 
 #include "statusentriesmodel.moc"
