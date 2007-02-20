@@ -33,6 +33,7 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
         : QAbstractTableModel(parent)
 {
     m_statusEntries = svn::StatusEntries();
+
     connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
              this, SLOT(doFileChanged(const QString &)));
     connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
@@ -255,22 +256,26 @@ void StatusEntriesModel::doFileChanged(const QString &path)
 
 void StatusEntriesModel::removeFromFsWatcher()
 {
+    QStringList paths;
     foreach (svn::Status status, m_statusEntries)
     {
-        m_fsWatcher.removePath(status.path());
+        paths << status.path();        
     }
+    m_fsWatcher.removePaths(paths);
 }
 
 void StatusEntriesModel::addToFsWatcher()
 {
+    QStringList paths;
     foreach (svn::Status status, m_statusEntries)
     {
         if ((status.textStatus() != svn_wc_status_deleted ) &&
              (status.textStatus() != svn_wc_status_missing))
         {
-            m_fsWatcher.addPath(status.path());
+            paths << status.path();
         }
     }
+    m_fsWatcher.addPaths(paths);
 }
 
 #include "statusentriesmodel.moc"
