@@ -44,7 +44,7 @@ Config::Config(QObject *parent)
         : QObject(parent)
 {
     m_settings = new QSettings( "QSvn", "QSvn", this );
-    
+
     m_tempDir = QDir::tempPath() + QDir::separator() + "qsvn" + QDir::separator();
     m_tempDir = QDir::toNativeSeparators(m_tempDir);
 }
@@ -64,7 +64,7 @@ void Config::setIniFile(const QString iniFile)
     if (m_settings)
         delete(m_settings);
 
-    m_settings = new QSettings(iniFile, QSettings::IniFormat);
+    m_settings = new QSettings(iniFile, QSettings::IniFormat, this);
     m_settings->sync();
 }
 

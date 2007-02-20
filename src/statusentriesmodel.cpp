@@ -239,7 +239,7 @@ void StatusEntriesModel::doDirectoryChanged(const QString &path)
 
 void StatusEntriesModel::doFileChanged(const QString &path)
 {
-    for (int i=0; i < m_statusEntries.count(); i++)
+    for (int i = 0; i < m_statusEntries.count(); i++)
     {
         if (m_statusEntries.at(i).path() == path)
         {
@@ -266,11 +266,11 @@ void StatusEntriesModel::clearFsWatcher()
 
 void StatusEntriesModel::fillFsWatcher()
 {
-	foreach(svn::Status status, m_statusEntries)
-	{
-		if (m_visibleStats.contains(status.textStatus()))
-  			m_fsWatcher.addPath(status.path());
-	}
+    foreach(svn::Status status, m_statusEntries)
+    {
+        if (m_visibleStats.contains(status.textStatus()))
+        m_fsWatcher.addPath(status.path());
+    }
 }
 
 #include "statusentriesmodel.moc"

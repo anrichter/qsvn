@@ -62,11 +62,6 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
     setSourceModel(m_statusEntriesModel);
 }
 
-FileSelectorProxy::~FileSelectorProxy()
-{
-    delete(m_statusEntriesModel);
-}
-
 void FileSelectorProxy::readDirectory(QString directory, const bool descend)
 {
     m_statusEntriesModel->readDirectory(directory, descend, true);

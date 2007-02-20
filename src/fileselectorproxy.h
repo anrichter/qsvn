@@ -33,7 +33,6 @@ class FileSelectorProxy : public QSortFilterProxyModel
 {
     public:
         FileSelectorProxy(QObject *parent, SvnClient::SvnAction svnAction);
-        ~FileSelectorProxy();
 
         void readDirectory(QString directory, const bool descend = false);
         void readFileList(QStringList fileList);

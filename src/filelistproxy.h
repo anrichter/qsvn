@@ -31,7 +31,6 @@ class FileListProxy : public QSortFilterProxyModel
 {
     public:
         FileListProxy(QObject *parent);
-        ~FileListProxy();
 
         void readDirectory(QString directory, const bool descend, const bool force);
         svn::Status at(const QModelIndex &index);

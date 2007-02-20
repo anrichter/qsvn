@@ -54,7 +54,7 @@ SvnClient::SvnClient()
 {
     svnContext = new svn::Context();
     svnClient = svn::Client::getobject(svnContext, 0);
-    listener = new Listener();
+    listener = new Listener(this);
 
     svnContext->setListener(listener);
 }
@@ -63,6 +63,7 @@ SvnClient::~SvnClient()
 {
     delete listener;
     delete svnClient;
+    delete svnContext;
 }
 
 svn::StatusEntries SvnClient::status(const QString& path,

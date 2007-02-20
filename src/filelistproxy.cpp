@@ -51,11 +51,6 @@ FileListProxy::FileListProxy(QObject *parent)
     setSourceModel(m_statusEntriesModel);
 }
 
-FileListProxy::~FileListProxy()
-{
-    delete(m_statusEntriesModel);
-}
-
 void FileListProxy::readDirectory(QString directory, const bool descend, const bool force)
 {
     return m_statusEntriesModel->readDirectory(directory, descend, force);

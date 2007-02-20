@@ -77,9 +77,6 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
 
 ShowLog::~ShowLog()
 {
-    delete m_logEntriesModel;
-    delete m_logChangePathEntriesModel;
-    delete contextLogChangePathEntries;
     Config::instance()->saveWidget(this);
     Config::instance()->saveSplitter(this, splitter);
     Config::instance()->saveHeaderView(this, viewLogEntries->header());
