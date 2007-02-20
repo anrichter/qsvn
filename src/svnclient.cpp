@@ -194,7 +194,6 @@ bool SvnClient::add(const QStringList &addList)
         {
             svnClient->add(file, false);
         }
-        completedMessage(file);
     }
     catch (svn::ClientException e)
     {
@@ -215,7 +214,7 @@ bool SvnClient::revert(const QStringList &revertList, const bool verbose)
         svn::Targets targets(revertList);
         svnClient->revert(targets, false);
         if (verbose)
-            completedMessage(QString(revertList.at(0)));
+            completedMessage("");
     }
     catch (svn::ClientException e)
     {
@@ -262,7 +261,7 @@ bool SvnClient::remove(const QStringList &removeList)
     {
         svn::Targets targets(removeList);
         svnClient->remove(targets, false);
-        completedMessage(removeList.at(0));
+        completedMessage("");
     }
     catch (svn::ClientException e)
     {
@@ -406,17 +405,22 @@ bool SvnClient::cleanup(const QString &path)
         StatusText::out(e.msg());
         return false;
     }
-    completedMessage(path);
+    completedMessage("");
     return true;
 }
 
 void SvnClient::completedMessage(const QString &path)
 {
-    QString _path = path;
-    svn::Status status = singleStatus(_path);
-    if (status.isVersioned())
-        StatusText::out(QString(tr("Completed at Revision %1\n"))
-                .arg(status.entry().revision()));
+    if (!path.isEmpty())
+    {
+        QString _path = path;
+        svn::Status status = singleStatus(_path);
+        if (status.isVersioned())
+            StatusText::out(QString(tr("Completed at Revision %1\n"))
+                    .arg(status.entry().revision()));
+        else
+            StatusText::out(tr("Completed\n"));
+    }
     else
         StatusText::out(tr("Completed\n"));
 }
