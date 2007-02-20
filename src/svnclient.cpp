@@ -151,7 +151,6 @@ bool SvnClient::checkout(const QString &url, const QString &path)
     try
     {
         svnClient->checkout(url, path, svn::Revision::HEAD);
-        completedMessage(path);
     }
     catch (svn::ClientException e)
     {
