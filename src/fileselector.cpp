@@ -47,8 +47,6 @@ FileSelector::~FileSelector()
 {
     Config::instance()->saveWidget(this, this->windowTitle());
     Config::instance()->setValue("selectAll" + this->windowTitle(), checkSelectAll->checkState());
-    if (m_fileSelectorProxy)
-        delete (m_fileSelectorProxy);
 }
 
 void FileSelector::setupFileSelector(SvnClient::SvnAction svnAction)

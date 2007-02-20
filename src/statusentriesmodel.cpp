@@ -26,6 +26,7 @@
 #include "svnqt/client.hpp"
 
 //Qt
+#include <QtCore>
 #include <QtGui>
 
 
@@ -33,15 +34,13 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
         : QAbstractTableModel(parent)
 {
     m_statusEntries = svn::StatusEntries();
-
-    connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-             this, SLOT(doFileChanged(const QString &)));
-    connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-             this, SLOT(doDirectoryChanged(const QString &)));
+    m_fsWatcher = new QFileSystemWatcher(this);
 }
 
 StatusEntriesModel::~StatusEntriesModel()
-{}
+{
+    clearFsWatcher();
+}
 
 int StatusEntriesModel::rowCount(const QModelIndex &parent) const
 {
@@ -129,24 +128,24 @@ void StatusEntriesModel::readDirectory(QString directory, const bool descend,
     directory = QDir::toNativeSeparators(directory);
     if (force || (m_directory != directory))
     {
-        removeFromFsWatcher();
+        clearFsWatcher();
         m_descend = descend;
         m_directory = directory;
         m_statusEntries = SvnClient::instance()->status(m_directory, m_descend);
-        addToFsWatcher();
+        fillFsWatcher();
         emit layoutChanged();
     }
 }
 
 void StatusEntriesModel::readFileList(QStringList fileList)
 {
-    removeFromFsWatcher();
+    clearFsWatcher();
     m_statusEntries.clear();
 
     foreach (QString file, fileList)
     m_statusEntries.append(SvnClient::instance()->singleStatus(file));
 
-    addToFsWatcher();
+    fillFsWatcher();
 }
 
 svn::Status StatusEntriesModel::at(int row)
@@ -254,17 +253,19 @@ void StatusEntriesModel::doFileChanged(const QString &path)
     }
 }
 
-void StatusEntriesModel::removeFromFsWatcher()
+void StatusEntriesModel::clearFsWatcher()
 {
+    disconnect(m_fsWatcher, 0, 0, 0);
+    
     QStringList paths;
     foreach (svn::Status status, m_statusEntries)
     {
         paths << status.path();        
     }
-    m_fsWatcher.removePaths(paths);
+    m_fsWatcher->removePaths(paths);
 }
 
-void StatusEntriesModel::addToFsWatcher()
+void StatusEntriesModel::fillFsWatcher()
 {
     QStringList paths;
     foreach (svn::Status status, m_statusEntries)
@@ -275,7 +276,13 @@ void StatusEntriesModel::addToFsWatcher()
             paths << status.path();
         }
     }
-    m_fsWatcher.addPaths(paths);
+    m_fsWatcher->addPaths(paths);
+
+    connect(m_fsWatcher, SIGNAL(fileChanged(const QString &)),
+             this, SLOT(doFileChanged(const QString &)));
+    connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
+             this, SLOT(doDirectoryChanged(const QString &)));
+
 }
 
 #include "statusentriesmodel.moc"

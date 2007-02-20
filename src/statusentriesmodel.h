@@ -50,13 +50,13 @@ class StatusEntriesModel : public QAbstractTableModel
         svn::StatusEntries m_statusEntries;
         QString m_directory;
         bool m_descend;
-        QFileSystemWatcher m_fsWatcher;
+        QFileSystemWatcher *m_fsWatcher;
 
         QPixmap statusPixmap(svn::Status status) const;
         QString statusString(svn::Status status) const;
 
-        void removeFromFsWatcher();
-        void addToFsWatcher();
+        void clearFsWatcher();
+        void fillFsWatcher();
 
     private slots:
         void doFileChanged(const QString &path);
