@@ -43,7 +43,7 @@ class Checkout : public QDialog, public Ui::Checkout
         QString m_selectedURL;
 
     public slots:
-        void selectPathSlot();
+        void on_buttonPath_clicked();
         void accept();
 };
 

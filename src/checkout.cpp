@@ -35,8 +35,6 @@ Checkout::Checkout(QWidget *parent)
     setWindowIcon(QIcon(":/images/actioncheckout.png"));
     Config::instance()->restoreWidget(this);
 
-    connect(buttonPath, SIGNAL(clicked()), this, SLOT(selectPathSlot()));
-
     editURL->addItems(Config::instance()->getStringList("checkoutURL"));
     editURL->clearEditText();
 
@@ -61,7 +59,7 @@ QString Checkout::path() const
     return path;
 }
 
-void Checkout::selectPathSlot()
+void Checkout::on_buttonPath_clicked()
 {
     QString directory =
             QFileDialog::getExistingDirectory(this,
