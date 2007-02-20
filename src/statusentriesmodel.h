@@ -33,7 +33,7 @@ class StatusEntriesModel : public QAbstractTableModel
         Q_OBJECT
 
     public:
-        StatusEntriesModel(QObject * parent);
+        StatusEntriesModel(QObject *parent, QSet<svn_wc_status_kind> visibleStats);
         ~StatusEntriesModel();
 
         int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -45,13 +45,12 @@ class StatusEntriesModel : public QAbstractTableModel
         void readFileList(QStringList fileList);
 
         svn::Status at(int row);
-        
-        void setFsWatcherEnabled(QSet<svn_wc_status_kind> visibleStats);
+
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;
         bool m_descend;
-        QFileSystemWatcher *m_fsWatcher;
+        QFileSystemWatcher m_fsWatcher;
         QSet<svn_wc_status_kind> m_visibleStats;
 
         QPixmap statusPixmap(svn::Status status) const;

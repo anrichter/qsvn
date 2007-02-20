@@ -30,33 +30,21 @@
 #include <QtGui>
 
 
-StatusEntriesModel::StatusEntriesModel(QObject *parent)
+StatusEntriesModel::StatusEntriesModel(QObject *parent, QSet<svn_wc_status_kind> visibleStats)
         : QAbstractTableModel(parent)
 {
     m_statusEntries = svn::StatusEntries();
-    m_fsWatcher = 0;
+	m_visibleStats = visibleStats;
+    fillFsWatcher();
+    connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
+            this, SLOT(doFileChanged(const QString &)));
+    connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
+            this, SLOT(doDirectoryChanged(const QString &)));
 }
 
 StatusEntriesModel::~StatusEntriesModel()
 {
     clearFsWatcher();
-}
-
-void StatusEntriesModel::setFsWatcherEnabled(QSet<svn_wc_status_kind> visibleStats)
-{
-    if (m_fsWatcher) 
-    {
-        clearFsWatcher();
-        delete(m_fsWatcher);
-    }
-
-    m_visibleStats = visibleStats;
-    m_fsWatcher = new QFileSystemWatcher(this);
-    fillFsWatcher();
-    connect(m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-            this, SLOT(doFileChanged(const QString &)));
-    connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-            this, SLOT(doDirectoryChanged(const QString &)));
 }
 
 int StatusEntriesModel::rowCount(const QModelIndex &parent) const
@@ -272,25 +260,17 @@ void StatusEntriesModel::doFileChanged(const QString &path)
 
 void StatusEntriesModel::clearFsWatcher()
 {
-    if (!m_fsWatcher)
-        return;
-
-    m_fsWatcher->removePaths(m_fsWatcher->directories());
-    m_fsWatcher->removePaths(m_fsWatcher->files());
+    m_fsWatcher.removePaths(m_fsWatcher.directories());
+    m_fsWatcher.removePaths(m_fsWatcher.files());
 }
 
 void StatusEntriesModel::fillFsWatcher()
 {
-    if (!m_fsWatcher)
-        return;
-
-    QSet<QString> paths;
-    foreach (svn::Status status, m_statusEntries)
-    {
-        if (m_visibleStats.contains(status.textStatus()))
-            paths << status.path();
-    }
-    m_fsWatcher->addPaths(paths.toList());
+	foreach(svn::Status status, m_statusEntries)
+	{
+		if (m_visibleStats.contains(status.textStatus()))
+  			m_fsWatcher.addPath(status.path());
+	}
 }
 
 #include "statusentriesmodel.moc"

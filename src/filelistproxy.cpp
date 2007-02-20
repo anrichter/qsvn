@@ -47,8 +47,7 @@ FileListProxy::FileListProxy(QObject *parent)
     m_visibleStats << svn_wc_status_external;
     m_visibleStats << svn_wc_status_incomplete;
 
-    m_statusEntriesModel = new StatusEntriesModel(this);
-    m_statusEntriesModel->setFsWatcherEnabled(m_visibleStats);
+    m_statusEntriesModel = new StatusEntriesModel(this, m_visibleStats);
     setSourceModel(m_statusEntriesModel);
 }
 
