@@ -34,7 +34,32 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
         : QSortFilterProxyModel(parent)
 {
     m_svnAction = svnAction;
+    switch (m_svnAction)
+    {
+        case SvnClient::SvnAdd:
+            m_visibleStats << svn_wc_status_unversioned;
+            break;
+        case SvnClient::SvnCommit:
+            m_visibleStats << svn_wc_status_modified;
+            m_visibleStats << svn_wc_status_added;
+            m_visibleStats << svn_wc_status_deleted;
+            m_visibleStats << svn_wc_status_replaced;
+            m_visibleStats << svn_wc_status_conflicted;
+            break;
+        case SvnClient::SvnDelete:
+            m_visibleStats << svn_wc_status_normal;
+            m_visibleStats << svn_wc_status_merged;
+            break;
+        case SvnClient::SvnRevert:
+            m_visibleStats << svn_wc_status_added;
+            m_visibleStats << svn_wc_status_conflicted;
+            m_visibleStats << svn_wc_status_deleted;
+            m_visibleStats << svn_wc_status_modified;
+            m_visibleStats << svn_wc_status_replaced;
+            break;
+    }
     m_statusEntriesModel = new StatusEntriesModel(this);
+    m_statusEntriesModel->setFsWatcherEnabled(m_visibleStats);
     setSourceModel(m_statusEntriesModel);
 }
 
@@ -63,40 +88,7 @@ svn::Status FileSelectorProxy::at(const QModelIndex &index)
 bool FileSelectorProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     svn::Status status = m_statusEntriesModel->at(source_row);
-
-    switch (m_svnAction)
-    {
-        case SvnClient::SvnNone:
-            return true;
-            break;
-        case SvnClient::SvnAdd:
-            if (status.textStatus() == svn_wc_status_unversioned)
-                return true;
-            break;
-        case SvnClient::SvnCommit:
-            if ((status.textStatus() == svn_wc_status_modified) ||
-                 (status.textStatus() == svn_wc_status_added) ||
-                 (status.textStatus() == svn_wc_status_deleted) ||
-                 (status.textStatus() == svn_wc_status_replaced) ||
-                 (status.textStatus() == svn_wc_status_conflicted))
-                return true;
-            break;
-        case SvnClient::SvnDelete:
-            if ((status.textStatus() == svn_wc_status_normal) ||
-                 (status.textStatus() == svn_wc_status_merged))
-                return true;
-            break;
-        case SvnClient::SvnRevert:
-            if ((status.textStatus() == svn_wc_status_added) ||
-                 (status.textStatus() == svn_wc_status_conflicted) ||
-                 (status.textStatus() == svn_wc_status_deleted) ||
-                 (status.textStatus() == svn_wc_status_modified) ||
-                 (status.textStatus() == svn_wc_status_replaced))
-                return true;
-            break;
-    }
-
-    return false;
+    return m_visibleStats.contains(status.textStatus());
 }
 
 QVariant FileSelectorProxy::data(const QModelIndex &index, int role) const

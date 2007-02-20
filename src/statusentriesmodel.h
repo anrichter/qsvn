@@ -46,12 +46,13 @@ class StatusEntriesModel : public QAbstractTableModel
 
         svn::Status at(int row);
         
-        void setFsWatcherEnabled();
+        void setFsWatcherEnabled(QSet<svn_wc_status_kind> visibleStats);
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;
         bool m_descend;
         QFileSystemWatcher *m_fsWatcher;
+        QSet<svn_wc_status_kind> m_visibleStats;
 
         QPixmap statusPixmap(svn::Status status) const;
         QString statusString(svn::Status status) const;

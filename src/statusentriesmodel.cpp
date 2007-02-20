@@ -42,7 +42,7 @@ StatusEntriesModel::~StatusEntriesModel()
     clearFsWatcher();
 }
 
-void StatusEntriesModel::setFsWatcherEnabled()
+void StatusEntriesModel::setFsWatcherEnabled(QSet<svn_wc_status_kind> visibleStats)
 {
     if (m_fsWatcher) 
     {
@@ -50,8 +50,13 @@ void StatusEntriesModel::setFsWatcherEnabled()
         delete(m_fsWatcher);
     }
 
+    m_visibleStats = visibleStats;
     m_fsWatcher = new QFileSystemWatcher(this);
     fillFsWatcher();
+    connect(m_fsWatcher, SIGNAL(fileChanged(const QString &)),
+            this, SLOT(doFileChanged(const QString &)));
+    connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
+            this, SLOT(doDirectoryChanged(const QString &)));
 }
 
 int StatusEntriesModel::rowCount(const QModelIndex &parent) const
@@ -270,14 +275,8 @@ void StatusEntriesModel::clearFsWatcher()
     if (!m_fsWatcher)
         return;
 
-    disconnect(m_fsWatcher, 0, 0, 0);
-    
-    QStringList paths;
-    foreach (svn::Status status, m_statusEntries)
-    {
-        paths << status.path();        
-    }
-    m_fsWatcher->removePaths(paths);
+    m_fsWatcher->removePaths(m_fsWatcher->directories());
+    m_fsWatcher->removePaths(m_fsWatcher->files());
 }
 
 void StatusEntriesModel::fillFsWatcher()
@@ -285,21 +284,13 @@ void StatusEntriesModel::fillFsWatcher()
     if (!m_fsWatcher)
         return;
 
-    QStringList paths;
+    QSet<QString> paths;
     foreach (svn::Status status, m_statusEntries)
     {
-        if ((status.textStatus() != svn_wc_status_deleted ) &&
-             (status.textStatus() != svn_wc_status_missing))
-        {
+        if (m_visibleStats.contains(status.textStatus()))
             paths << status.path();
-        }
     }
-    m_fsWatcher->addPaths(paths);
-
-    connect(m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-             this, SLOT(doFileChanged(const QString &)));
-    connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-             this, SLOT(doDirectoryChanged(const QString &)));
+    m_fsWatcher->addPaths(paths.toList());
 }
 
 #include "statusentriesmodel.moc"

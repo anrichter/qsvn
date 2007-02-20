@@ -32,8 +32,23 @@
 FileListProxy::FileListProxy(QObject *parent)
         : QSortFilterProxyModel(parent)
 {
+    m_visibleStats << svn_wc_status_none;
+    m_visibleStats << svn_wc_status_unversioned;
+    m_visibleStats << svn_wc_status_normal;
+    m_visibleStats << svn_wc_status_added;
+    m_visibleStats << svn_wc_status_missing;
+    m_visibleStats << svn_wc_status_deleted;
+    m_visibleStats << svn_wc_status_replaced;
+    m_visibleStats << svn_wc_status_modified;
+    m_visibleStats << svn_wc_status_merged;
+    m_visibleStats << svn_wc_status_conflicted;
+    m_visibleStats << svn_wc_status_ignored;
+    m_visibleStats << svn_wc_status_obstructed;
+    m_visibleStats << svn_wc_status_external;
+    m_visibleStats << svn_wc_status_incomplete;
+
     m_statusEntriesModel = new StatusEntriesModel(this);
-    m_statusEntriesModel->setFsWatcherEnabled();
+    m_statusEntriesModel->setFsWatcherEnabled(m_visibleStats);
     setSourceModel(m_statusEntriesModel);
 }
 

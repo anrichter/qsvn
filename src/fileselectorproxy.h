@@ -54,6 +54,7 @@ class FileSelectorProxy : public QSortFilterProxyModel
         StatusEntriesModel *m_statusEntriesModel;
         QSet<int> checkedRows;
         SvnClient::SvnAction m_svnAction;
+        QSet<svn_wc_status_kind> m_visibleStats;
 };
 
 #endif

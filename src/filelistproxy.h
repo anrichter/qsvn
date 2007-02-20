@@ -41,6 +41,7 @@ class FileListProxy : public QSortFilterProxyModel
 
     private:
         StatusEntriesModel *m_statusEntriesModel;
+        QSet<svn_wc_status_kind> m_visibleStats;
 };
 
 #endif
