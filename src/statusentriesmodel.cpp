@@ -268,8 +268,16 @@ void StatusEntriesModel::fillFsWatcher()
 {
     foreach(svn::Status status, m_statusEntries)
     {
-        if (m_visibleStats.contains(status.textStatus()) && QFile::exists(status.path()))
-            m_fsWatcher.addPath(status.path());
+        if (m_visibleStats.contains(status.textStatus()))
+        {
+            if (QFile::exists(status.path()))
+                m_fsWatcher.addPath(status.path());
+            else
+            {
+                QFileInfo fi(status.path());
+                m_fsWatcher.addPath(fi.dir().path());
+            }
+        }
     }
 }
 
