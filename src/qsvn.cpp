@@ -64,8 +64,11 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     treeViewFileList->header()->setClickable(true);
     treeViewFileList->installEventFilter(this);
 
-    connect(treeViewWorkingCopy, SIGNAL(clicked(const QModelIndex &)),
-            this, SLOT(activateWorkingCopy(const QModelIndex &)));
+    connect(treeViewWorkingCopy->selectionModel(),
+            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+            this,
+            SLOT(on_selectionChanged(const QItemSelection &, const QItemSelection &)));
+
     connect(treeViewFileList, SIGNAL(doubleClicked(const QModelIndex &)),
             this, SLOT(on_actionDiff_triggered()));
 
@@ -81,12 +84,13 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     Config::instance()->restoreHeaderView(this, treeViewFileList->header());
 }
 
-void QSvn::activateWorkingCopy(const QModelIndex &index, const bool force)
+void QSvn::on_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    if (index.isValid())
+    if (selected.indexes().count() == 1) //only change the FileList-View if one WC is selected
     {
+        QModelIndex index = selected.indexes().at(0);
         m_currentWCpath = wcModel->getPath(index);
-        fileListProxy->readDirectory(m_currentWCpath, false, force);
+        fileListProxy->readDirectory(m_currentWCpath, false, false);
     }
 }
 
@@ -212,7 +216,6 @@ void QSvn::on_actionRemoveWorkingCopy_triggered()
             wcModel->removeWc(indexes.at(i));
         }
     }
-    activateWorkingCopy(QModelIndex());
 }
 
 void QSvn::on_actionCheckoutWorkingCopy_triggered()
@@ -235,7 +238,7 @@ void QSvn::on_actionUpdate_triggered()
     SvnClient::instance()->update(selectedPaths(), isFileListSelected());
     setActionStop("");
 
-    activateWorkingCopy(treeViewWorkingCopy->selectionModel()->currentIndex(), true);
+    fileListProxy->readDirectory(m_currentWCpath, false, true);
 }
 
 void QSvn::on_actionCommit_triggered()
@@ -343,8 +346,8 @@ void QSvn::on_actionResolved_triggered()
 
                 SvnClient::instance()->resolved(resolveList.at(i));
         }
-        setActionStop("Cleanup finished");
-        activateWorkingCopy(treeViewWorkingCopy->selectionModel()->currentIndex(), true);
+        setActionStop("Resolved finished");
+        fileListProxy->readDirectory(m_currentWCpath, false, true);
     }
 }
 

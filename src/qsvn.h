@@ -90,7 +90,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         //Help
         void on_actionAboutQSvn_triggered();
 
-        void activateWorkingCopy(const QModelIndex &index, const bool force = false);
+        void on_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 };
 
 #endif
