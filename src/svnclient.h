@@ -110,6 +110,8 @@ class SvnClient : public QObject
         bool copy(const QString &srcPath, const QString &destPath);
         bool mkdir(const QString &destPath);
 
+        bool isInProgress(); //true, if svn update is running
+
     public slots:
         void setCancel();
 
@@ -123,6 +125,7 @@ class SvnClient : public QObject
         svn::ContextP svnContext;
         svn::Client *svnClient;
         Listener *listener;
+        bool m_InProgress; //true, if svn update is running
 
         void completedMessage(const QString &path);
 };

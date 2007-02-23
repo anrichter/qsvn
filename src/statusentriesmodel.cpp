@@ -234,11 +234,17 @@ QString StatusEntriesModel::statusString(svn::Status status) const
 
 void StatusEntriesModel::doDirectoryChanged(const QString &path)
 {
+    if (SvnClient::instance()->isInProgress())
+        return;
+
     readDirectory(m_directory, m_descend, true);
 }
 
 void StatusEntriesModel::doFileChanged(const QString &path)
 {
+    if (SvnClient::instance()->isInProgress())
+        return;
+
     for (int i = 0; i < m_statusEntries.count(); i++)
     {
         if (m_statusEntries.at(i).path() == path)

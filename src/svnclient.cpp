@@ -57,6 +57,7 @@ SvnClient::SvnClient()
     listener = new Listener(this);
 
     svnContext->setListener(listener);
+    m_InProgress = false;
 }
 
 SvnClient::~SvnClient()
@@ -64,6 +65,11 @@ SvnClient::~SvnClient()
     delete listener;
     delete svnClient;
     delete svnContext;
+}
+
+bool SvnClient::isInProgress()
+{
+    return m_InProgress;
 }
 
 svn::StatusEntries SvnClient::status(const QString& path,
@@ -121,8 +127,10 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
     try
     {
         StatusText::out("");
+        m_InProgress = true;
         toRevisions = svnClient->update(svn::Targets(updateList),
                                         svn::Revision::HEAD, true, false);
+        m_InProgress = false;
         if ((fromRevisions.count() == toRevisions.count()) &&                //only when same count
              Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool() &&   //only if configured
              !toRevisions.isEmpty())                                         //only if update results with a non-empty revisions-list
