@@ -67,7 +67,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     connect(treeViewWorkingCopy->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this,
-            SLOT(on_selectionChanged(const QItemSelection &, const QItemSelection &)));
+            SLOT(onSelectionChanged(const QItemSelection &, const QItemSelection &)));
 
     connect(treeViewFileList, SIGNAL(doubleClicked(const QModelIndex &)),
             this, SLOT(on_actionDiff_triggered()));
@@ -84,7 +84,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     Config::instance()->restoreHeaderView(this, treeViewFileList->header());
 }
 
-void QSvn::on_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+void QSvn::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     if (selected.indexes().count() == 1) //only change the FileList-View if one WC is selected
     {

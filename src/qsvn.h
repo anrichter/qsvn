@@ -90,7 +90,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         //Help
         void on_actionAboutQSvn_triggered();
 
-        void on_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+        void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 };
 
 #endif
