@@ -28,9 +28,10 @@
 //Qt
 #include <QtGui>
 
-FileSelector::FileSelector(const SvnClient::SvnAction svnAction,
+FileSelector::FileSelector(QWidget *parent,
+                           const SvnClient::SvnAction svnAction,
                            const QStringList pathList, const bool isFileList)
-        : QDialog(0)
+        : QDialog(parent)
 {
     setupUi(this);
 
@@ -41,6 +42,8 @@ FileSelector::FileSelector(const SvnClient::SvnAction svnAction,
         m_fileSelectorProxy->readDirectory(pathList.at(0), true);
     setupFileSelector(svnAction);
     checkSelectAll->setCheckState(Qt::CheckState(Config::instance()->value("selectAll" + this->windowTitle()).toInt()));
+
+    connect(this, SIGNAL(directoryChanged(const QString &)), parent, SLOT(directoryChanged(const QString &)));
 }
 
 FileSelector::~FileSelector()
@@ -183,6 +186,20 @@ void FileSelector::accept()
     }
     setEnabled(true);
     qApp->processEvents();
+
+    //collect all changed directories
+    QSet<QString> pathSet;
+    QFileInfo fi;
+    foreach(QString path, m_fileSelectorProxy->checkedFileList())
+    {
+        fi = QFileInfo(path);
+        pathSet << fi.path();
+    }
+    foreach(QString path, pathSet.toList())
+    {
+        emit directoryChanged(path);
+    }
+
     QDialog::accept();
 }
 
@@ -258,13 +275,14 @@ void FileSelector::updateActions(const QItemSelection &selected, const QItemSele
 }
 
 //static functions
-void FileSelector::doSvnAction(const SvnClient::SvnAction svnAction,
+void FileSelector::doSvnAction(QWidget *parent,
+                               const SvnClient::SvnAction svnAction,
                                const QStringList pathList,
                                const bool isFileList)
 {
     if (isFileList)
     {
-        FileSelector *fs = new FileSelector(svnAction, pathList, isFileList);
+        FileSelector *fs = new FileSelector(parent, svnAction, pathList, isFileList);
         fs->showModeless();
     }
     else
@@ -274,7 +292,7 @@ void FileSelector::doSvnAction(const SvnClient::SvnAction svnAction,
         {
             singlePathList.clear();
             singlePathList << path;
-            FileSelector *fs = new FileSelector(svnAction, singlePathList, isFileList);
+            FileSelector *fs = new FileSelector(parent, svnAction, singlePathList, isFileList);
             fs->showModeless();
         }
     }

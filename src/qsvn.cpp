@@ -243,22 +243,22 @@ void QSvn::on_actionUpdate_triggered()
 
 void QSvn::on_actionCommit_triggered()
 {
-    FileSelector::doSvnAction(SvnClient::SvnCommit, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnCommit, selectedPaths(), isFileListSelected());
 }
 
 void QSvn::on_actionAdd_triggered()
 {
-    FileSelector::doSvnAction(SvnClient::SvnAdd, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnAdd, selectedPaths(), isFileListSelected());
 }
 
 void QSvn::on_actionDelete_triggered()
 {
-    FileSelector::doSvnAction(SvnClient::SvnDelete, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnDelete, selectedPaths(), isFileListSelected());
 }
 
 void QSvn::on_actionRevert_triggered()
 {
-    FileSelector::doSvnAction(SvnClient::SvnRevert, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnRevert, selectedPaths(), isFileListSelected());
 }
 
 void QSvn::on_actionShowLog_triggered()
@@ -391,6 +391,12 @@ void QSvn::on_actionMkDir_triggered()
 {
     FileModifier fm(this, m_currentWCpath, SvnClient::SvnMkDir);
     fm.exec();
+}
+
+void QSvn::directoryChanged(const QString &dir)
+{
+    if (m_currentWCpath == dir)
+        fileListProxy->readDirectory(m_currentWCpath, false, true);
 }
 
 #include "qsvn.moc"

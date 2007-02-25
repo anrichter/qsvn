@@ -38,14 +38,16 @@ class FileSelector : public QDialog, public Ui::FileSelector
 
     public:
         //static functions
-        static void doSvnAction(const SvnClient::SvnAction svnAction,
+        static void doSvnAction(QWidget *parent,
+                                const SvnClient::SvnAction svnAction,
                                 const QStringList pathList, const bool isFileList);
 
     protected:
         bool eventFilter(QObject *watched, QEvent *event);
 
     private:
-        FileSelector(const SvnClient::SvnAction svnAction,
+        FileSelector(QWidget *parent,
+                     const SvnClient::SvnAction svnAction,
                      const QStringList pathList, const bool isFileList);
         ~FileSelector();
 
@@ -70,6 +72,9 @@ class FileSelector : public QDialog, public Ui::FileSelector
         void on_actionDiff_triggered();
         void on_actionRevert_triggered();
         void on_actionResolved_triggered();
+
+    signals:
+        void directoryChanged(const QString &path);
 };
 
 #endif
