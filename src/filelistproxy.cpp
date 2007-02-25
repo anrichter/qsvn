@@ -64,8 +64,6 @@ svn::Status FileListProxy::at(const QModelIndex &index)
 bool FileListProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     svn::Status status = m_statusEntriesModel->at(source_row);
-    /*    if (!status.isVersioned())
-            return false;*/
 
     if (QFileInfo(status.path()).isDir()) // don't show any directories in filelist
         return false;

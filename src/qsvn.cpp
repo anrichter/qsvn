@@ -53,15 +53,13 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     //setup wcModel
     wcModel = new WcModel(this);
     treeViewWorkingCopy->setModel(wcModel);
-    /*    treeViewWorkingCopy->header()->setSortIndicatorShown(true);
-        treeViewWorkingCopy->header()->setClickable(true);*/
+    treeViewWorkingCopy->setSortingEnabled(true);
     treeViewWorkingCopy->installEventFilter(this);
 
     //setup fileListModel
     fileListProxy = new FileListProxy(this);
     treeViewFileList->setModel(fileListProxy);
-    treeViewFileList->header()->setSortIndicatorShown(true);
-    treeViewFileList->header()->setClickable(true);
+    treeViewFileList->setSortingEnabled(true);
     treeViewFileList->installEventFilter(this);
 
     connect(treeViewWorkingCopy->selectionModel(),
