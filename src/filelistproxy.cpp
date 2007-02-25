@@ -70,3 +70,17 @@ bool FileListProxy::filterAcceptsRow(int source_row, const QModelIndex &source_p
 
     return true;
 }
+
+bool FileListProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    switch (left.column())
+    {
+        case 0:
+            return
+                    m_statusEntriesModel->data(left, Qt::DisplayRole).toString().toLower() <
+                    m_statusEntriesModel->data(right, Qt::DisplayRole).toString().toLower();
+        default:
+            return QSortFilterProxyModel::lessThan(left, right);
+            break;
+    }
+}

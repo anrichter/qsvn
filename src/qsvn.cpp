@@ -54,12 +54,14 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     wcModel = new WcModel(this);
     treeViewWorkingCopy->setModel(wcModel);
     treeViewWorkingCopy->setSortingEnabled(true);
+    treeViewWorkingCopy->sortByColumn(0, Qt::AscendingOrder);
     treeViewWorkingCopy->installEventFilter(this);
 
     //setup fileListModel
     fileListProxy = new FileListProxy(this);
     treeViewFileList->setModel(fileListProxy);
     treeViewFileList->setSortingEnabled(true);
+    treeViewFileList->sortByColumn(0, Qt::AscendingOrder);
     treeViewFileList->installEventFilter(this);
 
     connect(treeViewWorkingCopy->selectionModel(),
