@@ -37,6 +37,7 @@
 ShowLog::ShowLog(QWidget *parent, const QString path,
                  const svn::Revision revisionStart,
                  const svn::Revision revisionEnd)
+        : QDialog(0) //don't set parent here! FileSelector is always a top-level window
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
 

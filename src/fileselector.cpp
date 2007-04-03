@@ -31,7 +31,7 @@
 FileSelector::FileSelector(QWidget *parent,
                            const SvnClient::SvnAction svnAction,
                            const QStringList pathList, const bool isFileList)
-        : QDialog(parent)
+        : QDialog(0) //don't set parent here! FileSelector is always a top-level window
 {
     setupUi(this);
 
