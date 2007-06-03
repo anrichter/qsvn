@@ -5,13 +5,6 @@ SET( QSVN_MICRO_VERSION 50 )
 
 CMAKE_MINIMUM_REQUIRED( VERSION 2.4.0 )
 
-IF ( UNIX )
-  SET( QT_QMAKE_EXECUTABLE qmake-qt4 )
-  SET( QT_MOC_EXECUTABLE moc-qt4 )
-  SET( QT_UIC_EXECUTABLE uic-qt4 )
-  SET( CMAKE_INSTALL_PREFIX /usr )
-ENDIF ( UNIX )
-
 INCLUDE( ${CMAKE_ROOT}/Modules/FindQt4.cmake )
 INCLUDE( ${CMAKE_ROOT}/Modules/UseQt4.cmake )
 INCLUDE( ${CMAKE_SOURCE_DIR}/svnqt/cmakemodules/FindSubversion.cmake )
