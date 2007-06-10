@@ -138,3 +138,7 @@ IF ( WIN32 )
                             -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi
                             qsvn.wixobj )
 ENDIF ( WIN32 )
+
+# Unit-Tests
+ENABLE_TESTING()
+ADD_SUBDIRECTORY( tests )
