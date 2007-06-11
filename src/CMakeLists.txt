@@ -133,6 +133,8 @@ IF ( WIN32 )
                             -dQSvnMajorVersion=${QSVN_MAJOR_VERSION}
                             -dQSvnMinorVersion=${QSVN_MINOR_VERSION}
                             -dQSvnMicroVersion=${QSVN_MICRO_VERSION}
+                            -dQtLibraryDir=${QT_LIBRARY_DIR}
+                            -dSvnBinDir=${SUBVERSION_BIN_DIR}
                             ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
                         COMMAND light
                             -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi

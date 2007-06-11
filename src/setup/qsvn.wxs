@@ -42,18 +42,18 @@
 					</Component>
 					
 					<Component Id="QtLib4" Guid="8C13219D-0480-408E-BAFB-A97B72667CE7">
-						<File Id="QtCore4" Name="QTCORE4.DLL" LongName="QtCore4.dll" DiskId="1" src="$(var.QtDir)\bin\QtCore4.dll"  Vital="yes"/>
-						<File Id="QtGui4" Name="QTGUI4.DLL" LongName="QtGui4.dll" DiskId="1" src="$(var.QtDir)\bin\QtGui4.dll" Vital="yes"/>
+						<File Id="QtCore4" Name="QTCORE4.DLL" LongName="QtCore4.dll" DiskId="1" src="$(var.QtLibraryDir)\QtCore4.dll"  Vital="yes"/>
+						<File Id="QtGui4" Name="QTGUI4.DLL" LongName="QtGui4.dll" DiskId="1" src="$(var.QtLibraryDir)\QtGui4.dll" Vital="yes"/>
 					</Component>
 					
 					<Component Id="SubversionLib" Guid="ECC9F3F1-1A1D-44c6-9DD3-0584BF5B0A1B">
-						<File Id="intl3_svn" Name="INTL3_SV.dll" LongName="intl3_svn.dll" DiskId="1" src="$(var.SvnDir)\bin\intl3_svn.dll" />
-						<File Id="libapr" Name="LIBAPR.DLL" LongName="libapr.dll" DiskId="1" src="$(var.SvnDir)\bin\libapr.dll" />
-						<File Id="libapriconv" Name="LIBAPRIC.DLL" LongName="libapriconv.dll" DiskId="1" src="$(var.SvnDir)\bin\libapriconv.dll" />
-						<File Id="libaprutil" Name="LIBAPRUT.DLL" LongName="libaprutil.dll" DiskId="1" src="$(var.SvnDir)\bin\libaprutil.dll" />
-						<File Id="libdb44" Name="LIBDB44.DLL" LongName="libdb44.dll" DiskId="1" src="$(var.SvnDir)\bin\libdb44.dll" />
-						<File Id="libeay32" Name="LIBEAY32.DLL" LongName="libeay32.dll" DiskId="1" src="$(var.SvnDir)\bin\libeay32.dll" />
-						<File Id="ssleay32" Name="SSLEAY32.DLL" LongName="ssleay32.dll" DiskId="1" src="$(var.SvnDir)\bin\ssleay32.dll" />
+						<File Id="intl3_svn" Name="INTL3_SV.dll" LongName="intl3_svn.dll" DiskId="1" src="$(var.SvnBinDir)\intl3_svn.dll" />
+						<File Id="libapr" Name="LIBAPR.DLL" LongName="libapr.dll" DiskId="1" src="$(var.SvnBinDir)\libapr.dll" />
+						<File Id="libapriconv" Name="LIBAPRIC.DLL" LongName="libapriconv.dll" DiskId="1" src="$(var.SvnBinDir)\libapriconv.dll" />
+						<File Id="libaprutil" Name="LIBAPRUT.DLL" LongName="libaprutil.dll" DiskId="1" src="$(var.SvnBinDir)\libaprutil.dll" />
+						<File Id="libdb44" Name="LIBDB44.DLL" LongName="libdb44.dll" DiskId="1" src="$(var.SvnBinDir)\libdb44.dll" />
+						<File Id="libeay32" Name="LIBEAY32.DLL" LongName="libeay32.dll" DiskId="1" src="$(var.SvnBinDir)\libeay32.dll" />
+						<File Id="ssleay32" Name="SSLEAY32.DLL" LongName="ssleay32.dll" DiskId="1" src="$(var.SvnBinDir)\ssleay32.dll" />
 					</Component>
 					
 					<Directory Id="LICENSES" Name="LICENSES" LongName="licenses">
