@@ -171,12 +171,13 @@ void ShowLog::on_actionDiff_triggered()
     indexes = viewLogEntries->selectionModel()->selectedIndexes();
     if (indexes.count() == 0)
         return;
-    logEntry = m_logEntriesModel->getLogEntry(indexes.at(0));
+    logEntry = m_logEntriesModel->getLogEntry(m_logEntriesProxy->mapToSource(indexes.at(0)));
 
     indexes = viewLogChangePathEntries->selectionModel()->selectedIndexes();
     if (indexes.count() == 0)
         return;
-    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry(indexes.at(0));
+    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry(
+            m_logChangePathEntriesProxy->mapToSource(indexes.at(0)));
 
     SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
                                 svn::Revision(logEntry.revision - 1),
