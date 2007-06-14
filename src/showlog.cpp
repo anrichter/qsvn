@@ -56,7 +56,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     m_logEntriesProxy->setSourceModel(m_logEntriesModel);
 
 
-    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this, svn::LogChangePathEntries());
+    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this);
     m_logChangePathEntriesProxy = new QSortFilterProxyModel(this);
     m_logChangePathEntriesProxy->setDynamicSortFilter(true);
     m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
@@ -150,12 +150,8 @@ void ShowLog::selectionChanged(const QItemSelection &selected,
     QModelIndex index = selected.indexes().at(0);
     if (index.isValid())
     {
-        Config::instance()->saveHeaderView(this, viewLogChangePathEntries->header());
         editLogMessage->setPlainText(m_logEntriesModel->getLogEntry(index).message);
-        delete m_logChangePathEntriesModel;
-        m_logChangePathEntriesModel = new LogChangePathEntriesModel(this, m_logEntriesModel->getLogEntry(index).changedPaths);
-        m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
-        Config::instance()->restoreHeaderView(this, viewLogChangePathEntries->header());
+        m_logChangePathEntriesModel->setChangePathEntries(m_logEntriesModel->getLogEntry(index).changedPaths);
     }
 }
 

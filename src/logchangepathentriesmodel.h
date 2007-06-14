@@ -36,8 +36,8 @@ class QVariant;
 class LogChangePathEntriesModel : public QAbstractTableModel
 {
     public:
-        LogChangePathEntriesModel(QObject *parent, svn::LogChangePathEntries logChangePathEntries);
-        ~LogChangePathEntriesModel();
+        LogChangePathEntriesModel(QObject *parent);
+        void setChangePathEntries(svn::LogChangePathEntries logChangePathEntries);
 
         int rowCount(const QModelIndex &parent = QModelIndex()) const;
         int columnCount(const QModelIndex &parent = QModelIndex()) const;

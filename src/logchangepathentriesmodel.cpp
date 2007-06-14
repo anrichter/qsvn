@@ -29,14 +29,18 @@
 #include <QtCore>
 
 
-LogChangePathEntriesModel::LogChangePathEntriesModel(QObject *parent, svn::LogChangePathEntries logChangePathEntries)
+LogChangePathEntriesModel::LogChangePathEntriesModel(QObject *parent)
         : QAbstractTableModel(parent)
 {
-    m_logChangePathEntries = logChangePathEntries;
+    m_logChangePathEntries = svn::LogChangePathEntries();
 }
 
-LogChangePathEntriesModel::~LogChangePathEntriesModel()
-{}
+
+void LogChangePathEntriesModel::setChangePathEntries(svn::LogChangePathEntries logChangePathEntries)
+{
+    m_logChangePathEntries = logChangePathEntries;
+    emit layoutChanged();
+}
 
 int LogChangePathEntriesModel::rowCount(const QModelIndex &parent) const
 {
