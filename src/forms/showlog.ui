@@ -91,6 +91,9 @@
       <property name="itemsExpandable" >
        <bool>false</bool>
       </property>
+      <property name="sortingEnabled" >
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QTextEdit" name="editLogMessage" />
      <widget class="QTreeView" name="viewLogChangePathEntries" >
@@ -102,6 +105,9 @@
       </property>
       <property name="itemsExpandable" >
        <bool>false</bool>
+      </property>
+      <property name="sortingEnabled" >
+       <bool>true</bool>
       </property>
      </widget>
     </widget>

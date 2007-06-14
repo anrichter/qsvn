@@ -51,15 +51,24 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     Config::instance()->restoreSplitter(this, splitter);
 
     m_logEntriesModel = new LogEntriesModel(this);
-    viewLogEntries->setModel(m_logEntriesModel);
+    m_logEntriesProxy = new QSortFilterProxyModel(this);
+    m_logEntriesProxy->setDynamicSortFilter(true);
+    m_logEntriesProxy->setSourceModel(m_logEntriesModel);
+
+
+    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this, svn::LogChangePathEntries());
+    m_logChangePathEntriesProxy = new QSortFilterProxyModel(this);
+    m_logChangePathEntriesProxy->setDynamicSortFilter(true);
+    m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
+
+    viewLogEntries->setModel(m_logEntriesProxy);
     Config::instance()->restoreHeaderView(this, viewLogEntries->header());
     connect(viewLogEntries->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this,
             SLOT(selectionChanged(const QItemSelection &, const QItemSelection &)));
 
-    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this, svn::LogChangePathEntries());
-    viewLogChangePathEntries->setModel(m_logChangePathEntriesModel);
+    viewLogChangePathEntries->setModel(m_logChangePathEntriesProxy);
     viewLogChangePathEntries->installEventFilter(this);
     Config::instance()->restoreHeaderView(this, viewLogChangePathEntries->header());
     connect(viewLogChangePathEntries, SIGNAL(doubleClicked(const QModelIndex &)),
@@ -145,7 +154,7 @@ void ShowLog::selectionChanged(const QItemSelection &selected,
         editLogMessage->setPlainText(m_logEntriesModel->getLogEntry(index).message);
         delete m_logChangePathEntriesModel;
         m_logChangePathEntriesModel = new LogChangePathEntriesModel(this, m_logEntriesModel->getLogEntry(index).changedPaths);
-        viewLogChangePathEntries->setModel(m_logChangePathEntriesModel);
+        m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
         Config::instance()->restoreHeaderView(this, viewLogChangePathEntries->header());
     }
 }

@@ -30,6 +30,7 @@ class LogChangePathEntriesModel;
 
 //Qt
 class QDialog;
+class QSortFilterProxyModel;
 
 
 class ShowLog : public QDialog, public Ui::ShowLog
@@ -48,6 +49,10 @@ class ShowLog : public QDialog, public Ui::ShowLog
         svn::LogEntries *m_logEntries;
         LogEntriesModel *m_logEntriesModel;
         LogChangePathEntriesModel *m_logChangePathEntriesModel;
+
+        QSortFilterProxyModel *m_logEntriesProxy,
+                              *m_logChangePathEntriesProxy;
+
         QMenu *contextLogChangePathEntries;
         QString m_path;
         svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
