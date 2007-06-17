@@ -211,6 +211,9 @@ void Config::saveHeaderView(const QObject *parent, const QHeaderView *headerView
         m_settings->setValue("value", headerView->sectionSize(i));
     }
     m_settings->endArray();
+    key = key + "_sort";
+    m_settings->setValue(key + "/section", headerView->sortIndicatorSection());
+    m_settings->setValue(key + "/order",   QVariant(headerView->sortIndicatorOrder()));
     m_settings->sync();
 }
 
@@ -226,6 +229,10 @@ void Config::restoreHeaderView(const QObject *parent, QHeaderView *headerView)
         headerView->resizeSection(i, m_settings->value("value", headerView->sectionSize(i)).toInt());
     }
     m_settings->endArray();
+
+    key = key + "_sort";
+    headerView->setSortIndicator(m_settings->value(key + "/section", headerView->sortIndicatorSection()).toInt(),
+                                 Qt::SortOrder(m_settings->value(key + "/order", headerView->sortIndicatorSection()).toInt()));
     m_settings->sync();
 }
 
