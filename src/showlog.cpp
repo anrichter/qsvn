@@ -70,6 +70,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
 
     viewLogChangePathEntries->setModel(m_logChangePathEntriesProxy);
     viewLogChangePathEntries->installEventFilter(this);
+    viewLogChangePathEntries->sortByColumn(1, Qt::AscendingOrder);
     Config::instance()->restoreHeaderView(this, viewLogChangePathEntries->header());
     connect(viewLogChangePathEntries, SIGNAL(doubleClicked(const QModelIndex &)),
             this, SLOT(on_actionDiff_triggered()));
