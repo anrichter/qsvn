@@ -58,7 +58,7 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
             m_visibleStats << svn_wc_status_replaced;
             break;
     }
-	m_statusEntriesModel = new StatusEntriesModel(this, m_visibleStats);
+    m_statusEntriesModel = new StatusEntriesModel(this);
     setSourceModel(m_statusEntriesModel);
 }
 

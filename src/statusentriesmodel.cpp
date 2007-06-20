@@ -30,11 +30,10 @@
 #include <QtGui>
 
 
-StatusEntriesModel::StatusEntriesModel(QObject *parent, QSet<svn_wc_status_kind> visibleStats)
+StatusEntriesModel::StatusEntriesModel(QObject *parent)
         : QAbstractTableModel(parent)
 {
     m_statusEntries = svn::StatusEntries();
-	m_visibleStats = visibleStats;
     fillFsWatcher();
     connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
             this, SLOT(doFileChanged(const QString &)));
@@ -274,15 +273,12 @@ void StatusEntriesModel::fillFsWatcher()
 {
     foreach(svn::Status status, m_statusEntries)
     {
-        if (m_visibleStats.contains(status.textStatus()))
+        if (QFile::exists(status.path()))
+            m_fsWatcher.addPath(status.path());
+        else
         {
-            if (QFile::exists(status.path()))
-                m_fsWatcher.addPath(status.path());
-            else
-            {
-                QFileInfo fi(status.path());
-                m_fsWatcher.addPath(fi.dir().path());
-            }
+            QFileInfo fi(status.path());
+            m_fsWatcher.addPath(fi.dir().path());
         }
     }
 }

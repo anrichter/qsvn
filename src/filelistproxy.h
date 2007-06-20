@@ -37,11 +37,9 @@ class FileListProxy : public QSortFilterProxyModel
 
     protected:
         bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
-        bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 
     private:
         StatusEntriesModel *m_statusEntriesModel;
-        QSet<svn_wc_status_kind> m_visibleStats;
 };
 
 #endif
