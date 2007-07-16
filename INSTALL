@@ -40,6 +40,10 @@ For compilation under Windows you need the following software packages:
 - Microsoft Visual Studio
   I recommended the free available Express Edition from
     http://msdn.microsoft.com/vstudio/express/visualc/
+  If you whish to have access to Visual Studio Compiler from everywhere, 
+  you must adjust the following environment variables PATH, INCLUDE, LIB and LIBPATH.
+  The right values for your system you can find after the installation of the 
+  Visual Studio in %VS80COMNTOOLS%vsvars32.bat.
 - MSVC 2005 Express Users need the Microsoft Platform SDK
     http://www.microsoft.com/msdownload/platformsdk/sdkupdate/
   You need at least the Build Environment for:
@@ -57,9 +61,11 @@ For compilation under Windows you need the following software packages:
     http://www.trolltech.com
   Download the unoffical Patch for additional Compiler support for Qt4 Open Source Edition
     http://sourceforge.net/projects/qtwin
-  Patch & Compile Qt4 Libraries for your Compiler ( as recommended for MSVC+ 2005 )
+  Patch & Compile Qt4 Libraries for your Compiler ( as recommended for MSVC++ 2005 )
   Remeber: This is an unofficial but legal patch. So please don't ask on official Trolltech lists 
   for problems with this patched version of Qt.
+  After the Qt is compiled you must add the Qt-bin-directory to your PATH variable. 
+  CMake is looking for Qt libraries in PATH-directories also.
 - Windows Installer XML (WiX) toolset, if you would build QSvn Installer.
     http://wix.sourceforge.net/ 
 
