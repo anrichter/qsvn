@@ -98,3 +98,13 @@ Build Installation
 
 For build the QSvn Installer for Windows follow the instruction found in
   src\setup\README
+
+Continuous Integration
+----------------------
+
+If you plan to do a continuous integration on windows, 
+create a build directory on top of the source directory - "release" for example.
+CD into this directory and call
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src && nmake && ctest && nmake wix
+Where there are new revisions in the repository, simple make an update and recall 
+the command above in the release directory.
