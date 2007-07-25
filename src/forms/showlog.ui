@@ -119,6 +119,15 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>viewLogEntries</tabstop>
+  <tabstop>editLogMessage</tabstop>
+  <tabstop>viewLogChangePathEntries</tabstop>
+  <tabstop>checkBoxStrictNodeHistory</tabstop>
+  <tabstop>buttonNext</tabstop>
+  <tabstop>buttonShowAll</tabstop>
+  <tabstop>buttonOk</tabstop>
+ </tabstops>
  <resources>
   <include location="../qsvn.qrc" />
  </resources>

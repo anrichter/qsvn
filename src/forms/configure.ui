@@ -138,8 +138,10 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>checkBoxShowLogAfterUpdate</tabstop>
+  <tabstop>checkBoxCheckEmptyLogMessage</tabstop>
   <tabstop>editDiffViewer</tabstop>
   <tabstop>buttonSelectDiffViewer</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections>
