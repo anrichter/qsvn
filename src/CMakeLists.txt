@@ -1,9 +1,15 @@
 PROJECT( qsvn )
+CMAKE_MINIMUM_REQUIRED( VERSION 2.4.0 )
+
+FIND_PACKAGE(Subversion)
+IF(Subversion_FOUND)
+  Subversion_WC_INFO(${PROJECT_SOURCE_DIR} QSvn)
+ENDIF(Subversion_FOUND)
+
 SET( QSVN_MAJOR_VERSION 0 )
 SET( QSVN_MINOR_VERSION 5 )
 SET( QSVN_MICRO_VERSION 50 )
-
-CMAKE_MINIMUM_REQUIRED( VERSION 2.4.0 )
+SET( QSVN_BUILD_VERSION ${QSvn_WC_REVISION} )
 
 INCLUDE( ${CMAKE_ROOT}/Modules/FindQt4.cmake )
 INCLUDE( ${CMAKE_ROOT}/Modules/UseQt4.cmake )
@@ -133,11 +139,12 @@ IF ( WIN32 )
                             -dQSvnMajorVersion=${QSVN_MAJOR_VERSION}
                             -dQSvnMinorVersion=${QSVN_MINOR_VERSION}
                             -dQSvnMicroVersion=${QSVN_MICRO_VERSION}
+                            -dQSvnBuildVersion=${QSVN_BUILD_VERSION}
                             -dQtLibraryDir=${QT_LIBRARY_DIR}
                             -dSvnBinDir=${SUBVERSION_BIN_DIR}
                             ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
                         COMMAND light
-                            -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}.msi
+                            -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}-${QSVN_BUILD_VERSION}.msi
                             qsvn.wixobj )
 ENDIF ( WIN32 )
 
