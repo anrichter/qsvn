@@ -25,6 +25,7 @@
 #include "fileselectorproxy.h"
 #include "svnclient.h"
 
+#include "statustext.h"
 //Qt
 #include <QtGui>
 
@@ -197,7 +198,7 @@ void FileSelector::accept()
     }
     foreach(QString path, pathSet.toList())
     {
-        emit directoryChanged(path);
+        emit directoryChanged(QDir::toNativeSeparators(path));
     }
 
     QDialog::accept();
