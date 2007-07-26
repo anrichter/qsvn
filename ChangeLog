@@ -7,6 +7,7 @@ Version 0.6.0 - released 2007-??-??
     Bugfixes
     --------
     * #18 Fix update FileList after an svn action (Windows only)
+    * #28 Fix crash on change "strict node history" with a selected change entry in show log dialog
 
 
 Version 0.5.0 - released 2007-02-25
