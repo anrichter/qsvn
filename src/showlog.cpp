@@ -117,6 +117,7 @@ void ShowLog::on_buttonShowAll_clicked()
 
 void ShowLog::buttonNextClicked(int limit)
 {
+    setEnabled(false);
     qApp->processEvents();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -131,6 +132,8 @@ void ShowLog::buttonNextClicked(int limit)
     buttonShowAll->setEnabled(buttonNext->isEnabled());
 
     QApplication::restoreOverrideCursor();
+    setEnabled(true);
+    qApp->processEvents();
 }
 
 bool ShowLog::eventFilter(QObject *watched, QEvent *event)
@@ -148,16 +151,23 @@ bool ShowLog::eventFilter(QObject *watched, QEvent *event)
 void ShowLog::selectionChanged(const QItemSelection &selected,
                                const QItemSelection &deselected)
 {
-    QModelIndex index = selected.indexes().at(0);
-    if (index.isValid())
+    if (selected.isEmpty())
     {
-        editLogMessage->setPlainText(m_logEntriesModel->getLogEntry(index).message);
-        m_logChangePathEntriesModel->setChangePathEntries(m_logEntriesModel->getLogEntry(index).changedPaths);
+        editLogMessage->clear();
+        m_logChangePathEntriesModel-> setChangePathEntries(svn::LogChangePathEntries());
+    } else {
+        QModelIndex index = selected.indexes().at(0);
+        if (index.isValid())
+        {
+            editLogMessage->setPlainText(m_logEntriesModel->getLogEntry(index).message);
+            m_logChangePathEntriesModel->setChangePathEntries(m_logEntriesModel->getLogEntry(index).changedPaths);
+        }
     }
 }
 
 void ShowLog::on_checkBoxStrictNodeHistory_stateChanged()
 {
+    viewLogEntries->clearSelection();
     m_logEntriesModel->clear();
     m_revisionStart = m_revisionBeginShowLog;
     on_buttonNext_clicked();
