@@ -58,8 +58,10 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     treeViewWorkingCopy->installEventFilter(this);
 
     //setup fileListModel
-    fileListProxy = new FileListProxy(this);
-    treeViewFileList->setModel(fileListProxy);
+    m_statusEntriesModel = new StatusEntriesModel(this);
+    m_fileListProxy = new FileListProxy(this);
+    m_fileListProxy->setSourceModel(m_statusEntriesModel);
+    treeViewFileList->setModel(m_fileListProxy);
     treeViewFileList->setSortingEnabled(true);
     treeViewFileList->sortByColumn(0, Qt::AscendingOrder);
     treeViewFileList->installEventFilter(this);
@@ -90,7 +92,7 @@ void QSvn::onSelectionChanged(const QItemSelection &selected, const QItemSelecti
     {
         QModelIndex index = selected.indexes().at(0);
         m_currentWCpath = wcModel->getPath(index);
-        fileListProxy->readDirectory(m_currentWCpath, false, false);
+        m_statusEntriesModel->readDirectory(m_currentWCpath, false, false);
     }
 }
 
@@ -177,7 +179,7 @@ QStringList QSvn::selectedPaths()
 
         for (int i = 0; i < indexes.count(); ++i)
         {
-            status = fileListProxy->at(indexes.at(i));
+            status = m_statusEntriesModel->at(indexes.at(i).row());
             pathSet << QDir::toNativeSeparators(status.path());
         }
     }
@@ -238,7 +240,7 @@ void QSvn::on_actionUpdate_triggered()
     SvnClient::instance()->update(selectedPaths(), isFileListSelected());
     setActionStop("");
 
-    fileListProxy->readDirectory(m_currentWCpath, false, true);
+    m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
 }
 
 void QSvn::on_actionCommit_triggered()
@@ -348,7 +350,7 @@ void QSvn::on_actionResolved_triggered()
                 SvnClient::instance()->resolved(resolveList.at(i));
         }
         setActionStop("Resolved finished");
-        fileListProxy->readDirectory(m_currentWCpath, false, true);
+        m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
     }
 }
 
@@ -397,7 +399,7 @@ void QSvn::on_actionMkDir_triggered()
 void QSvn::directoryChanged(const QString &dir)
 {
     if (m_currentWCpath == dir)
-        fileListProxy->readDirectory(m_currentWCpath, false, true);
+        m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
 }
 
 #include "qsvn.moc"

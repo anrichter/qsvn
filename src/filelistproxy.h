@@ -21,25 +21,16 @@
 #ifndef FILELISTPROXY_H
 #define FILELISTPROXY_H
 
-//QSvn
-#include "statusentriesmodel.h"
-
 //Qt
-#include <QSortFilterProxyModel>
+#include <QSortFilterProxyModel>;
 
 class FileListProxy : public QSortFilterProxyModel
 {
     public:
         FileListProxy(QObject *parent);
 
-        void readDirectory(QString directory, const bool descend, const bool force);
-        svn::Status at(const QModelIndex &index);
-
     protected:
         bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
-
-    private:
-        StatusEntriesModel *m_statusEntriesModel;
 };
 
 #endif

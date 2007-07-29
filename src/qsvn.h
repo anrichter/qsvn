@@ -25,8 +25,10 @@
 #include "ui_qsvn.h"
 #include "svnclient.h"
 
+
 class WcModel;
 class FileListProxy;
+class StatusEntriesModel;
 
 
 //QT
@@ -54,7 +56,8 @@ class QSvn : public QMainWindow, public Ui::QSvn
         QMenu *contextMenuFileList;
 
         WcModel *wcModel;
-        FileListProxy *fileListProxy;
+        FileListProxy *m_fileListProxy;
+        StatusEntriesModel *m_statusEntriesModel;
         QString m_currentWCpath; //current working copy path
 
         void createMenus();
