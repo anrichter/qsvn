@@ -55,7 +55,7 @@ bool Listener::contextGetLogin(const QString &realm, QString &username,
     {
         username = login.username();
         password = login.password();
-        maySave = login.maySave();
+        maySave = login.maySave() == true;
         return true;
     }
     else
