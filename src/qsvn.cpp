@@ -179,7 +179,7 @@ QStringList QSvn::selectedPaths()
 
         for (int i = 0; i < indexes.count(); ++i)
         {
-            status = m_statusEntriesModel->at(indexes.at(i).row());
+            status = m_statusEntriesModel->at(m_fileListProxy->mapToSource(indexes.at(i)).row());
             pathSet << QDir::toNativeSeparators(status.path());
         }
     }
