@@ -271,12 +271,15 @@ void StatusEntriesModel::clearFsWatcher()
 
 void StatusEntriesModel::fillFsWatcher()
 {
-    QStringList pathList;
-    foreach(svn::Status status, m_statusEntries)
-    	pathList << status.path();
+    if (m_statusEntries.count() < 5000) //todo: fix this problem with a better solution
+    {
+        QStringList pathList;
+        foreach(svn::Status status, m_statusEntries)
+            pathList << status.path();
 
-   	if (!pathList.isEmpty())
-   	    m_fsWatcher.addPaths(pathList);
+   	    if (!pathList.isEmpty())
+   	        m_fsWatcher.addPaths(pathList);
+    }
 }
 
 #include "statusentriesmodel.moc"
