@@ -246,7 +246,7 @@ void StatusEntriesModel::doFileChanged(const QString &path)
 
     for (int i = 0; i < m_statusEntries.count(); i++)
     {
-        if (m_statusEntries.at(i).path() == path)
+        if (m_statusEntries.at(i).path() == QDir::fromNativeSeparators(path))
         {
             svn::Status status = SvnClient::instance()->singleStatus(
                     m_statusEntries.at(i).path());
@@ -271,16 +271,12 @@ void StatusEntriesModel::clearFsWatcher()
 
 void StatusEntriesModel::fillFsWatcher()
 {
+    QStringList pathList;
     foreach(svn::Status status, m_statusEntries)
-    {
-        if (QFile::exists(status.path()))
-            m_fsWatcher.addPath(status.path());
-        else
-        {
-            QFileInfo fi(status.path());
-            m_fsWatcher.addPath(fi.dir().path());
-        }
-    }
+    	pathList << status.path();
+
+   	if (!pathList.isEmpty())
+   	    m_fsWatcher.addPaths(pathList);
 }
 
 #include "statusentriesmodel.moc"
