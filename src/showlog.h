@@ -29,7 +29,7 @@ class LogChangePathEntriesModel;
 #include "svnqt/client.hpp"
 
 //Qt
-class QDialog;
+#include <QDialog>
 class QSortFilterProxyModel;
 
 

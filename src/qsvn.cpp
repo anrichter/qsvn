@@ -29,11 +29,13 @@
 #include "qsvn_defines.h"
 #include "qsvn.h"
 #include "showlog.h"
+#include "statusentriesmodel.h"
 #include "statustext.h"
 #include "svnclient.h"
 #include "wcmodel.h"
 
 //SvnCpp
+#include "svnqt/status.hpp"
 #include "svnqt/version_check.hpp"
 
 //Qt

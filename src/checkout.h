@@ -25,7 +25,7 @@
 #include "ui_checkout.h"
 
 //Qt
-#include <QtGui>
+#include <QDialog>
 
 
 class Checkout : public QDialog, public Ui::Checkout

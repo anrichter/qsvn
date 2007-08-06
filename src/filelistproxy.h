@@ -22,7 +22,7 @@
 #define FILELISTPROXY_H
 
 //Qt
-#include <QSortFilterProxyModel>;
+#include <QSortFilterProxyModel>
 
 class FileListProxy : public QSortFilterProxyModel
 {

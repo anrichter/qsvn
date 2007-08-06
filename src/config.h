@@ -47,7 +47,7 @@ class Config : public QObject
 {
     public:
         static Config *instance();
-        
+
         //Main Window
         void saveMainWindow(const QSvn *aQSvn);
         void restoreMainWindow(QSvn *aQSvn);

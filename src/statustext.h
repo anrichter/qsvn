@@ -24,7 +24,6 @@
 //Qt
 #include <QObject>
 
-//Qt classes
 class QTextEdit;
 
 

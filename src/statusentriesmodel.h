@@ -25,7 +25,7 @@
 #include "svnqt/client.hpp"
 
 //Qt
-#include <QtCore>
+#include <QAbstractTableModel>
 
 
 class StatusEntriesModel : public QAbstractTableModel

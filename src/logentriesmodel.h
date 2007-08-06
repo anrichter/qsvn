@@ -24,9 +24,7 @@
 #include "svnqt/client.hpp"
 
 //Qt
-class QAbstractTableModel;
-class QModelIndex;
-class QVariant;
+#include <QAbstractTableModel>
 
 
 /**

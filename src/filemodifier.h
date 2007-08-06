@@ -25,6 +25,9 @@
 #include "ui_filemodifier.h"
 #include "svnclient.h"
 
+//Qt
+#include <QDialog>
+
 
 class FileModifier : public QDialog, public Ui::FileModifier
 {

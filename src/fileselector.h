@@ -25,11 +25,11 @@
 
 //QSvn
 #include "ui_fileselector.h"
-#include "fileselectorproxy.h"
 #include "svnclient.h"
+class FileSelectorProxy;
 
 //Qt
-class QMenu;
+#include <QDialog>
 
 
 class FileSelector : public QDialog, public Ui::FileSelector

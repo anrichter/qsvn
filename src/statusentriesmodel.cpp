@@ -24,6 +24,7 @@
 
 //SvnQt
 #include "svnqt/client.hpp"
+#include "svnqt/status.hpp"
 
 //Qt
 #include <QtCore>

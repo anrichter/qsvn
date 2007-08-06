@@ -25,9 +25,7 @@
 #include "svnqt/log_entry.hpp"
 
 //Qt
-class QAbstractTableModel;
-class QModelIndex;
-class QVariant;
+#include <QAbstractTableModel>
 
 
 /**

@@ -23,16 +23,12 @@
 
 //QSvn
 #include "ui_qsvn.h"
-#include "svnclient.h"
-
-
-class WcModel;
 class FileListProxy;
 class StatusEntriesModel;
-
+class WcModel;
 
 //QT
-#include <QtCore>
+#include <QMainWindow>
 
 
 class QSvn : public QMainWindow, public Ui::QSvn

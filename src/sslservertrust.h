@@ -27,6 +27,9 @@
 //SvnCpp
 #include "svnqt/context_listener.hpp"
 
+//Qt
+#include <QDialog>
+
 
 class SslServerTrust : public QDialog, public Ui::SslServerTrust
 {

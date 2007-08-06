@@ -26,6 +26,10 @@
 #include "svnclient.h"
 
 #include "statustext.h"
+
+//SvnCpp
+#include "svnqt/status.hpp"
+
 //Qt
 #include <QtGui>
 

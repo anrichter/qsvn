@@ -26,7 +26,7 @@
 #include "ui_login.h"
 
 //Qt
-#include <QtGui>
+#include <QDialog>
 
 
 class Login : public QDialog, public Ui::Login

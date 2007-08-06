@@ -22,8 +22,8 @@
 #define FILESELECTORPROXY_H
 
 //QSvn
-#include "statusentriesmodel.h"
 #include "svnclient.h"
+class StatusEntriesModel;
 
 //Qt
 #include <QSortFilterProxyModel>

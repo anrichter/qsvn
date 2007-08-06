@@ -22,15 +22,13 @@
 #define SVNCLIENT_H
 
 //QSvn
-#include "listener.h"
+class Listener;
 
 //SvnCpp
 #include "svnqt/client.hpp"
-#include "svnqt/context.hpp"
-#include "svnqt/status.hpp"
 
 //Qt
-#include <QtCore>
+#include <QObject>
 
 
 /**

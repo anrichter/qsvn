@@ -25,7 +25,7 @@
 #include "svnqt/context_listener.hpp"
 
 //Qt
-#include <QtCore>
+#include <QObject>
 
 
 class Listener : public QObject, public svn::ContextListener
