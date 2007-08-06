@@ -27,6 +27,7 @@
 #include "ui_fileselector.h"
 #include "svnclient.h"
 class FileSelectorProxy;
+class StatusEntriesModel;
 
 //Qt
 #include <QDialog>
@@ -54,6 +55,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
         SvnClient::SvnAction m_svnAction;
         QItemSelectionModel *m_selectionModel;
         QMenu *contextMenu;
+        StatusEntriesModel *m_statusEntriesModel;
         FileSelectorProxy *m_fileSelectorProxy;
 
         void showModeless();

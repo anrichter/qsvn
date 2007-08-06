@@ -24,12 +24,11 @@
 #include "svnclient.h"
 
 //SvnQt
-#include "svnqt/client.hpp"
 #include "svnqt/status.hpp"
 
 //Qt
-#include <QtCore>
 #include <QSortFilterProxyModel>
+
 
 FileSelectorProxy::FileSelectorProxy(QObject *parent,
                                      SvnClient::SvnAction svnAction)
@@ -60,30 +59,11 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
             m_visibleStats << svn_wc_status_replaced;
             break;
     }
-    m_statusEntriesModel = new StatusEntriesModel(this);
-    setSourceModel(m_statusEntriesModel);
-}
-
-void FileSelectorProxy::readDirectory(QString directory, const bool descend)
-{
-    m_statusEntriesModel->readDirectory(directory, descend, true);
-    checkedRows.clear();
-}
-
-void FileSelectorProxy::readFileList(QStringList fileList)
-{
-    m_statusEntriesModel->readFileList(fileList);
-    checkedRows.clear();
-}
-
-svn::Status FileSelectorProxy::at(const QModelIndex &index)
-{
-    return m_statusEntriesModel->at(mapToSource(index).row());
 }
 
 bool FileSelectorProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    svn::Status status = m_statusEntriesModel->at(source_row);
+    svn::Status status = static_cast<StatusEntriesModel*>(sourceModel())->at(source_row);
     return m_visibleStats.contains(status.textStatus());
 }
 
@@ -101,7 +81,7 @@ QVariant FileSelectorProxy::data(const QModelIndex &index, int role) const
     }
     else
     {
-        return m_statusEntriesModel->data(mapToSource(index), role);
+        return sourceModel()->data(mapToSource(index), role);
     }
 }
 
@@ -137,7 +117,7 @@ QStringList FileSelectorProxy::checkedFileList()
 
     foreach (int row, checkedRows)
     {
-        fileList << m_statusEntriesModel->at(row).path();
+        fileList << static_cast<StatusEntriesModel*>(sourceModel())->at(row).path();
     }
 
     return fileList;

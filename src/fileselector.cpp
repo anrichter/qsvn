@@ -23,6 +23,7 @@
 #include "config.h"
 #include "fileselector.h"
 #include "fileselectorproxy.h"
+#include "statusentriesmodel.h"
 #include "svnclient.h"
 
 #include "statustext.h"
@@ -40,11 +41,13 @@ FileSelector::FileSelector(QWidget *parent,
 {
     setupUi(this);
 
+    m_statusEntriesModel = new StatusEntriesModel(this);
     m_fileSelectorProxy = new FileSelectorProxy(this, svnAction);
+    m_fileSelectorProxy->setSourceModel(m_statusEntriesModel);
     if (isFileList)
-        m_fileSelectorProxy->readFileList(pathList);
+        m_statusEntriesModel->readFileList(pathList);
     else
-        m_fileSelectorProxy->readDirectory(pathList.at(0), true);
+        m_statusEntriesModel->readDirectory(pathList.at(0), true, true);
     setupFileSelector(svnAction);
     checkSelectAll->setCheckState(Qt::CheckState(Config::instance()->value("selectAll" + this->windowTitle()).toInt()));
 
@@ -233,7 +236,7 @@ void FileSelector::on_actionRevert_triggered()
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
     QString fullFileName;
-    fullFileName = m_fileSelectorProxy->at(index).path();
+    fullFileName = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(index).row()).path();
 
     if (QMessageBox::question(this, tr("Revert"),
                               QString(tr("Do you really want to revert local changes from\n%1?"))
@@ -249,7 +252,7 @@ void FileSelector::on_actionResolved_triggered()
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
     QString fullFileName;
-    fullFileName = m_fileSelectorProxy->at(index).path();
+    fullFileName = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(index).row()).path();
 
     if (QMessageBox::question(this, tr("Resolved"),
                               QString(tr("Do you really want to mark %1 as resolved\n?"))
@@ -267,12 +270,12 @@ void FileSelector::on_actionDiff_triggered()
         return;
 
     //todo: multiselect in treeViewFiles and call SvnClient::instance()->diff wiht a QStringList
-    SvnClient::instance()->diff(m_fileSelectorProxy->at(treeViewFiles->selectionModel()->currentIndex()).path());
+    SvnClient::instance()->diff(m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(treeViewFiles->selectionModel()->currentIndex()).row()).path());
 }
 
 void FileSelector::updateActions(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    svn::Status _status = m_fileSelectorProxy->at(selected.indexes().at(0));
+    svn::Status _status = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(selected.indexes().at(0)).row());
 
     actionDiff->setEnabled((_status.textStatus() == svn_wc_status_modified) ||
                            (_status.textStatus() == svn_wc_status_conflicted));

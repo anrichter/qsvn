@@ -23,7 +23,6 @@
 
 //QSvn
 #include "svnclient.h"
-class StatusEntriesModel;
 
 //Qt
 #include <QSortFilterProxyModel>
@@ -33,11 +32,6 @@ class FileSelectorProxy : public QSortFilterProxyModel
 {
     public:
         FileSelectorProxy(QObject *parent, SvnClient::SvnAction svnAction);
-
-        void readDirectory(QString directory, const bool descend = false);
-        void readFileList(QStringList fileList);
-
-        svn::Status at(const QModelIndex &index);
 
         QVariant data(const QModelIndex &index, int role) const;
         bool setData(const QModelIndex &index, const QVariant &value, int role);
@@ -50,7 +44,6 @@ class FileSelectorProxy : public QSortFilterProxyModel
         bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 
     private:
-        StatusEntriesModel *m_statusEntriesModel;
         QSet<int> checkedRows;
         SvnClient::SvnAction m_svnAction;
         QSet<svn_wc_status_kind> m_visibleStats;
