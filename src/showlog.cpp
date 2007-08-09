@@ -129,7 +129,7 @@ void ShowLog::buttonNextClicked(int limit)
             m_logEntriesModel->index(m_logEntriesModel->rowCount() - 1, 0)).revision;
 
     buttonNext->setEnabled(m_revisionStart.revnum() > m_revisionEnd.revnum());
-    buttonShowAll->setEnabled(buttonNext->isEnabled());
+    buttonShowAll->setEnabled(m_revisionStart.revnum() > m_revisionEnd.revnum());
 
     QApplication::restoreOverrideCursor();
     setEnabled(true);
