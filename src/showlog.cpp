@@ -50,16 +50,16 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     Config::instance()->restoreWidget(this);
     Config::instance()->restoreSplitter(this, splitter);
 
+    //initLogEntries
     m_logEntriesModel = new LogEntriesModel(this);
     m_logEntriesProxy = new QSortFilterProxyModel(this);
     m_logEntriesProxy->setDynamicSortFilter(true);
     m_logEntriesProxy->setSourceModel(m_logEntriesModel);
-
-
-    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this);
-    m_logChangePathEntriesProxy = new QSortFilterProxyModel(this);
-    m_logChangePathEntriesProxy->setDynamicSortFilter(true);
-    m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
+    for (int i = 0; i < m_logEntriesModel->columnCount(QModelIndex()); i++)
+        comboBoxFilterKeyColumn->insertItem(comboBoxFilterKeyColumn->count(),
+                                            m_logEntriesModel->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString());
+    connect(editFilterString, SIGNAL(textChanged(const QString &)),
+            m_logEntriesProxy, SLOT(setFilterFixedString(const QString &)));
 
     viewLogEntries->setModel(m_logEntriesProxy);
     Config::instance()->restoreHeaderView(this, viewLogEntries->header());
@@ -67,6 +67,12 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this,
             SLOT(selectionChanged(const QItemSelection &, const QItemSelection &)));
+
+    //initLogEntriesPath
+    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this);
+    m_logChangePathEntriesProxy = new QSortFilterProxyModel(this);
+    m_logChangePathEntriesProxy->setDynamicSortFilter(true);
+    m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
 
     viewLogChangePathEntries->setModel(m_logChangePathEntriesProxy);
     viewLogChangePathEntries->installEventFilter(this);
@@ -193,6 +199,11 @@ void ShowLog::on_actionDiff_triggered()
     SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
                                 svn::Revision(logEntry.revision - 1),
                                 svn::Revision(logEntry.revision));
+}
+
+void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
+{
+    m_logEntriesProxy->setFilterKeyColumn(index);
 }
 
 #include "showlog.moc"

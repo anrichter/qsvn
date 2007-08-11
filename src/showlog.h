@@ -69,6 +69,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         void on_checkBoxStrictNodeHistory_stateChanged();
         void on_buttonNext_clicked();
         void on_buttonShowAll_clicked();
+        void on_comboBoxFilterKeyColumn_currentIndexChanged(int index);
 
         void on_actionDiff_triggered();
 };
