@@ -58,6 +58,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     for (int i = 0; i < m_logEntriesModel->columnCount(QModelIndex()); i++)
         comboBoxFilterKeyColumn->insertItem(comboBoxFilterKeyColumn->count(),
                                             m_logEntriesModel->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString());
+    comboBoxFilterKeyColumn->setCurrentIndex(Config::instance()->value("comboBoxFilterKeyColumn").toInt());
     connect(editFilterString, SIGNAL(textChanged(const QString &)),
             m_logEntriesProxy, SLOT(setFilterFixedString(const QString &)));
 
@@ -98,6 +99,7 @@ ShowLog::~ShowLog()
     Config::instance()->saveSplitter(this, splitter);
     Config::instance()->saveHeaderView(this, viewLogEntries->header());
     Config::instance()->saveHeaderView(this, viewLogChangePathEntries->header());
+    Config::instance()->setValue("comboBoxFilterKeyColumn", comboBoxFilterKeyColumn->currentIndex());
 }
 
 void ShowLog::doShowLog(QWidget *parent, const QString path,
