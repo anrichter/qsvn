@@ -97,6 +97,9 @@ CONFIGURE_FILE( "${CMAKE_CURRENT_SOURCE_DIR}/qsvn_defines.h.in"
 
 IF (WIN32)
     SET(_SVNQT_EXPORT "__declspec(dllimport)")
+    SET(TOUTF8 "toUtf8")
+    SET(FROMUTF8 "fromUtf8")
+    SET(QLIST "QList")
     CONFIGURE_FILE(
         "${CMAKE_CURRENT_SOURCE_DIR}/svnqt/svnqt_defines.hpp.in"
         "${CMAKE_CURRENT_BINARY_DIR}/svnqt-import/svnqt/svnqt_defines.hpp"
