@@ -164,7 +164,7 @@ void ShowLog::selectionChanged(const QItemSelection &selected,
         editLogMessage->clear();
         m_logChangePathEntriesModel-> setChangePathEntries(svn::LogChangePathEntries());
     } else {
-        QModelIndex index = selected.indexes().at(0);
+        QModelIndex index = m_logEntriesProxy->mapToSource(selected.indexes().at(0));
         if (index.isValid())
         {
             editLogMessage->setPlainText(m_logEntriesModel->getLogEntry(index).message);
