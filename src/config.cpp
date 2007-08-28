@@ -250,6 +250,8 @@ QVariant Config::defaultValue(const QString &key)
         return true;
     else if (key == KEY_CHECKEMPTYLOGMESSAGE)
         return true;
+    else if (key == KEY_LASTWC)
+        return QDir::homePath();
     else
         return QVariant();
 }

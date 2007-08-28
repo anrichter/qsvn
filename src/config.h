@@ -35,6 +35,7 @@ class QSplitter;
 #define KEY_DIFFVIEWER "configuration/diffViewer"
 #define KEY_SHOWLOGAFTERUPDATE "configuration/showLogAfterUpdate"
 #define KEY_CHECKEMPTYLOGMESSAGE "configuration/checkEmptyLogMessage"
+#define KEY_LASTWC "lastWC"
 
 
 /**

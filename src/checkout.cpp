@@ -38,6 +38,8 @@ Checkout::Checkout(QWidget *parent)
     editURL->addItems(Config::instance()->getStringList("checkoutURL"));
     editURL->clearEditText();
 
+    editPath->setText(Config::instance()->value(KEY_LASTWC).toString());
+
     m_selectedURL = "";
 }
 
@@ -106,6 +108,7 @@ void Checkout::accept()
         if (!urlList.contains(editURL->itemText(i)))
             urlList << editURL->itemText(i);
     Config::instance()->saveStringList("checkoutURL", urlList);
+    Config::instance()->setValue(KEY_LASTWC, editPath->text());
     QDialog::accept();
 }
 

@@ -5,6 +5,7 @@ Version 0.6.0 - released 2007-??-??
     * Add Build Version to QSvn Info and Installer Files
     * #24 Entries in Show Log window are now sortable
     * #33 Filter logentries in ShowLog
+    * #35 Propose the last selected directory for new checkout. Default is the users home-directory.
 
     Bugfixes
     --------
