@@ -13,6 +13,7 @@ Version 0.6.0 - released 2007-??-??
     * #25 Fix build problems on Mac OS X
     * #28 Fix crash on change "strict node history" with a selected change entry in show log dialog
     * #36 Fix Problem in saving login data on Debian Etch
+    * #37 Insert new working copies at the right position in the WorkingCopyList.
 
 
 Version 0.5.0 - released 2007-02-25
