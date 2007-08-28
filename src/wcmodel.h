@@ -37,12 +37,12 @@ class WcModel : public QStandardItemModel
         int rowCount(const QModelIndex &parent = QModelIndex()) const;
         bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
 
-        void addWc(QString dir);
+        void insertWc(QString dir);
         void removeWc(const QModelIndex &index);
         QString getPath(const QModelIndex &index) const;
 
     private:
-        void addDir(QString dir, QStandardItem *parent) const;
+        void insertDir(QString dir, QStandardItem *parent, int row) const;
 
         void saveWcList();
         void loadWcList();

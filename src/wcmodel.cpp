@@ -55,7 +55,7 @@ int WcModel::rowCount(const QModelIndex &parent) const
         //add subDirectories
         foreach (QString entry, QDir(model->getPath(parent)).entryList(QDir::AllDirs))
         if ((entry != ".") && (entry != ".."))
-            model->addDir(entry, item);
+            model->insertDir(entry, item, item->rowCount());
     }
 
     return item->rowCount();
@@ -66,9 +66,16 @@ bool WcModel::hasChildren(const QModelIndex &parent) const
     return rowCount(parent) > 0;
 }
 
-void WcModel::addWc(QString dir)
+void WcModel::insertWc(QString dir)
 {
-    addDir(dir, invisibleRootItem());
+    dir = QDir::cleanPath(QDir::toNativeSeparators(dir));
+    int row = 0;
+    for (int i = 0; i < invisibleRootItem()->rowCount(); i++)
+    {
+        if (dir > getPath(invisibleRootItem()->child(i)->index()))
+            row = i + 1;
+    }
+    insertDir(dir, invisibleRootItem(), row);
 }
 
 void WcModel::removeWc(const QModelIndex &index)
@@ -81,7 +88,7 @@ QString WcModel::getPath(const QModelIndex &index) const
     return itemFromIndex(index)->data().toString();
 }
 
-void WcModel::addDir(QString dir, QStandardItem *parent) const
+void WcModel::insertDir(QString dir, QStandardItem * parent, int row) const
 {
     QStandardItem *item = new QStandardItem();
 
@@ -97,7 +104,7 @@ void WcModel::addDir(QString dir, QStandardItem *parent) const
     else
         item->setIcon(QIcon(":/images/unknownfolder.png"));
 
-    parent->appendRow(item);
+    parent->insertRow(row, item);
 }
 
 void WcModel::saveWcList()
@@ -116,7 +123,7 @@ void WcModel::loadWcList()
     wcList.sort();
 
     foreach (QString wc, wcList)
-    addDir(QDir::cleanPath(wc), invisibleRootItem());
+        insertDir(QDir::cleanPath(wc), invisibleRootItem(), invisibleRootItem()->rowCount());
 }
 
 void WcModel::doUpdate(const QModelIndex &index)

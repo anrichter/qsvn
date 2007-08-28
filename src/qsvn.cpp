@@ -202,7 +202,7 @@ void QSvn::on_actionAddWorkingCopy_triggered()
     QString dir = QFileDialog::getExistingDirectory(this,
                   tr("Select a working Directory"), "", QFileDialog::ShowDirsOnly);
     if (!dir.isEmpty())
-        wcModel->addWc(dir);
+        wcModel->insertWc(dir);
 }
 
 void QSvn::on_actionRemoveWorkingCopy_triggered()
@@ -230,7 +230,7 @@ void QSvn::on_actionCheckoutWorkingCopy_triggered()
         setActionStop("Checkout");
         if (SvnClient::instance()->checkout(checkout.url(), checkout.path()))
         {
-            wcModel->addWc(checkout.path());
+            wcModel->insertWc(checkout.path());
         }
         setActionStop("");
     }
