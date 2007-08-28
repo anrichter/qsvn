@@ -48,17 +48,16 @@ int WcModel::rowCount(const QModelIndex &parent) const
     if (!parent.isValid())
         return QStandardItemModel::rowCount(parent);
 
-    const WcModel *model = static_cast<const WcModel *>(parent.model());
-    QStandardItem *item = model->itemFromIndex(parent);
-    if (item->rowCount() == 0)
+    QStandardItem *_parent = itemFromIndex(parent);
+    if (_parent->rowCount() == 0)
     {
-        //add subDirectories
-        foreach (QString entry, QDir(model->getPath(parent)).entryList(QDir::AllDirs))
+        //Lazy loading WCs - add subDirectories
+        foreach (QString entry, QDir(getPath(parent)).entryList(QDir::AllDirs))
         if ((entry != ".") && (entry != ".."))
-            model->insertDir(entry, item, item->rowCount());
+            insertDir(entry, _parent, _parent->rowCount());
     }
 
-    return item->rowCount();
+    return _parent->rowCount();
 }
 
 bool WcModel::hasChildren(const QModelIndex &parent) const
@@ -92,9 +91,9 @@ void WcModel::insertDir(QString dir, QStandardItem * parent, int row) const
 {
     QStandardItem *item = new QStandardItem();
 
-    item->setText(QDir::toNativeSeparators(dir));
+    item->setText(QDir::cleanPath(QDir::toNativeSeparators(dir)));
 
-    //complete dir to full path if necessary
+    //complete dir in data() to full path for subdirectories of root-wc-items
     if (parent != invisibleRootItem())
         dir = parent->data().toString() + QDir::separator() + dir;
     item->setData(QDir::toNativeSeparators(dir));
@@ -123,7 +122,7 @@ void WcModel::loadWcList()
     wcList.sort();
 
     foreach (QString wc, wcList)
-        insertDir(QDir::cleanPath(wc), invisibleRootItem(), invisibleRootItem()->rowCount());
+        insertDir(wc, invisibleRootItem(), invisibleRootItem()->rowCount());
 }
 
 void WcModel::doUpdate(const QModelIndex &index)
