@@ -381,7 +381,7 @@ bool SvnClient::diff(const QStringList &fileList)
     return result;
 }
 
-const svn::LogEntries* SvnClient::log(const QString &path,
+const svn::LogEntriesPtr SvnClient::log(const QString &path,
                                       const svn::Revision &revisionStart,
                                       const svn::Revision &revisionEnd,
                                       bool discoverChangedPaths,

@@ -98,7 +98,7 @@ class SvnClient : public QObject
         bool diff(const QString &file);
         bool diff(const QStringList &fileList);
 
-        const svn::LogEntries* log(const QString &path,
+        const svn::LogEntriesPtr log(const QString &path,
                                    const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
                                    bool discoverChangedPaths, bool strictNodeHistory,
                                    int limit);

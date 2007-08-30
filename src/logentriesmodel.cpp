@@ -132,9 +132,9 @@ svn::LogEntry LogEntriesModel::getLogEntry(const QModelIndex &index)
     return m_logEntries.at(index.row());
 }
 
-void LogEntriesModel::appendLogEntries(const svn::LogEntries *logEntries)
+void LogEntriesModel::appendLogEntries(const svn::LogEntriesPtr logEntries)
 {
-    if (logEntries->count() <= 0)
+    if (!logEntries || logEntries->count() <= 0)
         return;
 
     beginInsertRows(QModelIndex(), rowCount(), rowCount() + logEntries->count() - 1);
@@ -145,8 +145,6 @@ void LogEntriesModel::appendLogEntries(const svn::LogEntries *logEntries)
     m_logEntries += *logEntries;
     endInsertRows();
     sort(0, Qt::DescendingOrder);
-
-    delete logEntries;
 }
 
 void LogEntriesModel::clear()
