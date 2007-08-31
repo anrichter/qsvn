@@ -44,7 +44,7 @@ class StatusEntriesModel : public QAbstractTableModel
         void readDirectory(QString directory, const bool descend, const bool force);
         void readFileList(QStringList fileList);
 
-        svn::Status at(int row);
+        svn::StatusPtr at(int row);
 
     private:
         svn::StatusEntries m_statusEntries;
@@ -52,8 +52,8 @@ class StatusEntriesModel : public QAbstractTableModel
         bool m_descend;
         QFileSystemWatcher m_fsWatcher;
 
-        QPixmap statusPixmap(svn::Status status) const;
-        QString statusString(svn::Status status) const;
+        QPixmap statusPixmap(svn::StatusPtr status) const;
+        QString statusString(svn::StatusPtr status) const;
 
         void clearFsWatcher();
         void fillFsWatcher();

@@ -99,7 +99,7 @@ svn::StatusEntries SvnClient::status(const QString& path,
     }
 }
 
-svn::Status SvnClient::singleStatus(const QString &path)
+svn::StatusPtr SvnClient::singleStatus(const QString &path)
 {
     listener->setVerbose(false);
     try
@@ -109,7 +109,7 @@ svn::Status SvnClient::singleStatus(const QString &path)
     catch (svn::ClientException e)
     {
         StatusText::out(e.msg());
-        return svn::Status();
+        return svn::StatusPtr(new svn::Status());
     }
 }
 
@@ -121,7 +121,7 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
     svn::Revisions fromRevisions, toRevisions;
 
     foreach (QString path, updateList)
-    fromRevisions.append(singleStatus(path).entry().cmtRev());
+    fromRevisions.append(singleStatus(path)->entry().cmtRev());
 
     listener->setVerbose(true);
     try
@@ -422,10 +422,10 @@ void SvnClient::completedMessage(const QString &path)
     if (!path.isEmpty())
     {
         QString _path = path;
-        svn::Status status = singleStatus(_path);
-        if (status.isVersioned())
+        svn::StatusPtr status = singleStatus(_path);
+        if (status->isVersioned())
             StatusText::out(QString(tr("Completed at Revision %1\n"))
-                    .arg(status.entry().revision()));
+                    .arg(status->entry().revision()));
         else
             StatusText::out(tr("Completed\n"));
     }

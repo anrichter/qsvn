@@ -177,12 +177,12 @@ QStringList QSvn::selectedPaths()
     if (isFileListSelected())
     {
         QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
-        svn::Status status;
+        svn::StatusPtr status;
 
         for (int i = 0; i < indexes.count(); ++i)
         {
             status = m_statusEntriesModel->at(m_fileListProxy->mapToSource(indexes.at(i)).row());
-            pathSet << QDir::toNativeSeparators(status.path());
+            pathSet << QDir::toNativeSeparators(status->path());
         }
     }
     else

@@ -63,8 +63,8 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
 
 bool FileSelectorProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    svn::Status status = static_cast<StatusEntriesModel*>(sourceModel())->at(source_row);
-    return m_visibleStats.contains(status.textStatus());
+    svn::StatusPtr status = static_cast<StatusEntriesModel*>(sourceModel())->at(source_row);
+    return m_visibleStats.contains(status->textStatus());
 }
 
 QVariant FileSelectorProxy::data(const QModelIndex &index, int role) const
@@ -117,7 +117,7 @@ QStringList FileSelectorProxy::checkedFileList()
 
     foreach (int row, checkedRows)
     {
-        fileList << static_cast<StatusEntriesModel*>(sourceModel())->at(row).path();
+        fileList << static_cast<StatusEntriesModel*>(sourceModel())->at(row)->path();
     }
 
     return fileList;

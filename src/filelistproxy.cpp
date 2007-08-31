@@ -36,8 +36,8 @@ FileListProxy::FileListProxy(QObject *parent)
 
 bool FileListProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    svn::Status status = static_cast<StatusEntriesModel*>(sourceModel())->at(source_row);
-    if (QFileInfo(status.path()).isDir()) // don't show any directories in filelist
+    svn::StatusPtr status = static_cast<StatusEntriesModel*>(sourceModel())->at(source_row);
+    if (QFileInfo(status->path()).isDir()) // don't show any directories in filelist
         return false;
     else
         return true;

@@ -71,7 +71,7 @@ class SvnClient : public QObject
                                   bool detailed_remote = false,
                                   const bool hide_externals = false);
 
-        svn::Status singleStatus(const QString &path);
+        svn::StatusPtr singleStatus(const QString &path);
 
         /**
          * Update entries from the updateList.

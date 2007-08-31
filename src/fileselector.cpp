@@ -236,7 +236,7 @@ void FileSelector::on_actionRevert_triggered()
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
     QString fullFileName;
-    fullFileName = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(index).row()).path();
+    fullFileName = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(index).row())->path();
 
     if (QMessageBox::question(this, tr("Revert"),
                               QString(tr("Do you really want to revert local changes from\n%1?"))
@@ -252,7 +252,7 @@ void FileSelector::on_actionResolved_triggered()
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
 
     QString fullFileName;
-    fullFileName = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(index).row()).path();
+    fullFileName = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(index).row())->path();
 
     if (QMessageBox::question(this, tr("Resolved"),
                               QString(tr("Do you really want to mark %1 as resolved\n?"))
@@ -270,16 +270,16 @@ void FileSelector::on_actionDiff_triggered()
         return;
 
     //todo: multiselect in treeViewFiles and call SvnClient::instance()->diff wiht a QStringList
-    SvnClient::instance()->diff(m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(treeViewFiles->selectionModel()->currentIndex()).row()).path());
+    SvnClient::instance()->diff(m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(treeViewFiles->selectionModel()->currentIndex()).row())->path());
 }
 
 void FileSelector::updateActions(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    svn::Status _status = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(selected.indexes().at(0)).row());
+    svn::StatusPtr _status = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(selected.indexes().at(0)).row());
 
-    actionDiff->setEnabled((_status.textStatus() == svn_wc_status_modified) ||
-                           (_status.textStatus() == svn_wc_status_conflicted));
-    actionResolved->setEnabled(_status.textStatus() == svn_wc_status_conflicted);
+   actionDiff->setEnabled((_status->textStatus() == svn_wc_status_modified) ||
+                           (_status->textStatus() == svn_wc_status_conflicted));
+    actionResolved->setEnabled(_status->textStatus() == svn_wc_status_conflicted);
 }
 
 //static functions

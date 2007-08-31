@@ -87,8 +87,8 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    svn::Status status = m_statusEntries.at(index.row());
-    QFileInfo fileInfo(status.path());
+    svn::StatusPtr status = m_statusEntries.at(index.row());
+    QFileInfo fileInfo(status->path());
 
     switch (role)
     {
@@ -96,25 +96,25 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
             switch (index.column())
             {
                 case 0:
-                    if (!status.isVersioned() ||                         //return path for unversioned Files
-                         (status.isVersioned() && fileInfo.isDir()) ||  //            and for versioned Directories
+                    if (!status->isVersioned() ||                         //return path for unversioned Files
+                         (status->isVersioned() && fileInfo.isDir()) ||  //            and for versioned Directories
                          m_descend)
                     {
-                        QString path = QDir::toNativeSeparators(status.path());
+                        QString path = QDir::toNativeSeparators(status->path());
                         return path.remove(m_directory);
                     }
                     else
-                        return status.entry().name();
+                        return status->entry().name();
                     break;
                 case 1:
                     return statusString(status);
                     break;
                 case 2:
-                    if (status.isVersioned())
-                        return int(status.entry().cmtRev());
+                    if (status->isVersioned())
+                        return int(status->entry().cmtRev());
                     break;
                 case 3:
-                    return status.entry().cmtAuthor();
+                    return status->entry().cmtAuthor();
                     break;
             }
             break;
@@ -153,14 +153,14 @@ void StatusEntriesModel::readFileList(QStringList fileList)
     fillFsWatcher();
 }
 
-svn::Status StatusEntriesModel::at(int row)
+svn::StatusPtr StatusEntriesModel::at(int row)
 {
     return m_statusEntries.at(row);
 }
 
-QPixmap StatusEntriesModel::statusPixmap(svn::Status status) const
+QPixmap StatusEntriesModel::statusPixmap(svn::StatusPtr status) const
 {
-    switch (status.textStatus())
+    switch (status->textStatus())
     {
         case svn_wc_status_none:
             return QPixmap(":/images/file.png");
@@ -195,9 +195,9 @@ QPixmap StatusEntriesModel::statusPixmap(svn::Status status) const
     }
 }
 
-QString StatusEntriesModel::statusString(svn::Status status) const
+QString StatusEntriesModel::statusString(svn::StatusPtr status) const
 {
-    switch (status.textStatus())
+    switch (status->textStatus())
     {
         case svn_wc_status_none:
             return QString(tr("none"));
@@ -228,7 +228,7 @@ QString StatusEntriesModel::statusString(svn::Status status) const
         case svn_wc_status_incomplete:
             return QString(tr("incomplete"));
         default:
-            return QString(status.textStatus());
+            return QString(status->textStatus());
     }
 }
 
@@ -247,11 +247,11 @@ void StatusEntriesModel::doFileChanged(const QString &path)
 
     for (int i = 0; i < m_statusEntries.count(); i++)
     {
-        if (m_statusEntries.at(i).path() == QDir::fromNativeSeparators(path))
+        if (m_statusEntries.at(i)->path() == QDir::fromNativeSeparators(path))
         {
-            svn::Status status = SvnClient::instance()->singleStatus(
-                    m_statusEntries.at(i).path());
-            if (status.isVersioned())
+            svn::StatusPtr status = SvnClient::instance()->singleStatus(
+                    m_statusEntries.at(i)->path());
+            if (status->isVersioned())
             {
                 m_statusEntries.replace(i, status);
             }
@@ -275,8 +275,8 @@ void StatusEntriesModel::fillFsWatcher()
     if (m_statusEntries.count() < 5000) //todo: fix this problem with a better solution
     {
         QStringList pathList;
-        foreach(svn::Status status, m_statusEntries)
-            pathList << status.path();
+        foreach(svn::StatusPtr status, m_statusEntries)
+            pathList << status->path();
 
    	    if (!pathList.isEmpty())
    	        m_fsWatcher.addPaths(pathList);
