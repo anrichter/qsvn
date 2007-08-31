@@ -8,10 +8,17 @@ For compilation under UNIX you need the following software packages:
 - subversion libraries and headers
 
 Debian:
-  apt-get install cmake libqt4-core libqt4-debug libqt4-dev libqt4-gui libqt4-qt3support libqt4-sql qt4-designer qt4-dev-tools qt4-doc qt4-qtconfig subversion libsvn-dev libapr1 libapr1-dbg libapr1-dev libaprutil1 libaprutil1-dbg libaprutil1-dev		
+
+Prepare system for build with debugger and cmake:
+  apt-get install build-essential gdb cmake
+
+Install Qt4
+  apt-get install libqt4-core libqt4-debug libqt4-dev libqt4-gui libqt4-qt3support libqt4-sql qt4-designer qt4-dev-tools qt4-doc qt4-qtconfig 
+
+Install Subversion and Libraries
+  apt-get install subversion libsvn-dev libapr1 libapr1-dbg libapr1-dev libaprutil1 libaprutil1-dbg libaprutil1-dev
 
 It is recommended to use ccache for increase continuous builds
-
   apt-get install ccache
   add "export PATH="/usr/lib/ccache:$PATH" to ~/.bashrc
 
