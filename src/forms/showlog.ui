@@ -143,6 +143,7 @@
   </action>
  </widget>
  <tabstops>
+  <tabstop>editFilterString</tabstop>
   <tabstop>viewLogEntries</tabstop>
   <tabstop>editLogMessage</tabstop>
   <tabstop>viewLogChangePathEntries</tabstop>
@@ -150,6 +151,7 @@
   <tabstop>buttonNext</tabstop>
   <tabstop>buttonShowAll</tabstop>
   <tabstop>buttonOk</tabstop>
+  <tabstop>comboBoxFilterKeyColumn</tabstop>
  </tabstops>
  <resources>
   <include location="../qsvn.qrc" />

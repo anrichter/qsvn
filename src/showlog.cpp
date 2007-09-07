@@ -91,6 +91,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
         m_path.append("/");
 
     this->setWindowTitle(QString(tr("Show Log for %1")).arg(path));
+    editFilterString->setFocus(Qt::MouseFocusReason);
 }
 
 ShowLog::~ShowLog()

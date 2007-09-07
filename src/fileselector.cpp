@@ -83,11 +83,13 @@ void FileSelector::setupUI()
         case SvnClient::SvnNone:
             setWindowTitle("");
             groupBoxLogMessage->setVisible(false);
+            treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnAdd:
             setWindowTitle(tr("Add"));
             setWindowIcon(QIcon(":/images/actionaddlocal.png"));
             groupBoxLogMessage->setVisible(false);
+            treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnCommit:
             setWindowTitle(tr("Commit"));
@@ -96,16 +98,19 @@ void FileSelector::setupUI()
             comboLogHistory->insertItem(0, "");
             comboLogHistory->setCurrentIndex(0);
             Config::instance()->restoreSplitter(this, splitter);
+            editLogMessage->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnDelete:
             setWindowTitle(tr("Delete"));
             setWindowIcon(QIcon(":/images/actiondeletelocal.png"));
             groupBoxLogMessage->setVisible(false);
+            treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnRevert:
             setWindowTitle(tr("Revert"));
             setWindowIcon(QIcon(":/images/actionrevert.png"));
             groupBoxLogMessage->setVisible(false);
+            treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
     }
 }
