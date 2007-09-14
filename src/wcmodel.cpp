@@ -21,7 +21,6 @@
 
 //QSvn
 #include "config.h"
-#include "statustext.h"
 #include "wcmodel.h"
 
 //SvnCpp
@@ -67,7 +66,7 @@ bool WcModel::hasChildren(const QModelIndex &parent) const
 
 void WcModel::insertWc(QString dir)
 {
-    dir = QDir::cleanPath(QDir::toNativeSeparators(dir));
+    dir = QDir::toNativeSeparators(QDir::cleanPath(dir));
     int row = 0;
     for (int i = 0; i < invisibleRootItem()->rowCount(); i++)
     {
@@ -91,7 +90,7 @@ void WcModel::insertDir(QString dir, QStandardItem * parent, int row) const
 {
     QStandardItem *item = new QStandardItem();
 
-    item->setText(QDir::cleanPath(QDir::toNativeSeparators(dir)));
+    item->setText(QDir::toNativeSeparators(QDir::cleanPath(dir)));
 
     //complete dir in data() to full path for subdirectories of root-wc-items
     if (parent != invisibleRootItem())
