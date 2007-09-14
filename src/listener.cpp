@@ -154,7 +154,7 @@ void Listener::contextNotify(const char *path,
             break;
     }
 
-    notifyString = notifyString + " " + path;
+    notifyString = notifyString + " " + QDir::toNativeSeparators(QDir::cleanPath(path));
     if (revision > -1)
         notifyString = QString(tr("%1 Revision %2"))
                 .arg(notifyString)
