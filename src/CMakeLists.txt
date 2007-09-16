@@ -42,6 +42,8 @@ SET( qsvn_headers
          logchangepathentriesmodel.h
          logentriesmodel.h
          login.h
+         pathproperties.h
+         pathpropertiesmodel.h
          qsvn.h
          showlog.h
          sslservertrust.h
@@ -65,6 +67,8 @@ SET( qsvn_sources
          logentriesmodel.cpp
          login.cpp
          main.cpp
+         pathproperties.cpp
+         pathpropertiesmodel.cpp
          qsvn.cpp
          showlog.cpp
          sslservertrust.cpp
@@ -80,6 +84,7 @@ SET( qsvn_forms
          forms/fileselector.ui
          forms/filemodifier.ui
          forms/login.ui
+         forms/pathproperties.ui
          forms/qsvn.ui
          forms/showlog.ui
          forms/sslservertrust.ui
