@@ -200,7 +200,9 @@ QStringList QSvn::selectedPaths()
 void QSvn::on_actionAddWorkingCopy_triggered()
 {
     QString dir = QFileDialog::getExistingDirectory(this,
-                  tr("Select a working Directory"), "", QFileDialog::ShowDirsOnly);
+            tr("Select a working Directory"),
+            Config::instance()->value(KEY_LASTWC).toString(),
+            QFileDialog::ShowDirsOnly);
     if (!dir.isEmpty())
         wcModel->insertWc(dir);
 }
