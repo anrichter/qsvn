@@ -84,6 +84,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
 
     contextLogChangePathEntries = new QMenu(this);
     contextLogChangePathEntries->addAction(actionDiff);
+    contextLogChangePathEntries->addAction(actionDiff_to_WORKING);
 
     m_path = path;
     m_path.replace("\\", "/");
@@ -200,8 +201,39 @@ void ShowLog::on_actionDiff_triggered()
             m_logChangePathEntriesProxy->mapToSource(indexes.at(0)));
 
     SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
+                                QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
                                 svn::Revision(logEntry.revision - 1),
                                 svn::Revision(logEntry.revision));
+}
+
+void ShowLog::on_actionDiff_to_WORKING_triggered( )
+{
+    //todo: getSelectedRevision()
+    //todo: getSelectedPath()
+    //todo: getWcFilePath()
+    svn::LogEntry logEntry;
+    svn::LogChangePathEntry logChangePathEntry;
+
+    QModelIndexList indexes;
+    indexes = viewLogEntries->selectionModel()->selectedIndexes();
+    if (indexes.count() == 0)
+        return;
+    logEntry = m_logEntriesModel->getLogEntry(m_logEntriesProxy->mapToSource(indexes.at(0)));
+
+    indexes = viewLogChangePathEntries->selectionModel()->selectedIndexes();
+    if (indexes.count() == 0)
+        return;
+    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry(
+            m_logChangePathEntriesProxy->mapToSource(indexes.at(0)));
+
+    QString _file, _dirpath, _basename;
+    svn::Path _path(logChangePathEntry.path);
+    _path.split(_dirpath, _basename);
+    _file = m_path.left(m_path.indexOf(_dirpath)) + logChangePathEntry.path;
+    SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
+                                _file,
+                                svn::Revision(logEntry.revision),
+                                svn::Revision::WORKING);
 }
 
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)

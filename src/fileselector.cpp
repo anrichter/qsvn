@@ -275,7 +275,7 @@ void FileSelector::on_actionDiff_triggered()
         return;
 
     //todo: multiselect in treeViewFiles and call SvnClient::instance()->diff wiht a QStringList
-    SvnClient::instance()->diff(m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(treeViewFiles->selectionModel()->currentIndex()).row())->path());
+    SvnClient::instance()->diffBASEvsWORKING(m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(treeViewFiles->selectionModel()->currentIndex()).row())->path());
 }
 
 void FileSelector::updateActions(const QItemSelection &selected, const QItemSelection &deselected)

@@ -141,6 +141,11 @@
     <string>Diff</string>
    </property>
   </action>
+  <action name="actionDiff_to_WORKING" >
+   <property name="text" >
+    <string>Diff to WORKING</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>editFilterString</tabstop>

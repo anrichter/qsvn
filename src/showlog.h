@@ -72,6 +72,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         void on_comboBoxFilterKeyColumn_currentIndexChanged(int index);
 
         void on_actionDiff_triggered();
+        void on_actionDiff_to_WORKING_triggered();
 };
 
 #endif

@@ -279,8 +279,39 @@ bool SvnClient::remove(const QStringList &removeList)
     return true;
 }
 
-bool SvnClient::diff(const QString &file, const svn::Revision &revisionFrom,
-                     const svn::Revision &revisionTo)
+QString SvnClient::getFileRevisionPath(const QString &file, const svn::Revision &revision)
+{
+    QString _result, _file, _base, _ext, _dir;
+    svn::Path _path(file);
+    switch (svn::Revision(revision).kind())
+    {
+        case svn_opt_revision_base:
+            _path.split(_dir, _file);
+            _result = _dir +
+                    QDir::separator() +
+                    QString(".svn/text-base/%1.svn-base").arg(_file);
+            _result = QDir::toNativeSeparators(_result);
+            break;
+        case svn_opt_revision_working:
+            _result = _path.native();
+            break;
+        default:
+            if (svn::Url::isValid(file))
+            {
+                _path.split(_dir, _file, _ext);
+                _result = Config::instance()->tempDir() +
+                        _file + QString(".%1.%2 ")
+                        .arg(int(revision.revnum()))
+                        .arg(_ext);
+                if (!svnexport(file, _result, revision, false))
+                    _result.clear();
+            }
+            break;
+    }
+    return _result;
+}
+
+bool SvnClient::diff(const QString &fileFrom, const QString &fileTo, const svn::Revision &revisionFrom, const svn::Revision &revisionTo)
 {
     if (Config::instance()->value(KEY_DIFFVIEWER).toString().isEmpty())
     {
@@ -288,8 +319,8 @@ bool SvnClient::diff(const QString &file, const svn::Revision &revisionFrom,
         listener->setVerbose(true);
         try
         {
-            QString delta = svnClient->diff(Config::instance()->tempDir(),
-                                            svn::Path(file),
+            QString delta = svnClient->diff(svn::Path(Config::instance()->tempDir()),
+                                            svn::Path(fileFrom), svn::Path(fileTo),
                                             revisionFrom, revisionTo,
                                             true, false, false, true );
             StatusText::out(delta);
@@ -302,81 +333,26 @@ bool SvnClient::diff(const QString &file, const svn::Revision &revisionFrom,
     }
     else
     {
-        QFileInfo fileInfo(file);
-        QString fileFrom, fileTo, dir, filename, ext;
-        svn::Path filePath(file);
-
-        filePath.split(dir, filename, ext);
-
-        //fileFrom
-        switch (svn::Revision(revisionFrom).kind())
-        {
-            case svn_opt_revision_base:
-                fileFrom = QDir::convertSeparators(fileInfo.absolutePath()) + QDir::separator();
-                fileFrom = fileFrom + QString(QDir::convertSeparators(".svn/text-base/%1.svn-base")).arg(fileInfo.fileName());
-                break;
-            case svn_opt_revision_working:
-                fileFrom = QDir::convertSeparators(fileInfo.absoluteFilePath());
-                break;
-            default:
-                if (svn::Url::isValid(file))
-                {
-                    fileFrom = Config::instance()->tempDir() +
-                            filename + QString(".%1.%2 ")
-                            .arg(int(revisionFrom.revnum()))
-                            .arg(ext);
-                    if (!svnexport(file, fileFrom, revisionFrom, false))
-                        return false;
-                }
-                else
-                    fileFrom = "";
-                break;
-        }
-
-        //fileTo
-        switch (svn::Revision(revisionTo).kind())
-        {
-            case svn_opt_revision_base:
-                fileTo = QDir::convertSeparators(fileInfo.absolutePath()) +
-                        QDir::separator();
-                fileTo = fileTo +
-                        QString(QDir::convertSeparators(".svn/text-base/%1.svn-base"))
-                        .arg(fileInfo.fileName());
-                break;
-            case svn_opt_revision_working:
-                fileTo = QDir::convertSeparators(fileInfo.absoluteFilePath());
-                break;
-            default:
-                if (svn::Url::isValid(file))
-                {
-                    fileTo = Config::instance()->tempDir() + filename + QString(".%1.%2 ")
-                            .arg(int(revisionTo.revnum()))
-                            .arg(ext);
-                    if (!svnexport(file, fileTo, revisionTo, false))
-                        return false;
-                }
-                else
-                    fileTo = "";
-                break;
-        }
-
+        QString _fileFrom, _fileTo;
+        _fileFrom = getFileRevisionPath(fileFrom, revisionFrom);
+        _fileTo = getFileRevisionPath(fileTo, revisionTo);
         QProcess::startDetached(Config::instance()->value(KEY_DIFFVIEWER).toString(),
-                                QStringList() << fileFrom << fileTo);
+                                QStringList() << _fileFrom << _fileTo);
     }
     return true;
 }
 
-bool SvnClient::diff(const QString &file)
+bool SvnClient::diffBASEvsWORKING(const QString &file)
 {
-    return diff(file, svn::Revision::BASE, svn::Revision::WORKING);
+    return diff(file, file, svn::Revision::BASE, svn::Revision::WORKING);
 }
 
-bool SvnClient::diff(const QStringList &fileList)
+bool SvnClient::diffBASEvsWORKING(const QStringList &fileList)
 {
     bool result = true;
     QString file;
     foreach (file, fileList)
-    result = result && diff(file, svn::Revision::BASE, svn::Revision::WORKING);
+    result = result && diff(file, file, svn::Revision::BASE, svn::Revision::WORKING);
 
     return result;
 }

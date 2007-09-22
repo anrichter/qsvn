@@ -94,9 +94,9 @@ class SvnClient : public QObject
         bool revert(const QString fileName, const bool verbose = true);
         bool commit(const QStringList &commitList, const QString &logMessage);
         bool remove(const QStringList &removeList);
-        bool diff(const QString &file, const svn::Revision &revisionFrom, const svn::Revision &revisionTo);
-        bool diff(const QString &file);
-        bool diff(const QStringList &fileList);
+        bool diff(const QString &fileFrom, const QString &fileTo, const svn::Revision &revisionFrom, const svn::Revision &revisionTo);
+        bool diffBASEvsWORKING(const QString &file);
+        bool diffBASEvsWORKING(const QStringList &fileList);
 
         const svn::LogEntriesPtr log(const QString &path,
                                    const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
@@ -126,6 +126,7 @@ class SvnClient : public QObject
         bool m_InProgress; //true, if svn update is running
 
         void completedMessage(const QString &path);
+        QString getFileRevisionPath(const QString &file, const svn::Revision &revision);
 };
 
 #endif

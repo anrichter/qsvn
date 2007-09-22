@@ -291,7 +291,7 @@ void QSvn::on_actionCleanup_triggered()
 void QSvn::on_actionDiff_triggered()
 {
     if (isFileListSelected())
-        SvnClient::instance()->diff(selectedPaths());
+        SvnClient::instance()->diffBASEvsWORKING(selectedPaths());
 }
 
 void QSvn::on_actionConfigureQSvn_triggered()
