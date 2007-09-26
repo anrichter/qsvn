@@ -11,6 +11,7 @@ Version 0.6.0 - released 2007-??-??
     Bugfixes
     --------
     * #18 Fix update FileList after an svn action (Windows only)
+    * #19 Show differences of a file against Working Copy, Base, Head and Start in ShowLog
     * #25 Fix build problems on Mac OS X
     * #28 Fix crash on change "strict node history" with a selected change entry in show log dialog
     * #36 Fix Problem in saving login data on Debian Etch

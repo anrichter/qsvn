@@ -177,6 +177,17 @@
     <string>Show differences against Base</string>
    </property>
   </action>
+  <action name="actionDiff_to_START" >
+   <property name="text" >
+    <string>Start</string>
+   </property>
+   <property name="iconText" >
+    <string>Show differences to Start</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show differences to Start</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>editFilterString</tabstop>

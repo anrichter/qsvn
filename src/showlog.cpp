@@ -89,6 +89,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     menuPathEntriesDiff->addAction(actionDiff_to_WORKING);
     menuPathEntriesDiff->addAction(actionDiff_to_HEAD);
     menuPathEntriesDiff->addAction(actionDiff_to_BASE);
+    menuPathEntriesDiff->addAction(actionDiff_to_START);
 
     m_path = path;
     m_path.replace("\\", "/");
@@ -233,6 +234,15 @@ QString ShowLog::getWcFilePath()
     return _result;
 }
 
+svn_revnum_t ShowLog::getSelectedStartRevision()
+{
+    svn::LogEntriesPtr _logEntries;
+    _logEntries = SvnClient::instance()->log(svn::Wc::getRepos(m_path) + getSelectedPath(),
+                                             getSelectedRevision(), svn::Revision::START,
+                                             true, true, 0);
+    return _logEntries->first().revision;
+}
+
 bool ShowLog::checkLocatedInWc()
 {
     if (getSelectedPath().startsWith(getWcRootDirPath()))
@@ -280,6 +290,14 @@ void ShowLog::on_actionDiff_to_BASE_triggered()
                                     getSelectedRevision(),
                                     svn::Revision::BASE);
     }
+}
+
+void ShowLog::on_actionDiff_to_START_triggered()
+{
+    SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
+                                svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
+                                getSelectedRevision(),
+                                getSelectedStartRevision());
 }
 
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
