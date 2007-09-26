@@ -214,17 +214,25 @@ void ShowLog::on_actionDiff_triggered()
                                 getSelectedRevision());
 }
 
-void ShowLog::on_actionDiff_to_WORKING_triggered( )
+void ShowLog::on_actionDiff_to_WORKING_triggered()
 {
-    //todo: getWcFilePath()
-    QString _file, _dirpath, _basename;
-    svn::Path _path(getSelectedPath());
-    _path.split(_dirpath, _basename);
-    _file = m_path.left(m_path.indexOf(_dirpath)) + getSelectedPath();
-    SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + getSelectedPath()),
-                                _file,
-                                getSelectedRevision(),
-                                svn::Revision::WORKING);
+    QString _wcRootPath = m_path;
+    while (svn::Wc::checkWc(_wcRootPath.left(_wcRootPath.lastIndexOf(QDir::separator()))))
+        _wcRootPath = _wcRootPath.left(_wcRootPath.lastIndexOf(QDir::separator()));
+
+    QString _wcRootDirPath = svn::Wc::getUrl(_wcRootPath);
+    _wcRootDirPath.remove(svn::Wc::getRepos(_wcRootPath));
+
+    if (getSelectedPath().startsWith(_wcRootDirPath))
+    {
+        QString _file = _wcRootPath + getSelectedPath();
+        _file.remove(_wcRootDirPath);
+
+        SvnClient::instance()->diff(svn::Wc::getRepos(_wcRootPath) + getSelectedPath(),
+                                    _file,
+                                    getSelectedRevision(),
+                                    svn::Revision::WORKING);
+    }
 }
 
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
