@@ -53,7 +53,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         QSortFilterProxyModel *m_logEntriesProxy,
                               *m_logChangePathEntriesProxy;
 
-        QMenu *contextLogChangePathEntries;
+        QMenu *menuPathEntries;
         QString m_path;
         svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
 
@@ -63,6 +63,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         ~ShowLog();
         svn::Revision getSelectedRevision();
         QString getSelectedPath();
+        QString getWcRootPath();
 
     private slots:
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
@@ -75,6 +76,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
 
         void on_actionDiff_triggered();
         void on_actionDiff_to_WORKING_triggered();
+        void on_actionDiff_to_HEAD_triggered();
 };
 
 #endif

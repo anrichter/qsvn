@@ -138,12 +138,32 @@
   </layout>
   <action name="actionDiff" >
    <property name="text" >
-    <string>Diff</string>
+    <string>Show differences</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show differences</string>
    </property>
   </action>
   <action name="actionDiff_to_WORKING" >
    <property name="text" >
-    <string>Diff to WORKING</string>
+    <string>Working Copy</string>
+   </property>
+   <property name="iconText" >
+    <string>Show differences against working copy</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show differences against working copy</string>
+   </property>
+  </action>
+  <action name="actionDiff_to_HEAD" >
+   <property name="text" >
+    <string>Head</string>
+   </property>
+   <property name="iconText" >
+    <string>show differences against Head</string>
+   </property>
+   <property name="toolTip" >
+    <string>show differences against Head</string>
    </property>
   </action>
  </widget>
