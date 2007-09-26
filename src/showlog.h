@@ -64,6 +64,8 @@ class ShowLog : public QDialog, public Ui::ShowLog
         svn::Revision getSelectedRevision();
         QString getSelectedPath();
         QString getWcRootPath();
+        QString getWcRootDirPath();
+        QString getWcFilePath();
 
     private slots:
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
@@ -77,6 +79,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         void on_actionDiff_triggered();
         void on_actionDiff_to_WORKING_triggered();
         void on_actionDiff_to_HEAD_triggered();
+        void on_actionDiff_to_BASE_triggered();
 };
 
 #endif

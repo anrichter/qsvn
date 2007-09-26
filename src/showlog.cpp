@@ -87,6 +87,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     QMenu *menuPathEntriesDiff = menuPathEntries->addMenu(tr("Show differences against..."));
     menuPathEntriesDiff->addAction(actionDiff_to_WORKING);
     menuPathEntriesDiff->addAction(actionDiff_to_HEAD);
+    menuPathEntriesDiff->addAction(actionDiff_to_BASE);
 
     m_path = path;
     m_path.replace("\\", "/");
@@ -208,12 +209,26 @@ QString ShowLog::getSelectedPath()
     return logChangePathEntry.path;
 }
 
-QString ShowLog::getWcRootPath( )
+QString ShowLog::getWcRootPath()
 {
     QString _result = m_path;
     while (svn::Wc::checkWc(_result.left(_result.lastIndexOf(QDir::separator()))))
         _result = _result.left(_result.lastIndexOf(QDir::separator()));
 
+    return _result;
+}
+
+QString ShowLog::getWcRootDirPath()
+{
+    QString _result = svn::Wc::getUrl(getWcRootPath());
+    _result.remove(svn::Wc::getRepos(getWcRootPath()));
+    return _result;
+}
+
+QString ShowLog::getWcFilePath()
+{
+    QString _result = getWcRootPath() + getSelectedPath();
+    _result.remove(getWcRootDirPath());
     return _result;
 }
 
@@ -227,27 +242,32 @@ void ShowLog::on_actionDiff_triggered()
 
 void ShowLog::on_actionDiff_to_WORKING_triggered()
 {
-    QString _wcRootDirPath = svn::Wc::getUrl(getWcRootPath());
-    _wcRootDirPath.remove(svn::Wc::getRepos(getWcRootPath()));
-
-    if (getSelectedPath().startsWith(_wcRootDirPath))
+    if (getSelectedPath().startsWith(getWcRootDirPath()))
     {
-        QString _file = getWcRootPath() + getSelectedPath();
-        _file.remove(_wcRootDirPath);
-
         SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
-                                    _file,
+                                    getWcFilePath(),
                                     getSelectedRevision(),
                                     svn::Revision::WORKING);
     }
 }
 
-void ShowLog::on_actionDiff_to_HEAD_triggered( )
+void ShowLog::on_actionDiff_to_HEAD_triggered()
 {
     SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
                                 svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
                                 getSelectedRevision(),
                                 svn::Revision::HEAD);
+}
+
+void ShowLog::on_actionDiff_to_BASE_triggered()
+{
+    if (getSelectedPath().startsWith(getWcRootDirPath()))
+    {
+        SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
+                                    getWcFilePath(),
+                                    getSelectedRevision(),
+                                    svn::Revision::BASE);
+    }
 }
 
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)

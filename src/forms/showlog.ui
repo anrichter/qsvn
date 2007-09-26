@@ -166,6 +166,17 @@
     <string>show differences against Head</string>
    </property>
   </action>
+  <action name="actionDiff_to_BASE" >
+   <property name="text" >
+    <string>Base</string>
+   </property>
+   <property name="iconText" >
+    <string>Show differences against Base</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show differences against Base</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>editFilterString</tabstop>
