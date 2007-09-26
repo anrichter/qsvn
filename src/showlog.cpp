@@ -183,56 +183,47 @@ void ShowLog::on_checkBoxStrictNodeHistory_stateChanged()
     on_buttonNext_clicked();
 }
 
-void ShowLog::on_actionDiff_triggered()
+svn::Revision ShowLog::getSelectedRevision()
 {
     svn::LogEntry logEntry;
-    svn::LogChangePathEntry logChangePathEntry;
-
     QModelIndexList indexes;
     indexes = viewLogEntries->selectionModel()->selectedIndexes();
     if (indexes.count() == 0)
-        return;
+        return svn::Revision(svn::Revision::UNDEFINED);
     logEntry = m_logEntriesModel->getLogEntry(m_logEntriesProxy->mapToSource(indexes.at(0)));
+    return logEntry.revision;
+}
 
+QString ShowLog::getSelectedPath()
+{
+    svn::LogChangePathEntry logChangePathEntry;
+    QModelIndexList indexes;
     indexes = viewLogChangePathEntries->selectionModel()->selectedIndexes();
     if (indexes.count() == 0)
-        return;
+        return QString();
     logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry(
             m_logChangePathEntriesProxy->mapToSource(indexes.at(0)));
+    return logChangePathEntry.path;
+}
 
-    SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
-                                QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
-                                svn::Revision(logEntry.revision - 1),
-                                svn::Revision(logEntry.revision));
+void ShowLog::on_actionDiff_triggered()
+{
+    SvnClient::instance()->diff(svn::Wc::getRepos(m_path) + getSelectedPath(),
+                                svn::Wc::getRepos(m_path) + getSelectedPath(),
+                                svn::Revision(getSelectedRevision().revnum() - 1),
+                                getSelectedRevision());
 }
 
 void ShowLog::on_actionDiff_to_WORKING_triggered( )
 {
-    //todo: getSelectedRevision()
-    //todo: getSelectedPath()
     //todo: getWcFilePath()
-    svn::LogEntry logEntry;
-    svn::LogChangePathEntry logChangePathEntry;
-
-    QModelIndexList indexes;
-    indexes = viewLogEntries->selectionModel()->selectedIndexes();
-    if (indexes.count() == 0)
-        return;
-    logEntry = m_logEntriesModel->getLogEntry(m_logEntriesProxy->mapToSource(indexes.at(0)));
-
-    indexes = viewLogChangePathEntries->selectionModel()->selectedIndexes();
-    if (indexes.count() == 0)
-        return;
-    logChangePathEntry = m_logChangePathEntriesModel->getLogChangePathEntry(
-            m_logChangePathEntriesProxy->mapToSource(indexes.at(0)));
-
     QString _file, _dirpath, _basename;
-    svn::Path _path(logChangePathEntry.path);
+    svn::Path _path(getSelectedPath());
     _path.split(_dirpath, _basename);
-    _file = m_path.left(m_path.indexOf(_dirpath)) + logChangePathEntry.path;
-    SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + logChangePathEntry.path),
+    _file = m_path.left(m_path.indexOf(_dirpath)) + getSelectedPath();
+    SvnClient::instance()->diff(QString(svn::Wc::getRepos(m_path) + getSelectedPath()),
                                 _file,
-                                svn::Revision(logEntry.revision),
+                                getSelectedRevision(),
                                 svn::Revision::WORKING);
 }
 
@@ -240,5 +231,6 @@ void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 {
     m_logEntriesProxy->setFilterKeyColumn(index);
 }
+
 
 #include "showlog.moc"

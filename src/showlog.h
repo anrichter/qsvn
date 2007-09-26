@@ -61,6 +61,8 @@ class ShowLog : public QDialog, public Ui::ShowLog
                 const svn::Revision revisionStart = svn::Revision::UNDEFINED,
                 const svn::Revision revisionEnd = svn::Revision::UNDEFINED);
         ~ShowLog();
+        svn::Revision getSelectedRevision();
+        QString getSelectedPath();
 
     private slots:
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
