@@ -323,7 +323,10 @@ bool SvnClient::diff(const QString &fileFrom, const QString &fileTo, const svn::
                                             svn::Path(fileFrom), svn::Path(fileTo),
                                             revisionFrom, revisionTo,
                                             true, false, false, true );
-            StatusText::out(delta);
+            if (delta.isEmpty())
+            	StatusText::out(tr("There are no differences."));
+            else
+                StatusText::out(delta);
         }
         catch (svn::ClientException e)
         {

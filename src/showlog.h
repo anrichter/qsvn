@@ -66,6 +66,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         QString getWcRootPath();
         QString getWcRootDirPath();
         QString getWcFilePath();
+        bool checkLocatedInWc();
 
     private slots:
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);

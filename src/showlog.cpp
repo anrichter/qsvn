@@ -24,6 +24,7 @@
 #include "logchangepathentriesmodel.h"
 #include "showlog.h"
 #include "svnclient.h"
+#include "statustext.h"
 
 //svnqt
 #include "svnqt/client.hpp"
@@ -211,10 +212,9 @@ QString ShowLog::getSelectedPath()
 
 QString ShowLog::getWcRootPath()
 {
-    QString _result = m_path;
+    QString _result = QDir::toNativeSeparators(m_path);
     while (svn::Wc::checkWc(_result.left(_result.lastIndexOf(QDir::separator()))))
         _result = _result.left(_result.lastIndexOf(QDir::separator()));
-
     return _result;
 }
 
@@ -229,7 +229,19 @@ QString ShowLog::getWcFilePath()
 {
     QString _result = getWcRootPath() + getSelectedPath();
     _result.remove(getWcRootDirPath());
+    _result = QDir::toNativeSeparators(_result);
     return _result;
+}
+
+bool ShowLog::checkLocatedInWc()
+{
+    if (getSelectedPath().startsWith(getWcRootDirPath()))
+        return true;
+    else
+    {
+        StatusText::out(tr("This file is not located in the working copy."));
+        return false;
+    }
 }
 
 void ShowLog::on_actionDiff_triggered()
@@ -242,7 +254,7 @@ void ShowLog::on_actionDiff_triggered()
 
 void ShowLog::on_actionDiff_to_WORKING_triggered()
 {
-    if (getSelectedPath().startsWith(getWcRootDirPath()))
+    if (checkLocatedInWc())
     {
         SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
                                     getWcFilePath(),
@@ -261,7 +273,7 @@ void ShowLog::on_actionDiff_to_HEAD_triggered()
 
 void ShowLog::on_actionDiff_to_BASE_triggered()
 {
-    if (getSelectedPath().startsWith(getWcRootDirPath()))
+    if (checkLocatedInWc())
     {
         SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
                                     getWcFilePath(),
