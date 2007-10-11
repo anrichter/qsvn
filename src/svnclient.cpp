@@ -178,7 +178,7 @@ bool SvnClient::svnexport(const QString &url, const QString &path,
     listener->setVerbose(verbose);
     try
     {
-        svnClient->doExport(url, path, revision);
+        svnClient->doExport(url, path, revision, revision, true);
     }
     catch (svn::ClientException e)
     {
