@@ -75,7 +75,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>31</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -97,14 +97,12 @@
     </property>
     <addaction name="actionExit" />
    </widget>
-   <widget class="QMenu" name="menuWorking_Copy" >
+   <widget class="QMenu" name="menuQuery" >
     <property name="title" >
-     <string>&amp;Working Copy</string>
+     <string>&amp;Query</string>
     </property>
-    <addaction name="actionAddWorkingCopy" />
-    <addaction name="actionRemoveWorkingCopy" />
-    <addaction name="actionCheckoutWorkingCopy" />
-    <addaction name="actionCleanup" />
+    <addaction name="actionDiff" />
+    <addaction name="actionShowLog" />
    </widget>
    <widget class="QMenu" name="menuModify" >
     <property name="title" >
@@ -121,13 +119,16 @@
     <addaction name="actionMove" />
     <addaction name="actionCopy" />
     <addaction name="actionMkDir" />
+    <addaction name="actionEditProperties" />
    </widget>
-   <widget class="QMenu" name="menuQuery" >
+   <widget class="QMenu" name="menuWorking_Copy" >
     <property name="title" >
-     <string>&amp;Query</string>
+     <string>&amp;Working Copy</string>
     </property>
-    <addaction name="actionDiff" />
-    <addaction name="actionShowLog" />
+    <addaction name="actionAddWorkingCopy" />
+    <addaction name="actionRemoveWorkingCopy" />
+    <addaction name="actionCheckoutWorkingCopy" />
+    <addaction name="actionCleanup" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuWorking_Copy" />
@@ -357,6 +358,17 @@
    </property>
    <property name="toolTip" >
     <string>Make Directory</string>
+   </property>
+  </action>
+  <action name="actionEditProperties" >
+   <property name="text" >
+    <string>Edit Properties...</string>
+   </property>
+   <property name="iconText" >
+    <string>Edit Properties...</string>
+   </property>
+   <property name="toolTip" >
+    <string>Edit Properties...</string>
    </property>
   </action>
  </widget>

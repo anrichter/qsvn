@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Dialog</string>
+   <string>Edit Properties</string>
   </property>
   <property name="sizeGripEnabled" >
    <bool>true</bool>

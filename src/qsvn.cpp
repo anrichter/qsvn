@@ -26,6 +26,7 @@
 #include "filelistproxy.h"
 #include "filemodifier.h"
 #include "fileselector.h"
+#include "pathproperties.h"
 #include "qsvn_defines.h"
 #include "qsvn.h"
 #include "showlog.h"
@@ -119,6 +120,7 @@ void QSvn::createMenus()
     contextMenuWorkingCopy->addAction(actionAdd);
     contextMenuWorkingCopy->addAction(actionDelete);
     contextMenuWorkingCopy->addAction(actionMkDir);
+    contextMenuWorkingCopy->addAction(actionEditProperties);
 
     contextMenuFileList = new QMenu(this);
     contextMenuFileList->addAction(actionUpdate);
@@ -135,6 +137,7 @@ void QSvn::createMenus()
     contextMenuFileList->addAction(actionRename);
     contextMenuFileList->addAction(actionMove);
     contextMenuFileList->addAction(actionCopy);
+    contextMenuFileList->addAction(actionEditProperties);
 }
 
 bool QSvn::eventFilter(QObject *watched, QEvent *event)
@@ -194,6 +197,29 @@ QStringList QSvn::selectedPaths()
         }
     }
     return pathSet.toList();
+}
+
+void QSvn::setActionStop(QString aText)
+{
+    if (aText.isEmpty())
+    {
+        actionStop->setText("");
+        disconnect(actionStop, SIGNAL(triggered()), 0, 0);
+    }
+    else
+    {
+        actionStop->setText("Stop " + aText);
+        connect(actionStop, SIGNAL(triggered()),
+                SvnClient::instance(), SLOT(setCancel()));
+    }
+    actionStop->setEnabled(!aText.isEmpty());
+    qApp->processEvents();
+}
+
+void QSvn::directoryChanged(const QString &dir)
+{
+    if (m_currentWCpath == dir)
+        m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
 }
 
 //private slots
@@ -320,23 +346,6 @@ void QSvn::on_actionAboutQSvn_triggered()
     QMessageBox::about(this, "Caption", aboutMsg);
 }
 
-void QSvn::setActionStop(QString aText)
-{
-    if (aText.isEmpty())
-    {
-        actionStop->setText("");
-        disconnect(actionStop, SIGNAL(triggered()), 0, 0);
-    }
-    else
-    {
-        actionStop->setText("Stop " + aText);
-        connect(actionStop, SIGNAL(triggered()),
-                SvnClient::instance(), SLOT(setCancel()));
-    }
-    actionStop->setEnabled(!aText.isEmpty());
-    qApp->processEvents();
-}
-
 void QSvn::on_actionResolved_triggered()
 {
     if (isFileListSelected())
@@ -400,10 +409,12 @@ void QSvn::on_actionMkDir_triggered()
     fm.exec();
 }
 
-void QSvn::directoryChanged(const QString &dir)
+void QSvn::on_actionEditProperties_triggered()
 {
-    if (m_currentWCpath == dir)
-        m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
+    foreach(QString path, selectedPaths())
+    {
+        PathProperties::doPathProperties(this, path);
+    }
 }
 
 #include "qsvn.moc"

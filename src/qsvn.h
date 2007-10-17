@@ -83,6 +83,9 @@ class QSvn : public QMainWindow, public Ui::QSvn
         void on_actionCopy_triggered();
         void on_actionMkDir_triggered();
 
+        //Both
+        void on_actionEditProperties_triggered();
+
         //Query
         void on_actionDiff_triggered();
 

@@ -30,11 +30,14 @@
 class PathProperties : public QDialog, public Ui::PathProperties
 {
     Q_OBJECT
-public:
-    PathProperties(QObject *parent = 0);
+    public:
+        PathProperties(QObject *parent, const QString path);
+        ~PathProperties();
 
-    ~PathProperties();
+        static void doPathProperties(QWidget *parent, const QString path);
 
+    private:
+        QString m_path;
 };
 
 #endif

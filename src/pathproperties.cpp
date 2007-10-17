@@ -19,18 +19,31 @@
  ***************************************************************************/
 
 //QSvn
+#include "config.h"
 #include "pathproperties.h"
 
 
-PathProperties::PathProperties(QObject *parent)
+PathProperties::PathProperties(QObject *parent, const QString path)
     : QDialog(0)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
+    this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
+    Config::instance()->restoreWidget(this);
 }
 
 
 PathProperties::~PathProperties()
 {
+    Config::instance()->saveWidget(this);
+}
+
+void PathProperties::doPathProperties(QWidget *parent, const QString path)
+{
+    PathProperties *pathProperties = new PathProperties(parent, path);
+    pathProperties->show();
+    pathProperties->raise();
+    pathProperties->activateWindow();
 }
 
 #include "pathproperties.moc"
