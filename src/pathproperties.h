@@ -22,6 +22,7 @@
 
 //QSvn
 #include "ui_pathproperties.h"
+class PathPropertiesModel;
 
 //Qt
 #include <QDialog>
@@ -37,7 +38,7 @@ class PathProperties : public QDialog, public Ui::PathProperties
         static void doPathProperties(QWidget *parent, const QString path);
 
     private:
-        QString m_path;
+        PathPropertiesModel *m_model;
 };
 
 #endif

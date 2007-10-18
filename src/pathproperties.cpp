@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "pathproperties.h"
+#include "pathpropertiesmodel.h"
 
 
 PathProperties::PathProperties(QObject *parent, const QString path)
@@ -30,12 +31,16 @@ PathProperties::PathProperties(QObject *parent, const QString path)
     setupUi(this);
     this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
     Config::instance()->restoreWidget(this);
+
+    m_model = new PathPropertiesModel(path);
+    viewPathProperties->setModel(m_model);
 }
 
 
 PathProperties::~PathProperties()
 {
     Config::instance()->saveWidget(this);
+    delete(m_model);
 }
 
 void PathProperties::doPathProperties(QWidget *parent, const QString path)

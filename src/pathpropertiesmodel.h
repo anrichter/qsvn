@@ -20,15 +20,26 @@
 #ifndef PATHPROPERTIESMODEL_H
 #define PATHPROPERTIESMODEL_H
 
+//SvnQt
+#include "svnqt/client.hpp"
+#include "svnqt/svnqttypes.hpp"
+
+//Qt
 #include <QAbstractTableModel>
 
 
 class PathPropertiesModel : public QAbstractTableModel
 {
-public:
-    PathPropertiesModel();
-    ~PathPropertiesModel();
+    public:
+        PathPropertiesModel(const QString path);
+        ~PathPropertiesModel();
 
+        int rowCount(const QModelIndex &parent = QModelIndex()) const;
+        int columnCount(const QModelIndex &parent = QModelIndex()) const;
+        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+        QVariant data(const QModelIndex &index, int role) const;
+    private:
+        svn::PropertiesMap m_propMap;
 };
 
 #endif

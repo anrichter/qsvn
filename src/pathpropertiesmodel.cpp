@@ -20,13 +20,76 @@
 
 //QSvn
 #include "pathpropertiesmodel.h"
+#include "svnclient.h"
 
 
-PathPropertiesModel::PathPropertiesModel()
+PathPropertiesModel::PathPropertiesModel(const QString path)
         : QAbstractTableModel()
 {
+
+    //get the property map
+    svn::PathPropertiesMapListPtr propList;
+    propList = SvnClient::instance()->propList(path, svn::Revision::WORKING, svn::Revision::WORKING);
+    if(!propList->isEmpty())
+    {
+        svn::PathPropertiesMapEntry entry = propList->at(0);
+        m_propMap = entry.second;
+    }
+    else
+    {
+        m_propMap = svn::PropertiesMap();
+    }
 }
 
 PathPropertiesModel::~PathPropertiesModel()
 {
+}
+
+int PathPropertiesModel::rowCount(const QModelIndex &parent) const
+{
+    if (parent.isValid())
+        return 0;
+    else
+        return m_propMap.count();
+}
+
+int PathPropertiesModel::columnCount(const QModelIndex &parent) const
+{
+    return 2;
+}
+
+QVariant PathPropertiesModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+    {
+        switch (section)
+        {
+            case 0:
+                return QString(tr("Name"));
+                break;
+            case 1:
+                return QString(tr("Value"));
+                break;
+        }
+    }
+    return QVariant();
+}
+
+QVariant PathPropertiesModel::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+    if (role != Qt::DisplayRole)
+        return QVariant();
+
+    switch(index.column())
+    {
+        case 0:
+            return m_propMap.keys().at(index.row());
+            break;
+        case 1:
+            return m_propMap.find(m_propMap.keys().at(index.row())).value();
+            break;
+    }
+    return QVariant();
 }

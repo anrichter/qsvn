@@ -479,5 +479,19 @@ bool SvnClient::mkdir(const QString & destPath)
     return true;
 }
 
+svn::PathPropertiesMapListPtr SvnClient::propList(const QString &path, const svn::Revision &revision, const svn::Revision &peg, bool recurse)
+{
+    listener->setVerbose(true);
+    try
+    {
+        return svnClient->proplist(path, revision, peg, recurse);
+    }
+    catch (svn::ClientException e)
+    {
+        StatusText::out(e.msg());
+        return svn::PathPropertiesMapListPtr();
+    }
+}
+
 
 #include "svnclient.moc"

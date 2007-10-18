@@ -98,15 +98,21 @@ class SvnClient : public QObject
         bool diffBASEvsWORKING(const QString &file);
         bool diffBASEvsWORKING(const QStringList &fileList);
 
-        const svn::LogEntriesPtr log(const QString &path,
-                                   const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
-                                   bool discoverChangedPaths, bool strictNodeHistory,
-                                   int limit);
         bool cleanup(const QString &path);
         bool resolved(const QString &path);
         bool move(const QString &srcPath, const QString &destPath, bool force);
         bool copy(const QString &srcPath, const QString &destPath);
         bool mkdir(const QString &destPath);
+
+        const svn::LogEntriesPtr log(const QString &path,
+                                   const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
+                                   bool discoverChangedPaths, bool strictNodeHistory,
+                                   int limit);
+
+        svn::PathPropertiesMapListPtr propList(const QString &path,
+             const svn::Revision &revision,
+             const svn::Revision &peg,
+             bool recurse=false);
 
         bool isInProgress(); //true, if svn update is running
 
