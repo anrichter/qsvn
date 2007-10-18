@@ -30,16 +30,19 @@ PathProperties::PathProperties(QObject *parent, const QString path)
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
     this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
-    Config::instance()->restoreWidget(this);
 
     m_model = new PathPropertiesModel(path);
     viewPathProperties->setModel(m_model);
+
+    Config::instance()->restoreWidget(this);
+    Config::instance()->restoreHeaderView(this, viewPathProperties->header());
 }
 
 
 PathProperties::~PathProperties()
 {
     Config::instance()->saveWidget(this);
+    Config::instance()->saveHeaderView(this, viewPathProperties->header());
     delete(m_model);
 }
 
