@@ -83,6 +83,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         void on_actionDiff_to_HEAD_triggered();
         void on_actionDiff_to_BASE_triggered();
         void on_actionDiff_to_START_triggered();
+        void on_actionDiff_to_Revision_triggered();
 };
 
 #endif

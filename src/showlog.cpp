@@ -90,6 +90,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     menuPathEntriesDiff->addAction(actionDiff_to_HEAD);
     menuPathEntriesDiff->addAction(actionDiff_to_BASE);
     menuPathEntriesDiff->addAction(actionDiff_to_START);
+    menuPathEntriesDiff->addAction(actionDiff_to_Revision);
 
     m_path = path;
     m_path.replace("\\", "/");
@@ -300,6 +301,17 @@ void ShowLog::on_actionDiff_to_START_triggered()
                                 getSelectedStartRevision());
 }
 
+void ShowLog::on_actionDiff_to_Revision_triggered( )
+{
+    int revision = QInputDialog::getInteger(this,
+                                            tr("Revision Number"),
+                                            tr("Revision Number"),
+                                            getSelectedRevision().revnum() - 1);
+    SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
+        svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
+        getSelectedRevision(),
+        svn::Revision(revision));
+}
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 {
     m_logEntriesProxy->setFilterKeyColumn(index);

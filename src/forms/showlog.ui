@@ -188,6 +188,17 @@
     <string>Show differences to Start</string>
    </property>
   </action>
+  <action name="actionDiff_to_Revision" >
+   <property name="text" >
+    <string>Revision...</string>
+   </property>
+   <property name="iconText" >
+    <string>Show differences to Revision...</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show differences to Revision...</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>editFilterString</tabstop>
