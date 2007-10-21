@@ -22,6 +22,7 @@
 
 //QSvn
 #include "ui_pathproperties.h"
+#include "pathpropertiesdelegate.h"
 class PathPropertiesModel;
 
 //Qt
@@ -39,6 +40,7 @@ class PathProperties : public QDialog, public Ui::PathProperties
 
     private:
         PathPropertiesModel *m_model;
+        PathPropertiesDelegate delegate;
 };
 
 #endif

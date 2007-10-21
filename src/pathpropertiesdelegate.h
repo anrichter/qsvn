@@ -18,42 +18,29 @@
  *                                                                         *
  ***************************************************************************/
 
-//QSvn
-#include "config.h"
-#include "pathproperties.h"
-#include "pathpropertiesdelegate.h"
-#include "pathpropertiesmodel.h"
+#ifndef PATHPROPERTIESDELEGATE_H
+#define PATHPROPERTIESDELEGATE_H
+
+//Qt
+#include <QItemDelegate>
+#include <QObject>
 
 
-PathProperties::PathProperties(QObject *parent, const QString path)
-    : QDialog(0)
+class PathPropertiesDelegate : public QItemDelegate
 {
-    setAttribute(Qt::WA_DeleteOnClose, true);
-    setupUi(this);
-    this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
+    Q_OBJECT
+    public:
+        PathPropertiesDelegate(QObject *parent = 0);
 
-    m_model = new PathPropertiesModel(path);
-    viewPathProperties->setModel(m_model);
-    viewPathProperties->setItemDelegateForColumn(0, &delegate);
+        QWidget *createEditor(QWidget *parent,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const;
+        void setEditorData(QWidget *editor, const QModelIndex &index) const;
+        void setModelData(QWidget *editor, QAbstractItemModel *model,
+                          const QModelIndex &index) const;
+        void updateEditorGeometry(QWidget *editor,
+                                  const QStyleOptionViewItem &option,
+                                  const QModelIndex &index) const;
+};
 
-    Config::instance()->restoreWidget(this);
-    Config::instance()->restoreHeaderView(this, viewPathProperties->header());
-}
-
-
-PathProperties::~PathProperties()
-{
-    Config::instance()->saveWidget(this);
-    Config::instance()->saveHeaderView(this, viewPathProperties->header());
-    delete(m_model);
-}
-
-void PathProperties::doPathProperties(QWidget *parent, const QString path)
-{
-    PathProperties *pathProperties = new PathProperties(parent, path);
-    pathProperties->show();
-    pathProperties->raise();
-    pathProperties->activateWindow();
-}
-
-#include "pathproperties.moc"
+#endif

@@ -43,6 +43,7 @@ SET( qsvn_headers
          logentriesmodel.h
          login.h
          pathproperties.h
+         pathpropertiesdelegate.h
          pathpropertiesmodel.h
          qsvn.h
          showlog.h
@@ -68,6 +69,7 @@ SET( qsvn_sources
          login.cpp
          main.cpp
          pathproperties.cpp
+         pathpropertiesdelegate.cpp
          pathpropertiesmodel.cpp
          qsvn.cpp
          showlog.cpp

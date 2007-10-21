@@ -98,7 +98,7 @@ QVariant PathPropertiesModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags PathPropertiesModel::flags(const QModelIndex &index) const
 {
-    if(index.column() == 1)
+    if (index.isValid())
         return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractItemModel::flags(index);
@@ -109,7 +109,22 @@ bool PathPropertiesModel::setData(const QModelIndex &index, const QVariant &valu
     if (!index.isValid())
         return false;
 
-    if (role == Qt::EditRole && index.column() == 1)
-        m_propMap[m_propMap.keys().at(index.row())] = value.toString();
+    if (role == Qt::EditRole)
+    {
+        QString propValue;
+        switch(index.column())
+        {
+            case 0:
+                propValue = this->data(this->index(index.row(), 1), Qt::DisplayRole).toString();
+                if (!m_propMap.contains(value.toString()))
+                {
+                    m_propMap.insert(value.toString(), propValue);
+                }
+                break;
+            case 1:
+                m_propMap[m_propMap.keys().at(index.row())] = value.toString();
+                break;
+        }
+    }
     return true;
 }

@@ -19,41 +19,52 @@
  ***************************************************************************/
 
 //QSvn
-#include "config.h"
-#include "pathproperties.h"
 #include "pathpropertiesdelegate.h"
-#include "pathpropertiesmodel.h"
+
+//Qt
+#include <QComboBox>
+#include <QItemDelegate>
 
 
-PathProperties::PathProperties(QObject *parent, const QString path)
-    : QDialog(0)
+PathPropertiesDelegate::PathPropertiesDelegate(QObject *parent)
+    : QItemDelegate(parent)
 {
-    setAttribute(Qt::WA_DeleteOnClose, true);
-    setupUi(this);
-    this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
+}
 
-    m_model = new PathPropertiesModel(path);
-    viewPathProperties->setModel(m_model);
-    viewPathProperties->setItemDelegateForColumn(0, &delegate);
+QWidget * PathPropertiesDelegate::createEditor(QWidget *parent,
+                                               const QStyleOptionViewItem &option,
+                                               const QModelIndex &index) const
+{
+    QComboBox *editor = new QComboBox(parent);
+    editor->setEditable(true);
+    editor->addItem("svn:executable");
+    editor->addItem("svn:mime-type");
+    editor->addItem("svn:ignore");
+    editor->addItem("svn:keywords");
+    editor->addItem("svn:eol-style");
+    editor->addItem("svn:externals");
+    editor->addItem("svn:special");
 
-    Config::instance()->restoreWidget(this);
-    Config::instance()->restoreHeaderView(this, viewPathProperties->header());
+    return editor;
+}
+
+void PathPropertiesDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    QComboBox *comboBox = static_cast<QComboBox*>(editor);
+    comboBox->setEditText(index.model()->data(index, Qt::DisplayRole).toString());
+}
+
+void PathPropertiesDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                          const QModelIndex &index) const
+{
+    QComboBox *comboBox = static_cast<QComboBox*>(editor);
+    model->setData(index, comboBox->currentText(), Qt::EditRole);
+}
+
+void PathPropertiesDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
+    editor->setGeometry(option.rect);
 }
 
 
-PathProperties::~PathProperties()
-{
-    Config::instance()->saveWidget(this);
-    Config::instance()->saveHeaderView(this, viewPathProperties->header());
-    delete(m_model);
-}
-
-void PathProperties::doPathProperties(QWidget *parent, const QString path)
-{
-    PathProperties *pathProperties = new PathProperties(parent, path);
-    pathProperties->show();
-    pathProperties->raise();
-    pathProperties->activateWindow();
-}
-
-#include "pathproperties.moc"
+#include "pathpropertiesdelegate.moc"
