@@ -90,6 +90,9 @@ QVariant PathPropertiesModel::data(const QModelIndex &index, int role) const
             case 1:
                 return m_propMap[m_propMap.keys().at(index.row())];
                 break;
+            default:
+                return QVariant();
+                break;
         }
     }
     else

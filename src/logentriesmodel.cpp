@@ -96,6 +96,9 @@ QVariant LogEntriesModel::data(const QModelIndex &index, int role) const
         case 3:
             return logEntry.message.simplified();
             break;
+        default:
+            return QVariant();
+            break;
     }
 }
 
