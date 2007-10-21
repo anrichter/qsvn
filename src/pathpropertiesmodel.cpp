@@ -79,17 +79,37 @@ QVariant PathPropertiesModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
-    if (role != Qt::DisplayRole)
-        return QVariant();
 
-    switch(index.column())
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        case 0:
-            return m_propMap.keys().at(index.row());
-            break;
-        case 1:
-            return m_propMap.find(m_propMap.keys().at(index.row())).value();
-            break;
+        switch(index.column())
+        {
+            case 0:
+                return m_propMap.keys().at(index.row());
+                break;
+            case 1:
+                return m_propMap[m_propMap.keys().at(index.row())];
+                break;
+        }
     }
-    return QVariant();
+    else
+        return QVariant();
+}
+
+Qt::ItemFlags PathPropertiesModel::flags(const QModelIndex &index) const
+{
+    if(index.column() == 1)
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+    else
+        return QAbstractItemModel::flags(index);
+}
+
+bool PathPropertiesModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid())
+        return false;
+
+    if (role == Qt::EditRole && index.column() == 1)
+        m_propMap[m_propMap.keys().at(index.row())] = value.toString();
+    return true;
 }
