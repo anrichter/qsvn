@@ -361,10 +361,10 @@ bool SvnClient::diffBASEvsWORKING(const QStringList &fileList)
 }
 
 const svn::LogEntriesPtr SvnClient::log(const QString &path,
-                                      const svn::Revision &revisionStart,
-                                      const svn::Revision &revisionEnd,
-                                      bool discoverChangedPaths,
-                                      bool strictNodeHistory, int limit )
+                                        const svn::Revision &revisionStart,
+                                        const svn::Revision &revisionEnd,
+                                        bool discoverChangedPaths,
+                                        bool strictNodeHistory, int limit )
 {
     listener->setVerbose(true);
     try
@@ -479,7 +479,8 @@ bool SvnClient::mkdir(const QString & destPath)
     return true;
 }
 
-svn::PathPropertiesMapListPtr SvnClient::propList(const QString &path, const svn::Revision &revision, const svn::Revision &peg, bool recurse)
+svn::PathPropertiesMapListPtr SvnClient::propList(const QString &path,
+        const svn::Revision &revision, const svn::Revision &peg, bool recurse)
 {
     listener->setVerbose(true);
     try
@@ -490,6 +491,24 @@ svn::PathPropertiesMapListPtr SvnClient::propList(const QString &path, const svn
     {
         StatusText::out(e.msg());
         return svn::PathPropertiesMapListPtr();
+    }
+}
+
+bool SvnClient::propSet(const QString &propName,
+                        const QString &propValue,
+                        const svn::Path &path, const svn::Revision &revision,
+                        bool recurse, bool skip_checks)
+{
+    listener->setVerbose(true);
+    try
+    {
+        svnClient->propset(propName, propValue, path, revision, recurse, skip_checks);
+        return true;
+    }
+    catch (svn::ClientException e)
+    {
+        StatusText::out(e.msg());
+        return false;
     }
 }
 

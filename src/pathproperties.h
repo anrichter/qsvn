@@ -39,6 +39,9 @@ class PathProperties : public QDialog, public Ui::PathProperties
 
         static void doPathProperties(QWidget *parent, const QString path);
 
+    public slots:
+        void accept();
+
     private:
         PathPropertiesModel *m_model;
         PathPropertiesDelegate delegate;

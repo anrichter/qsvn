@@ -69,4 +69,10 @@ void PathProperties::addButtonClicked()
     m_model->addProperty();
 }
 
+void PathProperties::accept()
+{
+    m_model->writeProperties();
+    QDialog::accept();
+}
+
 #include "pathproperties.moc"

@@ -26,10 +26,10 @@
 PathPropertiesModel::PathPropertiesModel(const QString path)
         : QAbstractTableModel()
 {
-
+    m_path = path;
     //get the property map
     svn::PathPropertiesMapListPtr propList;
-    propList = SvnClient::instance()->propList(path, svn::Revision::WORKING, svn::Revision::WORKING);
+    propList = SvnClient::instance()->propList(m_path, svn::Revision::WORKING, svn::Revision::WORKING);
     if(!propList->isEmpty())
     {
         svn::PathPropertiesMapEntry entry = propList->at(0);
@@ -152,4 +152,14 @@ void PathPropertiesModel::addProperty()
     beginInsertRows(QModelIndex(), rowCount(), rowCount() + 1);
     m_propMap.insert("", "");
     endInsertRows();
+}
+
+void PathPropertiesModel::writeProperties()
+{
+    QMapIterator<QString, QString> _iter(m_propMap);
+    while (_iter.hasNext())
+    {
+        _iter.next();
+        SvnClient::instance()->propSet(_iter.key(), _iter.value(), m_path, svn::Revision::WORKING);
+    }
 }
