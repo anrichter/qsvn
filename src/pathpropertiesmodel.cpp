@@ -82,7 +82,7 @@ QVariant PathPropertiesModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        switch(index.column())
+        switch (index.column())
         {
             case 0:
                 return m_propMap.keys().at(index.row());
@@ -102,7 +102,18 @@ QVariant PathPropertiesModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags PathPropertiesModel::flags(const QModelIndex &index) const
 {
     if (index.isValid())
-        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+    {
+        switch (index.column())
+        {
+            case 0:
+                if (this->data(this->index(index.row(), 1), Qt::DisplayRole).toString().isEmpty())
+                    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+                else
+                    return QAbstractItemModel::flags(index);
+            default:
+                return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+        }
+    }
     else
         return QAbstractItemModel::flags(index);
 }
@@ -114,14 +125,17 @@ bool PathPropertiesModel::setData(const QModelIndex &index, const QVariant &valu
 
     if (role == Qt::EditRole)
     {
-        QString propValue;
+        QString _property, _value;
         switch(index.column())
         {
             case 0:
-                propValue = this->data(this->index(index.row(), 1), Qt::DisplayRole).toString();
+                _property = this->data(this->index(index.row(), 0), Qt::DisplayRole).toString();
+                _value = this->data(this->index(index.row(), 1), Qt::DisplayRole).toString();
                 if (!m_propMap.contains(value.toString()))
                 {
-                    m_propMap.insert(value.toString(), propValue);
+                    m_propMap.remove(_property);
+                    m_propMap.insert(value.toString(), _value);
+                    emit layoutChanged();
                 }
                 break;
             case 1:
@@ -130,4 +144,12 @@ bool PathPropertiesModel::setData(const QModelIndex &index, const QVariant &valu
         }
     }
     return true;
+}
+
+
+void PathPropertiesModel::addProperty()
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount() + 1);
+    m_propMap.insert("", "");
+    endInsertRows();
 }

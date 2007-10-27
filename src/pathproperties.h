@@ -27,6 +27,7 @@ class PathPropertiesModel;
 
 //Qt
 #include <QDialog>
+class QPushButton;
 
 
 class PathProperties : public QDialog, public Ui::PathProperties
@@ -41,6 +42,11 @@ class PathProperties : public QDialog, public Ui::PathProperties
     private:
         PathPropertiesModel *m_model;
         PathPropertiesDelegate delegate;
+
+        QPushButton *addButton;
+
+    private slots:
+        void addButtonClicked();
 };
 
 #endif

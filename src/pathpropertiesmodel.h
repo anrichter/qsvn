@@ -41,6 +41,8 @@ class PathPropertiesModel : public QAbstractTableModel
 
         Qt::ItemFlags flags(const QModelIndex &index) const;
         bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+
+        void addProperty();
     private:
         svn::PropertiesMap m_propMap;
 };

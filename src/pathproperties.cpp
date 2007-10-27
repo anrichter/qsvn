@@ -24,12 +24,20 @@
 #include "pathpropertiesdelegate.h"
 #include "pathpropertiesmodel.h"
 
+//Qt
+#include <QtGui>
+
 
 PathProperties::PathProperties(QObject *parent, const QString path)
     : QDialog(0)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
+    addButton = new QPushButton(this);
+    addButton->setText(tr("Add"));
+    this->buttonBox->addButton(addButton, QDialogButtonBox::ActionRole);
+    connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
+
     this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
 
     m_model = new PathPropertiesModel(path);
@@ -54,6 +62,11 @@ void PathProperties::doPathProperties(QWidget *parent, const QString path)
     pathProperties->show();
     pathProperties->raise();
     pathProperties->activateWindow();
+}
+
+void PathProperties::addButtonClicked()
+{
+    m_model->addProperty();
 }
 
 #include "pathproperties.moc"
