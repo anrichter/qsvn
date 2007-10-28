@@ -33,10 +33,16 @@ PathProperties::PathProperties(QObject *parent, const QString path)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
+
     addButton = new QPushButton(this);
     addButton->setText(tr("Add"));
     this->buttonBox->addButton(addButton, QDialogButtonBox::ActionRole);
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
+
+    deleteButton = new QPushButton(this);
+    deleteButton->setText(tr("Delete"));
+    this->buttonBox->addButton(deleteButton, QDialogButtonBox::ActionRole);
+    connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
 
     this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
 
@@ -73,6 +79,12 @@ void PathProperties::accept()
 {
     m_model->writeProperties();
     QDialog::accept();
+}
+
+void PathProperties::deleteButtonClicked()
+{
+    QItemSelectionModel *selection = viewPathProperties->selectionModel();
+    m_model->deleteProperty(*selection);
 }
 
 #include "pathproperties.moc"

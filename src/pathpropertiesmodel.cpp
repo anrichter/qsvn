@@ -154,12 +154,25 @@ void PathPropertiesModel::addProperty()
     endInsertRows();
 }
 
-void PathPropertiesModel::writeProperties()
+void PathPropertiesModel::deleteProperty(const QItemSelectionModel &selection)
 {
-    QMapIterator<QString, QString> _iter(m_propMap);
-    while (_iter.hasNext())
+    if (selection.hasSelection())
     {
-        _iter.next();
-        SvnClient::instance()->propSet(_iter.key(), _iter.value(), m_path, svn::Revision::WORKING);
+        QModelIndexList indexList = selection.selectedIndexes();
+        for (int i = 0; i < indexList.count(); ++i)
+        {
+            if (indexList.at(i).column() == 0)
+            {
+                beginRemoveRows(QModelIndex(), indexList.at(i).row(), indexList.at(i).row() + 1);
+                m_propMap.remove(this->data(indexList.at(i), Qt::DisplayRole).toString());
+                endRemoveRows();
+            }
+        }
     }
 }
+
+void PathPropertiesModel::writeProperties()
+{
+    SvnClient::instance()->propSet(m_propMap, m_path, svn::Revision::WORKING);
+}
+

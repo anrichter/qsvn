@@ -494,6 +494,34 @@ svn::PathPropertiesMapListPtr SvnClient::propList(const QString &path,
     }
 }
 
+bool SvnClient::propSet(const svn::PropertiesMap propMap,
+                        const QString &path,
+                        const svn::Revision &revision)
+{
+    //remove all exist properties
+    svn::PathPropertiesMapListPtr _propList;
+    _propList = propList(path, revision, revision);
+    if(!_propList->isEmpty())
+    {
+        svn::PathPropertiesMapEntry entry = _propList->at(0);
+        svn::PropertiesMap _oldPropMap = entry.second;
+        QMapIterator<QString, QString> _oldIter(_oldPropMap);
+        while (_oldIter.hasNext())
+        {
+            _oldIter.next();
+            propDel(_oldIter.key(), path, revision, false);
+        }
+    }
+
+    //write new properties
+    QMapIterator<QString, QString> _iter(propMap);
+    while (_iter.hasNext())
+    {
+        _iter.next();
+        propSet(_iter.key(), _iter.value(), path, revision);
+    }
+}
+
 bool SvnClient::propSet(const QString &propName,
                         const QString &propValue,
                         const svn::Path &path, const svn::Revision &revision,
@@ -503,6 +531,21 @@ bool SvnClient::propSet(const QString &propName,
     try
     {
         svnClient->propset(propName, propValue, path, revision, recurse, skip_checks);
+        return true;
+    }
+    catch (svn::ClientException e)
+    {
+        StatusText::out(e.msg());
+        return false;
+    }
+}
+
+bool SvnClient::propDel(const QString &propName, const svn::Path &path, const svn::Revision &revision, bool recurse)
+{
+    listener->setVerbose(true);
+    try
+    {
+        svnClient->propdel(propName, path, revision, recurse);
         return true;
     }
     catch (svn::ClientException e)

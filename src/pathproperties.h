@@ -46,10 +46,11 @@ class PathProperties : public QDialog, public Ui::PathProperties
         PathPropertiesModel *m_model;
         PathPropertiesDelegate delegate;
 
-        QPushButton *addButton;
+        QPushButton *addButton, *deleteButton;
 
     private slots:
         void addButtonClicked();
+        void deleteButtonClicked();
 };
 
 #endif

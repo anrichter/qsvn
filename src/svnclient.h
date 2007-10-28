@@ -113,13 +113,20 @@ class SvnClient : public QObject
         svn::PathPropertiesMapListPtr propList(const QString &path,
              const svn::Revision &revision,
              const svn::Revision &peg,
-             bool recurse=false);
-        bool propSet(const QString& propName,
-                     const QString& propValue,
+             bool recurse = false);
+        bool propSet(const svn::PropertiesMap propMap,
+                     const QString &path,
+                     const svn::Revision &revision);
+        bool propSet(const QString &propName,
+                     const QString &propValue,
                      const svn::Path &path,
                      const svn::Revision &revision,
-                     bool recurse=false,
-                     bool skip_checks=false);
+                     bool recurse = false,
+                     bool skip_checks = false);
+        bool propDel(const QString &propName,
+                     const svn::Path &path,
+                     const svn::Revision &revision,
+                     bool recurse = false);
 
         bool isInProgress(); //true, if svn update is running
 

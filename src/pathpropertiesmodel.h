@@ -26,6 +26,7 @@
 
 //Qt
 #include <QAbstractTableModel>
+#include <QItemSelectionModel>
 
 
 class PathPropertiesModel : public QAbstractTableModel
@@ -43,6 +44,7 @@ class PathPropertiesModel : public QAbstractTableModel
         bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
         void addProperty();
+        void deleteProperty(const QItemSelectionModel &selection);
         void writeProperties();
     private:
         QString m_path;
