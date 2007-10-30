@@ -324,7 +324,7 @@ bool SvnClient::diff(const QString &fileFrom, const QString &fileTo, const svn::
                                             revisionFrom, revisionTo,
                                             true, false, false, true );
             if (delta.isEmpty())
-            	StatusText::out(tr("There are no differences."));
+                StatusText::out(tr("There are no differences."));
             else
                 StatusText::out(delta);
         }
@@ -498,6 +498,7 @@ bool SvnClient::propSet(const svn::PropertiesMap propMap,
                         const QString &path,
                         const svn::Revision &revision)
 {
+    bool result = true;
     //remove all exist properties
     svn::PathPropertiesMapListPtr _propList;
     _propList = propList(path, revision, revision);
@@ -509,7 +510,7 @@ bool SvnClient::propSet(const svn::PropertiesMap propMap,
         while (_oldIter.hasNext())
         {
             _oldIter.next();
-            propDel(_oldIter.key(), path, revision, false);
+            result = result && propDel(_oldIter.key(), path, revision, false);
         }
     }
 
@@ -518,8 +519,9 @@ bool SvnClient::propSet(const svn::PropertiesMap propMap,
     while (_iter.hasNext())
     {
         _iter.next();
-        propSet(_iter.key(), _iter.value(), path, revision);
+        result = result && propSet(_iter.key(), _iter.value(), path, revision);
     }
+    return result;
 }
 
 bool SvnClient::propSet(const QString &propName,
