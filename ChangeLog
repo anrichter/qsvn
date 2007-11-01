@@ -3,6 +3,7 @@ Version 0.6.0 - released 2007-??-??
     New Features
     ------------
     * Add Build Version to QSvn Info and Installer Files
+    * #9  Support for Properties on Files and Directories. QSvn can now edit, add and delete Properties.
     * #19 Show differences of a file against Working Copy, Base, Head and Start in ShowLog
     * #21 Show differences of a file against a Revision number in ShowLog
     * #24 Entries in Show Log window are now sortable
