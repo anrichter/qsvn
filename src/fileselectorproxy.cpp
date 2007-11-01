@@ -64,7 +64,7 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
 bool FileSelectorProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     svn::StatusPtr status = static_cast<StatusEntriesModel*>(sourceModel())->at(source_row);
-    return m_visibleStats.contains(status->textStatus());
+    return m_visibleStats.contains(status->textStatus()) || m_visibleStats.contains(status->propStatus());
 }
 
 QVariant FileSelectorProxy::data(const QModelIndex &index, int role) const

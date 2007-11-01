@@ -54,7 +54,7 @@ int StatusEntriesModel::rowCount(const QModelIndex &parent) const
 
 int StatusEntriesModel::columnCount(const QModelIndex &parent) const
 {
-    return 4;
+    return 5;
 }
 
 QVariant StatusEntriesModel::headerData(int section,
@@ -69,12 +69,15 @@ QVariant StatusEntriesModel::headerData(int section,
                 return QString(tr("Filename"));
                 break;
             case 1:
-                return QString(tr("Status"));
+                return QString(tr("Text-Status"));
                 break;
             case 2:
-                return QString(tr("Revision"));
+                return QString(tr("Property-Status"));
                 break;
             case 3:
+                return QString(tr("Revision"));
+                break;
+            case 4:
                 return QString(tr("Author"));
                 break;
         }
@@ -95,7 +98,7 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
             switch (index.column())
             {
-                case 0:
+                case 0: //FileName
                     if (!status->isVersioned() ||                         //return path for unversioned Files
                          (status->isVersioned() && fileInfo.isDir()) ||  //            and for versioned Directories
                          m_descend)
@@ -106,14 +109,17 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
                     else
                         return status->entry().name();
                     break;
-                case 1:
-                    return statusString(status);
+                case 1: //Text-Status
+                    return statusString(status->textStatus());
                     break;
-                case 2:
+                case 2: //Property-Status
+                    return statusString(status->propStatus());
+                    break;
+                case 3: //Revision
                     if (status->isVersioned())
                         return int(status->entry().cmtRev());
                     break;
-                case 3:
+                case 4: //Author
                     return status->entry().cmtAuthor();
                     break;
             }
@@ -195,9 +201,9 @@ QPixmap StatusEntriesModel::statusPixmap(svn::StatusPtr status) const
     }
 }
 
-QString StatusEntriesModel::statusString(svn::StatusPtr status) const
+QString StatusEntriesModel::statusString(svn_wc_status_kind status) const
 {
-    switch (status->textStatus())
+    switch (status)
     {
         case svn_wc_status_none:
             return QString(tr("none"));
@@ -228,7 +234,7 @@ QString StatusEntriesModel::statusString(svn::StatusPtr status) const
         case svn_wc_status_incomplete:
             return QString(tr("incomplete"));
         default:
-            return QString(status->textStatus());
+            return QString(status);
     }
 }
 

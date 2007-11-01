@@ -53,7 +53,7 @@ class StatusEntriesModel : public QAbstractTableModel
         QFileSystemWatcher m_fsWatcher;
 
         QPixmap statusPixmap(svn::StatusPtr status) const;
-        QString statusString(svn::StatusPtr status) const;
+        QString statusString(svn_wc_status_kind status) const;
 
         void clearFsWatcher();
         void fillFsWatcher();
