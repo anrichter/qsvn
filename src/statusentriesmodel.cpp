@@ -166,38 +166,33 @@ svn::StatusPtr StatusEntriesModel::at(int row)
 
 QPixmap StatusEntriesModel::statusPixmap(svn::StatusPtr status) const
 {
-    switch (status->textStatus())
+    svn_wc_status_kind _status = status->textStatus();
+    if (_status == svn_wc_status_normal)
+        _status = status->propStatus();
+
+    switch (_status)
     {
-        case svn_wc_status_none:
-            return QPixmap(":/images/file.png");
         case svn_wc_status_unversioned:
             return QPixmap(":/images/unknownfile.png");
-        case svn_wc_status_normal:
-            return QPixmap(":/images/file.png");
+            break;
         case svn_wc_status_added:
             return QPixmap(":/images/addedfile.png");
+            break;
         case svn_wc_status_missing:
             return QPixmap(":/images/missingfile.png");
+            break;
         case svn_wc_status_deleted:
-            return QPixmap(":/images/modifiedfile.png");
         case svn_wc_status_replaced:
-            return QPixmap(":/images/modifiedfile.png");
         case svn_wc_status_modified:
-            return QPixmap(":/images/modifiedfile.png");
         case svn_wc_status_merged:
             return QPixmap(":/images/modifiedfile.png");
+            break;
         case svn_wc_status_conflicted:
             return QPixmap(":/images/conflictedfile.png");
-        case svn_wc_status_ignored:
-            return QPixmap(":/images/file.png");
-        case svn_wc_status_obstructed:
-            return QPixmap(":/images/file.png");
-        case svn_wc_status_external:
-            return QPixmap(":/images/file.png");
-        case svn_wc_status_incomplete:
-            return QPixmap(":/images/file.png");
+            break;
         default:
             return QPixmap(":/images/file.png");
+            break;
     }
 }
 
