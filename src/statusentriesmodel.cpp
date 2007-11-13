@@ -36,8 +36,6 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
 {
     m_statusEntries = svn::StatusEntries();
     fillFsWatcher();
-    connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-            this, SLOT(doFileChanged(const QString &)));
     connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
             this, SLOT(doDirectoryChanged(const QString &)));
 }
@@ -241,47 +239,16 @@ void StatusEntriesModel::doDirectoryChanged(const QString &path)
     readDirectory(m_directory, m_descend, true);
 }
 
-void StatusEntriesModel::doFileChanged(const QString &path)
-{
-    if (SvnClient::instance()->isInProgress())
-        return;
-
-    for (int i = 0; i < m_statusEntries.count(); i++)
-    {
-        if (m_statusEntries.at(i)->path() == QDir::fromNativeSeparators(path))
-        {
-            svn::StatusPtr status = SvnClient::instance()->singleStatus(
-                    m_statusEntries.at(i)->path());
-            if (status->isVersioned())
-            {
-                m_statusEntries.replace(i, status);
-            }
-            else {
-                m_statusEntries.removeAt(i);
-            }
-            emit layoutChanged();
-            break;
-        }
-    }
-}
-
 void StatusEntriesModel::clearFsWatcher()
 {
-    m_fsWatcher.removePaths(m_fsWatcher.directories());
-    m_fsWatcher.removePaths(m_fsWatcher.files());
+    if (!m_fsWatcher.directories().isEmpty())
+        m_fsWatcher.removePaths(m_fsWatcher.directories());
 }
 
 void StatusEntriesModel::fillFsWatcher()
 {
-    if (m_statusEntries.count() < 5000) //todo: fix this problem with a better solution
-    {
-        QStringList pathList;
-        foreach(svn::StatusPtr status, m_statusEntries)
-            pathList << status->path();
-
-   	    if (!pathList.isEmpty())
-   	        m_fsWatcher.addPaths(pathList);
-    }
+    foreach(svn::StatusPtr status, m_statusEntries)
+        m_fsWatcher.addPath(QFileInfo(status->path()).absolutePath());
 }
 
 #include "statusentriesmodel.moc"

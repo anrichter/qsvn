@@ -59,7 +59,6 @@ class StatusEntriesModel : public QAbstractTableModel
         void fillFsWatcher();
 
     private slots:
-        void doFileChanged(const QString &path);
         void doDirectoryChanged(const QString &path);
 };
 
