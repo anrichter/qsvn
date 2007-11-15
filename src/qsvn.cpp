@@ -335,11 +335,12 @@ void QSvn::on_actionAboutQSvn_triggered()
     QString aboutMsg = "";
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
-    aboutMsg += QString("<br/> %1.%2.%3 Build %4")
+    aboutMsg += QString("<br/> %1.%2.%3")
                 .arg(QSVN_MAJOR_VERSION)
                 .arg(QSVN_MINOR_VERSION)
-                .arg(QSVN_MICRO_VERSION)
-                .arg(QSVN_BUILD_VERSION);
+                .arg(QSVN_MICRO_VERSION);
+    if (QSVN_BUILD_VERSION != 0x0)
+        aboutMsg += " " + QString("Build %1").arg(QSVN_BUILD_VERSION);
     aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
