@@ -577,6 +577,7 @@ bool SvnClient::removeFromDisk(const QStringList &pathList)
             StatusText::out(QString(tr("Error while remove from disk: %1")).arg(fileInfo.absoluteFilePath()));
         result = result && success;
     }
+    return result;
 }
 
 
