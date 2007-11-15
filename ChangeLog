@@ -5,6 +5,7 @@ Version 0.6.0 - released 2007-??-??
     * Add Build Version to QSvn Info and Installer Files
     * #9  Support for Properties on Files and Directories. QSvn can now edit, add and delete Properties.
     * #19 Show differences of a file against Working Copy, Base, Head and Start in ShowLog
+    * #17 Allow to delete files and directories from disk. Also unversioned ones.
     * #21 Show differences of a file against a Revision number in ShowLog
     * #24 Entries in Show Log window are now sortable
     * #33 Filter logentries in ShowLog
@@ -18,6 +19,7 @@ Version 0.6.0 - released 2007-??-??
     * #28 Fix crash on change "strict node history" with a selected change entry in show log dialog
     * #36 Fix Problem in saving login data on Debian Etch
     * #37 Insert new working copies at the right position in the WorkingCopyList.
+    * #47 Fix some performance problems with file-watch on big working copies.
 
 
 Version 0.5.0 - released 2007-02-25
