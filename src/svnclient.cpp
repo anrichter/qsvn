@@ -561,7 +561,7 @@ bool SvnClient::removeFromDisk(const QStringList &pathList)
 {
     QFileInfo fileInfo;
     QDir dir;
-    bool success;
+    bool success = false, result = true;
     foreach(QString path, pathList)
     {
         fileInfo = QFileInfo(path);
@@ -575,6 +575,7 @@ bool SvnClient::removeFromDisk(const QStringList &pathList)
             StatusText::out(QString(tr("removed from disk: %1")).arg(fileInfo.absoluteFilePath()));
         else
             StatusText::out(QString(tr("Error while remove from disk: %1")).arg(fileInfo.absoluteFilePath()));
+        result = result && success;
     }
 }
 
