@@ -58,6 +58,18 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
             m_visibleStats << svn_wc_status_modified;
             m_visibleStats << svn_wc_status_replaced;
             break;
+        case SvnClient::RemoveFromDisk:
+            m_visibleStats << svn_wc_status_unversioned
+                    << svn_wc_status_normal
+                    << svn_wc_status_modified
+                    << svn_wc_status_merged
+                    << svn_wc_status_conflicted
+                    << svn_wc_status_ignored
+                    << svn_wc_status_obstructed
+                    << svn_wc_status_external
+                    << svn_wc_status_incomplete;
+        default:
+            break;
     }
 }
 

@@ -85,6 +85,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
 
         //Both
         void on_actionEditProperties_triggered();
+        void on_actionRemoveFromDisk_triggered();
 
         //Query
         void on_actionDiff_triggered();

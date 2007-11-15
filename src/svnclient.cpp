@@ -557,5 +557,26 @@ bool SvnClient::propDel(const QString &propName, const svn::Path &path, const sv
     }
 }
 
+bool SvnClient::removeFromDisk(const QStringList &pathList)
+{
+    QFileInfo fileInfo;
+    QDir dir;
+    bool success;
+    foreach(QString path, pathList)
+    {
+        fileInfo = QFileInfo(path);
+        if (fileInfo.isDir())
+        {
+            success = dir.rmdir(fileInfo.absolutePath());
+        } else if (fileInfo.isFile()) {
+            success = QFile::remove(fileInfo.absoluteFilePath());
+        }
+        if (success)
+            StatusText::out(QString(tr("removed from disk: %1")).arg(fileInfo.absoluteFilePath()));
+        else
+            StatusText::out(QString(tr("Error while remove from disk: %1")).arg(fileInfo.absoluteFilePath()));
+    }
+}
+
 
 #include "svnclient.moc"

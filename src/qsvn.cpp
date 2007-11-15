@@ -121,6 +121,8 @@ void QSvn::createMenus()
     contextMenuWorkingCopy->addAction(actionDelete);
     contextMenuWorkingCopy->addAction(actionMkDir);
     contextMenuWorkingCopy->addAction(actionEditProperties);
+    contextMenuWorkingCopy->addSeparator();
+    contextMenuWorkingCopy->addAction(actionRemoveFromDisk);
 
     contextMenuFileList = new QMenu(this);
     contextMenuFileList->addAction(actionUpdate);
@@ -138,6 +140,8 @@ void QSvn::createMenus()
     contextMenuFileList->addAction(actionMove);
     contextMenuFileList->addAction(actionCopy);
     contextMenuFileList->addAction(actionEditProperties);
+    contextMenuFileList->addSeparator();
+    contextMenuFileList->addAction(actionRemoveFromDisk);
 }
 
 bool QSvn::eventFilter(QObject *watched, QEvent *event)
@@ -415,6 +419,11 @@ void QSvn::on_actionEditProperties_triggered()
     {
         PathProperties::doPathProperties(this, path);
     }
+}
+
+void QSvn::on_actionRemoveFromDisk_triggered()
+{
+    FileSelector::doSvnAction(this, SvnClient::RemoveFromDisk, selectedPaths(), isFileListSelected());
 }
 
 #include "qsvn.moc"

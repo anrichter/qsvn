@@ -75,7 +75,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>29</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp" >
@@ -369,6 +369,17 @@
    </property>
    <property name="toolTip" >
     <string>Edit Properties...</string>
+   </property>
+  </action>
+  <action name="actionRemoveFromDisk" >
+   <property name="text" >
+    <string>Remove from Disk...</string>
+   </property>
+   <property name="iconText" >
+    <string>Remove from Disk...</string>
+   </property>
+   <property name="toolTip" >
+    <string>Remove from Disk...</string>
    </property>
   </action>
  </widget>

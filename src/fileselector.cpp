@@ -112,6 +112,17 @@ void FileSelector::setupUI()
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
+        case SvnClient::RemoveFromDisk:
+            setWindowTitle(tr("Remove from Disk"));
+            setWindowIcon(QIcon(":/images/actiondeletelocal.png"));
+            groupBoxLogMessage->setVisible(false);
+            treeViewFiles->setFocus(Qt::MouseFocusReason);
+            break;
+        default:
+            setWindowTitle(tr("unsupported Action"));
+            groupBoxFiles->setVisible(false);
+            groupBoxLogMessage->setVisible(false);
+            break;
     }
 }
 
@@ -196,6 +207,12 @@ void FileSelector::accept()
             break;
         case SvnClient::SvnRevert:
             SvnClient::instance()->revert(m_fileSelectorProxy->checkedFileList(), true);
+            break;
+        case SvnClient::RemoveFromDisk:
+            SvnClient::instance()->removeFromDisk(m_fileSelectorProxy->checkedFileList());
+            break;
+        default:
+            break;
     }
     setEnabled(true);
     qApp->processEvents();

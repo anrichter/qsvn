@@ -44,15 +44,16 @@ class SvnClient : public QObject
     public:
         enum SvnAction
         {
-            SvnNone   = 0x00,
-            SvnAdd    = 0x01,
-            SvnCommit = 0x02,
-            SvnDelete = 0x04,
-            SvnRevert = 0x05,
-            SvnRename = 0x06,
-            SvnMove   = 0x07,
-            SvnCopy   = 0x08,
-            SvnMkDir  = 0x09
+            SvnNone        = 0x00,
+            SvnAdd         = 0x01,
+            SvnCommit      = 0x02,
+            SvnDelete      = 0x04,
+            SvnRevert      = 0x05,
+            SvnRename      = 0x06,
+            SvnMove        = 0x07,
+            SvnCopy        = 0x08,
+            SvnMkDir       = 0x09,
+            RemoveFromDisk = 0x10
         };
 
         static SvnClient* instance();
@@ -127,6 +128,8 @@ class SvnClient : public QObject
                      const svn::Path &path,
                      const svn::Revision &revision,
                      bool recurse = false);
+
+        bool removeFromDisk(const QStringList &pathList);
 
         bool isInProgress(); //true, if svn update is running
 
