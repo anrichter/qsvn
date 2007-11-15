@@ -300,7 +300,7 @@ QString SvnClient::getFileRevisionPath(const QString &file, const svn::Revision 
             {
                 _path.split(_dir, _file, _ext);
                 _result = Config::instance()->tempDir() +
-                        _file + QString(".%1.%2 ")
+                        _file + QString(".%1.%2")
                         .arg(int(revision.revnum()))
                         .arg(_ext);
                 if (!svnexport(file, _result, revision, false))
