@@ -147,15 +147,12 @@ IF ( WIN32 )
                             -dQSvnLibDir=${LIBRARY_OUTPUT_PATH}
                             -dQSvnBinDir=${EXECUTABLE_OUTPUT_PATH}
                             -dQSvnWiXDir=${CMAKE_SOURCE_DIR}/setup
-                            -dQSvnMajorVersion=${QSVN_MAJOR_VERSION}
-                            -dQSvnMinorVersion=${QSVN_MINOR_VERSION}
-                            -dQSvnMicroVersion=${QSVN_MICRO_VERSION}
-                            -dQSvnBuildVersion=${QSVN_BUILD_VERSION}
+                            -dQSvnVersionString=${QSVN_VERSION_STRING}
                             -dQtLibraryDir=${QT_LIBRARY_DIR}
                             -dSvnBinDir=${SUBVERSION_BIN_DIR}
                             ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
                         COMMAND light
-                            -out setup/qsvn-${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}-${QSVN_BUILD_VERSION}.msi
+                            -out setup/qsvn-${QSVN_VERSION_NUMBER}.msi
                             qsvn.wixobj )
 ENDIF ( WIN32 )
 
