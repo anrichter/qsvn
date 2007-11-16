@@ -162,6 +162,7 @@ void FileSelector::showModeless()
 
 void FileSelector::accept()
 {
+    m_statusEntriesModel->disableFsWatcher();
     if (m_svnAction == SvnClient::SvnCommit)
     {
         if ((editLogMessage->toPlainText().isEmpty()) &&

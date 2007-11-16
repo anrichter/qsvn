@@ -35,14 +35,14 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
         : QAbstractTableModel(parent)
 {
     m_statusEntries = svn::StatusEntries();
-    fillFsWatcher();
+    enableFsWatcher();
     connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
             this, SLOT(doDirectoryChanged(const QString &)));
 }
 
 StatusEntriesModel::~StatusEntriesModel()
 {
-    clearFsWatcher();
+    disableFsWatcher();
 }
 
 int StatusEntriesModel::rowCount(const QModelIndex &parent) const
@@ -137,24 +137,24 @@ void StatusEntriesModel::readDirectory(QString directory, const bool descend,
     directory = QDir::toNativeSeparators(directory);
     if (force || (m_directory != directory))
     {
-        clearFsWatcher();
+        disableFsWatcher();
         m_descend = descend;
         m_directory = directory;
         m_statusEntries = SvnClient::instance()->status(m_directory, m_descend);
-        fillFsWatcher();
+        enableFsWatcher();
         emit layoutChanged();
     }
 }
 
 void StatusEntriesModel::readFileList(QStringList fileList)
 {
-    clearFsWatcher();
+    disableFsWatcher();
     m_statusEntries.clear();
 
     foreach (QString file, fileList)
     m_statusEntries.append(SvnClient::instance()->singleStatus(file));
 
-    fillFsWatcher();
+    enableFsWatcher();
 }
 
 svn::StatusPtr StatusEntriesModel::at(int row)
@@ -239,13 +239,13 @@ void StatusEntriesModel::doDirectoryChanged(const QString &path)
     readDirectory(m_directory, m_descend, true);
 }
 
-void StatusEntriesModel::clearFsWatcher()
+void StatusEntriesModel::disableFsWatcher()
 {
     if (!m_fsWatcher.directories().isEmpty())
         m_fsWatcher.removePaths(m_fsWatcher.directories());
 }
 
-void StatusEntriesModel::fillFsWatcher()
+void StatusEntriesModel::enableFsWatcher()
 {
     foreach(svn::StatusPtr status, m_statusEntries)
         m_fsWatcher.addPath(QFileInfo(status->path()).absolutePath());

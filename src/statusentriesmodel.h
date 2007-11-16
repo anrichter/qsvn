@@ -45,6 +45,8 @@ class StatusEntriesModel : public QAbstractTableModel
         void readFileList(QStringList fileList);
 
         svn::StatusPtr at(int row);
+        void disableFsWatcher();
+        void enableFsWatcher();
 
     private:
         svn::StatusEntries m_statusEntries;
@@ -54,9 +56,6 @@ class StatusEntriesModel : public QAbstractTableModel
 
         QPixmap statusPixmap(svn::StatusPtr status) const;
         QString statusString(svn_wc_status_kind status) const;
-
-        void clearFsWatcher();
-        void fillFsWatcher();
 
     private slots:
         void doDirectoryChanged(const QString &path);
