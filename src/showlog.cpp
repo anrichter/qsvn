@@ -22,6 +22,7 @@
 #include "config.h"
 #include "logentriesmodel.h"
 #include "logchangepathentriesmodel.h"
+#include "merge.h"
 #include "showlog.h"
 #include "svnclient.h"
 #include "statustext.h"
@@ -64,6 +65,7 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
             m_logEntriesProxy, SLOT(setFilterFixedString(const QString &)));
 
     viewLogEntries->setModel(m_logEntriesProxy);
+    viewLogEntries->installEventFilter(this);
     Config::instance()->restoreHeaderView(this, viewLogEntries->header());
     connect(viewLogEntries->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
@@ -91,6 +93,9 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     menuPathEntriesDiff->addAction(actionDiff_to_BASE);
     menuPathEntriesDiff->addAction(actionDiff_to_START);
     menuPathEntriesDiff->addAction(actionDiff_to_Revision);
+
+    menuLogEntries = new QMenu(this);
+    menuLogEntries->addAction(actionMerge);
 
     m_path = path;
     m_path.replace("\\", "/");
@@ -159,6 +164,12 @@ bool ShowLog::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::ContextMenu)
         {
             menuPathEntries->popup(static_cast<QContextMenuEvent*>(event)->globalPos());
+        }
+    } else if (watched == viewLogEntries)
+    {
+        if (event->type() == QEvent::ContextMenu)
+        {
+            menuLogEntries->popup(static_cast<QContextMenuEvent*>(event)->globalPos());
         }
     }
     return QDialog::eventFilter(watched, event);
@@ -315,6 +326,11 @@ void ShowLog::on_actionDiff_to_Revision_triggered( )
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 {
     m_logEntriesProxy->setFilterKeyColumn(index);
+}
+
+void ShowLog::on_actionMerge_triggered( )
+{
+    Merge::doMerge(this);
 }
 
 

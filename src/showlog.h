@@ -53,7 +53,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         QSortFilterProxyModel *m_logEntriesProxy,
                               *m_logChangePathEntriesProxy;
 
-        QMenu *menuPathEntries;
+        QMenu *menuPathEntries, *menuLogEntries;
         QString m_path;
         svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
 
@@ -84,6 +84,8 @@ class ShowLog : public QDialog, public Ui::ShowLog
         void on_actionDiff_to_BASE_triggered();
         void on_actionDiff_to_START_triggered();
         void on_actionDiff_to_Revision_triggered();
+
+        void on_actionMerge_triggered();
 };
 
 #endif

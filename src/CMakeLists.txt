@@ -51,6 +51,7 @@ SET( qsvn_headers
          logchangepathentriesmodel.h
          logentriesmodel.h
          login.h
+         merge.h
          pathproperties.h
          pathpropertiesdelegate.h
          pathpropertiesmodel.h
@@ -77,6 +78,7 @@ SET( qsvn_sources
          logentriesmodel.cpp
          login.cpp
          main.cpp
+         merge.cpp
          pathproperties.cpp
          pathpropertiesdelegate.cpp
          pathpropertiesmodel.cpp
@@ -95,6 +97,7 @@ SET( qsvn_forms
          forms/fileselector.ui
          forms/filemodifier.ui
          forms/login.ui
+         forms/merge.ui
          forms/pathproperties.ui
          forms/qsvn.ui
          forms/showlog.ui

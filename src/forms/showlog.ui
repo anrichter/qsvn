@@ -199,6 +199,11 @@
     <string>Show differences to Revision...</string>
    </property>
   </action>
+  <action name="actionMerge" >
+   <property name="text" >
+    <string>Merge</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>editFilterString</tabstop>
