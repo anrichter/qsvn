@@ -22,6 +22,7 @@
 #define MERGE_H
 
 //QSvn
+#include "svnclient.h"
 #include "ui_merge.h"
 
 //Qt
@@ -32,10 +33,16 @@ class Merge : public QDialog, public Ui::Merge
     Q_OBJECT
 
     public:
-        static void doMerge(QWidget *parent);
+        static void doMerge(const QString fromURL, const svn::Revision fromRevision,
+                            const QString toURL, const svn::Revision toRevision);
+
+        void setFromUrl(const QString fromURL);
+        void setFromRevision(const svn::Revision fromRevision);
+        void setToUrl(const QString fromURL);
+        void setToRevision(const svn::Revision fromRevision);
 
     private:
-        Merge(QWidget *parent = 0);
+        Merge();
         ~Merge();
 
 };

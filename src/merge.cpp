@@ -20,20 +20,26 @@
 
 //QSvn
 #include "merge.h"
+#include "svnclient.h"
 
 //Qt
 #include <QtGui>
 
 
-void Merge::doMerge(QWidget *parent)
+void Merge::doMerge(const QString fromURL, const svn::Revision fromRevision,
+                    const QString toURL, const svn::Revision toRevision)
 {
-    Merge *merge = new Merge(parent);
+    Merge *merge = new Merge();
+    merge->setFromUrl(fromURL);
+    merge->setFromRevision(fromRevision);
+    merge->setToUrl(toURL);
+    merge->setToRevision(toRevision);
     merge->show();
     merge->raise();
     merge->activateWindow();
 }
 
-Merge::Merge(QWidget *parent)
+Merge::Merge()
     : QDialog(0) //don't set parent here! It is always a top-level window
 {
     setupUi(this);
@@ -41,6 +47,26 @@ Merge::Merge(QWidget *parent)
 
 Merge::~Merge()
 {
+}
+
+void Merge::setFromUrl(const QString fromURL)
+{
+    editFromUrl->setText(fromURL);
+}
+
+void Merge::setFromRevision(const svn::Revision fromRevision)
+{
+    editFromRevision->setText(fromRevision);
+}
+
+void Merge::setToUrl(const QString toURL)
+{
+    editToUrl->setText(toURL);
+}
+
+void Merge::setToRevision(const svn::Revision toRevision)
+{
+    editToRevision->setText(toRevision);
 }
 
 #include "merge.moc"
