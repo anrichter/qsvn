@@ -27,6 +27,8 @@
 
 //Qt
 #include <QDialog>
+class QPushButton;
+
 
 class Merge : public QDialog, public Ui::Merge
 {
@@ -45,8 +47,11 @@ class Merge : public QDialog, public Ui::Merge
         Merge();
         ~Merge();
 
+        QPushButton *buttonDryRun;
+
     public slots:
         void on_buttonWcPath_clicked();
+        void on_buttonDryRun_clicked();
         void accept();
 };
 

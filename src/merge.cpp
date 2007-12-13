@@ -47,6 +47,11 @@ Merge::Merge()
     : QDialog(0) //don't set parent here! It is always a top-level window
 {
     setupUi(this);
+    buttonDryRun = new QPushButton(tr("Dry run"));
+    buttonDryRun->setDefault(false);
+    buttonBox->addButton(buttonDryRun, QDialogButtonBox::ActionRole);
+    connect(buttonDryRun, SIGNAL(clicked()), this, SLOT(on_buttonDryRun_clicked()));
+
     editWcPath->setText(Config::instance()->value(KEY_LASTMERGEWC).toString());
 }
 
@@ -92,10 +97,20 @@ void Merge::accept()
                                  editToUrl->text(),
                                  svn::Revision(editToRevision->text().toUInt()),
                                  editWcPath->text(),
-                                 true, true, false, true);
+                                 true, true, false, false);
 
     Config::instance()->setValue(KEY_LASTMERGEWC, editWcPath->text());
     QDialog::accept();
+}
+
+void Merge::on_buttonDryRun_clicked( )
+{
+    SvnClient::instance()->merge(editFromUrl->text(),
+                                 svn::Revision(editFromRevision->text().toUInt()),
+                                 editToUrl->text(),
+                                 svn::Revision(editToRevision->text().toUInt()),
+                                 editWcPath->text(),
+                                 true, true, false, true);
 }
 
 #include "merge.moc"
