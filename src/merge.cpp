@@ -23,6 +23,9 @@
 #include "merge.h"
 #include "svnclient.h"
 
+//SvnCpp
+#include "svnqt/revision.hpp"
+
 //Qt
 #include <QtGui>
 
@@ -84,6 +87,13 @@ void Merge::on_buttonWcPath_clicked( )
 
 void Merge::accept()
 {
+    SvnClient::instance()->merge(editFromUrl->text(),
+                                 svn::Revision(editFromRevision->text().toUInt()),
+                                 editToUrl->text(),
+                                 svn::Revision(editToRevision->text().toUInt()),
+                                 editWcPath->text(),
+                                 true, true, false, true);
+
     Config::instance()->setValue(KEY_LASTMERGEWC, editWcPath->text());
     QDialog::accept();
 }

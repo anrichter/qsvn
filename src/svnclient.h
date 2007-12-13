@@ -105,6 +105,12 @@ class SvnClient : public QObject
         bool copy(const QString &srcPath, const QString &destPath);
         bool mkdir(const QString &destPath);
 
+        bool merge(const QString &fromUrl, const svn::Revision &fromRevision,
+                   const QString &toUrl, const svn::Revision &toRevision,
+                   const QString &wcPath, bool force, bool recurse,
+                   bool notice_ancestry = false,
+                   bool dry_run = false);
+
         const svn::LogEntriesPtr log(const QString &path,
                                    const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
                                    bool discoverChangedPaths, bool strictNodeHistory,

@@ -580,5 +580,26 @@ bool SvnClient::removeFromDisk(const QStringList &pathList)
     return result;
 }
 
+bool SvnClient::merge(const QString &fromUrl, const svn::Revision &fromRevision,
+                      const QString &toUrl, const svn::Revision &toRevision,
+                      const QString & wcPath, bool force, bool recurse,
+                      bool notice_ancestry, bool dry_run)
+{
+    listener->setVerbose(true);
+    try
+    {
+        svnClient->merge(fromUrl, fromRevision,
+                         toUrl, toRevision,
+                         wcPath, force, recurse,
+                         notice_ancestry, dry_run);
+        return true;
+    }
+    catch (svn::ClientException e)
+    {
+        StatusText::out(e.msg());
+        return false;
+    }
+}
+
 
 #include "svnclient.moc"
