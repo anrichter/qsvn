@@ -36,6 +36,7 @@ class QSplitter;
 #define KEY_SHOWLOGAFTERUPDATE "configuration/showLogAfterUpdate"
 #define KEY_CHECKEMPTYLOGMESSAGE "configuration/checkEmptyLogMessage"
 #define KEY_LASTWC "lastWC"
+#define KEY_LASTMERGEWC "lastMergeWc"
 
 
 /**

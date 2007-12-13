@@ -45,6 +45,9 @@ class Merge : public QDialog, public Ui::Merge
         Merge();
         ~Merge();
 
+    public slots:
+        void on_buttonWcPath_clicked();
+        void accept();
 };
 
 #endif

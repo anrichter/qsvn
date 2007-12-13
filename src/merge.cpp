@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 //QSvn
+#include "config.h"
 #include "merge.h"
 #include "svnclient.h"
 
@@ -43,6 +44,7 @@ Merge::Merge()
     : QDialog(0) //don't set parent here! It is always a top-level window
 {
     setupUi(this);
+    editWcPath->setText(Config::instance()->value(KEY_LASTMERGEWC).toString());
 }
 
 Merge::~Merge()
@@ -67,6 +69,23 @@ void Merge::setToUrl(const QString toURL)
 void Merge::setToRevision(const svn::Revision toRevision)
 {
     editToRevision->setText(toRevision);
+}
+
+void Merge::on_buttonWcPath_clicked( )
+{
+    QString path =
+            QFileDialog::getExistingDirectory(this,
+                                              tr("Merge differences into Working Copy"),
+                                              editWcPath->text());
+    if (!path.isEmpty())
+        editWcPath->setText(QDir::toNativeSeparators(path));
+
+}
+
+void Merge::accept()
+{
+    Config::instance()->setValue(KEY_LASTMERGEWC, editWcPath->text());
+    QDialog::accept();
 }
 
 #include "merge.moc"

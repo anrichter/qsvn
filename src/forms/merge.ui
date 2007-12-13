@@ -43,7 +43,7 @@
     </widget>
    </item>
    <item row="1" column="0" >
-    <widget class="QGroupBox" name="groupBoxWC" >
+    <widget class="QGroupBox" name="groupBoxWc" >
      <property name="title" >
       <string>Working Copy</string>
      </property>
@@ -63,14 +63,14 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QLabel" name="labelWCPath" >
+         <widget class="QLabel" name="labelWcPath" >
           <property name="text" >
            <string>Path</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="editWCPath" />
+         <widget class="QLineEdit" name="editWcPath" />
         </item>
         <item>
          <widget class="QPushButton" name="buttonWcPath" >
