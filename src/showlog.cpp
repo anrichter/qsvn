@@ -330,8 +330,8 @@ void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 
 void ShowLog::on_actionMerge_triggered( )
 {
-    Merge::doMerge(svn::Wc::getRepos(getWcRootPath()), svn::Revision(getSelectedRevision().revnum() - 1),
-                   svn::Wc::getRepos(getWcRootPath()), getSelectedRevision());
+    Merge::doMerge(svn::Wc::getUrl(getWcRootPath()), svn::Revision(getSelectedRevision().revnum() - 1),
+                   svn::Wc::getUrl(getWcRootPath()), getSelectedRevision());
 }
 
 
