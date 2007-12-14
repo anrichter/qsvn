@@ -81,11 +81,6 @@ For compilation under Windows you need the following software packages:
 - Qt4 compiled for use with MSVC++
   Download the latest Qt4 Source Package for Windows.
     http://www.trolltech.com
-  Download the unoffical Patch for additional Compiler support for Qt4 Open Source Edition
-    http://sourceforge.net/projects/qtwin
-  Patch & Compile Qt4 Libraries for your Compiler ( as recommended for MSVC++ 2005 )
-  Remeber: This is an unofficial but legal patch. So please don't ask on official Trolltech lists 
-  for problems with this patched version of Qt.
   After the Qt is compiled you must add the Qt-bin-directory to your PATH variable. 
   CMake is looking for Qt libraries in PATH-directories also.
 - Windows Installer XML (WiX) toolset, if you would build QSvn Installer.
