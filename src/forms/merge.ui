@@ -171,6 +171,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>editFromUrl</tabstop>
+  <tabstop>editFromRevision</tabstop>
+  <tabstop>editToUrl</tabstop>
+  <tabstop>editToRevision</tabstop>
+  <tabstop>editWcPath</tabstop>
+  <tabstop>buttonWcPath</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
