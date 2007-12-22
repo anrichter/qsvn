@@ -41,6 +41,8 @@ void Merge::doMerge(const QString fromURL, const svn::Revision fromRevision,
     merge->show();
     merge->raise();
     merge->activateWindow();
+    merge->groupBoxFrom->setEnabled(false);
+    merge->groupBoxTo->setEnabled(false);
 }
 
 Merge::Merge()
