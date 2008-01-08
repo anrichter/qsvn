@@ -83,7 +83,6 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
             wcModel, SLOT(doUpdate(const QModelIndex &)));
 
     connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     Config::instance()->restoreMainWindow(this);
     Config::instance()->restoreHeaderView(this, treeViewFileList->header());
@@ -335,12 +334,17 @@ void QSvn::on_actionAboutQSvn_triggered()
     QString aboutMsg = "";
     aboutMsg += "<div align=\"center\">";
     aboutMsg += "<h2>QSvn</h2>";
-    aboutMsg += "<br/>" + QString(QSVN_VERSION_STRING);
-    aboutMsg += "<br/>Build with Subversion " + svn::Version::linked_version();
-    aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
-    aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
+    aboutMsg += QString(QSVN_VERSION_STRING);
+
+    aboutMsg += "<p>is a graphical Subversion Client.<br/>";
     aboutMsg += "(c) 2004-2007 Andreas Richter<br/>";
     aboutMsg += "<a href=\"http://ar.oszine.de/projects/qsvn/\">http://ar.oszine.de/projects/qsvn/</a></p>";
+
+    aboutMsg += "<p>It runs with";
+    aboutMsg += "<br/>Subversion " + svn::Version::linked_version();
+    aboutMsg += "<br/>Qt " + QString(QT_VERSION_STR);
+    aboutMsg += "</p>";
+
     aboutMsg += "<p>This Program is released under the terms of the<br/>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</p>";
     aboutMsg += "</div>";
     QMessageBox::about(this, "Caption", aboutMsg);

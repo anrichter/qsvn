@@ -75,16 +75,9 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>31</height>
+     <height>29</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuHelp" >
-    <property name="title" >
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="actionAboutQSvn" />
-    <addaction name="actionAboutQt" />
-   </widget>
    <widget class="QMenu" name="menuSettings" >
     <property name="title" >
      <string>&amp;Settings</string>
@@ -129,6 +122,12 @@
     <addaction name="actionRemoveWorkingCopy" />
     <addaction name="actionCheckoutWorkingCopy" />
     <addaction name="actionCleanup" />
+   </widget>
+   <widget class="QMenu" name="menuHelp" >
+    <property name="title" >
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAboutQSvn" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuWorking_Copy" />
