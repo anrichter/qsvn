@@ -251,7 +251,7 @@ QVariant Config::defaultValue(const QString &key)
     else if (key == KEY_CHECKEMPTYLOGMESSAGE)
         return true;
     else if (key == KEY_LASTWC)
-        return QDir::homePath();
+        return QDir::toNativeSeparators(QDir::homePath());
     else
         return QVariant();
 }
