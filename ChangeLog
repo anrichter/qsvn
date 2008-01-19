@@ -2,8 +2,10 @@ Version 0.6.1 - released 2008-01-xx
 
     Bugfixes
     --------
+    * #44 Call svn move with force to rename and move local changed files.
     * #50 When try to edit properties on a non versioned path, QSvn crashed.
     * #55 Use correct directory separators on windows for first checkout.
+
 
 Version 0.6.0 - released 2007-11-16
 

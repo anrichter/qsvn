@@ -60,10 +60,10 @@ void FileModifier::accept()
     switch (m_svnAction)
     {
         case SvnClient::SvnRename:
-            SvnClient::instance()->move(m_srcPath, editToFile->text(), false);
+            SvnClient::instance()->move(m_srcPath, editToFile->text(), true);
             break;
         case SvnClient::SvnMove:
-            SvnClient::instance()->move(m_srcPath, editToFile->text(), false);
+            SvnClient::instance()->move(m_srcPath, editToFile->text(), true);
             break;
         case SvnClient::SvnCopy:
             SvnClient::instance()->copy(m_srcPath, editToFile->text());
