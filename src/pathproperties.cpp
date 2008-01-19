@@ -23,6 +23,10 @@
 #include "pathproperties.h"
 #include "pathpropertiesdelegate.h"
 #include "pathpropertiesmodel.h"
+#include "statustext.h"
+#include "svnclient.h"
+
+#include "svnqt/status.hpp"
 
 //Qt
 #include <QtGui>
@@ -64,10 +68,18 @@ PathProperties::~PathProperties()
 
 void PathProperties::doPathProperties(QWidget *parent, const QString path)
 {
-    PathProperties *pathProperties = new PathProperties(parent, path);
-    pathProperties->show();
-    pathProperties->raise();
-    pathProperties->activateWindow();
+    svn::StatusPtr status = SvnClient::instance()->singleStatus(path);
+    if (status->isVersioned())
+    {
+        PathProperties *pathProperties = new PathProperties(parent, path);
+        pathProperties->show();
+        pathProperties->raise();
+        pathProperties->activateWindow();
+    }
+    else
+    {
+        StatusText::out(QString("Path %1 is not versioned").arg(path));
+    }
 }
 
 void PathProperties::addButtonClicked()
