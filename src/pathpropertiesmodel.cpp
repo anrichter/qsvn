@@ -159,12 +159,12 @@ void PathPropertiesModel::deleteProperty(const QItemSelectionModel &selection)
     if (selection.hasSelection())
     {
         QModelIndexList indexList = selection.selectedIndexes();
-        for (int i = 0; i < indexList.count(); ++i)
+        Q_FOREACH(const QModelIndex &idx, indexList)
         {
-            if (indexList.at(i).column() == 0)
+            if (idx.column() == 0)
             {
-                beginRemoveRows(QModelIndex(), indexList.at(i).row(), indexList.at(i).row() + 1);
-                m_propMap.remove(this->data(indexList.at(i), Qt::DisplayRole).toString());
+                beginRemoveRows(QModelIndex(), idx.row(), idx.row());
+                m_propMap.remove(this->data(idx, Qt::DisplayRole).toString());
                 endRemoveRows();
             }
         }
