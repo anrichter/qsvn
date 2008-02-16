@@ -1,5 +1,5 @@
 /***************************************************************************
- *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
+ *   This file is part of QSvn Project http://www.anrichter.net/projects/qsvn   *
  *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -340,7 +340,7 @@ void QSvn::on_actionAboutQSvn_triggered()
     aboutMsg += "<br/>Running with Subversion " + svn::Version::running_version();
     aboutMsg += "<p>QSvn is a graphical Subversion Client.<br/>";
     aboutMsg += "(c) 2004-2007 Andreas Richter<br/>";
-    aboutMsg += "<a href=\"http://ar.oszine.de/projects/qsvn/\">http://ar.oszine.de/projects/qsvn/</a></p>";
+    aboutMsg += "<a href=\"http://www.anrichter.net/projects/qsvn/\">http://www.anrichter.net/projects/qsvn/</a></p>";
     aboutMsg += "<p>This Program is released under the terms of the<br/>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</p>";
     aboutMsg += "</div>";
     QMessageBox::about(this, "Caption", aboutMsg);
