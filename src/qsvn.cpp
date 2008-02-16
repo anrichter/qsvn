@@ -1,5 +1,5 @@
 /***************************************************************************
- *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
+ *   This file is part of QSvn Project http://www.anrichter.net/projects/qsvn   *
  *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -338,7 +338,7 @@ void QSvn::on_actionAboutQSvn_triggered()
 
     aboutMsg += "<p>is a graphical Subversion Client.<br/>";
     aboutMsg += "(c) 2004-2007 Andreas Richter<br/>";
-    aboutMsg += "<a href=\"http://ar.oszine.de/projects/qsvn/\">http://ar.oszine.de/projects/qsvn/</a></p>";
+    aboutMsg += "<a href=\"http://www.anrichter.net/projects/qsvn/\">http://www.anrichter.net/projects/qsvn/</a></p>";
 
     aboutMsg += "<p>It runs with";
     aboutMsg += "<br/>Subversion " + svn::Version::linked_version();

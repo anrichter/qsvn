@@ -1,5 +1,5 @@
 /***************************************************************************
- *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
+ *   This file is part of QSvn Project http://www.anrichter.net/projects/qsvn   *
  *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
