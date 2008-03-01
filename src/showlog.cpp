@@ -35,6 +35,16 @@
 //Qt
 #include <QtGui>
 
+void ShowLog::doShowLog(QWidget *parent, const QString path,
+                        const svn::Revision revisionStart,
+                        const svn::Revision revisionEnd )
+{
+    ShowLog *showLog = new ShowLog(parent, path, revisionStart, revisionEnd);
+    showLog->show();
+    showLog->raise();
+    showLog->activateWindow();
+    showLog->on_buttonNext_clicked();
+}
 
 ShowLog::ShowLog(QWidget *parent, const QString path,
                  const svn::Revision revisionStart,
@@ -52,50 +62,9 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     Config::instance()->restoreWidget(this);
     Config::instance()->restoreSplitter(this, splitter);
 
-    //initLogEntries
-    m_logEntriesModel = new LogEntriesModel(this);
-    m_logEntriesProxy = new QSortFilterProxyModel(this);
-    m_logEntriesProxy->setDynamicSortFilter(true);
-    m_logEntriesProxy->setSourceModel(m_logEntriesModel);
-    for (int i = 0; i < m_logEntriesModel->columnCount(QModelIndex()); i++)
-        comboBoxFilterKeyColumn->insertItem(comboBoxFilterKeyColumn->count(),
-                                            m_logEntriesModel->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString());
-    comboBoxFilterKeyColumn->setCurrentIndex(Config::instance()->value("comboBoxFilterKeyColumn").toInt());
-    connect(editFilterString, SIGNAL(textChanged(const QString &)),
-            m_logEntriesProxy, SLOT(setFilterFixedString(const QString &)));
-
-    viewLogEntries->setModel(m_logEntriesProxy);
-    viewLogEntries->installEventFilter(this);
-    Config::instance()->restoreHeaderView(this, viewLogEntries->header());
-    connect(viewLogEntries->selectionModel(),
-            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this,
-            SLOT(selectionChanged(const QItemSelection &, const QItemSelection &)));
-
-    //initLogEntriesPath
-    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this);
-    m_logChangePathEntriesProxy = new QSortFilterProxyModel(this);
-    m_logChangePathEntriesProxy->setDynamicSortFilter(true);
-    m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
-
-    viewLogChangePathEntries->setModel(m_logChangePathEntriesProxy);
-    viewLogChangePathEntries->installEventFilter(this);
-    viewLogChangePathEntries->sortByColumn(1, Qt::AscendingOrder);
-    Config::instance()->restoreHeaderView(this, viewLogChangePathEntries->header());
-    connect(viewLogChangePathEntries, SIGNAL(doubleClicked(const QModelIndex &)),
-            this, SLOT(on_actionDiff_triggered()));
-
-    menuPathEntries = new QMenu(this);
-    menuPathEntries->addAction(actionDiff);
-    QMenu *menuPathEntriesDiff = menuPathEntries->addMenu(tr("Show differences against..."));
-    menuPathEntriesDiff->addAction(actionDiff_to_WORKING);
-    menuPathEntriesDiff->addAction(actionDiff_to_HEAD);
-    menuPathEntriesDiff->addAction(actionDiff_to_BASE);
-    menuPathEntriesDiff->addAction(actionDiff_to_START);
-    menuPathEntriesDiff->addAction(actionDiff_to_Revision);
-
-    menuLogEntries = new QMenu(this);
-    menuLogEntries->addAction(actionMerge);
+    initLogEntries();
+    initLogEntriesPath();
+    initMenus();
 
     m_path = path;
     m_path.replace("\\", "/");
@@ -115,15 +84,56 @@ ShowLog::~ShowLog()
     Config::instance()->setValue("comboBoxFilterKeyColumn", comboBoxFilterKeyColumn->currentIndex());
 }
 
-void ShowLog::doShowLog(QWidget *parent, const QString path,
-                        const svn::Revision revisionStart,
-                        const svn::Revision revisionEnd )
+void ShowLog::initLogEntries()
 {
-    ShowLog *showLog = new ShowLog(parent, path, revisionStart, revisionEnd);
-    showLog->show();
-    showLog->raise();
-    showLog->activateWindow();
-    showLog->on_buttonNext_clicked();
+    m_logEntriesModel = new LogEntriesModel(this);
+    m_logEntriesProxy = new QSortFilterProxyModel(this);
+    m_logEntriesProxy->setDynamicSortFilter(true);
+    m_logEntriesProxy->setSourceModel(m_logEntriesModel);
+    for (int i = 0; i < m_logEntriesModel->columnCount(QModelIndex()); i++)
+        comboBoxFilterKeyColumn->insertItem(comboBoxFilterKeyColumn->count(),
+                                            m_logEntriesModel->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString());
+    comboBoxFilterKeyColumn->setCurrentIndex(Config::instance()->value("comboBoxFilterKeyColumn").toInt());
+    connect(editFilterString, SIGNAL(textChanged(const QString &)),
+            m_logEntriesProxy, SLOT(setFilterFixedString(const QString &)));
+
+    viewLogEntries->setModel(m_logEntriesProxy);
+    viewLogEntries->installEventFilter(this);
+    Config::instance()->restoreHeaderView(this, viewLogEntries->header());
+    connect(viewLogEntries->selectionModel(),
+            SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+            this,
+            SLOT(selectionChanged(const QItemSelection &, const QItemSelection &)));
+}
+
+void ShowLog::initLogEntriesPath()
+{
+    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this);
+    m_logChangePathEntriesProxy = new QSortFilterProxyModel(this);
+    m_logChangePathEntriesProxy->setDynamicSortFilter(true);
+    m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);
+
+    viewLogChangePathEntries->setModel(m_logChangePathEntriesProxy);
+    viewLogChangePathEntries->installEventFilter(this);
+    viewLogChangePathEntries->sortByColumn(1, Qt::AscendingOrder);
+    Config::instance()->restoreHeaderView(this, viewLogChangePathEntries->header());
+    connect(viewLogChangePathEntries, SIGNAL(doubleClicked(const QModelIndex &)),
+            this, SLOT(on_actionDiff_triggered()));
+}
+
+void ShowLog::initMenus()
+{
+    menuPathEntries = new QMenu(this);
+    menuPathEntries->addAction(actionDiff);
+    QMenu *menuPathEntriesDiff = menuPathEntries->addMenu(tr("Show differences against..."));
+    menuPathEntriesDiff->addAction(actionDiff_to_WORKING);
+    menuPathEntriesDiff->addAction(actionDiff_to_HEAD);
+    menuPathEntriesDiff->addAction(actionDiff_to_BASE);
+    menuPathEntriesDiff->addAction(actionDiff_to_START);
+    menuPathEntriesDiff->addAction(actionDiff_to_Revision);
+
+    menuLogEntries = new QMenu(this);
+    menuLogEntries->addAction(actionMerge);
 }
 
 void ShowLog::on_buttonNext_clicked()

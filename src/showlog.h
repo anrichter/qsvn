@@ -61,6 +61,10 @@ class ShowLog : public QDialog, public Ui::ShowLog
                 const svn::Revision revisionStart = svn::Revision::UNDEFINED,
                 const svn::Revision revisionEnd = svn::Revision::UNDEFINED);
         ~ShowLog();
+        void initLogEntries();
+        void initLogEntriesPath();
+        void initMenus();
+
         svn::Revision getSelectedRevision();
         QString getSelectedPath();
         QString getWcRootPath();
