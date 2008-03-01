@@ -14,10 +14,22 @@
   </property>
   <widget class="QWidget" name="centralWidget" >
    <layout class="QGridLayout" >
-    <property name="margin" >
+    <property name="leftMargin" >
      <number>9</number>
     </property>
-    <property name="spacing" >
+    <property name="topMargin" >
+     <number>9</number>
+    </property>
+    <property name="rightMargin" >
+     <number>9</number>
+    </property>
+    <property name="bottomMargin" >
+     <number>9</number>
+    </property>
+    <property name="horizontalSpacing" >
+     <number>6</number>
+    </property>
+    <property name="verticalSpacing" >
      <number>6</number>
     </property>
     <item row="0" column="0" >
@@ -54,11 +66,20 @@
       </widget>
       <widget class="QWidget" name="widget" >
        <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QTextEdit" name="editStatusText" />
@@ -75,7 +96,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>29</height>
+     <height>35</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings" >
@@ -139,8 +160,8 @@
   <widget class="QToolBar" name="toolBarWorkingCopy" >
    <property name="minimumSize" >
     <size>
-     <width>43</width>
-     <height>31</height>
+     <width>0</width>
+     <height>0</height>
     </size>
    </property>
    <property name="orientation" >
@@ -153,7 +174,10 @@
     </size>
    </property>
    <attribute name="toolBarArea" >
-    <number>4</number>
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
    </attribute>
    <addaction name="actionAddWorkingCopy" />
    <addaction name="actionRemoveWorkingCopy" />
@@ -170,7 +194,10 @@
     </size>
    </property>
    <attribute name="toolBarArea" >
-    <number>4</number>
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
    </attribute>
    <addaction name="actionUpdate" />
    <addaction name="actionCommit" />
@@ -190,7 +217,10 @@
     </size>
    </property>
    <attribute name="toolBarArea" >
-    <number>4</number>
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
    </attribute>
    <addaction name="actionStop" />
   </widget>
@@ -379,6 +409,17 @@
    </property>
    <property name="toolTip" >
     <string>Remove from Disk...</string>
+   </property>
+  </action>
+  <action name="actionWcMerge" >
+   <property name="text" >
+    <string>Merge...</string>
+   </property>
+   <property name="iconText" >
+    <string>Merge...</string>
+   </property>
+   <property name="toolTip" >
+    <string>Merge...</string>
    </property>
   </action>
  </widget>

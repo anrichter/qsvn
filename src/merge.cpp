@@ -34,15 +34,26 @@ void Merge::doMerge(const QString fromURL, const svn::Revision fromRevision,
                     const QString toURL, const svn::Revision toRevision)
 {
     Merge *merge = new Merge();
-    merge->setFromUrl(fromURL);
-    merge->setFromRevision(fromRevision);
-    merge->setToUrl(toURL);
-    merge->setToRevision(toRevision);
+    merge->editFromUrl->setText(fromURL);
+    merge->editFromRevision->setText(fromRevision);
+    merge->editToUrl->setText(toURL);
+    merge->editToRevision->setText(toRevision);
     merge->show();
     merge->raise();
     merge->activateWindow();
     merge->groupBoxFrom->setEnabled(false);
     merge->groupBoxTo->setEnabled(false);
+}
+
+void Merge::doMerge(const QString wc)
+{
+    Merge *merge = new Merge();
+    merge->show();
+    merge->raise();
+    merge->activateWindow();
+    merge->groupBoxWc->setEnabled(false);
+    //todo: save & restore fromUrl, fromRevision, toUrl, toRevision
+    //todo: implement ShowLog to catch from* and to*
 }
 
 Merge::Merge()
@@ -59,26 +70,6 @@ Merge::Merge()
 
 Merge::~Merge()
 {
-}
-
-void Merge::setFromUrl(const QString fromURL)
-{
-    editFromUrl->setText(fromURL);
-}
-
-void Merge::setFromRevision(const svn::Revision fromRevision)
-{
-    editFromRevision->setText(fromRevision);
-}
-
-void Merge::setToUrl(const QString toURL)
-{
-    editToUrl->setText(toURL);
-}
-
-void Merge::setToRevision(const svn::Revision toRevision)
-{
-    editToRevision->setText(toRevision);
 }
 
 void Merge::on_buttonWcPath_clicked( )
@@ -114,5 +105,6 @@ void Merge::on_buttonDryRun_clicked( )
                                  editWcPath->text(),
                                  true, true, false, true);
 }
+
 
 #include "merge.moc"

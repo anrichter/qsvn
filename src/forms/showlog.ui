@@ -16,19 +16,40 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>6</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>6</number>
    </property>
    <item row="0" column="0" >
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="labelFilter" >
@@ -97,11 +118,20 @@
    </item>
    <item row="3" column="0" >
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <widget class="QPushButton" name="buttonNext" >
@@ -205,7 +235,13 @@
   </action>
   <action name="actionMerge" >
    <property name="text" >
-    <string>Merge</string>
+    <string>Merge...</string>
+   </property>
+   <property name="iconText" >
+    <string>Merge...</string>
+   </property>
+   <property name="toolTip" >
+    <string>Merge...</string>
    </property>
   </action>
  </widget>

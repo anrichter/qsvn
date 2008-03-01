@@ -37,11 +37,7 @@ class Merge : public QDialog, public Ui::Merge
     public:
         static void doMerge(const QString fromURL, const svn::Revision fromRevision,
                             const QString toURL, const svn::Revision toRevision);
-
-        void setFromUrl(const QString fromURL);
-        void setFromRevision(const svn::Revision fromRevision);
-        void setToUrl(const QString fromURL);
-        void setToRevision(const svn::Revision fromRevision);
+        static void doMerge(const QString wc);
 
     private:
         Merge();

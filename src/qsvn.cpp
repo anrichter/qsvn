@@ -26,6 +26,7 @@
 #include "filelistproxy.h"
 #include "filemodifier.h"
 #include "fileselector.h"
+#include "merge.h"
 #include "pathproperties.h"
 #include "qsvn_defines.h"
 #include "qsvn.h"
@@ -114,6 +115,7 @@ void QSvn::createMenus()
     contextMenuWorkingCopy->addAction(actionCommit);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionShowLog);
+    contextMenuWorkingCopy->addAction(actionWcMerge);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionRevert);
     contextMenuWorkingCopy->addAction(actionCleanup);
@@ -161,6 +163,7 @@ bool QSvn::eventFilter(QObject *watched, QEvent *event)
             contextMenuFileList->popup(static_cast<QContextMenuEvent*>(event)->globalPos());
         }
     }
+
     return QMainWindow::eventFilter(watched, event);
 }
 
@@ -172,7 +175,7 @@ void QSvn::closeEvent(QCloseEvent *event)
 bool QSvn::isFileListSelected()
 {
     if (treeViewFileList->hasFocus() &&
-        (treeViewFileList->selectionModel()->selection().count() > 0))
+            (treeViewFileList->selectionModel()->selection().count() > 0))
         return true;
     else
         return false;
@@ -196,11 +199,13 @@ QStringList QSvn::selectedPaths()
     else
     {
         QModelIndexList indexes = treeViewWorkingCopy->selectionModel()->selectedIndexes();
+
         for (int i = 0; i < indexes.count(); i++)
         {
             pathSet << wcModel->getPath(indexes.at(i));
         }
     }
+
     return pathSet.toList();
 }
 
@@ -217,7 +222,9 @@ void QSvn::setActionStop(QString aText)
         connect(actionStop, SIGNAL(triggered()),
                 SvnClient::instance(), SLOT(setCancel()));
     }
+
     actionStop->setEnabled(!aText.isEmpty());
+
     qApp->processEvents();
 }
 
@@ -231,9 +238,10 @@ void QSvn::directoryChanged(const QString &dir)
 void QSvn::on_actionAddWorkingCopy_triggered()
 {
     QString dir = QFileDialog::getExistingDirectory(this,
-            tr("Select a working Directory"),
-            Config::instance()->value(KEY_LASTWC).toString(),
-            QFileDialog::ShowDirsOnly);
+                  tr("Select a working Directory"),
+                  Config::instance()->value(KEY_LASTWC).toString(),
+                  QFileDialog::ShowDirsOnly);
+
     if (!dir.isEmpty())
         wcModel->insertWc(dir);
 }
@@ -258,13 +266,16 @@ void QSvn::on_actionRemoveWorkingCopy_triggered()
 void QSvn::on_actionCheckoutWorkingCopy_triggered()
 {
     Checkout checkout(this);
+
     if (checkout.exec())
     {
         setActionStop("Checkout");
+
         if (SvnClient::instance()->checkout(checkout.url(), checkout.path()))
         {
             wcModel->insertWc(checkout.path());
         }
+
         setActionStop("");
     }
 }
@@ -300,8 +311,10 @@ void QSvn::on_actionRevert_triggered()
 
 void QSvn::on_actionShowLog_triggered()
 {
-    foreach (QString path, selectedPaths())
-    ShowLog::doShowLog(0, path, svn::Revision::HEAD, svn::Revision::START);
+    foreach(QString path, selectedPaths())
+    {
+        ShowLog::doShowLog(0, path, svn::Revision::HEAD, svn::Revision::START);
+    }
 }
 
 void QSvn::on_actionCleanup_triggered()
@@ -311,10 +324,12 @@ void QSvn::on_actionCleanup_triggered()
         QStringList cleanupList = selectedPaths();
 
         setActionStop("Cleanup");
+
         for (int i = 0; i < cleanupList.count(); i++)
         {
             SvnClient::instance()->cleanup(cleanupList.at(i));
         }
+
         setActionStop("");
     }
 }
@@ -359,6 +374,7 @@ void QSvn::on_actionResolved_triggered()
         QStringList resolveList = selectedPaths();
 
         setActionStop("Resolve");
+
         for (int i = 0; i < resolveList.count(); i++)
         {
             if (QMessageBox::question(this, tr("Confirmation"),
@@ -368,7 +384,9 @@ void QSvn::on_actionResolved_triggered()
 
                 SvnClient::instance()->resolved(resolveList.at(i));
         }
+
         setActionStop("Resolved finished");
+
         m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
     }
 }
@@ -426,6 +444,14 @@ void QSvn::on_actionEditProperties_triggered()
 void QSvn::on_actionRemoveFromDisk_triggered()
 {
     FileSelector::doSvnAction(this, SvnClient::RemoveFromDisk, selectedPaths(), isFileListSelected());
+}
+
+void QSvn::on_actionWcMerge_triggered()
+{
+    foreach(QString path, selectedPaths())
+    {
+        Merge::doMerge(path);
+    }
 }
 
 #include "qsvn.moc"

@@ -68,6 +68,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         void on_actionAddWorkingCopy_triggered();
         void on_actionRemoveWorkingCopy_triggered();
         void on_actionCheckoutWorkingCopy_triggered();
+        void on_actionWcMerge_triggered();
 
         //Modify
         void on_actionUpdate_triggered();
