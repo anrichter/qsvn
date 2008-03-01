@@ -59,6 +59,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     treeViewWorkingCopy->setSortingEnabled(true);
     treeViewWorkingCopy->sortByColumn(0, Qt::AscendingOrder);
     treeViewWorkingCopy->installEventFilter(this);
+    treeViewWorkingCopy->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     //setup fileListModel
     m_statusEntriesModel = new StatusEntriesModel(this);
@@ -68,6 +69,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     treeViewFileList->setSortingEnabled(true);
     treeViewFileList->sortByColumn(0, Qt::AscendingOrder);
     treeViewFileList->installEventFilter(this);
+    treeViewFileList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect(treeViewWorkingCopy->selectionModel(),
             SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
