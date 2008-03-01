@@ -54,7 +54,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
                               *m_logChangePathEntriesProxy;
 
         QMenu *menuPathEntries, *menuLogEntries;
-        QString m_path;
+        QString m_path, m_url, m_repos, m_repos_path;
         svn::Revision m_revisionStart, m_revisionEnd, m_revisionBeginShowLog;
 
         ShowLog(QWidget *parent = 0, const QString path = 0,
@@ -67,9 +67,6 @@ class ShowLog : public QDialog, public Ui::ShowLog
 
         svn::Revision getSelectedRevision();
         QString getSelectedPath();
-        QString getWcRootPath();
-        QString getWcRootDirPath();
-        QString getWcFilePath();
         bool checkLocatedInWc();
         svn_revnum_t getSelectedStartRevision();
 

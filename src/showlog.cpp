@@ -32,6 +32,7 @@
 #include "svnqt/log_entry.hpp"
 #include "svnqt/wc.hpp"
 
+
 //Qt
 #include <QtGui>
 
@@ -66,10 +67,10 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     initLogEntriesPath();
     initMenus();
 
-    m_path = path;
-    m_path.replace("\\", "/");
-    if (!m_path.endsWith("/"))
-        m_path.append("/");
+    m_path = QDir::fromNativeSeparators(path);
+    m_url = svn::Wc::getUrl(path);
+    m_repos = svn::Wc::getRepos(path);
+    m_repos_path = QString(m_url).remove(m_repos);
 
     this->setWindowTitle(QString(tr("Show Log for %1")).arg(path));
     editFilterString->setFocus(Qt::MouseFocusReason);
@@ -153,7 +154,7 @@ void ShowLog::buttonNextClicked(int limit)
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     m_logEntriesModel->appendLogEntries(
-            SvnClient::instance()->log(m_path, m_revisionStart, m_revisionEnd, true,
+            SvnClient::instance()->log(m_url, m_revisionStart, m_revisionEnd, true,
                                        (checkBoxStrictNodeHistory->checkState() == Qt::Checked),
                                        limit));
     m_revisionStart = m_logEntriesModel->getLogEntry(
@@ -233,29 +234,6 @@ QString ShowLog::getSelectedPath()
     return logChangePathEntry.path;
 }
 
-QString ShowLog::getWcRootPath()
-{
-    QString _result = QDir::toNativeSeparators(m_path);
-    while (svn::Wc::checkWc(_result.left(_result.lastIndexOf(QDir::separator()))))
-        _result = _result.left(_result.lastIndexOf(QDir::separator()));
-    return _result;
-}
-
-QString ShowLog::getWcRootDirPath()
-{
-    QString _result = svn::Wc::getUrl(getWcRootPath());
-    _result.remove(svn::Wc::getRepos(getWcRootPath()));
-    return _result;
-}
-
-QString ShowLog::getWcFilePath()
-{
-    QString _result = getWcRootPath() + getSelectedPath();
-    _result.remove(getWcRootDirPath());
-    _result = QDir::toNativeSeparators(_result);
-    return _result;
-}
-
 svn_revnum_t ShowLog::getSelectedStartRevision()
 {
     svn::LogEntriesPtr _logEntries;
@@ -267,7 +245,7 @@ svn_revnum_t ShowLog::getSelectedStartRevision()
 
 bool ShowLog::checkLocatedInWc()
 {
-    if (getSelectedPath().startsWith(getWcRootDirPath()))
+    if (getSelectedPath().startsWith(m_repos_path))
         return true;
     else
     {
@@ -278,8 +256,8 @@ bool ShowLog::checkLocatedInWc()
 
 void ShowLog::on_actionDiff_triggered()
 {
-    SvnClient::instance()->diff(svn::Wc::getRepos(m_path) + getSelectedPath(),
-                                svn::Wc::getRepos(m_path) + getSelectedPath(),
+    SvnClient::instance()->diff(m_repos + getSelectedPath(),
+                                m_repos + getSelectedPath(),
                                 svn::Revision(getSelectedRevision().revnum() - 1),
                                 getSelectedRevision());
 }
@@ -288,8 +266,8 @@ void ShowLog::on_actionDiff_to_WORKING_triggered()
 {
     if (checkLocatedInWc())
     {
-        SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
-                                    getWcFilePath(),
+        SvnClient::instance()->diff(m_repos + getSelectedPath(),
+                                    m_path + QString(getSelectedPath()).remove(m_repos_path),
                                     getSelectedRevision(),
                                     svn::Revision::WORKING);
     }
@@ -297,8 +275,8 @@ void ShowLog::on_actionDiff_to_WORKING_triggered()
 
 void ShowLog::on_actionDiff_to_HEAD_triggered()
 {
-    SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
-                                svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
+    SvnClient::instance()->diff(m_repos + getSelectedPath(),
+                                m_repos + getSelectedPath(),
                                 getSelectedRevision(),
                                 svn::Revision::HEAD);
 }
@@ -307,8 +285,8 @@ void ShowLog::on_actionDiff_to_BASE_triggered()
 {
     if (checkLocatedInWc())
     {
-        SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
-                                    getWcFilePath(),
+        SvnClient::instance()->diff(m_repos + getSelectedPath(),
+                                    m_path + QString(getSelectedPath()).remove(m_repos_path),
                                     getSelectedRevision(),
                                     svn::Revision::BASE);
     }
@@ -316,8 +294,8 @@ void ShowLog::on_actionDiff_to_BASE_triggered()
 
 void ShowLog::on_actionDiff_to_START_triggered()
 {
-    SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
-                                svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
+    SvnClient::instance()->diff(m_repos + getSelectedPath(),
+                                m_repos + getSelectedPath(),
                                 getSelectedRevision(),
                                 getSelectedStartRevision());
 }
@@ -328,10 +306,10 @@ void ShowLog::on_actionDiff_to_Revision_triggered( )
                                             tr("Revision Number"),
                                             tr("Revision Number"),
                                             getSelectedRevision().revnum() - 1);
-    SvnClient::instance()->diff(svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
-        svn::Wc::getRepos(getWcRootPath()) + getSelectedPath(),
-        getSelectedRevision(),
-        svn::Revision(revision));
+    SvnClient::instance()->diff(m_repos + getSelectedPath(),
+                                m_repos + getSelectedPath(),
+                                getSelectedRevision(),
+                                svn::Revision(revision));
 }
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 {
@@ -340,8 +318,8 @@ void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 
 void ShowLog::on_actionMerge_triggered( )
 {
-    Merge::doMerge(svn::Wc::getUrl(getWcRootPath()), svn::Revision(getSelectedRevision().revnum() - 1),
-                   svn::Wc::getUrl(getWcRootPath()), getSelectedRevision());
+    Merge::doMerge(m_url, svn::Revision(getSelectedRevision().revnum() - 1),
+                   m_url, getSelectedRevision());
 }
 
 
