@@ -115,17 +115,18 @@ void QSvn::createMenus()
     contextMenuWorkingCopy->addAction(actionCommit);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionShowLog);
-    contextMenuWorkingCopy->addAction(actionWcMerge);
+    contextMenuWorkingCopy->addAction(actionMerge);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionRevert);
-    contextMenuWorkingCopy->addAction(actionCleanup);
+    contextMenuWorkingCopy->addAction(actionWcCleanup);
     contextMenuWorkingCopy->addSeparator();
     contextMenuWorkingCopy->addAction(actionAdd);
     contextMenuWorkingCopy->addAction(actionDelete);
     contextMenuWorkingCopy->addAction(actionMkDir);
     contextMenuWorkingCopy->addAction(actionEditProperties);
     contextMenuWorkingCopy->addSeparator();
-    contextMenuWorkingCopy->addAction(actionRemoveFromDisk);
+    contextMenuWorkingCopy->addAction(actionWcRemoveFromFavorites);
+    contextMenuWorkingCopy->addAction(actionWcRemoveFromDisk);
 
     contextMenuFileList = new QMenu(this);
     contextMenuFileList->addAction(actionUpdate);
@@ -133,18 +134,19 @@ void QSvn::createMenus()
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction(actionDiff);
     contextMenuFileList->addAction(actionShowLog);
+    contextMenuFileList->addAction(actionMerge);
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction(actionRevert);
-    contextMenuFileList->addAction(actionResolved);
+    contextMenuFileList->addAction(actionFlResolved);
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction(actionAdd);
     contextMenuFileList->addAction(actionDelete);
-    contextMenuFileList->addAction(actionRename);
-    contextMenuFileList->addAction(actionMove);
-    contextMenuFileList->addAction(actionCopy);
+    contextMenuFileList->addAction(actionFlRename);
+    contextMenuFileList->addAction(actionFlMove);
+    contextMenuFileList->addAction(actionFlCopy);
     contextMenuFileList->addAction(actionEditProperties);
     contextMenuFileList->addSeparator();
-    contextMenuFileList->addAction(actionRemoveFromDisk);
+    contextMenuFileList->addAction(actionFlRemoveFromDisk);
 }
 
 bool QSvn::eventFilter(QObject *watched, QEvent *event)
@@ -187,6 +189,7 @@ QStringList QSvn::selectedPaths()
 
     if (isFileListSelected())
     {
+        //todo: extract to method selectedFiles
         QModelIndexList indexes = treeViewFileList->selectionModel()->selectedIndexes();
         svn::StatusPtr status;
 
@@ -198,6 +201,7 @@ QStringList QSvn::selectedPaths()
     }
     else
     {
+        //todo: extract to method selectedWorkingCopies
         QModelIndexList indexes = treeViewWorkingCopy->selectionModel()->selectedIndexes();
 
         for (int i = 0; i < indexes.count(); i++)
@@ -235,7 +239,7 @@ void QSvn::directoryChanged(const QString &dir)
 }
 
 //private slots
-void QSvn::on_actionAddWorkingCopy_triggered()
+void QSvn::on_actionWcAdd_triggered()
 {
     QString dir = QFileDialog::getExistingDirectory(this,
                   tr("Select a working Directory"),
@@ -246,8 +250,9 @@ void QSvn::on_actionAddWorkingCopy_triggered()
         wcModel->insertWc(dir);
 }
 
-void QSvn::on_actionRemoveWorkingCopy_triggered()
+void QSvn::on_actionWcRemoveFromFavorites_triggered()
 {
+    //todo call selectedWorkingCopies, if it is implemented
     QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
     QModelIndexList indexes = selectionModel->selectedIndexes();
 
@@ -255,7 +260,7 @@ void QSvn::on_actionRemoveWorkingCopy_triggered()
     {
         if (QMessageBox::question(this,
                                   tr("Confirmation"),
-                                  tr("Should i really remove this Working Copy?"),
+                                  tr("Are you sure you want to remove selected working copy from the list of favorites?"),
                                   QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
         {
             wcModel->removeWc(indexes.at(i));
@@ -263,7 +268,12 @@ void QSvn::on_actionRemoveWorkingCopy_triggered()
     }
 }
 
-void QSvn::on_actionCheckoutWorkingCopy_triggered()
+void QSvn::on_actionWcRemoveFromDisk_triggered()
+{
+    //todo: implement
+}
+
+void QSvn::on_actionWcCheckout_triggered()
 {
     Checkout checkout(this);
 
@@ -317,7 +327,7 @@ void QSvn::on_actionShowLog_triggered()
     }
 }
 
-void QSvn::on_actionCleanup_triggered()
+void QSvn::on_actionWcCleanup_triggered()
 {
     if (!isFileListSelected())
     {
@@ -367,7 +377,7 @@ void QSvn::on_actionAboutQSvn_triggered()
     QMessageBox::about(this, "Caption", aboutMsg);
 }
 
-void QSvn::on_actionResolved_triggered()
+void QSvn::on_actionFlResolved_triggered()
 {
     if (isFileListSelected())
     {
@@ -391,7 +401,7 @@ void QSvn::on_actionResolved_triggered()
     }
 }
 
-void QSvn::on_actionRename_triggered()
+void QSvn::on_actionFlRename_triggered()
 {
     if (isFileListSelected())
     {
@@ -403,7 +413,7 @@ void QSvn::on_actionRename_triggered()
     }
 }
 
-void QSvn::on_actionMove_triggered()
+void QSvn::on_actionFlMove_triggered()
 {
     if (isFileListSelected())
     {
@@ -415,7 +425,7 @@ void QSvn::on_actionMove_triggered()
     }
 }
 
-void QSvn::on_actionCopy_triggered()
+void QSvn::on_actionFlCopy_triggered()
 {
     if (isFileListSelected())
     {
@@ -441,12 +451,13 @@ void QSvn::on_actionEditProperties_triggered()
     }
 }
 
-void QSvn::on_actionRemoveFromDisk_triggered()
+void QSvn::on_actionFlRemoveFromDisk_triggered()
 {
-    FileSelector::doSvnAction(this, SvnClient::RemoveFromDisk, selectedPaths(), isFileListSelected());
+    if (isFileListSelected())
+        FileSelector::doSvnAction(this, SvnClient::RemoveFromDisk, selectedPaths(), true);
 }
 
-void QSvn::on_actionWcMerge_triggered()
+void QSvn::on_actionMerge_triggered()
 {
     foreach(QString path, selectedPaths())
     {

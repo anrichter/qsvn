@@ -125,13 +125,13 @@
     <addaction name="actionUpdate" />
     <addaction name="actionCommit" />
     <addaction name="actionRevert" />
-    <addaction name="actionResolved" />
+    <addaction name="actionFlResolved" />
     <addaction name="separator" />
     <addaction name="actionAdd" />
     <addaction name="actionDelete" />
-    <addaction name="actionRename" />
-    <addaction name="actionMove" />
-    <addaction name="actionCopy" />
+    <addaction name="actionFlRename" />
+    <addaction name="actionFlMove" />
+    <addaction name="actionFlCopy" />
     <addaction name="actionMkDir" />
     <addaction name="actionEditProperties" />
    </widget>
@@ -139,10 +139,12 @@
     <property name="title" >
      <string>&amp;Working Copy</string>
     </property>
-    <addaction name="actionAddWorkingCopy" />
-    <addaction name="actionRemoveWorkingCopy" />
-    <addaction name="actionCheckoutWorkingCopy" />
-    <addaction name="actionCleanup" />
+    <addaction name="actionWcAdd" />
+    <addaction name="actionWcCheckout" />
+    <addaction name="actionWcCleanup" />
+    <addaction name="separator" />
+    <addaction name="actionWcRemoveFromFavorites" />
+    <addaction name="actionWcRemoveFromDisk" />
    </widget>
    <widget class="QMenu" name="menuHelp" >
     <property name="title" >
@@ -179,9 +181,8 @@
    <attribute name="toolBarBreak" >
     <bool>false</bool>
    </attribute>
-   <addaction name="actionAddWorkingCopy" />
-   <addaction name="actionRemoveWorkingCopy" />
-   <addaction name="actionCheckoutWorkingCopy" />
+   <addaction name="actionWcAdd" />
+   <addaction name="actionWcCheckout" />
   </widget>
   <widget class="QToolBar" name="toolBarModify" >
    <property name="orientation" >
@@ -229,7 +230,7 @@
     <string>&amp;Exit</string>
    </property>
   </action>
-  <action name="actionAddWorkingCopy" >
+  <action name="actionWcAdd" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >:/images/actionadd.png</iconset>
    </property>
@@ -240,18 +241,18 @@
     <string>Add an existing working copy to list</string>
    </property>
   </action>
-  <action name="actionRemoveWorkingCopy" >
-   <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actiondelete.png</iconset>
-   </property>
+  <action name="actionWcRemoveFromFavorites" >
    <property name="text" >
-    <string>&amp;Remove...</string>
+    <string>&amp;Remove from Favorites...</string>
+   </property>
+   <property name="iconText" >
+    <string>Remove from Favorites...</string>
    </property>
    <property name="toolTip" >
-    <string>Remove a working copy from list</string>
+    <string>Remove selected working copy from list of Favorites</string>
    </property>
   </action>
-  <action name="actionCheckoutWorkingCopy" >
+  <action name="actionWcCheckout" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >:/images/actioncheckout.png</iconset>
    </property>
@@ -344,7 +345,7 @@
     <string>Show Log History</string>
    </property>
   </action>
-  <action name="actionCleanup" >
+  <action name="actionWcCleanup" >
    <property name="icon" >
     <iconset/>
    </property>
@@ -352,7 +353,7 @@
     <string>&amp;Cleanup</string>
    </property>
   </action>
-  <action name="actionResolved" >
+  <action name="actionFlResolved" >
    <property name="text" >
     <string>Resolved...</string>
    </property>
@@ -363,17 +364,17 @@
     <string>Resolved</string>
    </property>
   </action>
-  <action name="actionRename" >
+  <action name="actionFlRename" >
    <property name="text" >
     <string>Rename...</string>
    </property>
   </action>
-  <action name="actionMove" >
+  <action name="actionFlMove" >
    <property name="text" >
     <string>Move...</string>
    </property>
   </action>
-  <action name="actionCopy" >
+  <action name="actionFlCopy" >
    <property name="text" >
     <string>Copy...</string>
    </property>
@@ -400,7 +401,7 @@
     <string>Edit Properties...</string>
    </property>
   </action>
-  <action name="actionRemoveFromDisk" >
+  <action name="actionFlRemoveFromDisk" >
    <property name="text" >
     <string>Remove from Disk...</string>
    </property>
@@ -408,10 +409,10 @@
     <string>Remove from Disk...</string>
    </property>
    <property name="toolTip" >
-    <string>Remove from Disk...</string>
+    <string>Remove the selected working copy from disk.</string>
    </property>
   </action>
-  <action name="actionWcMerge" >
+  <action name="actionMerge" >
    <property name="text" >
     <string>Merge...</string>
    </property>
@@ -420,6 +421,17 @@
    </property>
    <property name="toolTip" >
     <string>Merge...</string>
+   </property>
+  </action>
+  <action name="actionWcRemoveFromDisk" >
+   <property name="text" >
+    <string>Remove from Disk...</string>
+   </property>
+   <property name="iconText" >
+    <string>Remove from Disk...</string>
+   </property>
+   <property name="toolTip" >
+    <string>Remove selected working copy from disk</string>
    </property>
   </action>
  </widget>

@@ -65,28 +65,29 @@ class QSvn : public QMainWindow, public Ui::QSvn
 
     private slots:
         //WorkingCopy
-        void on_actionAddWorkingCopy_triggered();
-        void on_actionRemoveWorkingCopy_triggered();
-        void on_actionCheckoutWorkingCopy_triggered();
-        void on_actionWcMerge_triggered();
+        void on_actionWcAdd_triggered();
+        void on_actionWcCheckout_triggered();
+        void on_actionWcCleanup_triggered();
+        void on_actionMkDir_triggered();
+        void on_actionWcRemoveFromFavorites_triggered();
+        void on_actionWcRemoveFromDisk_triggered();
 
-        //Modify
+        //FileList
+        void on_actionFlResolved_triggered();
+        void on_actionFlRename_triggered();
+        void on_actionFlMove_triggered();
+        void on_actionFlCopy_triggered();
+        void on_actionFlRemoveFromDisk_triggered();
+
+        //Both
         void on_actionUpdate_triggered();
         void on_actionCommit_triggered();
         void on_actionAdd_triggered();
         void on_actionDelete_triggered();
         void on_actionRevert_triggered();
         void on_actionShowLog_triggered();
-        void on_actionCleanup_triggered();
-        void on_actionResolved_triggered();
-        void on_actionRename_triggered();
-        void on_actionMove_triggered();
-        void on_actionCopy_triggered();
-        void on_actionMkDir_triggered();
-
-        //Both
+        void on_actionMerge_triggered();
         void on_actionEditProperties_triggered();
-        void on_actionRemoveFromDisk_triggered();
 
         //Query
         void on_actionDiff_triggered();
