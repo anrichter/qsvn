@@ -149,7 +149,7 @@ void Listener::contextNotify(const char *path,
                     notifyString.append(" ");
 
                 if (!notifyString.trimmed().isEmpty())
-                    notifyString.append(" ").append(_path);
+                    notifyString.append("   ").append(_path);
                 else
                     notifyString.clear();
             }
