@@ -82,7 +82,13 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QTextEdit" name="editStatusText" />
+         <widget class="QTextEdit" name="editStatusText" >
+          <property name="font" >
+           <font>
+            <family>Monospace</family>
+           </font>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -96,7 +102,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>35</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings" >

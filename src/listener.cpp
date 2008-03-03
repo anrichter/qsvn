@@ -75,91 +75,140 @@ void Listener::contextNotify(const char *path,
 
     //action to string
     QString notifyString;
+
+    QString _path = QDir::toNativeSeparators(path);
     switch (action)
     {
         case svn_wc_notify_add:
-            notifyString = QString(tr("add"));
+            if (mime_type && (svn_mime_type_is_binary(mime_type)))
+                notifyString = tr("A    (bin) %1").arg(_path);
+            else
+                notifyString = tr("A    %1").arg(_path);
             break;
         case svn_wc_notify_copy:
-            notifyString = QString(tr("copy"));
             break;
         case svn_wc_notify_delete:
-            notifyString = QString(tr("delete"));
+            notifyString = tr("D    %1").arg(_path);
             break;
         case svn_wc_notify_restore:
-            notifyString = QString(tr("restore"));
+            notifyString = tr("Restored '%1'").arg(_path);
             break;
         case svn_wc_notify_revert:
-            notifyString = QString(tr("revert"));
+            notifyString = tr("Reverted '%1'").arg(_path);
             break;
         case svn_wc_notify_failed_revert:
-            notifyString = QString(tr("failed revert"));
+            notifyString = tr("Failed to revert '%1' -- try updating instead.").arg(_path);
             break;
         case svn_wc_notify_resolved:
-            notifyString = QString(tr("resolved"));
+            notifyString = tr("Resolved conflicted state of '%1'").arg(_path);
             break;
         case svn_wc_notify_skip:
-            notifyString = QString(tr("skip"));
-            break;
-        case svn_wc_notify_update_delete:
-            notifyString = QString(tr("update delete"));
+            if (content_state == svn_wc_notify_state_missing)
+                notifyString = tr("Skipped missing target: '%1'").arg(_path);
+            else
+                notifyString = tr("Skipped '%1'").arg(_path);
             break;
         case svn_wc_notify_update_add:
-            notifyString = QString(tr("update add"));
+            if (content_state == svn_wc_notify_state_conflicted)
+                notifyString = tr("C    %1").arg(_path);
+            else
+                notifyString = tr("A    %1").arg(_path);
+            break;
+        case svn_wc_notify_update_delete:
+            notifyString = tr("D    %1").arg(_path);
             break;
         case svn_wc_notify_update_update:
-            notifyString = QString(tr("update"));
+            /* If this is an inoperative dir change, do no notification.
+            An inoperative dir change is when a directory gets closed
+            without any props having been changed. */
+            if (! ((kind == svn_node_dir)
+                    && ((prop_state == svn_wc_notify_state_inapplicable)
+                    || (prop_state == svn_wc_notify_state_unknown)
+                    || (prop_state == svn_wc_notify_state_unchanged))))
+            {
+                notifyString = "";
+                //First position is for file
+                if (kind == svn_node_file) {
+                    if (content_state == svn_wc_notify_state_changed)
+                        notifyString.append("U");
+                    else if (content_state == svn_wc_notify_state_merged)
+                        notifyString.append("G");
+                    else if (content_state == svn_wc_notify_state_conflicted)
+                        notifyString.append("C");
+                    else
+                        notifyString.append(" ");
+                }
+                //Second position is for property
+                if (prop_state == svn_wc_notify_state_changed)
+                    notifyString.append("U");
+                else if (prop_state == svn_wc_notify_state_merged)
+                    notifyString.append("G");
+                else if (prop_state == svn_wc_notify_state_conflicted)
+                    notifyString.append("C");
+                else
+                    notifyString.append(" ");
+
+                if (!notifyString.trimmed().isEmpty())
+                    notifyString.append(" ").append(_path);
+                else
+                    notifyString.clear();
+            }
             break;
         case svn_wc_notify_update_completed:
-            notifyString = QString(tr("update completed"));
+            //todo: switch between update,checkout, export (internal, external)
+            if (SVN_IS_VALID_REVNUM(revision))
+                notifyString = tr("Finished at revision %1.").arg(revision);
+            else
+                notifyString = tr("Finished.");
             break;
         case svn_wc_notify_update_external:
-            notifyString = QString(tr("update external"));
+            notifyString = tr("\nFetching external item into '%1'").arg(_path);
             break;
         case svn_wc_notify_status_completed:
-            notifyString = QString(tr("status completed"));
+            if (SVN_IS_VALID_REVNUM(revision))
+                notifyString = tr("Status against revision: %1").arg(revision);
             break;
         case svn_wc_notify_status_external:
-            notifyString = QString(tr("status external"));
+            notifyString = tr("\nPerforming status on external item at %1").arg(_path);
             break;
         case svn_wc_notify_commit_modified:
-            notifyString = QString(tr("commit modified"));
+            notifyString = tr("Sending        %1").arg(_path);
             break;
         case svn_wc_notify_commit_added:
-            notifyString = QString(tr("commit added"));
+            if (mime_type && svn_mime_type_is_binary(mime_type))
+            {
+                notifyString = tr("Adding  (bin)  %1").arg(_path);
+            } else {
+                notifyString = tr("Adding         %1").arg(_path);
+            }
             break;
         case svn_wc_notify_commit_deleted:
-            notifyString = QString(tr("commit deleted"));
+            notifyString = tr("Deleting       %1").arg(_path);
             break;
         case svn_wc_notify_commit_replaced:
-            notifyString = QString(tr("commit related"));
+            notifyString = tr("Replacing      %1").arg(_path);
             break;
         case svn_wc_notify_commit_postfix_txdelta:
-            notifyString = QString(tr("postfix txdelta"));
+            notifyString = tr("Transmitting file %1").arg(_path);
             break;
         case svn_wc_notify_blame_revision:
-            notifyString = QString(tr("blame revision"));
             break;
         case svn_wc_notify_locked:
-            notifyString = QString(tr("locked"));
+            notifyString = tr("'%1' locked.").arg(_path);
             break;
         case svn_wc_notify_unlocked:
-            notifyString = QString(tr("unlocked"));
+            notifyString = tr("'%1' unlocked.").arg(_path);
             break;
         case svn_wc_notify_failed_lock:
-            notifyString = QString(tr("failed lock"));
+            notifyString = tr("Failed to lock '%1'").arg(_path);
             break;
         case svn_wc_notify_failed_unlock:
-            notifyString = QString(tr("failed unlock"));
+            notifyString = tr("Failed to unlock '%1'").arg(_path);
             break;
     }
 
-    notifyString = notifyString + " " + QDir::toNativeSeparators(QDir::cleanPath(path));
-    if (revision > -1)
-        notifyString = QString(tr("%1 Revision %2"))
-                .arg(notifyString)
-                .arg(revision);
-    StatusText::out(notifyString);
+    if (!notifyString.isEmpty())
+        StatusText::out(notifyString);
 }
 
 void Listener::contextNotify(const svn_wc_notify_t *action)
