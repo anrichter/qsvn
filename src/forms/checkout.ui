@@ -16,11 +16,20 @@
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
+   </property>
+   <property name="leftMargin" >
+    <number>9</number>
+   </property>
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
    </property>
    <item>
     <widget class="QGroupBox" name="groupBoxRepository" >
@@ -28,10 +37,22 @@
       <string>Repository</string>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>4</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>4</number>
+      </property>
+      <property name="rightMargin" >
+       <number>4</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>4</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>3</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>3</number>
       </property>
       <item row="2" column="0" >
@@ -50,11 +71,20 @@
       </item>
       <item row="1" column="0" >
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QComboBox" name="editURL" >
@@ -73,11 +103,20 @@
       </item>
       <item row="3" column="0" >
        <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
         <property name="spacing" >
          <number>6</number>
+        </property>
+        <property name="leftMargin" >
+         <number>0</number>
+        </property>
+        <property name="topMargin" >
+         <number>0</number>
+        </property>
+        <property name="rightMargin" >
+         <number>0</number>
+        </property>
+        <property name="bottomMargin" >
+         <number>0</number>
         </property>
         <item>
          <widget class="QLineEdit" name="editPath" />
@@ -85,9 +124,7 @@
         <item>
          <widget class="QPushButton" name="buttonPath" >
           <property name="sizePolicy" >
-           <sizepolicy>
-            <hsizetype>0</hsizetype>
-            <vsizetype>0</vsizetype>
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -145,13 +182,12 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>editURL</tabstop>
   <tabstop>editPath</tabstop>
   <tabstop>buttonPath</tabstop>
  </tabstops>
+ <includes/>
  <resources/>
  <connections>
   <connection>
