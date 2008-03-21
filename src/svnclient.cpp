@@ -118,37 +118,34 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
     if (updateList.isEmpty())
         return true;
 
-    svn::Revisions fromRevisions, toRevisions;
+    svn::Revision fromRevision;
+    svn::Revisions toRevisions;
+    bool result = true;
 
     foreach (QString path, updateList)
-    fromRevisions.append(singleStatus(path)->entry().cmtRev());
-
-    listener->setVerbose(true);
-    try
     {
-        StatusText::out("");
-        m_InProgress = true;
-        toRevisions = svnClient->update(svn::Targets(updateList),
-                                        svn::Revision::HEAD, true, false);
-        m_InProgress = false;
-        if ((fromRevisions.count() == toRevisions.count()) &&                //only when same count
-             Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool() &&   //only if configured
-             !toRevisions.isEmpty())                                         //only if update results with a non-empty revisions-list
+        fromRevision = singleStatus(path)->entry().cmtRev();
+        try
         {
-            for (int i = 0; i < fromRevisions.count(); ++i)
+            StatusText::out("");
+            listener->setVerbose(true);
+            m_InProgress = true;
+            toRevisions = svnClient->update(path, svn::Revision::HEAD, true, false);
+            m_InProgress = false;
+            if (Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool() &&
+                !toRevisions.isEmpty() )
             {
-                ShowLog::doShowLog(0, updateList.at(i),
-                                   toRevisions.at(i).revision(),
-                                   fromRevisions.at(i));
+                ShowLog::doShowLog(0, path,
+                                   toRevisions.at(0).revision(),
+                                           fromRevision);
             }
         }
+        catch (svn::ClientException e)
+        {
+            StatusText::out(e.msg());
+            result = false;
+        }
     }
-    catch (svn::ClientException e)
-    {
-        StatusText::out(e.msg());
-        return false;
-    }
-    return true;
 }
 
 bool SvnClient::checkout(const QString &url, const QString &path)
