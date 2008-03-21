@@ -127,7 +127,7 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
         fromRevision = singleStatus(path)->entry().cmtRev();
         try
         {
-            StatusText::out("");
+            StatusText::out(tr("\nUpdate '%1'").arg(path));
             listener->setVerbose(true);
             m_InProgress = true;
             toRevisions = svnClient->update(path, svn::Revision::HEAD, true, false);
@@ -153,6 +153,7 @@ bool SvnClient::checkout(const QString &url, const QString &path)
     if (url.isEmpty() || path.isEmpty())
         return false;
 
+    StatusText::out(tr("\nCheckout '%1' into '%2'").arg(url).arg(path));
     listener->setVerbose(true);
     try
     {
@@ -172,6 +173,8 @@ bool SvnClient::svnexport(const QString &url, const QString &path,
     if (url.isEmpty() || path.isEmpty())
         return false;
 
+    if (verbose)
+        StatusText::out(tr("\nExport '%1' to '%2'").arg(url).arg(path));
     listener->setVerbose(verbose);
     try
     {
@@ -218,8 +221,6 @@ bool SvnClient::revert(const QStringList &revertList, const bool verbose)
     {
         svn::Targets targets(revertList);
         svnClient->revert(targets, false);
-        if (verbose)
-            completedMessage("");
     }
     catch (svn::ClientException e)
     {
@@ -241,6 +242,7 @@ bool SvnClient::commit(const QStringList &commitList, const QString &logMessage)
     if (commitList.isEmpty())
         return true;
 
+    StatusText::out(tr("\nStart Commit"));
     listener->setVerbose(true);
     try
     {
@@ -266,7 +268,6 @@ bool SvnClient::remove(const QStringList &removeList)
     {
         svn::Targets targets(removeList);
         svnClient->remove(targets, false);
-        completedMessage("");
     }
     catch (svn::ClientException e)
     {
@@ -381,7 +382,7 @@ bool SvnClient::cleanup(const QString &path)
     listener->setVerbose(true);
     try
     {
-        StatusText::out(tr("cleanup %1").arg(path));
+        StatusText::out(tr("\nCleanup '%1'").arg(path));
         svnClient->cleanup(path);
     }
     catch (svn::ClientException e)
