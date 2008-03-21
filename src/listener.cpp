@@ -162,14 +162,14 @@ void Listener::contextNotify(const char *path,
                 notifyString = tr("Finished.");
             break;
         case svn_wc_notify_update_external:
-            notifyString = tr("\nFetching external item into '%1'").arg(_path);
+            notifyString = tr("Fetching external item into '%1'").arg(_path);
             break;
         case svn_wc_notify_status_completed:
             if (SVN_IS_VALID_REVNUM(revision))
                 notifyString = tr("Status against revision: %1").arg(revision);
             break;
         case svn_wc_notify_status_external:
-            notifyString = tr("\nPerforming status on external item at %1").arg(_path);
+            notifyString = tr("Performing status on external item at %1").arg(_path);
             break;
         case svn_wc_notify_commit_modified:
             notifyString = tr("Sending        %1").arg(_path);
