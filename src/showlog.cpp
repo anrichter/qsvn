@@ -154,9 +154,13 @@ void ShowLog::buttonNextClicked(int limit)
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     m_logEntriesModel->appendLogEntries(
-            SvnClient::instance()->log(m_url, m_revisionStart, m_revisionEnd, true,
-                                       (checkBoxStrictNodeHistory->checkState() == Qt::Checked),
-                                       limit));
+            SvnClient::instance()->log(m_url,
+                                m_revisionStart,
+                                m_revisionEnd,
+                                svn::Revision::HEAD,
+                                true,
+                                (checkBoxStrictNodeHistory->checkState() == Qt::Checked),
+                                limit));
     m_revisionStart = m_logEntriesModel->getLogEntry(
             m_logEntriesModel->index(m_logEntriesModel->rowCount() - 1, 0)).revision;
 
@@ -238,8 +242,12 @@ svn_revnum_t ShowLog::getSelectedStartRevision()
 {
     svn::LogEntriesPtr _logEntries;
     _logEntries = SvnClient::instance()->log(svn::Wc::getRepos(m_path) + getSelectedPath(),
-                                             getSelectedRevision(), svn::Revision::START,
-                                             true, true, 0);
+                                             getSelectedRevision(),
+                                             svn::Revision::START,
+                                             svn::Revision::HEAD,
+                                             true,
+                                             true,
+                                             0);
     return _logEntries->first().revision;
 }
 

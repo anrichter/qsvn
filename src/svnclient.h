@@ -112,9 +112,12 @@ class SvnClient : public QObject
                    bool dry_run = false);
 
         const svn::LogEntriesPtr log(const QString &path,
-                                   const svn::Revision &revisionStart, const svn::Revision &revisionEnd,
-                                   bool discoverChangedPaths, bool strictNodeHistory,
-                                   int limit);
+                                     const svn::Revision &revisionStart,
+                                     const svn::Revision &revisionEnd,
+                                     const svn::Revision &revisionPeg,
+                                     bool discoverChangedPaths,
+                                     bool strictNodeHistory,
+                                     int limit);
 
         //Properties
         svn::PathPropertiesMapListPtr propList(const QString &path,
