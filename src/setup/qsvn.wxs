@@ -44,6 +44,7 @@
 					<Component Id="QtLib4" Guid="8C13219D-0480-408E-BAFB-A97B72667CE7">
 						<File Id="QtCore4" Name="QTCORE4.DLL" LongName="QtCore4.dll" DiskId="1" src="$(var.QtLibraryDir)\QtCore4.dll"  Vital="yes"/>
 						<File Id="QtGui4" Name="QTGUI4.DLL" LongName="QtGui4.dll" DiskId="1" src="$(var.QtLibraryDir)\QtGui4.dll" Vital="yes"/>
+						<File Id="QtSql4" Name="QTSQL4.DLL" LongName="QtSql4.dll" DiskId="1" src="$(var.QtLibraryDir)\QtSql4.dll" Vital="yes"/>
 					</Component>
 					
 					<Component Id="SubversionLib" Guid="ECC9F3F1-1A1D-44c6-9DD3-0584BF5B0A1B">
