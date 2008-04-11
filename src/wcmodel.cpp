@@ -48,14 +48,15 @@ int WcModel::rowCount(const QModelIndex &parent) const
         return QStandardItemModel::rowCount(parent);
 
     QStandardItem *_parent = itemFromIndex(parent);
-    if (_parent->rowCount() == 0)
+    if ((_parent->rowCount() == 0) && (_parent->isSelectable()))
     {
         //Lazy loading WCs - add subDirectories
+        _parent->setSelectable(false);
         foreach (QString entry, QDir(getPath(parent)).entryList(QDir::AllDirs))
         if ((entry != ".") && (entry != ".."))
             insertDir(entry, _parent, _parent->rowCount());
+        _parent->setSelectable(true);
     }
-
     return _parent->rowCount();
 }
 
