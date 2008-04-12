@@ -81,9 +81,9 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
             this, SLOT(on_actionDiff_triggered()));
 
     connect(treeViewWorkingCopy, SIGNAL(collapsed(const QModelIndex &)),
-            wcModel, SLOT(doUpdate(const QModelIndex &)));
+            wcModel, SLOT(doCollapse(const QModelIndex &)));
     connect(treeViewWorkingCopy, SIGNAL(expanded(const QModelIndex &)),
-            wcModel, SLOT(doUpdate(const QModelIndex &)));
+            wcModel, SLOT(doExpand(const QModelIndex &)));
 
     connect(actionExit, SIGNAL(triggered()), this, SLOT(close()));
 

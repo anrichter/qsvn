@@ -34,7 +34,6 @@ class WcModel : public QStandardItemModel
         WcModel(QObject *parent = 0);
         ~WcModel();
 
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
         bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
 
         void insertWc(QString dir);
@@ -48,7 +47,8 @@ class WcModel : public QStandardItemModel
         void loadWcList();
 
     public slots:
-        void doUpdate(const QModelIndex &index);
+        void doCollapse(const QModelIndex &index);
+        void doExpand(const QModelIndex &index);
 };
 
 #endif

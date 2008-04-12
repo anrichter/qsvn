@@ -42,27 +42,12 @@ WcModel::~WcModel()
     saveWcList();
 }
 
-int WcModel::rowCount(const QModelIndex &parent) const
-{
-    if (!parent.isValid())
-        return QStandardItemModel::rowCount(parent);
-
-    QStandardItem *_parent = itemFromIndex(parent);
-    if ((_parent->rowCount() == 0) && (_parent->isSelectable()))
-    {
-        //Lazy loading WCs - add subDirectories
-        _parent->setSelectable(false);
-        foreach (QString entry, QDir(getPath(parent)).entryList(QDir::AllDirs))
-        if ((entry != ".") && (entry != ".."))
-            insertDir(entry, _parent, _parent->rowCount());
-        _parent->setSelectable(true);
-    }
-    return _parent->rowCount();
-}
-
 bool WcModel::hasChildren(const QModelIndex &parent) const
 {
-    return rowCount(parent) > 0;
+    if (!parent.isValid())
+        return true;
+    else
+        return QDir(getPath(parent)).entryList(QDir::AllDirs).filter(QRegExp("^[^.]")).count() > 0;
 }
 
 void WcModel::insertWc(QString dir)
@@ -125,10 +110,21 @@ void WcModel::loadWcList()
         insertDir(wc, invisibleRootItem(), invisibleRootItem()->rowCount());
 }
 
-void WcModel::doUpdate(const QModelIndex &index)
+void WcModel::doCollapse(const QModelIndex & index)
 {
     QStandardItem *item = itemFromIndex(index);
     item->removeRows(0, item->rowCount());
+}
+
+void WcModel::doExpand(const QModelIndex & index)
+{
+    QStandardItem *_item = itemFromIndex(index);
+    if (_item != invisibleRootItem())
+    {
+        //do lazy populating of subdirectories
+        foreach (QString _dir, QDir(getPath(index)).entryList(QDir::AllDirs).filter(QRegExp("^[^.]")))
+            insertDir(_dir, _item, _item->rowCount());
+    }
 }
 
 #include "wcmodel.moc"
