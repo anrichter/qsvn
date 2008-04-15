@@ -41,14 +41,20 @@ class WcModel : public QStandardItemModel
         QString getPath(const QModelIndex &index) const;
 
     private:
+        enum UserRoles
+        {
+            PathRole = Qt::UserRole + 1,
+            PopulatedRole = Qt::UserRole + 2
+        };
+
         void insertDir(QString dir, QStandardItem *parent, int row) const;
+        void populate(QStandardItem *parent) const;
 
         void saveWcList();
         void loadWcList();
 
     public slots:
         void doCollapse(const QModelIndex &index);
-        void doExpand(const QModelIndex &index);
 };
 
 #endif

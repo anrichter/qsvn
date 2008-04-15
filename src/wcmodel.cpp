@@ -46,8 +46,20 @@ bool WcModel::hasChildren(const QModelIndex &parent) const
 {
     if (!parent.isValid())
         return true;
-    else
-        return QDir(getPath(parent)).entryList(QDir::AllDirs).filter(QRegExp("^[^.]")).count() > 0;
+    else {
+        QStandardItem *_item = itemFromIndex(parent);
+        if (!_item->data(PopulatedRole).toBool())
+            populate(_item);
+        return _item->rowCount();
+    }
+}
+
+void WcModel::populate(QStandardItem * parent) const
+{
+    parent->removeRows(0, parent->rowCount());
+    foreach (QString _dir, QDir(parent->data(PathRole).toString()).entryList(QDir::AllDirs).filter(QRegExp("^[^.]")))
+        insertDir(_dir, parent, parent->rowCount());
+    parent->setData(true, PopulatedRole);
 }
 
 void WcModel::insertWc(QString dir)
@@ -69,7 +81,7 @@ void WcModel::removeWc(const QModelIndex &index)
 
 QString WcModel::getPath(const QModelIndex &index) const
 {
-    return itemFromIndex(index)->data().toString();
+    return itemFromIndex(index)->data(PathRole).toString();
 }
 
 void WcModel::insertDir(QString dir, QStandardItem * parent, int row) const
@@ -78,10 +90,10 @@ void WcModel::insertDir(QString dir, QStandardItem * parent, int row) const
 
     item->setText(QDir::toNativeSeparators(QDir::cleanPath(dir)));
 
-    //complete dir in data() to full path for subdirectories of root-wc-items
+    //complete dir in data(PathRole) to full path for subdirectories of root-wc-items
     if (parent != invisibleRootItem())
-        dir = parent->data().toString() + QDir::separator() + dir;
-    item->setData(QDir::toNativeSeparators(dir));
+        dir = parent->data(PathRole).toString() + QDir::separator() + dir;
+    item->setData(QDir::toNativeSeparators(dir), PathRole);
 
     if (svn::Wc::checkWc(dir.toLocal8Bit()))
         item->setIcon(QIcon(":/images/folder.png"));
@@ -96,7 +108,7 @@ void WcModel::saveWcList()
     QStringList wcList;
 
     for (int i = 0; i < invisibleRootItem()->rowCount(); i++)
-        wcList << invisibleRootItem()->child(i)->data().toString();
+        wcList << invisibleRootItem()->child(i)->data(PathRole).toString();
 
     Config::instance()->saveStringList("workingCopies", wcList);
 }
@@ -112,19 +124,8 @@ void WcModel::loadWcList()
 
 void WcModel::doCollapse(const QModelIndex & index)
 {
-    QStandardItem *item = itemFromIndex(index);
-    item->removeRows(0, item->rowCount());
+    itemFromIndex(index)->setData(false, PopulatedRole);
 }
 
-void WcModel::doExpand(const QModelIndex & index)
-{
-    QStandardItem *_item = itemFromIndex(index);
-    if (_item != invisibleRootItem())
-    {
-        //do lazy populating of subdirectories
-        foreach (QString _dir, QDir(getPath(index)).entryList(QDir::AllDirs).filter(QRegExp("^[^.]")))
-            insertDir(_dir, _item, _item->rowCount());
-    }
-}
 
 #include "wcmodel.moc"
