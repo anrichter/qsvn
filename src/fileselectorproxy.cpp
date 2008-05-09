@@ -34,6 +34,9 @@ FileSelectorProxy::FileSelectorProxy(QObject *parent,
                                      SvnClient::SvnAction svnAction)
         : QSortFilterProxyModel(parent)
 {
+    #if defined Q_WS_WIN32
+	setSortCaseSensitivity(Qt::CaseInsensitive);
+	#endif
     m_svnAction = svnAction;
     switch (m_svnAction)
     {

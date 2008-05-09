@@ -16,11 +16,11 @@
    <bool>false</bool>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
+   </property>
+   <property name="margin" >
+    <number>9</number>
    </property>
    <item>
     <widget class="QSplitter" name="splitter" >
@@ -61,6 +61,9 @@
          </property>
          <property name="itemsExpandable" >
           <bool>false</bool>
+         </property>
+         <property name="sortingEnabled" >
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -107,14 +110,15 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
   </layout>
   <action name="actionRevert" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actionrevert.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actionrevert.png</normaloff>:/images/actionrevert.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Revert</string>

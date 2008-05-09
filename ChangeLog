@@ -1,6 +1,10 @@
 Version 0.7.0 - released 2008-xx-xx
 
-    Changes
+    New Features
+	------------
+	* #34 Sort list in FileSelector
+	
+	Changes
     -------
     * #42 Rework notifies on svn actions
 	
