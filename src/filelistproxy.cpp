@@ -32,6 +32,9 @@
 FileListProxy::FileListProxy(QObject *parent)
         : QSortFilterProxyModel(parent)
 {
+    #if defined Q_WS_WIN32
+	setSortCaseSensitivity(Qt::CaseInsensitive);
+	#endif
 }
 
 bool FileListProxy::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const

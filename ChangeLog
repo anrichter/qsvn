@@ -3,6 +3,10 @@ Version 0.7.0 - released 2008-xx-xx
     Changes
     -------
     * #42 Rework notifies on svn actions
+	
+	Windows only
+	------------
+	* #58 Sort FileList case insensitive
 
 
 Version 0.6.2 - released 2008-xx-xx
