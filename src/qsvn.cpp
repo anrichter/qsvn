@@ -50,6 +50,9 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     setupUi(this);
     setWindowIcon(QIcon(":/images/qsvn.png"));
 
+    //make sure, that the svn-client is correct initialised.
+    SvnClient::instance();
+
     createMenus();
 
     StatusText::setOut(editStatusText);

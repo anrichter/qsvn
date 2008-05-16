@@ -36,6 +36,7 @@
 
 //Qt
 #include <QtCore>
+#include <QtGui>
 
 
 //make SvnClient a singleton
@@ -337,8 +338,13 @@ bool SvnClient::diff(const QString &fileFrom, const QString &fileTo, const svn::
         QString _fileFrom, _fileTo;
         _fileFrom = getFileRevisionPath(fileFrom, revisionFrom);
         _fileTo = getFileRevisionPath(fileTo, revisionTo);
-        QProcess::startDetached(Config::instance()->value(KEY_DIFFVIEWER).toString(),
-                                QStringList() << _fileFrom << _fileTo);
+        if (!QProcess::startDetached(Config::instance()->value(KEY_DIFFVIEWER).toString(),
+             QStringList() << _fileFrom << _fileTo))
+        {
+            QMessageBox::critical(0, tr("Error"),
+                                  QString(tr("Can't start %1"))
+                                          .arg(Config::instance()->value(KEY_DIFFVIEWER).toString()));
+        }
     }
     return true;
 }
