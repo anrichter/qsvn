@@ -248,7 +248,7 @@ bool SvnClient::commit(const QStringList &commitList, const QString &logMessage)
     try
     {
         svn::Targets targets(commitList);
-        svnClient->commit(targets, logMessage, true);
+        svnClient->commit(targets, logMessage, svn::DepthInfinity);
         completedMessage(commitList.at(0));
     }
     catch (svn::ClientException e)
