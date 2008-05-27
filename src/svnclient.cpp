@@ -89,7 +89,7 @@ svn::StatusEntries SvnClient::status(const QString& path,
     listener->setVerbose(false);
     try
     {
-        return svnClient->status(dir.canonicalPath(), descend, get_all, update,
+        return svnClient->status(dir.canonicalPath(), descend?svn::DepthInfinity:svn::DepthEmpty, get_all, update,
                                  no_ignore, revision, detailed_remote,
                                  hide_externals);
     }
