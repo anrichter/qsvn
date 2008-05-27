@@ -125,7 +125,11 @@ IF (WIN32)
     SET(TOUTF8 "toUtf8")
     SET(FROMUTF8 "fromUtf8")
     SET(QLIST "QList")
+    SET(TOASCII "toAscii")
+    SET(HOMEDIR "homePath")
+    SET(svnqt-name svnqt-qt4)
     SET(QDATABASE "QSqlDatabase")
+    SET(QLONG "qlonglong")
     CONFIGURE_FILE(
         "${CMAKE_CURRENT_SOURCE_DIR}/svnqt/svnqt_defines.hpp.in"
         "${CMAKE_CURRENT_BINARY_DIR}/svnqt-import/svnqt/svnqt_defines.hpp"
