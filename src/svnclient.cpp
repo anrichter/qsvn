@@ -201,7 +201,7 @@ bool SvnClient::add(const QStringList &addList)
         QString file;
         foreach (file, addList)
         {
-            svnClient->add(file, false);
+            svnClient->add(file, svn::DepthInfinity);
         }
     }
     catch (svn::ClientException e)
