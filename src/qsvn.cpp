@@ -26,6 +26,7 @@
 #include "filelistproxy.h"
 #include "filemodifier.h"
 #include "fileselector.h"
+#include "helper.h"
 #include "merge.h"
 #include "pathproperties.h"
 #include "qsvn_defines.h"
@@ -253,25 +254,31 @@ void QSvn::on_actionWcAdd_triggered()
 
 void QSvn::on_actionWcRemoveFromFavorites_triggered()
 {
-    //todo call selectedWorkingCopies, if it is implemented
-    QItemSelectionModel *selectionModel = treeViewWorkingCopy->selectionModel();
-    QModelIndexList indexes = selectionModel->selectedIndexes();
-
-    for (int i = 0; i < indexes.count(); i++)
+    foreach(QString path, selectedPaths())
     {
         if (QMessageBox::question(this,
-                                  tr("Confirmation"),
-                                  tr("Are you sure you want to remove selected working copy from the list of favorites?"),
-                                  QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
+            tr("Confirmation"),
+               tr("Are you sure you want to remove the directory \n   %1 \nfrom the list of favorites?").arg(path),
+                  QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
         {
-            wcModel->removeWc(indexes.at(i));
+            wcModel->removeWc(path);
         }
     }
 }
 
 void QSvn::on_actionWcRemoveFromDisk_triggered()
 {
-    //todo: implement
+    foreach(QString path, selectedPaths())
+    {
+        if (QMessageBox::question(this,
+            tr("Confirmation"),
+               tr("Are you sure you want to delete the directory \n   %1 \npermanently from the disk?").arg(path),
+                  QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
+        {
+            wcModel->removeWc(path);
+            Helper::removeFromDisk(path);
+        }
+    }
 }
 
 void QSvn::on_actionWcCheckout_triggered()

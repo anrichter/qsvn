@@ -1,6 +1,6 @@
 /***************************************************************************
- *   This file is part of QSvn Project http://www.anrichter.net/projects/qsvn   *
- *   Copyright (c) 2004-2007 Andreas Richter <ar@anrichter.net>                *
+ *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
+ *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *
@@ -18,43 +18,30 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#ifndef WCMODEL_H
-#define WCMODEL_H
+//QSvn
+#include "helper.h"
 
 //Qt
-#include <QStandardItemModel>
+#include <QtCore>
 
 
-class WcModel : public QStandardItemModel
+bool Helper::removeFromDisk(QString aPath)
 {
-        Q_OBJECT
-
-    public:
-        WcModel(QObject *parent = 0);
-        ~WcModel();
-
-        bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
-
-        void insertWc(QString dir);
-        void removeWc(QString dir);
-        QString getPath(const QModelIndex &index) const;
-
-    private:
-        enum UserRoles
+    bool result = true;
+    QDir dir = QDir(aPath);
+    dir.setFilter(QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden | QDir::Dirs);
+    foreach(QFileInfo fileInfo, dir.entryInfoList())
+    {
+        if(fileInfo.isFile())
+            result &= QFile::remove(fileInfo.filePath());
+        else if(fileInfo.isDir())
         {
-            PathRole = Qt::UserRole + 1,
-            PopulatedRole = Qt::UserRole + 2
-        };
+            result &= Helper::removeFromDisk(fileInfo.filePath());
+        }
+    }
+    result &= dir.rmdir(aPath);
+    return result;
+}
 
-        void insertDir(QString dir, QStandardItem *parent, int row) const;
-        void populate(QStandardItem *parent) const;
 
-        void saveWcList();
-        void loadWcList();
-
-    public slots:
-        void doCollapse(const QModelIndex &index);
-};
-
-#endif
+#include "helper.moc"

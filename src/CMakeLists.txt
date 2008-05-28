@@ -53,6 +53,7 @@ SET( qsvn_headers
          filemodifier.h
          fileselector.h
          fileselectorproxy.h
+         helper.h
          listener.h
          logchangepathentriesmodel.h
          logentriesmodel.h
@@ -79,6 +80,7 @@ SET( qsvn_sources
          filemodifier.cpp
          fileselector.cpp
          fileselectorproxy.cpp
+         helper.cpp
          listener.cpp
          logchangepathentriesmodel.cpp
          logentriesmodel.cpp

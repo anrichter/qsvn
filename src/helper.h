@@ -1,6 +1,6 @@
 /***************************************************************************
- *   This file is part of QSvn Project http://www.anrichter.net/projects/qsvn   *
- *   Copyright (c) 2004-2007 Andreas Richter <ar@anrichter.net>                *
+ *   This file is part of QSvn Project http://ar.oszine.de/projects/qsvn   *
+ *   Copyright (c) 2004-2007 Andreas Richter <ar@oszine.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License Version 2        *
@@ -18,43 +18,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef HELPER_H
+#define HELPER_H
 
-#ifndef WCMODEL_H
-#define WCMODEL_H
+#include <QtCore>
 
-//Qt
-#include <QStandardItemModel>
-
-
-class WcModel : public QStandardItemModel
+class Helper : public QObject
 {
-        Q_OBJECT
+    Q_OBJECT
 
     public:
-        WcModel(QObject *parent = 0);
-        ~WcModel();
-
-        bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
-
-        void insertWc(QString dir);
-        void removeWc(QString dir);
-        QString getPath(const QModelIndex &index) const;
-
-    private:
-        enum UserRoles
-        {
-            PathRole = Qt::UserRole + 1,
-            PopulatedRole = Qt::UserRole + 2
-        };
-
-        void insertDir(QString dir, QStandardItem *parent, int row) const;
-        void populate(QStandardItem *parent) const;
-
-        void saveWcList();
-        void loadWcList();
-
-    public slots:
-        void doCollapse(const QModelIndex &index);
+        static bool removeFromDisk(QString aPath);
 };
 
 #endif

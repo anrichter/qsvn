@@ -74,9 +74,12 @@ void WcModel::insertWc(QString dir)
     insertDir(dir, invisibleRootItem(), row);
 }
 
-void WcModel::removeWc(const QModelIndex &index)
+void WcModel::removeWc(QString dir)
 {
-    removeRow(index.row(), index.parent());
+    foreach(QStandardItem* _item, findItems(dir))
+    {
+        removeRow(_item->row(), _item->index().parent());
+    }
 }
 
 QString WcModel::getPath(const QModelIndex &index) const
