@@ -221,7 +221,7 @@ bool SvnClient::revert(const QStringList &revertList, const bool verbose)
     try
     {
         svn::Targets targets(revertList);
-        svnClient->revert(targets, false);
+        svnClient->revert(targets, svn::DepthEmpty);
     }
     catch (svn::ClientException e)
     {
