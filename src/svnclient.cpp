@@ -131,7 +131,7 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
             StatusText::out(tr("\nUpdate '%1'").arg(path));
             listener->setVerbose(true);
             m_InProgress = true;
-            toRevisions = svnClient->update(path, svn::Revision::HEAD, true, false);
+            toRevisions = svnClient->update(path, svn::Revision::HEAD, svn::DepthInfinity, false, false, true);
             m_InProgress = false;
             if (Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool() &&
                 !toRevisions.isEmpty() )
