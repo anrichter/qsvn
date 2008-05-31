@@ -601,7 +601,7 @@ bool SvnClient::merge(const QString &fromUrl, const svn::Revision &fromRevision,
     {
         svnClient->merge(fromUrl, fromRevision,
                          toUrl, toRevision,
-                         wcPath, force, recurse,
+                         wcPath, force, recurse?svn::DepthInfinity:svn::DepthFiles,
                          notice_ancestry, dry_run);
         return true;
     }
