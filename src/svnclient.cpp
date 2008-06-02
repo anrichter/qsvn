@@ -522,7 +522,7 @@ bool SvnClient::propSet(const svn::PropertiesMap propMap,
         while (_oldIter.hasNext())
         {
             _oldIter.next();
-            result = result && propDel(_oldIter.key(), path, revision, svn::DepthEmpty);
+            result = result && propDel(_oldIter.key(), path, svn::DepthEmpty, revision);
         }
     }
 
@@ -556,7 +556,10 @@ bool SvnClient::propSet(const QString &propName,
     }
 }
 
-bool SvnClient::propDel(const QString &propName, const svn::Path &path, const svn::Revision &revision, svn::Depth depth)
+bool SvnClient::propDel(const QString &propName,
+                        const svn::Path &path,
+                        svn::Depth depth,
+                        const svn::Revision &revision)
 {
     listener->setVerbose(true);
     try

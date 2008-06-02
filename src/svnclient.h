@@ -136,8 +136,8 @@ class SvnClient : public QObject
                      bool skip_checks = false);
         bool propDel(const QString &propName,
                      const svn::Path &path,
-                     const svn::Revision &revision,
-                     svn::Depth depth=svn::DepthEmpty);
+                     svn::Depth depth,
+                     const svn::Revision &revision);
 
         bool removeFromDisk(const QStringList &pathList);
 
