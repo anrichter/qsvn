@@ -123,7 +123,7 @@ class SvnClient : public QObject
         svn::PathPropertiesMapListPtr propList(const QString &path,
              const svn::Revision &revision,
              const svn::Revision &peg,
-             bool recurse = false);
+             svn::Depth depth=svn::DepthEmpty) ;
         bool propSet(const svn::PropertiesMap propMap,
                      const QString &path,
                      const svn::Revision &revision);
@@ -131,12 +131,12 @@ class SvnClient : public QObject
                      const QString &propValue,
                      const svn::Path &path,
                      const svn::Revision &revision,
-                     bool recurse = false,
+                     svn::Depth depth=svn::DepthEmpty,
                      bool skip_checks = false);
         bool propDel(const QString &propName,
                      const svn::Path &path,
                      const svn::Revision &revision,
-                     bool recurse = false);
+                     svn::Depth depth=svn::DepthEmpty);
 
         bool removeFromDisk(const QStringList &pathList);
 

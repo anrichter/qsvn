@@ -491,12 +491,12 @@ bool SvnClient::mkdir(const QString & destPath)
 }
 
 svn::PathPropertiesMapListPtr SvnClient::propList(const QString &path,
-        const svn::Revision &revision, const svn::Revision &peg, bool recurse)
+        const svn::Revision &revision, const svn::Revision &peg, svn::Depth depth)
 {
     listener->setVerbose(true);
     try
     {
-        return svnClient->proplist(path, revision, peg, recurse);
+        return svnClient->proplist(path, revision, peg, depth);
     }
     catch (svn::ClientException e)
     {
@@ -521,7 +521,7 @@ bool SvnClient::propSet(const svn::PropertiesMap propMap,
         while (_oldIter.hasNext())
         {
             _oldIter.next();
-            result = result && propDel(_oldIter.key(), path, revision, false);
+            result = result && propDel(_oldIter.key(), path, revision, svn::DepthEmpty);
         }
     }
 
@@ -538,12 +538,14 @@ bool SvnClient::propSet(const svn::PropertiesMap propMap,
 bool SvnClient::propSet(const QString &propName,
                         const QString &propValue,
                         const svn::Path &path, const svn::Revision &revision,
-                        bool recurse, bool skip_checks)
+                        svn::Depth depth,
+                        bool skip_checks)
 {
     listener->setVerbose(true);
     try
     {
-        svnClient->propset(propName, propValue, path, revision, recurse, skip_checks);
+        //todo: adjust function-header to propset-header
+        svnClient->propset(propName, propValue, path, depth, skip_checks, revision);
         return true;
     }
     catch (svn::ClientException e)
@@ -553,12 +555,13 @@ bool SvnClient::propSet(const QString &propName,
     }
 }
 
-bool SvnClient::propDel(const QString &propName, const svn::Path &path, const svn::Revision &revision, bool recurse)
+bool SvnClient::propDel(const QString &propName, const svn::Path &path, const svn::Revision &revision, svn::Depth depth)
 {
     listener->setVerbose(true);
     try
     {
-        svnClient->propdel(propName, path, revision, recurse);
+        //todo: adjust function-header to propset-header
+        svnClient->propdel(propName, path, depth, revision);
         return true;
     }
     catch (svn::ClientException e)
