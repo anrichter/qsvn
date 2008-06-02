@@ -173,6 +173,6 @@ void PathPropertiesModel::deleteProperty(const QItemSelectionModel &selection)
 
 void PathPropertiesModel::writeProperties()
 {
-    SvnClient::instance()->propSet(m_propMap, m_path, svn::Revision::WORKING);
+    SvnClient::instance()->propSet(m_propMap, m_path, svn::DepthEmpty, svn::Revision::WORKING);
 }
 

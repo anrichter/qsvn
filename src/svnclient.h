@@ -126,12 +126,13 @@ class SvnClient : public QObject
              svn::Depth depth=svn::DepthEmpty) ;
         bool propSet(const svn::PropertiesMap propMap,
                      const QString &path,
+                     svn::Depth depth,
                      const svn::Revision &revision);
         bool propSet(const QString &propName,
                      const QString &propValue,
                      const svn::Path &path,
+                     svn::Depth depth,
                      const svn::Revision &revision,
-                     svn::Depth depth=svn::DepthEmpty,
                      bool skip_checks = false);
         bool propDel(const QString &propName,
                      const svn::Path &path,

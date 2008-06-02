@@ -507,6 +507,7 @@ svn::PathPropertiesMapListPtr SvnClient::propList(const QString &path,
 
 bool SvnClient::propSet(const svn::PropertiesMap propMap,
                         const QString &path,
+                        svn::Depth depth,
                         const svn::Revision &revision)
 {
     bool result = true;
@@ -530,21 +531,21 @@ bool SvnClient::propSet(const svn::PropertiesMap propMap,
     while (_iter.hasNext())
     {
         _iter.next();
-        result = result && propSet(_iter.key(), _iter.value(), path, revision);
+        result = result && propSet(_iter.key(), _iter.value(), path, depth, revision);
     }
     return result;
 }
 
 bool SvnClient::propSet(const QString &propName,
                         const QString &propValue,
-                        const svn::Path &path, const svn::Revision &revision,
+                        const svn::Path &path,
                         svn::Depth depth,
+                        const svn::Revision &revision,
                         bool skip_checks)
 {
     listener->setVerbose(true);
     try
     {
-        //todo: adjust function-header to propset-header
         svnClient->propset(propName, propValue, path, depth, skip_checks, revision);
         return true;
     }
