@@ -87,7 +87,7 @@ void Checkout::accept()
     {
         if (QMessageBox::question(this,
                                   tr("QSvn - Question"),
-                                  QString(tr("<center>Directoy<br />%1<br />does not exist.<br />Should i create this?</center>"))
+                                  QString(tr("<center>Directoy<br />%1<br />does not exists.<br />Should i create it for you?</center>"))
                                           .arg(editPath->text()),
                                   QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
         {
