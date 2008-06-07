@@ -432,7 +432,7 @@ bool SvnClient::resolved(const QString &path)
     listener->setVerbose(true);
     try
     {
-        svnClient->resolved(path, false);
+        svnClient->resolve(path, svn::DepthEmpty);
     }
     catch (svn::ClientException e)
     {
