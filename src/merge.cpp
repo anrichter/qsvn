@@ -25,6 +25,7 @@
 
 //SvnCpp
 #include "svnqt/revision.hpp"
+#include "svnqt/wc.hpp"
 
 //Qt
 #include <QtGui>
@@ -43,6 +44,9 @@ void Merge::doMerge(const QString fromURL, const svn::Revision fromRevision,
     merge->activateWindow();
     merge->groupBoxFrom->setEnabled(false);
     merge->groupBoxTo->setEnabled(false);
+
+    const QString _uuid = SvnClient::instance()->getUUID(fromURL);
+    merge->editWcPath->setText(Config::instance()->value(QString(KEY_LASTMERGEWC).arg(_uuid)).toString());
 }
 
 void Merge::doMerge(const QString wc)
@@ -52,7 +56,13 @@ void Merge::doMerge(const QString wc)
     merge->raise();
     merge->activateWindow();
     merge->groupBoxWc->setEnabled(false);
-    //todo: save & restore fromUrl, fromRevision, toUrl, toRevision
+    merge->editWcPath->setText(wc);
+
+    const QString _uuid = SvnClient::instance()->getUUID(wc);
+    merge->editFromUrl->setText(Config::instance()->value(QString(KEY_LASTMERGEFROMURL).arg(_uuid), svn::Wc::getUrl(wc)).toString());
+    merge->editFromRevision->setText(Config::instance()->value(QString(KEY_LASTMERGEFROMREVISION).arg(_uuid), QVariant()).toString());
+    merge->editToUrl->setText(Config::instance()->value(QString(KEY_LASTMERGETOURL).arg(_uuid), svn::Wc::getUrl(wc)).toString());
+    merge->editToRevision->setText(Config::instance()->value(QString(KEY_LASTMERGETOREVISION).arg(_uuid), QVariant()).toString());
     //todo: implement ShowLog to catch from* and to*
 }
 
@@ -92,7 +102,24 @@ void Merge::accept()
                                  editWcPath->text(),
                                  true, true, false, false);
 
-    Config::instance()->setValue(KEY_LASTMERGEWC, editWcPath->text());
+    const QString _uuid = SvnClient::instance()->getUUID(editWcPath->text());
+    if (groupBoxWc->isEnabled())
+    {
+        Config::instance()->setValue(QString(KEY_LASTMERGEWC).arg(_uuid), editWcPath->text());
+    }
+
+    if (groupBoxFrom->isEnabled())
+    {
+        Config::instance()->setValue(QString(KEY_LASTMERGEFROMURL).arg(_uuid), editFromUrl->text());
+        Config::instance()->setValue(QString(KEY_LASTMERGEFROMREVISION).arg(_uuid), editFromRevision->text());
+    }
+
+    if (groupBoxTo->isEnabled())
+    {
+        Config::instance()->setValue(QString(KEY_LASTMERGETOURL).arg(_uuid), editToUrl->text());
+        Config::instance()->setValue(QString(KEY_LASTMERGETOREVISION).arg(_uuid), editToRevision->text());
+    }
+
     QDialog::accept();
 }
 

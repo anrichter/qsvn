@@ -143,6 +143,9 @@ class SvnClient : public QObject
 
         bool isInProgress(); //true, if svn update is running
 
+        //Helper
+        const QString getUUID(const QString &path);
+
     public slots:
         void setCancel();
 

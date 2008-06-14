@@ -36,7 +36,12 @@ class QSplitter;
 #define KEY_SHOWLOGAFTERUPDATE "configuration/showLogAfterUpdate"
 #define KEY_CHECKEMPTYLOGMESSAGE "configuration/checkEmptyLogMessage"
 #define KEY_LASTWC "lastWC"
-#define KEY_LASTMERGEWC "lastMergeWc"
+
+#define KEY_LASTMERGEWC "merge/%1_wc"
+#define KEY_LASTMERGEFROMURL "merge/%1_fromUrl"
+#define KEY_LASTMERGEFROMREVISION "merge/%1_fromRevision"
+#define KEY_LASTMERGETOURL "merge/%1_toUrl"
+#define KEY_LASTMERGETOREVISION "merge/%1_toRevision"
 
 
 /**
@@ -75,6 +80,7 @@ class Config : public QObject
 
         void setValue(const QString &key, const QVariant &value);
         QVariant value(const QString &key);
+        QVariant value(const QString &key, const QVariant &defaultValue);
 
         void saveHeaderView(const QObject *parent, const QHeaderView *headerView);
         void restoreHeaderView(const QObject *parent, QHeaderView *headerView);

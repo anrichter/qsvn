@@ -618,5 +618,11 @@ bool SvnClient::merge(const QString &fromUrl, const svn::Revision &fromRevision,
     }
 }
 
+const QString SvnClient::getUUID(const QString &path)
+{
+    //todo: doesn't work for urls
+    return SvnClient::instance()->singleStatus(path)->entry().uuid();
+}
+
 
 #include "svnclient.moc"

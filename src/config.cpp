@@ -197,6 +197,13 @@ QVariant Config::value(const QString &key)
     m_settings->sync();
 }
 
+QVariant Config::value(const QString & key, const QVariant & defaultValue)
+{
+    m_settings->sync();
+    return m_settings->value(key, defaultValue);
+    m_settings->sync();
+}
+
 void Config::saveHeaderView(const QObject *parent, const QHeaderView *headerView)
 {
     QString key = parent->objectName() + "_" + headerView->parent()->objectName();
