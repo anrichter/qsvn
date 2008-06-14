@@ -74,8 +74,6 @@ Merge::Merge()
     buttonDryRun->setDefault(false);
     buttonBox->addButton(buttonDryRun, QDialogButtonBox::ActionRole);
     connect(buttonDryRun, SIGNAL(clicked()), this, SLOT(on_buttonDryRun_clicked()));
-
-    editWcPath->setText(Config::instance()->value(KEY_LASTMERGEWC).toString());
 }
 
 Merge::~Merge()
