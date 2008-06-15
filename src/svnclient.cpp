@@ -146,6 +146,7 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
             result = false;
         }
     }
+    return result;
 }
 
 bool SvnClient::checkout(const QString &url, const QString &path)
