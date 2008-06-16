@@ -621,8 +621,11 @@ bool SvnClient::merge(const QString &fromUrl, const svn::Revision &fromRevision,
 
 const QString SvnClient::getUUID(const QString &path)
 {
-    //todo: doesn't work for urls
-    return SvnClient::instance()->singleStatus(path)->entry().uuid();
+    svn::InfoEntries infoEntries = svnClient->info(path, svn::DepthEmpty, svn::Revision::UNDEFINED, svn::Revision::UNDEFINED);
+    if (!infoEntries.isEmpty())
+        return infoEntries.at(0).uuid();
+    else
+        return QString();
 }
 
 
