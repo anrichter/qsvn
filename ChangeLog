@@ -3,11 +3,15 @@ Version 0.7.0 - released 2008-xx-xx
     New Features
 	------------
 	* #34 Sort list in FileSelector
-	
+    * #40 Implement Merge.
+        Merge can start from a Working Copy with select the from and to URL
+        according to the from and to revision or from within the ShowLog-Dialog
+        with select the target working copy.
+
 	Changes
     -------
     * #42 Rework notifies on svn actions
-	
+
 	Windows only
 	------------
 	* #58 Sort FileList case insensitive
