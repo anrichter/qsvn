@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "merge.h"
+#include "statustext.h"
 #include "svnclient.h"
 
 //SvnCpp
@@ -94,12 +95,14 @@ void Merge::on_buttonWcPath_clicked( )
 
 void Merge::accept()
 {
+    StatusText::out(QString(tr("Merge in %1")).arg(editWcPath->text()));
     SvnClient::instance()->merge(editFromUrl->text(),
                                  svn::Revision(editFromRevision->text().toUInt()),
                                  editToUrl->text(),
                                  svn::Revision(editToRevision->text().toUInt()),
                                  editWcPath->text(),
                                  true, true, false, false);
+    StatusText::out(tr("Finished."));
 
     const QString _uuid = SvnClient::instance()->getUUID(editWcPath->text());
     if (groupBoxWc->isEnabled())
@@ -124,12 +127,14 @@ void Merge::accept()
 
 void Merge::on_buttonDryRun_clicked( )
 {
+    StatusText::out(QString(tr("Dry run in %1")).arg(editWcPath->text()));
     SvnClient::instance()->merge(editFromUrl->text(),
                                  svn::Revision(editFromRevision->text().toUInt()),
                                  editToUrl->text(),
                                  svn::Revision(editToRevision->text().toUInt()),
                                  editWcPath->text(),
                                  true, true, false, true);
+    StatusText::out(tr("Finished."));
 }
 
 
