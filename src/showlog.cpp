@@ -327,7 +327,8 @@ void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 void ShowLog::on_actionMerge_triggered( )
 {
     Merge::doMerge(m_url, svn::Revision(getSelectedRevision().revnum() - 1),
-                   m_url, getSelectedRevision());
+                   m_url, getSelectedRevision(),
+                   m_path);
 }
 
 

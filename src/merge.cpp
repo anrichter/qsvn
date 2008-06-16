@@ -32,7 +32,8 @@
 
 
 void Merge::doMerge(const QString fromURL, const svn::Revision fromRevision,
-                    const QString toURL, const svn::Revision toRevision)
+                    const QString toURL, const svn::Revision toRevision,
+                    const QString wc)
 {
     Merge *merge = new Merge();
     merge->editFromUrl->setText(fromURL);
@@ -45,7 +46,7 @@ void Merge::doMerge(const QString fromURL, const svn::Revision fromRevision,
     merge->groupBoxFrom->setEnabled(false);
     merge->groupBoxTo->setEnabled(false);
 
-    const QString _uuid = SvnClient::instance()->getUUID(fromURL);
+    const QString _uuid = SvnClient::instance()->getUUID(wc);
     merge->editWcPath->setText(Config::instance()->value(QString(KEY_LASTMERGEWC).arg(_uuid)).toString());
 }
 
