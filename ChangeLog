@@ -1,22 +1,26 @@
 Version 0.7.0 - released 2008-xx-xx
 
     New Features
-	------------
-	* #34 Sort list in FileSelector
+    ------------
+    * #34 Sort list in FileSelector
     * #40 Implement Merge.
-			Merge can start from a Working Copy with select the from and to URL
-			according to the from and to revision or from within the ShowLog-Dialog
-			with select the target working copy.
+        Merge can start from a Working Copy with select the from and to URL
+        according to the from and to revision or from within the ShowLog-Dialog
+        with select the target working copy.
 
-	Changes
+    Changes
     -------
     * #42 Rework notifies on svn actions
-	* #57 Rework "Remove from Disk" for Working Copies. It deletes now the 
+    * #57 Rework "Remove from Disk" for Working Copies. It deletes now the
             entire directory without show the FileSelector.
 
-	Windows only
-	------------
-	* #58 Sort FileList case insensitive
+    Bugfixes
+    --------
+    * #64 Set Library-Installpath on 64bit-Systems to lib64.
+
+    Windows only
+    ------------
+    * #58 Sort FileList case insensitive
 
 
 Version 0.6.2 - released 2008-xx-xx
