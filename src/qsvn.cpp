@@ -56,7 +56,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     createMenus();
 
     StatusText::setOut(editStatusText);
-
+	
     //setup wcModel
     wcModel = new WcModel(this);
     treeViewWorkingCopy->setModel(wcModel);
@@ -95,11 +95,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
 void QSvn::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     if (selected.indexes().count() == 1) //only change the FileList-View if one WC is selected
-    {
-        QModelIndex index = selected.indexes().at(0);
-        m_currentWCpath = wcModel->getPath(index);
-        m_statusEntriesModel->readDirectory(m_currentWCpath, false, false);
-    }
+        directoryChanged(wcModel->getPath(selected.indexes().at(0)));
 }
 
 QSvn::~QSvn()
@@ -235,8 +231,8 @@ void QSvn::setActionStop(QString aText)
 
 void QSvn::directoryChanged(const QString &dir)
 {
-    if (m_currentWCpath == dir)
-        m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
+    m_currentWCpath = dir;
+    m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
 }
 
 //private slots
@@ -261,6 +257,7 @@ void QSvn::on_actionWcRemoveFromFavorites_triggered()
                   QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
         {
             wcModel->removeWc(path);
+			directoryChanged("");
         }
     }
 }
@@ -275,6 +272,7 @@ void QSvn::on_actionWcRemoveFromDisk_triggered()
                   QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
         {
             wcModel->removeWc(path);
+			directoryChanged("");
             Helper::removeFromDisk(path);
         }
     }
@@ -303,7 +301,7 @@ void QSvn::on_actionUpdate_triggered()
     SvnClient::instance()->update(selectedPaths(), isFileListSelected());
     setActionStop("");
 
-    m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
+    directoryChanged(m_currentWCpath);
 }
 
 void QSvn::on_actionCommit_triggered()
@@ -404,7 +402,7 @@ void QSvn::on_actionFlResolved_triggered()
 
         setActionStop("Resolved finished");
 
-        m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
+        directoryChanged(m_currentWCpath);
     }
 }
 

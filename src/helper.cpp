@@ -33,8 +33,11 @@ bool Helper::removeFromDisk(QString aPath)
     foreach(QFileInfo fileInfo, dir.entryInfoList())
     {
         if(fileInfo.isFile())
-            result &= QFile::remove(fileInfo.filePath());
-        else if(fileInfo.isDir())
+		{
+            QFile::setPermissions(fileInfo.filePath(), QFile::WriteOwner | QFile::ReadOwner);
+			result &= QFile::remove(fileInfo.filePath());
+		} 
+		else if(fileInfo.isDir())
         {
             result &= Helper::removeFromDisk(fileInfo.filePath());
         }
