@@ -1,38 +1,44 @@
-PROJECT( qsvn )
-CMAKE_MINIMUM_REQUIRED( VERSION 2.4.0 )
-#Set Policy for cmake version 1.6.0 and above
+PROJECT(qsvn)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4.0)
+#Set Policy for cmake version 2.6.0 and above
 IF(COMMAND cmake_policy)
 	cmake_policy(SET CMP0003 NEW)
 ENDIF(COMMAND cmake_policy)
 
-SET( QSVN_MAJOR_VERSION 0 )
-SET( QSVN_MINOR_VERSION 6 )
-SET( QSVN_MICRO_VERSION 91 )
-SET( QSVN_BUILD_VERSION 0 )
+SET(QSVN_MAJOR_VERSION 0)
+SET(QSVN_MINOR_VERSION 6)
+SET(QSVN_MICRO_VERSION 91)
+SET(QSVN_BUILD_VERSION 0)
 
-SET( QSVN_VERSION_STRING "${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}")
-SET( QSVN_VERSION_NUMBER ${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION})
+SET(QSVN_VERSION_STRING "${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}")
+SET(QSVN_VERSION_NUMBER ${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION})
 
-IF(EXISTS ${PROJECT_SOURCE_DIR}/.svn)
+IF (EXISTS ${PROJECT_SOURCE_DIR}/.svn)
   FIND_PACKAGE(Subversion)
-  IF(Subversion_FOUND)
+  IF (Subversion_FOUND)
     Subversion_WC_INFO(${PROJECT_SOURCE_DIR} QSvn)
-    SET( QSVN_VERSION_STRING "${QSVN_VERSION_STRING} Build ${QSvn_WC_REVISION}" )
-    SET( QSVN_VERSION_NUMBER ${QSVN_VERSION_NUMBER}.${QSvn_WC_REVISION} )
-    SET( QSVN_BUILD_VERSION ${QSvn_WC_REVISION} )
-  ENDIF(Subversion_FOUND)
-ENDIF(EXISTS ${PROJECT_SOURCE_DIR}/.svn)
-
-SET( LIB_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib )
+    SET(QSVN_VERSION_STRING "${QSVN_VERSION_STRING} Build ${QSvn_WC_REVISION}")
+    SET(QSVN_VERSION_NUMBER ${QSVN_VERSION_NUMBER}.${QSvn_WC_REVISION})
+    SET(QSVN_BUILD_VERSION ${QSvn_WC_REVISION})
+  ENDIF (Subversion_FOUND)
+ENDIF (EXISTS ${PROJECT_SOURCE_DIR}/.svn)
 
 FIND_PACKAGE(Qt4)
 SET(QT_USE_QTMAIN 1)
 INCLUDE(${QT_USE_FILE})
 
-INCLUDE( ${CMAKE_SOURCE_DIR}/svnqt/cmakemodules/FindSubversion.cmake )
+INCLUDE(${CMAKE_SOURCE_DIR}/svnqt/cmakemodules/FindSubversion.cmake)
 
-SET ( LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin )
-SET ( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin )
+IF(CMAKE_SIZEOF_VOID_P EQUAL 4)
+  SET(LIB_SUFFIX "")
+ELSE(CMAKE_SIZEOF_VOID_P EQUAL 4)
+  SET(LIB_SUFFIX 64)
+ENDIF(CMAKE_SIZEOF_VOID_P EQUAL 4)
+SET(LIB_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX})
+SET(BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin)
+
+SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib${LIB_SUFFIX})
+SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 INCLUDE_DIRECTORIES(
                      ${CMAKE_CURRENT_BINARY_DIR}
@@ -43,9 +49,9 @@ INCLUDE_DIRECTORIES(
                      ${SUBVERSION_INCLUDE_DIR}
 )
 
-ADD_SUBDIRECTORY( svnqt )
+ADD_SUBDIRECTORY(svnqt)
 
-SET( qsvn_headers
+SET(qsvn_headers
          checkout.h
          config.h
          configure.h
@@ -72,7 +78,7 @@ SET( qsvn_headers
          ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h
 )
 
-SET( qsvn_sources
+SET(qsvn_sources
          checkout.cpp
          config.cpp
          configure.cpp
@@ -99,7 +105,7 @@ SET( qsvn_sources
          wcmodel.cpp
 )
 
-SET( qsvn_forms
+SET(qsvn_forms
          forms/checkout.ui
          forms/configure.ui
          forms/fileselector.ui
@@ -112,15 +118,15 @@ SET( qsvn_forms
          forms/sslservertrust.ui
 )
 
-QT4_WRAP_UI( ui_headers ${qsvn_forms} )
-INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR} )
-QT4_AUTOMOC( ${qsvn_sources} )
-QT4_ADD_RESOURCES( resfiles qsvn.qrc )
+QT4_WRAP_UI(ui_headers ${qsvn_forms})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+QT4_AUTOMOC(${qsvn_sources})
+QT4_ADD_RESOURCES(resfiles qsvn.qrc)
 
-CONFIGURE_FILE( "${CMAKE_CURRENT_SOURCE_DIR}/qsvn_defines.h.in"
-                "${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h"
-                IMMEDIATE
-                @ONLY )
+CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/qsvn_defines.h.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h"
+               IMMEDIATE
+               @ONLY)
 
 IF (WIN32)
     SET(_SVNQT_EXPORT "__declspec(dllimport)")
@@ -138,20 +144,22 @@ IF (WIN32)
         IMMEDIATE
         @ONLY)
     INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/svnqt-import)
-    ADD_EXECUTABLE( qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc )
-ELSE ( WIN32 )
-    ADD_EXECUTABLE( qsvn ${qsvn_sources} ${ui_headers} ${resfiles} )
-ENDIF( WIN32 )
+    ADD_EXECUTABLE(qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc)
+ELSE (WIN32)
+    ADD_EXECUTABLE(qsvn ${qsvn_sources} ${ui_headers} ${resfiles})
+ENDIF (WIN32)
 
-SET_TARGET_PROPERTIES( qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}" )
-TARGET_LINK_LIBRARIES( qsvn svnqt-qt4 ${QT_LIBRARIES} )
+SET_TARGET_PROPERTIES(qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}")
+TARGET_LINK_LIBRARIES(qsvn svnqt-qt4 ${QT_LIBRARIES})
 
-IF ( UNIX )
-    INSTALL( TARGETS qsvn DESTINATION bin )
-ENDIF ( UNIX )
+IF (UNIX)
+    INSTALL(TARGETS qsvn
+      RUNTIME DESTINATION ${BIN_INSTALL_DIR}
+      LIBRARY DESTINATION ${LIB_INSTALL_DIR})
+ENDIF (UNIX)
 
-IF ( WIN32 )
-    ADD_CUSTOM_TARGET ( wix
+IF (WIN32)
+    ADD_CUSTOM_TARGET (wix
                         COMMAND candle
                             -dQSvnSourceDir=${CMAKE_SOURCE_DIR}
                             -dQSvnLibDir=${LIBRARY_OUTPUT_PATH}
@@ -163,9 +171,9 @@ IF ( WIN32 )
                             ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
                         COMMAND light
                             -out setup/qsvn-${QSVN_VERSION_NUMBER}.msi
-                            qsvn.wixobj )
-ENDIF ( WIN32 )
+                            qsvn.wixobj)
+ENDIF (WIN32)
 
 # Unit-Tests
 ENABLE_TESTING()
-ADD_SUBDIRECTORY( tests )
+ADD_SUBDIRECTORY(tests)
