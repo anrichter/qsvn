@@ -56,7 +56,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
     createMenus();
 
     StatusText::setOut(editStatusText);
-	
+
     //setup wcModel
     wcModel = new WcModel(this);
     treeViewWorkingCopy->setModel(wcModel);
@@ -306,22 +306,22 @@ void QSvn::on_actionUpdate_triggered()
 
 void QSvn::on_actionCommit_triggered()
 {
-    FileSelector::doSvnAction(this, SvnClient::SvnCommit, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnCommit, selectedPaths(), isFileListSelected(), m_currentWCpath);
 }
 
 void QSvn::on_actionAdd_triggered()
 {
-    FileSelector::doSvnAction(this, SvnClient::SvnAdd, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnAdd, selectedPaths(), isFileListSelected(), m_currentWCpath);
 }
 
 void QSvn::on_actionDelete_triggered()
 {
-    FileSelector::doSvnAction(this, SvnClient::SvnDelete, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnDelete, selectedPaths(), isFileListSelected(), m_currentWCpath);
 }
 
 void QSvn::on_actionRevert_triggered()
 {
-    FileSelector::doSvnAction(this, SvnClient::SvnRevert, selectedPaths(), isFileListSelected());
+    FileSelector::doSvnAction(this, SvnClient::SvnRevert, selectedPaths(), isFileListSelected(), m_currentWCpath);
 }
 
 void QSvn::on_actionShowLog_triggered()
@@ -459,7 +459,7 @@ void QSvn::on_actionEditProperties_triggered()
 void QSvn::on_actionFlRemoveFromDisk_triggered()
 {
     if (isFileListSelected())
-        FileSelector::doSvnAction(this, SvnClient::RemoveFromDisk, selectedPaths(), true);
+        FileSelector::doSvnAction(this, SvnClient::RemoveFromDisk, selectedPaths(), true, m_currentWCpath);
 }
 
 void QSvn::on_actionMerge_triggered()
