@@ -628,5 +628,44 @@ const QString SvnClient::getUUID(const QString &path)
         return QString();
 }
 
+const QString SvnClient::getSvnActionName(const SvnAction action)
+{
+    switch (action)
+    {
+        case SvnNone:
+            return tr("");
+            break;
+        case SvnAdd:
+            return tr("Add");
+            break;
+        case SvnCommit:
+            return tr("Commit");
+            break;
+        case SvnDelete:
+            return tr("Delete");
+            break;
+        case SvnRevert:
+            return tr("Revert");
+            break;
+        case SvnRename:
+            return tr("Rename");
+            break;
+        case SvnMove:
+            return tr("Move");
+            break;
+        case SvnCopy:
+            return tr("Copy");
+            break;
+        case SvnMkDir:
+            return tr("MkDir");
+            break;
+        case RemoveFromDisk:
+            return tr("RemoveFromDisk");
+            break;
+        default:
+            return tr("unknown Action");
+            break;
+    }
+}
 
 #include "svnclient.moc"

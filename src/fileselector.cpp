@@ -50,15 +50,15 @@ FileSelector::FileSelector(QWidget *parent,
     else
         m_statusEntriesModel->readDirectory(pathList.at(0), true, true);
     setupFileSelector(svnAction);
-    checkSelectAll->setCheckState(Qt::CheckState(Config::instance()->value("selectAll" + this->windowTitle()).toInt()));
+    checkSelectAll->setCheckState(Qt::CheckState(Config::instance()->value("selectAll" + SvnClient::instance()->getSvnActionName(m_svnAction)).toInt()));
 
     connect(this, SIGNAL(directoryChanged(const QString &)), parent, SLOT(directoryChanged(const QString &)));
 }
 
 FileSelector::~FileSelector()
 {
-    Config::instance()->saveWidget(this, this->windowTitle());
-    Config::instance()->setValue("selectAll" + this->windowTitle(), checkSelectAll->checkState());
+    Config::instance()->saveWidget(this, SvnClient::instance()->getSvnActionName(m_svnAction));
+    Config::instance()->setValue("selectAll" + SvnClient::instance()->getSvnActionName(m_svnAction), checkSelectAll->checkState());
 }
 
 void FileSelector::setupFileSelector(SvnClient::SvnAction svnAction)
@@ -73,27 +73,25 @@ void FileSelector::setupFileSelector(SvnClient::SvnAction svnAction)
 
     treeViewFiles->installEventFilter(this);
 
-    Config::instance()->restoreWidget(this, this->windowTitle());
+    Config::instance()->restoreWidget(this, SvnClient::instance()->getSvnActionName(m_svnAction));
     Config::instance()->restoreHeaderView(this, treeViewFiles->header());
 }
 
 void FileSelector::setupUI()
 {
+    setWindowTitle(tr("%1 [%2]").arg(SvnClient::instance()->getSvnActionName(m_svnAction)).arg(m_wc));
     switch (m_svnAction)
     {
         case SvnClient::SvnNone:
-            setWindowTitle("");
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnAdd:
-            setWindowTitle(tr("Add [%1]").arg(m_wc));
             setWindowIcon(QIcon(":/images/actionaddlocal.png"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnCommit:
-            setWindowTitle(tr("Commit [%1]").arg(m_wc));
             setWindowIcon(QIcon(":/images/actioncommit.png"));
             comboLogHistory->addItems(Config::instance()->getStringList("logHistory"));
             comboLogHistory->insertItem(0, "");
@@ -102,25 +100,21 @@ void FileSelector::setupUI()
             editLogMessage->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnDelete:
-            setWindowTitle(tr("Delete [%1]").arg(m_wc));
             setWindowIcon(QIcon(":/images/actiondeletelocal.png"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnRevert:
-            setWindowTitle(tr("Revert [%1]").arg(m_wc));
             setWindowIcon(QIcon(":/images/actionrevert.png"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::RemoveFromDisk:
-            setWindowTitle(tr("Remove from Disk [%1]").arg(m_wc));
             setWindowIcon(QIcon(":/images/actiondeletelocal.png"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         default:
-            setWindowTitle(tr("unsupported Action"));
             groupBoxFiles->setVisible(false);
             groupBoxLogMessage->setVisible(false);
             break;

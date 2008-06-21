@@ -145,6 +145,7 @@ class SvnClient : public QObject
 
         //Helper
         const QString getUUID(const QString &path);
+        const QString getSvnActionName(const SvnAction action);
 
     public slots:
         void setCancel();
