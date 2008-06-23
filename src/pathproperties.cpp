@@ -21,8 +21,8 @@
 //QSvn
 #include "config.h"
 #include "pathproperties.h"
-#include "pathpropertiesdelegate.h"
 #include "pathpropertiesmodel.h"
+#include "propertyedit.h"
 #include "statustext.h"
 #include "svnclient.h"
 
@@ -38,6 +38,11 @@ PathProperties::PathProperties(QObject *parent, const QString path)
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
 
+    editButton = new QPushButton(this);
+    editButton->setText(tr("Edit"));
+    this->buttonBox->addButton(editButton, QDialogButtonBox::ActionRole);
+    connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
+
     addButton = new QPushButton(this);
     addButton->setText(tr("Add"));
     this->buttonBox->addButton(addButton, QDialogButtonBox::ActionRole);
@@ -52,7 +57,6 @@ PathProperties::PathProperties(QObject *parent, const QString path)
 
     m_model = new PathPropertiesModel(path);
     viewPathProperties->setModel(m_model);
-    viewPathProperties->setItemDelegateForColumn(0, &delegate);
 
     Config::instance()->restoreWidget(this);
     Config::instance()->restoreHeaderView(this, viewPathProperties->header());
@@ -84,7 +88,9 @@ void PathProperties::doPathProperties(QWidget *parent, const QString path)
 
 void PathProperties::addButtonClicked()
 {
-    m_model->addProperty();
+    QString _propName, _propValue;
+    if (PropertyEdit::doPropertyEdit(this, _propName, _propValue) == QDialog::Accepted)
+        m_model->addProperty(_propName, _propValue);
 }
 
 void PathProperties::accept()
@@ -97,6 +103,18 @@ void PathProperties::deleteButtonClicked()
 {
     QItemSelectionModel *selection = viewPathProperties->selectionModel();
     m_model->deleteProperty(*selection);
+}
+
+void PathProperties::editButtonClicked()
+{
+    if (viewPathProperties->selectionModel()->hasSelection())
+    {
+        QString _propName, _propValue;
+        _propName = m_model->getPropertyName(viewPathProperties->selectionModel()->currentIndex().row());
+        _propValue = m_model->getPropertyValue(viewPathProperties->selectionModel()->currentIndex().row());
+        if (PropertyEdit::doPropertyEdit(this, _propName, _propValue) == QDialog::Accepted)
+            m_model->setProperty(_propName, _propValue);
+    }
 }
 
 #include "pathproperties.moc"

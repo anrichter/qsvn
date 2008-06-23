@@ -18,29 +18,44 @@
  *                                                                              *
  *******************************************************************************/
 
-#ifndef PATHPROPERTIESDELEGATE_H
-#define PATHPROPERTIESDELEGATE_H
+
+//QSvn
+#include "propertyedit.h"
 
 //Qt
-#include <QItemDelegate>
-#include <QObject>
+#include <QDialog>
 
-
-class PathPropertiesDelegate : public QItemDelegate
+PropertyEdit::PropertyEdit(QObject *parent, QString &propertyName, QString &propertyValue)
 {
-    Q_OBJECT
-    public:
-        PathPropertiesDelegate(QObject *parent = 0);
+    setupUi(this);
 
-        QWidget *createEditor(QWidget *parent,
-                              const QStyleOptionViewItem &option,
-                              const QModelIndex &index) const;
-        void setEditorData(QWidget *editor, const QModelIndex &index) const;
-        void setModelData(QWidget *editor, QAbstractItemModel *model,
-                          const QModelIndex &index) const;
-        void updateEditorGeometry(QWidget *editor,
-                                  const QStyleOptionViewItem &option,
-                                  const QModelIndex &index) const;
-};
+    comboPropertyName->addItem("svn:executable");
+    comboPropertyName->addItem("svn:mime-type");
+    comboPropertyName->addItem("svn:ignore");
+    comboPropertyName->addItem("svn:keywords");
+    comboPropertyName->addItem("svn:eol-style");
+    comboPropertyName->addItem("svn:externals");
+    comboPropertyName->addItem("svn:special");
 
-#endif
+    comboPropertyName->setEditText(propertyName);
+    editPropertyValue->setPlainText(propertyValue);
+}
+
+PropertyEdit::~ PropertyEdit()
+{
+}
+
+int PropertyEdit::doPropertyEdit(QWidget *parent, QString &propertyName, QString &propertyValue)
+{
+    PropertyEdit *edit = new PropertyEdit(parent, propertyName, propertyValue);
+    int result = edit->exec();
+    if (result == QDialog::Accepted)
+    {
+        propertyName = edit->comboPropertyName->currentText();
+        propertyValue = edit->editPropertyValue->toPlainText();
+    }
+    return result;
+}
+
+
+#include "propertyedit.moc"

@@ -18,53 +18,25 @@
  *                                                                              *
  *******************************************************************************/
 
+#ifndef HEADER_H
+#define HEADER_H
+
 //QSvn
-#include "pathpropertiesdelegate.h"
+#include "ui_propertyedit.h"
 
 //Qt
-#include <QComboBox>
-#include <QItemDelegate>
+#include <QDialog>
 
-
-PathPropertiesDelegate::PathPropertiesDelegate(QObject *parent)
-    : QItemDelegate(parent)
+class PropertyEdit : public QDialog, public Ui::PropertyEdit
 {
-}
+    Q_OBJECT
+    public:
+        PropertyEdit(QObject *parent, QString &propertyName, QString &propertyValue);
+        ~PropertyEdit();
 
-QWidget * PathPropertiesDelegate::createEditor(QWidget *parent,
-                                               const QStyleOptionViewItem &option,
-                                               const QModelIndex &index) const
-{
-    QComboBox *editor = new QComboBox(parent);
-    editor->setEditable(true);
-    editor->addItem("svn:executable");
-    editor->addItem("svn:mime-type");
-    editor->addItem("svn:ignore");
-    editor->addItem("svn:keywords");
-    editor->addItem("svn:eol-style");
-    editor->addItem("svn:externals");
-    editor->addItem("svn:special");
-
-    return editor;
-}
-
-void PathPropertiesDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    QComboBox *comboBox = static_cast<QComboBox*>(editor);
-    comboBox->setEditText(index.model()->data(index, Qt::DisplayRole).toString());
-}
-
-void PathPropertiesDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                          const QModelIndex &index) const
-{
-    QComboBox *comboBox = static_cast<QComboBox*>(editor);
-    model->setData(index, comboBox->currentText(), Qt::EditRole);
-}
-
-void PathPropertiesDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const
-{
-    editor->setGeometry(option.rect);
-}
+        static int doPropertyEdit(QWidget *parent, QString &propertyName, QString &propertyValue);
+};
 
 
-#include "pathpropertiesdelegate.moc"
+
+#endif

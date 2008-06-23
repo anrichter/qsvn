@@ -66,8 +66,8 @@ SET(qsvn_headers
          login.h
          merge.h
          pathproperties.h
-         pathpropertiesdelegate.h
          pathpropertiesmodel.h
+         propertyedit.h
          qsvn.h
          showlog.h
          sslservertrust.h
@@ -94,8 +94,8 @@ SET(qsvn_sources
          main.cpp
          merge.cpp
          pathproperties.cpp
-         pathpropertiesdelegate.cpp
          pathpropertiesmodel.cpp
+         propertyedit.cpp
          qsvn.cpp
          showlog.cpp
          sslservertrust.cpp
@@ -113,6 +113,7 @@ SET(qsvn_forms
          forms/login.ui
          forms/merge.ui
          forms/pathproperties.ui
+         forms/propertyedit.ui
          forms/qsvn.ui
          forms/showlog.ui
          forms/sslservertrust.ui

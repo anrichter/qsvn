@@ -41,12 +41,12 @@ class PathPropertiesModel : public QAbstractTableModel
         QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
         QVariant data(const QModelIndex &index, int role) const;
 
-        Qt::ItemFlags flags(const QModelIndex &index) const;
-        bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-
-        void addProperty();
+        void addProperty(const QString propertyName, const QString propertyValue);
+        void setProperty(const QString propertyName, const QString propertyValue);
         void deleteProperty(const QItemSelectionModel &selection);
         void writeProperties();
+        QString getPropertyName(int row);
+        QString getPropertyValue(int row);
     private:
         QString m_path;
         svn::PropertiesMap m_propMap;

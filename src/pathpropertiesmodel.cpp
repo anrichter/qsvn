@@ -99,59 +99,20 @@ QVariant PathPropertiesModel::data(const QModelIndex &index, int role) const
         return QVariant();
 }
 
-Qt::ItemFlags PathPropertiesModel::flags(const QModelIndex &index) const
-{
-    if (index.isValid())
-    {
-        switch (index.column())
-        {
-            case 0:
-                if (this->data(this->index(index.row(), 1), Qt::DisplayRole).toString().isEmpty())
-                    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
-                else
-                    return QAbstractItemModel::flags(index);
-            default:
-                return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
-        }
-    }
-    else
-        return QAbstractItemModel::flags(index);
-}
-
-bool PathPropertiesModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if (!index.isValid())
-        return false;
-
-    if (role == Qt::EditRole)
-    {
-        QString _property, _value;
-        switch(index.column())
-        {
-            case 0:
-                _property = this->data(this->index(index.row(), 0), Qt::DisplayRole).toString();
-                _value = this->data(this->index(index.row(), 1), Qt::DisplayRole).toString();
-                if (!m_propMap.contains(value.toString()))
-                {
-                    m_propMap.remove(_property);
-                    m_propMap.insert(value.toString(), _value);
-                    emit layoutChanged();
-                }
-                break;
-            case 1:
-                m_propMap[m_propMap.keys().at(index.row())] = value.toString();
-                break;
-        }
-    }
-    return true;
-}
-
-
-void PathPropertiesModel::addProperty()
+void PathPropertiesModel::addProperty(const QString propertyName, const QString propertyValue)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount() + 1);
-    m_propMap.insert("", "");
+    m_propMap.insert(propertyName, propertyValue);
     endInsertRows();
+}
+
+void PathPropertiesModel::setProperty(const QString propertyName, const QString propertyValue)
+{
+    if (m_propMap.contains(propertyValue))
+        m_propMap[propertyName] = propertyValue;
+    else
+        m_propMap.insert(propertyName, propertyValue);
+    emit layoutChanged();
 }
 
 void PathPropertiesModel::deleteProperty(const QItemSelectionModel &selection)
@@ -174,5 +135,15 @@ void PathPropertiesModel::deleteProperty(const QItemSelectionModel &selection)
 void PathPropertiesModel::writeProperties()
 {
     SvnClient::instance()->propSet(m_propMap, m_path, svn::DepthEmpty, svn::Revision::WORKING);
+}
+
+QString PathPropertiesModel::getPropertyName(int row)
+{
+    return m_propMap.keys().at(row);
+}
+
+QString PathPropertiesModel::getPropertyValue(int row)
+{
+    return m_propMap[m_propMap.keys().at(row)];
 }
 
