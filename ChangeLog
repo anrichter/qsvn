@@ -13,6 +13,7 @@ Version 0.7.0 - released 2008-xx-xx
     * #42 Rework notifies on svn actions
     * #48 FileSelector show the current working copy, where the selected files
             should be modified.
+    * #52 Property-Handling is now user-friendlyer. Edit a property open an extra dialog.
     * #57 Rework "Remove from Disk" for Working Copies. It deletes now the
             entire directory without show the FileSelector.
 

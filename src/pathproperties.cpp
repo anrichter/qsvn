@@ -38,15 +38,15 @@ PathProperties::PathProperties(QWidget *parent, const QString path)
     setAttribute(Qt::WA_DeleteOnClose, true);
     setupUi(this);
 
-    editButton = new QPushButton(this);
-    editButton->setText(tr("Edit"));
-    this->buttonBox->addButton(editButton, QDialogButtonBox::ActionRole);
-    connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
-
     addButton = new QPushButton(this);
     addButton->setText(tr("Add"));
     this->buttonBox->addButton(addButton, QDialogButtonBox::ActionRole);
     connect(addButton, SIGNAL(clicked()), this, SLOT(addButtonClicked()));
+
+    editButton = new QPushButton(this);
+    editButton->setText(tr("Edit"));
+    this->buttonBox->addButton(editButton, QDialogButtonBox::ActionRole);
+    connect(editButton, SIGNAL(clicked()), this, SLOT(editButtonClicked()));
 
     deleteButton = new QPushButton(this);
     deleteButton->setText(tr("Delete"));
@@ -57,9 +57,15 @@ PathProperties::PathProperties(QWidget *parent, const QString path)
 
     m_model = new PathPropertiesModel(path);
     viewPathProperties->setModel(m_model);
+    connect(viewPathProperties->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+            this, SLOT(updateButtons()));
+    connect(viewPathProperties, SIGNAL(doubleClicked(const QModelIndex &)),
+            this, SLOT(editButtonClicked()));
 
     Config::instance()->restoreWidget(this);
     Config::instance()->restoreHeaderView(this, viewPathProperties->header());
+
+    updateButtons();
 }
 
 
@@ -90,7 +96,10 @@ void PathProperties::addButtonClicked()
 {
     QString _propName, _propValue;
     if (PropertyEdit::doPropertyEdit(this, _propName, _propValue) == QDialog::Accepted)
+    {
         m_model->addProperty(_propName, _propValue);
+        updateButtons();
+    }
 }
 
 void PathProperties::accept()
@@ -103,6 +112,7 @@ void PathProperties::deleteButtonClicked()
 {
     QItemSelectionModel *selection = viewPathProperties->selectionModel();
     m_model->deleteProperty(*selection);
+    updateButtons();
 }
 
 void PathProperties::editButtonClicked()
@@ -115,6 +125,12 @@ void PathProperties::editButtonClicked()
         if (PropertyEdit::doPropertyEdit(this, _propName, _propValue) == QDialog::Accepted)
             m_model->setProperty(_propName, _propValue);
     }
+}
+
+void PathProperties::updateButtons()
+{
+    editButton->setEnabled(viewPathProperties->selectionModel()->hasSelection());
+    deleteButton->setEnabled(viewPathProperties->selectionModel()->hasSelection());
 }
 
 #include "pathproperties.moc"
