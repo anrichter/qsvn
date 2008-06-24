@@ -31,7 +31,7 @@ class PropertyEdit : public QDialog, public Ui::PropertyEdit
 {
     Q_OBJECT
     public:
-        PropertyEdit(QObject *parent, QString &propertyName, QString &propertyValue);
+        PropertyEdit(QWidget *parent, QString &propertyName, QString &propertyValue);
         ~PropertyEdit();
 
         static int doPropertyEdit(QWidget *parent, QString &propertyName, QString &propertyValue);

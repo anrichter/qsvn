@@ -25,7 +25,8 @@
 //Qt
 #include <QDialog>
 
-PropertyEdit::PropertyEdit(QObject *parent, QString &propertyName, QString &propertyValue)
+PropertyEdit::PropertyEdit(QWidget *parent, QString &propertyName, QString &propertyValue)
+    : QDialog(parent)
 {
     setupUi(this);
 

@@ -32,7 +32,7 @@
 #include <QtGui>
 
 
-PathProperties::PathProperties(QObject *parent, const QString path)
+PathProperties::PathProperties(QWidget *parent, const QString path)
     : QDialog(0)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);

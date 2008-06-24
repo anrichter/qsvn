@@ -34,7 +34,7 @@ class PathProperties : public QDialog, public Ui::PathProperties
 {
     Q_OBJECT
     public:
-        PathProperties(QObject *parent, const QString path);
+        PathProperties(QWidget *parent, const QString path);
         ~PathProperties();
 
         static void doPathProperties(QWidget *parent, const QString path);
