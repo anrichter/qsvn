@@ -99,7 +99,7 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
                 case 0: //FileName
                     if (!status->isVersioned() ||                         //return path for unversioned Files
                          (status->isVersioned() && fileInfo.isDir()) ||  //            and for versioned Directories
-                         m_descend)
+                         m_depth > svn::DepthFiles)
                     {
                         QString path = QDir::toNativeSeparators(status->path());
                         return path.remove(m_directory);
@@ -130,7 +130,7 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void StatusEntriesModel::readDirectory(QString directory, const bool descend,
+void StatusEntriesModel::readDirectory(QString directory, svn::Depth depth,
                                        const bool force)
 {
     directory = QDir::cleanPath(directory) + QDir::separator();
@@ -138,9 +138,9 @@ void StatusEntriesModel::readDirectory(QString directory, const bool descend,
     if (force || (m_directory != directory))
     {
         disableFsWatcher();
-        m_descend = descend;
+        m_depth = depth;
         m_directory = directory;
-        m_statusEntries = SvnClient::instance()->status(m_directory, m_descend);
+        m_statusEntries = SvnClient::instance()->status(m_directory, m_depth);
         enableFsWatcher();
         emit layoutChanged();
     }
@@ -236,7 +236,7 @@ void StatusEntriesModel::doDirectoryChanged(const QString &path)
     if (SvnClient::instance()->isInProgress())
         return;
 
-    readDirectory(m_directory, m_descend, true);
+    readDirectory(m_directory, m_depth, true);
 }
 
 void StatusEntriesModel::disableFsWatcher()

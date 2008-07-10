@@ -48,7 +48,7 @@ FileSelector::FileSelector(QWidget *parent,
     if (isFileList)
         m_statusEntriesModel->readFileList(pathList);
     else
-        m_statusEntriesModel->readDirectory(pathList.at(0), true, true);
+        m_statusEntriesModel->readDirectory(pathList.at(0), svn::DepthInfinity, true);
     setupFileSelector(svnAction);
     checkSelectAll->setCheckState(Qt::CheckState(Config::instance()->value("selectAll" + SvnClient::instance()->getSvnActionName(m_svnAction)).toInt()));
 

@@ -232,7 +232,7 @@ void QSvn::setActionStop(QString aText)
 void QSvn::directoryChanged(const QString &dir)
 {
     m_currentWCpath = dir;
-    m_statusEntriesModel->readDirectory(m_currentWCpath, false, true);
+    m_statusEntriesModel->readDirectory(m_currentWCpath, svn::DepthFiles, true);
 }
 
 //private slots

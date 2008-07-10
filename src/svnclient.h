@@ -64,7 +64,7 @@ class SvnClient : public QObject
          * @return
          */
         svn::StatusEntries status(const QString& path,
-                                  const bool descend = false,
+                                  svn::Depth depth,
                                   const bool get_all = true,
                                   const bool update = false,
                                   const bool no_ignore = false,
