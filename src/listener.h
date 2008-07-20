@@ -57,6 +57,7 @@ class Listener : public QObject, public svn::ContextListener
                 bool &maySave);
         virtual bool contextLoadSslClientCertPw(QString&, const QString&) {return true;}
         virtual bool contextGetSavedLogin(const QString&, QString&, QString&) {return true;}
+        virtual bool contextGetCachedLogin(const QString & realm, QString & username, QString & password) {return true;}
         virtual void contextProgress(long long int current, long long int max);
 
         void setCancel(bool cancel);
