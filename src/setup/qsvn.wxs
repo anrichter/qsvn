@@ -54,6 +54,15 @@
 						<File Id="libaprutil" Name="LIBAPRUT.DLL" LongName="libaprutil.dll" DiskId="1" src="$(var.SvnBinDir)\libaprutil.dll" />
 						<File Id="libdb44" Name="LIBDB44.DLL" LongName="libdb44.dll" DiskId="1" src="$(var.SvnBinDir)\libdb44.dll" />
 						<File Id="libeay32" Name="LIBEAY32.DLL" LongName="libeay32.dll" DiskId="1" src="$(var.SvnBinDir)\libeay32.dll" />
+						<File Id="libsasl" Name="LIBSASL.DLL" LongName="libsasl.dll" DiskId="1" src="$(var.SvnBinDir)\libsasl.dll" />
+						<File Id="libsvn_client" Name="CLIENT.DLL" LongName="libsvn_client-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_client-1.dll" />
+						<File Id="libsvn_delta" Name="DELTA.DLL" LongName="libsvn_delta-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_delta-1.dll" />
+						<File Id="libsvn_diff" Name="DIFF.DLL" LongName="libsvn_diff-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_diff-1.dll" />
+						<File Id="libsvn_fs" Name="FS.DLL" LongName="libsvn_fs-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_fs-1.dll" />
+						<File Id="libsvn_ra" Name="RA.DLL" LongName="libsvn_ra-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_ra-1.dll" />
+						<File Id="libsvn_repos" Name="REPOS.DLL" LongName="libsvn_repos-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_repos-1.dll" />
+						<File Id="libsvn_subr" Name="SUBR.DLL" LongName="libsvn_subr-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_subr-1.dll" />
+						<File Id="libsvn_wc.dll" Name="WC.DLL" LongName="libsvn_wc-1.dll" DiskId="1" src="$(var.SvnBinDir)\libsvn_wc-1.dll" />
 						<File Id="ssleay32" Name="SSLEAY32.DLL" LongName="ssleay32.dll" DiskId="1" src="$(var.SvnBinDir)\ssleay32.dll" />
 					</Component>
 					
