@@ -7,7 +7,8 @@ Version 0.7.0 - released 2008-xx-xx
         Merge can start from a Working Copy with select the from and to URL
         according to the from and to revision or from within the ShowLog-Dialog
         with select the target working copy.
-	* #70 Switch to Subversion 1.5 (windows only)
+    * #58 Sort FileList case insensitive
+    * #70 Switch to Subversion 1.5 (windows only)
 
     Changes
     -------
@@ -21,10 +22,6 @@ Version 0.7.0 - released 2008-xx-xx
     Bugfixes
     --------
     * #64 Set Library-Installpath on 64bit-Systems to lib64.
-
-    Windows only
-    ------------
-    * #58 Sort FileList case insensitive
 
 
 Version 0.6.2 - released 2008-xx-xx
