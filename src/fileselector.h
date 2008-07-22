@@ -78,6 +78,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
         void on_actionDiff_triggered();
         void on_actionRevert_triggered();
         void on_actionResolved_triggered();
+        void on_actionShowLog_triggered();
 
     signals:
         void directoryChanged(const QString &path);

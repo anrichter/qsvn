@@ -22,6 +22,7 @@
 #include "config.h"
 #include "fileselector.h"
 #include "fileselectorproxy.h"
+#include "showlog.h"
 #include "statusentriesmodel.h"
 #include "svnclient.h"
 
@@ -124,6 +125,11 @@ void FileSelector::setupUI()
 void FileSelector::setupMenus()
 {
     contextMenu = new QMenu(this);
+
+    if ((m_svnAction == SvnClient::SvnCommit) ||
+         (m_svnAction == SvnClient::SvnDelete) ||
+         (m_svnAction == SvnClient::SvnRevert))
+        contextMenu->addAction(actionShowLog);
 
     if ((m_svnAction == SvnClient::SvnCommit) ||
          (m_svnAction == SvnClient::SvnRevert))
@@ -281,6 +287,16 @@ void FileSelector::on_actionResolved_triggered()
     }
 }
 
+
+void FileSelector::on_actionShowLog_triggered()
+{
+    QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
+
+    QString fullFileName;
+    fullFileName = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(index).row())->path();
+
+    ShowLog::doShowLog(0, fullFileName, svn::Revision::HEAD, svn::Revision::START);
+}
 
 void FileSelector::on_actionDiff_triggered()
 {

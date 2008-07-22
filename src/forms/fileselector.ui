@@ -140,6 +140,11 @@
     <string>Resolved</string>
    </property>
   </action>
+  <action name="actionShowLog" >
+   <property name="text" >
+    <string>Show Log</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>treeViewFiles</tabstop>

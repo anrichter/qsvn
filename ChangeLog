@@ -3,6 +3,8 @@ Version 0.7.0 - released 2008-xx-xx
     New Features
     ------------
     * #34 Sort list in FileSelector
+    * #38 In commit-, delete- and revert-dialog you can now show the log from
+        a selected file.
     * #40 Implement Merge.
         Merge can start from a Working Copy with select the from and to URL
         according to the from and to revision or from within the ShowLog-Dialog
