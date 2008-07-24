@@ -30,7 +30,7 @@
 					<Component Id="QSvnMainfiles" Guid="6B49681F-8A1C-4FEF-9F33-BC849F114277">
 						<File Id="qsvn" Name="QSVN.EXE" LongName="QSvn.exe" DiskId="1" src="$(var.QSvnBinDir)\qsvn.exe" Vital="yes"/>
 						<File Id="qsvn.exe.manifest" Name="QSVN.EXE.MAN" LongName="qsvn.exe.manifest" DiskId="1" src="$(var.QSvnBinDir)\qsvn.exe.manifest" Vital="yes"/>
-						<File Id="svnqtqt4.dll" Name="SVNQTQT4.DLL" LongName="svnqt-qt4.dll" DiskId="1" src="$(var.QSvnLibDir)\svnqt-qt4.dll" Vital="yes"/>
+						<File Id="svnqtqt4.dll" Name="SVNQTQT4.DLL" LongName="svnqt-qt4.dll" DiskId="1" src="$(var.QSvnBinDir)\svnqt-qt4.dll" Vital="yes"/>
 						<File Id="readme" Name="README" LongName="README" DiskId="1" src="$(var.QSvnSourceDir)\..\README" />
 						<File Id="changelog" Name="CHANGELG" LongName="ChangeLog" DiskId="1" src="$(var.QSvnSourceDir)\..\ChangeLog" />
 						<Shortcut Id="startmenuQSvn" Directory="ProgramMenuDir" Name="QSVN"
