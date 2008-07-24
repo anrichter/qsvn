@@ -55,18 +55,11 @@ Compile & Install under Windows
 
 For compilation under Windows you need the following software packages:
 
-- Microsoft Visual Studio
+- Microsoft Visual Studio 2008
   I recommended the free available Express Edition from
-    http://msdn.microsoft.com/vstudio/express/visualc/
-  If you whish to have access to Visual Studio Compiler from everywhere, 
-  you must adjust the following environment variables PATH, INCLUDE, LIB and LIBPATH.
-  The right values for your system you can find after the installation of the 
-  Visual Studio in %VS80COMNTOOLS%vsvars32.bat.
-- MSVC 2005 Express Users need the Microsoft Platform SDK
-    http://www.microsoft.com/msdownload/platformsdk/sdkupdate/
-  You need at least the Build Environment for:
-    * Microsoft Windows Core SDK 
-    * Microsoft Web Workshop
+    http://www.microsoft.com/express/download/
+  After installation of Microsoft Visual Studio 2008 you can open a Visual Studio 
+  2008 Command prompt to compile source code with the Visual C++ Compiler.
 - Subversion & Development Libraries
   Download the latest Subversion Release and the corresponding Development Libraries.
   Install Subversion in your Program Folder.
@@ -108,7 +101,7 @@ If you prefer the Microsoft Visual C++ 2005 Express Edition as your IDE type in:
 
   mkdir build
   cd build
-  cmake -G "Visual Studio 8 2005" ..\src
+  cmake -G "Visual Studio 9 2008" ..\src
 
 Build Installation
 ------------------
