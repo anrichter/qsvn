@@ -46,6 +46,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
 
     protected:
         bool eventFilter(QObject *watched, QEvent *event);
+        void changeEvent(QEvent *event);
 
     private:
         FileSelector(QWidget *parent,

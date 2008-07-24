@@ -45,6 +45,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
     protected:
         bool eventFilter(QObject *watched, QEvent *event);
         void closeEvent(QCloseEvent *event);
+        void changeEvent(QEvent *event);
 
     private:
         //ContextMenus

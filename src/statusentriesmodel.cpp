@@ -35,14 +35,13 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
         : QAbstractTableModel(parent)
 {
     m_statusEntries = svn::StatusEntries();
-    enableFsWatcher();
     connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-            this, SLOT(doDirectoryChanged(const QString &)));
+             this, SLOT(onFsChanged(const QString &)));
 }
 
 StatusEntriesModel::~StatusEntriesModel()
 {
-    disableFsWatcher();
+    clearFsWatcher();
 }
 
 int StatusEntriesModel::rowCount(const QModelIndex &parent) const
@@ -137,24 +136,25 @@ void StatusEntriesModel::readDirectory(QString directory, svn::Depth depth,
     directory = QDir::toNativeSeparators(directory);
     if (force || (m_directory != directory))
     {
-        disableFsWatcher();
+        clearFsWatcher();
         m_depth = depth;
         m_directory = directory;
         m_statusEntries = SvnClient::instance()->status(m_directory, m_depth);
-        enableFsWatcher();
+        fillFsWatcher();
         emit layoutChanged();
     }
+    m_existFsChanges = false;
 }
 
 void StatusEntriesModel::readFileList(QStringList fileList)
 {
-    disableFsWatcher();
+    clearFsWatcher();
     m_statusEntries.clear();
 
     foreach (QString file, fileList)
     m_statusEntries.append(SvnClient::instance()->singleStatus(file));
 
-    enableFsWatcher();
+    fillFsWatcher();
 }
 
 svn::StatusPtr StatusEntriesModel::at(int row)
@@ -231,24 +231,55 @@ QString StatusEntriesModel::statusString(svn_wc_status_kind status) const
     }
 }
 
-void StatusEntriesModel::doDirectoryChanged(const QString &path)
+void StatusEntriesModel::onFsChanged(const QString &path)
 {
-    if (SvnClient::instance()->isInProgress())
-        return;
-
-    readDirectory(m_directory, m_depth, true);
+    m_existFsChanges = true;
+    if (m_isFsWatcherActive)
+        readDirectory(m_directory, m_depth, true);
 }
 
-void StatusEntriesModel::disableFsWatcher()
+void StatusEntriesModel::clearFsWatcher()
 {
     if (!m_fsWatcher.directories().isEmpty())
         m_fsWatcher.removePaths(m_fsWatcher.directories());
 }
 
-void StatusEntriesModel::enableFsWatcher()
+void StatusEntriesModel::fillFsWatcher()
 {
+    QSet<QString> _pathes;
+    QFileInfo _fileInfo;
+
     foreach(svn::StatusPtr status, m_statusEntries)
-        m_fsWatcher.addPath(QFileInfo(status->path()).absolutePath());
+    {
+        _fileInfo = QFileInfo(status->path());
+        if (_fileInfo.isFile())
+        {
+//             _pathes.insert(_fileInfo.absoluteFilePath());
+            _pathes.insert(_fileInfo.absolutePath());
+        }
+        else if (_fileInfo.isDir())
+        {
+            _pathes.insert(_fileInfo.absolutePath());
+        }
+    }
+    m_fsWatcher.addPaths(_pathes.toList());
+    m_isFsWatcherActive = true;
+}
+
+void StatusEntriesModel::enableFsUpdates()
+{
+    m_isFsWatcherActive = true;
+}
+
+void StatusEntriesModel::disableFsUpdates()
+{
+    m_isFsWatcherActive = false;
+}
+
+void StatusEntriesModel::doFsUpdates()
+{
+    if (m_existFsChanges)
+        readDirectory(m_directory, m_depth, true);
 }
 
 #include "statusentriesmodel.moc"

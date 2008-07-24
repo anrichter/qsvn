@@ -163,7 +163,7 @@ void FileSelector::showModeless()
 
 void FileSelector::accept()
 {
-    m_statusEntriesModel->disableFsWatcher();
+    m_statusEntriesModel->disableFsUpdates();
     if (m_svnAction == SvnClient::SvnCommit)
     {
         if ((editLogMessage->toPlainText().isEmpty()) &&
@@ -255,6 +255,20 @@ bool FileSelector::eventFilter(QObject *watched, QEvent *event)
     return QDialog::eventFilter(watched, event);
 }
 
+void FileSelector::changeEvent(QEvent * event)
+{
+    if (event->type() == QEvent::ActivationChange)
+    {
+        if (isActiveWindow())
+        {
+            m_statusEntriesModel->enableFsUpdates();
+            m_statusEntriesModel->doFsUpdates();
+        } else {
+            m_statusEntriesModel->disableFsUpdates();
+        }
+    }
+}
+
 void FileSelector::on_actionRevert_triggered()
 {
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();
@@ -340,5 +354,6 @@ void FileSelector::doSvnAction(QWidget *parent,
         }
     }
 }
+
 
 #include "fileselector.moc"
