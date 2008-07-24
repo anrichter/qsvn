@@ -37,6 +37,8 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
     m_statusEntries = svn::StatusEntries();
     connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
              this, SLOT(onFsChanged()));
+    connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
+             this, SLOT(onFsChanged()));
 }
 
 StatusEntriesModel::~StatusEntriesModel()
@@ -254,7 +256,7 @@ void StatusEntriesModel::fillFsWatcher()
         _fileInfo = QFileInfo(status->path());
         if (_fileInfo.isFile())
         {
-//             _pathes.insert(_fileInfo.absoluteFilePath());
+            _pathes.insert(_fileInfo.absoluteFilePath());
             _pathes.insert(_fileInfo.absolutePath());
         }
         else if (_fileInfo.isDir())
