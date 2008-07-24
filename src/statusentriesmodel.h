@@ -64,7 +64,7 @@ class StatusEntriesModel : public QAbstractTableModel
         QString statusString(svn_wc_status_kind status) const;
 
     private slots:
-        void onFsChanged(const QString &path);
+        void onFsChanged();
 };
 
 #endif

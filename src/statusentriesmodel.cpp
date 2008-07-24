@@ -36,7 +36,7 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
 {
     m_statusEntries = svn::StatusEntries();
     connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-             this, SLOT(onFsChanged(const QString &)));
+             this, SLOT(onFsChanged()));
 }
 
 StatusEntriesModel::~StatusEntriesModel()
@@ -231,7 +231,7 @@ QString StatusEntriesModel::statusString(svn_wc_status_kind status) const
     }
 }
 
-void StatusEntriesModel::onFsChanged(const QString &path)
+void StatusEntriesModel::onFsChanged()
 {
     m_existFsChanges = true;
     if (m_isFsWatcherActive)
