@@ -127,11 +127,6 @@ void FileSelector::setupMenus()
     contextMenu = new QMenu(this);
 
     if ((m_svnAction == SvnClient::SvnCommit) ||
-         (m_svnAction == SvnClient::SvnDelete) ||
-         (m_svnAction == SvnClient::SvnRevert))
-        contextMenu->addAction(actionShowLog);
-
-    if ((m_svnAction == SvnClient::SvnCommit) ||
          (m_svnAction == SvnClient::SvnRevert))
     {
         contextMenu->addAction(actionDiff);
@@ -139,6 +134,10 @@ void FileSelector::setupMenus()
         contextMenu->addAction(actionResolved);
         actionRevert->setIcon(QIcon(":/images/actionrevert.png"));
     }
+    if ((m_svnAction == SvnClient::SvnCommit) ||
+         (m_svnAction == SvnClient::SvnDelete) ||
+         (m_svnAction == SvnClient::SvnRevert))
+        contextMenu->addAction(actionShowLog);
 }
 
 void FileSelector::setupConnections()
