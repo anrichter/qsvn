@@ -94,8 +94,11 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
 
 void QSvn::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
-    if (selected.indexes().count() == 1) //only change the FileList-View if one WC is selected
-        directoryChanged(wcModel->getPath(selected.indexes().at(0)));
+    if (selected.indexes().count() == 1)
+    {
+        m_currentWCpath = selectedPaths().at(0);
+        m_statusEntriesModel->readDirectory(m_currentWCpath, svn::DepthFiles, true);
+    }
 }
 
 QSvn::~QSvn()
@@ -231,8 +234,8 @@ void QSvn::setActionStop(QString aText)
 
 void QSvn::directoryChanged(const QString &dir)
 {
-    m_currentWCpath = dir;
-    m_statusEntriesModel->readDirectory(m_currentWCpath, svn::DepthFiles, true);
+    if (dir == m_currentWCpath)
+        m_statusEntriesModel->readDirectory(m_currentWCpath, svn::DepthFiles, true);
 }
 
 //private slots
