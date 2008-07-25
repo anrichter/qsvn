@@ -52,8 +52,6 @@ FileSelector::FileSelector(QWidget *parent,
         m_statusEntriesModel->readDirectory(pathList.at(0), svn::DepthInfinity, true);
     setupFileSelector(svnAction);
     checkSelectAll->setCheckState(Qt::CheckState(Config::instance()->value("selectAll" + SvnClient::instance()->getSvnActionName(m_svnAction)).toInt()));
-
-    connect(this, SIGNAL(directoryChanged(const QString &)), parent, SLOT(directoryChanged(const QString &)));
 }
 
 FileSelector::~FileSelector()
@@ -217,20 +215,6 @@ void FileSelector::accept()
     }
     setEnabled(true);
     qApp->processEvents();
-
-    //collect all changed directories
-    QSet<QString> pathSet;
-    QFileInfo fi;
-    foreach(QString path, m_fileSelectorProxy->checkedFileList())
-    {
-        fi = QFileInfo(path);
-        pathSet << fi.path();
-    }
-    foreach(QString path, pathSet.toList())
-    {
-        emit directoryChanged(QDir::toNativeSeparators(path));
-    }
-
     QDialog::accept();
 }
 
@@ -260,7 +244,7 @@ void FileSelector::changeEvent(QEvent * event)
     {
         if (isActiveWindow())
         {
-            m_statusEntriesModel->enableFsUpdates();
+			m_statusEntriesModel->enableFsUpdates();
             m_statusEntriesModel->doFsUpdates();
         } else {
             m_statusEntriesModel->disableFsUpdates();

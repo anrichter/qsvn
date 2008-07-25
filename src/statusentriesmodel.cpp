@@ -280,7 +280,7 @@ void StatusEntriesModel::disableFsUpdates()
 
 void StatusEntriesModel::doFsUpdates()
 {
-    if (m_existFsChanges)
+	if (m_existFsChanges && m_isFsWatcherActive)
         readDirectory(m_directory, m_depth, true);
 }
 
