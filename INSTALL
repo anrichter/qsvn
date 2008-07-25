@@ -76,8 +76,10 @@ For compilation under Windows you need the following software packages:
     http://www.trolltech.com
   After the Qt is compiled you must add the Qt-bin-directory to your PATH variable. 
   CMake is looking for Qt libraries in PATH-directories also.
-- Windows Installer XML (WiX) toolset, if you would build QSvn Installer.
-    http://wix.sourceforge.net/ 
+- InnoSetup with QuickStart Pack (http://www.jrsoftware.org/isinfo.php)
+  In order to build the installation you need to install Install InnoSetup 
+  and the Preprocessor. After you had install InnoSetup, add it to your PATH.
+
 
 Compile for Release
 -------------------
@@ -115,6 +117,6 @@ Continuous Integration
 If you plan to do a continuous integration on windows, 
 create a build directory on top of the source directory - "release" for example.
 CD into this directory and call
-  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src && nmake && ctest && nmake wix
+  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src && nmake && ctest && nmake setup
 Where there are new revisions in the repository, simple make an update and recall 
 the command above in the release directory.

@@ -176,6 +176,17 @@ IF (WIN32)
                         COMMAND light
                             -out setup/qsvn-${QSVN_VERSION_NUMBER}.msi
                             qsvn.wixobj)
+    ADD_CUSTOM_TARGET (setup
+                        COMMAND ISCC.exe
+                            ${CMAKE_SOURCE_DIR}/setup/qsvn.iss
+                            /dQSvnSourceDir=${CMAKE_SOURCE_DIR}
+                            /dQSvnBinDir=${EXECUTABLE_OUTPUT_PATH}
+                            /dQSvnVersionString=${QSVN_VERSION_STRING}
+							/dQSvnVersionNumber=${QSVN_VERSION_NUMBER}
+                            /dQtLibraryDir=${QT_LIBRARY_DIR}
+                            /dSvnBinDir=${SUBVERSION_BIN_DIR}
+							/dVcInstallDir=$ENV{VCINSTALLDIR}
+						)
 ENDIF (WIN32)
 
 # Unit-Tests
