@@ -273,7 +273,7 @@ bool SvnClient::remove(const QStringList &removeList)
     try
     {
         svn::Targets targets(removeList);
-        svnClient->remove(targets, false);
+        svnClient->remove(targets, false, false);
     }
     catch (svn::ClientException e)
     {
