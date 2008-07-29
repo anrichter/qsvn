@@ -250,6 +250,7 @@ void FileSelector::changeEvent(QEvent * event)
             m_statusEntriesModel->disableFsUpdates();
         }
     }
+	QDialog::changeEvent(event);
 }
 
 void FileSelector::on_actionRevert_triggered()
