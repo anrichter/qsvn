@@ -26,15 +26,8 @@ Version 0.7.0 - released 2008-xx-xx
 
     Bugfixes
     --------
-    * #64 Set Library-Installpath on 64bit-Systems to lib64.
-
-
-Version 0.6.2 - released 2008-xx-xx
-
-    Bugfixes
-    --------
-
     * #60 Delete a property removes two ones
+    * #64 Set Library-Installpath on 64bit-Systems to lib64.
 
 
 Version 0.6.1 - released 2008-01-23
