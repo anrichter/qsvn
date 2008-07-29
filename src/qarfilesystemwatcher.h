@@ -18,56 +18,27 @@
  *                                                                              *
  *******************************************************************************/
 
-#ifndef STATUSENTRIESMODEL_H
-#define STATUSENTRIESMODEL_H
+#ifndef QARFILESYSTEMWATCHER_H
+#define QARFILESYSTEMWATCHER_H
 
-//QSvn
-#include "qarfilesystemwatcher.h"
+#include <QtCore>
 
-//SvnQt
-#include "svnqt/client.hpp"
-
-//Qt
-#include <QAbstractTableModel>
-
-
-class StatusEntriesModel : public QAbstractTableModel
+class QarFileSystemWatcher : public QFileSystemWatcher
 {
-        Q_OBJECT
-
+    Q_OBJECT
+#if defined Q_WS_WIN32
     public:
-        StatusEntriesModel(QObject *parent);
-        ~StatusEntriesModel();
+        QarFileSystemWatcher(QObject *parent = 0);
+        ~QarFileSystemWatcher();
 
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
-        int columnCount(const QModelIndex &parent = QModelIndex()) const;
-        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-        QVariant data(const QModelIndex &index, int role) const;
-
-        void readDirectory(QString directory, svn::Depth depth, const bool force);
-        void readFileList(QStringList fileList);
-
-        svn::StatusPtr at(int row);
-        void enableFsUpdates();
-        void disableFsUpdates();
-        void doFsUpdates();
+        void addPaths(const QStringList &paths);
 
     private:
-        svn::StatusEntries m_statusEntries;
-        QString m_directory;
-        svn::Depth m_depth;
-		QarFileSystemWatcher m_fsWatcher;
-        bool m_isFsWatcherActive;
-        bool m_existFsChanges;
+        QList<QFileSystemWatcher*> m_fsWatcherList;
+        QFileSystemWatcher *m_fsWatcher;
 
-        void clearFsWatcher();
-        void fillFsWatcher();
-
-        QPixmap statusPixmap(svn::StatusPtr status) const;
-        QString statusString(svn_wc_status_kind status) const;
-
-    private slots:
-        void onFsChanged();
+#endif
 };
+
 
 #endif

@@ -72,6 +72,7 @@ SET(qsvn_headers
          pathproperties.h
          pathpropertiesmodel.h
          propertyedit.h
+         qarfilesystemwatche.h
          qsvn.h
          showlog.h
          sslservertrust.h
@@ -100,6 +101,7 @@ SET(qsvn_sources
          pathproperties.cpp
          pathpropertiesmodel.cpp
          propertyedit.cpp
+         qarfilesystemwatcher.cpp
          qsvn.cpp
          showlog.cpp
          sslservertrust.cpp

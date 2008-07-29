@@ -240,8 +240,8 @@ void StatusEntriesModel::clearFsWatcher()
 {
     if (!m_fsWatcher.directories().isEmpty())
         m_fsWatcher.removePaths(m_fsWatcher.directories());
-	m_isFsWatcherActive = false;
 	disconnect(&m_fsWatcher);
+	m_isFsWatcherActive = false;
 }
 
 void StatusEntriesModel::fillFsWatcher()
@@ -252,6 +252,8 @@ void StatusEntriesModel::fillFsWatcher()
     foreach(svn::StatusPtr status, m_statusEntries)
     {
         _fileInfo = QFileInfo(status->path());
+        if (_fileInfo.isFile())
+            _pathes.insert(_fileInfo.absoluteFilePath());
         _pathes.insert(_fileInfo.absolutePath());
     }
     if (!_pathes.isEmpty())
@@ -259,6 +261,8 @@ void StatusEntriesModel::fillFsWatcher()
 		m_fsWatcher.addPaths(_pathes.toList());
 		m_isFsWatcherActive = true;
 		connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
+		         this, SLOT(onFsChanged()));
+		connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
 		         this, SLOT(onFsChanged()));
 	} else {
 		m_isFsWatcherActive = false;
