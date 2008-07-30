@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include Id="qsvn-defines">
-	<!-- Defines pathes for include files. Adopt directories to your system. -->
-	<?define MergeModulesDir="c:\Programme\Gemeinsame Dateien\Merge Modules\"?>
-</Include>

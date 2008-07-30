@@ -24,6 +24,8 @@ VersionInfoCopyright=2004 - 2008
 VersionInfoDescription=QSvn Installation
 VersionInfoVersion={#QSvnVersionNumber}
 
+WizardImageFile=ImageFile.bmp
+WizardSmallImageFile=SmallImageFile.bmp
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
