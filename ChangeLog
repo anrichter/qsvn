@@ -13,6 +13,7 @@ Version 0.7.0 - released 2008-xx-xx
     * #62 Only active windows updates the file list when the underlaying
         filesystem is changed. Are there changes in an inactive window,
         the files list is updated when the window becomes the focus again.
+    * #65 QSvn checks the case sensitivity for missing files and fix them. (windows only)
     * #70 Switch to Subversion 1.5 (windows only)
 
     Changes

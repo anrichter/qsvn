@@ -70,6 +70,10 @@ class StatusEntriesModel : public QAbstractTableModel
         QPixmap statusPixmap(svn::StatusPtr status) const;
         QString statusString(svn_wc_status_kind status) const;
 
+#if defined Q_WS_WIN32
+        void checkCaseSensitivity();
+#endif
+
     private slots:
         void onFsChanged();
 };

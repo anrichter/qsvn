@@ -139,6 +139,9 @@ void StatusEntriesModel::readDirectory(QString directory, svn::Depth depth,
         m_depth = depth;
         m_directory = directory;
         m_statusEntries = SvnClient::instance()->status(m_directory, m_depth);
+#if defined Q_WS_WIN32
+        checkCaseSensitivity();
+#endif
         fillFsWatcher();
         emit layoutChanged();
     }
@@ -284,5 +287,39 @@ void StatusEntriesModel::doFsUpdates()
 	if (m_existFsChanges && m_isFsWatcherActive && !m_directory.isEmpty())
         readDirectory(m_directory, m_depth, true);
 }
+
+#if defined Q_WS_WIN32
+void StatusEntriesModel::checkCaseSensitivity()
+{
+    QFileInfo _fileInfo;
+    svn::StatusPtr _status;
+
+    for (int i = 0; i < m_statusEntries.count(); i++)
+    {
+        _status = m_statusEntries.at(i);
+        if (_status->textStatus() == svn_wc_status_missing)
+        {
+            _fileInfo = QFileInfo(_status->path());
+            if (_fileInfo.exists())
+            {
+                if (QFile::rename(_fileInfo.absoluteFilePath(), _fileInfo.absoluteFilePath() + "_"))
+                    QFile::rename(_fileInfo.absoluteFilePath() + "_", _status->path());
+            }
+            m_statusEntries.removeAt(i);
+            m_statusEntries.insert(i,
+                SvnClient::instance()->singleStatus(_status->path()));
+        } 
+        else if (_status->textStatus() == svn_wc_status_unversioned)
+        {
+            _fileInfo = QFileInfo(_status->path());
+            if (_fileInfo.exists())
+            {
+                m_statusEntries.removeAt(i);
+                i--;
+            }
+        }
+    }
+}
+#endif
 
 #include "statusentriesmodel.moc"
