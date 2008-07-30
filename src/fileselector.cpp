@@ -52,6 +52,8 @@ FileSelector::FileSelector(QWidget *parent,
         m_statusEntriesModel->readDirectory(pathList.at(0), svn::DepthInfinity, true);
     setupFileSelector(svnAction);
     checkSelectAll->setCheckState(Qt::CheckState(Config::instance()->value("selectAll" + SvnClient::instance()->getSvnActionName(m_svnAction)).toInt()));
+
+    m_inClose = false;
 }
 
 FileSelector::~FileSelector()
@@ -164,6 +166,7 @@ void FileSelector::showModeless()
 
 void FileSelector::accept()
 {
+    m_inClose = true;
     m_statusEntriesModel->disableFsUpdates();
     if (m_svnAction == SvnClient::SvnCommit)
     {
@@ -217,9 +220,13 @@ void FileSelector::accept()
         default:
             break;
     }
-    setEnabled(true);
-    qApp->processEvents();
     QDialog::accept();
+}
+
+void FileSelector::reject()
+{
+    m_inClose = true;
+    QDialog::reject();
 }
 
 void FileSelector::on_comboLogHistory_activated(int index)
@@ -244,7 +251,7 @@ bool FileSelector::eventFilter(QObject *watched, QEvent *event)
 
 void FileSelector::changeEvent(QEvent * event)
 {
-    if (event->type() == QEvent::ActivationChange)
+    if (event->type() == QEvent::ActivationChange && !m_inClose)
     {
         if (isActiveWindow())
         {

@@ -65,6 +65,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
         QMenu *contextMenu;
         StatusEntriesModel *m_statusEntriesModel;
         FileSelectorProxy *m_fileSelectorProxy;
+        bool m_inClose;
 
         void showModeless();
         void setupFileSelector(SvnClient::SvnAction svnAction);
@@ -74,6 +75,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
 
     private slots:
         void accept();
+        void reject();
         void on_comboLogHistory_activated(int index);
         void on_checkSelectAll_stateChanged(int state);
         void updateActions(const QItemSelection &selected,

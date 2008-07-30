@@ -262,13 +262,10 @@ void StatusEntriesModel::fillFsWatcher()
     if (!_pathes.isEmpty())
 	{
 		m_fsWatcher.addPaths(_pathes.toList());
-		m_isFsWatcherActive = true;
 		connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
 		         this, SLOT(onFsChanged()));
 		connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
 		         this, SLOT(onFsChanged()));
-	} else {
-		m_isFsWatcherActive = false;
 	}
 }
 
