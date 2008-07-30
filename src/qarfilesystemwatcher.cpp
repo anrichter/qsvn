@@ -39,20 +39,30 @@ QarFileSystemWatcher::~QarFileSystemWatcher()
 
 void QarFileSystemWatcher::addPaths(const QStringList &paths)
 {
+    int _count = m_fsWatcher->directories().count() +
+            m_fsWatcher->files().count();
+    QStringList _paths;
+    
     foreach(QString path, paths)
     {
-        if (m_fsWatcher->directories().count() +
-            m_fsWatcher->files().count() >= MAXIMUM_WAIT_OBJECTS)
+        _count++;
+        _paths << path;
+
+        if (_count > MAXIMUM_WAIT_OBJECTS)
         {
+            m_fsWatcher->addPaths(_paths);
             m_fsWatcher = new QFileSystemWatcher();
             connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
                 this, SIGNAL(directoryChanged(const QString &)));
             connect(m_fsWatcher, SIGNAL(fileChanged(const QString &)),
                 this, SIGNAL(fileChanged(const QString &)));
             m_fsWatcherList.append(m_fsWatcher);
+            _paths.clear();
+            _count = 0;
         }
-        m_fsWatcher->addPath(path);
     }
+    if (!_paths.isEmpty())
+        m_fsWatcher->addPaths(_paths);
 }
 #endif
 
