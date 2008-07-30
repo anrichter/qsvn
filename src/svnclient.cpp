@@ -253,7 +253,21 @@ bool SvnClient::commit(const QStringList &commitList, const QString &logMessage)
     try
     {
         svn::Targets targets(commitList);
-        svnClient->commit(targets, logMessage, svn::DepthEmpty);
+        svn::Depth _depth = svn::DepthFiles;
+        foreach(QString _path, commitList)
+        {
+            QFileInfo _fileInfo(_path);
+            if (_fileInfo.isDir())
+            {
+                svn::StatusPtr _status = singleStatus(_path);
+                if (_status->textStatus() == svn_wc_status_deleted)
+                {
+                    _depth = svn::DepthInfinity;
+                    break;
+                }
+            }
+        }
+        svnClient->commit(targets, logMessage, _depth);
         completedMessage(commitList.at(0));
     }
     catch (svn::ClientException e)
