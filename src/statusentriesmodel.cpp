@@ -130,6 +130,7 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
 void StatusEntriesModel::readDirectory(QString directory, svn::Depth depth,
                                        const bool force)
 {
+    emit beginUpdate();
     directory = QDir::cleanPath(directory) + QDir::separator();
     directory = QDir::toNativeSeparators(directory);
     if (force || (m_directory != directory))
@@ -142,10 +143,12 @@ void StatusEntriesModel::readDirectory(QString directory, svn::Depth depth,
         emit layoutChanged();
     }
     m_existFsChanges = false;
+    emit endUpdate();
 }
 
 void StatusEntriesModel::readFileList(QStringList fileList)
 {
+    emit beginUpdate();
     clearFsWatcher();
     m_statusEntries.clear();
 
@@ -153,6 +156,7 @@ void StatusEntriesModel::readFileList(QStringList fileList)
     m_statusEntries.append(SvnClient::instance()->singleStatus(file));
 
     fillFsWatcher();
+    emit endUpdate();
 }
 
 svn::StatusPtr StatusEntriesModel::at(int row)
@@ -238,8 +242,7 @@ void StatusEntriesModel::onFsChanged()
 
 void StatusEntriesModel::clearFsWatcher()
 {
-    if (!m_fsWatcher.directories().isEmpty())
-        m_fsWatcher.removePaths(m_fsWatcher.directories());
+    m_fsWatcher.removeAllPaths();
 	disconnect(&m_fsWatcher);
 	m_isFsWatcherActive = false;
 }

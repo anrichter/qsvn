@@ -52,6 +52,10 @@ class StatusEntriesModel : public QAbstractTableModel
         void disableFsUpdates();
         void doFsUpdates();
 
+    signals:
+        void beginUpdate();
+        void endUpdate();
+
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;

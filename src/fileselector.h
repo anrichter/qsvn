@@ -57,11 +57,14 @@ class FileSelector : public QDialog, public Ui::FileSelector
         ~FileSelector();
 
         SvnClient::SvnAction m_svnAction;
+        QStringList m_pathList;
+        bool m_isFileList;
+        QString m_wc;
+
         QItemSelectionModel *m_selectionModel;
         QMenu *contextMenu;
         StatusEntriesModel *m_statusEntriesModel;
         FileSelectorProxy *m_fileSelectorProxy;
-        QString m_wc;
 
         void showModeless();
         void setupFileSelector(SvnClient::SvnAction svnAction);
@@ -80,6 +83,9 @@ class FileSelector : public QDialog, public Ui::FileSelector
         void on_actionRevert_triggered();
         void on_actionResolved_triggered();
         void on_actionShowLog_triggered();
+
+        void on_FsWatcherBeginUpdate();
+        void on_FsWatcherEndUpdate();
 };
 
 #endif

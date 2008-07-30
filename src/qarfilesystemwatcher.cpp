@@ -29,12 +29,7 @@
 QarFileSystemWatcher::QarFileSystemWatcher(QObject *parent)
     : QFileSystemWatcher(parent)
 {
-    m_fsWatcher = new QFileSystemWatcher();
-    connect(m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-        this, SIGNAL(directoryChanged(const QString &)));
-    connect(m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-        this, SIGNAL(fileChanged(const QString &)));
-    m_fsWatcherList.append(m_fsWatcher);
+    m_fsWatcher = this;
 }
 
 QarFileSystemWatcher::~QarFileSystemWatcher()
@@ -60,6 +55,17 @@ void QarFileSystemWatcher::addPaths(const QStringList &paths)
     }
 }
 #endif
+
+void QarFileSystemWatcher::removeAllPaths()
+{
+#if defined Q_WS_WIN32
+    qDeleteAll(m_fsWatcherList);
+    m_fsWatcherList.clear();
+    m_fsWatcher = this;
+#endif
+    removePaths(directories());
+    removePaths(files());
+}
 
 
 #include "qarfilesystemwatcher.moc"

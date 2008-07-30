@@ -148,6 +148,10 @@ void FileSelector::setupConnections()
             SIGNAL(doubleClicked(const QModelIndex &)),
             this,
             SLOT(on_actionDiff_triggered()));
+    connect(m_statusEntriesModel, SIGNAL(beginUpdate()), 
+        this, SLOT(on_FsWatcherBeginUpdate()));
+    connect(m_statusEntriesModel, SIGNAL(endUpdate()),
+        this, SLOT(on_FsWatcherEndUpdate()));
 }
 
 void FileSelector::showModeless()
@@ -309,9 +313,22 @@ void FileSelector::updateActions(const QItemSelection &selected, const QItemSele
 {
     svn::StatusPtr _status = m_statusEntriesModel->at(m_fileSelectorProxy->mapToSource(selected.indexes().at(0)).row());
 
-   actionDiff->setEnabled((_status->textStatus() == svn_wc_status_modified) ||
+    actionDiff->setEnabled((_status->textStatus() == svn_wc_status_modified) ||
                            (_status->textStatus() == svn_wc_status_conflicted));
     actionResolved->setEnabled(_status->textStatus() == svn_wc_status_conflicted);
+}
+
+void FileSelector::on_FsWatcherBeginUpdate()
+{
+    setWindowTitle(tr("Update list [%1]").arg(m_wc));
+    setEnabled(false);
+    qApp->processEvents();
+}
+
+void FileSelector::on_FsWatcherEndUpdate()
+{
+    setWindowTitle(tr("%1 [%2]").arg(SvnClient::instance()->getSvnActionName(m_svnAction)).arg(m_wc));
+    setEnabled(true);
 }
 
 //static functions
