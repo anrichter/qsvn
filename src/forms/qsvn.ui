@@ -14,22 +14,10 @@
   </property>
   <widget class="QWidget" name="centralWidget" >
    <layout class="QGridLayout" >
-    <property name="leftMargin" >
+    <property name="margin" >
      <number>9</number>
     </property>
-    <property name="topMargin" >
-     <number>9</number>
-    </property>
-    <property name="rightMargin" >
-     <number>9</number>
-    </property>
-    <property name="bottomMargin" >
-     <number>9</number>
-    </property>
-    <property name="horizontalSpacing" >
-     <number>6</number>
-    </property>
-    <property name="verticalSpacing" >
+    <property name="spacing" >
      <number>6</number>
     </property>
     <item row="0" column="0" >
@@ -69,16 +57,7 @@
         <property name="spacing" >
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin" >
          <number>0</number>
         </property>
         <item>
@@ -87,6 +66,12 @@
            <font>
             <family>Monospace</family>
            </font>
+          </property>
+          <property name="tabChangesFocus" >
+           <bool>true</bool>
+          </property>
+          <property name="readOnly" >
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -102,7 +87,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>32</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings" >
@@ -238,7 +223,8 @@
   </action>
   <action name="actionWcAdd" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actionadd.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actionadd.png</normaloff>:/images/actionadd.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -260,7 +246,8 @@
   </action>
   <action name="actionWcCheckout" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actioncheckout.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actioncheckout.png</normaloff>:/images/actioncheckout.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Checkout...</string>
@@ -271,7 +258,8 @@
   </action>
   <action name="actionUpdate" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actionupdate.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actionupdate.png</normaloff>:/images/actionupdate.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Update</string>
@@ -279,7 +267,8 @@
   </action>
   <action name="actionCommit" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actioncommit.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actioncommit.png</normaloff>:/images/actioncommit.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Commit...</string>
@@ -287,7 +276,8 @@
   </action>
   <action name="actionAdd" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actionaddlocal.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actionaddlocal.png</normaloff>:/images/actionaddlocal.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -295,7 +285,8 @@
   </action>
   <action name="actionDelete" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actiondeletelocal.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actiondeletelocal.png</normaloff>:/images/actiondeletelocal.png</iconset>
    </property>
    <property name="text" >
     <string>&amp;Delete...</string>
@@ -303,7 +294,8 @@
   </action>
   <action name="actionRevert" >
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actionrevert.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actionrevert.png</normaloff>:/images/actionrevert.png</iconset>
    </property>
    <property name="text" >
     <string>Re&amp;vert...</string>
@@ -334,7 +326,8 @@
     <bool>false</bool>
    </property>
    <property name="icon" >
-    <iconset resource="../qsvn.qrc" >:/images/actionstop.png</iconset>
+    <iconset resource="../qsvn.qrc" >
+     <normaloff>:/images/actionstop.png</normaloff>:/images/actionstop.png</iconset>
    </property>
    <property name="text" >
     <string>Stop</string>
@@ -353,7 +346,9 @@
   </action>
   <action name="actionWcCleanup" >
    <property name="icon" >
-    <iconset/>
+    <iconset>
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text" >
     <string>&amp;Cleanup</string>
