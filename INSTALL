@@ -84,12 +84,15 @@ For compilation under Windows you need the following software packages:
 Compile for Release
 -------------------
 
-  mkdir build
-  cd build
+  mkdir release
+  cd release
   cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src
   nmake
 If you would build the installer type in
-  nmake wix
+  nmake setup
+Or simple call
+  ..\scripts\release.cmd
+in your release-folder.
 
 Compile for Development
 -----------------------
@@ -110,13 +113,3 @@ Build Installation
 
 For build the QSvn Installer for Windows follow the instruction found in
   src\setup\README
-
-Continuous Integration
-----------------------
-
-If you plan to do a continuous integration on windows, 
-create a build directory on top of the source directory - "release" for example.
-CD into this directory and call
-  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src && nmake && ctest && nmake setup
-Where there are new revisions in the repository, simple make an update and recall 
-the command above in the release directory.
