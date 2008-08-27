@@ -1,5 +1,10 @@
 Version 0.8.0 - released 2008-xx-xx
 
+    New Features
+	------------
+	* Logs can now filter by all columns. Select All to search in Revision, 
+	    Author, Date and Message.
+
 
 Version 0.7.0 - released 2008-08-03
 

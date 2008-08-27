@@ -91,6 +91,7 @@ void ShowLog::initLogEntries()
     m_logEntriesProxy = new QSortFilterProxyModel(this);
     m_logEntriesProxy->setDynamicSortFilter(true);
     m_logEntriesProxy->setSourceModel(m_logEntriesModel);
+    comboBoxFilterKeyColumn->insertItem(0, tr("All"));
     for (int i = 0; i < m_logEntriesModel->columnCount(QModelIndex()); i++)
         comboBoxFilterKeyColumn->insertItem(comboBoxFilterKeyColumn->count(),
                                             m_logEntriesModel->headerData(i, Qt::Horizontal, Qt::DisplayRole).toString());
@@ -321,7 +322,7 @@ void ShowLog::on_actionDiff_to_Revision_triggered( )
 }
 void ShowLog::on_comboBoxFilterKeyColumn_currentIndexChanged(int index)
 {
-    m_logEntriesProxy->setFilterKeyColumn(index);
+    m_logEntriesProxy->setFilterKeyColumn(index - 1); //first entry is the All-entry
 }
 
 void ShowLog::on_actionMerge_triggered( )
