@@ -30,8 +30,8 @@ Compile for Release
 
   mkdir build
   cd build
-  cmake -D CMAKE_BUILD_TYPE="Release" ../src
-  make
+  ../scripts/release.sh
+When you would install qsvn call
   sudo make install
 
 Compile for Developing
@@ -86,13 +86,8 @@ Compile for Release
 
   mkdir release
   cd release
-  cmake -G "NMake Makefiles" -D CMAKE_BUILD_TYPE="Release" ..\src
-  nmake
-If you would build the installer type in
-  nmake setup
-Or simple call
   ..\scripts\release.cmd
-in your release-folder.
+
 
 Compile for Development
 -----------------------
