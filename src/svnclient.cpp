@@ -145,7 +145,7 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
                                            fromRevision);
             }
         }
-        catch (svn::ClientException e)
+        catch (const svn::ClientException& e)
         {
             StatusText::out(e.msg());
             result = false;
