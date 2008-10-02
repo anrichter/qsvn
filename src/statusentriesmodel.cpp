@@ -99,7 +99,7 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
                          m_depth > svn::DepthFiles)
                     {
                         QString path = QDir::toNativeSeparators(status->path());
-                        return path.remove(m_directory);
+                        return path.remove(0, m_directory.size());
                     }
                     else
                         return status->entry().name();
