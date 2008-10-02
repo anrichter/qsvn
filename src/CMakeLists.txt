@@ -147,7 +147,6 @@ IF (WIN32)
     SET(QLIST "QList")
     SET(TOASCII "toAscii")
     SET(HOMEDIR "homePath")
-    SET(svnqt-name svnqt-qt4)
     SET(QDATABASE "QSqlDatabase")
     SET(QLONG "qlonglong")
     CONFIGURE_FILE(
@@ -171,18 +170,6 @@ IF (UNIX)
 ENDIF (UNIX)
 
 IF (WIN32)
-    ADD_CUSTOM_TARGET (wix
-                        COMMAND candle
-                            -dQSvnSourceDir=${CMAKE_SOURCE_DIR}
-                            -dQSvnBinDir=${EXECUTABLE_OUTPUT_PATH}
-                            -dQSvnWiXDir=${CMAKE_SOURCE_DIR}/setup
-                            -dQSvnVersionString=${QSVN_VERSION_STRING}
-                            -dQtLibraryDir=${QT_LIBRARY_DIR}
-                            -dSvnBinDir=${SUBVERSION_BIN_DIR}
-                            ${CMAKE_SOURCE_DIR}/setup/qsvn.wxs
-                        COMMAND light
-                            -out setup/qsvn-${QSVN_VERSION_NUMBER}.msi
-                            qsvn.wixobj)
     ADD_CUSTOM_TARGET (setup
                         COMMAND ISCC.exe
                             ${CMAKE_SOURCE_DIR}/setup/qsvn.iss
