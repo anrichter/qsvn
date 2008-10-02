@@ -292,30 +292,28 @@ void StatusEntriesModel::doFsUpdates()
 void StatusEntriesModel::checkCaseSensitivity()
 {
     QFileInfo _fileInfo;
-    svn::StatusPtr _status;
+    svn::StatusPtr _status, __status;
 
-    for (int i = 0; i < m_statusEntries.count(); i++)
+    foreach(_status, m_statusEntries)
     {
-        _status = m_statusEntries.at(i);
         if (_status->textStatus() == svn_wc_status_missing)
         {
             _fileInfo = QFileInfo(_status->path());
             if (_fileInfo.exists())
             {
+                //remove unversioned file that match to the missing one
+                foreach(__status, m_statusEntries)
+                {
+                    if (__status->path().toLower() == _status->path().toLower())
+                        m_statusEntries.removeOne(__status);
+                }
+                //remove missing file from list
+                m_statusEntries.removeOne(_status);
+                //rename missing file
                 if (QFile::rename(_fileInfo.absoluteFilePath(), _fileInfo.absoluteFilePath() + "_"))
                     QFile::rename(_fileInfo.absoluteFilePath() + "_", _status->path());
-            }
-            m_statusEntries.removeAt(i);
-            m_statusEntries.insert(i,
-                SvnClient::instance()->singleStatus(_status->path()));
-        } 
-        else if (_status->textStatus() == svn_wc_status_unversioned)
-        {
-            _fileInfo = QFileInfo(_status->path());
-            if (_fileInfo.exists())
-            {
-                m_statusEntries.removeAt(i);
-                i--;
+                //add renamed file to the list
+                m_statusEntries.append(SvnClient::instance()->singleStatus(_status->path()));
             }
         }
     }
