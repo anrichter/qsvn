@@ -7,7 +7,7 @@ Version 0.7.1 - released 2008-10-06
 
     Bugfixes
     --------
-    * QSvn doesn't show unversioned files (Windows only)
+    * #80 QSvn doesn't show unversioned files (Windows only)
 
 
 Version 0.7.0 - released 2008-08-03
