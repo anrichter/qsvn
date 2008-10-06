@@ -1,3 +1,15 @@
+Version 0.7.1 - released 2008-10-06
+
+    Changes
+    -------
+    * Build against Qt 4.4.3 (Windows only)
+    * Build against Subversion 1.5.2 (Windows only)
+
+    Bugfixes
+    --------
+    * QSvn doesn't show unversioned files (Windows only)
+
+
 Version 0.7.0 - released 2008-08-03
 
     New Features
