@@ -72,9 +72,9 @@ void Config::saveMainWindow(const QSvn *aQSvn)
     if (aQSvn)
     {
         saveWidget(aQSvn);
-
         saveSplitter(aQSvn, aQSvn->splitterVertical);
         saveSplitter(aQSvn, aQSvn->splitterHorizontal);
+        setValue("QSvnState", aQSvn->saveState());
     }
 }
 
@@ -83,10 +83,9 @@ void Config::restoreMainWindow(QSvn *aQSvn)
     if (aQSvn)
     {
         restoreWidget(aQSvn);
-
-        //restore settings from splitterVertical
         restoreSplitter(aQSvn, aQSvn->splitterVertical);
         restoreSplitter(aQSvn, aQSvn->splitterHorizontal);
+        aQSvn->restoreState(value("QSvnState").toByteArray());
     }
 }
 
