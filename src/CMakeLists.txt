@@ -142,7 +142,6 @@ IF (WIN32)
     SET(QLIST "QList")
     SET(TOASCII "toAscii")
     SET(HOMEDIR "homePath")
-    SET(svnqt-name svnqt-qt4)
     SET(QDATABASE "QSqlDatabase")
     SET(QLONG "qlonglong")
     CONFIGURE_FILE(
@@ -157,7 +156,7 @@ ELSE (WIN32)
 ENDIF (WIN32)
 
 SET_TARGET_PROPERTIES(qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}")
-TARGET_LINK_LIBRARIES(qsvn svnqt-qt4 ${QT_LIBRARIES})
+TARGET_LINK_LIBRARIES(qsvn svnqt4 ${QT_LIBRARIES})
 
 IF (UNIX)
     INSTALL(TARGETS qsvn

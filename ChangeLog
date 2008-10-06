@@ -2,6 +2,7 @@ Version 0.7.1 - released 2008-10-06
 
     Changes
     -------
+    * Build against svnqt 5.0.1
     * Build against Qt 4.4.3 (Windows only)
     * Build against Subversion 1.5.2 (Windows only)
 

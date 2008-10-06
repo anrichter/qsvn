@@ -35,7 +35,7 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 ;ProgramFiles
 Source: {#QSvnBinDir}\qsvn.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#QSvnBinDir}\qsvn.exe.manifest; DestDir: {app}; Flags: ignoreversion
-Source: {#QSvnBinDir}\svnqt-qt4.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#QSvnBinDir}\svnqt4.dll; DestDir: {app}; Flags: ignoreversion
 ;TextFiles
 Source: {#QSvnSourceDir}\..\README; DestDir: {app}; Flags: ignoreversion
 Source: {#QSvnSourceDir}\..\ChangeLog; DestDir: {app}; Flags: ignoreversion
