@@ -13,6 +13,14 @@
    <string>QSvn</string>
   </property>
   <widget class="QWidget" name="centralWidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>62</y>
+     <width>457</width>
+     <height>217</height>
+    </rect>
+   </property>
    <layout class="QGridLayout" >
     <property name="margin" >
      <number>9</number>
@@ -87,7 +95,7 @@
      <x>0</x>
      <y>0</y>
      <width>457</width>
-     <height>21</height>
+     <height>31</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings" >
@@ -151,6 +159,14 @@
    <addaction name="menuHelp" />
   </widget>
   <widget class="QToolBar" name="toolBarWorkingCopy" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>31</y>
+     <width>69</width>
+     <height>31</height>
+    </rect>
+   </property>
    <property name="minimumSize" >
     <size>
      <width>0</width>
@@ -176,6 +192,14 @@
    <addaction name="actionWcCheckout" />
   </widget>
   <widget class="QToolBar" name="toolBarModify" >
+   <property name="geometry" >
+    <rect>
+     <x>69</x>
+     <y>31</y>
+     <width>153</width>
+     <height>31</height>
+    </rect>
+   </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
    </property>
@@ -199,6 +223,14 @@
    <addaction name="actionRevert" />
   </widget>
   <widget class="QToolBar" name="toolBarAction" >
+   <property name="geometry" >
+    <rect>
+     <x>222</x>
+     <y>31</y>
+     <width>235</width>
+     <height>31</height>
+    </rect>
+   </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
    </property>
@@ -224,7 +256,7 @@
   <action name="actionWcAdd" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >
-     <normaloff>:/images/actionadd.png</normaloff>:/images/actionadd.png</iconset>
+     <normaloff>:/images/actionadd.svg</normaloff>:/images/actionadd.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -247,7 +279,7 @@
   <action name="actionWcCheckout" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >
-     <normaloff>:/images/actioncheckout.png</normaloff>:/images/actioncheckout.png</iconset>
+     <normaloff>:/images/actioncheckout.svg</normaloff>:/images/actioncheckout.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;Checkout...</string>
@@ -259,7 +291,7 @@
   <action name="actionUpdate" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >
-     <normaloff>:/images/actionupdate.png</normaloff>:/images/actionupdate.png</iconset>
+     <normaloff>:/images/actionupdate.svg</normaloff>:/images/actionupdate.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;Update</string>
@@ -268,7 +300,7 @@
   <action name="actionCommit" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >
-     <normaloff>:/images/actioncommit.png</normaloff>:/images/actioncommit.png</iconset>
+     <normaloff>:/images/actioncommit.svg</normaloff>:/images/actioncommit.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;Commit...</string>
@@ -277,7 +309,7 @@
   <action name="actionAdd" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >
-     <normaloff>:/images/actionaddlocal.png</normaloff>:/images/actionaddlocal.png</iconset>
+     <normaloff>:/images/actionaddlocal.svg</normaloff>:/images/actionaddlocal.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;Add...</string>
@@ -286,7 +318,7 @@
   <action name="actionDelete" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >
-     <normaloff>:/images/actiondeletelocal.png</normaloff>:/images/actiondeletelocal.png</iconset>
+     <normaloff>:/images/actiondeletelocal.svg</normaloff>:/images/actiondeletelocal.svg</iconset>
    </property>
    <property name="text" >
     <string>&amp;Delete...</string>
@@ -295,7 +327,7 @@
   <action name="actionRevert" >
    <property name="icon" >
     <iconset resource="../qsvn.qrc" >
-     <normaloff>:/images/actionrevert.png</normaloff>:/images/actionrevert.png</iconset>
+     <normaloff>:/images/actionrevert.svg</normaloff>:/images/actionrevert.svg</iconset>
    </property>
    <property name="text" >
     <string>Re&amp;vert...</string>

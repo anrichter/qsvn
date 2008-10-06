@@ -88,12 +88,12 @@ void FileSelector::setupUI()
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnAdd:
-            setWindowIcon(QIcon(":/images/actionaddlocal.png"));
+            setWindowIcon(QIcon(":/images/actionaddlocal.svg"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnCommit:
-            setWindowIcon(QIcon(":/images/actioncommit.png"));
+            setWindowIcon(QIcon(":/images/actioncommit.svg"));
             comboLogHistory->addItems(Config::instance()->getStringList("logHistory"));
             comboLogHistory->insertItem(0, "");
             comboLogHistory->setCurrentIndex(0);
@@ -101,17 +101,17 @@ void FileSelector::setupUI()
             editLogMessage->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnDelete:
-            setWindowIcon(QIcon(":/images/actiondeletelocal.png"));
+            setWindowIcon(QIcon(":/images/actiondeletelocal.svg"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::SvnRevert:
-            setWindowIcon(QIcon(":/images/actionrevert.png"));
+            setWindowIcon(QIcon(":/images/actionrevert.svg"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
         case SvnClient::RemoveFromDisk:
-            setWindowIcon(QIcon(":/images/actiondeletelocal.png"));
+            setWindowIcon(QIcon(":/images/actiondeletelocal.svg"));
             groupBoxLogMessage->setVisible(false);
             treeViewFiles->setFocus(Qt::MouseFocusReason);
             break;
@@ -132,7 +132,7 @@ void FileSelector::setupMenus()
         contextMenu->addAction(actionDiff);
         contextMenu->addAction(actionRevert);
         contextMenu->addAction(actionResolved);
-        actionRevert->setIcon(QIcon(":/images/actionrevert.png"));
+        actionRevert->setIcon(QIcon(":/images/actionrevert.svg"));
     }
     if ((m_svnAction == SvnClient::SvnCommit) ||
          (m_svnAction == SvnClient::SvnDelete) ||
@@ -150,7 +150,7 @@ void FileSelector::setupConnections()
             SIGNAL(doubleClicked(const QModelIndex &)),
             this,
             SLOT(on_actionDiff_triggered()));
-    connect(m_statusEntriesModel, SIGNAL(beginUpdate()), 
+    connect(m_statusEntriesModel, SIGNAL(beginUpdate()),
         this, SLOT(on_FsWatcherBeginUpdate()));
     connect(m_statusEntriesModel, SIGNAL(endUpdate()),
         this, SLOT(on_FsWatcherEndUpdate()));

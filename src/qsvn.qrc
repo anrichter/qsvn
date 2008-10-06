@@ -1,25 +1,22 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
+<RCC>
+  <qresource>
+    <file>images/actionadd.svg</file>
+    <file>images/actionaddlocal.svg</file>
+    <file>images/actioncheckout.svg</file>
+    <file>images/actioncommit.svg</file>
+    <file>images/actiondelete.svg</file>
+    <file>images/actiondeletelocal.svg</file>
+    <file>images/actionrevert.svg</file>
+    <file>images/actionupdate.svg</file>
     <file>images/qsvn.png</file>
     <file>images/folder.png</file>
     <file>images/unknownfolder.png</file>
-
     <file>images/file.png</file>
     <file>images/addedfile.png</file>
     <file>images/conflictedfile.png</file>
     <file>images/missingfile.png</file>
     <file>images/modifiedfile.png</file>
     <file>images/unknownfile.png</file>
-
-    <file>images/actioncheckout.png</file>
-    <file>images/actionadd.png</file>
-    <file>images/actionaddlocal.png</file>
-    <file>images/actioncommit.png</file>
-    <file>images/actiondelete.png</file>
-    <file>images/actiondeletelocal.png</file>
-    <file>images/actionrevert.png</file>
-    <file>images/actionupdate.png</file>
-
     <file>images/actionstop.png</file>
-</qresource>
+  </qresource>
 </RCC>

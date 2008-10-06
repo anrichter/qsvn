@@ -31,7 +31,7 @@ Checkout::Checkout(QWidget *parent)
         : QDialog(parent)
 {
     setupUi(this);
-    setWindowIcon(QIcon(":/images/actioncheckout.png"));
+    setWindowIcon(QIcon(":/images/actioncheckout.svg"));
     Config::instance()->restoreWidget(this);
 
     editURL->addItems(Config::instance()->getStringList("checkoutURL"));
