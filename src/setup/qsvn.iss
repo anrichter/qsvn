@@ -66,7 +66,7 @@ Source: {#SvnBinDir}\libsvn_subr-1.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#SvnBinDir}\libsvn_wc-1.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#SvnBinDir}\ssleay32.dll; DestDir: {app}; Flags: ignoreversion
 ;MSVC-Redistributables
-Source: {#VcInstallDir}\redist\x86\Microsoft.VC90.CRT\*.*; DestDir: {app}\Microsoft.VC90.CRT; Flags: ignoreversion
+Source: {#QSvnSourceDir}\setup\Microsoft.VC90.CRT\*.*; DestDir: {app}\Microsoft.VC90.CRT; Flags: ignoreversion
 
 [INI]
 Filename: {app}\qsvn.url; Section: InternetShortcut; Key: URL; String: http://www.anrichter.net/projects/qsvn
