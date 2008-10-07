@@ -1,9 +1,22 @@
 Version 0.8.0 - released 2008-xx-xx
 
     New Features
-	------------
-	* Logs can now filter by all columns. Select All to search in Revision, 
-	    Author, Date and Message.
+    ------------
+    * Logs can now filter by all columns. Select All to search in Revision,
+        Author, Date and Message.
+
+
+Version 0.7.1 - released 2008-10-06
+
+    Changes
+    -------
+    * Build against svnqt 5.0.1
+    * Build against Qt 4.4.3 (Windows only)
+    * Build against Subversion 1.5.2 (Windows only)
+
+    Bugfixes
+    --------
+    * #80 QSvn doesn't show unversioned files (Windows only)
 
 
 Version 0.7.0 - released 2008-08-03
