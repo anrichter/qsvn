@@ -125,6 +125,10 @@ void ShowLog::initLogEntriesPath()
 
 void ShowLog::initMenus()
 {
+    menuLogEntries = new QMenu(this);
+    menuLogEntries->addAction(actionMerge);
+    menuLogEntries->addAction(actionRevertChangeset);
+
     menuPathEntries = new QMenu(this);
     menuPathEntries->addAction(actionDiff);
     QMenu *menuPathEntriesDiff = menuPathEntries->addMenu(tr("Show differences against..."));
@@ -133,9 +137,7 @@ void ShowLog::initMenus()
     menuPathEntriesDiff->addAction(actionDiff_to_BASE);
     menuPathEntriesDiff->addAction(actionDiff_to_START);
     menuPathEntriesDiff->addAction(actionDiff_to_Revision);
-
-    menuLogEntries = new QMenu(this);
-    menuLogEntries->addAction(actionMerge);
+    menuPathEntries->addAction(actionRevertPath);
 }
 
 void ShowLog::on_buttonNext_clicked()
@@ -330,6 +332,50 @@ void ShowLog::on_actionMerge_triggered( )
     Merge::doMerge(m_url, svn::Revision(getSelectedRevision().revnum() - 1),
                    m_url, getSelectedRevision(),
                    m_path);
+}
+
+void ShowLog::on_actionRevertChangeset_triggered()
+{
+    QString _url = m_url;
+    QString _path = m_path;
+    svn::Revision _rev = getSelectedRevision();
+    revertChanges(_url, _path, _rev);
+}
+
+void ShowLog::on_actionRevertPath_triggered()
+{
+    if (checkLocatedInWc())
+    {
+        QString _url = m_repos + getSelectedPath();
+        QString _path = m_path + QString(getSelectedPath()).remove(m_repos_path);
+        svn::Revision _rev = getSelectedRevision();
+        revertChanges(_url, _path, _rev);
+    }
+}
+
+void ShowLog::revertChanges(const QString url, const QString path, const svn::Revision revision)
+{
+    if (QMessageBox::question(
+        this,
+        tr("Revert"),
+           tr("Do you really want to revert all changes from revision %1 in\n%2?")
+                   .arg(revision.revnum())
+                   .arg(path),
+                        QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
+    {
+        if (SvnClient::instance()->merge(
+            url, revision,
+            url, svn::Revision(revision.revnum() - 1),
+            path, true, true))
+        {
+            QMessageBox::information(
+                                     this,
+                                     tr("Revert"),
+                                     tr("All changes from revision %1 successfully reverted in\n%2.")
+                                         .arg(revision.revnum())
+                                         .arg(path));
+        }
+    }
 }
 
 

@@ -70,6 +70,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         QString getSelectedPath();
         bool checkLocatedInWc();
         svn_revnum_t getSelectedStartRevision();
+        void revertChanges(const QString url, const QString path, const svn::Revision revision);
 
     private slots:
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
@@ -88,6 +89,9 @@ class ShowLog : public QDialog, public Ui::ShowLog
         void on_actionDiff_to_Revision_triggered();
 
         void on_actionMerge_triggered();
+
+        void on_actionRevertChangeset_triggered();
+        void on_actionRevertPath_triggered();
 };
 
 #endif
