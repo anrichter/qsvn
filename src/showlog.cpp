@@ -26,6 +26,7 @@
 #include "showlog.h"
 #include "svnclient.h"
 #include "statustext.h"
+#include "textedit.h"
 
 //svnqt
 #include "svnqt/client.hpp"
@@ -128,6 +129,7 @@ void ShowLog::initMenus()
     menuLogEntries = new QMenu(this);
     menuLogEntries->addAction(actionMerge);
     menuLogEntries->addAction(actionRevertChangeset);
+    menuLogEntries->addAction(actionEditLogMessage);
 
     menuPathEntries = new QMenu(this);
     menuPathEntries->addAction(actionDiff);
@@ -374,6 +376,29 @@ void ShowLog::revertChanges(const QString url, const QString path, const svn::Re
                                      tr("All changes from revision %1 successfully reverted in\n%2.")
                                          .arg(revision.revnum())
                                          .arg(path));
+        }
+    }
+}
+
+void ShowLog::on_actionEditLogMessage_triggered()
+{
+    QString logMessage = editLogMessage->toPlainText();
+    if (TextEdit::edit(this, tr("Edit logmessage"), logMessage))
+    {
+        if (SvnClient::instance()->revPropSet("svn:log", logMessage, m_url, getSelectedRevision()))
+        {
+            QModelIndex index = viewLogEntries->selectionModel()->currentIndex();
+            if (index.isValid())
+            {
+                m_logEntriesModel->changeLogMessage(m_logEntriesProxy->mapToSource(index), logMessage);
+                editLogMessage->setPlainText(logMessage);
+            }
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Edit logmessage"),
+                                  tr("Can't edit the log message.\n\n%1")
+                                          .arg(SvnClient::instance()->getLastErrorMessage()));
         }
     }
 }

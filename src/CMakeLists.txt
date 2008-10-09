@@ -84,6 +84,7 @@ SET(qsvn_headers
          statusentriesmodel.h
          statustext.h
          svnclient.h
+         textedit.h
          wcmodel.h
          ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h
 )
@@ -113,6 +114,7 @@ SET(qsvn_sources
          statusentriesmodel.cpp
          statustext.cpp
          svnclient.cpp
+         textedit.cpp
          wcmodel.cpp
 )
 
@@ -128,6 +130,7 @@ SET(qsvn_forms
          forms/qsvn.ui
          forms/showlog.ui
          forms/sslservertrust.ui
+         forms/textedit.ui
 )
 
 QT4_WRAP_UI(ui_headers ${qsvn_forms})

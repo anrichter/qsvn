@@ -4,7 +4,8 @@ Version 0.8.0 - released 2008-xx-xx
     ------------
     * Logs can now filter by all columns. Select All to search in Revision,
         Author, Date and Message.
-    * #20 Revert changes from a changeset or a single file in show log window
+    * #20 Revert changes from a changeset or a single file in show log window.
+    * #30 Log messages are now editable in the show log window.
 
 
 Version 0.7.1 - released 2008-10-06

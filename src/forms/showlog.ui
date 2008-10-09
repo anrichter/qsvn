@@ -232,6 +232,11 @@
     <string>Revert Changes from this Entry</string>
    </property>
   </action>
+  <action name="actionEditLogMessage" >
+   <property name="text" >
+    <string>Edit Log Message</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>editFilterString</tabstop>

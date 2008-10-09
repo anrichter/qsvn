@@ -89,6 +89,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         void on_actionDiff_to_Revision_triggered();
 
         void on_actionMerge_triggered();
+        void on_actionEditLogMessage_triggered();
 
         void on_actionRevertChangeset_triggered();
         void on_actionRevertPath_triggered();

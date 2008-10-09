@@ -594,6 +594,23 @@ bool SvnClient::propDel(const QString &propName,
     }
 }
 
+bool SvnClient::revPropSet(const QString & propName, const QString & propValue,
+                           const svn::Path & path, const svn::Revision & revision,
+                           bool force)
+{
+    listener->setVerbose(true);
+    try
+    {
+        svnClient->revpropset(propName, propValue, path, revision, force);
+        return true;
+    }
+    catch (svn::ClientException e)
+    {
+        m_lastErrorMessage = e.msg();
+        return false;
+    }
+}
+
 bool SvnClient::removeFromDisk(const QStringList &pathList)
 {
     QFileInfo fileInfo;
@@ -686,5 +703,11 @@ const QString SvnClient::getSvnActionName(const SvnAction action)
             break;
     }
 }
+
+QString SvnClient::getLastErrorMessage() const
+{
+    return m_lastErrorMessage;
+}
+
 
 #include "svnclient.moc"

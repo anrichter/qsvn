@@ -135,6 +135,17 @@ svn::LogEntry LogEntriesModel::getLogEntry(const QModelIndex &index)
     return m_logEntries.at(index.row());
 }
 
+void LogEntriesModel::changeLogMessage(const QModelIndex & index, const QString logMessage)
+{
+    if (index.isValid())
+    {
+        svn::LogEntry _logEntry = m_logEntries.at(index.row());
+        _logEntry.message = logMessage;
+        m_logEntries.replace(index.row(), _logEntry);
+        emit dataChanged(index, index);
+    }
+}
+
 void LogEntriesModel::appendLogEntries(const svn::LogEntriesPtr logEntries)
 {
     if (!logEntries || logEntries->count() <= 0)
@@ -159,3 +170,4 @@ void LogEntriesModel::clear()
     m_logEntries.clear();
     endRemoveRows();
 }
+

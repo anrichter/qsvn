@@ -18,43 +18,34 @@
  *                                                                              *
  *******************************************************************************/
 
-#ifndef LOGENTRIESMODEL_H
-#define LOGENTRIESMODEL_H
-
-//SvnQt
-#include "svnqt/client.hpp"
+//QSvn
+#include "textedit.h"
 
 //Qt
-#include <QAbstractTableModel>
+#include <QDialog>
 
 
-/**
-    @author Andreas Richter <ar@anrichter.net>
-*/
-class LogEntriesModel : public QAbstractTableModel
+bool TextEdit::edit(QWidget * parent, const QString caption, QString & text)
 {
-    public:
-        LogEntriesModel(QObject *parent);
-        ~LogEntriesModel();
+    TextEdit *dlg = new TextEdit(parent, caption, text);
+    if (dlg->exec())
+    {
+        text = dlg->textEdit->toPlainText();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    delete dlg;
+}
 
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
-        int columnCount(const QModelIndex &parent = QModelIndex()) const;
-        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-        QVariant data(const QModelIndex &index, int role) const;
+TextEdit::TextEdit(QWidget * parent, const QString caption, const QString text)
+    : QDialog(parent)
+{
+    setupUi(this);
+    textEdit->setPlainText(text);
+}
 
-        void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
-        svn::LogEntry getLogEntry(const QModelIndex & index);
-        void changeLogMessage(const QModelIndex &index, const QString logMessage);
 
-        void appendLogEntries(const svn::LogEntriesPtr logEntries);
-        void clear();
-
-    private:
-        svn::LogEntries m_logEntries;
-
-        //sorting algorithms
-        static bool logEntryLessThan(const svn::LogEntry &left, const svn::LogEntry &right);
-        static bool logEntryGreaterThan(const svn::LogEntry &left, const svn::LogEntry &right);
-};
-
-#endif
+#include "textedit.moc"

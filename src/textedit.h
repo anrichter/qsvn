@@ -18,43 +18,27 @@
  *                                                                              *
  *******************************************************************************/
 
-#ifndef LOGENTRIESMODEL_H
-#define LOGENTRIESMODEL_H
+#ifndef TEXTEDIT_H
+#define TEXTEDIT_H
 
-//SvnQt
-#include "svnqt/client.hpp"
+//QSvn
+#include "ui_textedit.h"
 
 //Qt
-#include <QAbstractTableModel>
+#include <QDialog>
 
-
-/**
-    @author Andreas Richter <ar@anrichter.net>
-*/
-class LogEntriesModel : public QAbstractTableModel
+class TextEdit : public QDialog, public Ui::TextEdit
 {
+    Q_OBJECT
+
     public:
-        LogEntriesModel(QObject *parent);
-        ~LogEntriesModel();
-
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
-        int columnCount(const QModelIndex &parent = QModelIndex()) const;
-        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-        QVariant data(const QModelIndex &index, int role) const;
-
-        void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
-        svn::LogEntry getLogEntry(const QModelIndex & index);
-        void changeLogMessage(const QModelIndex &index, const QString logMessage);
-
-        void appendLogEntries(const svn::LogEntriesPtr logEntries);
-        void clear();
+        static bool edit(QWidget *parent, const QString caption, QString &text);
 
     private:
-        svn::LogEntries m_logEntries;
+        TextEdit(QWidget *parent, const QString caption, const QString text);
 
-        //sorting algorithms
-        static bool logEntryLessThan(const svn::LogEntry &left, const svn::LogEntry &right);
-        static bool logEntryGreaterThan(const svn::LogEntry &left, const svn::LogEntry &right);
+        QString *m_text;
 };
+
 
 #endif

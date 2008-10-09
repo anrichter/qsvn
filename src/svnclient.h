@@ -138,10 +138,16 @@ class SvnClient : public QObject
                      const svn::Path &path,
                      svn::Depth depth,
                      const svn::Revision &revision);
+        bool revPropSet (const QString &propName,
+                         const QString &propValue,
+                         const svn::Path &path,
+                         const svn::Revision &revision,
+                         bool force=false);
 
         bool removeFromDisk(const QStringList &pathList);
 
         bool isInProgress(); //true, if svn update is running
+        QString getLastErrorMessage() const;
 
         //Helper
         const QString getUUID(const QString &path);
@@ -164,6 +170,7 @@ class SvnClient : public QObject
 
         void completedMessage(const QString &path);
         QString getFileRevisionPath(const QString &file, const svn::Revision &revision);
+        QString m_lastErrorMessage;
 };
 
 #endif
