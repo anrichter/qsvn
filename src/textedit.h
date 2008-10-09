@@ -32,10 +32,11 @@ class TextEdit : public QDialog, public Ui::TextEdit
     Q_OBJECT
 
     public:
-        static bool edit(QWidget *parent, const QString caption, QString &text);
+        static bool edit(QWidget *parent, const QString title, QString &text);
 
     private:
-        TextEdit(QWidget *parent, const QString caption, const QString text);
+        TextEdit(QWidget *parent, const QString title, const QString text);
+        ~TextEdit();
 
         QString *m_text;
 };

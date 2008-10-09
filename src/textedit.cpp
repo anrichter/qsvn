@@ -19,32 +19,39 @@
  *******************************************************************************/
 
 //QSvn
+#include "config.h"
 #include "textedit.h"
+
 
 //Qt
 #include <QDialog>
 
 
-bool TextEdit::edit(QWidget * parent, const QString caption, QString & text)
+bool TextEdit::edit(QWidget * parent, const QString title, QString & text)
 {
-    TextEdit *dlg = new TextEdit(parent, caption, text);
+    TextEdit *dlg = new TextEdit(parent, title, text);
+    bool result = false;
     if (dlg->exec())
     {
         text = dlg->textEdit->toPlainText();
-        return true;
-    }
-    else
-    {
-        return false;
+        result = true;
     }
     delete dlg;
+    return result;
 }
 
-TextEdit::TextEdit(QWidget * parent, const QString caption, const QString text)
+TextEdit::TextEdit(QWidget * parent, const QString title, const QString text)
     : QDialog(parent)
 {
     setupUi(this);
+    setWindowTitle(title);
+    Config::instance()->restoreWidget(this, title);
     textEdit->setPlainText(text);
+}
+
+TextEdit::~ TextEdit()
+{
+    Config::instance()->saveWidget(this, windowTitle());
 }
 
 

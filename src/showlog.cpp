@@ -384,7 +384,7 @@ void ShowLog::revertChanges(const QString url, const QString path, const svn::Re
 void ShowLog::on_actionEditLogMessage_triggered()
 {
     QString logMessage = editLogMessage->toPlainText();
-    if (TextEdit::edit(this, tr("Edit logmessage"), logMessage))
+    if (TextEdit::edit(this, tr("Edit Log Message"), logMessage))
     {
         if (SvnClient::instance()->revPropSet("svn:log", logMessage, m_url, getSelectedRevision()))
         {
@@ -397,7 +397,7 @@ void ShowLog::on_actionEditLogMessage_triggered()
         }
         else
         {
-            QMessageBox::critical(this, tr("Edit logmessage"),
+            QMessageBox::critical(this, tr("Edit Log Message"),
                                   tr("Can't edit the log message.\n\n%1")
                                           .arg(SvnClient::instance()->getLastErrorMessage()));
         }
@@ -408,7 +408,7 @@ void ShowLog::on_actionEditAuthor_triggered()
 {
     QModelIndex index = viewLogEntries->selectionModel()->currentIndex();
     QString author = m_logEntriesModel->getLogEntry(m_logEntriesProxy->mapToSource(index)).author;
-    if (TextEdit::edit(this, tr("Edit author"), author))
+    if (TextEdit::edit(this, tr("Edit Author"), author))
     {
         if (SvnClient::instance()->revPropSet("svn:author", author, m_url, getSelectedRevision()))
         {
@@ -416,7 +416,7 @@ void ShowLog::on_actionEditAuthor_triggered()
         }
         else
         {
-            QMessageBox::critical(this, tr("Edit author"),
+            QMessageBox::critical(this, tr("Edit Author"),
                                   tr("Can't edit the author.\n\n%1")
                                           .arg(SvnClient::instance()->getLastErrorMessage()));
         }
