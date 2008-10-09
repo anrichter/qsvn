@@ -237,6 +237,11 @@
     <string>Edit Log Message</string>
    </property>
   </action>
+  <action name="actionEditAuthor" >
+   <property name="text" >
+    <string>Edit Author</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>editFilterString</tabstop>

@@ -146,6 +146,17 @@ void LogEntriesModel::changeLogMessage(const QModelIndex & index, const QString 
     }
 }
 
+void LogEntriesModel::changeLogAuthor(const QModelIndex & index, const QString author)
+{
+    if (index.isValid())
+    {
+        svn::LogEntry _logEntry = m_logEntries.at(index.row());
+        _logEntry.author = author;
+        m_logEntries.replace(index.row(), _logEntry);
+        emit dataChanged(index, index);
+    }
+}
+
 void LogEntriesModel::appendLogEntries(const svn::LogEntriesPtr logEntries)
 {
     if (!logEntries || logEntries->count() <= 0)

@@ -45,6 +45,7 @@ class LogEntriesModel : public QAbstractTableModel
         void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
         svn::LogEntry getLogEntry(const QModelIndex & index);
         void changeLogMessage(const QModelIndex &index, const QString logMessage);
+        void changeLogAuthor(const QModelIndex &index, const QString author);
 
         void appendLogEntries(const svn::LogEntriesPtr logEntries);
         void clear();

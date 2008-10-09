@@ -130,6 +130,7 @@ void ShowLog::initMenus()
     menuLogEntries->addAction(actionMerge);
     menuLogEntries->addAction(actionRevertChangeset);
     menuLogEntries->addAction(actionEditLogMessage);
+    menuLogEntries->addAction(actionEditAuthor);
 
     menuPathEntries = new QMenu(this);
     menuPathEntries->addAction(actionDiff);
@@ -398,6 +399,25 @@ void ShowLog::on_actionEditLogMessage_triggered()
         {
             QMessageBox::critical(this, tr("Edit logmessage"),
                                   tr("Can't edit the log message.\n\n%1")
+                                          .arg(SvnClient::instance()->getLastErrorMessage()));
+        }
+    }
+}
+
+void ShowLog::on_actionEditAuthor_triggered()
+{
+    QModelIndex index = viewLogEntries->selectionModel()->currentIndex();
+    QString author = m_logEntriesModel->getLogEntry(m_logEntriesProxy->mapToSource(index)).author;
+    if (TextEdit::edit(this, tr("Edit author"), author))
+    {
+        if (SvnClient::instance()->revPropSet("svn:author", author, m_url, getSelectedRevision()))
+        {
+            m_logEntriesModel->changeLogAuthor(m_logEntriesProxy->mapToSource(index), author);
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Edit author"),
+                                  tr("Can't edit the author.\n\n%1")
                                           .arg(SvnClient::instance()->getLastErrorMessage()));
         }
     }
