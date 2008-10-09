@@ -38,5 +38,4 @@ class PropertyEdit : public QDialog, public Ui::PropertyEdit
 };
 
 
-
 #endif

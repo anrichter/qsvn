@@ -23,8 +23,8 @@
 #include "svnclient.h"
 
 
-PathPropertiesModel::PathPropertiesModel(const QString path)
-        : QAbstractTableModel()
+PathPropertiesModel::PathPropertiesModel(QObject *parent, const QString path)
+        : QAbstractTableModel(parent)
 {
     m_path = path;
     //get the property map

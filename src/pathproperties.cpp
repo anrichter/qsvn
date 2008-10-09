@@ -55,7 +55,7 @@ PathProperties::PathProperties(QWidget *parent, const QString path)
 
     this->setWindowTitle(QString(tr("Edit Properties for %1")).arg(path));
 
-    m_model = new PathPropertiesModel(path);
+    m_model = new PathPropertiesModel(this, path);
     viewPathProperties->setModel(m_model);
     connect(viewPathProperties->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
             this, SLOT(updateButtons()));
@@ -73,7 +73,6 @@ PathProperties::~PathProperties()
 {
     Config::instance()->saveWidget(this);
     Config::instance()->saveHeaderView(this, viewPathProperties->header());
-    delete(m_model);
 }
 
 void PathProperties::doPathProperties(QWidget *parent, const QString path)

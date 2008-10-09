@@ -33,7 +33,7 @@
 class PathPropertiesModel : public QAbstractTableModel
 {
     public:
-        PathPropertiesModel(const QString path);
+        PathPropertiesModel(QObject *parent, const QString path);
         ~PathPropertiesModel();
 
         int rowCount(const QModelIndex &parent = QModelIndex()) const;
