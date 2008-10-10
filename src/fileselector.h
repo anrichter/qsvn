@@ -60,6 +60,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
         QStringList m_pathList;
         bool m_isFileList;
         QString m_wc;
+        QString m_cfgStrLogMessages;
 
         QItemSelectionModel *m_selectionModel;
         QMenu *contextMenu;

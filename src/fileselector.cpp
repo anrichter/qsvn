@@ -43,6 +43,7 @@ FileSelector::FileSelector(QWidget *parent,
     setupUi(this);
 
     m_wc = wc;
+    m_cfgStrLogMessages = QString("logHistory_%1").arg(SvnClient::instance()->getUUID(m_wc));
     m_statusEntriesModel = new StatusEntriesModel(this);
     m_fileSelectorProxy = new FileSelectorProxy(this, svnAction);
     m_fileSelectorProxy->setSourceModel(m_statusEntriesModel);
@@ -94,7 +95,7 @@ void FileSelector::setupDlg()
             break;
         case SvnClient::SvnCommit:
             setWindowIcon(QIcon(":/images/actioncommit.svg"));
-            comboLogHistory->addItems(Config::instance()->getStringList("logHistory"));
+            comboLogHistory->addItems(Config::instance()->getStringList(m_cfgStrLogMessages));
             comboLogHistory->insertItem(0, "");
             comboLogHistory->setCurrentIndex(0);
             Config::instance()->restoreSplitter(this, splitter);
@@ -191,7 +192,7 @@ void FileSelector::accept()
                 logEntries << comboLogHistory->itemText ( i );
             }
         }
-        Config::instance()->saveStringList("logHistory", logEntries);
+        Config::instance()->saveStringList(m_cfgStrLogMessages, logEntries);
         Config::instance()->saveSplitter(this, splitter);
     }
 
