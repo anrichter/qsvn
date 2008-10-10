@@ -7,7 +7,7 @@ Version 0.8.0 - released 2008-xx-xx
     * #20 Revert changes from a changeset or a single file in show log window.
     * #30 Edit logmessage in show log window.
     * #31 Edit Author in show log window.
-    * #66 Save commit messages apart for every repository.
+    * #66 Save commit messages separateley for every repository.
 
 
 Version 0.7.1 - released 2008-10-06
