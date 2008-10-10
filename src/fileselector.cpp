@@ -69,7 +69,7 @@ void FileSelector::setupFileSelector(SvnClient::SvnAction svnAction)
     treeViewFiles->setModel(m_fileSelectorProxy);
 
     setupMenus();
-    setupUI();
+    setupDlg();
     setupConnections();
 
     treeViewFiles->installEventFilter(this);
@@ -78,7 +78,7 @@ void FileSelector::setupFileSelector(SvnClient::SvnAction svnAction)
     Config::instance()->restoreHeaderView(this, treeViewFiles->header());
 }
 
-void FileSelector::setupUI()
+void FileSelector::setupDlg()
 {
     setWindowTitle(tr("%1 [%2]").arg(SvnClient::instance()->getSvnActionName(m_svnAction)).arg(m_wc));
     switch (m_svnAction)

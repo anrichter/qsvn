@@ -69,7 +69,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
 
         void showModeless();
         void setupFileSelector(SvnClient::SvnAction svnAction);
-        void setupUI();
+        void setupDlg();
         void setupMenus();
         void setupConnections();
 
