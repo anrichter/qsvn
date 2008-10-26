@@ -181,6 +181,7 @@ IF (WIN32)
                             /dQSvnVersionString=${QSVN_VERSION_STRING}
                             /dQSvnVersionNumber=${QSVN_VERSION_NUMBER}
                             /dQtLibraryDir=${QT_LIBRARY_DIR}
+							/dQtPluginsDir=${QT_PLUGINS_DIR}
                             /dSvnBinDir=${SUBVERSION_BIN_DIR}
                             /dVcInstallDir=$ENV{VCINSTALLDIR}
                        )

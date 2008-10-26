@@ -48,6 +48,9 @@ Source: {#QSvnSourceDir}\licenses\Subversion.license; DestDir: {app}\licenses; F
 Source: {#QtLibraryDir}\QtCore4.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#QtLibraryDir}\QtGui4.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#QtLibraryDir}\QtSql4.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#QtLibraryDir}\QtSvg4.dll; DestDir: {app}; Flags: ignoreversion
+;QtPlugins
+Source: {#QtPluginsDir}\imageformats\qsvg4.dll; DestDir: {app}\imageformats; Flags: ignoreversion
 ;SubversionFiles
 Source: {#SvnBinDir}\intl3_svn.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#SvnBinDir}\libapr.dll; DestDir: {app}; Flags: ignoreversion
@@ -67,6 +70,7 @@ Source: {#SvnBinDir}\libsvn_wc-1.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#SvnBinDir}\ssleay32.dll; DestDir: {app}; Flags: ignoreversion
 ;MSVC-Redistributables
 Source: {#QSvnSourceDir}\setup\Microsoft.VC90.CRT\*.*; DestDir: {app}\Microsoft.VC90.CRT; Flags: ignoreversion
+Source: {#QSvnSourceDir}\setup\Microsoft.VC90.CRT\*.*; DestDir: {app}\imageformats\Microsoft.VC90.CRT; Flags: ignoreversion
 
 [INI]
 Filename: {app}\qsvn.url; Section: InternetShortcut; Key: URL; String: http://www.anrichter.net/projects/qsvn
