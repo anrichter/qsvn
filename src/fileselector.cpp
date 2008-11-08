@@ -363,6 +363,3 @@ void FileSelector::doSvnAction(QWidget *parent,
         }
     }
 }
-
-
-#include "fileselector.moc"

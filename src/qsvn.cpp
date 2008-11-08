@@ -486,6 +486,3 @@ void QSvn::changeEvent(QEvent * event)
         }
     }
 }
-
-
-#include "qsvn.moc"

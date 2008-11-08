@@ -708,6 +708,3 @@ QString SvnClient::getLastErrorMessage() const
 {
     return m_lastErrorMessage;
 }
-
-
-#include "svnclient.moc"

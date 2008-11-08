@@ -36,7 +36,7 @@ bool Helper::removeFromDisk(QString aPath)
 		{
             QFile::setPermissions(fileInfo.filePath(), QFile::WriteOwner | QFile::ReadOwner);
 			result &= QFile::remove(fileInfo.filePath());
-		} 
+		}
 		else if(fileInfo.isDir())
         {
             result &= Helper::removeFromDisk(fileInfo.filePath());
@@ -45,6 +45,3 @@ bool Helper::removeFromDisk(QString aPath)
     result &= dir.rmdir(aPath);
     return result;
 }
-
-
-#include "helper.moc"

@@ -136,6 +136,3 @@ void Merge::on_buttonDryRun_clicked( )
                                  true, true, false, true);
     StatusText::out(tr("Finished."));
 }
-
-
-#include "merge.moc"

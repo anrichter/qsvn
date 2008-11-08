@@ -110,5 +110,3 @@ void Checkout::accept()
     Config::instance()->setValue(KEY_LASTWC, editPath->text());
     QDialog::accept();
 }
-
-#include "checkout.moc"

@@ -42,7 +42,7 @@ void QarFileSystemWatcher::addPaths(const QStringList &paths)
     int _count = m_fsWatcher->directories().count() +
             m_fsWatcher->files().count();
     QStringList _paths;
-    
+
     foreach(QString path, paths)
     {
         _count++;
@@ -76,6 +76,3 @@ void QarFileSystemWatcher::removeAllPaths()
     removePaths(directories());
     removePaths(files());
 }
-
-
-#include "qarfilesystemwatcher.moc"

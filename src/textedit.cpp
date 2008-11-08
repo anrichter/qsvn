@@ -53,6 +53,3 @@ TextEdit::~ TextEdit()
 {
     Config::instance()->saveWidget(this, windowTitle());
 }
-
-
-#include "textedit.moc"

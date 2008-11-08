@@ -422,6 +422,3 @@ void ShowLog::on_actionEditAuthor_triggered()
         }
     }
 }
-
-
-#include "showlog.moc"

@@ -131,5 +131,3 @@ void PathProperties::updateButtons()
     editButton->setEnabled(viewPathProperties->selectionModel()->hasSelection());
     deleteButton->setEnabled(viewPathProperties->selectionModel()->hasSelection());
 }
-
-#include "pathproperties.moc"

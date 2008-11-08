@@ -1,11 +1,12 @@
 PROJECT(qsvn)
+
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4.0)
 #Set Policy for cmake version 2.6.0 and above
 IF(COMMAND cmake_policy)
-	cmake_policy(SET CMP0003 NEW)
+  CMAKE_POLICY(SET CMP0003 NEW)
 ENDIF(COMMAND cmake_policy)
 
-include (CheckCXXCompilerFlag)
+INCLUDE (CheckCXXCompilerFlag)
 
 SET(QSVN_MAJOR_VERSION 0)
 SET(QSVN_MINOR_VERSION 7)
@@ -15,13 +16,13 @@ SET(QSVN_BUILD_VERSION 0)
 SET(QSVN_VERSION_STRING "${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION}")
 SET(QSVN_VERSION_NUMBER ${QSVN_MAJOR_VERSION}.${QSVN_MINOR_VERSION}.${QSVN_MICRO_VERSION})
 
-check_cxx_compiler_flag(-fvisibility=hidden HAVE_GCC_VISIBILITY)
-set( HAVE_GCC_VISIBILITY ${HAVE_GCC_VISIBILITY} CACHE BOOL "GCC support for hidden visibility")
+CHECK_CXX_COMPILER_FLAG(-fvisibility=hidden HAVE_GCC_VISIBILITY)
+SET(HAVE_GCC_VISIBILITY ${HAVE_GCC_VISIBILITY} CACHE BOOL "GCC support for hidden visibility")
 
 IF (EXISTS ${PROJECT_SOURCE_DIR}/.svn)
   FIND_PACKAGE(Subversion)
   IF (Subversion_FOUND)
-    Subversion_WC_INFO(${PROJECT_SOURCE_DIR} QSvn)
+    SUBVERSION_WC_INFO(${PROJECT_SOURCE_DIR} QSvn)
     SET(QSVN_VERSION_STRING "${QSVN_VERSION_STRING} Build ${QSvn_WC_REVISION}")
     SET(QSVN_VERSION_NUMBER ${QSVN_VERSION_NUMBER}.${QSvn_WC_REVISION})
     SET(QSVN_BUILD_VERSION ${QSvn_WC_REVISION})
@@ -77,7 +78,7 @@ SET(qsvn_headers
          pathproperties.h
          pathpropertiesmodel.h
          propertyedit.h
-         qarfilesystemwatche.h
+         qarfilesystemwatcher.h
          qsvn.h
          showlog.h
          sslservertrust.h
@@ -134,8 +135,7 @@ SET(qsvn_forms
 )
 
 QT4_WRAP_UI(ui_headers ${qsvn_forms})
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-QT4_AUTOMOC(${qsvn_sources})
+QT4_WRAP_CPP(moc_files ${qsvn_headers})
 QT4_ADD_RESOURCES(resfiles qsvn.qrc)
 
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/qsvn_defines.h.in"
@@ -158,9 +158,9 @@ IF (WIN32)
         IMMEDIATE
         @ONLY)
     INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/svnqt-import)
-    ADD_EXECUTABLE(qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc)
+    ADD_EXECUTABLE(qsvn WIN32 ${qsvn_sources} ${moc_files} ${ui_headers} ${resfiles} qsvn.rc)
 ELSE (WIN32)
-    ADD_EXECUTABLE(qsvn ${qsvn_sources} ${ui_headers} ${resfiles})
+    ADD_EXECUTABLE(qsvn ${qsvn_sources} ${moc_files} ${ui_headers} ${resfiles})
 ENDIF (WIN32)
 
 SET_TARGET_PROPERTIES(qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}")
@@ -181,7 +181,7 @@ IF (WIN32)
                             /dQSvnVersionString=${QSVN_VERSION_STRING}
                             /dQSvnVersionNumber=${QSVN_VERSION_NUMBER}
                             /dQtLibraryDir=${QT_LIBRARY_DIR}
-							/dQtPluginsDir=${QT_PLUGINS_DIR}
+                            /dQtPluginsDir=${QT_PLUGINS_DIR}
                             /dSvnBinDir=${SUBVERSION_BIN_DIR}
                             /dVcInstallDir=$ENV{VCINSTALLDIR}
                        )

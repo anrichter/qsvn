@@ -74,5 +74,3 @@ void FileModifier::accept()
     }
     QDialog::accept();
 }
-
-#include "filemodifier.moc"

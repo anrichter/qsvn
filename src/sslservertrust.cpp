@@ -75,5 +75,3 @@ svn::ContextListener::SslServerTrustAnswer
     sslServerTrust.exec();
     return sslServerTrust.answer();
 }
-
-#include "sslservertrust.moc"

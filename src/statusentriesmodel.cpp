@@ -319,5 +319,3 @@ void StatusEntriesModel::checkCaseSensitivity()
     }
 }
 #endif
-
-#include "statusentriesmodel.moc"

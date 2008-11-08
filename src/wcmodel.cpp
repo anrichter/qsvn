@@ -128,6 +128,3 @@ void WcModel::doCollapse(const QModelIndex & index)
 {
     itemFromIndex(index)->setData(false, PopulatedRole);
 }
-
-
-#include "wcmodel.moc"

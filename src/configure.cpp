@@ -72,5 +72,3 @@ void Configure::on_buttonSelectDiffViewer_clicked()
     if (!diffviewer.isNull())
         editDiffViewer->setText(QDir::convertSeparators(diffviewer));
 }
-
-#include "configure.moc"

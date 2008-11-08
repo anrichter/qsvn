@@ -57,6 +57,3 @@ int PropertyEdit::doPropertyEdit(QWidget *parent, QString &propertyName, QString
     }
     return result;
 }
-
-
-#include "propertyedit.moc"
