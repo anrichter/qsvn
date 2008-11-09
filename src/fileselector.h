@@ -87,8 +87,8 @@ class FileSelector : public QDialog, public Ui::FileSelector
         void on_actionResolved_triggered();
         void on_actionShowLog_triggered();
 
-        void on_FsWatcherBeginUpdate();
-        void on_FsWatcherEndUpdate();
+        void onFsWatcherBeginUpdate();
+        void onFsWatcherEndUpdate();
 };
 
 #endif

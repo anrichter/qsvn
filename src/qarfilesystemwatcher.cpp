@@ -73,6 +73,8 @@ void QarFileSystemWatcher::removeAllPaths()
     m_fsWatcherList.clear();
     m_fsWatcher = this;
 #endif
-    removePaths(directories());
-    removePaths(files());
+    if (!directories().isEmpty())
+        removePaths(directories());
+    if (!files().isEmpty())
+        removePaths(files());
 }
