@@ -31,8 +31,10 @@
 /**
     @author Andreas Richter <ar@anrichter.net>
 */
+
 class LogEntriesModel : public QAbstractTableModel
 {
+
     public:
         LogEntriesModel(QObject *parent);
         ~LogEntriesModel();

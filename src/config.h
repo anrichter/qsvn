@@ -22,12 +22,16 @@
 #define CONFIG_H
 
 //QSvn
+
 class QSvn;
 
 //Qt
 #include <QObject>
+
 class QHeaderView;
+
 class QSettings;
+
 class QSplitter;
 
 
@@ -52,6 +56,7 @@ this singelton holds the configuration for qsvn
 
 class Config : public QObject
 {
+
     public:
         static Config *instance();
 

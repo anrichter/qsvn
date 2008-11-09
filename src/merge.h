@@ -27,12 +27,13 @@
 
 //Qt
 #include <QDialog>
+
 class QPushButton;
 
 
 class Merge : public QDialog, public Ui::Merge
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         static void doMerge(const QString fromURL, const svn::Revision fromRevision,
@@ -40,16 +41,17 @@ class Merge : public QDialog, public Ui::Merge
                             const QString wc);
         static void doMerge(const QString wc);
 
+    public slots:
+        void on_buttonWcPath_clicked();
+        void on_buttonDryRun_clicked();
+        void accept();
+
     private:
         Merge();
         ~Merge();
 
         QPushButton *buttonDryRun;
 
-    public slots:
-        void on_buttonWcPath_clicked();
-        void on_buttonDryRun_clicked();
-        void accept();
 };
 
 #endif

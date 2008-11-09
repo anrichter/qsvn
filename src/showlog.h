@@ -23,7 +23,9 @@
 
 //QSvn
 #include "ui_showlog.h"
+
 class LogEntriesModel;
+
 class LogChangePathEntriesModel;
 
 //SvnQt
@@ -31,6 +33,7 @@ class LogChangePathEntriesModel;
 
 //Qt
 #include <QDialog>
+
 class QSortFilterProxyModel;
 
 
@@ -52,7 +55,7 @@ class ShowLog : public QDialog, public Ui::ShowLog
         LogChangePathEntriesModel *m_logChangePathEntriesModel;
 
         QSortFilterProxyModel *m_logEntriesProxy,
-                              *m_logChangePathEntriesProxy;
+        *m_logChangePathEntriesProxy;
 
         QMenu *menuPathEntries, *menuLogEntries;
         QString m_path, m_url, m_repos, m_repos_path;

@@ -23,16 +23,19 @@
 
 //QSvn
 #include "ui_pathproperties.h"
+
 class PathPropertiesModel;
 
 //Qt
 #include <QDialog>
+
 class QPushButton;
 
 
 class PathProperties : public QDialog, public Ui::PathProperties
 {
-    Q_OBJECT
+        Q_OBJECT
+
     public:
         PathProperties(QWidget *parent, const QString path);
         ~PathProperties();

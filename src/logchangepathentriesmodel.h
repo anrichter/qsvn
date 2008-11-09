@@ -32,8 +32,10 @@
 /**
     @author Andreas Richter <ar@anrichter.net>
 */
+
 class LogChangePathEntriesModel : public QAbstractTableModel
 {
+
     public:
         LogChangePathEntriesModel(QObject *parent);
         void setChangePathEntries(svn::LogChangePathEntries logChangePathEntries);

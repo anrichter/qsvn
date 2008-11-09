@@ -35,11 +35,13 @@ This class handle the status text output
 
 class StatusText : public QObject
 {
+
     public:
         inline static void setOut(QTextEdit *textEdit)
         {
             StatusText::instance()->setOutPutWidget(textEdit);
         }
+
         inline static void out(const QString &s)
         {
             StatusText::instance()->outString(s);

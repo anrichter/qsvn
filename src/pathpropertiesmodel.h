@@ -32,6 +32,7 @@
 
 class PathPropertiesModel : public QAbstractTableModel
 {
+
     public:
         PathPropertiesModel(QObject *parent, const QString path);
         ~PathPropertiesModel();
@@ -47,6 +48,7 @@ class PathPropertiesModel : public QAbstractTableModel
         void writeProperties();
         QString getPropertyName(int row);
         QString getPropertyValue(int row);
+
     private:
         QString m_path;
         svn::PropertiesMap m_propMap;

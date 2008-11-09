@@ -60,7 +60,7 @@ class StatusEntriesModel : public QAbstractTableModel
         svn::StatusEntries m_statusEntries;
         QString m_directory;
         svn::Depth m_depth;
-		QarFileSystemWatcher m_fsWatcher;
+        QarFileSystemWatcher m_fsWatcher;
         bool m_isFsWatcherActive;
         bool m_existFsChanges;
 

@@ -23,8 +23,11 @@
 
 //QSvn
 #include "ui_qsvn.h"
+
 class FileListProxy;
+
 class StatusEntriesModel;
+
 class WcModel;
 
 //QT

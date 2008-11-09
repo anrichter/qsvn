@@ -39,12 +39,12 @@ class Checkout : public QDialog, public Ui::Checkout
         QString url() const;
         QString path() const;
 
-    private:
-        QString m_selectedURL;
-
     public slots:
         void on_buttonPath_clicked();
         void accept();
+
+    private:
+        QString m_selectedURL;
 };
 
 #endif

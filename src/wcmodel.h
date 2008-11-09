@@ -39,6 +39,9 @@ class WcModel : public QStandardItemModel
         void removeWc(QString dir);
         QString getPath(const QModelIndex &index) const;
 
+    public slots:
+        void doCollapse(const QModelIndex &index);
+
     private:
         enum UserRoles
         {
@@ -52,8 +55,6 @@ class WcModel : public QStandardItemModel
         void saveWcList();
         void loadWcList();
 
-    public slots:
-        void doCollapse(const QModelIndex &index);
 };
 
 #endif

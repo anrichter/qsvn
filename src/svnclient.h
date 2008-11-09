@@ -22,6 +22,7 @@
 #define SVNCLIENT_H
 
 //QSvn
+
 class Listener;
 
 //SvnCpp
@@ -122,9 +123,9 @@ class SvnClient : public QObject
 
         //Properties
         svn::PathPropertiesMapListPtr propList(const QString &path,
-             const svn::Revision &revision,
-             const svn::Revision &peg,
-             svn::Depth depth=svn::DepthEmpty) ;
+                                               const svn::Revision &revision,
+                                               const svn::Revision &peg,
+                                               svn::Depth depth = svn::DepthEmpty) ;
         bool propSet(const svn::PropertiesMap propMap,
                      const QString &path,
                      svn::Depth depth,
@@ -139,11 +140,11 @@ class SvnClient : public QObject
                      const svn::Path &path,
                      svn::Depth depth,
                      const svn::Revision &revision);
-        bool revPropSet (const QString &propName,
-                         const QString &propValue,
-                         const svn::Path &path,
-                         const svn::Revision &revision,
-                         bool force=false);
+        bool revPropSet(const QString &propName,
+                        const QString &propValue,
+                        const svn::Path &path,
+                        const svn::Revision &revision,
+                        bool force = false);
 
         bool removeFromDisk(const QStringList &pathList);
 

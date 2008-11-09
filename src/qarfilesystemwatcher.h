@@ -25,10 +25,12 @@
 
 class QarFileSystemWatcher : public QFileSystemWatcher
 {
-    Q_OBJECT
+        Q_OBJECT
+
+    public:
+        void removeAllPaths();
 
 #if defined Q_WS_WIN32
-    public:
         QarFileSystemWatcher(QObject *parent = 0);
         ~QarFileSystemWatcher();
 
@@ -40,8 +42,6 @@ class QarFileSystemWatcher : public QFileSystemWatcher
 
 #endif
 
-    public:
-        void removeAllPaths();
 };
 
 

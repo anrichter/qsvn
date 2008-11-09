@@ -29,7 +29,7 @@
 
 class TextEdit : public QDialog, public Ui::TextEdit
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         static bool edit(QWidget *parent, const QString title, QString &text);

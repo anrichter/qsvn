@@ -25,7 +25,7 @@
 
 class Helper : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         static bool removeFromDisk(QString aPath);

@@ -25,7 +25,9 @@
 //QSvn
 #include "ui_fileselector.h"
 #include "svnclient.h"
+
 class FileSelectorProxy;
+
 class StatusEntriesModel;
 
 //Qt
