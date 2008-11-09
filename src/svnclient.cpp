@@ -195,7 +195,25 @@ bool SvnClient::svnexport(const QString &url, const QString &path,
     return true;
 }
 
-bool SvnClient::add(const QStringList &addList)
+bool SvnClient::add(const QString &path, svn::Depth depth)
+{
+    if (path.isEmpty())
+        return true;
+
+    listener->setVerbose(true);
+    try
+    {
+        svnClient->add(path, depth);
+    }
+    catch (svn::ClientException e)
+    {
+        StatusText::out(e.msg());
+        return false;
+    }
+    return true;
+}
+
+bool SvnClient::add(const QStringList &addList, svn::Depth depth)
 {
     if (addList.isEmpty())
         return true;
@@ -206,7 +224,7 @@ bool SvnClient::add(const QStringList &addList)
         QString file;
         foreach (file, addList)
         {
-            svnClient->add(file, svn::DepthInfinity);
+            svnClient->add(file, depth);
         }
     }
     catch (svn::ClientException e)

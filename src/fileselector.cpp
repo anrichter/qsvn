@@ -204,7 +204,7 @@ void FileSelector::accept()
     switch (m_svnAction)
     {
         case SvnClient::SvnAdd:
-            SvnClient::instance()->add(m_fileSelectorProxy->checkedFileList());
+            SvnClient::instance()->add(m_fileSelectorProxy->checkedFileList(), svn::DepthEmpty);
             break;
         case SvnClient::SvnCommit:
             SvnClient::instance()->commit(m_fileSelectorProxy->checkedFileList(), editLogMessage->toPlainText());

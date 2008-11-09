@@ -36,9 +36,10 @@
 #include "svnclient.h"
 #include "wcmodel.h"
 
-//SvnCpp
+//SvnQt
 #include "svnqt/status.hpp"
 #include "svnqt/version_check.hpp"
+#include "svnqt/wc.hpp"
 
 //Qt
 #include <QtGui>
@@ -314,7 +315,27 @@ void QSvn::on_actionCommit_triggered()
 
 void QSvn::on_actionAdd_triggered()
 {
-    FileSelector::doSvnAction(this, SvnClient::SvnAdd, selectedPaths(), isFileListSelected(), m_currentWCpath);
+    if (isFileListSelected())
+    {
+        //Add a list of files
+        FileSelector::doSvnAction(this, SvnClient::SvnAdd, selectedPaths(), true, m_currentWCpath);
+    }
+    else
+    {
+        foreach(QString path, selectedPaths())
+        {
+            if (svn::Wc::checkWc(path))
+            {
+                //Add files from within an already added directory
+                FileSelector::doSvnAction(this, SvnClient::SvnAdd, QStringList(path), false, path);
+            }
+            else
+            {
+                //Add unversioned directory to repository
+                SvnClient::instance()->add(path, svn::DepthEmpty);
+            }
+        }
+    }
 }
 
 void QSvn::on_actionDelete_triggered()

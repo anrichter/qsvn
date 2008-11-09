@@ -90,7 +90,8 @@ class SvnClient : public QObject
         bool checkout(const QString &url, const QString &path);
         bool svnexport(const QString &url, const QString &path, const svn::Revision &revision, const bool verbose = true);
 
-        bool add(const QStringList &addList);
+        bool add(const QString &path, svn::Depth depth);
+        bool add(const QStringList &addList, svn::Depth depth);
         bool revert(const QStringList &revertList, const bool verbose = true);
         bool revert(const QString fileName, const bool verbose = true);
         bool commit(const QStringList &commitList, const QString &logMessage);
