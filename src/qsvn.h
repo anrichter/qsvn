@@ -42,6 +42,8 @@ class QSvn : public QMainWindow, public Ui::QSvn
         QSvn(QWidget *parent = 0, Qt::WFlags flags = 0);
         ~QSvn();
 
+        void updateWc(const QString dir);
+
     protected:
         bool eventFilter(QObject *watched, QEvent *event);
         void closeEvent(QCloseEvent *event);

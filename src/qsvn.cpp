@@ -333,6 +333,7 @@ void QSvn::on_actionAdd_triggered()
             {
                 //Add unversioned directory to repository
                 SvnClient::instance()->add(path, svn::DepthEmpty);
+                wcModel->updateWc(path);
             }
         }
     }
@@ -506,4 +507,9 @@ void QSvn::changeEvent(QEvent * event)
             m_statusEntriesModel->disableFsUpdates();
         }
     }
+}
+
+void QSvn::updateWc(const QString dir)
+{
+    wcModel->updateWc(dir);
 }

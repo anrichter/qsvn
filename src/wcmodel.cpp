@@ -81,6 +81,13 @@ void WcModel::removeWc(QString dir)
     }
 }
 
+void WcModel::updateWc(QString dir)
+{
+    QStandardItem *_item = itemFromDirectory(dir);
+    if (_item)
+        populate(_item->parent());
+}
+
 QString WcModel::getPath(const QModelIndex &index) const
 {
     return itemFromIndex(index)->data(PathRole).toString();
@@ -127,4 +134,42 @@ void WcModel::loadWcList()
 void WcModel::doCollapse(const QModelIndex & index)
 {
     itemFromIndex(index)->setData(false, PopulatedRole);
+}
+
+QStandardItem * WcModel::itemFromDirectory(const QString dir, const QStandardItem * parent)
+{
+    if (parent)
+    {
+        for (int i = 0; i < parent->rowCount(); i++)
+        {
+            if (parent->child(i)->data(PathRole) == dir)
+                return parent->child(i);
+        }
+        //search recursive
+        QStandardItem *_result;
+        for (int i = 0; i < parent->rowCount(); i++)
+        {
+            _result = itemFromDirectory(dir, parent->child(i));
+            if (_result)
+                return _result;
+        }
+    }
+    else
+    {
+        for (int i = 0; i < rowCount(); i++)
+        {
+            if (item(i)->data(PathRole) == dir)
+                return item(i);
+        }
+        //search recursive
+        QStandardItem *_result;
+        for (int i = 0; i < rowCount(); i++)
+        {
+            _result = itemFromDirectory(dir, item(i));
+            if (_result)
+                return _result;
+        }
+    }
+
+    return 0;
 }

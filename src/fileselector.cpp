@@ -22,11 +22,10 @@
 #include "config.h"
 #include "fileselector.h"
 #include "fileselectorproxy.h"
+#include "qsvn.h"
 #include "showlog.h"
 #include "statusentriesmodel.h"
 #include "svnclient.h"
-
-#include "statustext.h"
 
 //SvnCpp
 #include "svnqt/status.hpp"
@@ -34,7 +33,8 @@
 //Qt
 #include <QtGui>
 
-FileSelector::FileSelector(QWidget *parent,
+
+FileSelector::FileSelector(QSvn *parent,
                            const SvnClient::SvnAction svnAction,
                            const QStringList pathList, const bool isFileList,
                            const QString wc)
@@ -42,6 +42,7 @@ FileSelector::FileSelector(QWidget *parent,
 {
     setupUi(this);
 
+    qsvn = parent;
     m_wc = wc;
     m_cfgStrLogMessages = QString("logHistory_%1").arg(SvnClient::instance()->getUUID(m_wc));
     m_statusEntriesModel = new StatusEntriesModel(this);
@@ -221,6 +222,17 @@ void FileSelector::accept()
         default:
             break;
     }
+
+    if (qsvn)
+    {
+        foreach(QString path, m_fileSelectorProxy->checkedFileList())
+        {
+            if (QFileInfo(path).isDir())
+            {
+                qsvn->updateWc(path);
+            }
+        }
+    }
     QDialog::accept();
 }
 
@@ -340,7 +352,7 @@ void FileSelector::onFsWatcherEndUpdate()
 }
 
 //static functions
-void FileSelector::doSvnAction(QWidget *parent,
+void FileSelector::doSvnAction(QSvn *parent,
                                const SvnClient::SvnAction svnAction,
                                const QStringList pathList,
                                const bool isFileList,

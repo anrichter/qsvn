@@ -30,6 +30,8 @@ class FileSelectorProxy;
 
 class StatusEntriesModel;
 
+class QSvn;
+
 //Qt
 #include <QDialog>
 
@@ -40,7 +42,7 @@ class FileSelector : public QDialog, public Ui::FileSelector
 
     public:
         //static functions
-        static void doSvnAction(QWidget *parent,
+        static void doSvnAction(QSvn *parent,
                                 const SvnClient::SvnAction svnAction,
                                 const QStringList pathList,
                                 const bool isFileList,
@@ -51,13 +53,14 @@ class FileSelector : public QDialog, public Ui::FileSelector
         void changeEvent(QEvent *event);
 
     private:
-        FileSelector(QWidget *parent,
+        FileSelector(QSvn *parent,
                      const SvnClient::SvnAction svnAction,
                      const QStringList pathList,
                      const bool isFileList,
                      const QString wc);
         ~FileSelector();
 
+        QSvn *qsvn;
         SvnClient::SvnAction m_svnAction;
         QStringList m_pathList;
         bool m_isFileList;

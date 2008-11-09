@@ -37,6 +37,7 @@ class WcModel : public QStandardItemModel
 
         void insertWc(QString dir);
         void removeWc(QString dir);
+        void updateWc(QString dir);
         QString getPath(const QModelIndex &index) const;
 
     public slots:
@@ -51,6 +52,7 @@ class WcModel : public QStandardItemModel
 
         void insertDir(QString dir, QStandardItem *parent, int row) const;
         void populate(QStandardItem *parent) const;
+        QStandardItem* itemFromDirectory(const QString dir, const QStandardItem* parent = 0);
 
         void saveWcList();
         void loadWcList();
