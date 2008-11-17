@@ -158,7 +158,7 @@ IF (WIN32)
         IMMEDIATE
         @ONLY)
     INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/svnqt-import)
-    ADD_EXECUTABLE(qsvn ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc)
+    ADD_EXECUTABLE(qsvn WIN32 ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc)
 ELSE (WIN32)
     ADD_EXECUTABLE(qsvn ${qsvn_sources} ${ui_headers} ${resfiles})
 ENDIF (WIN32)
