@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "wcmodel.h"
+#include "wcmodel.moc"
 
 //SvnCpp
 #include "svnqt/wc.hpp"

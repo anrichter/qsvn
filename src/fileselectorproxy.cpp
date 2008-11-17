@@ -20,6 +20,7 @@
 
 //QSvn
 #include "fileselectorproxy.h"
+#include "fileselectorproxy.moc"
 #include "statusentriesmodel.h"
 #include "svnclient.h"
 

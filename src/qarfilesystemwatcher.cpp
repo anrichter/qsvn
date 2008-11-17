@@ -19,6 +19,7 @@
  *******************************************************************************/
 
 #include <qarfilesystemwatcher.h>
+#include "qarfilesystemwatcher.moc"
 
 #include <QFileSystemWatcher>
 #include <QtCore>

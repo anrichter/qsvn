@@ -35,6 +35,7 @@
 
 class LogChangePathEntriesModel : public QAbstractTableModel
 {
+		Q_OBJECT
 
     public:
         LogChangePathEntriesModel(QObject *parent);

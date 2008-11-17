@@ -56,6 +56,7 @@ this singelton holds the configuration for qsvn
 
 class Config : public QObject
 {
+        Q_OBJECT
 
     public:
         static Config *instance();

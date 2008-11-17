@@ -20,6 +20,7 @@
 
 //QSvn
 #include "logchangepathentriesmodel.h"
+#include "logchangepathentriesmodel.moc"
 
 //SvnQt
 #include "svnqt/client.hpp"

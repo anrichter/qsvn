@@ -20,6 +20,7 @@
 
 //QSvn
 #include "sslservertrust.h"
+#include "sslservertrust.moc"
 
 //SvnCpp
 #include "svnqt/context_listener.hpp"

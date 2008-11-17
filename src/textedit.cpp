@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "textedit.h"
+#include "textedit.moc"
 
 
 //Qt

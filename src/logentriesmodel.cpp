@@ -20,6 +20,7 @@
 
 //QSvn
 #include "logentriesmodel.h"
+#include "logentriesmodel.moc"
 
 //SvnQt
 #include "svnqt/client.hpp"
@@ -181,4 +182,3 @@ void LogEntriesModel::clear()
     m_logEntries.clear();
     endRemoveRows();
 }
-

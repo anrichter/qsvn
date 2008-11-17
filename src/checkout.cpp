@@ -20,6 +20,7 @@
 
 //QSvn
 #include "checkout.h"
+#include "checkout.moc"
 #include "config.h"
 #include "statustext.h"
 

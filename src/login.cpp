@@ -20,6 +20,7 @@
 
 //QSvn
 #include "login.h"
+#include "login.moc"
 
 //Qt
 #include <QtGui>

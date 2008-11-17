@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "pathproperties.h"
+#include "pathproperties.moc"
 #include "pathpropertiesmodel.h"
 #include "propertyedit.h"
 #include "statustext.h"

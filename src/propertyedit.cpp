@@ -21,6 +21,7 @@
 
 //QSvn
 #include "propertyedit.h"
+#include "propertyedit.moc"
 
 //Qt
 #include <QDialog>

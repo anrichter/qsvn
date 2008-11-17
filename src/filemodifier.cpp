@@ -20,6 +20,7 @@
 
 //QSvn
 #include "filemodifier.h"
+#include "filemodifier.moc"
 #include "svnclient.h"
 
 

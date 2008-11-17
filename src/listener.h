@@ -30,6 +30,7 @@
 
 class Listener : public QObject, public svn::ContextListener
 {
+        Q_OBJECT
 
     public:
         Listener(QObject *parent = 0);

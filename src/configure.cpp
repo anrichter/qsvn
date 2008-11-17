@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "configure.h"
+#include "configure.moc"
 #include "ui_configure.h"
 
 //Qt

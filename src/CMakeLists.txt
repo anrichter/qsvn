@@ -135,7 +135,7 @@ SET(qsvn_forms
 )
 
 QT4_WRAP_UI(ui_headers ${qsvn_forms})
-QT4_WRAP_CPP(moc_files ${qsvn_headers})
+QT4_AUTOMOC(${qsvn_sources})
 QT4_ADD_RESOURCES(resfiles qsvn.qrc)
 
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/qsvn_defines.h.in"
@@ -158,9 +158,9 @@ IF (WIN32)
         IMMEDIATE
         @ONLY)
     INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/svnqt-import)
-    ADD_EXECUTABLE(qsvn WIN32 ${qsvn_sources} ${moc_files} ${ui_headers} ${resfiles} qsvn.rc)
+    ADD_EXECUTABLE(qsvn ${qsvn_sources} ${ui_headers} ${resfiles} qsvn.rc)
 ELSE (WIN32)
-    ADD_EXECUTABLE(qsvn ${qsvn_sources} ${moc_files} ${ui_headers} ${resfiles})
+    ADD_EXECUTABLE(qsvn ${qsvn_sources} ${ui_headers} ${resfiles})
 ENDIF (WIN32)
 
 SET_TARGET_PROPERTIES(qsvn PROPERTIES LINK_FLAGS "${ALL_LINKFLAGS}")

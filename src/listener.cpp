@@ -20,6 +20,7 @@
 
 //QSvn
 #include "listener.h"
+#include "listener.moc"
 #include "login.h"
 #include "statustext.h"
 #include "sslservertrust.h"

@@ -24,6 +24,7 @@
 #include "logchangepathentriesmodel.h"
 #include "merge.h"
 #include "showlog.h"
+#include "showlog.moc"
 #include "svnclient.h"
 #include "statustext.h"
 #include "textedit.h"

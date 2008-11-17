@@ -20,6 +20,7 @@
 
 //QSvn
 #include "statustext.h"
+#include "statustext.moc"
 
 //Qt
 #include <QtGui>

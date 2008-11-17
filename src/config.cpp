@@ -20,6 +20,7 @@
 
 //QSvn
 #include "config.h"
+#include "config.moc"
 #include "qsvn.h"
 
 //Qt

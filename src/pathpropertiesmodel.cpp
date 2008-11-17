@@ -20,6 +20,7 @@
 
 //QSvn
 #include "pathpropertiesmodel.h"
+#include "pathpropertiesmodel.moc"
 #include "svnclient.h"
 
 
@@ -146,4 +147,3 @@ QString PathPropertiesModel::getPropertyValue(int row)
 {
     return m_propMap[m_propMap.keys().at(row)];
 }
-

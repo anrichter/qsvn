@@ -35,6 +35,7 @@ This class handle the status text output
 
 class StatusText : public QObject
 {
+        Q_OBJECT
 
     public:
         inline static void setOut(QTextEdit *textEdit)

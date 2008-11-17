@@ -30,6 +30,7 @@
 #include "pathproperties.h"
 #include "qsvn_defines.h"
 #include "qsvn.h"
+#include "qsvn.moc"
 #include "showlog.h"
 #include "statusentriesmodel.h"
 #include "statustext.h"

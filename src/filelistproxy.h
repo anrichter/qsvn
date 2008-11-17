@@ -26,6 +26,7 @@
 
 class FileListProxy : public QSortFilterProxyModel
 {
+        Q_OBJECT
 
     public:
         FileListProxy(QObject *parent);

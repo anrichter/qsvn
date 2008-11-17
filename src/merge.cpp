@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "merge.h"
+#include "merge.moc"
 #include "statustext.h"
 #include "svnclient.h"
 

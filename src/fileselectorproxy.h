@@ -30,6 +30,7 @@
 
 class FileSelectorProxy : public QSortFilterProxyModel
 {
+        Q_OBJECT
 
     public:
         FileSelectorProxy(QObject *parent, SvnClient::SvnAction svnAction);

@@ -24,6 +24,7 @@
 #include "showlog.h"
 #include "statustext.h"
 #include "svnclient.h"
+#include "svnclient.moc"
 
 //SvnCpp
 #include "svnqt/client.hpp"

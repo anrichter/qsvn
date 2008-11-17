@@ -34,6 +34,7 @@
 
 class LogEntriesModel : public QAbstractTableModel
 {
+        Q_OBJECT
 
     public:
         LogEntriesModel(QObject *parent);

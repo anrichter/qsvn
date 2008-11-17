@@ -32,6 +32,7 @@
 
 class PathPropertiesModel : public QAbstractTableModel
 {
+        Q_OBJECT
 
     public:
         PathPropertiesModel(QObject *parent, const QString path);

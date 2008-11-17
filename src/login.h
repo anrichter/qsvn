@@ -31,6 +31,7 @@
 
 class Login : public QDialog, public Ui::Login
 {
+        Q_OBJECT
 
     public:
         Login(QWidget *parent = 0);

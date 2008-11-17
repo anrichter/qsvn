@@ -21,6 +21,7 @@
 //QSvn
 #include "config.h"
 #include "fileselector.h"
+#include "fileselector.moc"
 #include "fileselectorproxy.h"
 #include "qsvn.h"
 #include "showlog.h"

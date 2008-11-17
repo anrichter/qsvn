@@ -20,6 +20,7 @@
 
 //QSvn
 #include "statusentriesmodel.h"
+#include "statusentriesmodel.moc"
 #include "svnclient.h"
 
 //SvnQt

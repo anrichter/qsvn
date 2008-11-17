@@ -20,6 +20,7 @@
 
 //QSvn
 #include "filelistproxy.h"
+#include "filelistproxy.moc"
 #include "statusentriesmodel.h"
 
 //SvnQt
