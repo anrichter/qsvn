@@ -8,6 +8,7 @@ Version 0.8.0 - released 2008-xx-xx
     * #30 Edit logmessage in show log window.
     * #31 Edit Author in show log window.
     * #66 Save commit messages separateley for every repository.
+    * #72 Add an existing directory through WorkingCopy-List.
 
 
 Version 0.7.1 - released 2008-10-06
