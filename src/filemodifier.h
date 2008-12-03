@@ -42,7 +42,7 @@ class FileModifier : public QDialog, public Ui::FileModifier
 
     private:
         SvnClient::SvnAction m_svnAction;
-        QString m_srcPath;
+        QString m_srcFilePath, m_srcPath, m_srcFile;
 };
 
 #endif

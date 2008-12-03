@@ -10,6 +10,10 @@ Version 0.8.0 - released 2008-xx-xx
     * #66 Save commit messages separateley for every repository.
     * #72 Add an existing directory through WorkingCopy-List.
 
+    Changes
+    -------
+    * #74 Rename a file doesn't show the entire directory.
+
 
 Version 0.7.1 - released 2008-10-06
 

@@ -30,18 +30,27 @@ FileModifier::FileModifier(QWidget *parent, QString path, SvnClient::SvnAction s
     setupUi(this);
 
     m_svnAction = svnAction;
-    m_srcPath = path;
+    m_srcFilePath = path;
+    QFileInfo _fileInfo(m_srcFilePath);
+    m_srcFile = _fileInfo.fileName();
+    m_srcPath = _fileInfo.path();
 
     switch (m_svnAction)
     {
         case SvnClient::SvnRename:
             setWindowTitle(tr("Rename"));
+            labelFromFile->setText(m_srcFile);
+            editToFile->setText(m_srcFile);
             break;
         case SvnClient::SvnMove:
             setWindowTitle(tr("Move"));
+            labelFromFile->setText(m_srcPath);
+            editToFile->setText(m_srcPath);
             break;
         case SvnClient::SvnCopy:
             setWindowTitle(tr("Copy"));
+            labelFromFile->setText(m_srcPath);
+            editToFile->setText(m_srcPath);
             break;
         case SvnClient::SvnMkDir:
             setWindowTitle(tr("Make Directory"));
@@ -49,8 +58,6 @@ FileModifier::FileModifier(QWidget *parent, QString path, SvnClient::SvnAction s
             labelTo->setVisible(false);
             break;
     }
-    labelFromFile->setText(m_srcPath);
-    editToFile->setText(m_srcPath);
 }
 
 FileModifier::~FileModifier()
@@ -61,13 +68,13 @@ void FileModifier::accept()
     switch (m_svnAction)
     {
         case SvnClient::SvnRename:
-            SvnClient::instance()->move(m_srcPath, editToFile->text(), true);
+            SvnClient::instance()->move(m_srcFilePath, m_srcPath + "/" + editToFile->text(), true);
             break;
         case SvnClient::SvnMove:
-            SvnClient::instance()->move(m_srcPath, editToFile->text(), true);
+            SvnClient::instance()->move(m_srcFilePath, editToFile->text(), true);
             break;
         case SvnClient::SvnCopy:
-            SvnClient::instance()->copy(m_srcPath, editToFile->text());
+            SvnClient::instance()->copy(m_srcFilePath, editToFile->text());
             break;
         case SvnClient::SvnMkDir:
             SvnClient::instance()->mkdir(editToFile->text());
