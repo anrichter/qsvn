@@ -9,6 +9,7 @@ Version 0.8.0 - released 2008-xx-xx
     * #31 Edit Author in show log window.
     * #66 Save commit messages separateley for every repository.
     * #72 Add an existing directory through WorkingCopy-List.
+    * #75 Copy and Move have a directory selector now.
 
     Changes
     -------

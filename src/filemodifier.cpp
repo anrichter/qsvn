@@ -23,6 +23,9 @@
 #include "filemodifier.moc"
 #include "svnclient.h"
 
+//Qt
+#include <QFileDialog>
+
 
 FileModifier::FileModifier(QWidget *parent, QString path, SvnClient::SvnAction svnAction)
         : QDialog(parent)
@@ -41,21 +44,25 @@ FileModifier::FileModifier(QWidget *parent, QString path, SvnClient::SvnAction s
             setWindowTitle(tr("Rename"));
             labelFromFile->setText(m_srcFile);
             editToFile->setText(m_srcFile);
+            buttonPath->setVisible(false);
             break;
         case SvnClient::SvnMove:
             setWindowTitle(tr("Move"));
             labelFromFile->setText(m_srcPath);
             editToFile->setText(m_srcPath);
+            buttonPath->setVisible(true);
             break;
         case SvnClient::SvnCopy:
             setWindowTitle(tr("Copy"));
             labelFromFile->setText(m_srcPath);
             editToFile->setText(m_srcPath);
+            buttonPath->setVisible(true);
             break;
         case SvnClient::SvnMkDir:
             setWindowTitle(tr("Make Directory"));
             labelFromFile->setVisible(false);
             labelTo->setVisible(false);
+            buttonPath->setVisible(false);
             break;
     }
 }
@@ -77,8 +84,18 @@ void FileModifier::accept()
             SvnClient::instance()->copy(m_srcFilePath, editToFile->text());
             break;
         case SvnClient::SvnMkDir:
-            SvnClient::instance()->mkdir(editToFile->text());
+            SvnClient::instance()->mkdir(m_srcFilePath + "/" + editToFile->text());
             break;
     }
     QDialog::accept();
+}
+
+void FileModifier::on_buttonPath_clicked()
+{
+    QString directory =
+            QFileDialog::getExistingDirectory(this,
+                                              tr("Select a directory"),
+                                                      editToFile->text());
+    if (!directory.isEmpty())
+        editToFile->setText(QDir::fromNativeSeparators(directory));
 }

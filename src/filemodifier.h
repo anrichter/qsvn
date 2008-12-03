@@ -39,6 +39,7 @@ class FileModifier : public QDialog, public Ui::FileModifier
 
     public slots:
         void accept();
+        void on_buttonPath_clicked();
 
     private:
         SvnClient::SvnAction m_svnAction;
