@@ -59,6 +59,10 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     m_revisionStart = revisionStart;
     m_revisionEnd = revisionEnd;
     m_revisionBeginShowLog = revisionStart;
+    m_path = QDir::fromNativeSeparators(path);
+    m_url = svn::Wc::getUrl(path);
+    m_repos = svn::Wc::getRepos(path);
+    m_repos_path = QString(m_url).remove(m_repos);
 
     setupUi(this);
 
@@ -68,11 +72,6 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     initLogEntries();
     initLogEntriesPath();
     initMenus();
-
-    m_path = QDir::fromNativeSeparators(path);
-    m_url = svn::Wc::getUrl(path);
-    m_repos = svn::Wc::getRepos(path);
-    m_repos_path = QString(m_url).remove(m_repos);
 
     this->setWindowTitle(QString(tr("Show Log for %1")).arg(path));
     editFilterString->setFocus(Qt::MouseFocusReason);
@@ -112,7 +111,7 @@ void ShowLog::initLogEntries()
 
 void ShowLog::initLogEntriesPath()
 {
-    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this);
+    m_logChangePathEntriesModel = new LogChangePathEntriesModel(this, m_repos_path);
     m_logChangePathEntriesProxy = new QSortFilterProxyModel(this);
     m_logChangePathEntriesProxy->setDynamicSortFilter(true);
     m_logChangePathEntriesProxy->setSourceModel(m_logChangePathEntriesModel);

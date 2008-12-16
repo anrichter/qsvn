@@ -35,10 +35,10 @@
 
 class LogChangePathEntriesModel : public QAbstractTableModel
 {
-		Q_OBJECT
+        Q_OBJECT
 
     public:
-        LogChangePathEntriesModel(QObject *parent);
+        LogChangePathEntriesModel(QObject *parent, const QString path);
         void setChangePathEntries(svn::LogChangePathEntries logChangePathEntries);
 
         int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -50,6 +50,7 @@ class LogChangePathEntriesModel : public QAbstractTableModel
 
     private:
         svn::LogChangePathEntries m_logChangePathEntries;
+        QString m_path;
 };
 
 #endif

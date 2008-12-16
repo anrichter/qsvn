@@ -28,12 +28,14 @@
 
 //Qt
 #include <QtCore>
+#include <QColor>
 
 
-LogChangePathEntriesModel::LogChangePathEntriesModel(QObject *parent)
+LogChangePathEntriesModel::LogChangePathEntriesModel(QObject *parent, const QString path)
         : QAbstractTableModel(parent)
 {
     m_logChangePathEntries = svn::LogChangePathEntries();
+    m_path = path;
 }
 
 
@@ -80,32 +82,42 @@ QVariant LogChangePathEntriesModel::data(const QModelIndex &index, int role) con
 {
     if (!index.isValid())
         return QVariant();
-    if (role != Qt::DisplayRole)
-        return QVariant();
+
 
     svn::LogChangePathEntry logChangePathEntry = m_logChangePathEntries.at(index.row());
-
-    switch (index.column())
+    if (role == Qt::DisplayRole)
     {
-        case 0:
-            return QChar(logChangePathEntry.action);
-            break;
-        case 1:
-            return logChangePathEntry.path;
-            break;
-        case 2:
-            return logChangePathEntry.copyFromPath;
-            break;
-        case 3:
-            if (SVN_IS_VALID_REVNUM(logChangePathEntry.copyFromRevision))
-                return int(logChangePathEntry.copyFromRevision);
-            else
+        switch (index.column())
+        {
+            case 0:
+                return QChar(logChangePathEntry.action);
+                break;
+            case 1:
+                return logChangePathEntry.path;
+                break;
+            case 2:
+                return logChangePathEntry.copyFromPath;
+                break;
+            case 3:
+                if (SVN_IS_VALID_REVNUM(logChangePathEntry.copyFromRevision))
+                    return int(logChangePathEntry.copyFromRevision);
+                else
+                    return QVariant();
+                break;
+            default:
                 return QVariant();
-            break;
-        default:
-            return QVariant();
-            break;
+                break;
+        }
     }
+    else if (role == Qt::ForegroundRole)
+    {
+        if (logChangePathEntry.path.contains(m_path) )
+            return QColor(Qt::black);
+        else
+            return QColor(Qt::gray);
+    }
+    else
+        return QVariant();
 }
 
 svn::LogChangePathEntry LogChangePathEntriesModel::getLogChangePathEntry(const QModelIndex &index)
