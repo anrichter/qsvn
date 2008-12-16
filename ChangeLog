@@ -11,6 +11,7 @@ Version 0.8.0 - released 2008-xx-xx
     * #72 Add an existing directory through WorkingCopy-List.
     * #75 Copy and Move have a directory selector now.
     * #76 ShowLog grays out all pathes that doesn't part of the selected one.
+    * #81 Add a qsvn.desktop file to source.
 
     Changes
     -------
