@@ -356,10 +356,12 @@ bool SvnClient::diff(const QString &fileFrom, const QString &fileTo, const svn::
         listener->setVerbose(true);
         try
         {
+            QString fileRelative(fileFrom==fileTo?fileFrom:"");
+
             QString delta = svnClient->diff(svn::Path(Config::instance()->tempDir()),
-                                            svn::Path(fileFrom), svn::Path(fileTo),svn::Path(),
+                                            svn::Path(fileFrom), svn::Path(fileTo), svn::Path(fileRelative),
                                             revisionFrom, revisionTo,
-                                            svn::DepthInfinity, false, false, true );
+                                            svn::DepthInfinity, false, false, true);
             if (delta.isEmpty())
                 StatusText::out(tr("There are no differences."));
             else
