@@ -18,7 +18,7 @@
  *                                                                              *
  *******************************************************************************/
 
-#include "qsvnrepositorylistener.h"
+#include "qsvnactions/qsvnrepositorylistener.h"
 
 QSvnRepositoryListener::QSvnRepositoryListener()
 {

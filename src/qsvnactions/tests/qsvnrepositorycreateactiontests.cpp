@@ -18,30 +18,58 @@
  *                                                                              *
  *******************************************************************************/
 
+#include "helper.h"
+#include "qsvnactions/qsvnrepositorycreateaction.h"
+
 #include <QtTest/QtTest>
 #include <QDir>
-
-#include "../qsvnrepositorycreateaction.h"
 
 class QSvnRepositoryCreateActionTests: public QObject
 {
     Q_OBJECT
 
-private slots:
-    void testCreate();
+    private:
+        QDir testrepoDir;
+
+    private slots:
+        void initTestCase();
+        void cleanup();
+        void testCreateFSFS();
+        void testCreateBDB();
 };
 
-void QSvnRepositoryCreateActionTests::testCreate()
+void QSvnRepositoryCreateActionTests::initTestCase()
 {
-    QString repoPath("testrepo");
-    QSvnRepositoryCreateAction *action = new QSvnRepositoryCreateAction("testrepo");
+    testrepoDir = QDir(QDir::tempPath() + QDir::separator() + "testrepo");
+}
+
+void QSvnRepositoryCreateActionTests::cleanup()
+{
+    Helper::removeFromDisk(testrepoDir.absolutePath());
+}
+
+void QSvnRepositoryCreateActionTests::testCreateFSFS()
+{
+    QVERIFY2(!testrepoDir.exists(), "The test-repository already exists.");
+    QSvnRepositoryCreateAction *action = new QSvnRepositoryCreateAction(testrepoDir.absolutePath(), "fsfs");
+    QVERIFY2(!testrepoDir.exists(), "Don't create new repo right after create the action.");
     action->start();
-
     while (action->isRunning()) {}
+    QVERIFY2(testrepoDir.exists(), "Repository doesn't create successfull.");
+    //todo: check the repository filesystem.
+}
 
-    QDir dir("testrepo");
-//     QVERIFY2(dir.exists(), "The directory for the new repository doesn't exists.");
+void QSvnRepositoryCreateActionTests::testCreateBDB()
+{
+    QVERIFY2(!testrepoDir.exists(), "The test-repository already exists.");
+    QSvnRepositoryCreateAction *action = new QSvnRepositoryCreateAction(testrepoDir.absolutePath(), "bdb");
+    QVERIFY2(!testrepoDir.exists(), "Don't create new repo right after create the action.");
+    action->start();
+    while (action->isRunning()) {}
+    QVERIFY2(testrepoDir.exists(), "Repository doesn't create successfull.");
+    //todo: check the repository filesystem.
 }
 
 QTEST_MAIN(QSvnRepositoryCreateActionTests)
+
 #include "qsvnrepositorycreateactiontests.moc"

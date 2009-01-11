@@ -21,7 +21,7 @@
 #ifndef QSVNREPOSITORYLISTENER_H
 #define QSVNREPOSITORYLISTENER_H
 
-#include "../svnqt/repositorylistener.hpp"
+#include "svnqt/repositorylistener.hpp"
 
 class QSvnRepositoryListener:public svn::repository::RepositoryListener
 {

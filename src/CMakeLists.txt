@@ -122,7 +122,7 @@ SET(qsvn_sources
          wcmodel.cpp
          qsvnactions/qsvnaction.cpp
          qsvnactions/qsvnrepositorycreateaction.cpp
-         qsvnactions/qsvnrepositorylistener.h
+         qsvnactions/qsvnrepositorylistener.cpp
 )
 
 SET(qsvn_forms

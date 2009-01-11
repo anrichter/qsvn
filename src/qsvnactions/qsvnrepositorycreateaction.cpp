@@ -19,16 +19,29 @@
  *******************************************************************************/
 
 
-#include "qsvnrepositorycreateaction.h"
+#include "listener.h"
+#include "qsvnactions/qsvnrepositorycreateaction.h"
 
-#include "../listener.h"
+#include "svnqt/repository.hpp"
+#include "svnqt/repositorylistener.hpp"
 
-QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(const QString & path)
+
+QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(const QString & path, const QString & fstype)
 {
     m_path = path;
+    m_fstype = fstype;
 }
 
 void QSvnRepositoryCreateAction::run()
 {
-
+    svn::repository::Repository repository(&m_listener);
+    try
+    {
+        repository.CreateOpen(m_path, m_fstype);
+    }
+    catch (svn::ClientException e)
+    {
+        m_errorString = e.msg();
+        exit(-1);
+    }
 }

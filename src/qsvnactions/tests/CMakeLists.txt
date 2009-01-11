@@ -11,6 +11,7 @@ set ( qsvn_sources
         ../qsvnaction.cpp
         ../qsvnrepositorycreateaction.cpp
         ../qsvnrepositorylistener.cpp
+        ../../helper.cpp
         ../../listener.cpp
         ../../login.cpp
         ../../statustext.cpp

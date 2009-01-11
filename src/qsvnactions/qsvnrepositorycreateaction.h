@@ -18,23 +18,26 @@
  *                                                                              *
  *******************************************************************************/
 
-
 #ifndef QSVNREPOSITORYCREATEACTION_H
 #define QSVNREPOSITORYCREATEACTION_H
 
-#include "qsvnaction.h"
+#include "qsvnactions/qsvnaction.h"
+#include "qsvnactions/qsvnrepositorylistener.h"
 
+#include "svnqt/repositorylistener.hpp"
 
 class QSvnRepositoryCreateAction : public QSvnAction
 {
     public:
-        QSvnRepositoryCreateAction(const QString & path);
+        QSvnRepositoryCreateAction(const QString & path, const QString & fstype);
 
     protected:
         void run();
 
     private:
-        QString m_path;
+        QString m_path, m_fstype, m_errorString;
+
+        QSvnRepositoryListener m_listener;
 
 };
 
