@@ -36,6 +36,7 @@ void QSvnRepositoryListener::sendError(const QString & msg)
 {
 }
 
-QSvnRepositoryListener isCanceld()
+bool QSvnRepositoryListener::isCanceld()
 {
+    return false;
 }

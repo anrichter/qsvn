@@ -30,7 +30,7 @@ class QSvnRepositoryListener:public svn::repository::RepositoryListener
         ~QSvnRepositoryListener();
         void sendWarning(const QString&msg);
         void sendError(const QString&msg);
-        bool isCanceld(){return false;};
+        bool isCanceld();
 };
 
 
