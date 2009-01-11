@@ -88,6 +88,9 @@ SET(qsvn_headers
          textedit.h
          wcmodel.h
          ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h
+         qsvnactions/qsvnaction.h
+         qsvnactions/qsvnrepositorycreateaction.h
+         qsvnactions/qsvnrepositorylistener.h
 )
 
 SET(qsvn_sources
@@ -117,6 +120,9 @@ SET(qsvn_sources
          svnclient.cpp
          textedit.cpp
          wcmodel.cpp
+         qsvnactions/qsvnaction.cpp
+         qsvnactions/qsvnrepositorycreateaction.cpp
+         qsvnactions/qsvnrepositorylistener.h
 )
 
 SET(qsvn_forms
@@ -190,3 +196,4 @@ ENDIF (WIN32)
 # Unit-Tests
 ENABLE_TESTING()
 ADD_SUBDIRECTORY(tests)
+ADD_SUBDIRECTORY(qsvnactions/tests)
