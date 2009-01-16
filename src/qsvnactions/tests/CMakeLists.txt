@@ -13,6 +13,8 @@ INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR}
 
 set ( qsvn_sources
         ../qsvnaction.cpp
+        ../qsvnclientcheckoutaction.cpp
+        ../qsvnclientlistener.cpp
         ../qsvnrepositorycreateaction.cpp
         ../qsvnrepositorylistener.cpp
         ../../helper.cpp
@@ -22,7 +24,8 @@ set ( qsvn_sources
         ../../sslservertrust.cpp )
 
 set ( testcases
-        qsvnrepositorycreateactiontests  )
+        qsvnclientcheckoutactiontests
+        qsvnrepositorycreateactiontests )
 
 foreach( testcase ${testcases} )
   QT4_GENERATE_MOC( ${CMAKE_CURRENT_SOURCE_DIR}/${testcase}.cpp ${CMAKE_CURRENT_BINARY_DIR}/${testcase}.moc )

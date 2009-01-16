@@ -19,15 +19,29 @@
  *******************************************************************************/
 
 
-#ifndef QSVNACTION_H
-#define QSVNACTION_H
+#ifndef QSVNCLIENTCHECKACTION_H
+#define QSVNCLIENTCHECKACTION_H
 
-#include <QThread>
+#include "qsvnactions/qsvnaction.h"
+#include "qsvnactions/qsvnclientlistener.h"
 
-class QSvnAction : public QThread
+#include "svnqt/client.hpp"
+
+class QSvnClientCheckoutAction : public QSvnAction
 {
     public:
-        QSvnAction();
+        QSvnClientCheckoutAction(const QString & url, const QString & path);
+        ~QSvnClientCheckoutAction();
+
+    protected:
+        void run();
+
+    private:
+        QString m_url, m_path, m_errorString;
+        svn::ContextP m_context;
+        svn::Client *m_client;
+        QSvnClientListener *m_listener;
+
 };
 
-#endif // QSVNACTION_H
+#endif // QSVNCLIENTCHECKACTION_H
