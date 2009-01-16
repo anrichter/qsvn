@@ -23,6 +23,8 @@
 
 #include <QtTest/QtTest>
 #include <QDir>
+#include <QSignalSpy>
+
 
 class QSvnRepositoryCreateActionTests: public QObject
 {
@@ -51,11 +53,17 @@ void QSvnRepositoryCreateActionTests::cleanup()
 void QSvnRepositoryCreateActionTests::testCreateFSFS()
 {
     QVERIFY2(!testrepoDir.exists(), "The test-repository already exists.");
+
     QSvnRepositoryCreateAction *action = new QSvnRepositoryCreateAction(testrepoDir.absolutePath(), "fsfs");
+    QSignalSpy spyFinished(action, SIGNAL(finished()));
+
     QVERIFY2(!testrepoDir.exists(), "Don't create new repo right after create the action.");
+
     action->start();
     while (action->isRunning()) {}
+
     QVERIFY2(testrepoDir.exists(), "Repository doesn't create successfull.");
+    QVERIFY2(spyFinished.count() == 1 , "Finished is not emitted.");
     //todo: check the repository filesystem.
 }
 
