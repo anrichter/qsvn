@@ -48,7 +48,7 @@ class QSvnClientCheckoutActionTests: public QObject
 
 QSvnClientCheckoutActionTests::QSvnClientCheckoutActionTests()
 {
-    m_reposPath = QDir::tempPath() + QDir::separator() + "qsvntestrepo";
+    m_reposPath = QDir::tempPath() + "/qsvntestrepo";
     m_wcDir = QDir(QDir::tempPath() + QDir::separator() + "qsvntestwc");
 }
 
@@ -72,7 +72,7 @@ void QSvnClientCheckoutActionTests::cleanup()
 void QSvnClientCheckoutActionTests::testCheckout()
 {
     QVERIFY2(!m_wcDir.exists(), "working copy directory exists before checkout");
-    QSvnClientCheckoutAction *checkoutAction = new QSvnClientCheckoutAction("file://" + m_reposPath, m_wcDir.absolutePath());
+    QSvnClientCheckoutAction *checkoutAction = new QSvnClientCheckoutAction("file:///" + m_reposPath, m_wcDir.absolutePath());
     checkoutAction->start();
     while (checkoutAction->isRunning()) {}
     QVERIFY2(m_wcDir.exists(), "working copy directory doesn't exists after checkout");
