@@ -20,6 +20,7 @@
 
 
 #include "qsvnactions/qsvnclientcheckoutaction.h"
+#include "qsvnactions/qsvnclientcheckoutaction.moc"
 
 QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString & url, const QString & path)
 {
@@ -31,10 +32,13 @@ QSvnClientCheckoutAction::~ QSvnClientCheckoutAction()
 {
     delete m_listener;
     delete m_context;
+    emit progress(100);
 }
 
 void QSvnClientCheckoutAction::run()
 {
+    emit progress(0);
+
     if (m_url.isEmpty() || m_path.isEmpty())
         exit(-1);
 
@@ -42,6 +46,8 @@ void QSvnClientCheckoutAction::run()
     m_client = svn::Client::getobject(m_context, 0);
     m_listener = new QSvnClientListener();
     m_context->setListener(m_listener);
+
+    connect(m_listener, SIGNAL(progress(int)), this, SIGNAL(progress(int)));
 
     try
     {

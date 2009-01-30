@@ -26,6 +26,8 @@
 
 class QSvnAction : public QThread
 {
+    Q_OBJECT
+
     public:
         QSvnAction();
 };

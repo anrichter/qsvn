@@ -29,6 +29,8 @@
 
 class QSvnClientCheckoutAction : public QSvnAction
 {
+    Q_OBJECT
+
     public:
         QSvnClientCheckoutAction(const QString & url, const QString & path);
         ~QSvnClientCheckoutAction();
@@ -42,6 +44,8 @@ class QSvnClientCheckoutAction : public QSvnAction
         svn::Client *m_client;
         QSvnClientListener *m_listener;
 
+    signals:
+        void progress(int percent);
 };
 
 #endif // QSVNCLIENTCHECKACTION_H

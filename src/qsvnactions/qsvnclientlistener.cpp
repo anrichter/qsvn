@@ -88,4 +88,7 @@ bool QSvnClientListener::contextSslClientCertPwPrompt(QString &password,
 }
 
 void QSvnClientListener::contextProgress(long long int current, long long int max)
-{}
+{
+    int _percent =  current * 100 / max;
+    emit progress(_percent);
+}

@@ -73,6 +73,9 @@ class QSvnClientListener : public QObject, public svn::ContextListener
         }
 
         virtual void contextProgress(long long int current, long long int max);
+
+    signals:
+        void progress(int percent);
 };
 
 #endif

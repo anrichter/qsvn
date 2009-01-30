@@ -20,6 +20,8 @@
 
 
 #include "qsvnaction.h"
+#include "qsvnaction.moc"
+
 
 QSvnAction::QSvnAction()
 {

@@ -44,6 +44,7 @@ class QSvnClientCheckoutActionTests: public QObject
         void cleanupTestCase();
         void cleanup();
         void testCheckout();
+        void testSignalProgress();
 };
 
 QSvnClientCheckoutActionTests::QSvnClientCheckoutActionTests()
@@ -77,6 +78,15 @@ void QSvnClientCheckoutActionTests::testCheckout()
     while (checkoutAction->isRunning()) {}
     QVERIFY2(m_wcDir.exists(), "working copy directory doesn't exists after checkout");
     QVERIFY2(svn::Wc::checkWc(m_wcDir.absolutePath()), "It's not a valid Working Copy.");
+}
+
+void QSvnClientCheckoutActionTests::testSignalProgress()
+{
+    QSvnClientCheckoutAction *checkoutAction = new QSvnClientCheckoutAction("file:///" + m_reposPath, m_wcDir.absolutePath());
+    QSignalSpy spyProgress(checkoutAction, SIGNAL(progress(int)));
+    checkoutAction->start();
+    while (checkoutAction->isRunning()) {}
+    QVERIFY2(spyProgress.count() != 0 , "Progress never emitted.");
 }
 
 QTEST_MAIN(QSvnClientCheckoutActionTests)
