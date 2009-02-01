@@ -89,7 +89,9 @@ SET(qsvn_headers
          wcmodel.h
          ${CMAKE_CURRENT_BINARY_DIR}/qsvn_defines.h
          qsvnactions/qsvnaction.h
+         qsvnactions/qsvnclientaction.h
          qsvnactions/qsvnclientcheckoutaction.h
+         qsvnactions/qsvnrepositoryaction.h
          qsvnactions/qsvnrepositorycreateaction.h
 )
 
@@ -121,7 +123,9 @@ SET(qsvn_sources
          textedit.cpp
          wcmodel.cpp
          qsvnactions/qsvnaction.cpp
+         qsvnactions/qsvnclientaction.cpp
          qsvnactions/qsvnclientcheckoutaction.cpp
+         qsvnactions/qsvnrepositoryaction.cpp
          qsvnactions/qsvnrepositorycreateaction.cpp
 )
 

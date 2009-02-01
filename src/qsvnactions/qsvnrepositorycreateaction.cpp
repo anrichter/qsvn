@@ -26,20 +26,10 @@
 
 
 QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(const QString & path, const QString & fstype)
+        : QSvnRepositoryAction()
 {
     m_path = path;
     m_fstype = fstype;
-}
-
-void QSvnRepositoryCreateAction::sendWarning(const QString&msg)
-{}
-
-void QSvnRepositoryCreateAction::sendError(const QString&msg)
-{}
-
-bool QSvnRepositoryCreateAction::isCanceld()
-{
-    return false;
 }
 
 void QSvnRepositoryCreateAction::run()

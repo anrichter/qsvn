@@ -18,24 +18,25 @@
  *                                                                              *
  *******************************************************************************/
 
-#ifndef QSVNCLIENTCHECKACTION_H
-#define QSVNCLIENTCHECKACTION_H
 
-#include "qsvnactions/qsvnclientaction.h"
+#include "qsvnrepositoryaction.h"
+#include "qsvnrepositoryaction.moc"
+
+#include "svnqt/repository.hpp"
+#include "svnqt/repositorylistener.hpp"
 
 
-class QSvnClientCheckoutAction : public QSvnClientAction
+QSvnRepositoryAction::QSvnRepositoryAction()
+        : QSvnAction()
+{}
+
+void QSvnRepositoryAction::sendWarning(const QString&msg)
+{}
+
+void QSvnRepositoryAction::sendError(const QString&msg)
+{}
+
+bool QSvnRepositoryAction::isCanceld()
 {
-    Q_OBJECT
-
-    public:
-        QSvnClientCheckoutAction(const QString & url, const QString & path);
-
-    protected:
-        void run();
-
-    private:
-        QString m_url, m_path, m_errorString;
-};
-
-#endif // QSVNCLIENTCHECKACTION_H
+    return false;
+}
