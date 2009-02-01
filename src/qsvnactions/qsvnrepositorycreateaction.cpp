@@ -19,7 +19,6 @@
  *******************************************************************************/
 
 
-#include "listener.h"
 #include "qsvnactions/qsvnrepositorycreateaction.h"
 
 #include "svnqt/repository.hpp"
@@ -32,9 +31,20 @@ QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(const QString & path, con
     m_fstype = fstype;
 }
 
+void QSvnRepositoryCreateAction::sendWarning(const QString&msg)
+{}
+
+void QSvnRepositoryCreateAction::sendError(const QString&msg)
+{}
+
+bool QSvnRepositoryCreateAction::isCanceld()
+{
+    return false;
+}
+
 void QSvnRepositoryCreateAction::run()
 {
-    svn::repository::Repository repository(&m_listener);
+    svn::repository::Repository repository(this);
     try
     {
         repository.CreateOpen(m_path, m_fstype);

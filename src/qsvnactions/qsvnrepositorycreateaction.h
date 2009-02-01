@@ -22,23 +22,24 @@
 #define QSVNREPOSITORYCREATEACTION_H
 
 #include "qsvnactions/qsvnaction.h"
-#include "qsvnactions/qsvnrepositorylistener.h"
 
 #include "svnqt/repositorylistener.hpp"
 
-class QSvnRepositoryCreateAction : public QSvnAction
+class QSvnRepositoryCreateAction : public QSvnAction, public svn::repository::RepositoryListener
 {
     public:
         QSvnRepositoryCreateAction(const QString & path, const QString & fstype);
+
+        //Listener
+        void sendWarning(const QString&msg);
+        void sendError(const QString&msg);
+        bool isCanceld();
 
     protected:
         void run();
 
     private:
         QString m_path, m_fstype, m_errorString;
-
-        QSvnRepositoryListener m_listener;
-
 };
 
 #endif // QSVNREPOSITORYCREATEACTION_H

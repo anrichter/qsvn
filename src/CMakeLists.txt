@@ -91,7 +91,6 @@ SET(qsvn_headers
          qsvnactions/qsvnaction.h
          qsvnactions/qsvnclientcheckoutaction.h
          qsvnactions/qsvnrepositorycreateaction.h
-         qsvnactions/qsvnrepositorylistener.h
 )
 
 SET(qsvn_sources
@@ -124,7 +123,6 @@ SET(qsvn_sources
          qsvnactions/qsvnaction.cpp
          qsvnactions/qsvnclientcheckoutaction.cpp
          qsvnactions/qsvnrepositorycreateaction.cpp
-         qsvnactions/qsvnrepositorylistener.cpp
 )
 
 SET(qsvn_forms
