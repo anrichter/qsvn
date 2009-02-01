@@ -14,7 +14,6 @@ INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR}
 set ( qsvn_sources
         ../qsvnaction.cpp
         ../qsvnclientcheckoutaction.cpp
-        ../qsvnclientlistener.cpp
         ../qsvnrepositorycreateaction.cpp
         ../qsvnrepositorylistener.cpp
         ../../helper.cpp
