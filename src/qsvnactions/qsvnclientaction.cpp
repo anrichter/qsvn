@@ -51,7 +51,17 @@ void QSvnClientAction::contextNotify(const char *path,
                                      svn_wc_notify_state_t content_state,
                                      svn_wc_notify_state_t prop_state,
                                      svn_revnum_t revision)
-{}
+{
+    svn_wc_notify_t *notify;
+    notify->path = path;
+    notify->action = action;
+    notify->kind = kind;
+    notify->mime_type = mime_type;
+    notify->content_state = content_state;
+    notify->prop_state = prop_state;
+    notify->revision = revision;
+    contextNotify(notify);
+}
 
 void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 {
