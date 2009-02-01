@@ -67,6 +67,7 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
 
     signals:
         void progress(int percent);
+        void notify(const svn_wc_notify_t *action);
 };
 
 #endif // QSVNCLIENTACTION_H

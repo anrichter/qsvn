@@ -45,6 +45,7 @@ class QSvnClientCheckoutActionTests: public QObject
         void cleanup();
         void testCheckout();
         void testSignalProgress();
+        void testSignalNotify();
 };
 
 QSvnClientCheckoutActionTests::QSvnClientCheckoutActionTests()
@@ -87,6 +88,15 @@ void QSvnClientCheckoutActionTests::testSignalProgress()
     checkoutAction->start();
     while (checkoutAction->isRunning()) {}
     QVERIFY2(spyProgress.count() != 0 , "Progress never emitted.");
+}
+
+void QSvnClientCheckoutActionTests::testSignalNotify()
+{
+    QSvnClientCheckoutAction *checkoutAction = new QSvnClientCheckoutAction("file:///" + m_reposPath, m_wcDir.absolutePath());
+    QSignalSpy spyProgress(checkoutAction, SIGNAL(notify(const svn_wc_notify_t*)));
+    checkoutAction->start();
+    while (checkoutAction->isRunning()) {}
+    QVERIFY2(spyProgress.count() != 0 , "Notify never emitted.");
 }
 
 QTEST_MAIN(QSvnClientCheckoutActionTests)

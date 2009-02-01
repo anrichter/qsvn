@@ -28,6 +28,7 @@ QSvnClientAction::QSvnClientAction()
     m_context = new svn::Context();
     m_client = svn::Client::getobject(m_context, 0);
     m_context->setListener(this);
+    qRegisterMetaType<const svn_wc_notify_t*>("const svn_wc_notify_t*");
 }
 
 QSvnClientAction::~QSvnClientAction()
@@ -53,7 +54,9 @@ void QSvnClientAction::contextNotify(const char *path,
 {}
 
 void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
-{}
+{
+    emit notify(action);
+}
 
 bool QSvnClientAction::contextCancel()
 {
