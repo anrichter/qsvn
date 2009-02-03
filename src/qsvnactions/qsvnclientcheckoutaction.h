@@ -29,7 +29,7 @@ class QSvnClientCheckoutAction : public QSvnClientAction
     Q_OBJECT
 
     public:
-        QSvnClientCheckoutAction(const QString & url, const QString & path);
+        QSvnClientCheckoutAction(QObject * parent, const QString & url, const QString & path);
 
     protected:
         void run();

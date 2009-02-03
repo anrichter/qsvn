@@ -26,8 +26,8 @@
 #include "svnqt/repositorylistener.hpp"
 
 
-QSvnRepositoryAction::QSvnRepositoryAction()
-        : QSvnAction()
+QSvnRepositoryAction::QSvnRepositoryAction(QObject * parent)
+        : QSvnAction(parent)
 {}
 
 void QSvnRepositoryAction::sendWarning(const QString&msg)

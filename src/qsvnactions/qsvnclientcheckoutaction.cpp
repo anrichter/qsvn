@@ -21,8 +21,8 @@
 #include "qsvnactions/qsvnclientcheckoutaction.h"
 #include "qsvnactions/qsvnclientcheckoutaction.moc"
 
-QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString & url, const QString & path)
-        : QSvnClientAction()
+QSvnClientCheckoutAction::QSvnClientCheckoutAction(QObject * parent, const QString & url, const QString & path)
+        : QSvnClientAction(parent)
 {
     m_url = url;
     m_path = path;
@@ -30,7 +30,6 @@ QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString & url, const QS
 
 void QSvnClientCheckoutAction::run()
 {
-    emit progress(0);
     if (m_url.isEmpty() || m_path.isEmpty())
         exit(-1);
 
@@ -43,5 +42,4 @@ void QSvnClientCheckoutAction::run()
         m_errorString = e.msg();
         exit(-1);
     }
-    emit progress(100);
 }

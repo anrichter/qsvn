@@ -32,7 +32,7 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
     Q_OBJECT
 
     public:
-        QSvnClientAction();
+        QSvnClientAction(QObject * parent);
         ~QSvnClientAction();
 
         //Listener
@@ -66,8 +66,7 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
         svn::Client *m_client;
 
     signals:
-        void progress(int percent);
-        void notify(const svn_wc_notify_t *action);
+        void notify(svn_wc_notify_t action);
 };
 
 #endif // QSVNCLIENTACTION_H

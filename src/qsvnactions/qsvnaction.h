@@ -29,7 +29,7 @@ class QSvnAction : public QThread
     Q_OBJECT
 
     public:
-        QSvnAction();
+        QSvnAction(QObject * parent);
 };
 
 #endif // QSVNACTION_H

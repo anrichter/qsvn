@@ -22,13 +22,13 @@
 #include "qsvnclientaction.moc"
 #include "svnqt/context_listener.hpp"
 
-QSvnClientAction::QSvnClientAction()
-        : QSvnAction()
+QSvnClientAction::QSvnClientAction(QObject * parent)
+        : QSvnAction(parent)
 {
     m_context = new svn::Context();
     m_client = svn::Client::getobject(m_context, 0);
     m_context->setListener(this);
-    qRegisterMetaType<const svn_wc_notify_t*>("const svn_wc_notify_t*");
+    qRegisterMetaType<svn_wc_notify_t>("svn_wc_notify_t");
 }
 
 QSvnClientAction::~QSvnClientAction()
@@ -52,20 +52,28 @@ void QSvnClientAction::contextNotify(const char *path,
                                      svn_wc_notify_state_t prop_state,
                                      svn_revnum_t revision)
 {
-    svn_wc_notify_t *notify;
-    notify->path = path;
-    notify->action = action;
-    notify->kind = kind;
-    notify->mime_type = mime_type;
-    notify->content_state = content_state;
-    notify->prop_state = prop_state;
-    notify->revision = revision;
-    contextNotify(notify);
+    svn_wc_notify_t _notify;
+    _notify.path = path;
+    _notify.action = action;
+    _notify.kind = kind;
+    _notify.mime_type = mime_type;
+    _notify.content_state = content_state;
+    _notify.prop_state = prop_state;
+    _notify.revision = revision;
+    emit notify(_notify);
 }
 
 void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 {
-    emit notify(action);
+    svn_wc_notify_t _notify;
+    _notify.path = action->path;
+    _notify.action = action->action;
+    _notify.kind = action->kind;
+    _notify.mime_type = action->mime_type;
+    _notify.content_state = action->content_state;
+    _notify.prop_state = action->prop_state;
+    _notify.revision = action->revision;
+    emit notify(_notify);
 }
 
 bool QSvnClientAction::contextCancel()
@@ -113,7 +121,4 @@ bool QSvnClientAction::contextGetCachedLogin(const QString & realm, QString & us
 }
 
 void QSvnClientAction::contextProgress(long long int current, long long int max)
-{
-    int _percent =  current * 100 / max;
-    emit progress(_percent);
-}
+{}

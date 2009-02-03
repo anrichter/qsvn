@@ -23,6 +23,7 @@
 #include "qsvnaction.moc"
 
 
-QSvnAction::QSvnAction()
+QSvnAction::QSvnAction(QObject * parent)
+        : QThread(parent)
 {
 }

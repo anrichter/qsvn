@@ -27,7 +27,7 @@
 class QSvnRepositoryCreateAction : public QSvnRepositoryAction
 {
     public:
-        QSvnRepositoryCreateAction(const QString & path, const QString & fstype);
+        QSvnRepositoryCreateAction(QObject * parent, const QString & path, const QString & fstype);
 
     protected:
         void run();
