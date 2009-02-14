@@ -1,6 +1,6 @@
 /********************************************************************************
  *   This file is part of QSvn Project http://www.anrichter.net/projects/qsvn   *
- *   Copyright (c) 2004-2008 Andreas Richter <ar@anrichter.net>                 *
+ *   Copyright (c) 2004-2009 Andreas Richter <ar@anrichter.net>                 *
  *                                                                              *
  *   This program is free software; you can redistribute it and/or modify       *
  *   it under the terms of the GNU General Public License Version 2             *
@@ -395,7 +395,7 @@ void QSvn::on_actionAboutQSvn_triggered()
     aboutMsg += QString(QSVN_VERSION_STRING);
 
     aboutMsg += "<p>is a graphical Subversion Client.<br/>";
-    aboutMsg += "(c) 2004-2008 Andreas Richter<br/>";
+    aboutMsg += "(c) 2004-2009 Andreas Richter<br/>";
     aboutMsg += "<a href=\"http://www.anrichter.net/projects/qsvn/\">http://www.anrichter.net/projects/qsvn/</a></p>";
 
     aboutMsg += "<p>It runs with";
