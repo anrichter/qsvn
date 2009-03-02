@@ -32,7 +32,7 @@ class QSvnRepositoryAction : public QSvnAction, public svn::repository::Reposito
     Q_OBJECT
 
     public:
-        QSvnRepositoryAction(QObject * parent);
+        QSvnRepositoryAction(QObject * parent = 0);
         //Listener
         void sendWarning(const QString&msg);
         void sendError(const QString&msg);

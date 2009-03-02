@@ -25,6 +25,11 @@
 #include "svnqt/repositorylistener.hpp"
 
 
+QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(const QString & path, const QString & fstype)
+{
+    QSvnRepositoryCreateAction(0, path, fstype);
+}
+
 QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(QObject * parent, const QString & path, const QString & fstype)
         : QSvnRepositoryAction(parent)
 {

@@ -32,7 +32,7 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
     Q_OBJECT
 
     public:
-        QSvnClientAction(QObject * parent);
+        QSvnClientAction(QObject * parent = 0);
         ~QSvnClientAction();
 
         //Listener
