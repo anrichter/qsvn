@@ -76,7 +76,7 @@ void QSvnClientCheckoutActionTests::testCheckoutFile()
 {
     QVERIFY2(!m_wcDir.exists(), "working copy directory exists before checkout");
     QSvnClientCheckoutAction *checkoutAction =
-            new QSvnClientCheckoutAction(this, "file:///" + m_reposPath, m_wcDir.absolutePath());
+            new QSvnClientCheckoutAction("file:///" + m_reposPath, m_wcDir.absolutePath());
     checkoutAction->start();
     while (checkoutAction->isRunning()) {}
     delete checkoutAction;
@@ -88,7 +88,7 @@ void QSvnClientCheckoutActionTests::testCheckoutHTTP()
 {
     QVERIFY2(!m_wcDir.exists(), "working copy directory exists before checkout");
     QSvnClientCheckoutAction *action =
-            new QSvnClientCheckoutAction(this, "http://www.anrichter.net/svn/qsvn/trunk/scripts", m_wcDir.absolutePath());
+            new QSvnClientCheckoutAction("http://www.anrichter.net/svn/qsvn/trunk/scripts", m_wcDir.absolutePath());
     action->start();
     while (action->isRunning()) {}
     delete action;
@@ -99,7 +99,7 @@ void QSvnClientCheckoutActionTests::testCheckoutHTTP()
 void QSvnClientCheckoutActionTests::testSignalNotify()
 {
     QSvnClientCheckoutAction *checkoutAction =
-            new QSvnClientCheckoutAction(this, "file:///" + m_reposPath, m_wcDir.absolutePath());
+            new QSvnClientCheckoutAction("file:///" + m_reposPath, m_wcDir.absolutePath());
     QSignalSpy spyProgress(checkoutAction, SIGNAL(notify(svn_wc_notify_t)));
     checkoutAction->start();
     while (checkoutAction->isRunning()) {}

@@ -55,7 +55,7 @@ void QSvnRepositoryCreateActionTests::testCreateFSFS()
     QVERIFY2(!testrepoDir.exists(), "The test-repository already exists.");
 
     QSvnRepositoryCreateAction *action =
-            new QSvnRepositoryCreateAction(this, testrepoDir.absolutePath(), "fsfs");
+            new QSvnRepositoryCreateAction(testrepoDir.absolutePath(), "fsfs");
     QSignalSpy spyFinished(action, SIGNAL(finished()));
 
     QVERIFY2(!testrepoDir.exists(), "Don't create new repo right after create the action.");
@@ -72,7 +72,7 @@ void QSvnRepositoryCreateActionTests::testCreateBDB()
 {
     QVERIFY2(!testrepoDir.exists(), "The test-repository already exists.");
     QSvnRepositoryCreateAction *action =
-            new QSvnRepositoryCreateAction(this, testrepoDir.absolutePath(), "bdb");
+            new QSvnRepositoryCreateAction(testrepoDir.absolutePath(), "bdb");
     QVERIFY2(!testrepoDir.exists(), "Don't create new repo right after create the action.");
     action->start();
     while (action->isRunning()) {}

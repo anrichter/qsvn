@@ -26,8 +26,10 @@
 
 
 QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(const QString & path, const QString & fstype)
+        : QSvnRepositoryAction()
 {
-    QSvnRepositoryCreateAction(0, path, fstype);
+    m_path = path;
+    m_fstype = fstype;
 }
 
 QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(QObject * parent, const QString & path, const QString & fstype)
