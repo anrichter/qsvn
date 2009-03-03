@@ -28,7 +28,6 @@ QSvnClientAction::QSvnClientAction(QObject * parent)
     m_context = new svn::Context();
     m_client = svn::Client::getobject(m_context, 0);
     m_context->setListener(this);
-    qRegisterMetaType<svn_wc_notify_t>("svn_wc_notify_t");
 }
 
 QSvnClientAction::~QSvnClientAction()
@@ -52,28 +51,12 @@ void QSvnClientAction::contextNotify(const char *path,
                                      svn_wc_notify_state_t prop_state,
                                      svn_revnum_t revision)
 {
-    svn_wc_notify_t _notify;
-    _notify.path = path;
-    _notify.action = action;
-    _notify.kind = kind;
-    _notify.mime_type = mime_type;
-    _notify.content_state = content_state;
-    _notify.prop_state = prop_state;
-    _notify.revision = revision;
-    emit notify(_notify);
+    emit notify(QString("Action"), QString(path));
 }
 
 void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 {
-    svn_wc_notify_t _notify;
-    _notify.path = action->path;
-    _notify.action = action->action;
-    _notify.kind = action->kind;
-    _notify.mime_type = action->mime_type;
-    _notify.content_state = action->content_state;
-    _notify.prop_state = action->prop_state;
-    _notify.revision = action->revision;
-    emit notify(_notify);
+    emit notify(QString("Action"), QString(action->path));
 }
 
 bool QSvnClientAction::contextCancel()

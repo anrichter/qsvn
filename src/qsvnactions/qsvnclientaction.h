@@ -66,7 +66,7 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
         svn::Client *m_client;
 
     signals:
-        void notify(svn_wc_notify_t action);
+        void notify(QString action, QString path);
 };
 
 #endif // QSVNCLIENTACTION_H

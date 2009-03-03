@@ -100,7 +100,7 @@ void QSvnClientCheckoutActionTests::testSignalNotify()
 {
     QSvnClientCheckoutAction *checkoutAction =
             new QSvnClientCheckoutAction("file:///" + m_reposPath, m_wcDir.absolutePath());
-    QSignalSpy spyProgress(checkoutAction, SIGNAL(notify(svn_wc_notify_t)));
+    QSignalSpy spyProgress(checkoutAction, SIGNAL(notify(QString, QString)));
     checkoutAction->start();
     while (checkoutAction->isRunning()) {}
     QVERIFY2(spyProgress.count() != 0 , "Notify never emitted.");
