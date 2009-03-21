@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Checkout</string>
+   <string>QSvn - Checkout</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -118,6 +118,12 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QTreeWidget" name="twMessages">
+        <property name="rootIsDecorated">
+         <bool>false</bool>
+        </property>
+        <property name="itemsExpandable">
+         <bool>true</bool>
+        </property>
         <column>
          <property name="text">
           <string>Action</string>
