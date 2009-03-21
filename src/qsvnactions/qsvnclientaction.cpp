@@ -55,174 +55,174 @@ void QSvnClientAction::contextNotify(const char *path,
 
 void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 {
-    QString result;
+    QString actionString;
     switch (action->action)
     {
         /** Adding a path to revision control. */
     case svn_wc_notify_add:
-        result = tr("Add");
+        actionString = tr("Add");
         break;
 
         /** Copying a versioned path. */
     case svn_wc_notify_copy:
-        result = tr("Copy");
+        actionString = tr("Copy");
         break;
 
         /** Deleting a versioned path. */
     case svn_wc_notify_delete:
-        result = tr("Delete");
+        actionString = tr("Delete");
         break;
 
         /** Restoring a missing path from the pristine text-base. */
     case svn_wc_notify_restore:
-        result = tr("Restore");
+        actionString = tr("Restore");
         break;
 
         /** Reverting a modified path. */
     case svn_wc_notify_revert:
-        result = tr("Revert");
+        actionString = tr("Revert");
         break;
 
         /** A revert operation has failed. */
     case svn_wc_notify_failed_revert:
-        result = tr("Revert failed");
+        actionString = tr("Revert failed");
         break;
 
         /** Resolving a conflict. */
     case svn_wc_notify_resolved:
-        result = tr("Resolved");
+        actionString = tr("Resolved");
         break;
 
         /** Skipping a path. */
     case svn_wc_notify_skip:
-        result = tr("Skip");
+        actionString = tr("Skip");
         break;
 
         /** Got a delete in an update. */
     case svn_wc_notify_update_delete:
-        result = tr("Deleted");
+        actionString = tr("Deleted");
         break;
 
         /** Got an add in an update. */
     case svn_wc_notify_update_add:
-        result = tr("Added");
+        actionString = tr("Added");
         break;
 
         /** Got any other action in an update. */
     case svn_wc_notify_update_update:
-        result = tr("Updated");
+        actionString = tr("Updated");
         break;
 
         /** The last notification in an update (including updates of externals). */
     case svn_wc_notify_update_completed:
-        result = tr("Completed");
+        actionString = tr("Completed");
         break;
 
         /** Updating an external module. */
     case svn_wc_notify_update_external:
-        result = tr("Update external");
+        actionString = tr("Update external");
         break;
 
         /** The last notification in a status (including status on externals). */
     case svn_wc_notify_status_completed:
-        result = tr("Status completed");
+        actionString = tr("Status completed");
         break;
 
         /** Running status on an external module. */
     case svn_wc_notify_status_external:
-        result = tr("Status external");
+        actionString = tr("Status external");
         break;
 
         /** Committing a modification. */
     case svn_wc_notify_commit_modified:
-        result = tr("Commit modified");
+        actionString = tr("Commit modified");
         break;
 
         /** Committing an addition. */
     case svn_wc_notify_commit_added:
-        result = tr("Commit added");
+        actionString = tr("Commit added");
         break;
 
         /** Committing a deletion. */
     case svn_wc_notify_commit_deleted:
-        result = tr("Commit deleted");
+        actionString = tr("Commit deleted");
         break;
 
         /** Committing a replacement. */
     case svn_wc_notify_commit_replaced:
-        result = tr("Commit replaced");
+        actionString = tr("Commit replaced");
         break;
 
         /** Transmitting post-fix text-delta data for a file. */
     case svn_wc_notify_commit_postfix_txdelta:
-        result = tr("Commit postfix txdelta");
+        actionString = tr("Commit postfix txdelta");
         break;
 
         /** Processed a single revision's blame. */
     case svn_wc_notify_blame_revision:
-        result = tr("Blame revision");
+        actionString = tr("Blame revision");
         break;
 
         /** Locking a path. @since New in 1.2. */
     case svn_wc_notify_locked:
-        result = tr("Locked");
+        actionString = tr("Locked");
         break;
 
         /** Unlocking a path. @since New in 1.2. */
     case svn_wc_notify_unlocked:
-        result = tr("Unlocked");
+        actionString = tr("Unlocked");
         break;
 
         /** Failed to lock a path. @since New in 1.2. */
     case svn_wc_notify_failed_lock:
-        result = tr("Failed lock");
+        actionString = tr("Failed lock");
         break;
 
         /** Failed to unlock a path. @since New in 1.2. */
     case svn_wc_notify_failed_unlock:
-        result = tr("Failed unlock");
+        actionString = tr("Failed unlock");
         break;
 
         /** Tried adding a path that already exists. @since New in 1.5. */
     case svn_wc_notify_exists:
-        result = tr("Exists");
+        actionString = tr("Exists");
         break;
 
         /** Changelist name set. @since New in 1.5. */
     case svn_wc_notify_changelist_set:
-        result = tr("Changelist set");
+        actionString = tr("Changelist set");
         break;
 
         /** Changelist name cleared. @since New in 1.5. */
     case svn_wc_notify_changelist_clear:
-        result = tr("Changelist clear");
+        actionString = tr("Changelist clear");
         break;
 
         /** Warn user that a path has moved from one changelist to another.
       @since New in 1.5. */
     case svn_wc_notify_changelist_moved:
-        result = tr("Changelist moved");
+        actionString = tr("Changelist moved");
         break;
 
         /** A merge operation (to path) has begun.  See @c merge_range in
       @c svn_wc_notify_t.  @since New in 1.5   */
     case svn_wc_notify_merge_begin:
-        result = tr("Merge begin");
+        actionString = tr("Merge begin");
         break;
 
         /** A merge operation (to path) from a foreign repository has begun.
       See @c merge_range in @c svn_wc_notify_t. @since New in 1.5. */
     case svn_wc_notify_foreign_merge_begin:
-        result = tr("Foreign merge begin");
+        actionString = tr("Foreign merge begin");
         break;
 
         /** Replace notification. @since New in 1.5. */
     case svn_wc_notify_update_replace:
-        result = tr("Update replace");
+        actionString = tr("Update replace");
         break;
     }
 
-    emit notify(result, QString(action->path));
+    emit notify(actionString, QString(action->path));
 }
 
 bool QSvnClientAction::contextCancel()

@@ -49,4 +49,5 @@ void QSvnClientCheckoutAction::run()
         m_errorString = e.msg();
         exit(-1);
     }
+    emit finished(m_path);
 }
