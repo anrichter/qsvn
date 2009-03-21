@@ -285,19 +285,11 @@ void QSvn::on_actionWcRemoveFromDisk_triggered()
 
 void QSvn::on_actionWcCheckout_triggered()
 {
-    Checkout checkout(this);
-
-    if (checkout.exec())
-    {
-        setActionStop("Checkout");
-
-        if (SvnClient::instance()->checkout(checkout.url(), checkout.path()))
-        {
-            wcModel->insertWc(checkout.path());
-        }
-
-        setActionStop("");
-    }
+    Checkout *checkout = new Checkout(this);
+    checkout->show();
+    checkout->activateWindow();
+    checkout->raise();
+    connect(checkout, SIGNAL(finished(QString)), this, SLOT(onQSvnClientCheckoutActionFinished(QString)));
 }
 
 void QSvn::on_actionUpdate_triggered()
@@ -513,4 +505,9 @@ void QSvn::changeEvent(QEvent * event)
 void QSvn::updateWc(const QString dir)
 {
     wcModel->updateWc(dir);
+}
+
+void QSvn::onQSvnClientCheckoutActionFinished(QString path)
+{
+    wcModel->insertWc(path);
 }

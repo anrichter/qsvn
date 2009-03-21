@@ -103,6 +103,9 @@ class QSvn : public QMainWindow, public Ui::QSvn
 
         void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
         void directoryChanged(const QString &dir);
+
+        //QSvnActionHandlers
+        void onQSvnClientCheckoutActionFinished(QString path);
 };
 
 #endif

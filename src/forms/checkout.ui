@@ -1,150 +1,106 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>Checkout</class>
- <widget class="QDialog" name="Checkout" >
-  <property name="geometry" >
+ <widget class="QDialog" name="Checkout">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
-    <height>191</height>
+    <width>282</width>
+    <height>427</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Checkout</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
-    <number>6</number>
-   </property>
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>9</number>
-   </property>
-   <item>
-    <widget class="QGroupBox" name="groupBoxRepository" >
-     <property name="title" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBoxRepository">
+     <property name="title">
       <string>Repository</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="leftMargin" >
+     <layout class="QGridLayout">
+      <property name="margin">
        <number>4</number>
       </property>
-      <property name="topMargin" >
-       <number>4</number>
-      </property>
-      <property name="rightMargin" >
-       <number>4</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>4</number>
-      </property>
-      <property name="horizontalSpacing" >
+      <property name="spacing">
        <number>3</number>
       </property>
-      <property name="verticalSpacing" >
-       <number>3</number>
-      </property>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="labelPath" >
-        <property name="text" >
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelPath">
+        <property name="text">
          <string>Path </string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="labelURL" >
-        <property name="text" >
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelURL">
+        <property name="text">
          <string>URL</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+      <item row="1" column="0">
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QComboBox" name="editURL" >
-          <property name="editable" >
+         <widget class="QComboBox" name="editURL">
+          <property name="editable">
            <bool>true</bool>
           </property>
-          <property name="maxCount" >
+          <property name="maxCount">
            <number>15</number>
           </property>
-          <property name="sizeAdjustPolicy" >
+          <property name="sizeAdjustPolicy">
            <enum>QComboBox::AdjustToMinimumContentsLength</enum>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item row="3" column="0" >
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+      <item row="3" column="0">
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QLineEdit" name="editPath" />
+         <widget class="QLineEdit" name="editPath"/>
         </item>
         <item>
-         <widget class="QPushButton" name="buttonPath" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <widget class="QPushButton" name="buttonPath">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="minimumSize" >
+          <property name="minimumSize">
            <size>
             <width>0</width>
             <height>0</height>
            </size>
           </property>
-          <property name="maximumSize" >
+          <property name="maximumSize">
            <size>
             <width>20</width>
             <height>25</height>
            </size>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>...</string>
           </property>
-          <property name="flat" >
+          <property name="flat">
            <bool>false</bool>
           </property>
          </widget>
@@ -154,29 +110,36 @@
      </layout>
     </widget>
    </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBoxMessages">
+     <property name="title">
+      <string>Messages</string>
      </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>387</width>
-       <height>16</height>
-      </size>
-     </property>
-    </spacer>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QTreeWidget" name="twMessages">
+        <column>
+         <property name="text">
+          <string>Action</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Path</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -187,36 +150,19 @@
   <tabstop>editPath</tabstop>
   <tabstop>buttonPath</tabstop>
  </tabstops>
- <includes/>
  <resources/>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Checkout</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>262</x>
-     <y>165</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>211</x>
-     <y>151</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
    <receiver>Checkout</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
-     <x>348</x>
-     <y>175</y>
+    <hint type="sourcelabel">
+     <x>352</x>
+     <y>442</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>319</x>
      <y>186</y>
     </hint>

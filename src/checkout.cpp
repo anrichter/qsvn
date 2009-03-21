@@ -23,14 +23,17 @@
 #include "checkout.moc"
 #include "config.h"
 #include "statustext.h"
+#include "qsvnactions/qsvnclientcheckoutaction.h"
 
 //Qt
 #include <QtGui>
 
 
 Checkout::Checkout(QWidget *parent)
-        : QDialog(parent)
+        : QDialog(0)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
+
     setupUi(this);
     setWindowIcon(QIcon(":/images/actioncheckout.svg"));
     Config::instance()->restoreWidget(this);
@@ -41,6 +44,7 @@ Checkout::Checkout(QWidget *parent)
     editPath->setText(Config::instance()->value(KEY_LASTWC).toString());
 
     m_selectedURL = "";
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(onDoCheckout()));
 }
 
 Checkout::~Checkout()
@@ -71,7 +75,7 @@ void Checkout::on_buttonPath_clicked()
         editPath->setText(QDir::toNativeSeparators(directory));
 }
 
-void Checkout::accept()
+void Checkout::onDoCheckout()
 {
     if (editURL->currentText().isEmpty())
     {
@@ -109,5 +113,27 @@ void Checkout::accept()
             urlList << editURL->itemText(i);
     Config::instance()->saveStringList("checkoutURL", urlList);
     Config::instance()->setValue(KEY_LASTWC, editPath->text());
-    QDialog::accept();
+
+    groupBoxRepository->setEnabled(false);
+
+    QSvnClientCheckoutAction *action = new QSvnClientCheckoutAction(url(), path());
+    connect(action, SIGNAL(notify(QString, QString)), this, SLOT(onNotify(QString, QString)));
+    connect(action, SIGNAL(finished()), this, SLOT(onCheckoutFinished()));
+    connect(action, SIGNAL(finished(QString)), this, SIGNAL(finished(QString)));
+    action->start();
+}
+
+void Checkout::onNotify(QString action, QString path)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem(twMessages);
+    item->setText(0, action);
+    item->setText(1, path);
+    twMessages->addTopLevelItem(item);
+    twMessages->scrollToItem(item);
+}
+
+void Checkout::onCheckoutFinished()
+{
+    buttonBox->setStandardButtons(QDialogButtonBox::Ok);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
 }

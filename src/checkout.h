@@ -26,6 +26,7 @@
 
 //Qt
 #include <QDialog>
+#include <svn_wc.h>
 
 
 class Checkout : public QDialog, public Ui::Checkout
@@ -41,10 +42,15 @@ class Checkout : public QDialog, public Ui::Checkout
 
     public slots:
         void on_buttonPath_clicked();
-        void accept();
+        void onDoCheckout();
+        void onCheckoutFinished();
+        void onNotify(QString action, QString path);
 
     private:
         QString m_selectedURL;
+
+    signals:
+        void finished(QString);
 };
 
 #endif
