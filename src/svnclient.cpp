@@ -155,25 +155,6 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
     return result;
 }
 
-bool SvnClient::checkout(const QString &url, const QString &path)
-{
-    if (url.isEmpty() || path.isEmpty())
-        return false;
-
-    StatusText::out(tr("\nCheckout '%1' into '%2'").arg(url).arg(path));
-    listener->setVerbose(true);
-    try
-    {
-        svnClient->checkout(url, path, svn::Revision::HEAD);
-    }
-    catch (svn::ClientException e)
-    {
-        StatusText::out(e.msg());
-        return false;
-    }
-    return true;
-}
-
 bool SvnClient::svnexport(const QString &url, const QString &path,
                           const svn::Revision &revision, const bool verbose)
 {

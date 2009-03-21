@@ -82,13 +82,6 @@ class SvnClient : public QObject
          */
         bool update(QStringList updateList, const bool isFileList);
 
-        /**
-         * Checkout a working copy
-         * @param url The complete URL from subversion repository
-         * @param path The where the working copy will be checked out.
-         * @return True if checkout properly otherwise False
-         */
-        bool checkout(const QString &url, const QString &path);
         bool svnexport(const QString &url, const QString &path, const svn::Revision &revision, const bool verbose = true);
 
         bool add(const QString &path, svn::Depth depth);
