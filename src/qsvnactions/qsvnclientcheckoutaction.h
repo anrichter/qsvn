@@ -36,7 +36,7 @@ class QSvnClientCheckoutAction : public QSvnClientAction
         void run();
 
     private:
-        QString m_url, m_path, m_errorString;
+        QString m_url, m_path;
 };
 
 #endif // QSVNCLIENTCHECKACTION_H

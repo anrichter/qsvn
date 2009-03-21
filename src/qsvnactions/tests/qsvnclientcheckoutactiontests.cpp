@@ -48,6 +48,9 @@ class QSvnClientCheckoutActionTests: public QObject
         void testCheckoutHTTP();
         void testSignalNotify();
         void testSignalFinished();
+        void tetsSignalFinishedNotOnError();
+        void testSignalFinishedNotOnEmptyURL();
+        void testSignalFinishedNotOnEmptyWC();
 };
 
 QSvnClientCheckoutActionTests::QSvnClientCheckoutActionTests()
@@ -117,6 +120,37 @@ void QSvnClientCheckoutActionTests::testSignalFinished()
     while (checkoutAction->isRunning()) {}
     QVERIFY2(spyFinished.count() == 1, "signal finished(QString) was not emitted.");
 }
+
+void QSvnClientCheckoutActionTests::tetsSignalFinishedNotOnError()
+{
+    QSvnClientCheckoutAction *checkoutAction =
+            new QSvnClientCheckoutAction("file:///" + m_reposPath + "error", m_wcDir.absolutePath());
+    QSignalSpy spyFinished(checkoutAction, SIGNAL(finished(QString)));
+    checkoutAction->start();
+    while (checkoutAction->isRunning()) {}
+    QVERIFY2(spyFinished.count() == 0, "Don't call signal finished(QString) when an error occurred.");
+}
+
+void QSvnClientCheckoutActionTests::testSignalFinishedNotOnEmptyURL()
+{
+    QSvnClientCheckoutAction *checkoutAction =
+            new QSvnClientCheckoutAction("", m_wcDir.absolutePath());
+    QSignalSpy spyFinished(checkoutAction, SIGNAL(finished(QString)));
+    checkoutAction->start();
+    while (checkoutAction->isRunning()) {}
+    QVERIFY2(spyFinished.count() == 0, "Don't call signal finished(QString) when the URL is empty.");
+}
+
+void QSvnClientCheckoutActionTests::testSignalFinishedNotOnEmptyWC()
+{
+    QSvnClientCheckoutAction *checkoutAction =
+            new QSvnClientCheckoutAction("file:///" + m_reposPath + "error", "");
+    QSignalSpy spyFinished(checkoutAction, SIGNAL(finished(QString)));
+    checkoutAction->start();
+    while (checkoutAction->isRunning()) {}
+    QVERIFY2(spyFinished.count() == 0, "Don't call signal finished(QString) when the WC-dir is empty.");
+}
+
 
 QTEST_MAIN(QSvnClientCheckoutActionTests)
 #include "qsvnclientcheckoutactiontests.moc"

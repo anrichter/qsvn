@@ -45,6 +45,7 @@ Checkout::Checkout(QWidget *parent)
 
     m_selectedURL = "";
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(onDoCheckout()));
+    buttonBox->button(QDialogButtonBox::Abort)->setVisible(false);
 }
 
 Checkout::~Checkout()
@@ -115,6 +116,9 @@ void Checkout::onDoCheckout()
     Config::instance()->setValue(KEY_LASTWC, editPath->text());
 
     groupBoxRepository->setEnabled(false);
+    buttonBox->button(QDialogButtonBox::Abort)->setVisible(true);
+    buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
+    buttonBox->button(QDialogButtonBox::Ok)->setVisible(false);
 
     QSvnClientCheckoutAction *action = new QSvnClientCheckoutAction(url(), path());
     connect(action, SIGNAL(notify(QString, QString)), this, SLOT(onNotify(QString, QString)));
@@ -134,6 +138,7 @@ void Checkout::onNotify(QString action, QString path)
 
 void Checkout::onCheckoutFinished()
 {
-    buttonBox->setStandardButtons(QDialogButtonBox::Ok);
+    buttonBox->button(QDialogButtonBox::Ok)->setVisible(true);
+    buttonBox->button(QDialogButtonBox::Abort)->setVisible(false);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
 }

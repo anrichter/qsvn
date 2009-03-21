@@ -37,17 +37,14 @@ QSvnClientCheckoutAction::QSvnClientCheckoutAction(QObject * parent, const QStri
 
 void QSvnClientCheckoutAction::run()
 {
-    if (m_url.isEmpty() || m_path.isEmpty())
-        exit(-1);
-
     try
     {
         m_client->checkout(m_url, m_path, svn::Revision::HEAD);
     }
     catch (svn::ClientException e)
     {
-        m_errorString = e.msg();
-        exit(-1);
+        emit notify(tr("Error"), e.msg());
+        return;
     }
     emit finished(m_path);
 }
