@@ -1,3 +1,11 @@
+Version 0.8.2 - released 2009-04-16
+
+    Changes
+    -------
+    * Build against Qt 4.5.0 (Windows only)
+    * Build against Subversion 1.6.1 (Windows only)
+
+
 Version 0.8.1 - released 2009-02-14
 
     BugFixes

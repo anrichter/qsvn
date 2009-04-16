@@ -53,9 +53,9 @@ Source: {#QtLibraryDir}\QtSvg4.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#QtPluginsDir}\imageformats\qsvg4.dll; DestDir: {app}\imageformats; Flags: ignoreversion
 ;SubversionFiles
 Source: {#SvnBinDir}\intl3_svn.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#SvnBinDir}\libapr.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#SvnBinDir}\libapriconv.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#SvnBinDir}\libaprutil.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#SvnBinDir}\libapr-1.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#SvnBinDir}\libapriconv-1.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#SvnBinDir}\libaprutil-1.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#SvnBinDir}\libdb44.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#SvnBinDir}\libeay32.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#SvnBinDir}\libsasl.dll; DestDir: {app}; Flags: ignoreversion
