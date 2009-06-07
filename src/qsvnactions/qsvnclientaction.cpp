@@ -29,6 +29,7 @@ QSvnClientAction::QSvnClientAction(QObject * parent)
     m_client = svn::Client::getobject(m_context, 0);
     m_context->setListener(this);
     m_inExternal = false;
+    m_cancelAction = false;
 }
 
 QSvnClientAction::~QSvnClientAction()
@@ -235,7 +236,7 @@ void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 
 bool QSvnClientAction::contextCancel()
 {
-    return false;
+    return m_cancelAction;
 }
 
 bool QSvnClientAction::contextGetLogMessage(QString &msg, const svn::CommitItemList&)
@@ -279,3 +280,9 @@ bool QSvnClientAction::contextGetCachedLogin(const QString & realm, QString & us
 
 void QSvnClientAction::contextProgress(long long int current, long long int max)
 {}
+
+void QSvnClientAction::cancelAction()
+{
+    m_cancelAction = true;
+    terminate();
+}

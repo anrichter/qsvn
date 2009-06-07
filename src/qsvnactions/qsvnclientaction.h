@@ -67,6 +67,10 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
 
     private:
         bool m_inExternal;
+        bool m_cancelAction;
+
+    public slots:
+        void cancelAction();
 
     signals:
         void notify(QString action, QString path);

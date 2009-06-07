@@ -124,6 +124,7 @@ void Checkout::onDoCheckout()
     connect(action, SIGNAL(notify(QString, QString)), this, SLOT(onNotify(QString, QString)));
     connect(action, SIGNAL(finished()), this, SLOT(onCheckoutFinished()));
     connect(action, SIGNAL(finished(QString)), this, SIGNAL(finished(QString)));
+    connect(buttonBox->button(QDialogButtonBox::Abort), SIGNAL(clicked()), action, SLOT(cancelAction()));
     action->start();
 }
 

@@ -51,6 +51,7 @@ class QSvnClientCheckoutActionTests: public QObject
         void tetsSignalFinishedNotOnError();
         void testSignalFinishedNotOnEmptyURL();
         void testSignalFinishedNotOnEmptyWC();
+        void testCancelAction();
 };
 
 QSvnClientCheckoutActionTests::QSvnClientCheckoutActionTests()
@@ -149,6 +150,17 @@ void QSvnClientCheckoutActionTests::testSignalFinishedNotOnEmptyWC()
     checkoutAction->start();
     while (checkoutAction->isRunning()) {}
     QVERIFY2(spyFinished.count() == 0, "Don't call signal finished(QString) when the WC-dir is empty.");
+}
+
+void QSvnClientCheckoutActionTests::testCancelAction()
+{
+    QSvnClientCheckoutAction *checkoutAction =
+            new QSvnClientCheckoutAction("file:///" + m_reposPath, m_wcDir.absolutePath());
+    QSignalSpy spyTerminated(checkoutAction, SIGNAL(terminated()));
+    checkoutAction->start();
+    checkoutAction->cancelAction();
+    while (checkoutAction->isRunning()) {}
+    QVERIFY2(spyTerminated.count() != 0, "cancelAction don't terminate the QSvnAction.");
 }
 
 
