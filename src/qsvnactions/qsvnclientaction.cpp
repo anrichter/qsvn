@@ -28,6 +28,7 @@ QSvnClientAction::QSvnClientAction(QObject * parent)
     m_context = new svn::Context();
     m_client = svn::Client::getobject(m_context, 0);
     m_context->setListener(this);
+    m_inExternal = false;
 }
 
 QSvnClientAction::~QSvnClientAction()
@@ -115,12 +116,19 @@ void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 
         /** The last notification in an update (including updates of externals). */
     case svn_wc_notify_update_completed:
-        actionString = tr("Completed");
+        if (m_inExternal)
+        {
+            actionString = tr("Checked out external at revision %1").arg(action->revision);
+            m_inExternal = false;
+        }
+        else
+            actionString = tr("Checked out at revision %1").arg(action->revision);
         break;
 
         /** Updating an external module. */
     case svn_wc_notify_update_external:
-        actionString = tr("Update external");
+        m_inExternal = true;
+        actionString = tr("Fetching external item into");
         break;
 
         /** The last notification in a status (including status on externals). */
