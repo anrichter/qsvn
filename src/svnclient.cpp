@@ -33,6 +33,7 @@
 #include "svnqt/targets.hpp"
 #include "svnqt/url.hpp"
 #include "svnqt/wc.hpp"
+#include "svnqt/client_parameter.hpp"
 
 //Qt
 #include <QtCore>
@@ -87,16 +88,10 @@ svn::StatusEntries SvnClient::status(const QString& path,
 
     QDir dir(path);
     listener->setVerbose(false);
+    svn::StatusParameter params(dir.canonicalPath());
     try
     {
-        return svnClient->status(dir.canonicalPath(),
-                                 depth,
-                                 get_all,
-                                 update,
-                                 no_ignore,
-                                 revision,
-                                 detailed_remote,
-                                 hide_externals);
+        return svnClient->status(params.depth(depth).all(get_all).update(update).noIgnore(no_ignore).revision(revision).detailedRemote(detailed_remote).ignoreExternals(hide_externals));
     }
     catch (svn::ClientException e)
     {
