@@ -465,7 +465,8 @@ bool SvnClient::move(const QString &srcPath, const QString &destPath,
     listener->setVerbose(true);
     try
     {
-        svnClient->move(srcPath, destPath, force);
+        svn::CopyParameter params(srcPath,destPath);
+        svnClient->move(params.force(force));
     }
     catch (svn::ClientException e)
     {
@@ -562,7 +563,8 @@ bool SvnClient::propSet(const QString &propName,
     listener->setVerbose(true);
     try
     {
-        svnClient->propset(propName, propValue, path, depth, skip_checks, revision);
+        svn::PropertiesParameter params;
+        svnClient->propset(params.propertyName(propName).propertyValue(propValue).path(path).depth(depth).skipCheck(skip_checks).revision(revision));
         return true;
     }
     catch (svn::ClientException e)
@@ -581,7 +583,8 @@ bool SvnClient::propDel(const QString &propName,
     try
     {
         //todo: adjust function-header to propset-header
-        svnClient->propdel(propName, path, depth, revision);
+        svn::PropertiesParameter params;
+        svnClient->propset(params.propertyName(propName).path(path).depth(depth).revision(revision).propertyValue(QString()));
         return true;
     }
     catch (svn::ClientException e)
@@ -598,7 +601,8 @@ bool SvnClient::revPropSet(const QString & propName, const QString & propValue,
     listener->setVerbose(true);
     try
     {
-        svnClient->revpropset(propName, propValue, path, revision, force);
+        svn::PropertiesParameter params;
+        svnClient->revpropset(params.propertyName(propName).propertyValue(propValue).path(path).revision(revision).force(force));
         return true;
     }
     catch (svn::ClientException e)
