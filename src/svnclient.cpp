@@ -332,12 +332,13 @@ bool SvnClient::diff(const QString &fileFrom, const QString &fileTo, const svn::
         listener->setVerbose(true);
         try
         {
+            svn::DiffParameter params;
             QString fileRelative(fileFrom==fileTo?fileFrom:"");
 
-            QString delta = svnClient->diff(svn::Path(Config::instance()->tempDir()),
-                                            svn::Path(fileFrom), svn::Path(fileTo), svn::Path(fileRelative),
-                                            revisionFrom, revisionTo,
-                                            svn::DepthInfinity, false, false, true);
+            QString delta = svnClient->diff(params.tmpPath(svn::Path(Config::instance()->tempDir())).
+                                            path1(svn::Path(fileFrom)).path2(svn::Path(fileTo)).relativeTo(svn::Path(fileRelative)).
+                                            rev1(revisionFrom).rev2(revisionTo).
+                                            depth(svn::DepthInfinity).ignoreAncestry(false).noDiffDeleted(false).ignoreContentType(true));
             if (delta.isEmpty())
                 StatusText::out(tr("There are no differences."));
             else
@@ -380,29 +381,28 @@ bool SvnClient::diffBASEvsWORKING(const QStringList &fileList)
     return result;
 }
 
-const svn::LogEntriesPtr SvnClient::log(const QString &path,
+bool SvnClient::log(const QString &path,
                                         const svn::Revision &revisionStart,
                                         const svn::Revision &revisionEnd,
                                         const svn::Revision &revisionPeg,
                                         bool discoverChangedPaths,
                                         bool strictNodeHistory,
-                                        int limit )
+                                        int limit,svn::LogEntriesMap&targetmap )
 {
     listener->setVerbose(true);
     try
     {
-        return svnClient->log(path,
-                              revisionStart,
-                              revisionEnd,
-                              revisionPeg,
-                              discoverChangedPaths,
-                              strictNodeHistory,
-                              limit);
+        svn::LogParameter params;
+
+        return svnClient->log(params.targets(path).revisionRange(revisionStart,revisionEnd).
+                                peg(revisionPeg).discoverChangedPathes(discoverChangedPaths).
+                                strictNodeHistory(strictNodeHistory).limit(limit),
+                                targetmap);
     }
     catch (svn::ClientException e)
     {
         StatusText::out(e.msg());
-        return new svn::LogEntries();
+        return false;
     }
 }
 

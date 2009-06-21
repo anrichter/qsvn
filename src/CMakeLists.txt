@@ -53,6 +53,7 @@ ENDIF (WIN32)
 INCLUDE_DIRECTORIES(
                      ${CMAKE_CURRENT_BINARY_DIR}
                      ${CMAKE_CURRENT_SOURCE_DIR}
+                     "${CMAKE_SOURCE_DIR}/.."
                      ${QT_INCLUDES}
                      ${APR_INCLUDE_DIR}
                      ${APU_INCLUDE_DIR}

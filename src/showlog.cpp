@@ -159,14 +159,18 @@ void ShowLog::buttonNextClicked(int limit)
     qApp->processEvents();
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    m_logEntriesModel->appendLogEntries(
-            SvnClient::instance()->log(m_url,
+    svn::LogEntriesMap _logs;
+
+    if (SvnClient::instance()->log(m_url,
                                 m_revisionStart,
                                 m_revisionEnd,
                                 svn::Revision::HEAD,
                                 true,
                                 (checkBoxStrictNodeHistory->checkState() == Qt::Checked),
-                                limit));
+                                limit,_logs)) {
+        m_logEntriesModel->appendLogEntries(_logs);
+
+    }
     m_revisionStart = m_logEntriesModel->getLogEntry(
             m_logEntriesModel->index(m_logEntriesModel->rowCount() - 1, 0)).revision;
 
@@ -246,15 +250,18 @@ QString ShowLog::getSelectedPath()
 
 svn_revnum_t ShowLog::getSelectedStartRevision()
 {
-    svn::LogEntriesPtr _logEntries;
-    _logEntries = SvnClient::instance()->log(svn::Wc::getRepos(m_path) + getSelectedPath(),
+    svn::LogEntriesMap _logs;;
+    if (SvnClient::instance()->log(svn::Wc::getRepos(m_path) + getSelectedPath(),
                                              getSelectedRevision(),
                                              svn::Revision::START,
                                              svn::Revision::HEAD,
                                              true,
                                              true,
-                                             0);
-    return _logEntries->first().revision;
+                                             0,
+                                             _logs)) {
+        _logs.values().first().revision;
+    }
+    return svn::Revision::UNDEFINED;
 }
 
 bool ShowLog::checkLocatedInWc()

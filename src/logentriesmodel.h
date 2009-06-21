@@ -50,7 +50,7 @@ class LogEntriesModel : public QAbstractTableModel
         void changeLogMessage(const QModelIndex &index, const QString logMessage);
         void changeLogAuthor(const QModelIndex &index, const QString author);
 
-        void appendLogEntries(const svn::LogEntriesPtr logEntries);
+        void appendLogEntries(const svn::LogEntriesMap&logEntries);
         void clear();
 
     private:
