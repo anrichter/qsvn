@@ -62,9 +62,9 @@ void Merge::doMerge(const QString wc)
     merge->editWcPath->setText(wc);
 
     const QString _uuid = SvnClient::instance()->getUUID(wc);
-    merge->editFromUrl->setText(Config::instance()->value(QString(KEY_LASTMERGEFROMURL).arg(_uuid), svn::Wc::getUrl(wc)).toString());
+    merge->editFromUrl->setText(Config::instance()->value(QString(KEY_LASTMERGEFROMURL).arg(_uuid), svn::Wc(0).getUrl(wc)).toString());
     merge->editFromRevision->setText(Config::instance()->value(QString(KEY_LASTMERGEFROMREVISION).arg(_uuid), QVariant()).toString());
-    merge->editToUrl->setText(Config::instance()->value(QString(KEY_LASTMERGETOURL).arg(_uuid), svn::Wc::getUrl(wc)).toString());
+    merge->editToUrl->setText(Config::instance()->value(QString(KEY_LASTMERGETOURL).arg(_uuid), svn::Wc(0).getUrl(wc)).toString());
     merge->editToRevision->setText(Config::instance()->value(QString(KEY_LASTMERGETOREVISION).arg(_uuid), QVariant()).toString());
     //todo: implement ShowLog to catch from* and to*
 }

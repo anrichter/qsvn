@@ -60,8 +60,8 @@ ShowLog::ShowLog(QWidget *parent, const QString path,
     m_revisionEnd = revisionEnd;
     m_revisionBeginShowLog = revisionStart;
     m_path = QDir::fromNativeSeparators(path);
-    m_url = svn::Wc::getUrl(path);
-    m_repos = svn::Wc::getRepos(path);
+    m_url = svn::Wc(0).getUrl(path);
+    m_repos = svn::Wc(0).getRepos(path);
     m_repos_path = QString(m_url).remove(m_repos);
 
     setupUi(this);
@@ -251,7 +251,7 @@ QString ShowLog::getSelectedPath()
 svn_revnum_t ShowLog::getSelectedStartRevision()
 {
     svn::LogEntriesMap _logs;;
-    if (SvnClient::instance()->log(svn::Wc::getRepos(m_path) + getSelectedPath(),
+    if (SvnClient::instance()->log(svn::Wc(0).getRepos(m_path) + getSelectedPath(),
                                              getSelectedRevision(),
                                              svn::Revision::START,
                                              svn::Revision::HEAD,
