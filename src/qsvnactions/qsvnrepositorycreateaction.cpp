@@ -21,6 +21,7 @@
 
 #include "qsvnactions/qsvnrepositorycreateaction.h"
 
+#include "svnqt/repoparameter.hpp"
 #include "svnqt/repository.hpp"
 #include "svnqt/repositorylistener.hpp"
 
@@ -44,7 +45,10 @@ void QSvnRepositoryCreateAction::run()
     svn::repository::Repository repository(this);
     try
     {
-        repository.CreateOpen(m_path, m_fstype);
+        svn::repository::CreateRepoParameter params;
+        params.path(m_path);
+        params.fstype(m_fstype);
+        repository.CreateOpen(params);
     }
     catch (svn::ClientException e)
     {
