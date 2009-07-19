@@ -57,6 +57,8 @@ class Checkout : public QDialog, public Ui::Checkout
         QSvnClientCheckoutAction *action;
         QString m_selectedURL;
 
+        void switchToPageMessages();
+
     signals:
         void finished(QString);
 };

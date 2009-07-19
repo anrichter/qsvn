@@ -37,7 +37,9 @@ Checkout::Checkout(QWidget *parent)
 
     setupUi(this);
     setWindowIcon(QIcon(":/images/actioncheckout.svg"));
-    Config::instance()->restoreWidget(this);
+
+    stackedWidget->setCurrentWidget(pageRepository);
+    Config::instance()->restoreWidget(this, pageRepository->objectName());
 
     editURL->addItems(Config::instance()->getStringList("checkoutURL"));
     editURL->clearEditText();
@@ -51,7 +53,10 @@ Checkout::Checkout(QWidget *parent)
 
 Checkout::~Checkout()
 {
-    Config::instance()->saveWidget(this);
+    if (stackedWidget->currentWidget() == pageMessages)
+        Config::instance()->saveWidget(this, pageMessages->objectName());
+    else
+        Config::instance()->saveWidget(this, pageRepository->objectName());
 }
 
 QString Checkout::url() const
@@ -79,6 +84,8 @@ void Checkout::on_buttonPath_clicked()
 
 void Checkout::onDoCheckout()
 {
+    switchToPageMessages();
+
     if (editURL->currentText().isEmpty())
     {
         QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify an URL for checkout!"));
@@ -143,6 +150,7 @@ void Checkout::onCheckoutFinished()
 {
     buttonBox->button(QDialogButtonBox::Ok)->setVisible(true);
     buttonBox->button(QDialogButtonBox::Abort)->setVisible(false);
+    disconnect(buttonBox, SIGNAL(accepted()), this, SLOT(onDoCheckout()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
 }
 
@@ -152,4 +160,12 @@ void Checkout::onGetLogin(QString realm, QString username, QString password, boo
         action->endGetLogin(username, password, maySave);
     else
         action->abortGetLogin();
+}
+
+void Checkout::switchToPageMessages()
+{
+    Config::instance()->saveWidget(this, pageRepository->objectName());
+    labelMessages->setText(QString("%1 \n into \n %2").arg(editURL->currentText()).arg(path()));
+    stackedWidget->setCurrentWidget(pageMessages);
+    Config::instance()->restoreWidget(this, pageMessages->objectName());
 }
