@@ -42,7 +42,20 @@ bool QSvnClientAction::contextGetLogin(const QString & realm,
                                        QString & password,
                                        bool & maySave)
 {
-    return false;
+    m_login_getLogin_isRunning = true;
+    m_login_getLogin_isAborted = false;
+    emit doGetLogin(realm, username, password, maySave);
+    while (m_login_getLogin_isRunning)
+        sleep(1);
+    if (m_login_getLogin_isAborted)
+        return false;
+    else
+    {
+        username = m_login_username;
+        password = m_login_password;
+        maySave = m_login_maySave;
+        return true;
+    }
 }
 
 void QSvnClientAction::contextNotify(const char *path,
@@ -285,4 +298,19 @@ void QSvnClientAction::cancelAction()
 {
     m_cancelAction = true;
     terminate();
+}
+
+void QSvnClientAction::endGetLogin(QString username, QString password, bool maySave)
+{
+    m_login_getLogin_isAborted = false;
+    m_login_username = username;
+    m_login_password = password;
+    m_login_maySave = maySave;
+    m_login_getLogin_isRunning = false;
+}
+
+void QSvnClientAction::abortGetLogin()
+{
+    m_login_getLogin_isAborted = true;
+    m_login_getLogin_isRunning = false;
 }

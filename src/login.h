@@ -44,6 +44,8 @@ class Login : public QDialog, public Ui::Login
         QString username();
         QString password();
         bool maySave();
+
+        static bool doLogin(QWidget *parent, QString &realm, QString &username, QString &password, bool &maySave);
 };
 
 #endif

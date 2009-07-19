@@ -32,6 +32,25 @@ Login::Login(QWidget *parent)
     setupUi(this);
 }
 
+bool Login::doLogin(QWidget *parent, QString &realm, QString &username, QString &password, bool &maySave)
+{
+    Login login;
+    login.setRealm(realm);
+    login.setUsername(username);
+    login.setPassword(password);
+    login.setMaySave(maySave);
+
+    if (login.exec())
+    {
+        username = login.username();
+        password = login.password();
+        maySave = login.maySave() == true;
+        return true;
+    }
+    else
+        return false;
+}
+
 void Login::setRealm(const QString &realm)
 {
     labelRealm->setText(realm);

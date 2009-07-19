@@ -68,13 +68,28 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
     private:
         bool m_inExternal;
         bool m_cancelAction;
+        //variables for login
+        QString m_login_realm;
+        QString m_login_username;
+        QString m_login_password;
+        bool m_login_getLogin_isRunning;
+        bool m_login_getLogin_isAborted;
+        bool m_login_maySave;
 
     public slots:
         void cancelAction();
+        void endGetLogin(QString username,
+                         QString password,
+                         bool  maySave);
+        void abortGetLogin();
 
     signals:
         void notify(QString action, QString path);
         void finished(QString);
+        void doGetLogin(QString realm,
+                        QString username,
+                        QString password,
+                        bool  maySave);
 };
 
 #endif // QSVNCLIENTACTION_H

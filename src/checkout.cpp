@@ -22,6 +22,7 @@
 #include "checkout.h"
 #include "checkout.moc"
 #include "config.h"
+#include "login.h"
 #include "statustext.h"
 #include "qsvnactions/qsvnclientcheckoutaction.h"
 
@@ -120,10 +121,11 @@ void Checkout::onDoCheckout()
     buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
     buttonBox->button(QDialogButtonBox::Ok)->setVisible(false);
 
-    QSvnClientCheckoutAction *action = new QSvnClientCheckoutAction(url(), path());
+    action = new QSvnClientCheckoutAction(url(), path());
     connect(action, SIGNAL(notify(QString, QString)), this, SLOT(onNotify(QString, QString)));
     connect(action, SIGNAL(finished()), this, SLOT(onCheckoutFinished()));
     connect(action, SIGNAL(finished(QString)), this, SIGNAL(finished(QString)));
+    connect(action, SIGNAL(doGetLogin(QString,QString,QString,bool)), this, SLOT(onGetLogin(QString,QString,QString,bool)));
     connect(buttonBox->button(QDialogButtonBox::Abort), SIGNAL(clicked()), action, SLOT(cancelAction()));
     action->start();
 }
@@ -142,4 +144,12 @@ void Checkout::onCheckoutFinished()
     buttonBox->button(QDialogButtonBox::Ok)->setVisible(true);
     buttonBox->button(QDialogButtonBox::Abort)->setVisible(false);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+}
+
+void Checkout::onGetLogin(QString realm, QString username, QString password, bool maySave)
+{
+    if (Login::doLogin(this, realm, username, password, maySave))
+        action->endGetLogin(username, password, maySave);
+    else
+        action->abortGetLogin();
 }

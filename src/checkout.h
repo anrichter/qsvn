@@ -24,6 +24,9 @@
 //QSvn
 #include "ui_checkout.h"
 
+//QSvnActions
+#include "qsvnactions/qsvnclientcheckoutaction.h"
+
 //Qt
 #include <QDialog>
 #include <svn_wc.h>
@@ -45,8 +48,13 @@ class Checkout : public QDialog, public Ui::Checkout
         void onDoCheckout();
         void onCheckoutFinished();
         void onNotify(QString action, QString path);
+        void onGetLogin(QString realm,
+                        QString username,
+                        QString password,
+                        bool  maySave);
 
     private:
+        QSvnClientCheckoutAction *action;
         QString m_selectedURL;
 
     signals:
