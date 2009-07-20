@@ -47,6 +47,7 @@ Checkout::Checkout(QWidget *parent)
     editPath->setText(Config::instance()->value(KEY_LASTWC).toString());
 
     m_selectedURL = "";
+    m_selectedPath = "";
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(onDoCheckout()));
     buttonBox->button(QDialogButtonBox::Abort)->setVisible(false);
 }
@@ -59,14 +60,43 @@ Checkout::~Checkout()
         Config::instance()->saveWidget(this, pageRepository->objectName());
 }
 
-QString Checkout::url() const
+bool Checkout::checkInputs()
 {
-    return m_selectedURL;
+    if (editURL->currentText().isEmpty())
+    {
+        QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify an URL for checkout!"));
+        return false;
+    } else {
+        m_selectedURL = removeTrailingDirSeparator(editURL->currentText());
+        editURL->insertItem(0, m_selectedURL);
+    }
+
+    if (editPath->text().isEmpty())
+    {
+        QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify a directory for checkout!"));
+        return false;
+    }
+
+    m_selectedPath = removeTrailingDirSeparator(editPath->text());
+    QDir dir(m_selectedPath);
+    if (!dir.exists())
+    {
+        if (QMessageBox::question(this,
+                                  tr("QSvn - Question"),
+                                  QString(tr("<center>Directoy<br />%1<br />does not exists.<br />Should i create it for you?</center>"))
+                                          .arg(m_selectedPath),
+                                  QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
+        {
+            dir.mkdir(m_selectedPath);
+        }
+        else
+            return false;
+    }
+    return true;
 }
 
-QString Checkout::path() const
+QString Checkout::removeTrailingDirSeparator(QString path)
 {
-    QString path = editPath->text();
     while (path.endsWith(QDir::separator()))
         path.chop(1);
     return path;
@@ -84,51 +114,17 @@ void Checkout::on_buttonPath_clicked()
 
 void Checkout::onDoCheckout()
 {
-    if (editURL->currentText().isEmpty())
-    {
-        QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify an URL for checkout!"));
+    if (!checkInputs())
         return;
-    }
-    if (editPath->text().isEmpty())
-    {
-        QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify a directory for checkout!"));
-        return;
-    }
-    QDir dir(editPath->text());
-    if (!dir.exists())
-    {
-        if (QMessageBox::question(this,
-                                  tr("QSvn - Question"),
-                                  QString(tr("<center>Directoy<br />%1<br />does not exists.<br />Should i create it for you?</center>"))
-                                          .arg(editPath->text()),
-                                  QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
-        {
-            dir.mkdir(editPath->text());
-        }
-        else
-            return;
-    }
-
-    m_selectedURL = editURL->currentText();
-    while (m_selectedURL.endsWith(QDir::separator()))
-        m_selectedURL.chop(1);
-
     switchToPageMessages();
-
-    editURL->insertItem(0, m_selectedURL);
-    QStringList urlList;
-    for (int i = 0; i < editURL->count(); ++i)
-        if (!urlList.contains(editURL->itemText(i)))
-            urlList << editURL->itemText(i);
-    Config::instance()->saveStringList("checkoutURL", urlList);
-    Config::instance()->setValue(KEY_LASTWC, editPath->text());
+    saveInputValues();
 
     groupBoxRepository->setEnabled(false);
     buttonBox->button(QDialogButtonBox::Abort)->setVisible(true);
     buttonBox->button(QDialogButtonBox::Cancel)->setVisible(false);
     buttonBox->button(QDialogButtonBox::Ok)->setVisible(false);
 
-    action = new QSvnClientCheckoutAction(url(), path());
+    action = new QSvnClientCheckoutAction(m_selectedURL, m_selectedPath);
     connect(action, SIGNAL(notify(QString, QString)), this, SLOT(onNotify(QString, QString)));
     connect(action, SIGNAL(finished()), this, SLOT(onCheckoutFinished()));
     connect(action, SIGNAL(finished(QString)), this, SIGNAL(finished(QString)));
@@ -162,10 +158,20 @@ void Checkout::onGetLogin(QString realm, QString username, QString password, boo
         action->abortGetLogin();
 }
 
+void Checkout::saveInputValues()
+{
+    QStringList urlList;
+    for (int i = 0; i < editURL->count(); ++i)
+        if (!urlList.contains(editURL->itemText(i)))
+            urlList << editURL->itemText(i);
+    Config::instance()->saveStringList("checkoutURL", urlList);
+    Config::instance()->setValue(KEY_LASTWC, m_selectedPath);
+}
+
 void Checkout::switchToPageMessages()
 {
     Config::instance()->saveWidget(this, pageRepository->objectName());
-    labelMessages->setText(QString("%1 \n into \n %2").arg(url()).arg(path()));
+    labelMessages->setText(QString("%1 \n into \n %2").arg(m_selectedURL).arg(m_selectedPath));
     stackedWidget->setCurrentWidget(pageMessages);
     Config::instance()->restoreWidget(this, pageMessages->objectName());
 }

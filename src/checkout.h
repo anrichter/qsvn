@@ -53,10 +53,12 @@ class Checkout : public QDialog, public Ui::Checkout
     private:
         QSvnClientCheckoutAction *action;
         QString m_selectedURL;
+        QString m_selectedPath;
 
+        bool checkInputs();
+        QString removeTrailingDirSeparator(QString path);
         void switchToPageMessages();
-        QString url() const;
-        QString path() const;
+        void saveInputValues();
 
     signals:
         void finished(QString);
