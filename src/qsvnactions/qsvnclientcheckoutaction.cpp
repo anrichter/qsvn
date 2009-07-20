@@ -21,14 +21,14 @@
 #include "qsvnactions/qsvnclientcheckoutaction.h"
 #include "qsvnactions/qsvnclientcheckoutaction.moc"
 
-QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString & url, const QString & path)
+QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString url, const QString path)
         : QSvnClientAction()
 {
     m_url = url;
     m_path = path;
 }
 
-QSvnClientCheckoutAction::QSvnClientCheckoutAction(QObject * parent, const QString & url, const QString & path)
+QSvnClientCheckoutAction::QSvnClientCheckoutAction(QObject * parent, const QString url, const QString path)
         : QSvnClientAction(parent)
 {
     m_url = url;

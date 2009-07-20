@@ -40,9 +40,6 @@ class Checkout : public QDialog, public Ui::Checkout
         Checkout(QWidget *parent = 0);
         ~Checkout();
 
-        QString url() const;
-        QString path() const;
-
     public slots:
         void on_buttonPath_clicked();
         void onDoCheckout();
@@ -58,6 +55,8 @@ class Checkout : public QDialog, public Ui::Checkout
         QString m_selectedURL;
 
         void switchToPageMessages();
+        QString url() const;
+        QString path() const;
 
     signals:
         void finished(QString);

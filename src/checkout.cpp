@@ -84,8 +84,6 @@ void Checkout::on_buttonPath_clicked()
 
 void Checkout::onDoCheckout()
 {
-    switchToPageMessages();
-
     if (editURL->currentText().isEmpty())
     {
         QMessageBox::critical(this, tr("QSvn - Error"), tr("You must specify an URL for checkout!"));
@@ -114,6 +112,8 @@ void Checkout::onDoCheckout()
     m_selectedURL = editURL->currentText();
     while (m_selectedURL.endsWith(QDir::separator()))
         m_selectedURL.chop(1);
+
+    switchToPageMessages();
 
     editURL->insertItem(0, m_selectedURL);
     QStringList urlList;
@@ -165,7 +165,7 @@ void Checkout::onGetLogin(QString realm, QString username, QString password, boo
 void Checkout::switchToPageMessages()
 {
     Config::instance()->saveWidget(this, pageRepository->objectName());
-    labelMessages->setText(QString("%1 \n into \n %2").arg(editURL->currentText()).arg(path()));
+    labelMessages->setText(QString("%1 \n into \n %2").arg(url()).arg(path()));
     stackedWidget->setCurrentWidget(pageMessages);
     Config::instance()->restoreWidget(this, pageMessages->objectName());
 }
