@@ -33,6 +33,7 @@
 #include "svnqt/targets.hpp"
 #include "svnqt/url.hpp"
 #include "svnqt/wc.hpp"
+#include "svnqt/client_parameter.hpp"
 
 //Qt
 #include <QtCore>
@@ -87,16 +88,10 @@ svn::StatusEntries SvnClient::status(const QString& path,
 
     QDir dir(path);
     listener->setVerbose(false);
+    svn::StatusParameter params(dir.canonicalPath());
     try
     {
-        return svnClient->status(dir.canonicalPath(),
-                                 depth,
-                                 get_all,
-                                 update,
-                                 no_ignore,
-                                 revision,
-                                 detailed_remote,
-                                 hide_externals);
+        return svnClient->status(params.depth(depth).all(get_all).update(update).noIgnore(no_ignore).revision(revision).detailedRemote(detailed_remote).ignoreExternals(hide_externals));
     }
     catch (svn::ClientException e)
     {
@@ -356,10 +351,13 @@ bool SvnClient::diff(const QString &fileFrom, const QString &fileTo, const svn::
         listener->setVerbose(true);
         try
         {
-            QString delta = svnClient->diff(svn::Path(Config::instance()->tempDir()),
-                                            svn::Path(fileFrom), svn::Path(fileTo),svn::Path(),
-                                            revisionFrom, revisionTo,
-                                            svn::DepthInfinity, false, false, true );
+            svn::DiffParameter params;
+            QString fileRelative(fileFrom==fileTo?fileFrom:"");
+
+            QString delta = svnClient->diff(params.tmpPath(svn::Path(Config::instance()->tempDir())).
+                                            path1(svn::Path(fileFrom)).path2(svn::Path(fileTo)).relativeTo(svn::Path(fileRelative)).
+                                            rev1(revisionFrom).rev2(revisionTo).
+                                            depth(svn::DepthInfinity).ignoreAncestry(false).noDiffDeleted(false).ignoreContentType(true));
             if (delta.isEmpty())
                 StatusText::out(tr("There are no differences."));
             else
@@ -402,29 +400,28 @@ bool SvnClient::diffBASEvsWORKING(const QStringList &fileList)
     return result;
 }
 
-const svn::LogEntriesPtr SvnClient::log(const QString &path,
+bool SvnClient::log(const QString &path,
                                         const svn::Revision &revisionStart,
                                         const svn::Revision &revisionEnd,
                                         const svn::Revision &revisionPeg,
                                         bool discoverChangedPaths,
                                         bool strictNodeHistory,
-                                        int limit )
+                                        int limit,svn::LogEntriesMap&targetmap )
 {
     listener->setVerbose(true);
     try
     {
-        return svnClient->log(path,
-                              revisionStart,
-                              revisionEnd,
-                              revisionPeg,
-                              discoverChangedPaths,
-                              strictNodeHistory,
-                              limit);
+        svn::LogParameter params;
+
+        return svnClient->log(params.targets(path).revisionRange(revisionStart,revisionEnd).
+                                peg(revisionPeg).discoverChangedPathes(discoverChangedPaths).
+                                strictNodeHistory(strictNodeHistory).limit(limit),
+                                targetmap);
     }
     catch (svn::ClientException e)
     {
         StatusText::out(e.msg());
-        return new svn::LogEntries();
+        return false;
     }
 }
 
@@ -487,7 +484,8 @@ bool SvnClient::move(const QString &srcPath, const QString &destPath,
     listener->setVerbose(true);
     try
     {
-        svnClient->move(srcPath, destPath, force);
+        svn::CopyParameter params(srcPath,destPath);
+        svnClient->move(params.force(force));
     }
     catch (svn::ClientException e)
     {
@@ -584,7 +582,8 @@ bool SvnClient::propSet(const QString &propName,
     listener->setVerbose(true);
     try
     {
-        svnClient->propset(propName, propValue, path, depth, skip_checks, revision);
+        svn::PropertiesParameter params;
+        svnClient->propset(params.propertyName(propName).propertyValue(propValue).path(path).depth(depth).skipCheck(skip_checks).revision(revision));
         return true;
     }
     catch (svn::ClientException e)
@@ -603,7 +602,8 @@ bool SvnClient::propDel(const QString &propName,
     try
     {
         //todo: adjust function-header to propset-header
-        svnClient->propdel(propName, path, depth, revision);
+        svn::PropertiesParameter params;
+        svnClient->propset(params.propertyName(propName).path(path).depth(depth).revision(revision).propertyValue(QString()));
         return true;
     }
     catch (svn::ClientException e)
@@ -620,7 +620,8 @@ bool SvnClient::revPropSet(const QString & propName, const QString & propValue,
     listener->setVerbose(true);
     try
     {
-        svnClient->revpropset(propName, propValue, path, revision, force);
+        svn::PropertiesParameter params;
+        svnClient->revpropset(params.propertyName(propName).propertyValue(propValue).path(path).revision(revision).force(force));
         return true;
     }
     catch (svn::ClientException e)

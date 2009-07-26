@@ -158,24 +158,24 @@ void LogEntriesModel::changeLogAuthor(const QModelIndex & index, const QString a
     }
 }
 
-void LogEntriesModel::appendLogEntries(const svn::LogEntriesPtr logEntries)
+void LogEntriesModel::appendLogEntries(const svn::LogEntriesMap& logEntries)
 {
-    if (!logEntries || logEntries->count() <= 0)
+    if (logEntries.count() < 1)
         return;
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount() + logEntries->count() - 1);
+    beginInsertRows(QModelIndex(), rowCount(), rowCount() + logEntries.count() - 1);
 
     if (m_logEntries.count() > 0)
         m_logEntries.removeLast();
 
-    m_logEntries += *logEntries;
+    m_logEntries.append(logEntries.values());
     endInsertRows();
     sort(0, Qt::DescendingOrder);
 }
 
 void LogEntriesModel::clear()
 {
-    if (m_logEntries.count() <= 0)
+    if (m_logEntries.count() < 1)
         return;
 
     beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
