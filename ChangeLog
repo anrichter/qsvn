@@ -1,10 +1,11 @@
 Version 0.8.3 - released 2009-07-26
 
-	Changes
-	-------
-	* Update svnqt to Version 6.0.0
-	* Build against Qt 4.5.2 (Windows only)
-	* Build against Subversion 1.6.3 (Windows only)
+    Changes
+    -------
+    * #94 QSvn can now closed with "Ctrl + Q" shortcut
+    * Update svnqt to Version 6.0.0
+    * Build against Qt 4.5.2 (Windows only)
+    * Build against Subversion 1.6.3 (Windows only)
 
 
 Version 0.8.2 - released 2009-04-16
