@@ -22,6 +22,7 @@
 #define QSVNCLIENTCHECKACTION_H
 
 #include "qsvnactions/qsvnclientaction.h"
+#include "svnqt/client_parameter.hpp"
 
 
 class QSvnClientCheckoutAction : public QSvnClientAction
@@ -36,6 +37,7 @@ class QSvnClientCheckoutAction : public QSvnClientAction
         void run();
 
     private:
+        svn::CheckoutParameter m_checkoutParameter;
         QString m_url, m_path;
 };
 

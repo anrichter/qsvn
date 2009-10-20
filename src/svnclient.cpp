@@ -28,6 +28,7 @@
 
 //SvnCpp
 #include "svnqt/client.hpp"
+#include "svnqt/client_commit_parameter.hpp"
 #include "svnqt/revision.hpp"
 #include "svnqt/status.hpp"
 #include "svnqt/targets.hpp"
@@ -158,10 +159,17 @@ bool SvnClient::svnexport(const QString &url, const QString &path,
 
     if (verbose)
         StatusText::out(tr("\nExport '%1' to '%2'").arg(url).arg(path));
+
+    svn::CheckoutParameter checkoutParameter;
+    checkoutParameter
+            .moduleName(url)
+            .destination(path)
+            .revision(revision);
+
     listener->setVerbose(verbose);
     try
     {
-        svnClient->doExport(url, path, revision, revision, true);
+        svnClient->doExport(checkoutParameter);
     }
     catch (svn::ClientException e)
     {
@@ -262,7 +270,12 @@ bool SvnClient::commit(const QStringList &commitList, const QString &logMessage)
                 }
             }
         }
-        svnClient->commit(targets, logMessage, _depth);
+        svn::CommitParameter commitParameter;
+        commitParameter
+                .targets(targets)
+                .depth(_depth)
+                .message(logMessage);
+        svnClient->commit(commitParameter);
         completedMessage(commitList.at(0));
     }
     catch (svn::ClientException e)
@@ -641,12 +654,22 @@ bool SvnClient::merge(const QString &fromUrl, const svn::Revision &fromRevision,
                       bool notice_ancestry, bool dry_run)
 {
     listener->setVerbose(true);
+
+    svn::RevisionRanges revisionRanges;
+    revisionRanges.append(svn::RevisionRange(fromRevision, toRevision));
+
+    svn::MergeParameter mergeParameter;
+    mergeParameter
+            .revisions(revisionRanges)
+            .path1(fromUrl)
+            .path2(toUrl)
+            .depth(recurse?svn::DepthInfinity:svn::DepthFiles)
+            .notice_ancestry(notice_ancestry)
+            .force(force)
+            .dry_run(dry_run);
     try
     {
-        svnClient->merge(fromUrl, fromRevision,
-                         toUrl, toRevision,
-                         wcPath, force, recurse?svn::DepthInfinity:svn::DepthFiles,
-                         notice_ancestry, dry_run);
+        svnClient->merge(mergeParameter);
         return true;
     }
     catch (svn::ClientException e)

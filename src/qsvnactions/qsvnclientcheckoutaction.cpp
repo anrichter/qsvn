@@ -24,22 +24,26 @@
 QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString url, const QString path)
         : QSvnClientAction()
 {
-    m_url = url;
-    m_path = path;
+    m_checkoutParameter
+            .moduleName(url)
+            .destination(path)
+            .revision(svn::Revision::HEAD);
 }
 
 QSvnClientCheckoutAction::QSvnClientCheckoutAction(QObject * parent, const QString url, const QString path)
         : QSvnClientAction(parent)
 {
-    m_url = url;
-    m_path = path;
+    m_checkoutParameter
+            .moduleName(url)
+            .destination(path)
+            .revision(svn::Revision::HEAD);
 }
 
 void QSvnClientCheckoutAction::run()
 {
     try
     {
-        m_client->checkout(m_url, m_path, svn::Revision::HEAD);
+        m_client->checkout(m_checkoutParameter);
     }
     catch (svn::ClientException e)
     {
