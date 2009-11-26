@@ -25,16 +25,16 @@
 QSvnClientAction::QSvnClientAction(QObject * parent)
         : QSvnAction(parent)
 {
-    m_context = new svn::Context();
-    m_client = svn::Client::getobject(m_context, 0);
-    m_context->setListener(this);
-    m_inExternal = false;
-    m_cancelAction = false;
+    svnContext = new svn::Context();
+    svnClient = svn::Client::getobject(svnContext, 0);
+    svnContext->setListener(this);
+    inExternal = false;
+    isActionCanceled = false;
 }
 
 QSvnClientAction::~QSvnClientAction()
 {
-    delete m_context;
+    delete svnContext;
 }
 
 bool QSvnClientAction::contextGetLogin(const QString & realm,
@@ -42,18 +42,18 @@ bool QSvnClientAction::contextGetLogin(const QString & realm,
                                        QString & password,
                                        bool & maySave)
 {
-    m_login_getLogin_isRunning = true;
-    m_login_getLogin_isAborted = false;
+    login_getLogin_isRunning = true;
+    login_getLogin_isAborted = false;
     emit doGetLogin(realm, username, password, maySave);
-    while (m_login_getLogin_isRunning)
+    while (login_getLogin_isRunning)
         sleep(1);
-    if (m_login_getLogin_isAborted)
+    if (login_getLogin_isAborted)
         return false;
     else
     {
-        username = m_login_username;
-        password = m_login_password;
-        maySave = m_login_maySave;
+        username = login_username;
+        password = login_password;
+        maySave = login_maySave;
         return true;
     }
 }
@@ -130,10 +130,10 @@ void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 
         /** The last notification in an update (including updates of externals). */
     case svn_wc_notify_update_completed:
-        if (m_inExternal)
+        if (inExternal)
         {
             actionString = tr("Checked out external at revision %1").arg(action->revision);
-            m_inExternal = false;
+            inExternal = false;
         }
         else
             actionString = tr("Checked out at revision %1").arg(action->revision);
@@ -141,7 +141,7 @@ void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 
         /** Updating an external module. */
     case svn_wc_notify_update_external:
-        m_inExternal = true;
+        inExternal = true;
         actionString = tr("Fetching external item into");
         break;
 
@@ -249,7 +249,7 @@ void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 
 bool QSvnClientAction::contextCancel()
 {
-    return m_cancelAction;
+    return isActionCanceled;
 }
 
 bool QSvnClientAction::contextGetLogMessage(QString &msg, const svn::CommitItemList&)
@@ -296,21 +296,21 @@ void QSvnClientAction::contextProgress(long long int current, long long int max)
 
 void QSvnClientAction::cancelAction()
 {
-    m_cancelAction = true;
+    isActionCanceled = true;
     terminate();
 }
 
 void QSvnClientAction::endGetLogin(QString username, QString password, bool maySave)
 {
-    m_login_getLogin_isAborted = false;
-    m_login_username = username;
-    m_login_password = password;
-    m_login_maySave = maySave;
-    m_login_getLogin_isRunning = false;
+    login_getLogin_isAborted = false;
+    login_username = username;
+    login_password = password;
+    login_maySave = maySave;
+    login_getLogin_isRunning = false;
 }
 
 void QSvnClientAction::abortGetLogin()
 {
-    m_login_getLogin_isAborted = true;
-    m_login_getLogin_isRunning = false;
+    login_getLogin_isAborted = true;
+    login_getLogin_isRunning = false;
 }

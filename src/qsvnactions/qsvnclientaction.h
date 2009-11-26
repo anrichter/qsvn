@@ -62,19 +62,19 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
         virtual void contextProgress(long long int current, long long int max);
 
     protected:
-        svn::ContextP m_context;
-        svn::Client *m_client;
+        svn::ContextP svnContext;
+        svn::Client *svnClient;
 
     private:
-        bool m_inExternal;
-        bool m_cancelAction;
+        bool inExternal;
+        bool isActionCanceled;
         //variables for login
-        QString m_login_realm;
-        QString m_login_username;
-        QString m_login_password;
-        bool m_login_getLogin_isRunning;
-        bool m_login_getLogin_isAborted;
-        bool m_login_maySave;
+        QString login_realm;
+        QString login_username;
+        QString login_password;
+        bool login_getLogin_isRunning;
+        bool login_getLogin_isAborted;
+        bool login_maySave;
 
     public slots:
         void cancelAction();

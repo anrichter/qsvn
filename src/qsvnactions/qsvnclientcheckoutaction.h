@@ -37,8 +37,7 @@ class QSvnClientCheckoutAction : public QSvnClientAction
         void run();
 
     private:
-        svn::CheckoutParameter m_checkoutParameter;
-        QString m_url, m_path;
+        svn::CheckoutParameter checkoutParameter;
 };
 
 #endif // QSVNCLIENTCHECKACTION_H

@@ -24,7 +24,7 @@
 QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString url, const QString path)
         : QSvnClientAction()
 {
-    m_checkoutParameter
+    checkoutParameter
             .moduleName(url)
             .destination(path)
             .revision(svn::Revision::HEAD);
@@ -33,7 +33,7 @@ QSvnClientCheckoutAction::QSvnClientCheckoutAction(const QString url, const QStr
 QSvnClientCheckoutAction::QSvnClientCheckoutAction(QObject * parent, const QString url, const QString path)
         : QSvnClientAction(parent)
 {
-    m_checkoutParameter
+    checkoutParameter
             .moduleName(url)
             .destination(path)
             .revision(svn::Revision::HEAD);
@@ -43,12 +43,12 @@ void QSvnClientCheckoutAction::run()
 {
     try
     {
-        m_client->checkout(m_checkoutParameter);
+        svnClient->checkout(checkoutParameter);
     }
     catch (svn::ClientException e)
     {
         emit notify(tr("Error"), e.msg());
         return;
     }
-    emit finished(m_path);
+    emit finished(checkoutParameter.destination().path());
 }
