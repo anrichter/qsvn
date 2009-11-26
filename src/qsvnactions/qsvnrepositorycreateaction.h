@@ -22,7 +22,8 @@
 #define QSVNREPOSITORYCREATEACTION_H
 
 #include "qsvnactions/qsvnrepositoryaction.h"
-
+#include "svnqt/repoparameter.hpp"
+#include "svnqt/repository.hpp"
 
 class QSvnRepositoryCreateAction : public QSvnRepositoryAction
 {
@@ -34,7 +35,7 @@ class QSvnRepositoryCreateAction : public QSvnRepositoryAction
         void run();
 
     private:
-        QString m_path, m_fstype, m_errorString;
+        svn::repository::CreateRepoParameter createRepoParameter;
 };
 
 #endif // QSVNREPOSITORYCREATEACTION_H

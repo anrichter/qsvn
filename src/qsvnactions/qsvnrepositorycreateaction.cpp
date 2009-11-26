@@ -29,15 +29,13 @@
 QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(const QString & path, const QString & fstype)
         : QSvnRepositoryAction()
 {
-    m_path = path;
-    m_fstype = fstype;
+    createRepoParameter.path(path).fstype(fstype);
 }
 
 QSvnRepositoryCreateAction::QSvnRepositoryCreateAction(QObject * parent, const QString & path, const QString & fstype)
         : QSvnRepositoryAction(parent)
 {
-    m_path = path;
-    m_fstype = fstype;
+    createRepoParameter.path(path).fstype(fstype);
 }
 
 void QSvnRepositoryCreateAction::run()
@@ -45,14 +43,10 @@ void QSvnRepositoryCreateAction::run()
     svn::repository::Repository repository(this);
     try
     {
-        svn::repository::CreateRepoParameter params;
-        params.path(m_path);
-        params.fstype(m_fstype);
-        repository.CreateOpen(params);
+        repository.CreateOpen(createRepoParameter);
     }
     catch (svn::ClientException e)
     {
-        m_errorString = e.msg();
         exit(-1);
     }
 }
