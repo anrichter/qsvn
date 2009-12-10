@@ -25,6 +25,7 @@
 #include "svnclient.h"
 
 //Qt
+#include <QSet>
 #include <QSortFilterProxyModel>
 
 
