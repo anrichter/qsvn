@@ -166,8 +166,8 @@ IF (WIN32)
     SET(QDATABASE "QSqlDatabase")
     SET(QLONG "qlonglong")
     CONFIGURE_FILE(
-        "${CMAKE_CURRENT_SOURCE_DIR}/svnqt/svnqt_defines.hpp.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/svnqt-import/svnqt/svnqt_defines.hpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/svnqt/svnqt_defines.h.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/svnqt-import/svnqt/svnqt_defines.h"
         IMMEDIATE
         @ONLY)
     INCLUDE_DIRECTORIES(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/svnqt-import)
