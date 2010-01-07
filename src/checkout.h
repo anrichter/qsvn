@@ -49,6 +49,7 @@ class Checkout : public QDialog, public Ui::Checkout
                         QString username,
                         QString password,
                         bool  maySave);
+        void onGetSslServerTrustPrompt();
 
     private:
         QSvnClientCheckoutAction *action;

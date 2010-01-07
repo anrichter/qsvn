@@ -24,6 +24,7 @@
 #include "config.h"
 #include "login.h"
 #include "statustext.h"
+#include "sslservertrust.h"
 #include "qsvnactions/qsvnclientcheckoutaction.h"
 
 //Qt
@@ -129,6 +130,7 @@ void Checkout::onDoCheckout()
     connect(action, SIGNAL(finished()), this, SLOT(onCheckoutFinished()));
     connect(action, SIGNAL(finished(QString)), this, SIGNAL(finished(QString)));
     connect(action, SIGNAL(doGetLogin(QString,QString,QString,bool)), this, SLOT(onGetLogin(QString,QString,QString,bool)));
+    connect(action, SIGNAL(doGetSslServerTrustPrompt()), this, SLOT(onGetSslServerTrustPrompt()));
     connect(buttonBox->button(QDialogButtonBox::Abort), SIGNAL(clicked()), action, SLOT(cancelAction()));
     action->start();
 }
@@ -155,7 +157,12 @@ void Checkout::onGetLogin(QString realm, QString username, QString password, boo
     if (Login::doLogin(this, realm, username, password, maySave))
         action->endGetLogin(username, password, maySave);
     else
-        action->abortGetLogin();
+        action->abortEmit();
+}
+
+void Checkout::onGetSslServerTrustPrompt()
+{
+    action->endGetSslServerTrustPrompt(SslServerTrust::getSslServerTrustAnswer(action->getSslServerTrustData()));
 }
 
 void Checkout::saveInputValues()

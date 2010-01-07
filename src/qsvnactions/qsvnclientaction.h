@@ -61,6 +61,8 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
         virtual bool contextGetCachedLogin(const QString & realm, QString & username, QString & password);
         virtual void contextProgress(long long int current, long long int max);
 
+        SslServerTrustData getSslServerTrustData();
+
     protected:
         svn::ContextP svnContext;
         svn::Client *svnClient;
@@ -68,20 +70,27 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
     private:
         bool inExternal;
         bool isActionCanceled;
+        bool emitIsRunning;
+        bool emitIsAborted;
         //variables for login
         QString login_realm;
         QString login_username;
         QString login_password;
-        bool login_getLogin_isRunning;
-        bool login_getLogin_isAborted;
         bool login_maySave;
+        //variables for SslServerTrustPrompt
+        SslServerTrustData *sslServerTrustData;
+        SslServerTrustAnswer sslprompt_answer;
+
+        void startEmit();
+        void finishEmit();
 
     public slots:
         void cancelAction();
         void endGetLogin(QString username,
                          QString password,
                          bool  maySave);
-        void abortGetLogin();
+        void abortEmit();
+        void endGetSslServerTrustPrompt(SslServerTrustAnswer answer);
 
     signals:
         void notify(QString action, QString path);
@@ -90,6 +99,7 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
                         QString username,
                         QString password,
                         bool  maySave);
+        void doGetSslServerTrustPrompt();
 };
 
 #endif // QSVNCLIENTACTION_H

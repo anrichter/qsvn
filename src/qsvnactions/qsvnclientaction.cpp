@@ -30,10 +30,13 @@ QSvnClientAction::QSvnClientAction(QObject * parent)
     svnContext->setListener(this);
     inExternal = false;
     isActionCanceled = false;
+    sslServerTrustData = 0;
 }
 
 QSvnClientAction::~QSvnClientAction()
 {
+    if (sslServerTrustData)
+        delete sslServerTrustData;
     delete svnContext;
 }
 
@@ -42,12 +45,11 @@ bool QSvnClientAction::contextGetLogin(const QString & realm,
                                        QString & password,
                                        bool & maySave)
 {
-    login_getLogin_isRunning = true;
-    login_getLogin_isAborted = false;
+    startEmit();
     emit doGetLogin(realm, username, password, maySave);
-    while (login_getLogin_isRunning)
+    while (emitIsRunning)
         sleep(1);
-    if (login_getLogin_isAborted)
+    if (emitIsAborted)
         return false;
     else
     {
@@ -56,6 +58,12 @@ bool QSvnClientAction::contextGetLogin(const QString & realm,
         maySave = login_maySave;
         return true;
     }
+}
+
+void QSvnClientAction::startEmit()
+{
+    emitIsAborted = false;
+    emitIsRunning = true;
 }
 
 void QSvnClientAction::contextNotify(const char *path,
@@ -261,7 +269,17 @@ svn::ContextListener::SslServerTrustAnswer QSvnClientAction::contextSslServerTru
         (const SslServerTrustData &data,
          apr_uint32_t &acceptedFailures)
 {
-    return svn::ContextListener::SslServerTrustAnswer();
+    startEmit();
+    sslServerTrustData = new svn::ContextListener::SslServerTrustData(data);
+    emit doGetSslServerTrustPrompt();
+    while (emitIsRunning)
+        sleep(1);
+    if (emitIsAborted)
+        return svn::ContextListener::SslServerTrustAnswer();
+    else
+    {
+        return sslprompt_answer;
+    }
 }
 
 bool QSvnClientAction::contextSslClientCertPrompt(QString &certFile)
@@ -302,15 +320,35 @@ void QSvnClientAction::cancelAction()
 
 void QSvnClientAction::endGetLogin(QString username, QString password, bool maySave)
 {
-    login_getLogin_isAborted = false;
     login_username = username;
     login_password = password;
     login_maySave = maySave;
-    login_getLogin_isRunning = false;
+    finishEmit();
 }
 
-void QSvnClientAction::abortGetLogin()
+void QSvnClientAction::finishEmit()
 {
-    login_getLogin_isAborted = true;
-    login_getLogin_isRunning = false;
+    emitIsAborted = false;
+    emitIsRunning = false;
 }
+
+void QSvnClientAction::endGetSslServerTrustPrompt(SslServerTrustAnswer answer)
+{
+    sslprompt_answer = answer;
+    finishEmit();
+}
+
+void QSvnClientAction::abortEmit()
+{
+    emitIsAborted = true;
+    emitIsRunning = false;
+}
+
+svn::ContextListener::SslServerTrustData QSvnClientAction::getSslServerTrustData()
+{
+    if (sslServerTrustData)
+        return *sslServerTrustData;
+    else
+        return 0;
+}
+
