@@ -66,16 +66,6 @@ void QSvnClientAction::startEmit()
     emitIsRunning = true;
 }
 
-void QSvnClientAction::contextNotify(const char *path,
-                                     svn_wc_notify_action_t action,
-                                     svn_node_kind_t kind,
-                                     const char *mime_type,
-                                     svn_wc_notify_state_t content_state,
-                                     svn_wc_notify_state_t prop_state,
-                                     svn_revnum_t revision)
-{
-}
-
 void QSvnClientAction::contextNotify(const svn_wc_notify_t *action)
 {
     QString actionString;
@@ -260,11 +250,6 @@ bool QSvnClientAction::contextCancel()
     return isActionCanceled;
 }
 
-bool QSvnClientAction::contextGetLogMessage(QString &msg, const svn::CommitItemList&)
-{
-    return false;
-}
-
 svn::ContextListener::SslServerTrustAnswer QSvnClientAction::contextSslServerTrustPrompt
         (const SslServerTrustData &data,
          apr_uint32_t &acceptedFailures)
@@ -281,36 +266,6 @@ svn::ContextListener::SslServerTrustAnswer QSvnClientAction::contextSslServerTru
         return sslprompt_answer;
     }
 }
-
-bool QSvnClientAction::contextSslClientCertPrompt(QString &certFile)
-{
-    return false;
-}
-
-bool QSvnClientAction::contextSslClientCertPwPrompt(QString &password,
-                                                            const QString &realm,
-                                                            bool &maySave)
-{
-    return false;
-}
-
-bool QSvnClientAction::contextLoadSslClientCertPw(QString&, const QString&)
-{
-    return false;
-}
-
-bool QSvnClientAction::contextGetSavedLogin(const QString&, QString&, QString&)
-{
-    return false;
-}
-
-bool QSvnClientAction::contextGetCachedLogin(const QString & realm, QString & username, QString & password)
-{
-    return false;
-}
-
-void QSvnClientAction::contextProgress(long long int current, long long int max)
-{}
 
 void QSvnClientAction::cancelAction()
 {

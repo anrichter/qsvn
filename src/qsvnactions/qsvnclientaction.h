@@ -46,20 +46,20 @@ class QSvnClientAction : public QSvnAction, public svn::ContextListener
                                    const char *mime_type,
                                    svn_wc_notify_state_t content_state,
                                    svn_wc_notify_state_t prop_state,
-                                   svn_revnum_t revision);
+                                   svn_revnum_t revision) {};
         virtual void contextNotify(const svn_wc_notify_t *action);
         virtual bool contextCancel();
-        virtual bool contextGetLogMessage(QString &msg, const svn::CommitItemList&);
+        virtual bool contextGetLogMessage(QString &msg, const svn::CommitItemList&) { return false; };
         virtual SslServerTrustAnswer contextSslServerTrustPrompt(const SslServerTrustData &data,
-                apr_uint32_t &acceptedFailures);
-        virtual bool contextSslClientCertPrompt(QString &certFile);
+                                                                 apr_uint32_t &acceptedFailures);
+        virtual bool contextSslClientCertPrompt(QString &certFile) { return false; };
         virtual bool contextSslClientCertPwPrompt(QString &password,
-                const QString &realm,
-                bool &maySave);
-        virtual bool contextLoadSslClientCertPw(QString&, const QString&);
-        virtual bool contextGetSavedLogin(const QString&, QString&, QString&);
-        virtual bool contextGetCachedLogin(const QString & realm, QString & username, QString & password);
-        virtual void contextProgress(long long int current, long long int max);
+                                                  const QString &realm,
+                                                  bool &maySave) { return false; };
+        virtual bool contextLoadSslClientCertPw(QString&, const QString&) { return false; };
+        virtual bool contextGetSavedLogin(const QString&, QString&, QString&) { return false; };
+        virtual bool contextGetCachedLogin(const QString & realm, QString & username, QString & password) { return false; };
+        virtual void contextProgress(long long int current, long long int max) {};
 
         SslServerTrustData getSslServerTrustData();
 
