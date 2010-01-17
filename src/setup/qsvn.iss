@@ -45,10 +45,10 @@ Source: {#QSvnSourceDir}\licenses\BerkeleyDB.license; DestDir: {app}\licenses; F
 Source: {#QSvnSourceDir}\licenses\OpenSSL.license; DestDir: {app}\licenses; Flags: ignoreversion
 Source: {#QSvnSourceDir}\licenses\Subversion.license; DestDir: {app}\licenses; Flags: ignoreversion
 ;QtFiles
-Source: {#QtLibraryDir}\QtCore4.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#QtLibraryDir}\QtGui4.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#QtLibraryDir}\QtSql4.dll; DestDir: {app}; Flags: ignoreversion
-Source: {#QtLibraryDir}\QtSvg4.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#QtBinaryDir}\QtCore4.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#QtBinaryDir}\QtGui4.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#QtBinaryDir}\QtSql4.dll; DestDir: {app}; Flags: ignoreversion
+Source: {#QtBinaryDir}\QtSvg4.dll; DestDir: {app}; Flags: ignoreversion
 ;QtPlugins
 Source: {#QtPluginsDir}\imageformats\qsvg4.dll; DestDir: {app}\imageformats; Flags: ignoreversion
 ;SubversionFiles
