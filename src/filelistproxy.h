@@ -1,6 +1,6 @@
 /********************************************************************************
  *   This file is part of QSvn Project http://www.anrichter.net/projects/qsvn   *
- *   Copyright (c) 2004-2009 Andreas Richter <ar@anrichter.net>                 *
+ *   Copyright (c) 2004-2010 Andreas Richter <ar@anrichter.net>                 *
  *                                                                              *
  *   This program is free software; you can redistribute it and/or modify       *
  *   it under the terms of the GNU General Public License Version 2             *

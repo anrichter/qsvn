@@ -20,7 +20,7 @@ OutputBaseFilename=qsvn-{#QSvnVersionNumber}
 Compression=lzma
 SolidCompression=yes
 VersionInfoCompany=Andreas Richter
-VersionInfoCopyright=2004 - 2008
+VersionInfoCopyright=2004-2010
 VersionInfoDescription=QSvn Installation
 VersionInfoVersion={#QSvnVersionNumber}
 
