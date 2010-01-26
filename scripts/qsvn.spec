@@ -8,6 +8,7 @@ BuildRoot: %{_tmppath}/%{name}-root
 Version:   0.8.3
 Release:   1%{?dist}
 Source:    qsvn-%version-src.tar.gz
+
 BuildRequires: libqt4-devel
 BuildRequires: subversion-devel
 BuildRequires: cmake
@@ -17,6 +18,7 @@ BuildRequires: libapr-util1-devel
 BuildRequires: libapr1-devel
 BuildRequires: libpng-devel
 BuildRequires: xorg-x11-devel
+
 %if 0%{?suse_version}
 BuildRequires: update-desktop-files
 %endif
@@ -46,6 +48,7 @@ install -d -m 0755 %{buildroot}%{_datadir}/pixmaps
 install -m 0644  src/images/%{name}.png  %{buildroot}%{_datadir}/pixmaps
 install -d -m 0755 %{buildroot}%{_datadir}/applications
 install -m 0644  src/%{name}.desktop  %{buildroot}%{_datadir}/applications
+
 %if 0%{?suse_version}  
 %suse_update_desktop_file %{name}  
 %endif
