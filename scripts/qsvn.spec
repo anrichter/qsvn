@@ -1,3 +1,5 @@
+# norootforbuild
+
 Name:      qsvn
 License:   GPL
 Group:     Development/Tools/Version Control
@@ -28,26 +30,24 @@ QSvn is a GUI Subversion client for Linux, UNIX, Mac OS X and Windows.
 It is a real client not a GUI wrapper for the command line client from Subversion.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE="Release" ../src
 
 %build
-export CFLAGS=$RPM_OPT_FLAGS
-export CXXFLAGS=$RPM_OPT_FLAGS
-install -d -m 0755 build
-pushd build
-cmake -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_prefix} -DCMAKE_LIBDIR="%{_libdir}" -DCMAKE_BUILD_TYPE="Release" ../src
+cd build
 make %{?jobs:-j %{jobs}}
-popd
 
 %install
-pushd build
-make install
-popd
+cd build
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
 rm -rf %{buildroot}%{_prefix}/include/svnqt/
 install -d -m 0755 %{buildroot}%{_datadir}/pixmaps
-install -m 0644  src/images/%{name}.png  %{buildroot}%{_datadir}/pixmaps
+install -m 0644  ../src/images/%{name}.png  %{buildroot}%{_datadir}/pixmaps
 install -d -m 0755 %{buildroot}%{_datadir}/applications
-install -m 0644  src/%{name}.desktop  %{buildroot}%{_datadir}/applications
+install -m 0644  ../src/%{name}.desktop  %{buildroot}%{_datadir}/applications
 
 %if 0%{?suse_version}  
 %suse_update_desktop_file %{name}  
