@@ -12,20 +12,29 @@ Release:   1%{?dist}
 Source:    qsvn-%version-src.tar.gz
 
 Requires: subversion >= 1.3.0
+Requires: libqt4
 BuildRequires: gcc-c++
 BuildRequires: cmake >= 2.4
 BuildRequires: subversion-devel >= 1.3.0
+BuildRequires: libqt4-devel
 
 %if 0%{?suse_version} > 0
+Requires: libapr1
+Requires: libapr-util1
 BuildRequires: xorg-x11-devel
-BuildRequires: libqt4-devel
-BuildRequires: libapr1
 BuildRequires: libapr1-devel
-BuildRequires: libapr-util1
 BuildRequires: libapr-util1-devel
 BuildRequires: update-desktop-files
 %define _prefix /usr
 %endif
+
+%if 0%{?fedora_version} > 0
+Requires: apr
+Requires: apr-util
+BuildRequires: apr-devel
+BuildRequires: apr-util-devel
+%define _prefix /usr  
+%endif  
 
 %description
 QSvn is a GUI Subversion client for Linux, UNIX, Mac OS X and Windows. 
