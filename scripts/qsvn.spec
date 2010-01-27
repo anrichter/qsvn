@@ -7,22 +7,24 @@ Summary:   GUI Subversion Client
 Vendor:    Andreas Richter <ar@anrichter.net>
 Url:       http://www.anrichter.net/projects/qsvn/
 BuildRoot: %{_tmppath}/%{name}-root
-Version:   0.8.3
+Version:   0.8.90
 Release:   1%{?dist}
 Source:    qsvn-%version-src.tar.gz
 
-BuildRequires: libqt4-devel
-BuildRequires: subversion-devel
-BuildRequires: cmake
+Requires: subversion >= 1.3.0
 BuildRequires: gcc-c++
-BuildRequires: freetype2-devel
-BuildRequires: libapr-util1-devel
-BuildRequires: libapr1-devel
-BuildRequires: libpng-devel
-BuildRequires: xorg-x11-devel
+BuildRequires: cmake >= 2.4
+BuildRequires: subversion-devel >= 1.3.0
 
-%if 0%{?suse_version}
+%if 0%{?suse_version} > 0
+BuildRequires: xorg-x11-devel
+BuildRequires: libqt4-devel
+BuildRequires: libapr1
+BuildRequires: libapr1-devel
+BuildRequires: libapr-util1
+BuildRequires: libapr-util1-devel
 BuildRequires: update-desktop-files
+%define _prefix /usr
 %endif
 
 %description
@@ -37,13 +39,14 @@ cmake -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE="Release" ../src
 
 %build
 cd build
-make %{?jobs:-j %{jobs}}
+make
 
 %install
 cd build
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -rf %{buildroot}%{_prefix}/include/svnqt/
+rm -rf %{buildroot}%{_includedir}/svnqt/
+rm -rf %{buildroot}/%{_datadir}/svnqt/*
 install -d -m 0755 %{buildroot}%{_datadir}/pixmaps
 install -m 0644  ../src/images/%{name}.png  %{buildroot}%{_datadir}/pixmaps
 install -d -m 0755 %{buildroot}%{_datadir}/applications
