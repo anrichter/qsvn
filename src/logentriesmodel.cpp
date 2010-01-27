@@ -168,7 +168,12 @@ void LogEntriesModel::appendLogEntries(const svn::LogEntriesMap& logEntries)
     if (m_logEntries.count() > 0)
         m_logEntries.removeLast();
 
+#if QT_VERSION >= 0x040500
     m_logEntries.append(logEntries.values());
+#else
+    foreach(svn::LogEntry logEntry, logEntries)
+        m_logEntries.append(logEntry);
+#endif
     endInsertRows();
     sort(0, Qt::DescendingOrder);
 }
