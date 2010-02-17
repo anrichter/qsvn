@@ -59,5 +59,5 @@ void StatusText::outString(const QString &s)
         qApp->processEvents();
     }
     else
-        qDebug(s.toAscii());
+        qDebug() << s.toLatin1();
 }
