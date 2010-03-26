@@ -60,6 +60,7 @@ class QSvn : public QMainWindow, public Ui::QSvn
         QString m_currentWCpath; //current working copy path
 
         void createMenus();
+        void applyConfigurations();
 
         bool isFileListSelected();
         QStringList selectedPaths();

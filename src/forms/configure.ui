@@ -1,71 +1,46 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>Configure</class>
- <widget class="QDialog" name="Configure" >
-  <property name="geometry" >
+ <widget class="QDialog" name="Configure">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>395</width>
-    <height>251</height>
+    <width>401</width>
+    <height>264</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Configure qsvn</string>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
-    <number>6</number>
-   </property>
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>9</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QGroupBox" name="groupBoxSettings" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBoxSettings">
+     <property name="title">
       <string>Settings</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="leftMargin" >
-       <number>9</number>
-      </property>
-      <property name="topMargin" >
-       <number>9</number>
-      </property>
-      <property name="rightMargin" >
-       <number>9</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>9</number>
-      </property>
-      <property name="horizontalSpacing" >
-       <number>6</number>
-      </property>
-      <property name="verticalSpacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="0" >
-       <widget class="QCheckBox" name="checkBoxShowLogAfterUpdate" >
-        <property name="text" >
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="checkBoxShowLogAfterUpdate">
+        <property name="text">
          <string>Show log after update</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QCheckBox" name="checkBoxCheckEmptyLogMessage" >
-        <property name="text" >
+      <item>
+       <widget class="QCheckBox" name="checkBoxCheckEmptyLogMessage">
+        <property name="text">
          <string>Check for empty Log Messages in Commit Dialog</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxShowTextInToolbar">
+        <property name="text">
+         <string>Show text in toolbar</string>
         </property>
        </widget>
       </item>
@@ -73,79 +48,67 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBoxExternalProgramms" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBoxExternalProgramms">
+     <property name="title">
       <string>External Programs</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="leftMargin" >
+     <layout class="QGridLayout">
+      <property name="margin">
        <number>8</number>
       </property>
-      <property name="topMargin" >
-       <number>8</number>
-      </property>
-      <property name="rightMargin" >
-       <number>8</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>8</number>
-      </property>
-      <property name="horizontalSpacing" >
+      <property name="spacing">
        <number>6</number>
       </property>
-      <property name="verticalSpacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="0" colspan="2" >
-       <widget class="QLabel" name="labelDiffViewer" >
-        <property name="text" >
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="labelDiffViewer">
+        <property name="text">
          <string>Diff Viewer</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
-       <widget class="QPushButton" name="buttonSelectDiffViewer" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <item row="1" column="1">
+       <widget class="QPushButton" name="buttonSelectDiffViewer">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>0</height>
          </size>
         </property>
-        <property name="maximumSize" >
+        <property name="maximumSize">
          <size>
           <width>20</width>
           <height>25</height>
          </size>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>...</string>
         </property>
-        <property name="flat" >
+        <property name="flat">
          <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QLineEdit" name="editDiffViewer" />
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="editDiffViewer"/>
       </item>
      </layout>
     </widget>
    </item>
    <item>
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeType" >
+     <property name="sizeType">
       <enum>QSizePolicy::Expanding</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>329</width>
        <height>31</height>
@@ -154,12 +117,12 @@
     </spacer>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -172,7 +135,6 @@
   <tabstop>buttonSelectDiffViewer</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <includes/>
  <resources/>
  <connections>
   <connection>
@@ -181,11 +143,11 @@
    <receiver>Configure</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>249</x>
      <y>227</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>393</x>
      <y>94</y>
     </hint>
@@ -197,11 +159,11 @@
    <receiver>Configure</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>325</x>
      <y>234</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>390</x>
      <y>209</y>
     </hint>

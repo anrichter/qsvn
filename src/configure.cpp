@@ -43,6 +43,8 @@ Configure::Configure(QWidget *parent, Qt::WFlags flags)
         checkBoxCheckEmptyLogMessage->setCheckState(Qt::Checked);
     else
         checkBoxCheckEmptyLogMessage->setCheckState(Qt::Unchecked);
+
+    checkBoxShowTextInToolbar->setChecked(Config::instance()->value(KEY_SHOWTEXTINTOOLBAR).toBool());
 }
 
 Configure::~Configure()
@@ -61,6 +63,7 @@ void Configure::accept()
         Config::instance()->setValue(KEY_CHECKEMPTYLOGMESSAGE, true);
     else
         Config::instance()->setValue(KEY_CHECKEMPTYLOGMESSAGE, false);
+    Config::instance()->setValue(KEY_SHOWTEXTINTOOLBAR, checkBoxShowTextInToolbar->checkState());
     QDialog::accept();
 }
 

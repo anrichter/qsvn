@@ -92,6 +92,8 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
 
     Config::instance()->restoreMainWindow(this);
     Config::instance()->restoreHeaderView(this, treeViewFileList->header());
+
+    applyConfigurations();
 }
 
 void QSvn::onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
@@ -149,6 +151,14 @@ void QSvn::createMenus()
     contextMenuFileList->addAction(actionEditProperties);
     contextMenuFileList->addSeparator();
     contextMenuFileList->addAction(actionFlRemoveFromDisk);
+}
+
+void QSvn::applyConfigurations()
+{
+    if (Config::instance()->value(KEY_SHOWTEXTINTOOLBAR).toBool())
+        toolBarToolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    else
+        toolBarToolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 }
 
 bool QSvn::eventFilter(QObject *watched, QEvent *event)
@@ -377,6 +387,7 @@ void QSvn::on_actionConfigureQSvn_triggered()
 {
     Configure configure(this);
     configure.exec();
+    applyConfigurations();
 }
 
 void QSvn::on_actionAboutQSvn_triggered()
