@@ -35,15 +35,8 @@ Configure::Configure(QWidget *parent, Qt::WFlags flags)
     Config::instance()->restoreWidget(this);
 
     editDiffViewer->setText(Config::instance()->value(KEY_DIFFVIEWER).toString());
-    if (Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool())
-        checkBoxShowLogAfterUpdate->setCheckState(Qt::Checked);
-    else
-        checkBoxShowLogAfterUpdate->setCheckState(Qt::Unchecked);
-    if (Config::instance()->value(KEY_CHECKEMPTYLOGMESSAGE).toBool())
-        checkBoxCheckEmptyLogMessage->setCheckState(Qt::Checked);
-    else
-        checkBoxCheckEmptyLogMessage->setCheckState(Qt::Unchecked);
-
+    checkBoxShowLogAfterUpdate->setChecked(Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool());
+    checkBoxCheckEmptyLogMessage->setChecked(Config::instance()->value(KEY_CHECKEMPTYLOGMESSAGE).toBool());
     checkBoxShowTextInToolbar->setChecked(Config::instance()->value(KEY_SHOWTEXTINTOOLBAR).toBool());
 }
 
@@ -55,14 +48,8 @@ Configure::~Configure()
 void Configure::accept()
 {
     Config::instance()->setValue(KEY_DIFFVIEWER, editDiffViewer->text());
-    if (checkBoxShowLogAfterUpdate->checkState() == Qt::Checked)
-        Config::instance()->setValue(KEY_SHOWLOGAFTERUPDATE, true);
-    else
-        Config::instance()->setValue(KEY_SHOWLOGAFTERUPDATE, false);
-    if (checkBoxCheckEmptyLogMessage->checkState() == Qt::Checked)
-        Config::instance()->setValue(KEY_CHECKEMPTYLOGMESSAGE, true);
-    else
-        Config::instance()->setValue(KEY_CHECKEMPTYLOGMESSAGE, false);
+    Config::instance()->setValue(KEY_SHOWLOGAFTERUPDATE, checkBoxShowLogAfterUpdate->checkState());
+    Config::instance()->setValue(KEY_CHECKEMPTYLOGMESSAGE, checkBoxCheckEmptyLogMessage->checkState());
     Config::instance()->setValue(KEY_SHOWTEXTINTOOLBAR, checkBoxShowTextInToolbar->checkState());
     QDialog::accept();
 }
