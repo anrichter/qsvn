@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
+    <width>720</width>
     <height>398</height>
    </rect>
   </property>
@@ -75,8 +75,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>630</width>
-     <height>22</height>
+     <width>720</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSettings">
@@ -139,7 +139,7 @@
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QToolBar" name="toolBarModify">
+  <widget class="QToolBar" name="toolBarToolbar">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
@@ -152,14 +152,8 @@
      <height>9</height>
     </size>
    </property>
-   <property name="font">
-    <font>
-     <family>Courier</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
    <property name="windowTitle">
-    <string>Modify</string>
+    <string>Toolbar</string>
    </property>
    <property name="autoFillBackground">
     <bool>false</bool>
@@ -175,8 +169,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>20</width>
-     <height>20</height>
+     <width>36</width>
+     <height>36</height>
     </size>
    </property>
    <property name="toolButtonStyle">
@@ -189,7 +183,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="actionWcAdd"/>
    <addaction name="actionWcCheckout"/>
