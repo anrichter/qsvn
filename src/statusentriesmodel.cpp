@@ -87,7 +87,6 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     svn::StatusPtr status = m_statusEntries.at(index.row());
-    QFileInfo fileInfo(status->path());
 
     switch (role)
     {
@@ -95,8 +94,7 @@ QVariant StatusEntriesModel::data(const QModelIndex &index, int role) const
             switch (index.column())
             {
                 case 0: //FileName
-                    if (!status->isVersioned() ||                         //return path for unversioned Files
-                         (status->isVersioned() && fileInfo.isDir()) ||  //            and for versioned Directories
+                    if (!status->isVersioned() ||  //return path for unversioned Files
                          m_depth > svn::DepthFiles)
                     {
                         QString path = QDir::toNativeSeparators(status->path());
