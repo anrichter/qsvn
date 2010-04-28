@@ -159,6 +159,9 @@ void QSvn::applyConfigurations()
         toolBarToolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     else
         toolBarToolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolBarToolbar->setIconSize(
+            QSize(Config::instance()->value(KEY_ICONSIZE, DEFAULT_ICONSIZE).toInt(),
+                  Config::instance()->value(KEY_ICONSIZE, DEFAULT_ICONSIZE).toInt()));
 }
 
 bool QSvn::eventFilter(QObject *watched, QEvent *event)

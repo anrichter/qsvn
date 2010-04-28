@@ -39,7 +39,8 @@ class QSplitter;
 #define KEY_DIFFVIEWER "configuration/diffViewer"
 #define KEY_SHOWLOGAFTERUPDATE "configuration/showLogAfterUpdate"
 #define KEY_CHECKEMPTYLOGMESSAGE "configuration/checkEmptyLogMessage"
-#define KEY_SHOWTEXTINTOOLBAR "configure/checkShowTextInToolbar"
+#define KEY_SHOWTEXTINTOOLBAR "configuration/checkShowTextInToolbar"
+#define KEY_ICONSIZE "configuration/iconSize"
 #define KEY_LASTWC "lastWC"
 
 #define KEY_LASTMERGEWC "merge/%1_wc"
@@ -48,6 +49,7 @@ class QSplitter;
 #define KEY_LASTMERGETOURL "merge/%1_toUrl"
 #define KEY_LASTMERGETOREVISION "merge/%1_toRevision"
 
+#define DEFAULT_ICONSIZE 22
 
 /**
 this singelton holds the configuration for qsvn

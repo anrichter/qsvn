@@ -167,15 +167,6 @@
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
-   <property name="iconSize">
-    <size>
-     <width>36</width>
-     <height>36</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
-   </property>
    <property name="floatable">
     <bool>true</bool>
    </property>

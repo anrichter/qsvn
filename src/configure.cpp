@@ -32,12 +32,18 @@ Configure::Configure(QWidget *parent, Qt::WFlags flags)
         : QDialog(parent, flags)
 {
     setupUi(this);
+    comboBoxIconsize->addItem(tr("Small (16x16)"), 16);
+    comboBoxIconsize->addItem(tr("Medium (22x22)"), 22);
+    comboBoxIconsize->addItem(tr("Big (32x32)"), 32);
+    comboBoxIconsize->addItem(tr("Huge (46x46"), 46);
+
     Config::instance()->restoreWidget(this);
 
     editDiffViewer->setText(Config::instance()->value(KEY_DIFFVIEWER).toString());
     checkBoxShowLogAfterUpdate->setChecked(Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool());
     checkBoxCheckEmptyLogMessage->setChecked(Config::instance()->value(KEY_CHECKEMPTYLOGMESSAGE).toBool());
     checkBoxShowTextInToolbar->setChecked(Config::instance()->value(KEY_SHOWTEXTINTOOLBAR).toBool());
+    comboBoxIconsize->setCurrentIndex(comboBoxIconsize->findData(Config::instance()->value(KEY_ICONSIZE, DEFAULT_ICONSIZE).toInt()));
 }
 
 Configure::~Configure()
@@ -51,6 +57,7 @@ void Configure::accept()
     Config::instance()->setValue(KEY_SHOWLOGAFTERUPDATE, checkBoxShowLogAfterUpdate->checkState());
     Config::instance()->setValue(KEY_CHECKEMPTYLOGMESSAGE, checkBoxCheckEmptyLogMessage->checkState());
     Config::instance()->setValue(KEY_SHOWTEXTINTOOLBAR, checkBoxShowTextInToolbar->checkState());
+    Config::instance()->setValue(KEY_ICONSIZE, comboBoxIconsize->itemData(comboBoxIconsize->currentIndex()));
     QDialog::accept();
 }
 
