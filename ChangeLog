@@ -1,5 +1,6 @@
 Version 0.9.0 - released 2009-xx-xx
-
+    * Remove automatic updates on changes in filesystem.
+      It's a performanceissue on big working copies.
 
 Version 0.8.0 - released 2008-12-20
 

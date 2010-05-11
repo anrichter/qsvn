@@ -502,20 +502,6 @@ void QSvn::on_actionMerge_triggered()
     }
 }
 
-void QSvn::changeEvent(QEvent * event)
-{
-    if (event->type() == QEvent::ActivationChange)
-    {
-        if (isActiveWindow())
-        {
-            m_statusEntriesModel->enableFsUpdates();
-            m_statusEntriesModel->doFsUpdates();
-        } else {
-            m_statusEntriesModel->disableFsUpdates();
-        }
-    }
-}
-
 void QSvn::updateWc(const QString dir)
 {
     wcModel->updateWc(dir);

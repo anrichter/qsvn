@@ -40,7 +40,6 @@ StatusEntriesModel::StatusEntriesModel(QObject *parent)
 
 StatusEntriesModel::~StatusEntriesModel()
 {
-    clearFsWatcher();
 }
 
 int StatusEntriesModel::rowCount(const QModelIndex &parent) const
@@ -134,30 +133,25 @@ void StatusEntriesModel::readDirectory(QString directory, svn::Depth depth,
     directory = QDir::toNativeSeparators(directory);
     if (force || (m_directory != directory))
     {
-        clearFsWatcher();
         m_depth = depth;
         m_directory = directory;
         m_statusEntries = SvnClient::instance()->status(m_directory, m_depth);
 #if defined Q_WS_WIN32
         checkCaseSensitivity();
 #endif
-        fillFsWatcher();
         emit layoutChanged();
     }
-    m_existFsChanges = false;
     emit endUpdate();
 }
 
 void StatusEntriesModel::readFileList(QStringList fileList)
 {
     emit beginUpdate();
-    clearFsWatcher();
     m_statusEntries.clear();
 
     foreach (QString file, fileList)
     m_statusEntries.append(SvnClient::instance()->singleStatus(file));
 
-    fillFsWatcher();
     emit endUpdate();
 }
 
@@ -233,58 +227,6 @@ QString StatusEntriesModel::statusString(svn_wc_status_kind status) const
         default:
             return QString(status);
     }
-}
-
-void StatusEntriesModel::onFsChanged()
-{
-    m_existFsChanges = true;
-    if (m_isFsWatcherActive)
-        readDirectory(m_directory, m_depth, true);
-}
-
-void StatusEntriesModel::clearFsWatcher()
-{
-    m_fsWatcher.removeAllPaths();
-	disconnect(&m_fsWatcher);
-	m_isFsWatcherActive = false;
-}
-
-void StatusEntriesModel::fillFsWatcher()
-{
-    QSet<QString> _pathes;
-    QFileInfo _fileInfo;
-
-    foreach(svn::StatusPtr status, m_statusEntries)
-    {
-        _fileInfo = QFileInfo(status->path());
-        if (_fileInfo.isFile())
-            _pathes.insert(_fileInfo.absoluteFilePath());
-        _pathes.insert(_fileInfo.absolutePath());
-    }
-    if (!_pathes.isEmpty())
-	{
-		m_fsWatcher.addPaths(_pathes.toList());
-		connect(&m_fsWatcher, SIGNAL(directoryChanged(const QString &)),
-		         this, SLOT(onFsChanged()));
-		connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-		         this, SLOT(onFsChanged()));
-	}
-}
-
-void StatusEntriesModel::enableFsUpdates()
-{
-    m_isFsWatcherActive = true;
-}
-
-void StatusEntriesModel::disableFsUpdates()
-{
-    m_isFsWatcherActive = false;
-}
-
-void StatusEntriesModel::doFsUpdates()
-{
-	if (m_existFsChanges && m_isFsWatcherActive && !m_directory.isEmpty())
-        readDirectory(m_directory, m_depth, true);
 }
 
 #if defined Q_WS_WIN32

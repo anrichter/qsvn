@@ -48,24 +48,13 @@ class StatusEntriesModel : public QAbstractTableModel
         void readFileList(QStringList fileList);
 
         svn::StatusPtr at(int row);
-        void enableFsUpdates();
-        void disableFsUpdates();
-        void doFsUpdates();
-
     signals:
         void beginUpdate();
         void endUpdate();
-
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;
         svn::Depth m_depth;
-        QarFileSystemWatcher m_fsWatcher;
-        bool m_isFsWatcherActive;
-        bool m_existFsChanges;
-
-        void clearFsWatcher();
-        void fillFsWatcher();
 
         QPixmap statusPixmap(svn::StatusPtr status) const;
         QString statusString(svn_wc_status_kind status) const;
@@ -73,9 +62,6 @@ class StatusEntriesModel : public QAbstractTableModel
 #if defined Q_WS_WIN32
         void checkCaseSensitivity();
 #endif
-
-    private slots:
-        void onFsChanged();
 };
 
 #endif

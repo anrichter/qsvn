@@ -170,7 +170,6 @@ void FileSelector::showModeless()
 void FileSelector::accept()
 {
     m_inClose = true;
-    m_statusEntriesModel->disableFsUpdates();
     if (m_svnAction == SvnClient::SvnCommit)
     {
         if ((editLogMessage->toPlainText().isEmpty()) &&
@@ -261,21 +260,6 @@ bool FileSelector::eventFilter(QObject *watched, QEvent *event)
             contextMenu->popup(static_cast<QContextMenuEvent*>(event)->globalPos());
     }
     return QDialog::eventFilter(watched, event);
-}
-
-void FileSelector::changeEvent(QEvent * event)
-{
-    if (event->type() == QEvent::ActivationChange && !m_inClose)
-    {
-        if (isActiveWindow())
-        {
-			m_statusEntriesModel->enableFsUpdates();
-            m_statusEntriesModel->doFsUpdates();
-        } else {
-            m_statusEntriesModel->disableFsUpdates();
-        }
-    }
-	QDialog::changeEvent(event);
 }
 
 void FileSelector::on_actionRevert_triggered()
