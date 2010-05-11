@@ -86,7 +86,7 @@ Compile for Release
 
   mkdir release
   cd release
-  ..\scripts\release.cmd
+  c:\path\to\qsvn\source\scripts\release.cmd -D SUBVERSION_INSTALL_PATH=c:\path\to\svn
 
 
 Compile for Development
