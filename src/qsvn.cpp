@@ -50,6 +50,7 @@ QSvn::QSvn(QWidget *parent, Qt::WFlags flags)
         : QMainWindow(parent, flags)
 {
     setupUi(this);
+
     setWindowIcon(QIcon(":/images/qsvn.png"));
 
     //make sure, that the svn-client is correct initialised.
@@ -187,6 +188,18 @@ bool QSvn::eventFilter(QObject *watched, QEvent *event)
 void QSvn::closeEvent(QCloseEvent *event)
 {
     qApp->exit();
+}
+
+void QSvn::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_F5) {
+        if (treeViewFileList->hasFocus())
+        {
+            m_statusEntriesModel->refresh();
+        }
+    } else {
+        QMainWindow::keyPressEvent(event);
+    }
 }
 
 bool QSvn::isFileListSelected()

@@ -149,10 +149,26 @@ void StatusEntriesModel::readFileList(QStringList fileList)
     emit beginUpdate();
     m_statusEntries.clear();
 
-    foreach (QString file, fileList)
-    m_statusEntries.append(SvnClient::instance()->singleStatus(file));
-
+    m_fileList = fileList;
+    foreach (QString file, m_fileList)
+    {
+        if (QFile::exists(file))
+        {
+            m_statusEntries.append(SvnClient::instance()->singleStatus(file));
+        }
+    }
     emit endUpdate();
+}
+
+void StatusEntriesModel::refresh()
+{
+    if (!m_directory.isEmpty())
+    {
+        readDirectory(m_directory, m_depth, true);
+    } else {
+        readFileList(m_fileList);
+    }
+    reset();
 }
 
 svn::StatusPtr StatusEntriesModel::at(int row)

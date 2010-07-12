@@ -262,6 +262,17 @@ bool FileSelector::eventFilter(QObject *watched, QEvent *event)
     return QDialog::eventFilter(watched, event);
 }
 
+void FileSelector::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_F5)
+    {
+        m_statusEntriesModel->refresh();
+    } else
+    {
+        QDialog::keyPressEvent(event);
+    }
+}
+
 void FileSelector::on_actionRevert_triggered()
 {
     QModelIndex index = treeViewFiles->selectionModel()->currentIndex();

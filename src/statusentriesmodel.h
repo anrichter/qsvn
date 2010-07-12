@@ -46,6 +46,7 @@ class StatusEntriesModel : public QAbstractTableModel
 
         void readDirectory(QString directory, svn::Depth depth, const bool force);
         void readFileList(QStringList fileList);
+        void refresh();
 
         svn::StatusPtr at(int row);
     signals:
@@ -54,6 +55,7 @@ class StatusEntriesModel : public QAbstractTableModel
     private:
         svn::StatusEntries m_statusEntries;
         QString m_directory;
+        QStringList m_fileList;
         svn::Depth m_depth;
 
         QPixmap statusPixmap(svn::StatusPtr status) const;
