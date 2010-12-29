@@ -35,6 +35,7 @@
 #include "svnqt/url.hpp"
 #include "svnqt/wc.hpp"
 #include "svnqt/client_parameter.hpp"
+#include "svnqt/client_update_parameter.h"
 
 //Qt
 #include <QtCore>
@@ -132,7 +133,14 @@ bool SvnClient::update(QStringList updateList, const bool isFileList)
             StatusText::out(tr("\nUpdate '%1'").arg(path));
             listener->setVerbose(true);
             m_InProgress = true;
-            toRevisions = svnClient->update(path, svn::Revision::HEAD, svn::DepthInfinity, false, false, true);
+            svn::UpdateParameter updateParameter;
+            updateParameter.targets(path)
+                           .revision(svn::Revision::HEAD)
+                           .depth(svn::DepthInfinity)
+                           .ignore_externals(false)
+                           .allow_unversioned(false)
+                           .sticky_depth(true);
+            toRevisions = svnClient->update(updateParameter);
             m_InProgress = false;
             if (Config::instance()->value(KEY_SHOWLOGAFTERUPDATE).toBool() &&
                 !toRevisions.isEmpty() )
