@@ -1,0 +1,3 @@
+[submodule "src/svnqt"]
+	path = src/svnqt
+	url = https://github.com/MIRAvzw/svnqt.git
